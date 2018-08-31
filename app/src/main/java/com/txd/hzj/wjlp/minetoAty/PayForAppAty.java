@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.text.Html;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -213,7 +214,7 @@ public class PayForAppAty extends BaseAty {
                 break;
             case R.id.pay_by_balance_cb:// 余额
                 bottom_type = 2;
-                 if (!mType.equals("8")) {
+                if (!mType.equals("8")) {
                     showPop(v, 3);
                 }
                 selectCheckBoxBottom(bottom_type);
@@ -389,10 +390,10 @@ public class PayForAppAty extends BaseAty {
 
         } else if (mType.equals("10")) {
             //积分商店默认选中积分支付
-            bottom_type=3;
+            bottom_type = 3;
             selectCheckBoxBottom(bottom_type);
             //积分商店添加订单
-            IntegralBuyOrder.SetOrder(group_buy_id, address_id, num, order_id, freight, freight_type, getString("leave_message"), getString("shippingId"),  getString("invoiceList"), PayForAppAty.this);
+            IntegralBuyOrder.SetOrder(group_buy_id, address_id, num, order_id, freight, freight_type, getString("leave_message"), getString("shippingId"), getString("invoiceList"), PayForAppAty.this);
             layout_ali.setVisibility(View.GONE);
             layout_wx.setVisibility(View.GONE);
             layout_yue.setVisibility(View.GONE);
@@ -400,11 +401,11 @@ public class PayForAppAty extends BaseAty {
             Order.setOrder(address_id, order_type, order_id, "", "", getString("invoiceList"), getString("leave_message"), TextUtils.isEmpty(cart_id) ? getString("goodsList") : getString("goodsCartList"), this);
         } else if (mType.equals("12")) {
             showToast("jakgflkasfhksajdfhakdj");
-        }else if (mType.equals("13")) {
+        } else if (mType.equals("13")) {
             Order.setOrder(address_id, "0", order_id, "", "", getString("invoiceList"), getString("leave_message"), TextUtils.isEmpty(cart_id) ? getString("goodsList") : getString("goodsCartList"), this);
-        }else if (mType.equals("100")){
+        } else if (mType.equals("100")) {
             //线下店铺
-            OfflineStore.setOrder(mMerchant_id,mMoney,order_id,this);
+            OfflineStore.setOrder(mMerchant_id, mMoney, order_id, this);
             cb_jfzf.setVisibility(View.GONE);
         }
         showProgressDialog();
@@ -484,6 +485,7 @@ public class PayForAppAty extends BaseAty {
     Map<String, String> data;
     Map<String, String> map;
     Map<String, String> order;
+    String integralMoneyStr = "";
 
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
@@ -495,36 +497,38 @@ public class PayForAppAty extends BaseAty {
 
             if (requestUrl.contains("SetOrder") || requestUrl.contains("setOrder") || requestUrl.contains("preSetOrder")) {
                 order = data;
+                integralMoneyStr = "<font color=#FFB226>（赠送积分：" + order.get("integral_money") + "个）<font/>";
+                tv_desc.setText(Html.fromHtml(integralMoneyStr));
             }
         }
         // 设置生成订单
         if (requestUrl.contains("SetOrder") || requestUrl.contains("setOrder") || requestUrl.contains("preSetOrder")) {
-            if (data.containsKey("price_desc") && !TextUtils.isEmpty(data.get("price_desc"))){
+            if (data.containsKey("price_desc") && !TextUtils.isEmpty(data.get("price_desc"))) {
                 youhui_tv.setVisibility(View.VISIBLE);
-                youhui_tv.setText("("+data.get("price_desc")+")");
-            }else {
+                youhui_tv.setText("(" + data.get("price_desc") + ")");
+            } else {
                 youhui_tv.setVisibility(View.GONE);
             }
 
-            if (data.containsKey("order_price")){
-                total_price= Double.parseDouble(data.get("order_price"));
+            if (data.containsKey("order_price")) {
+                total_price = Double.parseDouble(data.get("order_price"));
             }
-            if (mType.equals("100")){
+            if (mType.equals("100")) {
                 tv_price.setText("¥" + data.get("order_price"));
                 order_id = data.get("order_id");
 
 
                 pay_by_balance_cb.setText("余额支付（¥" + data.get("balance") + ")");
                 //是否能用积分支付  1可以  2不可以
-                if (data.containsKey("integration_status")&&"1".equals(data.get("integration_status"))){
+                if (data.containsKey("integration_status") && "1".equals(data.get("integration_status"))) {
                     if (data.containsKey("integral")) {
                         cb_jfzf.setText("积分支付(" + data.get("integral") + ")");
                     }
                     cb_jfzf.setVisibility(View.VISIBLE);
-                }else if (data.containsKey("integration_status")&&"2".equals(data.get("integration_status"))){
+                } else if (data.containsKey("integration_status") && "2".equals(data.get("integration_status"))) {
                     cb_jfzf.setVisibility(View.GONE);
                 }
-            }else {
+            } else {
                 if (!mType.equals("10")) {
                     String format = decimalFormat.format(total_price);
                     tv_price.setText("¥" + format);
@@ -613,9 +617,9 @@ public class PayForAppAty extends BaseAty {
                         } else {
                             BalancePay.BalancePay(data.get("order_id"), "1", getType(), "", this);
                         }
-                    }else if (mType.equals("13")){
+                    } else if (mType.equals("13")) {
                         BalancePay.BalancePay(order_id, "13", getType(), "", this);
-                    }else if (mType.equals("100")){
+                    } else if (mType.equals("100")) {
                         BalancePay.BalancePay(order_id, "9", getType(), "", this);
                     }
                     showProgressDialog();
@@ -624,15 +628,15 @@ public class PayForAppAty extends BaseAty {
                 if (pay_by_wechat_cb.isChecked()) { // 微信支付
                     if (TextUtils.isEmpty(mType) || mType.equals("1") || mType.equals("5") || mType.equals("0")) {
                         Pay.getJsTine(order.get("order_id"), getType(), "4", this);
-                    } else if (mType.equals("2") || mType.equals("3")|| mType.equals("4")) {
+                    } else if (mType.equals("2") || mType.equals("3") || mType.equals("4")) {
                         Pay.getJsTine(order.get("group_buy_order_id"), getType(), "6", this);
                     } else if (mType.equals("6")) {
                         Pay.getJsTine(order.get("order_id"), getType(), "5", this);
                     } else if (mType.equals("9")) {
                         Pay.getJsTine(order.get("order_id"), getType(), "8", this);
-                    }else if (mType.equals("13")){
+                    } else if (mType.equals("13")) {
                         Pay.getJsTine(order_id, getType(), "13", this);
-                    }else if (mType.equals("100")){
+                    } else if (mType.equals("100")) {
                         Pay.getJsTine(order_id, getType(), "9", this);
                     }
                     showProgressDialog();
@@ -641,15 +645,15 @@ public class PayForAppAty extends BaseAty {
                 if (pay_by_ali_cb.isChecked()) { // 支付宝支付
                     if (TextUtils.isEmpty(mType) || mType.equals("0") || mType.equals("1") || mType.equals("5")) {
                         Pay.getAlipayParam(order.get("order_id"), getType(), "4", this);
-                    } else if (mType.equals("2") || mType.equals("3")|| mType.equals("4")) {
+                    } else if (mType.equals("2") || mType.equals("3") || mType.equals("4")) {
                         Pay.getAlipayParam(order.get("group_buy_order_id"), getType(), "6", this);
                     } else if (mType.equals("6")) {
                         Pay.getAlipayParam(order.get("order_id"), getType(), "5", this);
                     } else if (mType.equals("9")) {
                         Pay.getAlipayParam(order.get("order_id"), getType(), "8", this);
-                    }else if (mType.equals("13")){
+                    } else if (mType.equals("13")) {
                         Pay.getAlipayParam(order_id, getType(), "13", this);
-                    }else if (mType.equals("100")){
+                    } else if (mType.equals("100")) {
                         Pay.getAlipayParam(order_id, getType(), "9", this);
                     }
                     showProgressDialog();
@@ -678,7 +682,7 @@ public class PayForAppAty extends BaseAty {
                         IntegralPay.integralPay(order_id, "4", "", num, this);
                     } else if (mType.equals("10")) {//积分商店
                         IntegralPay.integralPay(order_id, "5", "", num, this);
-                    }else if (mType.equals("100")) {//线下店铺积分支付
+                    } else if (mType.equals("100")) {//线下店铺积分支付
                         IntegralPay.integralPay(order_id, "9", "", num, this);
                     }
                     showProgressDialog();
@@ -715,8 +719,8 @@ public class PayForAppAty extends BaseAty {
             if (mType.equals("4")) {
                 AppManager.getInstance().killActivity(CreateGroupAty.class);
             }
-            if ("10".equals(mType)){
-                PayForDialog payForDialog=new PayForDialog(PayForAppAty.this);
+            if ("10".equals(mType)) {
+                PayForDialog payForDialog = new PayForDialog(PayForAppAty.this);
                 payForDialog.show();
                 payForDialog.setOnPayforListener(new PayForDialog.OnPayForInterface() {
                     @Override
@@ -731,7 +735,7 @@ public class PayForAppAty extends BaseAty {
                         finish();
                     }
                 });
-            }else {
+            } else {
                 OrderList();
                 showToast("支付成功！");
                 finish();
@@ -757,13 +761,13 @@ public class PayForAppAty extends BaseAty {
                 public void onComplete() {
                     if (mType.equals("0") || mType.equals("1") || mType.equals("5")) {
                         Pay.findPayResult(order_id, "4", PayForAppAty.this);
-                    } else if (mType.equals("2") || mType.equals("3")||mType.equals("4")) {
+                    } else if (mType.equals("2") || mType.equals("3") || mType.equals("4")) {
                         Pay.findPayResult(group_buy_id, "6", PayForAppAty.this);
                     } else if (mType.equals("6")) {
                         Pay.findPayResult(order_id, "5", PayForAppAty.this);
                     } else if (mType.equals("9")) {
                         Pay.findPayResult(order_id, "8", PayForAppAty.this);
-                    }else if (mType.equals("100")) {
+                    } else if (mType.equals("100")) {
                         Pay.findPayResult(order_id, "9", PayForAppAty.this);
                     }
                 }
@@ -827,7 +831,7 @@ public class PayForAppAty extends BaseAty {
 //                dialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
 //                    @Override
 //                    public void onClick(DialogInterface dialog, int which) {
-                        PayForAppAty.this.finish();
+            PayForAppAty.this.finish();
 //                    }
 //                });
 //                dialog.create().show();
@@ -870,10 +874,10 @@ public class PayForAppAty extends BaseAty {
             mBundle.putString("type", "10");
             startActivity(OnlineShopAty.class, mBundle);
         }
-        if (mType.equals("13")){
+        if (mType.equals("13")) {
             showToast("需要调整到2980专区");
         }
-        if (mType.equals("100")){
+        if (mType.equals("100")) {
             mBundle.putString("orderId", order_id);
             startActivity(PaymentResultsAty.class, mBundle);
 //            startActivity(OffLineShopAty.class, mBundle);
@@ -886,10 +890,14 @@ public class PayForAppAty extends BaseAty {
 //            return;
         if (commonPopupWindow != null && commonPopupWindow.isShowing())
             return;
-        if (order ==null){return;}
-        if (order.containsKey("red_price") && order.containsKey("yellow_price") && order.containsKey("blue_price")){
+        if (order == null) {
+            return;
+        }
+        if (order.containsKey("red_price") && order.containsKey("yellow_price") && order.containsKey("blue_price")) {
 
-            if ("0".equals(order.get("red_price")) && "0".equals(order.get("yellow_price")) && "0".equals(order.get("blue_price"))){return;}
+            if ("0".equals(order.get("red_price")) && "0".equals(order.get("yellow_price")) && "0".equals(order.get("blue_price"))) {
+                return;
+            }
             commonPopupWindow = new CommonPopupWindow.Builder(this)
                     .setView(R.layout.popup_layout_djq)
                     .setWidthAndHeight(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
@@ -897,22 +905,22 @@ public class PayForAppAty extends BaseAty {
                     .setViewOnclickListener(new CommonPopupWindow.ViewInterface() {
                         @Override
                         public void getChildView(View view, int layoutResId, int position) {
-                            LinearLayout layout_cb =  view.findViewById(R.id.layout_cb);
-                            LinearLayout layout_tv =  view.findViewById(R.id.layout_tv);
+                            LinearLayout layout_cb = view.findViewById(R.id.layout_cb);
+                            LinearLayout layout_tv = view.findViewById(R.id.layout_tv);
                             layout_cb.setVisibility(View.VISIBLE);
                             layout_tv.setVisibility(View.GONE);
-                            r =  view.findViewById(R.id.cb_1);
-                            y =  view.findViewById(R.id.cb_2);
-                            b =  view.findViewById(R.id.cb_3);
+                            r = view.findViewById(R.id.cb_1);
+                            y = view.findViewById(R.id.cb_2);
+                            b = view.findViewById(R.id.cb_3);
 
-                            r.setText(order.containsKey("red_desc")?order.get("red_desc"):"");
-                            y.setText(order.containsKey("yellow_desc")?order.get("yellow_desc"):"");
-                            b.setText(order.containsKey("blue_desc")?order.get("blue_desc"):"");
-                            TextView cancel =  view.findViewById(R.id.tv_cancel);
+                            r.setText(order.containsKey("red_desc") ? order.get("red_desc") : "");
+                            y.setText(order.containsKey("yellow_desc") ? order.get("yellow_desc") : "");
+                            b.setText(order.containsKey("blue_desc") ? order.get("blue_desc") : "");
+                            TextView cancel = view.findViewById(R.id.tv_cancel);
 
-                            r.setVisibility(order.get("red_price").equals("0") ? View.GONE: View.VISIBLE);
-                            y.setVisibility(order.get("yellow_price").equals("0") ? View.GONE: View.VISIBLE);
-                            b.setVisibility(order.get("blue_price").equals("0") ? View.GONE: View.VISIBLE);
+                            r.setVisibility(order.get("red_price").equals("0") ? View.GONE : View.VISIBLE);
+                            y.setVisibility(order.get("yellow_price").equals("0") ? View.GONE : View.VISIBLE);
+                            b.setVisibility(order.get("blue_price").equals("0") ? View.GONE : View.VISIBLE);
                             r.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
@@ -981,7 +989,7 @@ public class PayForAppAty extends BaseAty {
         tv_desc.setVisibility(View.VISIBLE);
         if (is_r) {
             tv_desc.setText(order.get("red_desc"));
-            if (order.containsKey("discount_price")){
+            if (order.containsKey("discount_price")) {
                 bd = new BigDecimal(total_price - Double.parseDouble(order.get("discount_price")));
                 String format = decimalFormat.format(bd);
                 tv_price.setText("¥" + format);
@@ -1009,7 +1017,7 @@ public class PayForAppAty extends BaseAty {
             }
         }
         if (!is_r && !is_y && !is_b) {
-            tv_desc.setText("");
+            tv_desc.setText(Html.fromHtml(integralMoneyStr)); // TODO 不使用代金券 不使用代金券 不使用代金券 不使用代金券 不使用代金券 不使用代金券 不使用代金券 不使用代金券 不使用代金券 不使用代金券
             tv_price.setText("¥" + (decimalFormat.format(total_price)));
         }
         switch (from) {

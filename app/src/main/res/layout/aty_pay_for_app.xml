@@ -102,8 +102,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="8dp"
-                    android:textColor="@color/app_text_color"
-                     />
+                    android:textColor="@color/app_text_color" />
 
                 <TextView
                     android:id="@+id/tv_price"
@@ -111,16 +110,15 @@
                     android:layout_height="wrap_content"
                     android:padding="8dp"
                     android:text="￥0.00"
-                    android:textColor="@color/colorAccent"
-                     />
+                    android:textColor="@color/colorAccent" />
+
                 <TextView
                     android:id="@+id/youhui_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="12sp"
-                    android:visibility="gone"
                     android:textColor="#FF4500"
-                    />
+                    android:textSize="12sp"
+                    android:visibility="gone" />
 
                 <TextView
                     android:id="@+id/tv_desc"
@@ -128,6 +126,7 @@
                     android:layout_height="wrap_content"
                     android:maxLines="2"
                     android:padding="10dp"
+                    tools:text="赠送积分数量"
                     android:textAlignment="center"
                     android:textColor="@android:color/black"
                     android:textSize="12sp" />
