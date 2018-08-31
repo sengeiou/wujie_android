@@ -160,6 +160,9 @@ public class PayForAppAty extends BaseAty {
     private String inte_id;
     @ViewInject(R.id.layout_yue)
     private RelativeLayout layout_yue;
+
+    @ViewInject(R.id.integral_money)
+    private TextView integral_money;
     @ViewInject(R.id.tv_desc)
     private TextView tv_desc;
     private String is_pay_password = "0";
@@ -501,7 +504,7 @@ public class PayForAppAty extends BaseAty {
                 order = data;
                 String in = order.containsKey("integral_money") ? order.get("integral_money") : "0";
                 integralMoneyStr = "<font color=#FFB226>（赠送积分：" + in + "个）<font/>";
-                tv_desc.setText(Html.fromHtml(integralMoneyStr));
+                integral_money.setText(Html.fromHtml(integralMoneyStr));
             }
         }
         // 设置生成订单
@@ -1027,7 +1030,8 @@ public class PayForAppAty extends BaseAty {
             }
         }
         if (!is_r && !is_y && !is_b) {
-            tv_desc.setText(Html.fromHtml(integralMoneyStr)); // TODO 不使用代金券 不使用代金券 不使用代金券 不使用代金券 不使用代金券 不使用代金券 不使用代金券 不使用代金券 不使用代金券 不使用代金券
+            integral_money.setText(Html.fromHtml(integralMoneyStr));
+            tv_desc.setText("");
             tv_price.setText("¥" + (decimalFormat.format(total_price)));
         }
         switch (from) {
