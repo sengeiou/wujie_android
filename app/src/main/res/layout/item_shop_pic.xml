@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools">
     <!--商家回复单项-->
     <ImageView
         android:id="@+id/shop_pic"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@color/gray" />
+        tools:src="@drawable/ic_launcher"
+        android:background="@color/white" />
 </LinearLayout>

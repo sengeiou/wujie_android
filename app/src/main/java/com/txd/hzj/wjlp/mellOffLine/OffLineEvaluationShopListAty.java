@@ -363,7 +363,7 @@ public class OffLineEvaluationShopListAty extends BaseAty {
             DisplayMetrics metrics = new DisplayMetrics();
             getWindowManager().getDefaultDisplay().getMetrics(metrics);
             int dip = UnitHelper.dip2px(getApplicationContext(), 10);//转换dip的工具类
-            itemWidth = (metrics.widthPixels - dipbian * 2) / 4 - dip;//屏幕宽度减去两边的边距8dip 然后除以4 减去行间距就是单条的宽度
+            itemWidth = (metrics.widthPixels - dipbian * 2) / 5 - dip;//屏幕宽度减去两边的边距8dip 然后除以4 减去行间距就是单条的宽度
         }
 
         @Override
