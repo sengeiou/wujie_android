@@ -80,7 +80,7 @@ public class MellListAdapter extends BaseAdapter {
     public Object getItem(int i) {
         if (0 == type) {
             return mellsFoot.get(i);
-        }else if (1==type){
+        } else if (1 == type) {
             return mells.get(i);
         }
         return null;
@@ -127,7 +127,7 @@ public class MellListAdapter extends BaseAdapter {
                     .into(mvh.mell_logo_iv);
             mvh.mell_name_tv.setText(mellName);
             mvh.textView7.setText(dexc);
-            mvh.mell_score_tv.setText(score);
+            mvh.mell_score_tv.setText("评分" + score + "分");
             //点击了进店逛逛
             mvh.into_mell_tv.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -139,7 +139,7 @@ public class MellListAdapter extends BaseAdapter {
             });
             mvh.mell_prodect_gv.setAdapter(new MellProdectAdapter(context, goods));
 
-        } else if (1==type){// 收藏
+        } else if (1 == type) {// 收藏
             mellInfoList = (MellInfoList) getItem(i);
             logo = mellInfoList.getMerchantFace().getMerInfo().getLogo();
             mellName = mellInfoList.getMerchantFace().getMerInfo().getMerchant_name();
@@ -169,18 +169,16 @@ public class MellListAdapter extends BaseAdapter {
         }
 
 
-
-
         if (showSelect) {
             mvh.operation_mell_iv.setVisibility(View.VISIBLE);
-            if (0==type){
-                if (mellsFoot!=null && mellsFoot.get(i).isSelect()) {
+            if (0 == type) {
+                if (mellsFoot != null && mellsFoot.get(i).isSelect()) {
                     mvh.operation_mell_iv.setImageResource(R.drawable.icon_collect_mells_selected);
                 } else {
                     mvh.operation_mell_iv.setImageResource(R.drawable.icon_collect_mells_unselect);
                 }
-            }else if (1==type){
-                if (mells!=null && mells.get(i).isSelect()) {
+            } else if (1 == type) {
+                if (mells != null && mells.get(i).isSelect()) {
                     mvh.operation_mell_iv.setImageResource(R.drawable.icon_collect_mells_selected);
                 } else {
                     mvh.operation_mell_iv.setImageResource(R.drawable.icon_collect_mells_unselect);
@@ -190,7 +188,6 @@ public class MellListAdapter extends BaseAdapter {
         } else {
             mvh.operation_mell_iv.setVisibility(View.GONE);
         }
-
 
 
         mvh.operation_mell_iv.setOnClickListener(new View.OnClickListener() {
@@ -208,7 +205,7 @@ public class MellListAdapter extends BaseAdapter {
                         mellsFoot.get(i).setSelect(false);
                     }
 
-                } else if (1==type){
+                } else if (1 == type) {
                     if (mells.get(i).isSelect() == false) {
                         mells.get(i).setSelect(true);
                     } else {
@@ -223,7 +220,7 @@ public class MellListAdapter extends BaseAdapter {
                         }
                     }
 
-                } else if (1==type){
+                } else if (1 == type) {
                     for (MellInfoList mell : mells) {
                         if (mell.isSelect()) {
                             selectNum++;

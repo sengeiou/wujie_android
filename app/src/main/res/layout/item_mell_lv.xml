@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
-    >
+    android:background="@color/white">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -12,8 +11,7 @@
         android:background="@color/white"
         android:divider="@drawable/lin_layout_vertical_line_shape"
         android:orientation="vertical"
-        android:showDividers="middle"
-        >
+        android:showDividers="middle">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -25,11 +23,11 @@
                 android:id="@+id/mell_logo_iv"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                />
+                tools:src="@mipmap/ic_launcher_round" />
 
             <Space
                 android:layout_width="8dp"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -50,7 +48,8 @@
                         android:ellipsize="end"
                         android:maxLines="1"
                         android:textColor="@color/app_text_color"
-                        android:textSize="16sp"/>
+                        android:textSize="16sp"
+                        tools:text="商家名称" />
 
                     <TextView
                         android:id="@+id/into_mell_tv"
@@ -63,7 +62,7 @@
                         android:paddingRight="8dp"
                         android:paddingTop="4dp"
                         android:text="进店逛逛"
-                        android:textColor="@color/colorAccent"/>
+                        android:textColor="@color/colorAccent" />
                 </LinearLayout>
 
                 <TextView
@@ -74,14 +73,16 @@
                     android:layout_marginBottom="8dp"
                     android:layout_marginTop="8dp"
                     android:ellipsize="end"
-                    android:maxLines="1"/>
+                    android:maxLines="1"
+                    tools:text="商家介绍商家介绍商家介绍商家介绍商家介绍商家介绍商家介绍" />
 
                 <TextView
                     android:id="@+id/mell_score_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/gray_text_color"
-                    android:textSize="16sp"/>
+                    android:textSize="16sp"
+                    tools:text="评分5.0分" />
             </LinearLayout>
 
 
@@ -93,7 +94,7 @@
             android:layout_height="wrap_content"
             android:horizontalSpacing="8dp"
             android:numColumns="3"
-            android:padding="8dp"/>
+            android:padding="8dp" />
     </LinearLayout>
 
     <ImageView
@@ -102,6 +103,6 @@
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
         android:src="@drawable/icon_collect_mells_unselect"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 
 </FrameLayout>
