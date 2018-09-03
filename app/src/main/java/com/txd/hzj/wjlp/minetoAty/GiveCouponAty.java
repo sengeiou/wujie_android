@@ -182,7 +182,7 @@ public class GiveCouponAty extends BaseAty implements View.OnClickListener {
         dialog.setContentView(view);
         TextView close_tv = view.findViewById(R.id.close_tv);
         TextView jump_tv=view.findViewById(R.id.jump_tv);
-        jump_tv.setVisibility(View.VISIBLE);
+        jump_tv.setVisibility(View.GONE);
         ListView listView = view.findViewById(R.id.listview);
         MineFgt.MineInfoAdapter infoAdapter;
         close_tv.setText("赠送蓝色代金券：店铺选择");
