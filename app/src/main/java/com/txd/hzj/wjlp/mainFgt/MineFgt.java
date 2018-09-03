@@ -284,6 +284,10 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
     private ImageView im_gang;
     @ViewInject(R.id.im_tie)
     private ImageView im_tie;
+
+    //店铺管理
+    @ViewInject(R.id.personalStores)
+    private TextView personalStores;
     //拜师码
     @ViewInject(R.id.apprentice_code_tv)
     private View apprentice_code_tv;
@@ -708,12 +712,15 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
             if (data.containsKey("has_shop")){
                 String has_shop = data.get("has_shop");
                 if ("1".equals(has_shop)){
+                    personalStores.setVisibility(View.VISIBLE);
                     if (data.containsKey("shop_id")){
                         String shop_id = data.get("shop_id");
                         PreferencesUtils.putString(getActivity(),"shop_id",shop_id);
                     }else {
                         PreferencesUtils.putString(getActivity(),"shop_id","");
                     }
+                }else {
+                   personalStores.setVisibility(View.GONE);
                 }
 
             }
