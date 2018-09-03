@@ -31,6 +31,7 @@ import com.ants.theantsgo.gson.GsonUtil;
 import com.ants.theantsgo.tool.ToolKit;
 import com.ants.theantsgo.util.JSONUtils;
 import com.ants.theantsgo.util.L;
+import com.ants.theantsgo.util.PreferencesUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout;
@@ -703,7 +704,20 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
                     TYPE = "1";
                     userPst.proMoters();
                 }
-            } /**else { // 如果没有该字段的情况下
+            }
+            if (data.containsKey("has_shop")){
+                String has_shop = data.get("has_shop");
+                if ("1".equals(has_shop)){
+                    if (data.containsKey("shop_id")){
+                        String shop_id = data.get("shop_id");
+                        PreferencesUtils.putString(getActivity(),"shop_id",shop_id);
+                    }else {
+                        PreferencesUtils.putString(getActivity(),"shop_id","");
+                    }
+                }
+
+            }
+            /**else { // 如果没有该字段的情况下
              // 该if..else和上方的if..else逻辑相同，只是没有complete_status进行这一步的判断
              if (data.get("member_coding").equals("3")) { // 判断是否是优享会员
              // 如果是优享会员则设置状态和传到下一界面的属性值
