@@ -63,4 +63,13 @@ public class ShopExhibitPst extends BasePresenter {
         baseView.showDialog();
         mModel.postShopsSetData(id, shop_name, shop_pic, shop_desc, user_id, set_id, shop_status, pay_money, pay_orders, visit_nums, update_time, baseView);
     }
+
+
+    /**
+     * 小店订单列表
+     */
+    public void shopOrderList(String  id, String type,String status){
+        baseView.showDialog();
+        mModel.getShopOrderList(id,type,status,baseView);
+    }
 }

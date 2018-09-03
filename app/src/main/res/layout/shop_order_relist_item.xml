@@ -15,6 +15,7 @@
         android:layout_height="wrap_content">
 
         <TextView
+            android:id="@+id/shop_name_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:drawableLeft="@drawable/icon_mine_collection"
@@ -34,65 +35,11 @@
             android:textColor="@color/red_tv_back"
             android:textSize="15sp" />
     </RelativeLayout>
-
-    <RelativeLayout
+    <ListView
+        android:id="@+id/listview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <ImageView
-            android:id="@+id/shop_order_ima"
-            android:layout_width="55dp"
-            android:layout_height="55dp"
-            android:layout_marginBottom="9dp"
-            android:layout_marginStart="14dp"
-            android:layout_marginTop="9dp"
-            tools:src="@drawable/icon_temp_mine_head_hzj" />
-        <LinearLayout
-            android:id="@+id/ll_shop"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/shop_order_ima"
-            android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/shop_order_content"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
-            android:layout_marginTop="9dp"
-            android:ellipsize="end"
-            android:lines="2"
-            tools:text="康尔馨五星级酒店毛巾纯棉加大加棉加大加棉加大加棉加大加棉加大加棉加大加
-厚面巾洗脸全棉吸水男女成人"
-            android:textSize="12sp" />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.2"
-            android:layout_alignParentRight="true"
-            android:layout_marginEnd="14dp"
-            android:layout_marginTop="12dp"
-            android:layout_toRightOf="@+id/shop_order_content"
-            android:gravity="end"
-            tools:text="￥99.00"
-            android:textColor="@color/black"
-            android:textSize="12sp" />
-        </LinearLayout>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_below="@+id/ll_shop"
-            android:layout_marginEnd="14dp"
-            android:layout_marginTop="9dp"
-            android:text="X1"
-            android:textColor="@color/shop_text_color"
-            android:textSize="12sp" />
-    </RelativeLayout>
-
+        tools:listitem="@layout/shop_order_relist_item2"/>
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"

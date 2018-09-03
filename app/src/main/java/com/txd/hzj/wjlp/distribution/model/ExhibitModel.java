@@ -50,19 +50,6 @@ public class ExhibitModel {
         apiTool2.getApi(DISTRIBUTION_URL+"shops", params, baseView);
     }
 
-    /**
-     *  顾客管理接口
-     * @param id shop_id小店id
-     * @param type 1：暂定为顾客信息查询
-     */
-    public void getShopPersonData(String  id, String type,BaseView baseView){
-        RequestParams params = new RequestParams();
-        ApiTool2 apiTool2 = new ApiTool2();
-        params.addQueryStringParameter("id", id);
-        params.addQueryStringParameter("type", type);
-        apiTool2.getApi(DISTRIBUTION_URL+"orders", params, baseView);
-    }
-
 
     /**
      * 小店信息获取，传id取单个，不传id取列表
@@ -105,6 +92,39 @@ public class ExhibitModel {
         params.addBodyParameter("update_time", update_time);
 
         apiTool2.postApis(DISTRIBUTION_URL+"shops", params, baseView);
+    }
+
+
+
+    /**
+     *  顾客管理接口
+     * @param id shop_id小店id
+     * @param type 1：暂定为顾客信息查询
+     */
+    public void getShopPersonData(String  id, String type,BaseView baseView){
+        RequestParams params = new RequestParams();
+        ApiTool2 apiTool2 = new ApiTool2();
+        params.addQueryStringParameter("id", id);
+        params.addQueryStringParameter("type", type);
+        apiTool2.getApi(DISTRIBUTION_URL+"orders", params, baseView);
+    }
+
+
+    /**
+     *本店订单列表
+     * @param id  	shop_id小店id
+     * @param type  2：暂定查询本店订单列表
+     * @param status  	‘0’: ‘待支付‘ ； ‘1’: ‘待发货’ ； ‘2’: ‘待收货’ ；’3’: ‘待评价’；’4’: ‘已完成）5已取消 9删除 不传默认显示全部
+     */
+    public void getShopOrderList(String  id, String type,String status,BaseView baseView){
+        RequestParams params = new RequestParams();
+        ApiTool2 apiTool2 = new ApiTool2();
+        params.addQueryStringParameter("id", id);
+        params.addQueryStringParameter("type", type);
+        if (!status.isEmpty()){
+            params.addQueryStringParameter("status", status);
+        }
+        apiTool2.getApi(DISTRIBUTION_URL+"orders", params, baseView);
     }
 
 
