@@ -152,10 +152,15 @@ public class OffLineShopDetailsAty extends BaseAty{
     }
 
     @Override
-    protected void requestData() {
+    protected void onResume() {
+        super.onResume();
         if (mOrder_id!=null){
             OfflineStore.offLineOrderInfo(mOrder_id,this);
         }
+    }
+
+    @Override
+    protected void requestData() {
     }
 
 
