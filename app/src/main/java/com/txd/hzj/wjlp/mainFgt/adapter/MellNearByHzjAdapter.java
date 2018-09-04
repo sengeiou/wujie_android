@@ -133,6 +133,8 @@ public class MellNearByHzjAdapter extends BaseAdapter {
             }
         }
         if (null != ticketBeans && ticketBeans.size() > 1) {
+            nyvh.line_view.setVisibility(View.VISIBLE);
+            nyvh.voucher_layout.setVisibility(View.VISIBLE);
             if (offLineDataBean.isShow()) {
                 nyvh.other_zk_layout.setVisibility(View.VISIBLE);
                 nyvh.show_or_hind_layout_iv.setImageResource(R.drawable.icon_show_other_layout);
@@ -140,6 +142,9 @@ public class MellNearByHzjAdapter extends BaseAdapter {
                 nyvh.other_zk_layout.setVisibility(View.GONE);
                 nyvh.show_or_hind_layout_iv.setImageResource(R.drawable.icon_hide_other_layout);
             }
+        }else {
+            nyvh.line_view.setVisibility(View.INVISIBLE);
+            nyvh.voucher_layout.setVisibility(View.GONE);
         }
         // 点击事件
         nyvh.show_or_hind_layout_iv.setOnClickListener(new View.OnClickListener() {
@@ -222,6 +227,9 @@ public class MellNearByHzjAdapter extends BaseAdapter {
         private TextView mell_intro;
         @ViewInject(R.id.djpLayout)
         private LinearLayout djpLayout;
+
+        @ViewInject(R.id.line_view)
+        private  View line_view;
 
         @ViewInject(R.id.voucher_layout)
         private LinearLayout voucher_layout;
