@@ -177,17 +177,9 @@ public class PushMerchantAty extends BaseAty {
                 case "7":
                     holder.tv_edit.setText("入驻中");
                     break;
-//                case "1":
-//                    holder.tv_edit.setText("审核中");
-//                    break;
-//                case "2":
-//                    holder.tv_edit.setText("审核通过");
-//                    break;
-//                case "3":
-//                    holder.tv_edit.setText("审核拒绝");
-//                    break;
             }
-            holder.tv_wjyd.setVisibility(list.get(position).get("type").equals("1") ? View.GONE : View.VISIBLE);
+            // type = 1 联盟商家   type = 2 无界驿店
+            holder.tv_wjyd.setText(list.get(position).get("type").equals("1") ? "联盟商家" : "无界驿店");
             holder.layout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
