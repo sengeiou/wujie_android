@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
@@ -19,6 +20,7 @@ import com.ants.theantsgo.imageLoader.GlideImageLoader;
 import com.ants.theantsgo.util.CompressionUtil;
 import com.ants.theantsgo.util.JSONUtils;
 import com.ants.theantsgo.util.L;
+import com.ants.theantsgo.util.PreferencesUtils;
 import com.bumptech.glide.Glide;
 import com.lzy.imagepicker.ImagePicker;
 import com.lzy.imagepicker.bean.ImageItem;
@@ -59,6 +61,7 @@ public class ShopSetUp extends BaseAty implements View.OnClickListener {
     private EditText shopDetails;
     private String uri;
     private boolean isUpdata = false;
+    private String mShop_id;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -87,6 +90,9 @@ public class ShopSetUp extends BaseAty implements View.OnClickListener {
         setIma.setOnClickListener(this);
         titleRight.setOnClickListener(this);
         forImagePacker();
+        if (PreferencesUtils.containKey(ShopSetUp.this,"shop_id")){
+            mShop_id = PreferencesUtils.getString(ShopSetUp.this, "shop_id");
+        }
     }
 
     @Override
@@ -95,7 +101,10 @@ public class ShopSetUp extends BaseAty implements View.OnClickListener {
         titleRight.setText("保存");
         titleRight.setTextColor(Color.rgb(255, 0, 0));
         pst = new ShopExhibitPst(this);
-        pst.shops("18");
+        if (null != pst && !TextUtils.isEmpty(mShop_id)) {
+            pst.shops(mShop_id);
+        }
+
     }
 
     /**
@@ -131,7 +140,7 @@ public class ShopSetUp extends BaseAty implements View.OnClickListener {
                     uri = shopUrl;
                 }
                 isUpdata = true;
-                pst.shopsetData("18", tvName, uri, tvDetails, "1515", "1", "0", "0", "0", "0", l+ "");
+                pst.shopsetData(mShop_id, tvName, uri, tvDetails, "1515", "1", "0", "0", "0", "0", l+ "");
                 break;
         }
     }

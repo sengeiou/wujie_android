@@ -95,6 +95,7 @@
             android:orientation="vertical">
 
             <ImageView
+                android:id="@+id/kaidian_img"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
@@ -133,6 +134,7 @@
         android:layout_height="wrap_content">
 
         <TextView
+            android:id="@+id/time_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"

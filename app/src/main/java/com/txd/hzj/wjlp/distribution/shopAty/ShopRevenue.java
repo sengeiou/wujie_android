@@ -2,6 +2,7 @@ package com.txd.hzj.wjlp.distribution.shopAty;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -11,6 +12,7 @@ import android.widget.Toast;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.ants.theantsgo.util.PreferencesUtils;
 import com.bigkoo.pickerview.TimePickerView;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.AxisBase;
@@ -71,6 +73,7 @@ public class ShopRevenue extends BaseAty implements View.OnClickListener {
     private String c_type = "1";
     //  1: 日 2：月 0 ：年
     private String c_base_type="1";
+    private String mShop_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -128,6 +131,10 @@ public class ShopRevenue extends BaseAty implements View.OnClickListener {
 
     @Override
     protected void requestData() {
+        if (PreferencesUtils.containKey(ShopRevenue.this,"shop_id")){
+            mShop_id = PreferencesUtils.getString(ShopRevenue.this, "shop_id");
+        }
+
         requestData(c_base_type);
     }
 
@@ -241,7 +248,10 @@ public class ShopRevenue extends BaseAty implements View.OnClickListener {
     }
 
     private void requestData(String c_base_type) {
-        mExhibitPst.getRevenue("18", "1", c_type, c_base_type);
+        if (null != mExhibitPst && !TextUtils.isEmpty(mShop_id)) {
+            mExhibitPst.getRevenue(mShop_id, "1", c_type, c_base_type);
+        }
+
     }
 
 

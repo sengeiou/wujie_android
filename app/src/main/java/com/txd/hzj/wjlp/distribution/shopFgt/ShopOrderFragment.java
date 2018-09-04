@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -11,6 +12,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSONObject;
+import com.ants.theantsgo.util.PreferencesUtils;
 import com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
@@ -47,9 +49,9 @@ public class ShopOrderFragment extends BaseFgt {
 
 
     private ShopExhibitPst mExhibitPst;
-    private boolean isViewShown=false;
     private String mTitle;
     private String mStatus="";
+    private String mShop_id;
 
     public static ShopOrderFragment newInstance(String string) {
         ShopOrderFragment fragment = new ShopOrderFragment();
@@ -59,16 +61,6 @@ public class ShopOrderFragment extends BaseFgt {
         return fragment;
     }
 
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        if (getUserVisibleHint()){
-            isViewShown= true;
-        }else {
-            isViewShown=false;
-        }
-
-    }
 
     @Override
     protected int getLayoutResId() {
@@ -78,6 +70,9 @@ public class ShopOrderFragment extends BaseFgt {
     @Override
     protected void initialized() {
         mExhibitPst = new ShopExhibitPst(this);
+        if (PreferencesUtils.containKey(getActivity(),"shop_id")){
+            mShop_id = PreferencesUtils.getString(getActivity(), "shop_id");
+        }
     }
 
     @Override
@@ -96,8 +91,8 @@ public class ShopOrderFragment extends BaseFgt {
                 mStatus="4";
             }
         }
-        if (null != mExhibitPst) {
-            mExhibitPst.shopOrderList("18", "2", mStatus);
+        if (null != mExhibitPst && !TextUtils.isEmpty(mShop_id)) {
+            mExhibitPst.shopOrderList(mShop_id, "2", mStatus);
         }
     }
 

@@ -83,9 +83,11 @@ public class ShopOrderBean {
          * path : null
          * set_name : 初级
          * profit_num : 100
+         * buyer:无界新人
          * shop_type : 链店
          * is_special_html : 专区
          * shop_pic : 0
+         * order_time:2018-08-29
          * shop_pic_path : http://test2.wujiemall.com/Uploads/User/default.png
          * order_goods : [{"order_goods_id":"1036","market_price":"399.00","order_id":"843","goods_name":"分销商品南霸丸","merchant_name":"达令商城","shop_price":"399.00","goods_num":"3","goods_attr":"销售规格:大","goods_img":"25908","red_return_integral":"0.00","yellow_return_integral":"0.00","create_time":"1535617603","pic":"http://test.wujiemall.com/Uploads/GoodsAttr/2018-08-29/5b85f51e65b91.jpg","return_integral":"0.00"}]
          * all_num : 3
@@ -120,9 +122,28 @@ public class ShopOrderBean {
         private Object path;
         private String set_name;
         private String profit_num;
+        private String buyer;
         private String shop_type;
         private String is_special_html;
         private int shop_pic;
+        private String order_time;
+
+        public String getBuyer() {
+            return buyer;
+        }
+
+        public void setBuyer(String buyer) {
+            this.buyer = buyer;
+        }
+
+        public String getOrder_time() {
+            return order_time;
+        }
+
+        public void setOrder_time(String order_time) {
+            this.order_time = order_time;
+        }
+
         private String shop_pic_path;
         private int all_num;
         private int is_pay_password;

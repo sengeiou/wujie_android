@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -13,6 +14,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
+import com.ants.theantsgo.util.PreferencesUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseFgt;
@@ -52,6 +54,7 @@ public class ShopPersonShopFreagment extends BaseFgt {
 
     private ShopExhibitPst mExhibitPst;
     private List<ShopPersonBean.DataBean.ShopBean> mShop;
+    private String mShop_id;
 
     public static ShopPersonShopFreagment newInstance(int prage) {
         ShopPersonShopFreagment freagment = new ShopPersonShopFreagment();
@@ -69,13 +72,16 @@ public class ShopPersonShopFreagment extends BaseFgt {
     @Override
     protected void initialized() {
         mExhibitPst=new ShopExhibitPst(this);
+        if (PreferencesUtils.containKey(getActivity(),"shop_id")){
+            mShop_id = PreferencesUtils.getString(getActivity(), "shop_id");
+        }
     }
 
     @Override
     protected void requestData() {
-        mExhibitPst.getShopPerson("18","1");
-
-
+        if (null != mExhibitPst && !TextUtils.isEmpty(mShop_id)) {
+            mExhibitPst.getShopPerson(mShop_id,"1");
+        }
         shopPerson_super_ssrl.setHeaderView(createHeaderView());// add headerView
         shopPerson_super_ssrl.setFooterView(createFooterView());
         shopPerson_super_ssrl.setHeaderViewBackgroundColor(Color.WHITE);
@@ -88,7 +94,7 @@ public class ShopPersonShopFreagment extends BaseFgt {
                 progressBar.setVisibility(View.VISIBLE);
                 p = 1;
                 // TODO 请求接口
-                mExhibitPst.getShopPerson("18", "1");
+                mExhibitPst.getShopPerson(mShop_id, "1");
                 //                shopManageOrdinaryChild_sr_layout.setRefreshing(false);
                 //                progressBar.setVisibility(View.GONE);
             }
