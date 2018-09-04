@@ -15,6 +15,7 @@ import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.bean.commodity.GoodsCommonAttrBean;
 import com.txd.hzj.wjlp.bean.commodity.GoodsCommonAttrItemBean;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -69,7 +70,16 @@ public class GoodsCommentAttrAdapter extends BaseAdapter {
             cavh = (Holder) view.getTag();
         }
         cavh.tv.setText(goodsCommonAttr.getTitle());
-        adapter adp = new adapter(context, goodsCommonAttr.getList());
+        List<GoodsCommonAttrItemBean> list = goodsCommonAttr.getList();
+        List<GoodsCommonAttrItemBean> goodList=new ArrayList<>();
+        for (int k = 0; k < list.size(); k++) {
+            String attr_name = list.get(k).getAttr_name();
+            String attr_value = list.get(k).getAttr_value();
+            if (!TextUtils.isEmpty(attr_name) && !TextUtils.isEmpty(attr_value)){
+                goodList.add(list.get(k));
+            }
+        }
+        MyAdapter adp = new MyAdapter(context, goodList);
         cavh.goods_common_attr_lv.setAdapter(adp);
         return view;
     }
@@ -96,30 +106,30 @@ public class GoodsCommentAttrAdapter extends BaseAdapter {
 
     }
 
-    class adapter extends BaseAdapter {
+    class MyAdapter extends BaseAdapter {
 
         List<GoodsCommonAttrItemBean> list;
         private LayoutInflater inflater;
         CommentAttrVH cavh;
 
-        public adapter(Context context, List<GoodsCommonAttrItemBean> list) {
+        public MyAdapter(Context context, List<GoodsCommonAttrItemBean> list) {
             this.list = list;
             inflater = LayoutInflater.from(context);
         }
 
         @Override
         public int getCount() {
-            return list.size();
+            return list!=null && list.size()>0?list.size():0;
         }
 
         @Override
         public Object getItem(int position) {
-            return null;
+            return list.get(position);
         }
 
         @Override
         public long getItemId(int position) {
-            return 0;
+            return position;
         }
 
         @Override
@@ -132,9 +142,10 @@ public class GoodsCommentAttrAdapter extends BaseAdapter {
             } else {
                 cavh = (CommentAttrVH) view.getTag();
             }
-            //   cavh.attr_name_tv.setText(String.valueOf(i + 1) +"."+ list.get(i).getAttr_name());
-            cavh.attr_name_tv.setText(list.get(i).getAttr_name());
-            cavh.attr_value_tv.setText(TextUtils.isEmpty(list.get(i).getAttr_value())?"—":list.get(i).getAttr_value());
+
+                cavh.attr_name_tv.setText(list.get(i).getAttr_name());
+                cavh.attr_value_tv.setText(list.get(i).getAttr_value());
+
             return view;
         }
     }
