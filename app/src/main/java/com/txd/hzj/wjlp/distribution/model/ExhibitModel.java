@@ -55,11 +55,11 @@ public class ExhibitModel {
      * 小店信息获取，传id取单个，不传id取列表
      * @param cate_id
      */
-    public void postShopsData(String cate_id, BaseView baseView){
+    public void getShopsData(String cate_id, BaseView baseView){
         RequestParams params = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
-        params.addBodyParameter("id", cate_id);
-        apiTool2.postApi(DISTRIBUTION_URL+"shops", params, baseView);
+        params.addQueryStringParameter("id", cate_id);
+        apiTool2.getApi(DISTRIBUTION_URL+"shops", params, baseView);
     }
 
     /**

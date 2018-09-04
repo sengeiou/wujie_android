@@ -53,7 +53,7 @@ public class ShopExhibitPst extends BasePresenter {
 
         baseView.showDialog();
 
-        mModel.postShopsData(cate_id, baseView);
+        mModel.getShopsData(cate_id, baseView);
     }
 
     /**

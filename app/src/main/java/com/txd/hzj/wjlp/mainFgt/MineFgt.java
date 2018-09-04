@@ -708,8 +708,8 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
                 String has_shop = data.get("has_shop");
                 if ("1".equals(has_shop)) {
                     personalStores.setVisibility(View.VISIBLE);
-                    if (data.containsKey("shop_id")) {
-                        String shop_id = data.get("shop_id");
+                    if (data.containsKey("shop_id_ming")) {
+                        String shop_id = data.get("shop_id_ming");
                         PreferencesUtils.putString(getActivity(), "shop_id", shop_id);
                     } else {
                         PreferencesUtils.putString(getActivity(), "shop_id", "");

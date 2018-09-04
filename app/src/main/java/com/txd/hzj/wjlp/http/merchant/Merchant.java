@@ -209,7 +209,7 @@ class Merchant {
         for (int i = 0; i < list.size(); i++) {
             params.addBodyParameter("report_pic" + i, list.get(i));
         }
-        apiTool2.postApi(url + "reportMerchant", params, baseView);
+        apiTool2.postApi(Config.BASE_URL + "OfflineStore/reportMerchant", params, baseView);
     }
 
 
