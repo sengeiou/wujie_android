@@ -90,6 +90,12 @@ public class MerchantPst extends BasePresenter {
         merchant.report(report_type_id, report_content, merchant_id,list, baseView);
     }
 
+    // 线下店铺举报商家
+    public void reportMerchant(String report_type_id, String report_content, String merchant_id, List<File> list) {
+        baseView.showDialog();
+        merchant.reportMerchant(report_type_id, report_content, merchant_id,list, baseView);
+    }
+
     public void reportType(){
         baseView.showDialog();
         merchant.reportType(baseView);

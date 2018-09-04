@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -107,7 +106,7 @@ public class MellReportedAty extends BaseAty {
                     return;
                 }
 
-                merchantPst.report(report_type_id, report_content, merchant_id, list);
+                merchantPst.reportMerchant(report_type_id, report_content, merchant_id, list);
                 break;
         }
     }

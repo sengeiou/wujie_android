@@ -193,6 +193,27 @@ class Merchant {
         apiTool2.postApi(url + "report", params, baseView);
     }
 
+    /**
+     * 线下店铺举报商家
+     * @param report_type_id  	举报类型
+     * @param report_content  举报理由
+     * @param merchant_id  商家ID
+     * @param list  举报凭证
+     */
+    void reportMerchant(String report_type_id, String report_content, String merchant_id, List<File> list, BaseView baseView) {
+        RequestParams params = new RequestParams();
+        ApiTool2 apiTool2 = new ApiTool2();
+        params.addBodyParameter("report_type_id", report_type_id);
+        params.addBodyParameter("report_content", report_content);
+        params.addBodyParameter("merchant_id", merchant_id);
+        for (int i = 0; i < list.size(); i++) {
+            params.addBodyParameter("report_pic" + i, list.get(i));
+        }
+        apiTool2.postApi(url + "reportMerchant", params, baseView);
+    }
+
+
+
     void reportType(BaseView baseView) {
         RequestParams params = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
