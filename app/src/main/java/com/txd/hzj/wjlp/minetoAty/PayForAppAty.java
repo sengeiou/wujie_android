@@ -940,12 +940,18 @@ public class PayForAppAty extends BaseAty {
 
                         if (order.containsKey("red_price")){
                             r.setVisibility(order.get("red_price").equals("0") ? View.GONE : View.VISIBLE);
+                        }else {
+                            r.setVisibility(View.GONE);
                         }
                         if (order.containsKey("yellow_price")){
                             y.setVisibility(order.get("yellow_price").equals("0") ? View.GONE : View.VISIBLE);
+                        }else {
+                            y.setVisibility(View.GONE);
                         }
                         if (order.containsKey("blue_price")){
                             b.setVisibility(order.get("blue_price").equals("0") ? View.GONE : View.VISIBLE);
+                        }else {
+                            b.setVisibility(View.GONE);
                         }
 
                         r.setOnClickListener(new View.OnClickListener() {
