@@ -310,6 +310,8 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
     private List<MineInfoBean> shangjiamaList;
     //三方付款列表集合
     private List<MineInfoBean> sanfangList;
+    //蓝色代金券列表
+    private List<MineInfoBean> bluedaijinquanList;
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -447,8 +449,8 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
                 bundle.putString("TYPE", TYPE);
                 bundle.putString("url", imaUrl);
                 bundle.putString("blue_voucher", blue_voucher);
-                if (shangjiamaList != null && shangjiamaList.size() > 0) {
-                    bundle.putSerializable("shangjiamaList", (Serializable) shangjiamaList);
+                if (bluedaijinquanList != null && bluedaijinquanList.size() > 0) {
+                    bundle.putSerializable("bluedaijinquanList", (Serializable) bluedaijinquanList);
                 }
                 intent1.putExtras(bundle);
                 startActivity(intent1);
@@ -657,14 +659,8 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
                 if (mInfo != null && mInfo.length() > 0) {
                     shangjiamaList = new ArrayList<>();
                     sanfangList = new ArrayList<>();
+                    bluedaijinquanList=new ArrayList<>();
                     for (int i = 0; i < mInfo.length(); i++) {
-                        //                        "stage_merchant_id": "39",
-                        //                                "wxpay_accounts": "213qweqweqe",
-                        //                                "alipay_accounts": "27336157@qq.com",
-                        //                                "default_account": "1",
-                        //                                "change_account_status": "2",
-                        //                        "merchant_name": "达令服饰",
-                        //                                "logo": "http://www.wujiemall.com/Uploads/Merchant/2018-07-24/5b56ca1a10d09.jpg"
 
                         JSONObject obj = mInfo.getJSONObject(i);
                         String stage_merchant_id = obj.has("stage_merchant_id") ? obj.getString("stage_merchant_id") : "";
@@ -674,10 +670,14 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
                         String change_account_status1 = obj.has("change_account_status") ? obj.getString("change_account_status") : "";
                         String merchant_name = obj.has("merchant_name") ? obj.getString("merchant_name") : "";
                         String logo = obj.has("logo") ? obj.getString("logo") : "";
+                        String special_type = obj.has("special_type") ? obj.getString("special_type") : "";
                         MineInfoBean mineInfoBean = new MineInfoBean(stage_merchant_id, wxpay_accounts, alipay_accounts, default_account, change_account_status1, merchant_name, logo);
                         shangjiamaList.add(mineInfoBean);
                         if (change_account_status1.equals("1")) {
                             sanfangList.add(mineInfoBean);
+                        }
+                        if (!"2".equals(special_type)) {
+                            bluedaijinquanList.add(mineInfoBean);
                         }
                     }
 
@@ -704,18 +704,18 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
                     userPst.proMoters();
                 }
             }
-            if (data.containsKey("has_shop")){
+            if (data.containsKey("has_shop")) {
                 String has_shop = data.get("has_shop");
-                if ("1".equals(has_shop)){
+                if ("1".equals(has_shop)) {
                     personalStores.setVisibility(View.VISIBLE);
-                    if (data.containsKey("shop_id")){
+                    if (data.containsKey("shop_id")) {
                         String shop_id = data.get("shop_id");
-                        PreferencesUtils.putString(getActivity(),"shop_id",shop_id);
-                    }else {
-                        PreferencesUtils.putString(getActivity(),"shop_id","");
+                        PreferencesUtils.putString(getActivity(), "shop_id", shop_id);
+                    } else {
+                        PreferencesUtils.putString(getActivity(), "shop_id", "");
                     }
-                }else {
-                   personalStores.setVisibility(View.GONE);
+                } else {
+                    personalStores.setVisibility(View.GONE);
                 }
 
             }

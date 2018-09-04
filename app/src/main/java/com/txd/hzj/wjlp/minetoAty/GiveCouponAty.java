@@ -58,7 +58,7 @@ public class GiveCouponAty extends BaseAty implements View.OnClickListener {
     private Promoters mData;
     Map<String, String> map;
     ArrayList<Map<String, String>> list = new ArrayList<>();
-    private List<MineInfoBean> shangjiamaList;
+    private List<MineInfoBean> bluedaijinquanList;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -78,8 +78,8 @@ public class GiveCouponAty extends BaseAty implements View.OnClickListener {
             type = extras.getString("TYPE");
             if (type.equals("0")) {
                 blue_voucher = extras.getString("blue_voucher");
-                if (extras.containsKey("shangjiamaList")) {
-                    shangjiamaList = (List<MineInfoBean>) extras.getSerializable("shangjiamaList");
+                if (extras.containsKey("bluedaijinquanList")) {
+                    bluedaijinquanList = (List<MineInfoBean>) extras.getSerializable("bluedaijinquanList");
                 }
             } else {
                 view = findViewById(R.id.coupon_ll_vip);
@@ -150,7 +150,7 @@ public class GiveCouponAty extends BaseAty implements View.OnClickListener {
                 startActivity(ParticularsUsedByTricketAty.class, bundles);
                 break;
             case R.id.give_accounts_tv:
-                if (shangjiamaList != null && shangjiamaList.size() > 0) {
+                if (bluedaijinquanList != null && bluedaijinquanList.size() > 0) {
                     showTanchuang();
                 }
                 break;
@@ -186,14 +186,14 @@ public class GiveCouponAty extends BaseAty implements View.OnClickListener {
         ListView listView = view.findViewById(R.id.listview);
         MineFgt.MineInfoAdapter infoAdapter;
         close_tv.setText("赠送蓝色代金券：店铺选择");
-        infoAdapter = new MineFgt.MineInfoAdapter(GiveCouponAty.this, shangjiamaList);
+        infoAdapter = new MineFgt.MineInfoAdapter(GiveCouponAty.this, bluedaijinquanList);
         listView.setAdapter(infoAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Bundle bundle = new Bundle();
                 bundle.putString("blue_voucher", number.getText().toString());
-                bundle.putString("merchant_id",shangjiamaList.get(position).getStage_merchant_id());
+                bundle.putString("merchant_id",bluedaijinquanList.get(position).getStage_merchant_id());
                 startActivityForResult(GiveCouponAccounts.class, bundle, 1000);
                 dialog.dismiss();
             }
