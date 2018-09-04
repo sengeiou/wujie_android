@@ -111,29 +111,21 @@ public class BalanceAty extends BaseAty {
                             JSONObject jsonObject = new JSONObject(response);
                             JSONObject data = jsonObject.getJSONObject("data");
                             int user_card_type = Integer.parseInt(data.isNull("user_card_type") ? "0" : data.getString("user_card_type"));
-                            int complete_status = Integer.parseInt(data.isNull("complete_status") ? "0" : data.getString("complete_status"));
-                            if (complete_status == 1) { // 如果存在该字段，执行if中的判断逻辑
+//                            int complete_status = Integer.parseInt(data.isNull("complete_status") ? "0" : data.getString("complete_status"));
+                            int alliance_merchant = Integer.parseInt(data.isNull("alliance_merchant") ? "0" : data.getString("alliance_merchant"));
+                            if (alliance_merchant > 0) { // 如果存在该字段，执行if中的判断逻辑
                                 transfer_accounts_tv.setVisibility(View.VISIBLE); // 转账
                                 withdraw_tv.setVisibility(View.VISIBLE); // 提现
                             } else { // 否则的话
-                                if (complete_status == 0) { // 如果没有该字段，执行原先代码判断
-                                    switch (user_card_type) {
-                                        case 1:
-                                            // 提现、转账隐藏
-                                            withdraw_tv.setVisibility(View.GONE);
-                                            transfer_accounts_tv.setVisibility(View.GONE);
-                                            break;
-                                        case 2:
-                                            // 转账隐藏
-                                            transfer_accounts_tv.setVisibility(View.GONE);
-                                            break;
-                                    }
-                                } else { // 否则如果有字段，则执行新代码
+                                if (user_card_type == 2){
+                                    transfer_accounts_tv.setVisibility(View.GONE); // 转账
+                                    withdraw_tv.setVisibility(View.VISIBLE); // 提现
+                                }else if (user_card_type == 3){
+                                    transfer_accounts_tv.setVisibility(View.VISIBLE); // 转账
+                                    withdraw_tv.setVisibility(View.VISIBLE); // 提现
+                                }else {
                                     transfer_accounts_tv.setVisibility(View.GONE); // 转账
                                     withdraw_tv.setVisibility(View.GONE); // 提现
-                                    if (user_card_type >= 2) {
-                                        withdraw_tv.setVisibility(View.VISIBLE); // 提现
-                                    }
                                 }
                             }
                         } catch (JSONException e) {
