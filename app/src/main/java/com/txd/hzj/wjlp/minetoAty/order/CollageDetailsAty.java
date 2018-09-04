@@ -504,6 +504,7 @@ public class CollageDetailsAty extends BaseAty {
                 titlt_conter_tv.setText("订单详情");
                 tv_state.setText("已完成");
                 tv_btn_left.setVisibility(View.GONE);
+                tv_btn_right.setVisibility(View.GONE);
                 tv_btn_right.setText("删除");
                 bot_for_order.setVisibility(View.VISIBLE);
                 lin_logistics.setVisibility(View.VISIBLE);

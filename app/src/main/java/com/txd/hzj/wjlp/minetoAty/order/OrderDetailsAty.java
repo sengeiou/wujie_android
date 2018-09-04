@@ -588,6 +588,9 @@ public class OrderDetailsAty extends BaseAty {
             case "4":
                 tv_state.setText("已完成");
                 tv_btn_left.setVisibility(View.GONE);
+                if ("10".equals(type)){
+                    tv_btn_right.setVisibility(View.GONE);
+                }
                 tv_btn_right.setText("删除");
                 break;
             case "5":
