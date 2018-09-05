@@ -146,7 +146,5 @@
     </com.txd.hzj.wjlp.view.SuperSwipeRefreshLayout>
 
     <include
-        android:id="@+id/emptyView"
-        layout="@layout/shop_goods_manage_empty_layout"
-        android:visibility="gone"/>
+        layout="@layout/shop_goods_manage_empty_layout"/>
 </RelativeLayout>

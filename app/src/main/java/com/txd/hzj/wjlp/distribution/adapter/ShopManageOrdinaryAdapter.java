@@ -1,7 +1,6 @@
 package com.txd.hzj.wjlp.distribution.adapter;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,6 +35,10 @@ public class ShopManageOrdinaryAdapter extends BaseAdapter {
         this.checkBox = checkBox;
     }
 
+
+    public void setCheckedCount(){
+        this.checkedCount=0;
+    }
     public boolean isShowCbox() {
         return isShowCbox;
     }
@@ -46,7 +49,7 @@ public class ShopManageOrdinaryAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return list.size();
+        return list.size()>0?list.size():0;
     }
 
     @Override
@@ -79,15 +82,13 @@ public class ShopManageOrdinaryAdapter extends BaseAdapter {
 
         Glide.with(context).load(list.get(position).getGoods_img()).asBitmap().into(holder.itemShopManageOrd_image_imgv);
         holder.itemShopManageOrd_title_tv.setText(list.get(position).getGoods_name());
-        holder.itemShopManageOrd_daiJinQuan_tv.setText(list.get(position).getMarket_price());
+        holder.itemShopManageOrd_daiJinQuan_tv.setText("最多可用"+list.get(position).getTicket_buy_discount()+"%代金券");
         holder.itemShopManageOrd_meny_tv.setText(list.get(position).getShop_price());
-        holder.itemShopManageOrd_jifen_tv.setText(list.get(position).getMarket_price());
+        holder.itemShopManageOrd_jifen_tv.setText(list.get(position).getIntegral());
         holder.itemShopManageOrd_share_imgv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 imageClick.onImageClick(v,position);
-                Log.e("TAG", "onClick: "+position );
-
             }
         });
         holder.itemShopManageOrd_select_cbox.setVisibility(isShowCbox ? View.VISIBLE : View.GONE);

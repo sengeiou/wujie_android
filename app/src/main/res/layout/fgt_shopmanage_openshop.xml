@@ -24,6 +24,7 @@
             tools:listitem="@layout/item_shopmanage_openshop" />
 
     </com.txd.hzj.wjlp.view.SuperSwipeRefreshLayout>
-
+<include
+    layout="@layout/shop_goods_manage_empty_layout"/>
 
 </LinearLayout>

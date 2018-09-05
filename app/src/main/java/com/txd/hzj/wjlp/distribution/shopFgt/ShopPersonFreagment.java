@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -24,6 +25,7 @@ import com.txd.hzj.wjlp.distribution.presenter.ShopExhibitPst;
 import com.txd.hzj.wjlp.view.SuperSwipeRefreshLayout;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 创建者：Qyl
@@ -33,7 +35,8 @@ import java.util.List;
  */
 public class ShopPersonFreagment extends BaseFgt {
 
-
+    @ViewInject(R.id.empty_layout)
+    private FrameLayout empty_layout;
     private ShopPersonAdapter adapter;
     @ViewInject(R.id.shop_person_relist)
     private RecyclerView reList;
@@ -153,11 +156,27 @@ public class ShopPersonFreagment extends BaseFgt {
         ShopPersonBean shopPersonBean = JSON.parseObject(jsonStr, ShopPersonBean.class);
         if (200 == shopPersonBean.getCode()) {
             mConsumer = shopPersonBean.getData().getConsumer();
-            adapter = new ShopPersonAdapter(shopPersonBean, getActivity(), 1);
-            reList.setLayoutManager(new LinearLayoutManager(getActivity()));
-            reList.setAdapter(adapter);
+            if (mConsumer!=null && mConsumer.size()>0) {
+                shopPerson_super_ssrl.setVisibility(View.VISIBLE);
+                empty_layout.setVisibility(View.GONE);
+                adapter = new ShopPersonAdapter(shopPersonBean, getActivity(), 1);
+                reList.setLayoutManager(new LinearLayoutManager(getActivity()));
+                reList.setAdapter(adapter);
+            }else {
+                shopPerson_super_ssrl.setVisibility(View.GONE);
+                empty_layout.setVisibility(View.VISIBLE);
+            }
         }
 
+    }
+
+    @Override
+    public void onError(String requestUrl, Map<String, String> error) {
+        super.onError(requestUrl, error);
+        removeDialog();
+        refreshVisibleState();
+        shopPerson_super_ssrl.setVisibility(View.GONE);
+        empty_layout.setVisibility(View.VISIBLE);
     }
 
     private void refreshVisibleState() {

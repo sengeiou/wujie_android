@@ -2,13 +2,20 @@ package com.txd.hzj.wjlp.distribution.shopAty;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.ants.theantsgo.util.JSONUtils;
+import com.ants.theantsgo.util.PreferencesUtils;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
+import com.txd.hzj.wjlp.distribution.presenter.ShopExhibitPst;
+
+import java.util.Map;
 
 /**
  * 创建者：Qyl
@@ -26,8 +33,11 @@ public class ShopMain extends BaseAty implements OnClickListener {
     private LinearLayout shopSetUp;
     private LinearLayout shopPersonManage;
     private LinearLayout shopOrderManage;
+    private TextView money_tv;
     private TextView visitor;
     private TextView orderNum;
+    private ShopExhibitPst mExhibitPst;
+    private String mShop_id;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -57,6 +67,8 @@ public class ShopMain extends BaseAty implements OnClickListener {
         shopPersonManage = findViewById(R.id.shop_person_manage);
         //订单管理
         shopOrderManage = findViewById(R.id.shop_order_magage);
+        //付款金额
+        money_tv=findViewById(R.id.money_tv);
         //访客量
         visitor = findViewById(R.id.shop_visitor);
         //订单量
@@ -69,12 +81,46 @@ public class ShopMain extends BaseAty implements OnClickListener {
         shopSetUp.setOnClickListener(this);
         shopPersonManage.setOnClickListener(this);
         shopOrderManage.setOnClickListener(this);
+        mExhibitPst = new ShopExhibitPst(this);
+        if (PreferencesUtils.containKey(this,"shop_id")){
+            mShop_id = PreferencesUtils.getString(this, "shop_id");
+        }
     }
 
     @Override
     protected void requestData() {
         titleName.setText("店铺管理");
+        if (null != mExhibitPst && !TextUtils.isEmpty(mShop_id)) {
+            mExhibitPst.shops(mShop_id);
+        }
     }
+
+    @Override
+    public void onComplete(String requestUrl, String jsonStr) {
+        super.onComplete(requestUrl, jsonStr);
+        if (requestUrl.contains("shops")) {
+            Log.i("获取信息", jsonStr.toString());
+            Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
+            if ("200".equals(JSONUtils.getMapValue(map, "code"))) {
+
+                String data = JSONUtils.getMapValue(map, "data");
+                Map<String, String> mapData = JSONUtils.parseKeyAndValueToMap(data);
+
+                //付款金额
+                String pay_money = JSONUtils.getMapValue(mapData, "pay_money");
+                //付款订单数
+                String pay_orders = JSONUtils.getMapValue(mapData, "pay_orders");
+                //访问量
+                String visit_nums = JSONUtils.getMapValue(mapData, "visit_nums");
+
+                money_tv.setText(pay_money);
+                orderNum.setText(pay_orders);
+                visitor.setText(visit_nums);
+            }
+
+        }
+    }
+
 
     @Override
     public void onClick(View v) {
@@ -104,10 +150,7 @@ public class ShopMain extends BaseAty implements OnClickListener {
         }
     }
 
-    @Override
-    public void onComplete(String requestUrl, String jsonStr) {
-        super.onComplete(requestUrl, jsonStr);
-    }
+
 
 
 }

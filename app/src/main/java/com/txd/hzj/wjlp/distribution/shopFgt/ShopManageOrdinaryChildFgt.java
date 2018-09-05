@@ -4,19 +4,21 @@ import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.alibaba.fastjson.JSONObject;
 import com.ants.theantsgo.tips.MikyouCommonDialog;
-import com.ants.theantsgo.util.L;
 import com.ants.theantsgo.util.PreferencesUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
@@ -51,8 +53,8 @@ public class ShopManageOrdinaryChildFgt extends BaseFgt implements View.OnClickL
     private List<DistributionGoodsBean.DataBean> list;
     private ShopManageOrdinaryAdapter adapter;
 
-    @ViewInject(R.id.emptyView)
-    private View emptyView;
+    @ViewInject(R.id.empty_layout)
+    private FrameLayout emptyView;
     @ViewInject(R.id.shopManageOrdinaryChild_data_lv)
     private ListView shopManageOrdinaryChild_data_lv;
     @ViewInject(R.id.shopManageOrdinaryChild_batchManagement_tv)
@@ -92,6 +94,9 @@ public class ShopManageOrdinaryChildFgt extends BaseFgt implements View.OnClickL
     private ShopExhibitPst mExhibitPst;
     private String mShop_id;
 
+    //是否是上架下架接口
+    private boolean isManage = false;
+
     public ShopManageOrdinaryChildFgt(int index) {
         from = index;
     }
@@ -100,14 +105,15 @@ public class ShopManageOrdinaryChildFgt extends BaseFgt implements View.OnClickL
     protected int getLayoutResId() {
         return R.layout.fgt_shopmanage_ordinary_child;
     }
+
     @Override
     protected void immersionInit() {
-        shopManageOrdinaryChild_data_lv.setEmptyView(emptyView);
-        if (isVisible()){
+        if (isVisible()) {
             shopManageOrdinaryChild_batchManagement_tv.setVisibility(View.VISIBLE);
             shopManageOrdinaryChild_selectAll_cbox.setChecked(false);
         }
     }
+
     @Override
     public void onMultiWindowModeChanged(boolean isInMultiWindowMode) {
         super.onMultiWindowModeChanged(isInMultiWindowMode);
@@ -116,64 +122,16 @@ public class ShopManageOrdinaryChildFgt extends BaseFgt implements View.OnClickL
 
     @Override
     protected void initialized() {
+        list = new ArrayList<>();
         mExhibitPst = new ShopExhibitPst(this);
-        if (PreferencesUtils.containKey(getActivity(),"shop_id")){
+        if (PreferencesUtils.containKey(getActivity(), "shop_id")) {
             mShop_id = PreferencesUtils.getString(getActivity(), "shop_id");
         }
     }
 
-
     @Override
-    public void onError(String requestUrl, Map<String, String> error) {
-        super.onError(requestUrl, error);
-        removeProgressDialog();
-        shopManageOrdinaryChild_sr_layout.setRefreshing(false);
-        progressBar.setVisibility(View.GONE);
-        footerImageView.setVisibility(View.VISIBLE);
-        footerProgressBar.setVisibility(View.GONE);
-        shopManageOrdinaryChild_sr_layout.setLoadMore(false);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        getData();
-    }
-
-    private void getData() {
-        // TODO 模拟数据，后续请求数据改动的话需要一并修改的文件有：DistributionGoodsBean（商品对象）、ShopManageOrdinaryAdapter（List的Adapter）
-        list = new ArrayList<>();
-        DistributionGoodsBean.DataBean distributionGoodsBean;
-        for (int i = 0; i < 10; i++) {
-            distributionGoodsBean = new DistributionGoodsBean.DataBean();
-            distributionGoodsBean.setDsg_id(i+"");
-            distributionGoodsBean.setGoods_img("https://gd1.alicdn.com/imgextra/i1/646527539/TB2goIfbiMnBKNjSZFCXXX0KFXa_!!646527539.jpg_400x400.jpg");
-            distributionGoodsBean.setGoods_name((from == 0 ? "出售中" : from == 1 ? "已下架" : "已售罄") + i);
-            distributionGoodsBean.setMarket_price("最多可用50%代金券");
-            distributionGoodsBean.setShop_price("1380.00");
-            distributionGoodsBean.setMarket_price("10.00");
-            distributionGoodsBean.setChecked(false);
-            list.add(distributionGoodsBean);
-        }
-        adapter = new ShopManageOrdinaryAdapter(getActivity(), list, shopManageOrdinaryChild_selectAll_cbox);
-        adapter.setOnImageClickListener(new ShopManageOrdinaryAdapter.ImageClick() {
-            @Override
-            public void onImageClick(View view, int position) {
-                //分享功能，可以使用ToShareAty  toShare("无界优品", share_img, share_url, share_content, goods_id, "1");
-                Toast.makeText(getActivity(), "" + position, Toast.LENGTH_SHORT).show();
-                DistributionGoodsBean.DataBean goodsBean = list.get(position);
-                Bundle bundle = new Bundle();
-                bundle.putString("title", goodsBean.getGoods_name());
-                bundle.putString("pic", goodsBean.getGoods_img());
-                bundle.putString("url", "1");
-                bundle.putString("context", goodsBean.getGoods_name());
-                bundle.putString("id", "1");
-                bundle.putString("Shapetype", "1");
-                startActivity(ToShareAty.class, bundle);
-            }
-        });
-        shopManageOrdinaryChild_data_lv.setAdapter(adapter);
-
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
         shopManageOrdinaryChild_sr_layout.setHeaderView(createHeaderView());// add headerView
         shopManageOrdinaryChild_sr_layout.setFooterView(createFooterView());
         shopManageOrdinaryChild_sr_layout.setHeaderViewBackgroundColor(Color.WHITE);
@@ -185,16 +143,7 @@ public class ShopManageOrdinaryChildFgt extends BaseFgt implements View.OnClickL
                 imageView.setVisibility(View.GONE);
                 progressBar.setVisibility(View.VISIBLE);
                 p = 1;
-                if (from == 0) {
-                    // TODO 请求接口
-                } else if (from == 1) {
-                    // TODO 请求接口
-                } else if (from == 2) {
-                    // TODO 请求接口
-                }
-
-//                shopManageOrdinaryChild_sr_layout.setRefreshing(false);
-//                progressBar.setVisibility(View.GONE);
+                getData();
 
             }
 
@@ -217,15 +166,7 @@ public class ShopManageOrdinaryChildFgt extends BaseFgt implements View.OnClickL
                 footerImageView.setVisibility(View.GONE);
                 footerProgressBar.setVisibility(View.VISIBLE);
                 p++;
-                if (from == 0) {
-                    // TODO 请求接口
-                } else if (from == 1) {
-                    // TODO 请求接口
-                } else if (from == 2) {
-                    // TODO 请求接口
-                }
-                shopManageOrdinaryChild_sr_layout.setLoadMore(false);
-                progressBar.setVisibility(View.GONE);
+                getData();
             }
 
             @Override
@@ -239,7 +180,6 @@ public class ShopManageOrdinaryChildFgt extends BaseFgt implements View.OnClickL
                 footerImageView.setRotation(enable ? 0 : 180);
             }
         });
-
     }
 
     @Override
@@ -258,8 +198,88 @@ public class ShopManageOrdinaryChildFgt extends BaseFgt implements View.OnClickL
                 shopManageOrdinaryChild_removeForShelves_lLayout.setVisibility(View.GONE); // 下架按钮隐藏
                 break;
         }
+    }
 
-        L.e(from == 0 ? "出售中" : from == 1 ? "已下架" : "已售罄");
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (getUserVisibleHint()){
+            getData();
+        }
+    }
+
+    private void getData() {
+        if (null != mExhibitPst && !TextUtils.isEmpty(mShop_id)) {
+            if (from == 2) {
+                from += 1;
+            }
+            mExhibitPst.getGoodsList("", String.valueOf(p), mShop_id, String.valueOf(from));
+            isManage = false;
+        }
+    }
+
+
+    @Override
+    public void onComplete(String requestUrl, String jsonStr) {
+        super.onComplete(requestUrl, jsonStr);
+        if (!isManage) {
+            DistributionGoodsBean distributionGoodsBean = JSONObject.parseObject(jsonStr, DistributionGoodsBean.class);
+            if (200 == distributionGoodsBean.getCode()) {
+                List<DistributionGoodsBean.DataBean> data = distributionGoodsBean.getData();
+                if (null != data && data.size() > 0) {
+                    emptyView.setVisibility(View.GONE);
+                    shopManageOrdinaryChild_sr_layout.setVisibility(View.VISIBLE);
+                    if (p == 1) {
+                        list.clear();
+                    }
+                    list.addAll(data);
+                    adapter = new ShopManageOrdinaryAdapter(getActivity(), list, shopManageOrdinaryChild_selectAll_cbox);
+                    adapter.setOnImageClickListener(new ShopManageOrdinaryAdapter.ImageClick() {
+                        @Override
+                        public void onImageClick(View view, int position) {
+                            //分享功能，可以使用ToShareAty  toShare("无界优品", share_img, share_url, share_content, goods_id, "1");
+                            DistributionGoodsBean.DataBean goodsBean = list.get(position);
+                            Bundle bundle = new Bundle();
+                            bundle.putString("title", goodsBean.getGoods_name());
+                            bundle.putString("pic", goodsBean.getGoods_img());
+                            bundle.putString("url", "1");
+                            bundle.putString("context", goodsBean.getGoods_name());
+                            bundle.putString("id", "1");
+                            bundle.putString("Shapetype", "1");
+                            startActivity(ToShareAty.class, bundle);
+                        }
+                    });
+                    shopManageOrdinaryChild_data_lv.setAdapter(adapter);
+                } else {
+                    emptyView.setVisibility(View.VISIBLE);
+                    shopManageOrdinaryChild_sr_layout.setVisibility(View.GONE);
+                }
+            }
+        } else {
+            Log.e("TAG", jsonStr);
+        }
+        refreshComplete();
+    }
+
+    @Override
+    public void onError(String requestUrl, Map<String, String> error) {
+        super.onError(requestUrl, error);
+        removeProgressDialog();
+        refreshComplete();
+        emptyView.setVisibility(View.VISIBLE);
+        shopManageOrdinaryChild_sr_layout.setVisibility(View.GONE);
+    }
+
+    private void refreshComplete() {
+        if (progressBar.getVisibility() == View.VISIBLE) {
+            shopManageOrdinaryChild_sr_layout.setRefreshing(false);
+            progressBar.setVisibility(View.GONE);
+        }
+        if (footerProgressBar.getVisibility() == View.VISIBLE) {
+            shopManageOrdinaryChild_sr_layout.setLoadMore(false);
+            progressBar.setVisibility(View.GONE);
+        }
+
     }
 
     @OnClick({R.id.shopManageOrdinaryChild_batchManagement_tv, R.id.shopManageOrdinaryChild_edit_lLayout, R.id.shopManageOrdinaryChild_selectAll_cbox,
@@ -306,7 +326,6 @@ public class ShopManageOrdinaryChildFgt extends BaseFgt implements View.OnClickL
     }
 
 
-
     /**
      * 上下架产品及删除产品对话框
      *
@@ -323,27 +342,37 @@ public class ShopManageOrdinaryChildFgt extends BaseFgt implements View.OnClickL
                     public void dialogListener(int btnType, View customView, DialogInterface dialogInterface, int which) {
                         switch (btnType) {
                             case MikyouCommonDialog.OK: { // 上架，下架，删除
-                                // TODO ================================ 在此进行数据商品上下架以及删除数据的后台请求 ================================
-                                for (DistributionGoodsBean.DataBean distributionGoodsBean : list) {
-                                    L.e(distributionGoodsBean.toString());
+                                List<DistributionGoodsBean.DataBean> chuLiList = new ArrayList<>();
+                                List<String> ids = new ArrayList<>();
+                                for (int i = 0; i < list.size(); i++) {
+                                    if (list.get(i).isChecked()) {
+                                        chuLiList.add(list.get(i));
+                                        ids.add(list.get(i).getGoods_id());
+                                    }
                                 }
-                                switch (type) {
-                                    case 1: // 上架商品
-                                        break;
-                                    case 2: // 下架商品
-                                        break;
-                                    case 3: // 删除商品
-                                        List<DistributionGoodsBean.DataBean> deleteList=new ArrayList<>();
-                                        for (int i = 0; i < list.size(); i++) {
-                                            if (list.get(i).isChecked()){
-                                                deleteList.add(list.get(i));
-                                            }
-                                        }
-                                        list.removeAll(deleteList);
-                                        emptyView.setVisibility(list.size()==0?View.VISIBLE:View.GONE);
-                                        adapter.notifyDataSetChanged();
-                                        break;
+                                if (null != ids && ids.size() > 0) {
+                                    list.removeAll(chuLiList);
+                                    if (list.size() > 0) {
+                                        emptyView.setVisibility(View.GONE);
+                                        shopManageOrdinaryChild_sr_layout.setVisibility(View.VISIBLE);
+                                    } else {
+                                        emptyView.setVisibility(View.VISIBLE);
+                                        shopManageOrdinaryChild_sr_layout.setVisibility(View.GONE);
+                                    }
+                                    if (1 == type) {
+                                        // 上架商品
+                                        chuliGoods(ids, "0");
+                                    } else if (2 == type) {
+                                        // 下架商品
+                                        chuliGoods(ids, "1");
+                                    } else if (3 == type) {
+                                        // 删除商品
+                                        chuliGoods(ids, "9");
+                                    }
+                                    adapter.setCheckedCount();
+                                    adapter.notifyDataSetChanged();
                                 }
+
                             }
                             break;
                             case MikyouCommonDialog.NO: {
@@ -352,6 +381,13 @@ public class ShopManageOrdinaryChildFgt extends BaseFgt implements View.OnClickL
                         }
                     }
                 }).showDialog();
+    }
+
+    private void chuliGoods(List<String> ids, String type) {
+        if (null != mExhibitPst) {
+            isManage = true;
+            mExhibitPst.goodsManage(ids, type);
+        }
     }
 
     /**

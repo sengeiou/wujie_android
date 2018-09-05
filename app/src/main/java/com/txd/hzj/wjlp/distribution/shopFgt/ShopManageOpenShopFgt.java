@@ -5,12 +5,12 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.alibaba.fastjson.JSONObject;
 import com.ants.theantsgo.util.PreferencesUtils;
@@ -33,6 +33,9 @@ import java.util.Map;
  * 功能描述： 开店商品管理界面
  */
 public class ShopManageOpenShopFgt extends BaseFgt {
+
+    @ViewInject(R.id.empty_layout)
+    private FrameLayout empty_layout;
 
     @ViewInject(R.id.shopManageOpen_data_gv)
     private GridView shopManageOpen_data_gv;
@@ -94,7 +97,6 @@ public class ShopManageOpenShopFgt extends BaseFgt {
                 progressBar.setVisibility(View.VISIBLE);
                 p = 1;
                 requestData();
-
             }
 
             @Override
@@ -148,6 +150,8 @@ public class ShopManageOpenShopFgt extends BaseFgt {
             if (200==distributionGoodsBean.getCode()){
                 List<DistributionGoodsBean.DataBean> data = distributionGoodsBean.getData();
                 if (null!=data && data.size()>0){
+                    empty_layout.setVisibility(View.GONE);
+                    shopManageOpen_super_ssrl.setVisibility(View.VISIBLE);
                     if (p==1){
                         list.clear();
                     }
@@ -157,7 +161,6 @@ public class ShopManageOpenShopFgt extends BaseFgt {
                         @Override
                         public void onImageClick(View view, int position) {
                             //分享功能，可以使用ToShareAty  toShare("无界优品", share_img, share_url, share_content, goods_id, "1");
-                            Toast.makeText(getActivity(), ""+position, Toast.LENGTH_SHORT).show();
                             DistributionGoodsBean.DataBean goodsBean = list.get(position);
                             Bundle bundle = new Bundle();
                             bundle.putString("title", goodsBean.getGoods_name());
@@ -170,6 +173,9 @@ public class ShopManageOpenShopFgt extends BaseFgt {
                         }
                     });
                     shopManageOpen_data_gv.setAdapter(adapter);
+                }else {
+                    empty_layout.setVisibility(View.VISIBLE);
+                    shopManageOpen_super_ssrl.setVisibility(View.GONE);
                 }
 
 
@@ -183,6 +189,8 @@ public class ShopManageOpenShopFgt extends BaseFgt {
         super.onError(requestUrl, error);
         removeProgressDialog();
         refreshComplete();
+        empty_layout.setVisibility(View.VISIBLE);
+        shopManageOpen_super_ssrl.setVisibility(View.GONE);
     }
 
     private void refreshComplete(){

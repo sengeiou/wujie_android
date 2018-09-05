@@ -5,6 +5,8 @@ import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.httpTools.ApiTool2;
 import com.lidroid.xutils.http.RequestParams;
 
+import java.util.List;
+
 /**
  * 创建者：zhangyunfei
  * 创建时间：2018/7/16 8:39
@@ -135,7 +137,7 @@ public class ExhibitModel {
      * @param shop_id  小店id
      * @param type 0 普通 1 399分销
      */
-    public void getfenxiaogoods(String  id, String p,String shop_id,String type,BaseView baseView){
+    public void getfenxiaoGoods(String  id, String p,String shop_id,String type,BaseView baseView){
         RequestParams params = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
         if (!id.isEmpty()){
@@ -145,6 +147,27 @@ public class ExhibitModel {
         params.addQueryStringParameter("shop_id", shop_id);
         params.addQueryStringParameter("type", type);
         apiTool2.getApi(DISTRIBUTION_URL+"goods", params, baseView);
+    }
+
+
+    /**
+     * 商品上架/下架/删除接口
+     * @param ids  商品id 多个用”，”隔开
+     * @param shop_goods_status  上架 传0  下架 传1 删除 传9
+     */
+    public void postManageGoods(List<String> ids, String shop_goods_status, BaseView baseView){
+        RequestParams params = new RequestParams();
+        ApiTool2 apiTool2 = new ApiTool2();
+        StringBuilder builder=new StringBuilder();
+        for (int i = 0; i < ids.size(); i++) {
+            builder.append(ids.get(i));
+            if (i!=ids.size()-1){
+                builder.append(",");
+            }
+        }
+        params.addBodyParameter("id", builder.toString());
+        params.addBodyParameter("shop_goods_status", shop_goods_status);
+        apiTool2.postApi(DISTRIBUTION_URL+"goods", params, baseView);
     }
 
 

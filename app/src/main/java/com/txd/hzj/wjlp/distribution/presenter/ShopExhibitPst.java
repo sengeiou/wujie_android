@@ -4,6 +4,8 @@ import com.ants.theantsgo.base.BasePresenter;
 import com.ants.theantsgo.base.BaseView;
 import com.txd.hzj.wjlp.distribution.model.ExhibitModel;
 
+import java.util.List;
+
 /**
  * 创建者：zhangyunfei
  * 创建时间：2018/7/16 8:37
@@ -77,10 +79,16 @@ public class ShopExhibitPst extends BasePresenter {
     /**
      * 商品信息获取
      */
-
-
     public void getGoodsList(String  id, String p,String shop_id,String type){
         baseView.showDialog();
-        mModel.getfenxiaogoods(id,p,shop_id,type,baseView);
+        mModel.getfenxiaoGoods(id,p,shop_id,type,baseView);
+    }
+
+    /**
+     *商品上架/下架/删除接口
+     */
+    public void goodsManage(List<String> ids, String shop_goods_status){
+        baseView.showDialog();
+        mModel.postManageGoods(ids,shop_goods_status,baseView);
     }
 }

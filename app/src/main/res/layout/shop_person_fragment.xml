@@ -19,4 +19,6 @@
 
     </com.txd.hzj.wjlp.view.SuperSwipeRefreshLayout>
 
+    <include layout="@layout/shop_custom_empty_layout"/>
+
 </LinearLayout>

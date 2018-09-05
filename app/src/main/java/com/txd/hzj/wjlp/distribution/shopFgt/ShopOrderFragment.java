@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -22,6 +23,7 @@ import com.txd.hzj.wjlp.distribution.bean.ShopOrderBean;
 import com.txd.hzj.wjlp.distribution.presenter.ShopExhibitPst;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 创建者：Qyl
@@ -31,6 +33,8 @@ import java.util.List;
  */
 public class ShopOrderFragment extends BaseFgt {
 
+    @ViewInject(R.id.empty_layout)
+    private FrameLayout empty_layout;
     //订单列表
     @ViewInject(R.id.shop_order_re_list)
     private RecyclerView shop_order_re_list;
@@ -76,7 +80,14 @@ public class ShopOrderFragment extends BaseFgt {
     }
 
     @Override
-    protected void requestData() {
+    public void onResume() {
+        super.onResume();
+        if (getUserVisibleHint()){
+            getData();
+        }
+    }
+
+    private void getData(){
         if (getArguments() != null) {
             mTitle = getArguments().getString("ShopOrderFragment");
             if ("全部".equals(mTitle)) {
@@ -96,6 +107,10 @@ public class ShopOrderFragment extends BaseFgt {
         }
     }
 
+    @Override
+    protected void requestData() {
+    }
+
 
     @Override
     protected void immersionInit() {
@@ -109,7 +124,7 @@ public class ShopOrderFragment extends BaseFgt {
                 textView.setText("正在刷新");
                 imageView.setVisibility(View.GONE);
                 progressBar.setVisibility(View.VISIBLE);
-                requestData();
+                getData();
             }
 
             @Override
@@ -178,24 +193,40 @@ public class ShopOrderFragment extends BaseFgt {
             ShopOrderBean shopOrderBean = JSONObject.parseObject(jsonStr, ShopOrderBean.class);
             if (200==shopOrderBean.getCode()){
                 List<ShopOrderBean.DataBean> data = shopOrderBean.getData();
-                shop_order_re_list.setLayoutManager(new LinearLayoutManager(getActivity()));
-                adapter = new ShopOrderManageAdapter(data, getActivity(), mTitle);
-                shop_order_re_list.setAdapter(adapter);
+                if (null != data && data.size()>0){
+                    empty_layout.setVisibility(View.GONE);
+                    refreshLayout.setVisibility(View.VISIBLE);
+                    shop_order_re_list.setLayoutManager(new LinearLayoutManager(getActivity()));
+                    adapter = new ShopOrderManageAdapter(data, getActivity(), mTitle);
+                    shop_order_re_list.setAdapter(adapter);
+                }else {
+                    empty_layout.setVisibility(View.VISIBLE);
+                    refreshLayout.setVisibility(View.GONE);
+                }
+
             }
         }
         refreshComplete();
     }
 
+    @Override
+    public void onError(String requestUrl, Map<String, String> error) {
+        super.onError(requestUrl, error);
+        empty_layout.setVisibility(View.VISIBLE);
+        refreshLayout.setVisibility(View.GONE);
+        removeDialog();
+        refreshComplete();
+    }
 
     private void refreshComplete(){
         if (progressBar.getVisibility()==View.VISIBLE){
             refreshLayout.setRefreshing(false);
             progressBar.setVisibility(View.GONE);
         }
-        if (footerProgressBar.getVisibility()==View.VISIBLE){
-            refreshLayout.setLoadMore(false);
-            progressBar.setVisibility(View.GONE);
-        }
+//        if (footerProgressBar.getVisibility()==View.VISIBLE){
+//            refreshLayout.setLoadMore(false);
+//            progressBar.setVisibility(View.GONE);
+//        }
 
     }
 }
