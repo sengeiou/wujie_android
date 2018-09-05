@@ -39,7 +39,7 @@ public class ShopOrderManageAdapter extends RecyclerView.Adapter {
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        MyViewHolder viewHolder = new MyViewHolder(LayoutInflater.from(context).inflate(R.layout.shop_order_relist_item, parent,false));
+        MyViewHolder viewHolder = new MyViewHolder(LayoutInflater.from(context).inflate(R.layout.shop_order_relist_item, parent, false));
 
         return viewHolder;
     }
@@ -51,46 +51,53 @@ public class ShopOrderManageAdapter extends RecyclerView.Adapter {
 
         ShopOrderBean.DataBean dataBean = list.get(position);
         holders.shop_name_tv.setText(dataBean.getShop_name());
-        instance.forTextColor(context, holders.buyer, "买家："+dataBean.getBuyer(), 3, Color.parseColor("#777777"));
-        instance.forTextColor(context, holders.supplier, "供货商："+dataBean.getSupply_name(), 4, Color.parseColor("#777777"));
-        if (TextUtils.isEmpty(dataBean.getProfit_num()) || "0".equals(dataBean.getProfit_num())){
+        instance.forTextColor(context, holders.buyer, "买家：" + dataBean.getBuyer(), 3, Color.parseColor("#777777"));
+        instance.forTextColor(context, holders.supplier, "供货商：" + dataBean.getSupply_name(), 4, Color.parseColor("#777777"));
+        if (TextUtils.isEmpty(dataBean.getProfit_num()) || "0".equals(dataBean.getProfit_num())) {
             holders.priFit.setVisibility(View.GONE);
-        }else {
+        } else {
             holders.priFit.setVisibility(View.VISIBLE);
-            instance.forTextColor(context, holders.priFit, "收益："+dataBean.getProfit_num()+"积分", 3, Color.parseColor("#777777"));
+            instance.forTextColor(context, holders.priFit, "收益：" + dataBean.getProfit_num() + "积分", 3, Color.parseColor("#777777"));
         }
 
         String ticket_color = dataBean.getTicket_color();
-        if (TextUtils.isEmpty(ticket_color) || "0".equals(ticket_color)){
+        if (TextUtils.isEmpty(ticket_color) || "0".equals(ticket_color)) {
             holders.vouvherType.setVisibility(View.GONE);
             holders.proportion.setVisibility(View.GONE);
-        }else {
+        } else {
             holders.vouvherType.setVisibility(View.VISIBLE);
             holders.proportion.setVisibility(View.VISIBLE);
-            String type="";
-            if ("1".equals(ticket_color)){
-                type="红券";
-            }else if ("2".equals(ticket_color)){
-                type="黄券";
-            }else if ("3".equals(ticket_color)){
-                type="蓝券";
+            String type = "";
+            if ("1".equals(ticket_color)) {
+                type = "红券";
+            } else if ("2".equals(ticket_color)) {
+                type = "黄券";
+            } else if ("3".equals(ticket_color)) {
+                type = "蓝券";
             }
-            instance.forTextColor(context, holders.vouvherType, "用卷类型："+type, 5, Color.parseColor("#777777"));
+            instance.forTextColor(context, holders.vouvherType, "用卷类型：" + type, 5, Color.parseColor("#777777"));
         }
 
         instance.forTextColor(context, holders.proportion, "用卷金额：50%", 5, Color.parseColor("#777777"));
 
         List<ShopOrderBean.DataBean.OrderGoodsBean> order_goods = dataBean.getOrder_goods();
 
-        holders.mListView.setAdapter(new MyAdapter(order_goods,context));
+        holders.mListView.setAdapter(new MyAdapter(order_goods, context));
 
         holders.time_tv.setText(dataBean.getOrder_time());
 
-        if (!TextUtils.isEmpty(dataBean.getIs_open()) || "0".equals(dataBean.getIs_open())){
+        if (!TextUtils.isEmpty(dataBean.getIs_open()) || "0".equals(dataBean.getIs_open())) {
             holders.kaidian_pic.setVisibility(View.GONE);
-        }else if (!TextUtils.isEmpty(dataBean.getIs_open()) || "1".equals(dataBean.getIs_open())){
+        } else if (!TextUtils.isEmpty(dataBean.getIs_open()) || "1".equals(dataBean.getIs_open())) {
             holders.kaidian_pic.setVisibility(View.VISIBLE);
         }
+
+        if (!TextUtils.isEmpty(dataBean.getShop_type()) || "本店".equals(dataBean.getShop_type())) {
+            holders.bendian_tv.setVisibility(View.VISIBLE);
+        } else if (!TextUtils.isEmpty(dataBean.getShop_type()) || "链店".equals(dataBean.getShop_type())) {
+            holders.liandian_tv.setVisibility(View.VISIBLE);
+        }
+
 
         if ("全部".equals(type)) {
             holders.orderType.setText("全部");
@@ -107,12 +114,12 @@ public class ShopOrderManageAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemCount() {
-        return list!=null && list.size() > 0 ? list.size() : 0;
+        return list != null && list.size() > 0 ? list.size() : 0;
     }
 
     private class MyViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView buyer, supplier, priFit, vouvherType, proportion, orderType ,shop_name_tv,time_tv;
+        private TextView buyer, supplier, priFit, vouvherType, proportion, orderType, shop_name_tv, time_tv, bendian_tv, liandian_tv;
 
         private ListView mListView;
 
@@ -122,7 +129,7 @@ public class ShopOrderManageAdapter extends RecyclerView.Adapter {
         public MyViewHolder(View itemView) {
             super(itemView);
 
-            shop_name_tv=itemView.findViewById(R.id.shop_name_tv);
+            shop_name_tv = itemView.findViewById(R.id.shop_name_tv);
             //买家
             buyer = itemView.findViewById(R.id.shop_order_item_buyer);
             //供货商
@@ -136,30 +143,34 @@ public class ShopOrderManageAdapter extends RecyclerView.Adapter {
             //订单状态
             orderType = itemView.findViewById(R.id.shop_order_type);
 
-            mListView=itemView.findViewById(R.id.listview);
+            mListView = itemView.findViewById(R.id.listview);
 
-            time_tv=itemView.findViewById(R.id.time_tv);
+            time_tv = itemView.findViewById(R.id.time_tv);
 
-            kaidian_pic=itemView.findViewById(R.id.kaidian_img);
+            kaidian_pic = itemView.findViewById(R.id.kaidian_img);
+
+            bendian_tv = itemView.findViewById(R.id.bendian_tv);
+
+            liandian_tv = itemView.findViewById(R.id.liandian_tv);
 
         }
     }
 
 
-    private class MyAdapter extends BaseAdapter{
-        private  List<ShopOrderBean.DataBean.OrderGoodsBean> mGoodsBeanList;
+    private class MyAdapter extends BaseAdapter {
+        private List<ShopOrderBean.DataBean.OrderGoodsBean> mGoodsBeanList;
         private Context mContext;
-        private  LayoutInflater mInflater;
+        private LayoutInflater mInflater;
 
-        public MyAdapter(List<ShopOrderBean.DataBean.OrderGoodsBean> goodsBeanList,Context context) {
+        public MyAdapter(List<ShopOrderBean.DataBean.OrderGoodsBean> goodsBeanList, Context context) {
             mGoodsBeanList = goodsBeanList;
-            mContext=context;
-            mInflater=LayoutInflater.from(context);
+            mContext = context;
+            mInflater = LayoutInflater.from(context);
         }
 
         @Override
         public int getCount() {
-            return mGoodsBeanList!=null && mGoodsBeanList.size()>0?mGoodsBeanList.size():0;
+            return mGoodsBeanList != null && mGoodsBeanList.size() > 0 ? mGoodsBeanList.size() : 0;
         }
 
         @Override
@@ -175,29 +186,29 @@ public class ShopOrderManageAdapter extends RecyclerView.Adapter {
         @Override
         public View getView(int position, View view, ViewGroup parent) {
             ViewHolder holder;
-            if (view==null){
-                holder=new ViewHolder();
-                view=mInflater.inflate(R.layout.shop_order_relist_item2,parent,false);
-                holder.head_img=view.findViewById(R.id.shop_order_ima);
-                holder.title_tv=view.findViewById(R.id.shop_order_content);
-                holder.price_tv=view.findViewById(R.id.price_tv);
-                holder.nums_tv=view.findViewById(R.id.nums_tv);
+            if (view == null) {
+                holder = new ViewHolder();
+                view = mInflater.inflate(R.layout.shop_order_relist_item2, parent, false);
+                holder.head_img = view.findViewById(R.id.shop_order_ima);
+                holder.title_tv = view.findViewById(R.id.shop_order_content);
+                holder.price_tv = view.findViewById(R.id.price_tv);
+                holder.nums_tv = view.findViewById(R.id.nums_tv);
                 view.setTag(holder);
-            }else {
-                holder= (ViewHolder) view.getTag();
+            } else {
+                holder = (ViewHolder) view.getTag();
             }
             ShopOrderBean.DataBean.OrderGoodsBean orderGoodsBean = mGoodsBeanList.get(position);
             Glide.with(mContext).load(orderGoodsBean.getPic()).into(holder.head_img);
             holder.title_tv.setText(orderGoodsBean.getGoods_name());
-            holder.price_tv.setText("￥"+orderGoodsBean.getShop_price());
-            holder.nums_tv.setText("x"+orderGoodsBean.getGoods_num());
+            holder.price_tv.setText("￥" + orderGoodsBean.getShop_price());
+            holder.nums_tv.setText("x" + orderGoodsBean.getGoods_num());
             return view;
         }
 
-        class ViewHolder{
+        class ViewHolder {
             private ImageView head_img;
-            private TextView  title_tv;
-            private TextView  price_tv;
+            private TextView title_tv;
+            private TextView price_tv;
             private TextView nums_tv;
         }
     }
