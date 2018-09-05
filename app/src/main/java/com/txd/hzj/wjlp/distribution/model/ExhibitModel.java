@@ -167,7 +167,7 @@ public class ExhibitModel {
         }
         params.addBodyParameter("id", builder.toString());
         params.addBodyParameter("shop_goods_status", shop_goods_status);
-        apiTool2.postApi(DISTRIBUTION_URL+"goods", params, baseView);
+        apiTool2.postApis(DISTRIBUTION_URL+"goods", params, baseView);
     }
 
 
