@@ -5,7 +5,6 @@ import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CheckBox;
@@ -256,7 +255,10 @@ public class ShopManageOrdinaryChildFgt extends BaseFgt implements View.OnClickL
                 }
             }
         } else {
-            Log.e("TAG", jsonStr);
+            JSONObject jsonObject = JSONObject.parseObject(jsonStr);
+            if (jsonObject.containsKey("code") && "200".equals(jsonObject.getString("code"))){
+                showToast("操作成功");
+            }
         }
         refreshComplete();
     }
