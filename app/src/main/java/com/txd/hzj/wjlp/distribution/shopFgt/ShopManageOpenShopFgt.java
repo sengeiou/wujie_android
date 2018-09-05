@@ -2,6 +2,7 @@ package com.txd.hzj.wjlp.distribution.shopFgt;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.GridView;
@@ -11,11 +12,14 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSONObject;
+import com.ants.theantsgo.util.PreferencesUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseFgt;
 import com.txd.hzj.wjlp.distribution.adapter.ShopManageOpenAdapter;
 import com.txd.hzj.wjlp.distribution.bean.DistributionGoodsBean;
+import com.txd.hzj.wjlp.distribution.presenter.ShopExhibitPst;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.ToShareAty;
 import com.txd.hzj.wjlp.view.SuperSwipeRefreshLayout;
 
@@ -35,7 +39,7 @@ public class ShopManageOpenShopFgt extends BaseFgt {
     @ViewInject(R.id.shopManageOpen_super_ssrl)
     private SuperSwipeRefreshLayout shopManageOpen_super_ssrl;
 
-    List<DistributionGoodsBean> list;
+    List<DistributionGoodsBean.DataBean> list;
     ShopManageOpenAdapter adapter;
 
     private int p = 1; // 请求的分页
@@ -49,6 +53,8 @@ public class ShopManageOpenShopFgt extends BaseFgt {
     private ProgressBar footerProgressBar;
     private TextView footerTextView;
     private ImageView footerImageView;
+    private String mShop_id;
+    private ShopExhibitPst mExhibitPst;
 
     @Override
     public void onMultiWindowModeChanged(boolean isInMultiWindowMode) {
@@ -56,16 +62,7 @@ public class ShopManageOpenShopFgt extends BaseFgt {
         shopManageOpen_super_ssrl.setRefreshing(true);
     }
 
-    @Override
-    public void onError(String requestUrl, Map<String, String> error) {
-        super.onError(requestUrl, error);
-        removeProgressDialog();
-        shopManageOpen_super_ssrl.setRefreshing(false);
-        progressBar.setVisibility(View.GONE);
-        footerImageView.setVisibility(View.VISIBLE);
-        footerProgressBar.setVisibility(View.GONE);
-        shopManageOpen_super_ssrl.setLoadMore(false);
-    }
+
 
     @Override
     protected int getLayoutResId() {
@@ -74,51 +71,17 @@ public class ShopManageOpenShopFgt extends BaseFgt {
 
     @Override
     protected void initialized() {
-    }
-
-    @Override
-    protected void requestData() {
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        getdata();
-    }
-
-    private void getdata() {
         list = new ArrayList<>();
-        DistributionGoodsBean distributionGoodsBean;
-        for (int i = 0; i < 10; i++) {
-            distributionGoodsBean = new DistributionGoodsBean();
-            distributionGoodsBean.set_id(i);
-            distributionGoodsBean.setImageUrl("https://gd1.alicdn.com/imgextra/i1/646527539/TB2goIfbiMnBKNjSZFCXXX0KFXa_!!646527539.jpg_400x400.jpg");
-            distributionGoodsBean.setGoodsName("测试商品测试商品测试商品测试商品测试商品测试商品测试商品测试商品" + i);
-            distributionGoodsBean.setDaijinquan("最多可用50%代金券");
-            distributionGoodsBean.setMeny("1380.00");
-            distributionGoodsBean.setJifen("10.00");
-            distributionGoodsBean.setChecked(false);
-            list.add(distributionGoodsBean);
+        mExhibitPst = new ShopExhibitPst(this);
+        if (PreferencesUtils.containKey(getActivity(),"shop_id")){
+            mShop_id = PreferencesUtils.getString(getActivity(), "shop_id");
         }
-        adapter = new ShopManageOpenAdapter(getActivity(), list);
-        adapter.setOnImageClickListener(new ShopManageOpenAdapter.ImageClick() {
-            @Override
-            public void onImageClick(View view, int position) {
-                //分享功能，可以使用ToShareAty  toShare("无界优品", share_img, share_url, share_content, goods_id, "1");
-                Toast.makeText(getActivity(), ""+position, Toast.LENGTH_SHORT).show();
-                DistributionGoodsBean goodsBean = list.get(position);
-                Bundle bundle = new Bundle();
-                bundle.putString("title", goodsBean.getGoodsName());
-                bundle.putString("pic", goodsBean.getImageUrl());
-                bundle.putString("url","1" );
-                bundle.putString("context", goodsBean.getGoodsName());
-                bundle.putString("id", "1");
-                bundle.putString("Shapetype", "1");
-                startActivity(ToShareAty.class, bundle);
-            }
-        });
-        shopManageOpen_data_gv.setAdapter(adapter);
 
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
         shopManageOpen_super_ssrl.setHeaderView(createHeaderView());// add headerView
         shopManageOpen_super_ssrl.setFooterView(createFooterView());
         shopManageOpen_super_ssrl.setHeaderViewBackgroundColor(Color.WHITE);
@@ -130,9 +93,7 @@ public class ShopManageOpenShopFgt extends BaseFgt {
                 imageView.setVisibility(View.GONE);
                 progressBar.setVisibility(View.VISIBLE);
                 p = 1;
-                // TODO 请求接口
-//                shopManageOrdinaryChild_sr_layout.setRefreshing(false);
-//                progressBar.setVisibility(View.GONE);
+                requestData();
 
             }
 
@@ -155,9 +116,7 @@ public class ShopManageOpenShopFgt extends BaseFgt {
                 footerImageView.setVisibility(View.GONE);
                 footerProgressBar.setVisibility(View.VISIBLE);
                 p++;
-                // TODO 请求接口
-//                shopManageOrdinaryChild_sr_layout.setLoadMore(false);
-//                progressBar.setVisibility(View.GONE);
+                requestData();
             }
 
             @Override
@@ -172,6 +131,72 @@ public class ShopManageOpenShopFgt extends BaseFgt {
             }
         });
     }
+
+    @Override
+    protected void requestData() {
+        if (null != mExhibitPst && !TextUtils.isEmpty(mShop_id)) {
+            mExhibitPst.getGoodsList("", String.valueOf(p),mShop_id, "1");
+        }
+    }
+
+
+    @Override
+    public void onComplete(String requestUrl, String jsonStr) {
+        super.onComplete(requestUrl, jsonStr);
+        if (requestUrl.contains("goods")){
+            DistributionGoodsBean distributionGoodsBean = JSONObject.parseObject(jsonStr, DistributionGoodsBean.class);
+            if (200==distributionGoodsBean.getCode()){
+                List<DistributionGoodsBean.DataBean> data = distributionGoodsBean.getData();
+                if (null!=data && data.size()>0){
+                    if (p==1){
+                        list.clear();
+                    }
+                    list.addAll(data);
+                    adapter = new ShopManageOpenAdapter(getActivity(), list);
+                    adapter.setOnImageClickListener(new ShopManageOpenAdapter.ImageClick() {
+                        @Override
+                        public void onImageClick(View view, int position) {
+                            //分享功能，可以使用ToShareAty  toShare("无界优品", share_img, share_url, share_content, goods_id, "1");
+                            Toast.makeText(getActivity(), ""+position, Toast.LENGTH_SHORT).show();
+                            DistributionGoodsBean.DataBean goodsBean = list.get(position);
+                            Bundle bundle = new Bundle();
+                            bundle.putString("title", goodsBean.getGoods_name());
+                            bundle.putString("pic", goodsBean.getGoods_img());
+                            bundle.putString("url","1" );
+                            bundle.putString("context", goodsBean.getGoods_name());
+                            bundle.putString("id", "1");
+                            bundle.putString("Shapetype", "1");
+                            startActivity(ToShareAty.class, bundle);
+                        }
+                    });
+                    shopManageOpen_data_gv.setAdapter(adapter);
+                }
+
+
+            }
+        }
+        refreshComplete();
+    }
+
+    @Override
+    public void onError(String requestUrl, Map<String, String> error) {
+        super.onError(requestUrl, error);
+        removeProgressDialog();
+        refreshComplete();
+    }
+
+    private void refreshComplete(){
+        if (progressBar.getVisibility()==View.VISIBLE){
+            shopManageOpen_super_ssrl.setRefreshing(false);
+            progressBar.setVisibility(View.GONE);
+        }
+        if (footerProgressBar.getVisibility()==View.VISIBLE){
+            shopManageOpen_super_ssrl.setLoadMore(false);
+            progressBar.setVisibility(View.GONE);
+        }
+
+    }
+
 
     @Override
     protected void immersionInit() {

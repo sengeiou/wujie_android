@@ -17,12 +17,14 @@ import android.widget.Toast;
 
 import com.ants.theantsgo.tips.MikyouCommonDialog;
 import com.ants.theantsgo.util.L;
+import com.ants.theantsgo.util.PreferencesUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseFgt;
 import com.txd.hzj.wjlp.distribution.adapter.ShopManageOrdinaryAdapter;
 import com.txd.hzj.wjlp.distribution.bean.DistributionGoodsBean;
+import com.txd.hzj.wjlp.distribution.presenter.ShopExhibitPst;
 import com.txd.hzj.wjlp.distribution.shopAty.ShopGoodsManage;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.ToShareAty;
 import com.txd.hzj.wjlp.view.SuperSwipeRefreshLayout;
@@ -46,7 +48,7 @@ public class ShopManageOrdinaryChildFgt extends BaseFgt implements View.OnClickL
      * 2 是已售罄
      */
     private int from;
-    private List<DistributionGoodsBean> list;
+    private List<DistributionGoodsBean.DataBean> list;
     private ShopManageOrdinaryAdapter adapter;
 
     @ViewInject(R.id.emptyView)
@@ -87,6 +89,8 @@ public class ShopManageOrdinaryChildFgt extends BaseFgt implements View.OnClickL
     private ProgressBar footerProgressBar;
     private TextView footerTextView;
     private ImageView footerImageView;
+    private ShopExhibitPst mExhibitPst;
+    private String mShop_id;
 
     public ShopManageOrdinaryChildFgt(int index) {
         from = index;
@@ -112,7 +116,10 @@ public class ShopManageOrdinaryChildFgt extends BaseFgt implements View.OnClickL
 
     @Override
     protected void initialized() {
-
+        mExhibitPst = new ShopExhibitPst(this);
+        if (PreferencesUtils.containKey(getActivity(),"shop_id")){
+            mShop_id = PreferencesUtils.getString(getActivity(), "shop_id");
+        }
     }
 
 
@@ -136,15 +143,15 @@ public class ShopManageOrdinaryChildFgt extends BaseFgt implements View.OnClickL
     private void getData() {
         // TODO 模拟数据，后续请求数据改动的话需要一并修改的文件有：DistributionGoodsBean（商品对象）、ShopManageOrdinaryAdapter（List的Adapter）
         list = new ArrayList<>();
-        DistributionGoodsBean distributionGoodsBean;
+        DistributionGoodsBean.DataBean distributionGoodsBean;
         for (int i = 0; i < 10; i++) {
-            distributionGoodsBean = new DistributionGoodsBean();
-            distributionGoodsBean.set_id(i);
-            distributionGoodsBean.setImageUrl("https://gd1.alicdn.com/imgextra/i1/646527539/TB2goIfbiMnBKNjSZFCXXX0KFXa_!!646527539.jpg_400x400.jpg");
-            distributionGoodsBean.setGoodsName((from == 0 ? "出售中" : from == 1 ? "已下架" : "已售罄") + i);
-            distributionGoodsBean.setDaijinquan("最多可用50%代金券");
-            distributionGoodsBean.setMeny("1380.00");
-            distributionGoodsBean.setJifen("10.00");
+            distributionGoodsBean = new DistributionGoodsBean.DataBean();
+            distributionGoodsBean.setDsg_id(i+"");
+            distributionGoodsBean.setGoods_img("https://gd1.alicdn.com/imgextra/i1/646527539/TB2goIfbiMnBKNjSZFCXXX0KFXa_!!646527539.jpg_400x400.jpg");
+            distributionGoodsBean.setGoods_name((from == 0 ? "出售中" : from == 1 ? "已下架" : "已售罄") + i);
+            distributionGoodsBean.setMarket_price("最多可用50%代金券");
+            distributionGoodsBean.setShop_price("1380.00");
+            distributionGoodsBean.setMarket_price("10.00");
             distributionGoodsBean.setChecked(false);
             list.add(distributionGoodsBean);
         }
@@ -154,12 +161,12 @@ public class ShopManageOrdinaryChildFgt extends BaseFgt implements View.OnClickL
             public void onImageClick(View view, int position) {
                 //分享功能，可以使用ToShareAty  toShare("无界优品", share_img, share_url, share_content, goods_id, "1");
                 Toast.makeText(getActivity(), "" + position, Toast.LENGTH_SHORT).show();
-                DistributionGoodsBean goodsBean = list.get(position);
+                DistributionGoodsBean.DataBean goodsBean = list.get(position);
                 Bundle bundle = new Bundle();
-                bundle.putString("title", goodsBean.getGoodsName());
-                bundle.putString("pic", goodsBean.getImageUrl());
+                bundle.putString("title", goodsBean.getGoods_name());
+                bundle.putString("pic", goodsBean.getGoods_img());
                 bundle.putString("url", "1");
-                bundle.putString("context", goodsBean.getGoodsName());
+                bundle.putString("context", goodsBean.getGoods_name());
                 bundle.putString("id", "1");
                 bundle.putString("Shapetype", "1");
                 startActivity(ToShareAty.class, bundle);
@@ -281,7 +288,7 @@ public class ShopManageOrdinaryChildFgt extends BaseFgt implements View.OnClickL
                 break;
             case R.id.shopManageOrdinaryChild_edit_lLayout: // 全选
             case R.id.shopManageOrdinaryChild_selectAll_cbox: // 全选
-                for (DistributionGoodsBean distributionGoodsBean : list) {
+                for (DistributionGoodsBean.DataBean distributionGoodsBean : list) {
                     distributionGoodsBean.setChecked(shopManageOrdinaryChild_selectAll_cbox.isChecked());
                 }
                 adapter.notifyDataSetChanged();
@@ -317,7 +324,7 @@ public class ShopManageOrdinaryChildFgt extends BaseFgt implements View.OnClickL
                         switch (btnType) {
                             case MikyouCommonDialog.OK: { // 上架，下架，删除
                                 // TODO ================================ 在此进行数据商品上下架以及删除数据的后台请求 ================================
-                                for (DistributionGoodsBean distributionGoodsBean : list) {
+                                for (DistributionGoodsBean.DataBean distributionGoodsBean : list) {
                                     L.e(distributionGoodsBean.toString());
                                 }
                                 switch (type) {
@@ -326,7 +333,7 @@ public class ShopManageOrdinaryChildFgt extends BaseFgt implements View.OnClickL
                                     case 2: // 下架商品
                                         break;
                                     case 3: // 删除商品
-                                        List<DistributionGoodsBean> deleteList=new ArrayList<>();
+                                        List<DistributionGoodsBean.DataBean> deleteList=new ArrayList<>();
                                         for (int i = 0; i < list.size(); i++) {
                                             if (list.get(i).isChecked()){
                                                 deleteList.add(list.get(i));

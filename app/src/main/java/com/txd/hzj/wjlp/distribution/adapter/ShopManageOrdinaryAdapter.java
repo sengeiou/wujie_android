@@ -24,13 +24,13 @@ import java.util.List;
 public class ShopManageOrdinaryAdapter extends BaseAdapter {
 
     private Context context;
-    private List<DistributionGoodsBean> list;
+    private List<DistributionGoodsBean.DataBean> list;
     private CheckBox checkBox; // 调用时候全选框
     private boolean isShowCbox = false; // 是否显示复选框
     private int checkedCount = 0; // 选中记录的数量
     private ImageClick imageClick;
 
-    public ShopManageOrdinaryAdapter(Context context, List<DistributionGoodsBean> list, CheckBox checkBox) {
+    public ShopManageOrdinaryAdapter(Context context, List<DistributionGoodsBean.DataBean> list, CheckBox checkBox) {
         this.context = context;
         this.list = list;
         this.checkBox = checkBox;
@@ -77,11 +77,11 @@ public class ShopManageOrdinaryAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        Glide.with(context).load(list.get(position).getImageUrl()).asBitmap().into(holder.itemShopManageOrd_image_imgv);
-        holder.itemShopManageOrd_title_tv.setText(list.get(position).getGoodsName());
-        holder.itemShopManageOrd_daiJinQuan_tv.setText(list.get(position).getDaijinquan());
-        holder.itemShopManageOrd_meny_tv.setText(list.get(position).getMeny());
-        holder.itemShopManageOrd_jifen_tv.setText(list.get(position).getJifen());
+        Glide.with(context).load(list.get(position).getGoods_img()).asBitmap().into(holder.itemShopManageOrd_image_imgv);
+        holder.itemShopManageOrd_title_tv.setText(list.get(position).getGoods_name());
+        holder.itemShopManageOrd_daiJinQuan_tv.setText(list.get(position).getMarket_price());
+        holder.itemShopManageOrd_meny_tv.setText(list.get(position).getShop_price());
+        holder.itemShopManageOrd_jifen_tv.setText(list.get(position).getMarket_price());
         holder.itemShopManageOrd_share_imgv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -128,4 +128,24 @@ public class ExhibitModel {
     }
 
 
+    /**
+     *商品信息获取get
+     * @param id 分销商品id   商品信息获取，传id取单个，不传id取列表
+     * @param p  分页页数
+     * @param shop_id  小店id
+     * @param type 0 普通 1 399分销
+     */
+    public void getfenxiaogoods(String  id, String p,String shop_id,String type,BaseView baseView){
+        RequestParams params = new RequestParams();
+        ApiTool2 apiTool2 = new ApiTool2();
+        if (!id.isEmpty()){
+            params.addQueryStringParameter("id", id);
+        }
+        params.addQueryStringParameter("p", p);
+        params.addQueryStringParameter("shop_id", shop_id);
+        params.addQueryStringParameter("type", type);
+        apiTool2.getApi(DISTRIBUTION_URL+"goods", params, baseView);
+    }
+
+
 }

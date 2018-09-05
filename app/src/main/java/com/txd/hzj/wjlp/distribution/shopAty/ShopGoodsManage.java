@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.flyco.tablayout.utils.FragmentChangeManager;
 import com.txd.hzj.wjlp.R;
@@ -53,12 +52,6 @@ public class ShopGoodsManage extends BaseAty implements View.OnClickListener {
             @Override
             public void getLeft(String string) {
                 fragmentChangeManager.setFragments(Integer.valueOf(string));
-                if (string.equals("0")){
-                    Toast.makeText(ShopGoodsManage.this, "普通" + string, Toast.LENGTH_SHORT).show();
-                }else{
-                    Toast.makeText(ShopGoodsManage.this, "开店" + string, Toast.LENGTH_SHORT).show();
-                }
-
             }
         });
 

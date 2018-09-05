@@ -72,4 +72,15 @@ public class ShopExhibitPst extends BasePresenter {
         baseView.showDialog();
         mModel.getShopOrderList(id,type,status,baseView);
     }
+
+
+    /**
+     * 商品信息获取
+     */
+
+
+    public void getGoodsList(String  id, String p,String shop_id,String type){
+        baseView.showDialog();
+        mModel.getfenxiaogoods(id,p,shop_id,type,baseView);
+    }
 }

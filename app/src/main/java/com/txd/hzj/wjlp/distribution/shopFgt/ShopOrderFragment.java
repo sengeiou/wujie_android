@@ -188,12 +188,12 @@ public class ShopOrderFragment extends BaseFgt {
 
 
     private void refreshComplete(){
-        refreshLayout.setRefreshing(false);
-        refreshLayout.setLoadMore(false);
         if (progressBar.getVisibility()==View.VISIBLE){
+            refreshLayout.setRefreshing(false);
             progressBar.setVisibility(View.GONE);
         }
         if (footerProgressBar.getVisibility()==View.VISIBLE){
+            refreshLayout.setLoadMore(false);
             progressBar.setVisibility(View.GONE);
         }
 

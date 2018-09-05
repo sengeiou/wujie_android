@@ -8,7 +8,6 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.ants.theantsgo.util.L;
 import com.bumptech.glide.Glide;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.distribution.bean.DistributionGoodsBean;
@@ -23,10 +22,10 @@ import java.util.List;
 public class ShopManageOpenAdapter extends BaseAdapter {
 
     private Context context;
-    private List<DistributionGoodsBean> list;
+    private List<DistributionGoodsBean.DataBean> list;
     private ImageClick imageClick;
 
-    public ShopManageOpenAdapter(Context context, List<DistributionGoodsBean> list) {
+    public ShopManageOpenAdapter(Context context, List<DistributionGoodsBean.DataBean> list) {
         this.context = context;
         this.list = list;
     }
@@ -61,14 +60,13 @@ public class ShopManageOpenAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        Glide.with(context).load(list.get(position).getImageUrl()).asBitmap().into(holder.itemShopManageOpen_image_imgv);
-        holder.itemShopManageOpen_name_tv.setText(list.get(position).getGoodsName());
-        holder.itemShopManageOpen_meny_tv.setText(list.get(position).getMeny());
+        Glide.with(context).load(list.get(position).getGoods_img()).asBitmap().into(holder.itemShopManageOpen_image_imgv);
+        holder.itemShopManageOpen_name_tv.setText(list.get(position).getGoods_name());
+        holder.itemShopManageOpen_meny_tv.setText(list.get(position).getShop_price());
         holder.itemShopManageOpen_share_imgv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 imageClick.onImageClick(v,position);
-                L.e("分享商品：" + list.get(position).getGoodsName());
             }
         });
 
