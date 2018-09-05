@@ -349,7 +349,7 @@ public class ShopManageOrdinaryChildFgt extends BaseFgt implements View.OnClickL
                                 for (int i = 0; i < list.size(); i++) {
                                     if (list.get(i).isChecked()) {
                                         chuLiList.add(list.get(i));
-                                        ids.add(list.get(i).getGoods_id());
+                                        ids.add(list.get(i).getDsg_id());
                                     }
                                 }
                                 if (null != ids && ids.size() > 0) {
