@@ -505,11 +505,15 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
             case R.id.bandOtherAccount_tv: // 联盟商家绑定账户
                 if (sanfangList != null && sanfangList.size() > 0) {
                     showTanchuang("联盟商家绑定账户");
+                }else {
+                    showToast("暂无绑定账户");
                 }
                 break;
             case R.id.business_code_tv:// 商家码
                 if (shangjiamaList != null && shangjiamaList.size() > 0) {
                     showTanchuang("商家码");
+                }else {
+                    showToast("暂无商家码");
                 }
                 break;
 
@@ -670,13 +674,13 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
                         String change_account_status1 = obj.has("change_account_status") ? obj.getString("change_account_status") : "";
                         String merchant_name = obj.has("merchant_name") ? obj.getString("merchant_name") : "";
                         String logo = obj.has("logo") ? obj.getString("logo") : "";
-                        String special_type = obj.has("special_type") ? obj.getString("special_type") : "";
+                        String special_type = obj.has("jeanne_cate") ? obj.getString("jeanne_cate") : "";
                         MineInfoBean mineInfoBean = new MineInfoBean(stage_merchant_id, wxpay_accounts, alipay_accounts, default_account, change_account_status1, merchant_name, logo);
                         shangjiamaList.add(mineInfoBean);
                         if (change_account_status1.equals("1")) {
                             sanfangList.add(mineInfoBean);
                         }
-                        if (!"2".equals(special_type)) {
+                        if (Float.parseFloat(special_type)==0.00) {
                             bluedaijinquanList.add(mineInfoBean);
                         }
                     }

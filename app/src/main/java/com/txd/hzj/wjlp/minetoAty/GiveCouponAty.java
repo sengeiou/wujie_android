@@ -152,6 +152,8 @@ public class GiveCouponAty extends BaseAty implements View.OnClickListener {
             case R.id.give_accounts_tv:
                 if (bluedaijinquanList != null && bluedaijinquanList.size() > 0) {
                     showTanchuang();
+                }else {
+                    showToast("暂无店铺选择");
                 }
                 break;
             case R.id.iv_vip:
