@@ -146,7 +146,8 @@
 
         <!-- 百度地图 End -->
         <!-- 首页启动界面 android:name=".MainAty" -->
-        <activity android:name=".startPage.GuidanceAty">
+        <activity android:name=".startPage.GuidanceAty"
+            android:theme="@style/styleSplashImage">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

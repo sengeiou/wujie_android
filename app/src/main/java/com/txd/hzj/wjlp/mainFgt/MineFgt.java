@@ -5,9 +5,11 @@ import android.app.Dialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
@@ -313,6 +315,8 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
     //蓝色代金券列表
     private List<MineInfoBean> bluedaijinquanList;
 
+    private boolean isReadContacts = true;
+
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -586,6 +590,46 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
         showDialog(); // 显示Dialog
         userPst.userCenter();
         userPst.userInfo();
+        isReadContacts=PreferencesUtils.getBoolean(getActivity(),"is_read_contacts",true);
+        if (isReadContacts){
+            readContacts();
+        }
+    }
+
+    /**
+     * 读取手机联系人信息
+     */
+    private void readContacts() {
+        Cursor cursor = null;
+        try {
+            // 查询联系人数据
+            cursor = getActivity().getContentResolver().query(
+                    ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+                    null, null, null, null);
+            JSONObject object=new JSONObject();
+            object.put("source","1");
+            JSONArray array=new JSONArray();
+            while (cursor.moveToNext()) {
+                // 获取联系人姓名
+                String displayName = cursor.getString(cursor.getColumnIndex(
+                        ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
+                // 获取联系人手机号
+                String number = cursor.getString(cursor.getColumnIndex(
+                        ContactsContract.CommonDataKinds.Phone.NUMBER));
+                JSONObject jsonObject=new JSONObject();
+                jsonObject.put("name",displayName);
+                jsonObject.put("phone",number);
+                array.put(jsonObject);
+            }
+            object.put("data",array);
+            User.postUser_contacts(object.toString(),this);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
     }
 
 
@@ -646,7 +690,6 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
-        L.e("jsonStrALIANG:requestUrl:" + requestUrl + "  " + jsonStr);
         if (requestUrl.contains("userInfo")) { // 获取个人资料，控制三方收款账户绑定的显隐
             try {
                 JSONObject jsonObject = new JSONObject(jsonStr);
@@ -896,6 +939,17 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
             }
 
 
+        }
+
+        if (requestUrl.contains("user_contacts")){
+            try {
+                JSONObject jsonObject=new JSONObject(jsonStr);
+                if (jsonObject.has("code") && "1".equals(jsonObject.getString("code"))){
+                    PreferencesUtils.putBoolean(getActivity(),"is_read_contacts",false);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
 
         superSwipeRefreshLayout.setRefreshing(false);

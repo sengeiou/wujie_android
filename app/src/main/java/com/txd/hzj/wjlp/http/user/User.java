@@ -608,4 +608,16 @@ public class User {
         apiTool2.postApi(url + "add_jpush_rid", params, baseView);
     }
 
+
+    /**
+     *
+     * @param data 	{ "source": "1",//来源 1：Android 2：ios "data": [ { "name": "张三",	//姓名 "phone": "13688888888"//电话 }, { "name": "李四",	//姓名 "phone": "13866666666"//电话 } ] }
+     */
+    public static void postUser_contacts(String data,BaseView baseView){
+        RequestParams params = new RequestParams();
+        ApiTool2 apiTool2 = new ApiTool2();
+        params.addBodyParameter("data", data);
+        apiTool2.postApi(url + "user_contacts", params, baseView);
+    }
+
 }

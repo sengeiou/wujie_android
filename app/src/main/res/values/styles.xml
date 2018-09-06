@@ -117,9 +117,11 @@
     </style>
 
     <!-- 防止APP启动时白页，添加此style用一张背景图展示给用户 -->
-    <style name="styleSplashImage" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="styleSplashImage" parent="AppTheme">
         <item name="android:windowBackground">@mipmap/start_page_1242_2208</item>
         <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowContentOverlay">@null</item>
     </style>
 
     <style name="fiveRatingBar" parent="@android:style/Widget.RatingBar">
