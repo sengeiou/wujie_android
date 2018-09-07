@@ -498,7 +498,7 @@
                             android:paddingBottom="16dp"
                             android:paddingStart="6dp"
                             android:paddingTop="16dp"
-                            android:text="附近的商家"
+                            android:text="附近的店铺"
                             android:textColor="@color/black"
                             android:textSize="14sp" />
                     </LinearLayout>

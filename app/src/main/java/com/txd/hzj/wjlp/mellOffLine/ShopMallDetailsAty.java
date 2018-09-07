@@ -16,6 +16,7 @@ import android.widget.RelativeLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import com.ants.theantsgo.tools.RegexUtils;
 import com.google.gson.Gson;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
@@ -180,6 +181,8 @@ public class ShopMallDetailsAty extends BaseAty implements View.OnClickListener,
         pranster = new Pranster();
         pranster.setView(this);
         page = 1;
+
+        nearbyBusinessList.setFocusable(false);
 
 
         //设置图片加载器
@@ -414,6 +417,18 @@ public class ShopMallDetailsAty extends BaseAty implements View.OnClickListener,
             }
             //设置门店电话
             shopTelephone.setText(offLineBean.getData().getMerchant_phone());
+            shopTelephone.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String merchant_phone = offLineBean.getData().getMerchant_phone();
+                    if (!android.text.TextUtils.isEmpty(merchant_phone) && RegexUtils.checkPhone(merchant_phone)){
+                        call(merchant_phone);
+                    }else {
+                        showToast("电话号码不正确");
+                    }
+
+                }
+            });
             //门店描述
             shop_desc_tv.setText(offLineBean.getData().getMerchant_desc());
             //设置关注人数

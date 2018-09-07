@@ -1,13 +1,7 @@
 package com.txd.hzj.wjlp.minetoAty;
 
 import android.Manifest;
-import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.net.Uri;
-import android.provider.Settings;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -17,12 +11,10 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.ants.theantsgo.config.Config;
 import com.lidroid.xutils.util.LogUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
-import com.txd.hzj.wjlp.MainAty;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.yanzhenjie.permission.AndPermission;
@@ -89,7 +81,6 @@ public class ExpressAtv extends BaseAty {
                     .send();
         }else{
             call(mobile);
-//            callPhone();
         }
 
     }
@@ -100,28 +91,10 @@ public class ExpressAtv extends BaseAty {
         // 只需要调用这一句，其它的交给AndPermission吧，最后一个参数是PermissionListener。
         AndPermission.onRequestPermissionsResult(requestCode, permissions, grantResults, listener);
     }
-   /* private  void callPhone(){
-    Uri uri = Uri.parse("tel:" + mobile);
-    Intent intent = new Intent(Intent.ACTION_CALL, uri);
-    if (ActivityCompat.checkSelfPermission(ExpressAtv.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-        // TODO: Consider calling
-        //    ActivityCompat#requestPermissions
-        // here to request the missing permissions, and then overriding
-        //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-        //                                          int[] grantResults)
-        // to handle the case where the user grants the permission. See the documentation
-        // for ActivityCompat#requestPermissions for more details.
-        return;
-    }
-    startActivity(intent);
-    //这个超连接,java已经处理了，webview不要处理了
-}*/
     private PermissionListener listener = new PermissionListener() {
         @Override
         public void onSucceed(int requestCode, List<String> grantedPermissions) {
             call(mobile);
-//            callPhone();
-
         }
 
         @Override
