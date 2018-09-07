@@ -226,8 +226,8 @@ public class PayForAppAty extends BaseAty {
             case R.id.cb_jfzf: //积分
                 bottom_type = 3;
                 selectCheckBoxBottom(bottom_type);
-                tv_desc.setVisibility(View.GONE);
-                tv_price.setText(decimalFormat.format(total_price));
+                tv_desc.setVisibility(View.INVISIBLE);
+                tv_price.setText(decimalFormat.format(total_price)+"积分");
                 break;
             case R.id.tv_submit:
                 if (pay_by_wechat_cb.isChecked()) { // 微信支付
@@ -505,8 +505,8 @@ public class PayForAppAty extends BaseAty {
                 order = data;
                 if (!"10".equals(mType)){
                     integral_money.setVisibility(View.VISIBLE);
-                    if (order.containsKey("integral_money")){
-                        mIn =order.get("integral_money");
+                    if (order.containsKey("red_return_integral")){
+                        mIn =order.get("red_return_integral");
                         integralMoneyStr = "<font color=#FFB226>（赠送积分：" + mIn + "个）<font/>";
                         integral_money.setText(Html.fromHtml(integralMoneyStr));
                     }else {
@@ -1011,8 +1011,8 @@ public class PayForAppAty extends BaseAty {
                                 setCheck(4);
                                 String num = decimalFormat.format(total_price);
                                 tv_price.setText("¥" + num);
-                                if (order.containsKey("integral_money")){
-                                    mIn =order.get("integral_money");
+                                if (order.containsKey("red_return_integral")){
+                                    mIn =order.get("red_return_integral");
                                     integralMoneyStr = "<font color=#FFB226>（赠送积分：" + mIn + "个）<font/>";
                                     integral_money.setText(Html.fromHtml(integralMoneyStr));
                                 }else {
