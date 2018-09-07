@@ -153,7 +153,10 @@ public class GiveCouponAty extends BaseAty implements View.OnClickListener {
                 if (bluedaijinquanList != null && bluedaijinquanList.size() > 0) {
                     showTanchuang();
                 }else {
-                    showToast("暂无店铺选择");
+                    Bundle bundle = new Bundle();
+                    bundle.putString("blue_voucher", number.getText().toString());
+                    bundle.putString("merchant_id","");
+                    startActivityForResult(GiveCouponAccounts.class, bundle, 1000);
                 }
                 break;
             case R.id.iv_vip:
