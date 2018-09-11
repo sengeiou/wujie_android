@@ -156,28 +156,31 @@ public class PushMerchantAty extends BaseAty {
             holder.tv_time.setText(list.get(position).get("create_time"));
             holder.tv_tel.setText(list.get(position).get("user_phone"));
             holder.tv_address.setText(list.get(position).get("city") + list.get(position).get("street"));
-            switch (list.get(position).get("status")) {
-                case "0":
-                case "1":
-                    holder.tv_edit.setText("审核中");
-                    break;
-                case "2":
-                case "3":
-                    holder.tv_edit.setText("审核拒绝");
-                    break;
-                case "4":
-                    holder.tv_edit.setText("待入驻");
-                    break;
-                case "5":
-                    holder.tv_edit.setText("入驻失败");
-                    break;
-                case "6":
-                    holder.tv_edit.setText("入驻成功");
-                    break;
-                case "7":
-                    holder.tv_edit.setText("入驻中");
-                    break;
+            if (list.get(position).containsKey("status_desc")){
+                holder.tv_edit.setText(list.get(position).get("status_desc"));
             }
+//            switch (list.get(position).get("status")) {
+//                case "0":
+//                case "1":
+//                    holder.tv_edit.setText("审核中");
+//                    break;
+//                case "2":
+//                case "3":
+//                    holder.tv_edit.setText("审核拒绝");
+//                    break;
+//                case "4":
+//                    holder.tv_edit.setText("待入驻");
+//                    break;
+//                case "5":
+//                    holder.tv_edit.setText("入驻失败");
+//                    break;
+//                case "6":
+//                    holder.tv_edit.setText("入驻成功");
+//                    break;
+//                case "7":
+//                    holder.tv_edit.setText("入驻中");
+//                    break;
+//            }
             // type = 1 联盟商家   type = 2 无界驿店
             holder.tv_wjyd.setText(list.get(position).get("type").equals("1") ? "联盟商家" : "无界驿店");
             holder.layout.setOnClickListener(new View.OnClickListener() {
