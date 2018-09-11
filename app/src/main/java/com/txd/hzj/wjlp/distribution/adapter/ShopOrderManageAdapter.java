@@ -9,9 +9,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 
+import com.ants.theantsgo.view.inScroll.ListViewForScrollView;
 import com.bumptech.glide.Glide;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.distribution.bean.ShopOrderBean;
@@ -121,7 +121,7 @@ public class ShopOrderManageAdapter extends RecyclerView.Adapter {
 
         private TextView buyer, supplier, priFit, vouvherType, proportion, orderType, shop_name_tv, time_tv, bendian_tv, liandian_tv;
 
-        private ListView mListView;
+        private ListViewForScrollView mListView;
 
         private ImageView kaidian_pic;
 
@@ -188,7 +188,7 @@ public class ShopOrderManageAdapter extends RecyclerView.Adapter {
             ViewHolder holder;
             if (view == null) {
                 holder = new ViewHolder();
-                view = mInflater.inflate(R.layout.shop_order_relist_item2, parent, false);
+                view = mInflater.inflate(R.layout.shop_order_relist_item2, parent,false);
                 holder.head_img = view.findViewById(R.id.shop_order_ima);
                 holder.title_tv = view.findViewById(R.id.shop_order_content);
                 holder.price_tv = view.findViewById(R.id.price_tv);

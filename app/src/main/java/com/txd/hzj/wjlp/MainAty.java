@@ -17,6 +17,7 @@ import android.support.annotation.IdRes;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -27,6 +28,7 @@ import android.widget.PopupWindow;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ants.theantsgo.AppManager;
 import com.ants.theantsgo.config.Config;
@@ -431,7 +433,9 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
                 AppManager.getInstance().killAllActivity();
             } else {
                 firstTime = System.currentTimeMillis();
-                showToast("再按一次返回桌面");
+                Toast toast = Toast.makeText(MainAty.this, "再按一次返回桌面", Toast.LENGTH_SHORT);
+                toast.setGravity(Gravity.CENTER,0,0);
+                toast.show();
             }
         }
     }

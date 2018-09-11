@@ -33,6 +33,7 @@ public class ShopMain extends BaseAty implements OnClickListener {
     private LinearLayout shopSetUp;
     private LinearLayout shopPersonManage;
     private LinearLayout shopOrderManage;
+    private LinearLayout shop_give;
     private TextView money_tv;
     private TextView visitor;
     private TextView orderNum;
@@ -67,6 +68,8 @@ public class ShopMain extends BaseAty implements OnClickListener {
         shopPersonManage = findViewById(R.id.shop_person_manage);
         //订单管理
         shopOrderManage = findViewById(R.id.shop_order_magage);
+        //代金券
+        shop_give=findViewById(R.id.shop_give);
         //付款金额
         money_tv=findViewById(R.id.money_tv);
         //访客量
@@ -81,6 +84,7 @@ public class ShopMain extends BaseAty implements OnClickListener {
         shopSetUp.setOnClickListener(this);
         shopPersonManage.setOnClickListener(this);
         shopOrderManage.setOnClickListener(this);
+        shop_give.setOnClickListener(this);
         mExhibitPst = new ShopExhibitPst(this);
         if (PreferencesUtils.containKey(this,"shop_id")){
             mShop_id = PreferencesUtils.getString(this, "shop_id");
@@ -146,6 +150,10 @@ public class ShopMain extends BaseAty implements OnClickListener {
             case R.id.shop_order_magage:
                 //订单管理
                 startActivity(ShopOrderManage.class, null);
+                break;
+            case R.id.shop_give:
+                //赠送代金券
+                startActivity(ShopGiveBlueVoucher.class,null);
                 break;
         }
     }

@@ -979,6 +979,7 @@
         <activity android:name=".mellOffLine.OffLineEvaluationShopListAty" />
         <activity android:name=".new_wjyp.FreeRenew"/>
         <activity android:name=".mellOffLine.ShopMallAty" />
+        <activity android:name=".distribution.shopAty.ShopGiveBlueVoucher"/>
     </application>
 
 </manifest>
