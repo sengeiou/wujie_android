@@ -324,7 +324,8 @@ public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.Scro
     }
 
     @Override
-    protected void requestData() {
+    public void onResume() {
+        super.onResume();
         Recommending.businessType(this);
         to_location_tv.setText(DemoApplication.getInstance().getLocInfo().get("city"));
         OfflineStore.Index(this);
@@ -339,6 +340,10 @@ public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.Scro
         } else {
             pranster.requestStoreData(page, "", "", "", "","",getContext(), mell_near_by_lv);
         }
+    }
+
+    @Override
+    protected void requestData() {
     }
 
     @Override

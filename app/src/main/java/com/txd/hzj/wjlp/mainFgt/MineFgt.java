@@ -751,9 +751,7 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
                     userPst.proMoters();
                 }
             }
-            if (data.containsKey("has_shop")) {
-                String has_shop = data.get("has_shop");
-                if ("1".equals(has_shop)) {
+            if (data.containsKey("has_shop") && "1".equals(data.get("has_shop"))) {
                     personalStores.setVisibility(View.VISIBLE);
                     if (data.containsKey("shop_id_ming")) {
                         String shop_id = data.get("shop_id_ming");
@@ -761,10 +759,8 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
                     } else {
                         PreferencesUtils.putString(getActivity(), "shop_id", "");
                     }
-                } else {
-                    personalStores.setVisibility(View.GONE);
-                }
-
+            }else {
+                personalStores.setVisibility(View.GONE);
             }
             /**else { // 如果没有该字段的情况下
              // 该if..else和上方的if..else逻辑相同，只是没有complete_status进行这一步的判断
