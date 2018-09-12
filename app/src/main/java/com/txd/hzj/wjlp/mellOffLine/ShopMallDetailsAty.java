@@ -168,6 +168,11 @@ public class ShopMallDetailsAty extends BaseAty implements View.OnClickListener,
         shopBusinessAptitude = findViewById(R.id.shop_business_aptitude);
         shopReportBusiness = findViewById(R.id.shop_Report_business);
         mySettleAccounts = findViewById(R.id.shop_my_settle_accounts);
+        if ("1".equals(mellInfo.getShow_type())){
+            mySettleAccounts.setVisibility(View.VISIBLE);
+        }else  if ("2".equals(mellInfo.getShow_type())){
+            mySettleAccounts.setVisibility(View.GONE);
+        }
         titleName = findViewById(R.id.aty_down_title_name);
         titleCollect = findViewById(R.id.goods_title_collect_tv);
         titleShare = findViewById(R.id.goods_title_share_tv);

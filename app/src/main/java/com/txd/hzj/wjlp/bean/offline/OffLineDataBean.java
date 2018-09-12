@@ -12,6 +12,7 @@ import java.util.List;
 public class OffLineDataBean implements Serializable {
     private String s_id;//店铺ID
     private String user_id;
+    private String show_type;//1显示我要结账以及用券明细 2不显示
     private String merchant_name;//店铺名称
     private String merchant_desc;//店铺描述
     private String logo;//店铺LOGO
@@ -23,6 +24,14 @@ public class OffLineDataBean implements Serializable {
     private String distance;//距离
     private List<TicketBean> ticket;
     private boolean isShow=false;
+
+    public String getShow_type() {
+        return show_type;
+    }
+
+    public void setShow_type(String show_type) {
+        this.show_type = show_type;
+    }
 
     public String getUser_id() {
         return user_id;

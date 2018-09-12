@@ -6,14 +6,16 @@
 
     <include layout="@layout/aty_title_down_shopmall_details" />
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
 
         <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="50dp">
+            android:layout_height="0dp"
+            android:layout_weight="1">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -525,15 +527,15 @@
             android:id="@+id/shop_my_settle_accounts"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_alignParentBottom="true"
             android:background="@color/red_tv_back"
             android:gravity="center"
             android:paddingBottom="15dp"
             android:paddingTop="15dp"
             android:text="我要结账"
+            android:visibility="gone"
             android:textColor="@color/white"
             android:textSize="16sp" />
-    </RelativeLayout>
+    </LinearLayout>
 
 
 </LinearLayout>

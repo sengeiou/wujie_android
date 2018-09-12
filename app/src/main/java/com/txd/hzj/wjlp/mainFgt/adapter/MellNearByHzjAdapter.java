@@ -75,7 +75,7 @@ public class MellNearByHzjAdapter extends BaseAdapter {
         } else {
             nyvh = (NYVH) view.getTag();
         }
-        if ("0".equals(offLineDataBean.getUser_id())) {
+        if ("0".equals(offLineDataBean.getUser_id()) && "2".equals(offLineDataBean.getShow_type())) {
             nyvh.vertical_line.setVisibility(View.GONE);
             nyvh.mell_sell_num.setVisibility(View.GONE);
             nyvh.voucher_layout.setVisibility(View.GONE);
