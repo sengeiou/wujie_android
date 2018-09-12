@@ -177,12 +177,15 @@
         android:layout_marginStart="13dp"
         android:background="@drawable/shop_dotted_line" />
     <LinearLayout
+        android:id="@+id/button_layout"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp">
 
         <EditText
+            android:id="@+id/input_et"
             android:text="999999"
             android:layout_marginStart="13dp"
             android:layout_width="wrap_content"
@@ -204,7 +207,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/shape_gray_btn_li"
             android:padding="6dp"
-            android:text="取消订单" />
+            android:text="拒绝" />
 
         <TextView
             android:id="@+id/tv_btn_right"
@@ -213,7 +216,7 @@
             android:layout_marginLeft="10dp"
             android:background="@drawable/shape_red_btn_bg"
             android:padding="6dp"
-            android:text="删除订单"
+            android:text="同意"
             android:textColor="@color/holo_red_light" />
     </LinearLayout>
 </LinearLayout>

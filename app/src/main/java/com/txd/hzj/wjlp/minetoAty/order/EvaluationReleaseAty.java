@@ -36,7 +36,7 @@ import com.txd.hzj.wjlp.http.Order;
 import com.txd.hzj.wjlp.minetoAty.order.adapter.GridImageAdapter;
 import com.txd.hzj.wjlp.minetoAty.order.utils.FullyGridLayoutManager;
 import com.txd.hzj.wjlp.new_wjyp.CommentindexBean;
-import com.txd.hzj.wjlp.new_wjyp.aty_commentindex;
+import com.txd.hzj.wjlp.new_wjyp.Commentindex_aty;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -336,7 +336,7 @@ public class EvaluationReleaseAty extends BaseAty {
                         bundle.putString("order_id", order_id);
                         bundle.putString("type", type);
                         bundle.putString("good_name",bean.getGoods_name());
-                        startActivity(aty_commentindex.class, bundle);
+                        startActivity(Commentindex_aty.class, bundle);
                     }
                 }
             });

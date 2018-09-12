@@ -38,7 +38,7 @@ import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.http.address.AddressPst;
 import com.txd.hzj.wjlp.http.user.UserPst;
 import com.txd.hzj.wjlp.minetoAty.order.TextListAty;
-import com.txd.hzj.wjlp.new_wjyp.aty_authentication;
+import com.txd.hzj.wjlp.new_wjyp.Authentication_aty;
 import com.txd.hzj.wjlp.tool.proUrbArea.ProUrbAreaUtil;
 import com.txd.hzj.wjlp.view.flowlayout.ClearEditText;
 
@@ -341,7 +341,7 @@ public class EditProfileAty extends BaseAty implements View.OnClickListener {
                     Bundle b = new Bundle();
                     b.putString("auth_status", auth_status);
                     b.putString("comp_auth_status", comp_auth_status);
-                    startActivity(aty_authentication.class, b);
+                    startActivity(Authentication_aty.class, b);
                 }
                 break;
             }
@@ -355,7 +355,7 @@ public class EditProfileAty extends BaseAty implements View.OnClickListener {
                     Bundle b = new Bundle();
                     b.putString("auth_status", auth_status);
                     b.putString("comp_auth_status", comp_auth_status);
-                    startActivity(aty_authentication.class, b);
+                    startActivity(Authentication_aty.class, b);
                 }
                 break;
             }
@@ -369,7 +369,7 @@ public class EditProfileAty extends BaseAty implements View.OnClickListener {
                     Bundle b = new Bundle();
                     b.putString("auth_status", auth_status);
                     b.putString("comp_auth_status", comp_auth_status);
-                    startActivity(aty_authentication.class, b);
+                    startActivity(Authentication_aty.class, b);
                 }
                 break;
             }

@@ -79,7 +79,7 @@ import com.txd.hzj.wjlp.mellOnLine.adapter.PostAdapter;
 import com.txd.hzj.wjlp.mellOnLine.adapter.PromotionAdapter;
 import com.txd.hzj.wjlp.mellOnLine.adapter.TheTrickAdapter;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.adapter.CommentPicAdapter;
-import com.txd.hzj.wjlp.new_wjyp.aty_collocations;
+import com.txd.hzj.wjlp.new_wjyp.Collocations_aty;
 import com.txd.hzj.wjlp.shoppingCart.BuildOrderAty;
 import com.txd.hzj.wjlp.tool.ChangeTextViewStyle;
 import com.txd.hzj.wjlp.tool.CommonPopupWindow;
@@ -1548,7 +1548,7 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
             case R.id.tv_dpg:
                 Bundle bundle1 = new Bundle();
                 bundle1.putString("goods_id", goods_id);
-                startActivity(aty_collocations.class, bundle1);
+                startActivity(Collocations_aty.class, bundle1);
                 break;
         }
     }

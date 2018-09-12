@@ -77,7 +77,7 @@ import com.txd.hzj.wjlp.minetoAty.tricket.IntegralAty;
 import com.txd.hzj.wjlp.minetoAty.tricket.MyCouponAty;
 import com.txd.hzj.wjlp.new_wjyp.BusinessRecommendAty;
 import com.txd.hzj.wjlp.new_wjyp.VipDetailsAty;
-import com.txd.hzj.wjlp.new_wjyp.aty_mine2;
+import com.txd.hzj.wjlp.new_wjyp.Mine2_aty;
 import com.txd.hzj.wjlp.view.ObservableScrollView;
 import com.txd.hzj.wjlp.wjyp.LMSJAty;
 
@@ -365,7 +365,7 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
                 startActivity(new Intent(getActivity(), LMSJAty.class));
                 break;
             case R.id.tv_dljm:
-                startActivity(aty_mine2.class, null);
+                startActivity(Mine2_aty.class, null);
                 break;
             case R.id.tv_set: // 设置
                 if (1 == type) {

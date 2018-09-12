@@ -39,7 +39,7 @@ import java.util.Map;
  * 这是一个搭配购
  */
 
-public class aty_collocations extends BaseAty {
+public class Collocations_aty extends BaseAty {
     @ViewInject(R.id.listview)
     private ListView listview;
     //    @ViewInject(R.id.recyckerview)
@@ -104,7 +104,7 @@ public class aty_collocations extends BaseAty {
         @Override
         public View getView(final int position, View convertView, ViewGroup parent) {
             if (convertView == null) {
-                convertView = View.inflate(aty_collocations.this, R.layout.item_collocations, null);
+                convertView = View.inflate(Collocations_aty.this, R.layout.item_collocations, null);
                 holder = new ViewHolder();
                 convertView.setTag(holder);
                 ViewUtils.inject(holder, convertView);
@@ -119,7 +119,7 @@ public class aty_collocations extends BaseAty {
             DecimalFormat df = new DecimalFormat("#.00");
             holder.tv_goods_price.setText("立省¥" + df.format(price));
             holder.listview.setAdapter(new MyListViewadp(getItem(position).getGoods()));
-            holder.rv_cheap_group.setLayoutManager(new LinearLayoutManager(aty_collocations.this, LinearLayoutManager.HORIZONTAL, false));
+            holder.rv_cheap_group.setLayoutManager(new LinearLayoutManager(Collocations_aty.this, LinearLayoutManager.HORIZONTAL, false));
             holder.rv_cheap_group.setAdapter(new cg_adp(getItem(position).getGoods()));
             holder.checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
@@ -137,7 +137,7 @@ public class aty_collocations extends BaseAty {
                     intent.putExtra("type", "11");
                     intent.putExtra("num", "1");
                     intent.putExtra("json", gson.toJson(getItem(position).getGoods()));
-                    intent.setClass(aty_collocations.this, BuildOrderAty.class);
+                    intent.setClass(Collocations_aty.this, BuildOrderAty.class);
                     startActivity(intent);
                 }
             });
@@ -191,7 +191,7 @@ public class aty_collocations extends BaseAty {
 //            double price = Double.parseDouble(getItem(position).getGoods_price()) - Double.parseDouble(getItem(position).getGroup_price());
 //            DecimalFormat df = new DecimalFormat("#.00");
 //            holder.tv_goods_price.setText("立省¥" + df.format(price));
-////            holder.rv_cheap_group.setLayoutManager(new LinearLayoutManager(aty_collocations.this, LinearLayoutManager.HORIZONTAL, false));
+////            holder.rv_cheap_group.setLayoutManager(new LinearLayoutManager(Collocations_aty.this, LinearLayoutManager.HORIZONTAL, false));
 ////            holder.rv_cheap_group.setAdapter(new cg_adp(getItem(position).getGoods()));
 //        }
 //
@@ -250,7 +250,7 @@ public class aty_collocations extends BaseAty {
 
         @Override
         public void onBindViewHolder(cg_adp.ViewHolder holder, int position) {
-            Glide.with(aty_collocations.this).load(getItem(position).getGoods_img()).into(holder.imageview);
+            Glide.with(Collocations_aty.this).load(getItem(position).getGoods_img()).into(holder.imageview);
             holder.tv_price.setText("¥" + getItem(position).getShop_price());
             if (position == goods.size() - 1) {
                 holder.im_jiahao.setVisibility(View.GONE);
@@ -308,13 +308,13 @@ public class aty_collocations extends BaseAty {
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             if (convertView == null) {
-                convertView = View.inflate(aty_collocations.this, R.layout.item_collocations_listview, null);
+                convertView = View.inflate(Collocations_aty.this, R.layout.item_collocations_listview, null);
                 vh = new ViewHolder();
                 convertView.setTag(vh);
                 ViewUtils.inject(vh, convertView);
             }
             vh = (ViewHolder) convertView.getTag();
-            Glide.with(aty_collocations.this).load(getItem(position).getGoods_img()).into(vh.imageview);
+            Glide.with(Collocations_aty.this).load(getItem(position).getGoods_img()).into(vh.imageview);
             vh.tv_good_name.setText(getItem(position).getGoods_name());
             vh.tv_good_price.setText("原价：" + getItem(position).getShop_price());
             return convertView;

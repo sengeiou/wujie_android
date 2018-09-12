@@ -37,7 +37,7 @@ import com.txd.hzj.wjlp.mellOnLine.gridClassify.LimitGoodsAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.TicketGoodsDetialsAty;
 import com.txd.hzj.wjlp.minetoAty.OrderLogisticsAty;
 import com.txd.hzj.wjlp.minetoAty.PayForAppAty;
-import com.txd.hzj.wjlp.new_wjyp.aty_after;
+import com.txd.hzj.wjlp.new_wjyp.After_aty;
 import com.txd.hzj.wjlp.tool.CommonPopupWindow;
 import com.txd.hzj.wjlp.tool.WJConfig;
 
@@ -1050,7 +1050,7 @@ public class OrderDetailsAty extends BaseAty {
                             bundle.putString("order_goods_id", map.get("order_goods_id"));
                             bundle.putString("order_id", order_id);
                             bundle.putString("type", type);
-                            startActivity(aty_after.class, bundle);
+                            startActivity(After_aty.class, bundle);
                         }
                         efreshPage();
                     }

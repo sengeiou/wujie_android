@@ -56,7 +56,7 @@ import static android.app.Activity.RESULT_OK;
 /**
  * 个人身份认证
  */
-public class fragment1 extends BaseFgt {
+public class Personal_fgt extends BaseFgt {
     /**
      * 省
      */
@@ -577,7 +577,7 @@ public class fragment1 extends BaseFgt {
                     }
                 }
             } catch (Exception e) {
-                L.e("fragment1 onActivityResult is exception:" + e.toString());
+                L.e("Personal_fgt onActivityResult is exception:" + e.toString());
                 showErrorTip("图片选择出现异常");
             }
         }

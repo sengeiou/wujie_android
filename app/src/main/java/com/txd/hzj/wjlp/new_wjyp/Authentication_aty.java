@@ -1,5 +1,6 @@
 package com.txd.hzj.wjlp.new_wjyp;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -20,7 +21,7 @@ import lib.kingja.switchbutton.SwitchMultiButton;
  * 2017/11/25.
  */
 
-public class aty_authentication extends BaseAty {
+public class Authentication_aty extends BaseAty {
     @ViewInject(R.id.titlt_conter_tv)
     public TextView titlt_conter_tv;
     private ArrayList<Fragment> fragments;
@@ -37,6 +38,17 @@ public class aty_authentication extends BaseAty {
         titlt_conter_tv.setText("认证");
     }
 
+    /**
+     * 解决fragment重影问题
+     * @param outState 保存的数据
+     */
+    @SuppressLint("MissingSuperCall")
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+//        super.onSaveInstanceState(outState);
+
+    }
+
     @Override
     protected int getLayoutResId() {
         return R.layout.aty_authentication;
@@ -45,8 +57,8 @@ public class aty_authentication extends BaseAty {
     @Override
     protected void initialized() {
         fragments = new ArrayList<>();
-        fragment1 f1 = new fragment1();
-        fragment2 f2 = new fragment2();
+        Personal_fgt f1 = new Personal_fgt();
+        Company_fgt f2 = new Company_fgt();
         Bundle bundle = new Bundle();
         bundle.putString("auth_status", getIntent().getStringExtra("auth_status"));
         bundle.putString("comp_auth_status", getIntent().getStringExtra("comp_auth_status"));

@@ -35,7 +35,7 @@ import com.txd.hzj.wjlp.wxapi.GetPrepayIdTask;
 import java.util.Map;
 
 
-public class aty_pay extends BaseAty {
+public class Pay_aty extends BaseAty {
     @ViewInject(R.id.tv_price)
     private TextView tv_price;
     @ViewInject(R.id.titlt_conter_tv)
@@ -314,7 +314,7 @@ public class aty_pay extends BaseAty {
             AliPay aliPay = new AliPay(map.get("pay_string"), new AliPayCallBack() {
                 @Override
                 public void onComplete() {
-                    Pay.findPayResult(data.get("order_id"), String.valueOf(type), aty_pay.this);
+                    Pay.findPayResult(data.get("order_id"), String.valueOf(type), Pay_aty.this);
                 }
 
                 @Override

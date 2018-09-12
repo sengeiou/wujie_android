@@ -26,8 +26,8 @@ import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.bean.Order;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.hous.FindHouseByMapAty;
 import com.txd.hzj.wjlp.new_wjyp.CarOrderInfo;
-import com.txd.hzj.wjlp.new_wjyp.aty_comment;
-import com.txd.hzj.wjlp.new_wjyp.aty_pay;
+import com.txd.hzj.wjlp.new_wjyp.Comment_aty;
+import com.txd.hzj.wjlp.new_wjyp.Pay_aty;
 
 import java.util.List;
 import java.util.Map;
@@ -163,7 +163,7 @@ public class MyOrderAdapter extends BaseAdapter {
                     progressDialog.show();
                     progressDialog.setContentView(com.ants.theantsgo.R.layout.loading_dialog);
                 } else if (list.get(i).getStatus().equals("2")) {
-                    Intent intent = new Intent(context, aty_comment.class);
+                    Intent intent = new Intent(context, Comment_aty.class);
                     intent.putExtra("id", list.get(i).getOrder_id());
                     intent.putExtra("type", type);
                     context.startActivity(intent);
@@ -350,7 +350,7 @@ public class MyOrderAdapter extends BaseAdapter {
             if (requestUrl.contains("addOrder")) {
                 Map<String, String> data = JSONUtils.parseKeyAndValueToMap(jsonStr);
                 Intent i = new Intent();
-                i.setClass(context, aty_pay.class);
+                i.setClass(context, Pay_aty.class);
                 i.putExtra("data", data.get("data"));
                 i.putExtra("type", type);
                 context.startActivity(i);

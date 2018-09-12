@@ -2,22 +2,18 @@ package com.txd.hzj.wjlp.new_wjyp;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Editable;
 import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.ants.theantsgo.WeApplication;
-import com.ants.theantsgo.tools.ObserTool;
 import com.ants.theantsgo.tools.RegexUtils;
 import com.ants.theantsgo.util.JSONUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
-import com.txd.hzj.wjlp.bean.CompayDataBean;
 import com.txd.hzj.wjlp.http.AfterSale;
 import com.txd.hzj.wjlp.http.address.AddressPst;
 import com.txd.hzj.wjlp.minetoAty.order.TextListAty;
@@ -28,7 +24,7 @@ import java.util.Map;
 /**
  * 退货界面
  */
-public class aty_addshipping extends BaseAty implements ProUrbAreaUtil.GetData {
+public class Addshipping_aty extends BaseAty implements ProUrbAreaUtil.GetData {
     @ViewInject(R.id.titlt_conter_tv)
     public TextView titlt_conter_tv;
     private String id;
@@ -165,7 +161,7 @@ public class aty_addshipping extends BaseAty implements ProUrbAreaUtil.GetData {
 //                if (isLoaded) {
 //                    ShowPickerView();
 //                }
-                ProUrbAreaUtil.gainInstance().showPickerView((TextView) findViewById(R.id.zore_tv), "","","", aty_addshipping.this, null);
+                ProUrbAreaUtil.gainInstance().showPickerView((TextView) findViewById(R.id.zore_tv), "","","", Addshipping_aty.this, null);
                 break;
             case R.id.street_layout:
                 // 选择街道

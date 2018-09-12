@@ -20,7 +20,7 @@ import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.http.balance.BalancePst;
 import com.txd.hzj.wjlp.minetoAty.tricket.ExchangeMoneyAty;
 import com.txd.hzj.wjlp.minetoAty.tricket.ParticularsUsedByTricketAty;
-import com.txd.hzj.wjlp.new_wjyp.aty_authentication;
+import com.txd.hzj.wjlp.new_wjyp.Authentication_aty;
 import com.txd.hzj.wjlp.http.User;
 
 import org.json.JSONException;
@@ -46,7 +46,7 @@ public class BalanceAty extends BaseAty {
             Bundle bb = new Bundle();
             bb.putString("auth_status", auth_status);
             bb.putString("comp_auth_status", comp_auth_status);
-            startActivity(aty_authentication.class, bb);
+            startActivity(Authentication_aty.class, bb);
             return false;
         }
     });

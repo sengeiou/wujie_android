@@ -30,7 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class aty_commentindex extends BaseAty {
+public class Commentindex_aty extends BaseAty {
     @ViewInject(R.id.titlt_conter_tv)
     public TextView titlt_conter_tv;
     /**
@@ -128,7 +128,7 @@ public class aty_commentindex extends BaseAty {
                     return;
                 }
                 Order.CommentGoods(goods_id, evalusete_context_tv.getText().toString(),
-                        list, String.valueOf(goods_grade_rb.getRating()), order_id, type, aty_commentindex.this);
+                        list, String.valueOf(goods_grade_rb.getRating()), order_id, type, Commentindex_aty.this);
                 showProgressDialog();
             }
         });

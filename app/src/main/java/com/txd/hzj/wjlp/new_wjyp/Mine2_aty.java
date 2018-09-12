@@ -15,7 +15,7 @@ import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.wjyp.ExpandTheMemberAty;
 import com.txd.hzj.wjlp.wjyp.TZSAty;
 
-public class aty_mine2 extends BaseAty {
+public class Mine2_aty extends BaseAty {
 
     @ViewInject(R.id.im1)
     private ImageView im1;

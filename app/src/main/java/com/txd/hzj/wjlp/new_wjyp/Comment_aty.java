@@ -40,7 +40,7 @@ import java.util.Map;
  * 提交评价
  */
 
-public class aty_comment extends BaseAty {
+public class Comment_aty extends BaseAty {
     @ViewInject(R.id.titlt_conter_tv)
     private TextView titlt_conter_tv;
     @ViewInject(R.id.titlt_right_tv)
@@ -153,7 +153,7 @@ public class aty_comment extends BaseAty {
                     CarOrder.addComment(order_id, String.valueOf(rb1.getRating())
                             , String.valueOf(rb2.getRating())
                             , String.valueOf(rb3.getRating())
-                            , String.valueOf(rb4.getRating()), str, file_list, et_context.getText().toString(), aty_comment.this
+                            , String.valueOf(rb4.getRating()), str, file_list, et_context.getText().toString(), Comment_aty.this
                     );
                     showProgressDialog();
                 } else {
@@ -162,7 +162,7 @@ public class aty_comment extends BaseAty {
                     HouseOrder.addComment(order_id, String.valueOf(rb1.getRating())
                             , String.valueOf(rb2.getRating())
                             , String.valueOf(rb3.getRating())
-                            , String.valueOf(rb4.getRating()), String.valueOf(rb5.getRating()), str, file_list, et_context.getText().toString(), aty_comment.this
+                            , String.valueOf(rb4.getRating()), String.valueOf(rb5.getRating()), str, file_list, et_context.getText().toString(), Comment_aty.this
                     );
                     showProgressDialog();
                 }

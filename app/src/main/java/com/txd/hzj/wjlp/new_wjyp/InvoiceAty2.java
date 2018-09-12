@@ -40,7 +40,7 @@ public class InvoiceAty2 extends BaseAty {
 
     private String goods_id = "";
     private int size = 0;
-    aty_invoce2BaseAdapter aty_invoce2BaseAdapter;
+    Invoce2BaseAdapter Invoce2BaseAdapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -109,9 +109,9 @@ public class InvoiceAty2 extends BaseAty {
                 com.txd.hzj.wjlp.bean.commodity.Invoice invoice=invoiceDataBean.getData();
                 list= invoice.getList();
                 //        tv_explain.setText(map.get("explain"));
-                aty_invoce2BaseAdapter = new aty_invoce2BaseAdapter(list, InvoiceAty2.this);
-                lv.setAdapter(aty_invoce2BaseAdapter);
-                aty_invoce2BaseAdapter.notifyDataSetChanged();
+                Invoce2BaseAdapter = new Invoce2BaseAdapter(list, InvoiceAty2.this);
+                lv.setAdapter(Invoce2BaseAdapter);
+                Invoce2BaseAdapter.notifyDataSetChanged();
             }
         });
     }

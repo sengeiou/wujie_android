@@ -25,7 +25,6 @@ import com.synnapps.carouselview.CarouselView;
 import com.synnapps.carouselview.ImageListener;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
-import com.txd.hzj.wjlp.bean.GoodsCommonAttr;
 import com.txd.hzj.wjlp.bean.commodity.GoodsCommonAttrBean;
 import com.txd.hzj.wjlp.bean.commodity.PicturesBean;
 import com.txd.hzj.wjlp.http.carbuy.CarBuyPst;
@@ -33,7 +32,7 @@ import com.txd.hzj.wjlp.http.collect.UserCollectPst;
 import com.txd.hzj.wjlp.mellOnLine.adapter.GoodsCommentAttrAdapter;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.adapter.CommentPicAdapter;
 import com.txd.hzj.wjlp.new_wjyp.BeanComment;
-import com.txd.hzj.wjlp.new_wjyp.aty_submit_order;
+import com.txd.hzj.wjlp.new_wjyp.Submit_order_aty;
 import com.txd.hzj.wjlp.tool.TextUtils;
 import com.txd.hzj.wjlp.view.ObservableScrollView;
 
@@ -318,7 +317,7 @@ public class CarDetailseAty extends BaseAty implements ObservableScrollView.Scro
                 bundle.putString("price", car_info.get("pre_money"));
                 bundle.putString("money", car_d_other_info_tv.getText().toString());
                 bundle.putString("type", "1");
-                startActivity(aty_submit_order.class, bundle);
+                startActivity(Submit_order_aty.class, bundle);
             }
             break;
             case R.id.all_evaluate_tv: {

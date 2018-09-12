@@ -28,7 +28,7 @@ import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.http.house.HouseBuyPst;
 import com.txd.hzj.wjlp.tool.ChangeTextViewStyle;
-import com.txd.hzj.wjlp.new_wjyp.aty_submit_order;
+import com.txd.hzj.wjlp.new_wjyp.Submit_order_aty;
 import com.txd.hzj.wjlp.view.ObservableScrollView;
 
 import java.util.ArrayList;
@@ -164,7 +164,7 @@ public class HouseTypeDetailsHzjAty extends BaseAty implements ObservableScrollV
                 bundle.putString("money", toltal_payment_tv.getText().toString() + "\n" + counteract_price_tv.getText().toString());
                 bundle.putString("developer", data.get("developer") + "\t\t" + data.get("one_price") + "元/平");
                 bundle.putString("type", "2");
-                startActivity(aty_submit_order.class, bundle);
+                startActivity(Submit_order_aty.class, bundle);
 
                 break;
             case R.id.be_back_main_tv:// 首页

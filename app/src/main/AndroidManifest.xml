@@ -737,12 +737,12 @@
             </intent-filter>
         </activity>
         <!-- 搭配购 -->
-        <activity android:name=".new_wjyp.aty_collocations" />
+        <activity android:name=".new_wjyp.Collocations_aty" />
         <!-- 实名认证 -->
-        <activity android:name=".new_wjyp.aty_authentication" />
+        <activity android:name=".new_wjyp.Authentication_aty" />
         <!-- 房产和车辆的订单 -->
-        <activity android:name=".new_wjyp.aty_submit_order" />
-        <activity android:name=".new_wjyp.aty_pay" />
+        <activity android:name=".new_wjyp.Submit_order_aty" />
+        <activity android:name=".new_wjyp.Pay_aty" />
         <!-- 蓝色代金券转账页面 -->
         <activity android:name=".minetoAty.GiveCouponAccounts" />
         <!-- 蓝色代金券详情 -->
@@ -861,13 +861,13 @@
         <!-- 汽车购详情 -->
         <activity android:name=".new_wjyp.CarOrderInfo" />
         <!-- 提交评价 -->
-        <activity android:name=".new_wjyp.aty_comment" />
+        <activity android:name=".new_wjyp.Comment_aty" />
         <!-- 评价主页 -->
-        <activity android:name=".new_wjyp.aty_commentindex" />
+        <activity android:name=".new_wjyp.Commentindex_aty" />
         <!-- 售后列表 -->
-        <activity android:name=".new_wjyp.aty_after" />
+        <activity android:name=".new_wjyp.After_aty" />
         <!-- 售后快递 -->
-        <activity android:name=".new_wjyp.aty_addshipping" />
+        <activity android:name=".new_wjyp.Addshipping_aty" />
         <!-- 比较记录的详情 -->
         <activity android:name=".new_wjyp.AuctionRecordAty" />
         <activity android:name=".minetoAty._GradeOfMemberAty" />
@@ -890,7 +890,7 @@
         <!-- 商家推荐 -->
         <activity android:name=".new_wjyp.BusinessRecommendAty" />
         <!-- 代理加盟 -->
-        <activity android:name=".new_wjyp.aty_mine2" />
+        <activity android:name=".new_wjyp.Mine2_aty" />
         <!-- 拓展商 拓展员 联盟商家 -->
         <activity android:name=".wjyp.WebViewAty" />
         <!-- 拓展商申请 -->

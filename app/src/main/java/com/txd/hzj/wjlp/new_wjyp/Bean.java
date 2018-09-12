@@ -3,7 +3,7 @@ package com.txd.hzj.wjlp.new_wjyp;
 import java.util.List;
 
 /**
- * {@link com.txd.hzj.wjlp.new_wjyp.aty_collocations(com.txd.hzj.wjlp.new_wjyp )}
+ * {@link Collocations_aty (com.txd.hzj.wjlp.new_wjyp )}
  *
  * 搭配购的实体类
  */

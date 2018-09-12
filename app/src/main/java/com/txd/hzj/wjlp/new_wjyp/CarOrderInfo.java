@@ -154,7 +154,7 @@ public class CarOrderInfo extends BaseAty {
                     Bundle b = new Bundle();
                     b.putString("id",order_id);
                     b.putString("type",type);
-                    startActivity(aty_comment.class, b);
+                    startActivity(Comment_aty.class, b);
                 } else {
                     RequestParams params = new RequestParams();
                     params.addBodyParameter("order_id", order_id);
@@ -296,7 +296,7 @@ public class CarOrderInfo extends BaseAty {
         }
         if (requestUrl.contains("addOrder")) {
             Intent i = new Intent();
-            i.setClass(this, aty_pay.class);
+            i.setClass(this, Pay_aty.class);
             i.putExtra("data", map.toString());
             i.putExtra("type", type);
             startActivity(i);

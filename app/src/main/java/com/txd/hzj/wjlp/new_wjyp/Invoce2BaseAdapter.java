@@ -19,11 +19,11 @@ import java.util.Map;
  * Created by Administrator on 2018/2/11.
  */
 
-public class aty_invoce2BaseAdapter extends BaseAdapter {
+public class Invoce2BaseAdapter extends BaseAdapter {
     Context context;
     LayoutInflater layoutInflater;
     private List<InvoiceBean> alist;
-    public  aty_invoce2BaseAdapter(List<InvoiceBean> list, Context context){
+    public Invoce2BaseAdapter(List<InvoiceBean> list, Context context){
         this.alist = list;
         this.context = context;
     }

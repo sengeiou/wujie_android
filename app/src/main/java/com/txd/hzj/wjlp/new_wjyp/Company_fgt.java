@@ -49,7 +49,7 @@ import static android.app.Activity.RESULT_OK;
 /**
  * 企业认证
  */
-public class fragment2 extends BaseFgt implements ProUrbAreaUtil.GetData {
+public class Company_fgt extends BaseFgt implements ProUrbAreaUtil.GetData {
     /**
      * 省
      */

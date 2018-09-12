@@ -263,7 +263,6 @@ public class ShopSetUp extends BaseAty implements View.OnClickListener {
             }
             popupWindow.dismiss();
         } catch (Exception e) {
-            L.e("fragment1 onActivityResult is exception:" + e.toString());
             popupWindow.dismiss();
         }
     }

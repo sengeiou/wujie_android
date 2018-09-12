@@ -12,7 +12,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ants.theantsgo.util.JSONUtils;
-import com.ants.theantsgo.util.L;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
@@ -26,7 +25,7 @@ import java.util.Map;
 /**
  * 售后列表
  */
-public class aty_after extends BaseAty {
+public class After_aty extends BaseAty {
 
     @ViewInject(R.id.tv_btn_quxiao)
     private TextView tv_btn_quxiao;
@@ -64,10 +63,10 @@ public class aty_after extends BaseAty {
             case R.id.tv_btn_tuihuo: // 退货跳转至输入运单号等信息界面
                 bundle = new Bundle();
                 bundle.putString("id", back_apply_id);
-                startActivityForResult(aty_addshipping.class, bundle, 1000);
+                startActivityForResult(Addshipping_aty.class, bundle, 1000);
                 break;
             case R.id.tv_btn_quxiao: // 取消售后申请
-                AfterSale.cancelAfter(back_apply_id, aty_after.this);
+                AfterSale.cancelAfter(back_apply_id, After_aty.this);
                 showProgressDialog();
                 break;
             case R.id.tv_btn_chongxinshenqing: // 跳转至申请售后界面

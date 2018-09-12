@@ -23,7 +23,7 @@ import java.util.Map;
  * 提交房产和车辆的订单
  */
 
-public class aty_submit_order extends BaseAty {
+public class Submit_order_aty extends BaseAty {
     @ViewInject(R.id.imageview)
     private ImageView imageview;
     @ViewInject(R.id.tv_title)
@@ -100,7 +100,7 @@ public class aty_submit_order extends BaseAty {
                 params.addBodyParameter((intent.getStringExtra("type").equals("1") ? "car_id" : "style_id"), intent.getStringExtra("id"));
                 params.addBodyParameter("num", String.valueOf(number));
                 apiTool2.postApi(Config.BASE_URL + (intent.getStringExtra("type").equals("1") ? "CarOrder/addOrder" : "HouseOrder/addOrder"),
-                        params, aty_submit_order.this);
+                        params, Submit_order_aty.this);
                 showProgressDialog();
             }
         });
@@ -121,7 +121,7 @@ public class aty_submit_order extends BaseAty {
             Bundle bundle = new Bundle();
             bundle.putString("type",intent.getStringExtra("type"));
             bundle.putString("data", data.get("data"));
-            startActivity(aty_pay.class, bundle);
+            startActivity(Pay_aty.class, bundle);
             finish();
         }
         if (requestUrl.contains("HouseOrder/addOrder")) {
@@ -129,7 +129,7 @@ public class aty_submit_order extends BaseAty {
             Bundle bundle = new Bundle();
             bundle.putString("type",intent.getStringExtra("type"));
             bundle.putString("data", data.get("data"));
-            startActivity(aty_pay.class, bundle);
+            startActivity(Pay_aty.class, bundle);
             finish();
         }
     }
