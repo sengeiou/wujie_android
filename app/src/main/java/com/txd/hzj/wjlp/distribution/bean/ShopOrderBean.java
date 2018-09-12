@@ -92,6 +92,9 @@ public class ShopOrderBean {
          * order_goods : [{"order_goods_id":"1036","market_price":"399.00","order_id":"843","goods_name":"分销商品南霸丸","merchant_name":"达令商城","shop_price":"399.00","goods_num":"3","goods_attr":"销售规格:大","goods_img":"25908","red_return_integral":"0.00","yellow_return_integral":"0.00","create_time":"1535617603","pic":"http://test.wujiemall.com/Uploads/GoodsAttr/2018-08-29/5b85f51e65b91.jpg","return_integral":"0.00"}]
          * all_num : 3
          * is_pay_password : 0
+         * "ticket_lines": "3990", //黄券额度
+         "ticket_status": "1", //申请黄券 1:申请；2：批准；3：拒绝；4：使用；5：未使用
+         "ticket_pric": "0", //申请黄券数
          */
 
         private String supply_name;
@@ -127,6 +130,9 @@ public class ShopOrderBean {
         private String is_special_html;
         private int shop_pic;
         private String order_time;
+        private String ticket_lines;
+        private String ticket_status;
+        private String ticket_pric;
 
         public String getBuyer() {
             return buyer;
@@ -427,6 +433,30 @@ public class ShopOrderBean {
 
         public void setOrder_goods(List<OrderGoodsBean> order_goods) {
             this.order_goods = order_goods;
+        }
+
+        public String getTicket_lines() {
+            return ticket_lines;
+        }
+
+        public void setTicket_lines(String ticket_lines) {
+            this.ticket_lines = ticket_lines;
+        }
+
+        public String getTicket_status() {
+            return ticket_status;
+        }
+
+        public void setTicket_status(String ticket_status) {
+            this.ticket_status = ticket_status;
+        }
+
+        public String getTicket_pric() {
+            return ticket_pric;
+        }
+
+        public void setTicket_pric(String ticket_pric) {
+            this.ticket_pric = ticket_pric;
         }
 
         public static class OrderGoodsBean {

@@ -91,4 +91,12 @@ public class ShopExhibitPst extends BasePresenter {
         baseView.showDialog();
         mModel.postManageGoods(ids,shop_goods_status,baseView);
     }
+
+    /**
+     *店主审核发送黄券订单的接口
+     */
+    public void shopSetOrderTicket(String order_id,String ticket_status,String ticket_price){
+        baseView.showDialog();
+        mModel.postSetOrderTicket(order_id,ticket_status,ticket_price,baseView);
+    }
 }

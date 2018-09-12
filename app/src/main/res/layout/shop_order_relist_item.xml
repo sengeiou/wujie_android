@@ -186,12 +186,12 @@
 
         <EditText
             android:id="@+id/input_et"
-            android:text="999999"
             android:layout_marginStart="13dp"
             android:layout_width="wrap_content"
             android:minWidth="20dp"
             android:maxWidth="100dp"
             android:lines="1"
+            android:inputType="numberDecimal"
             android:layout_height="wrap_content"
             android:paddingStart="5dp"
             android:paddingEnd="5dp"

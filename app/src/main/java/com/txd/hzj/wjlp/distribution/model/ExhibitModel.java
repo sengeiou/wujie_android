@@ -170,5 +170,20 @@ public class ExhibitModel {
         apiTool2.postApis(DISTRIBUTION_URL+"goods", params, baseView);
     }
 
+    /**
+     *店主审核发送黄券订单的接口
+     * @param order_id  订单id
+     * @param ticket_status 1:申请；2：批准；3：拒绝；4：使用；5：未使用
+     * @param ticket_price  申请黄券数
+     */
+    public void postSetOrderTicket(String order_id,String ticket_status,String ticket_price,BaseView baseView){
+        RequestParams params = new RequestParams();
+        ApiTool2 apiTool2 = new ApiTool2();
+        params.addBodyParameter("order_id", order_id);
+        params.addBodyParameter("ticket_status", ticket_status);
+        params.addBodyParameter("ticket_price", ticket_price);
+        apiTool2.postApi(DISTRIBUTION_URL+"setOrderTicket", params, baseView);
+    }
+
 
 }

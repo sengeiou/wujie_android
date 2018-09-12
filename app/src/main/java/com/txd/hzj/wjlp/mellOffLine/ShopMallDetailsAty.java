@@ -168,11 +168,6 @@ public class ShopMallDetailsAty extends BaseAty implements View.OnClickListener,
         shopBusinessAptitude = findViewById(R.id.shop_business_aptitude);
         shopReportBusiness = findViewById(R.id.shop_Report_business);
         mySettleAccounts = findViewById(R.id.shop_my_settle_accounts);
-        if ("1".equals(mellInfo.getShow_type())){
-            mySettleAccounts.setVisibility(View.VISIBLE);
-        }else  if ("2".equals(mellInfo.getShow_type())){
-            mySettleAccounts.setVisibility(View.GONE);
-        }
         titleName = findViewById(R.id.aty_down_title_name);
         titleCollect = findViewById(R.id.goods_title_collect_tv);
         titleShare = findViewById(R.id.goods_title_share_tv);
@@ -443,15 +438,23 @@ public class ShopMallDetailsAty extends BaseAty implements View.OnClickListener,
             if ("0".equals(offLineBean.getData().getGoods_num()) || "0".equals(offLineBean.getData().getUser_id())) { // 如果商品数量为0，则隐藏掉商品数量
                 shop_goods_number_tabRow.setVisibility(View.GONE);
             }
-            if ("0".equals(offLineBean.getData().getUser_id())) {
-                month_layout.setVisibility(View.GONE);
+
+            if ("0".equals(offLineBean.getData().getUser_id())){
                 shopBusinessAptitude.setVisibility(View.GONE);
                 shopReportBusiness.setVisibility(View.GONE);
-                mySettleAccounts.setVisibility(View.GONE); // 我要结账隐藏
-            } else {
-                month_layout.setVisibility(View.VISIBLE);
+            }else {
                 shopBusinessAptitude.setVisibility(View.VISIBLE);
                 shopReportBusiness.setVisibility(View.VISIBLE);
+            }
+
+            if ("0".equals(offLineBean.getData().getMonths_orders())){
+                month_layout.setVisibility(View.GONE);
+            }else {
+                month_layout.setVisibility(View.VISIBLE);
+            }
+            if ("0".equals(offLineBean.getData().getUser_id()) || "2".equals(mellInfo.getShow_type())) {
+                mySettleAccounts.setVisibility(View.GONE); // 我要结账隐藏
+            } else {
                 mySettleAccounts.setVisibility(View.VISIBLE); // 显示我要结账
             }
             //设置月单量
