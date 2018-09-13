@@ -10,7 +10,6 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.request.FutureTarget;
 
 import java.io.File;
-import java.util.concurrent.ExecutionException;
 
 /**
  *
@@ -227,11 +226,9 @@ public class GlideUtils {
                 .downloadOnly(100, 100);
         try {
             File file = future.get();
-            absolutePath = file.getAbsolutePath();
+            absolutePath = file.getCanonicalPath();
             return absolutePath;
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return absolutePath;
