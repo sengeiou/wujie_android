@@ -1,7 +1,5 @@
 package com.txd.hzj.wjlp.bean;
 
-import java.io.Serializable;
-
 /**
  * 作者：DUKE_HwangZj
  * 日期：2017/7/17 0017

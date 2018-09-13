@@ -118,35 +118,35 @@ public class StickyExampleAdapter extends RecyclerView.Adapter<RecyclerView.View
                             L.e("10101010order_id:" + stickyExampleModel.log_id + "\tmember_coding:" + stickyExampleModel.getMemberCoding());
                             intent.putExtras(bundle);
                             context.startActivity(intent);
-                        } else if (stickyExampleModel.act_type.equals("3")||stickyExampleModel.act_type.equals("5")) { // 购买普通商品订单详情
+                        } else if (stickyExampleModel.act_type.equals("3") || stickyExampleModel.act_type.equals("5")) { // 购买普通商品订单详情
                             Intent intent = new Intent(context, OrderDetailsAty.class);
                             Bundle bundle = new Bundle();
                             bundle.putString("id", stickyExampleModel.log_id);
                             bundle.putString("type", "0");
                             intent.putExtras(bundle);
                             context.startActivity(intent);
-                        }else if(stickyExampleModel.act_type.equals("13")||stickyExampleModel.act_type.equals("15")||stickyExampleModel.act_type.equals("16")){//拼单购订单详情
+                        } else if (stickyExampleModel.act_type.equals("13") || stickyExampleModel.act_type.equals("15") || stickyExampleModel.act_type.equals("16")) {//拼单购订单详情
                             Intent intent = new Intent(context, CollageDetailsAty.class);
                             Bundle bundle = new Bundle();
                             bundle.putString("id", stickyExampleModel.getOrderId());
-                            bundle.putString("type",  "3");
+                            bundle.putString("type", "3");
                             intent.putExtras(bundle);
                             context.startActivity(intent);
-                        }else if(stickyExampleModel.act_type.equals("1")){//充值订单详情
-                           Intent intent = new Intent(context, OnlineChongDetailsAty.class);
+                        } else if (stickyExampleModel.act_type.equals("1")) {//充值订单详情
+                            Intent intent = new Intent(context, OnlineChongDetailsAty.class);
                             Bundle bundle = new Bundle();
                             bundle.putString("order_id", stickyExampleModel.getOrderId());
                             bundle.putString("status", stickyExampleModel.order_status);
                             intent.putExtras(bundle);
                             context.startActivity(intent);
-                        }else if(stickyExampleModel.act_type.equals("17")){//线下店铺订单详情
-                        Intent intent = new Intent(context, OffLineShopDetailsAty.class);
-                        Bundle bundle = new Bundle();
-                        bundle.putString("order_id", stickyExampleModel.getOrderId());
-                        bundle.putString("status", stickyExampleModel.order_status);
-                        intent.putExtras(bundle);
-                        context.startActivity(intent);
-                    }
+                        } else if (stickyExampleModel.act_type.equals("17")) {//线下店铺订单详情
+                            Intent intent = new Intent(context, OffLineShopDetailsAty.class);
+                            Bundle bundle = new Bundle();
+                            bundle.putString("order_id", stickyExampleModel.getOrderId());
+                            bundle.putString("status", stickyExampleModel.order_status);
+                            intent.putExtras(bundle);
+                            context.startActivity(intent);
+                        }
                     } else if (type == 1) {//代金券明细
                         L.e("========stickyExampleModel.act_type==type == 1=========" + stickyExampleModel.act_type);
                         if (stickyExampleModel.act_type.equals("1")) { //会员卡订单详情
@@ -157,7 +157,7 @@ public class StickyExampleAdapter extends RecyclerView.Adapter<RecyclerView.View
                             L.e("1111order_id:" + stickyExampleModel.log_id + "\tmember_coding:" + stickyExampleModel.getMemberCoding());
                             intent.putExtras(bundle);
                             context.startActivity(intent);
-                        } else if (stickyExampleModel.act_type.equals("2")||stickyExampleModel.act_type.equals("3")) { // 普通商品订单    （2，3)，
+                        } else if (stickyExampleModel.act_type.equals("2") || stickyExampleModel.act_type.equals("3")) { // 普通商品订单    （2，3)，
                             Intent intent = new Intent(context, OrderDetailsAty.class);
                             Bundle bundle = new Bundle();
                             bundle.putString("id", stickyExampleModel.getOrderId());
@@ -168,7 +168,14 @@ public class StickyExampleAdapter extends RecyclerView.Adapter<RecyclerView.View
                             Intent intent = new Intent(context, CollageDetailsAty.class);
                             Bundle bundle = new Bundle();
                             bundle.putString("id", stickyExampleModel.getOrderId());
-                            bundle.putString("type",  "3");
+                            bundle.putString("type", "3");
+                            intent.putExtras(bundle);
+                            context.startActivity(intent);
+                        } else if (stickyExampleModel.act_type.equals("17")) {////线下店铺订单详情
+                            Intent intent = new Intent(context, OffLineShopDetailsAty.class);
+                            Bundle bundle = new Bundle();
+                            bundle.putString("order_id", stickyExampleModel.getOrderId());
+                            bundle.putString("status", stickyExampleModel.order_status);
                             intent.putExtras(bundle);
                             context.startActivity(intent);
                         }
@@ -182,7 +189,7 @@ public class StickyExampleAdapter extends RecyclerView.Adapter<RecyclerView.View
                 }
             });
             // 查看线下充值详情----隐藏
-//            recyclerViewHolder.check_details_for_balance_tv.setVisibility(View.VISIBLE);
+            //            recyclerViewHolder.check_details_for_balance_tv.setVisibility(View.VISIBLE);
             recyclerViewHolder.t_details_price_tv.setText("+" + stickyExampleModel.profession);
 
             if (1 == type) { // 购物券明细
@@ -209,7 +216,7 @@ public class StickyExampleAdapter extends RecyclerView.Adapter<RecyclerView.View
                 // 获得，消费积分(转出，消费) add_sub：1加 2减
                 if (stickyExampleModel.getAdd_sub().equals("1")) {
                     recyclerViewHolder.t_details_price_tv.setText("+" + stickyExampleModel.profession);
-//                    recyclerViewHolder.check_details_for_balance_tv.setVisibility(View.GONE);
+                    //                    recyclerViewHolder.check_details_for_balance_tv.setVisibility(View.GONE);
                 } else {
                     recyclerViewHolder.t_details_price_tv.setText("-" + stickyExampleModel.profession);
                 }
@@ -217,7 +224,7 @@ public class StickyExampleAdapter extends RecyclerView.Adapter<RecyclerView.View
             } else if (4 == type) { // 线下充值
                 recyclerViewHolder.tvName.setText(transport(stickyExampleModel.getName()));
                 Glide.with(context).load(stickyExampleModel.imgStr).into(recyclerViewHolder.t_details_logo_tv);
-//                recyclerViewHolder.t_details_logo_tv.setImageResource(R.drawable.icon_bal_log_1);
+                //                recyclerViewHolder.t_details_logo_tv.setImageResource(R.drawable.icon_bal_log_1);
             } else if (5 == type) { // 成长值明细
                 Glide.with(context).load(stickyExampleModel.imgStr).into(recyclerViewHolder.t_details_logo_tv);
             } else if (7 == type) { // 蓝色代金券赠送明细
