@@ -1,8 +1,6 @@
 package com.txd.hzj.wjlp.wjyp;
 
 import android.content.Intent;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.widget.Toolbar;
@@ -10,6 +8,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.txd.hzj.wjlp.R;
+import com.txd.hzj.wjlp.base.BaseAty;
 
 /**
  * by Txunda_LH on 2018/1/22.
@@ -27,13 +26,17 @@ public class ExpandTheMemberAty extends BaseAty {
     private TextView tv9;//物料申请
     private TextView tv10;//下级物料申请
 
+
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.aty_expandthemember);
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        collapsing_toolbar_layout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar_layout);
-        app_bar_layout = (AppBarLayout) findViewById(R.id.app_bar_layout);
+    protected int getLayoutResId() {
+        return R.layout.aty_expandthemember;
+    }
+
+    @Override
+    protected void initialized() {
+        toolbar =  findViewById(R.id.toolbar);
+        collapsing_toolbar_layout =  findViewById(R.id.collapsing_toolbar_layout);
+        app_bar_layout =  findViewById(R.id.app_bar_layout);
         setSupportActionBar(toolbar);
         collapsing_toolbar_layout.setTitle("");
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -49,13 +52,13 @@ public class ExpandTheMemberAty extends BaseAty {
                 collapsing_toolbar_layout.setTitle(" ");
             }
         });
-        tv1 = (TextView) findViewById(R.id.tv1);
-        tv4 = (TextView) findViewById(R.id.tv4);
-        tv5 = (TextView) findViewById(R.id.tv5);
-        tv6 = (TextView) findViewById(R.id.tv6);
-        tv7 = (TextView) findViewById(R.id.tv7);
-        tv9 = (TextView) findViewById(R.id.tv9);
-        tv10 = (TextView) findViewById(R.id.tv10);
+        tv1 =  findViewById(R.id.tv1);
+        tv4 =  findViewById(R.id.tv4);
+        tv5 =  findViewById(R.id.tv5);
+        tv6 =  findViewById(R.id.tv6);
+        tv7 =  findViewById(R.id.tv7);
+        tv9 =  findViewById(R.id.tv9);
+        tv10 =  findViewById(R.id.tv10);
         tv1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -113,7 +116,8 @@ public class ExpandTheMemberAty extends BaseAty {
     }
 
     @Override
-    protected int getStatusBarColor() {
-        return 0;
+    protected void requestData() {
+
     }
+
 }

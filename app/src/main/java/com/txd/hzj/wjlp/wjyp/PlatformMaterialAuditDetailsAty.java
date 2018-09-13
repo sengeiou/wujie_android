@@ -1,16 +1,16 @@
 package com.txd.hzj.wjlp.wjyp;
 
 import android.graphics.Color;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import com.txd.hzj.wjlp.R;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.txd.hzj.wjlp.R;
+import com.txd.hzj.wjlp.base.BaseAty;
 
 /**
  * by Txunda_LH on 2018/1/22.
@@ -21,28 +21,31 @@ public class PlatformMaterialAuditDetailsAty extends BaseAty {
     private RecyclerView recyclerview2;
     private TextView tv_title;
 
+
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.aty_platformmaterialauditdetails);
-        tv_title = (TextView) findViewById(R.id.tv_title);
+    protected int getLayoutResId() {
+        return R.layout.aty_platformmaterialauditdetails;
+    }
+
+    @Override
+    protected void initialized() {
+        tv_title =  findViewById(R.id.tv_title);
         tv_title.setText("审核详情");
-        recyclerview = (RecyclerView) findViewById(R.id.recyclerview);
-        recyclerview2 = (RecyclerView) findViewById(R.id.recyclerview2);
+        recyclerview =  findViewById(R.id.recyclerview);
+        recyclerview2 =  findViewById(R.id.recyclerview2);
         recyclerview.setNestedScrollingEnabled(false);
         recyclerview.setLayoutManager(new LinearLayoutManager(this));
         recyclerview.setAdapter(new MyAdapter());
         recyclerview2.setNestedScrollingEnabled(false);
         recyclerview2.setLayoutManager(new LinearLayoutManager(this));
         recyclerview2.setAdapter(new MyAdapter2());
-
-
     }
 
     @Override
-    protected int getStatusBarColor() {
-        return 0;
+    protected void requestData() {
+
     }
+
 
     class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         @Override

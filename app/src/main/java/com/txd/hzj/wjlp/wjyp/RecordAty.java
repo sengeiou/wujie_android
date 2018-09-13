@@ -1,8 +1,6 @@
 package com.txd.hzj.wjlp.wjyp;
 
 import android.content.Intent;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -14,6 +12,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.txd.hzj.wjlp.R;
+import com.txd.hzj.wjlp.base.BaseAty;
 
 /**
  * by Txunda_LH on 2018/1/19.
@@ -26,13 +25,16 @@ public class RecordAty extends BaseAty {
     private String type;//1发放记录 2联盟商家列表 3联盟商家能编辑
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.aty_record);
+    protected int getLayoutResId() {
+        return R.layout.aty_record;
+    }
+
+    @Override
+    protected void initialized() {
         type = getIntent().getStringExtra("type");
-        tv_title = (TextView) findViewById(R.id.tv_title);
-        im_right = (ImageView) findViewById(R.id.im_right);
-        recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        tv_title =  findViewById(R.id.tv_title);
+        im_right =  findViewById(R.id.im_right);
+        recyclerView =  findViewById(R.id.recyclerView);
         tv_title.setText(type.equals("1") ? "代金券发放记录" : "联盟商家列表");
         im_right.setVisibility(View.VISIBLE);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -40,8 +42,8 @@ public class RecordAty extends BaseAty {
     }
 
     @Override
-    protected int getStatusBarColor() {
-        return 0;
+    protected void requestData() {
+
     }
 
     class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
@@ -91,7 +93,7 @@ public class RecordAty extends BaseAty {
             public ViewHolder(View itemView) {
                 super(itemView);
                 im_more = (ImageView) itemView.findViewById(R.id.im_more);
-                tv_edit = (TextView) itemView.findViewById(R.id.tv_edit);
+                tv_edit =  itemView.findViewById(R.id.tv_edit);
                 checkbox = (CheckBox) itemView.findViewById(R.id.checkbox);
                 relativeLayout = (RelativeLayout) itemView.findViewById(R.id.layout);
             }

@@ -1,19 +1,19 @@
 package com.txd.hzj.wjlp.wjyp;
 
-import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import com.txd.hzj.wjlp.R;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.Toast;
+
+import com.txd.hzj.wjlp.R;
+import com.txd.hzj.wjlp.base.BaseAty;
 
 /**
  * by Txunda_LH on 2018/1/19.
@@ -28,12 +28,15 @@ public class MyTicketAty extends BaseAty {
     private MyAdapter myAdapter;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.aty_myticket);
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        collapsing_toolbar_layout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar_layout);
-        app_bar_layout = (AppBarLayout) findViewById(R.id.app_bar_layout);
+    protected int getLayoutResId() {
+        return R.layout.aty_myticket;
+    }
+
+    @Override
+    protected void initialized() {
+        toolbar =  findViewById(R.id.toolbar);
+        collapsing_toolbar_layout =  findViewById(R.id.collapsing_toolbar_layout);
+        app_bar_layout =  findViewById(R.id.app_bar_layout);
 
         setSupportActionBar(toolbar);
         collapsing_toolbar_layout.setTitle("");
@@ -49,8 +52,8 @@ public class MyTicketAty extends BaseAty {
                 collapsing_toolbar_layout.setTitle(" ");
             }
         });
-        tablayout = (TabLayout) findViewById(R.id.tablayout);
-        recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
+        tablayout =  findViewById(R.id.tablayout);
+        recyclerView =  findViewById(R.id.recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         myAdapter = new MyAdapter();
         recyclerView.setAdapter(myAdapter);
@@ -78,9 +81,10 @@ public class MyTicketAty extends BaseAty {
     }
 
     @Override
-    protected int getStatusBarColor() {
-        return 0;
+    protected void requestData() {
+
     }
+
 
     class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         private boolean type = true;
@@ -115,7 +119,7 @@ public class MyTicketAty extends BaseAty {
 
             public ViewHolder(View itemView) {
                 super(itemView);
-                bg_layout = (LinearLayout) itemView.findViewById(R.id.bg_layout);
+                bg_layout =  itemView.findViewById(R.id.bg_layout);
             }
         }
     }

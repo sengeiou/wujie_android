@@ -1,7 +1,5 @@
 package com.txd.hzj.wjlp.wjyp;
 
-import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.txd.hzj.wjlp.R;
+import com.txd.hzj.wjlp.base.BaseAty;
 
 /**
  * by Txunda_LH on 2018/1/20.
@@ -21,24 +20,29 @@ public class ChoosePresMangAty extends BaseAty {
     private ImageView im_right;
     private RecyclerView recyclerview;
 
+
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.aty_choosepresmang);
-        tv_title = (TextView) findViewById(R.id.tv_title);
+    protected int getLayoutResId() {
+        return R.layout.aty_choosepresmang;
+    }
+
+    @Override
+    protected void initialized() {
+        tv_title =  findViewById(R.id.tv_title);
         tv_title.setText("选择所属拓展员");
-        im_right = (ImageView) findViewById(R.id.im_right);
+        im_right =  findViewById(R.id.im_right);
         im_right.setVisibility(View.VISIBLE);
-        recyclerview = (RecyclerView) findViewById(R.id.recyclerview);
+        recyclerview =  findViewById(R.id.recyclerview);
         recyclerview.setLayoutManager(new LinearLayoutManager(this));
         recyclerview.setAdapter(new MyAdapter());
     }
 
-
     @Override
-    protected int getStatusBarColor() {
-        return 0;
+    protected void requestData() {
+
     }
+
+
 
 
     class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {

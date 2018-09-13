@@ -1,15 +1,15 @@
 package com.txd.hzj.wjlp.wjyp;
 
 import android.content.Intent;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import com.txd.hzj.wjlp.R;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.txd.hzj.wjlp.R;
+import com.txd.hzj.wjlp.base.BaseAty;
 
 /**
  * by Txunda_LH on 2018/1/22.
@@ -19,15 +19,23 @@ public class ReleaseRecordAty extends BaseAty {
     private RecyclerView recyclerview;
     private TextView tv_title;
 
+
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.aty_releaserecord);
-        tv_title = (TextView) findViewById(R.id.tv_title);
+    protected int getLayoutResId() {
+        return R.layout.aty_releaserecord;
+    }
+
+    @Override
+    protected void initialized() {
+        tv_title =  findViewById(R.id.tv_title);
         tv_title.setText("发放记录");
-        recyclerview = (RecyclerView) findViewById(R.id.recyclerview);
+        recyclerview = findViewById(R.id.recyclerview);
         recyclerview.setLayoutManager(new LinearLayoutManager(this));
         recyclerview.setAdapter(new MyAdapter());
+    }
+
+    @Override
+    protected void requestData() {
 
     }
 
@@ -60,14 +68,10 @@ public class ReleaseRecordAty extends BaseAty {
 
             public ViewHolder(View itemView) {
                 super(itemView);
-                textview = (TextView) itemView.findViewById(R.id.textview);
+                textview =  itemView.findViewById(R.id.textview);
             }
         }
 
     }
 
-    @Override
-    protected int getStatusBarColor() {
-        return 0;
-    }
 }

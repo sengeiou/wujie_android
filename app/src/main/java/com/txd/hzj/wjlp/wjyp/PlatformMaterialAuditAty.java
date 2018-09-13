@@ -1,16 +1,16 @@
 package com.txd.hzj.wjlp.wjyp;
 
 import android.content.Intent;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v7.widget.LinearLayoutManager;
-import com.txd.hzj.wjlp.R;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.txd.hzj.wjlp.R;
+import com.txd.hzj.wjlp.base.BaseAty;
 
 /**
  * by Txunda_LH on 2018/1/22.
@@ -23,14 +23,18 @@ public class PlatformMaterialAuditAty extends BaseAty {
 
     private TabLayout tabLayout;
 
+
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.aty_platformmaterialaudit);
-        tv_title = (TextView) findViewById(R.id.tv_title);
+    protected int getLayoutResId() {
+        return R.layout.aty_platformmaterialaudit;
+    }
+
+    @Override
+    protected void initialized() {
+        tv_title =  findViewById(R.id.tv_title);
         tv_title.setText("平台物料审核");
-        tabLayout = (TabLayout) findViewById(R.id.tablayout);
-        recyclerview = (RecyclerView) findViewById(R.id.recyclerview);
+        tabLayout =  findViewById(R.id.tablayout);
+        recyclerview =  findViewById(R.id.recyclerview);
         recyclerview.setLayoutManager(new LinearLayoutManager(this));
         recyclerview.setAdapter(new MyAdapter());
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -49,6 +53,11 @@ public class PlatformMaterialAuditAty extends BaseAty {
 
             }
         });
+    }
+
+    @Override
+    protected void requestData() {
+
     }
 
     class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
@@ -80,13 +89,8 @@ public class PlatformMaterialAuditAty extends BaseAty {
 
             public ViewHolder(View itemView) {
                 super(itemView);
-                tv_tag = (TextView) itemView.findViewById(R.id.tv_tag);
+                tv_tag =  itemView.findViewById(R.id.tv_tag);
             }
         }
-    }
-
-    @Override
-    protected int getStatusBarColor() {
-        return 0;
     }
 }

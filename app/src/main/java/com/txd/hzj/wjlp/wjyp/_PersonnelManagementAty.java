@@ -1,8 +1,6 @@
 package com.txd.hzj.wjlp.wjyp;
 
 import android.content.Intent;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,7 +12,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.ants.theantsgo.AppManager;
 import com.txd.hzj.wjlp.R;
+import com.txd.hzj.wjlp.base.BaseAty;
 
 /**
  * by Txunda_LH on 2018/1/20.
@@ -30,14 +30,18 @@ public class _PersonnelManagementAty extends BaseAty {
     private TextView tv_edit;
     private ImageView im_close;
 
+
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.aty_personnelmanagement2);
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        collapsing_toolbar_layout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar_layout);
-        app_bar_layout = (AppBarLayout) findViewById(R.id.app_bar_layout);
-        recyclerview = (RecyclerView) findViewById(R.id.recyclerview);
+    protected int getLayoutResId() {
+        return R.layout.aty_personnelmanagement2;
+    }
+
+    @Override
+    protected void initialized() {
+        toolbar = findViewById(R.id.toolbar);
+        collapsing_toolbar_layout =  findViewById(R.id.collapsing_toolbar_layout);
+        app_bar_layout =  findViewById(R.id.app_bar_layout);
+        recyclerview =  findViewById(R.id.recyclerview);
         setSupportActionBar(toolbar);
         collapsing_toolbar_layout.setTitle("");
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -46,10 +50,10 @@ public class _PersonnelManagementAty extends BaseAty {
                 finish();
             }
         });
-        tv_add = (TextView) findViewById(R.id.tv_add);
-        textview = (TextView) findViewById(R.id.textview);
-        tv_edit = (TextView) findViewById(R.id.tv_edit);
-        im_close = (ImageView) findViewById(R.id.im_close);
+        tv_add =  findViewById(R.id.tv_add);
+        textview =  findViewById(R.id.textview);
+        tv_edit =  findViewById(R.id.tv_edit);
+        im_close =  findViewById(R.id.im_close);
         app_bar_layout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             @Override
             public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
@@ -68,7 +72,7 @@ public class _PersonnelManagementAty extends BaseAty {
         im_close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finishAllActivity();
+                AppManager.getInstance().killAllActivity();
                 finish();
             }
         });
@@ -92,6 +96,11 @@ public class _PersonnelManagementAty extends BaseAty {
         });
     }
 
+    @Override
+    protected void requestData() {
+
+    }
+
     class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
         @Override
@@ -106,7 +115,7 @@ public class _PersonnelManagementAty extends BaseAty {
                 @Override
                 public void onClick(View v) {
                     startActivity(new Intent(_PersonnelManagementAty.this, _PersonnelManagementAty.class));
-                    addActivity(_PersonnelManagementAty.this);
+                    AppManager.getInstance().addActivity(_PersonnelManagementAty.this);
                 }
             });
 
@@ -139,16 +148,12 @@ public class _PersonnelManagementAty extends BaseAty {
 
             public ViewHolder(View itemView) {
                 super(itemView);
-                tv_next = (TextView) itemView.findViewById(R.id.tv_next);
-                textview = (TextView) itemView.findViewById(R.id.textview);
-                tv_edit = (TextView) itemView.findViewById(R.id.tv_edit);
+                tv_next =  itemView.findViewById(R.id.tv_next);
+                textview =  itemView.findViewById(R.id.textview);
+                tv_edit =  itemView.findViewById(R.id.tv_edit);
 
             }
         }
     }
 
-    @Override
-    protected int getStatusBarColor() {
-        return 0;
-    }
 }

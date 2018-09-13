@@ -1,8 +1,6 @@
 package com.txd.hzj.wjlp.wjyp;
 
 import android.content.Intent;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -18,9 +16,10 @@ import com.ants.theantsgo.util.JSONUtils;
 import com.ants.theantsgo.util.L;
 import com.bumptech.glide.Glide;
 import com.txd.hzj.wjlp.R;
+import com.txd.hzj.wjlp.base.BaseAty;
+import com.txd.hzj.wjlp.http.Recommending;
 import com.txd.hzj.wjlp.new_wjyp.RoundTransformation;
 import com.txd.hzj.wjlp.new_wjyp.UnionmerchartAty;
-import com.txd.hzj.wjlp.http.Recommending;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -44,15 +43,25 @@ public class PushMerchantAty extends BaseAty {
 
     private List<Map<String, String>> list = new ArrayList<>();
 
+
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.aty_pushmerchant);
-        tv_title = (TextView) findViewById(R.id.tv_title);
+    protected void onResume() {
+        super.onResume();
+        load();
+    }
+
+    @Override
+    protected int getLayoutResId() {
+        return R.layout.aty_pushmerchant;
+    }
+
+    @Override
+    protected void initialized() {
+        tv_title = findViewById(R.id.tv_title);
         tv_title.setText("线下店铺商家推荐");
-        recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        recyclerView =  findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        button = (TextView) findViewById(R.id.button);
+        button = findViewById(R.id.button);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -70,9 +79,8 @@ public class PushMerchantAty extends BaseAty {
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        load();
+    protected void requestData() {
+
     }
 
     private void load() {
@@ -135,10 +143,6 @@ public class PushMerchantAty extends BaseAty {
         }
     }
 
-    @Override
-    protected int getStatusBarColor() {
-        return 0;
-    }
 
     class MyAdpater extends RecyclerView.Adapter<MyAdpater.ViewHolder> {
 
@@ -213,15 +217,15 @@ public class PushMerchantAty extends BaseAty {
 
             public ViewHolder(View itemView) {
                 super(itemView);
-                im_head = (ImageView) itemView.findViewById(R.id.im_head);
-                tv_text = (TextView) itemView.findViewById(R.id.tv_text);
-                tv_address = (TextView) itemView.findViewById(R.id.tv_address);
-                tv_edit = (TextView) itemView.findViewById(R.id.tv_edit);
-                tv_time = (TextView) itemView.findViewById(R.id.tv_time);
-                tv_name = (TextView) itemView.findViewById(R.id.tv_name);
-                tv_tel = (TextView) itemView.findViewById(R.id.tv_tel);
-                tv_wjyd = (TextView) itemView.findViewById(R.id.tv_wjyd);
-                layout = (LinearLayout) itemView.findViewById(R.id.layout);
+                im_head =  itemView.findViewById(R.id.im_head);
+                tv_text = itemView.findViewById(R.id.tv_text);
+                tv_address = itemView.findViewById(R.id.tv_address);
+                tv_edit = itemView.findViewById(R.id.tv_edit);
+                tv_time = itemView.findViewById(R.id.tv_time);
+                tv_name = itemView.findViewById(R.id.tv_name);
+                tv_tel = itemView.findViewById(R.id.tv_tel);
+                tv_wjyd = itemView.findViewById(R.id.tv_wjyd);
+                layout =  itemView.findViewById(R.id.layout);
 
             }
 

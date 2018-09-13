@@ -1,10 +1,7 @@
 package com.txd.hzj.wjlp.wjyp;
 
 import android.content.Intent;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
-import com.txd.hzj.wjlp.R;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,6 +10,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.ants.theantsgo.AppManager;
+import com.txd.hzj.wjlp.R;
+import com.txd.hzj.wjlp.base.BaseAty;
 
 /**
  * by Txunda_LH on 2018/1/20.
@@ -25,15 +26,19 @@ public class PersonnelManagementAty extends BaseAty {
     private RecyclerView recyclerview;
     private TextView tv_add;
 
+
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.aty_personnelmanagement);
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        collapsing_toolbar_layout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar_layout);
-        app_bar_layout = (AppBarLayout) findViewById(R.id.app_bar_layout);
-        recyclerview = (RecyclerView) findViewById(R.id.recyclerview);
-        tv_add = (TextView) findViewById(R.id.tv_add);
+    protected int getLayoutResId() {
+        return R.layout.aty_personnelmanagement;
+    }
+
+    @Override
+    protected void initialized() {
+        toolbar =  findViewById(R.id.toolbar);
+        collapsing_toolbar_layout =  findViewById(R.id.collapsing_toolbar_layout);
+        app_bar_layout =  findViewById(R.id.app_bar_layout);
+        recyclerview =  findViewById(R.id.recyclerview);
+        tv_add = findViewById(R.id.tv_add);
         setSupportActionBar(toolbar);
         collapsing_toolbar_layout.setTitle("");
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -60,6 +65,11 @@ public class PersonnelManagementAty extends BaseAty {
         recyclerview.setAdapter(new MyAdapter());
     }
 
+    @Override
+    protected void requestData() {
+
+    }
+
     class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
         @Override
@@ -74,7 +84,7 @@ public class PersonnelManagementAty extends BaseAty {
                 @Override
                 public void onClick(View v) {
                     startActivity(new Intent(PersonnelManagementAty.this, _PersonnelManagementAty.class));
-                    addActivity(PersonnelManagementAty.this);
+                    AppManager.getInstance().addActivity(PersonnelManagementAty.this);
                 }
             });
             holder.textview.setOnClickListener(new View.OnClickListener() {
@@ -106,16 +116,12 @@ public class PersonnelManagementAty extends BaseAty {
 
             public ViewHolder(View itemView) {
                 super(itemView);
-                tv_next = (TextView) itemView.findViewById(R.id.tv_next);
-                textview = (TextView) itemView.findViewById(R.id.textview);
-                tv_edit= (TextView) itemView.findViewById(R.id.tv_edit);
+                tv_next =  itemView.findViewById(R.id.tv_next);
+                textview =  itemView.findViewById(R.id.textview);
+                tv_edit=  itemView.findViewById(R.id.tv_edit);
 
             }
         }
     }
 
-    @Override
-    protected int getStatusBarColor() {
-        return 0;
-    }
 }

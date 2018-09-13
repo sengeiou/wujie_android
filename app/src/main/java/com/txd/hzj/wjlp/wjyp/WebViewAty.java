@@ -1,13 +1,12 @@
 package com.txd.hzj.wjlp.wjyp;
 
 import android.content.Intent;
-import android.graphics.Color;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.View;
-import com.txd.hzj.wjlp.R;
 import android.webkit.WebView;
 import android.widget.TextView;
+
+import com.txd.hzj.wjlp.R;
+import com.txd.hzj.wjlp.base.BaseAty;
 
 /**
  * type 0-1-2 拓展商 拓展员 联盟商家
@@ -23,15 +22,19 @@ public class WebViewAty extends BaseAty {
     private Intent mIntent;
     private String type;
 
+
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.aty_tz_webview);
+    protected int getLayoutResId() {
+        return R.layout.aty_tz_webview;
+    }
+
+    @Override
+    protected void initialized() {
         mIntent = getIntent();
         type = mIntent.getStringExtra("type");
-        webview = (WebView) findViewById(R.id.webview);
-        tv_title = (TextView) findViewById(R.id.tv_title);
-        tv_submit = (TextView) findViewById(R.id.tv_submit);
+        webview =  findViewById(R.id.webview);
+        tv_title =  findViewById(R.id.tv_title);
+        tv_submit =  findViewById(R.id.tv_submit);
         switch (type) {
             case "0": {
                 tv_title.setText("拓展商说明");
@@ -75,7 +78,8 @@ public class WebViewAty extends BaseAty {
     }
 
     @Override
-    protected int getStatusBarColor() {
-        return Color.BLACK;
+    protected void requestData() {
+
     }
+
 }

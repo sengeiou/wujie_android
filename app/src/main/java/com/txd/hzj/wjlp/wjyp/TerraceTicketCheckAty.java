@@ -1,17 +1,17 @@
 package com.txd.hzj.wjlp.wjyp;
 
 import android.content.Intent;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import com.txd.hzj.wjlp.R;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.txd.hzj.wjlp.R;
+import com.txd.hzj.wjlp.base.BaseAty;
 
 /**
  * by Txunda_LH on 2018/1/18.
@@ -23,13 +23,17 @@ public class TerraceTicketCheckAty extends BaseAty {
     private TabLayout tablayout;
     private RecyclerView recyclerview;
 
+
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.aty_terraceticketcheck);
-        tv_title = (TextView) findViewById(R.id.tv_title);
-        tablayout = (TabLayout) findViewById(R.id.tablayout);
-        recyclerview = (RecyclerView) findViewById(R.id.recyclerview);
+    protected int getLayoutResId() {
+        return R.layout.aty_terraceticketcheck;
+    }
+
+    @Override
+    protected void initialized() {
+        tv_title =  findViewById(R.id.tv_title);
+        tablayout =  findViewById(R.id.tablayout);
+        recyclerview =  findViewById(R.id.recyclerview);
         tv_title.setText("平台代金券审核");
         tablayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -49,13 +53,13 @@ public class TerraceTicketCheckAty extends BaseAty {
         });
         recyclerview.setLayoutManager(new LinearLayoutManager(this));
         recyclerview.setAdapter(new MyAdapter());
-
     }
 
     @Override
-    protected int getStatusBarColor() {
-        return 0;
+    protected void requestData() {
+
     }
+
 
     class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         @Override
@@ -114,9 +118,9 @@ public class TerraceTicketCheckAty extends BaseAty {
 
             public ViewHolder(View itemView) {
                 super(itemView);
-                tv_tag = (TextView) itemView.findViewById(R.id.tag);
-                tv_textview = (TextView) itemView.findViewById(R.id.textview);
-                tv_button = (TextView) itemView.findViewById(R.id.button);
+                tv_tag =  itemView.findViewById(R.id.tag);
+                tv_textview =  itemView.findViewById(R.id.textview);
+                tv_button =  itemView.findViewById(R.id.button);
             }
         }
     }

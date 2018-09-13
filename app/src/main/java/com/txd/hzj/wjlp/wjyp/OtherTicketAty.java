@@ -1,14 +1,11 @@
 package com.txd.hzj.wjlp.wjyp;
 
 import android.content.Intent;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import com.txd.hzj.wjlp.R;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +14,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.txd.hzj.wjlp.R;
+import com.txd.hzj.wjlp.base.BaseAty;
 
 /**
  * by GouRiD_LH on 2018/1/20.
@@ -31,15 +31,19 @@ public class OtherTicketAty extends BaseAty {
     private MyAdapter myAdapter;
     private TextView tv_right;
 
+
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.aty_otherticket);
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        collapsing_toolbar_layout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar_layout);
-        app_bar_layout = (AppBarLayout) findViewById(R.id.app_bar_layout);
+    protected int getLayoutResId() {
+        return R.layout.aty_otherticket;
+    }
+
+    @Override
+    protected void initialized() {
+        toolbar =  findViewById(R.id.toolbar);
+        collapsing_toolbar_layout =  findViewById(R.id.collapsing_toolbar_layout);
+        app_bar_layout =  findViewById(R.id.app_bar_layout);
         setSupportActionBar(toolbar);
-        tv_right = (TextView) findViewById(R.id.tv_right);
+        tv_right =  findViewById(R.id.tv_right);
         tv_right.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -59,8 +63,8 @@ public class OtherTicketAty extends BaseAty {
                 collapsing_toolbar_layout.setTitle(" ");
             }
         });
-        tablayout = (TabLayout) findViewById(R.id.tablayout);
-        recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
+        tablayout =  findViewById(R.id.tablayout);
+        recyclerView =  findViewById(R.id.recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         myAdapter = new MyAdapter();
         recyclerView.setAdapter(myAdapter);
@@ -84,9 +88,10 @@ public class OtherTicketAty extends BaseAty {
     }
 
     @Override
-    protected int getStatusBarColor() {
-        return 0;
+    protected void requestData() {
+
     }
+
 
 
     class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
@@ -132,8 +137,8 @@ public class OtherTicketAty extends BaseAty {
 
             public ViewHolder(View itemView) {
                 super(itemView);
-                bg_layout = (LinearLayout) itemView.findViewById(R.id.bg_layout);
-                im_head = (ImageView) itemView.findViewById(R.id.im_head);
+                bg_layout =  itemView.findViewById(R.id.bg_layout);
+                im_head =  itemView.findViewById(R.id.im_head);
             }
         }
     }

@@ -94,7 +94,7 @@ public class ShopOrderBean {
          * is_pay_password : 0
          * "ticket_lines": "3990", //黄券额度
          "ticket_status": "1", //申请黄券 1:申请；2：批准；3：拒绝；4：使用；5：未使用
-         "ticket_pric": "0", //申请黄券数
+         "ticket_price": "0", //申请黄券数
          */
 
         private String supply_name;
@@ -132,8 +132,15 @@ public class ShopOrderBean {
         private String order_time;
         private String ticket_lines;
         private String ticket_status;
-        private String ticket_pric;
+        private String ticket_price;
 
+        public String getTicket_price() {
+            return ticket_price;
+        }
+
+        public void setTicket_price(String ticket_price) {
+            this.ticket_price = ticket_price;
+        }
         public String getBuyer() {
             return buyer;
         }
@@ -451,13 +458,6 @@ public class ShopOrderBean {
             this.ticket_status = ticket_status;
         }
 
-        public String getTicket_pric() {
-            return ticket_pric;
-        }
-
-        public void setTicket_pric(String ticket_pric) {
-            this.ticket_pric = ticket_pric;
-        }
 
         public static class OrderGoodsBean {
             /**

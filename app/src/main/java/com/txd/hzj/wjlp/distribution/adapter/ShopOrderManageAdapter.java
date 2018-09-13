@@ -130,7 +130,7 @@ public class ShopOrderManageAdapter extends RecyclerView.Adapter {
         if (holders.button_layout.getVisibility() == View.VISIBLE) {
             //黄券额度
             final double ticket_lines = TextUtils.isEmpty(dataBean.getTicket_lines()) ? 0 : Double.parseDouble(dataBean.getTicket_lines());
-            final double ticket_pric = TextUtils.isEmpty(dataBean.getTicket_pric()) ? 0 : Double.parseDouble(dataBean.getTicket_pric());
+            final double ticket_pric = TextUtils.isEmpty(dataBean.getTicket_price()) ? 0 : Double.parseDouble(dataBean.getTicket_price());
             final double lesser = ticket_lines - ticket_pric > 0 ? ticket_pric : ticket_lines;
 
             holders.input_et.setText(String.valueOf(lesser));
