@@ -4,7 +4,6 @@ package com.txd.hzj.wjlp.minetoAty.coupon.fgt;
 import android.text.TextUtils;
 import android.view.View;
 import android.webkit.WebChromeClient;
-import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -52,9 +51,8 @@ public class ShareOptionFgt extends BaseFgt {
         mWebView.setVisibility(View.VISIBLE);
         WebSettings settings = mWebView.getSettings();
         settings.setJavaScriptEnabled(true);
-        settings.setUseWideViewPort(true);
-        settings.setCacheMode(WebSettings.LOAD_NO_CACHE);
         mWebView.setWebChromeClient(new WebChromeClient());
+        mWebView.setWebViewClient(new WebViewClient());
         String url = Config.OFFICIAL_WEB + "Wap/User/myTicket/status/3/p/1/type/1.html";
         Map<String, String> map = new HashMap<>();
         String token = Config.getToken();
@@ -62,17 +60,6 @@ public class ShareOptionFgt extends BaseFgt {
             return;
         map.put("token", token);
         mWebView.loadUrl(url, map);
-        mWebView.setWebViewClient(new WebViewClient() {
-            @Override
-            public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
-                return super.shouldOverrideUrlLoading(view, request);
-            }
-
-            @Override
-            public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                return super.shouldOverrideUrlLoading(view, url);
-            }
-        });
     }
 
     @Override
