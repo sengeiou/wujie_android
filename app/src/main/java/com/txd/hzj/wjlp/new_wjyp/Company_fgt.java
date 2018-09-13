@@ -208,16 +208,13 @@ public class Company_fgt extends BaseFgt implements ProUrbAreaUtil.GetData {
 
     @Override
     protected void initialized() {
+
         ImagePicker imagePicker = ImagePicker.getInstance();
         imagePicker.setImageLoader(new GlideImageLoader());// 图片加载
-        imagePicker.setCrop(true);// 裁剪
-        imagePicker.setSaveRectangle(true);// 矩形保存
-        imagePicker.setFocusWidth(Settings.displayWidth);//裁剪框宽度
-        imagePicker.setFocusHeight(Settings.displayWidth);// 裁剪框高度
-        imagePicker.setOutPutX(Settings.displayWidth);// 保存图片高度
-        imagePicker.setOutPutY(Settings.displayWidth);// 保存图片宽度
-        imagePicker.setMultiMode(false);// 但须
+        imagePicker.setCrop(false);// 不裁剪
+        imagePicker.setMultiMode(false);// 单选
         imagePicker.setShowCamera(true);// 显示拍照按钮
+
         String data = application.getCityProvienceJson();
 
         ProUrbAreaUtil.gainInstance().checkData((WeApplication) getActivity().getApplication());
