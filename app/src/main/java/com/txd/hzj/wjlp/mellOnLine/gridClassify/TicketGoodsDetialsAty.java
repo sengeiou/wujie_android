@@ -707,7 +707,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
                     startActivity(intent);
                 } else {
                     //直接购买, (ArrayList) goodsAttrs, (ArrayList) goods_product
-                    try {
+                    if (goodsInfo.containsKey("goods_img") && goodsInfo.containsKey("shop_price")){
                         String goods_img = goodsInfo.get("goods_img");
                         String shop_price = goodsInfo.get("shop_price");
                         if (13==from){
@@ -715,10 +715,8 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
                         }else {
                             toAttrs(v, 0, "1", goods_id + "-" + mell_id, goods_img, shop_price, "", goods_attr_first, first_val, is_attr);
                         }
-                    } catch (Exception e) {
-                        L.e("tv_ljgm throw Exception :" + e.toString());
-                        showErrorTip("获取字段异常");
-                        closePage();
+                    }else {
+                        showErrorTip("数据异常，请稍后重试");
                     }
                 }
                 break;

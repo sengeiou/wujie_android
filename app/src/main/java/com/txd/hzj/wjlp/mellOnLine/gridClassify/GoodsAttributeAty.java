@@ -137,7 +137,8 @@ public class GoodsAttributeAty extends BaseAty {
                         showErrorTip("库存不足请您下次再买");
                         return;
                     }
-                    num = Integer.parseInt(et_num.getText().toString().trim());
+                    String et_string = et_num.getText().toString().trim();
+                    num = Integer.parseInt(et_string);
                     if (tv_xg.getVisibility() == View.VISIBLE && num >= Long.parseLong(val.getMax_num())) {
                         num = Integer.parseInt(val.getMax_num());
                     }
@@ -145,17 +146,9 @@ public class GoodsAttributeAty extends BaseAty {
                         num =(int) maxNumber;
                     }
                     et_num.setText(String.valueOf(num));
-                    // 获取输入框的输入件数
-                    if (0 == num) { // 如果件数小于1件则直接弹出提示框，并打断后续代码的运行状态
-                        showErrorTip("购买件数不能小于等于零");
-                        return;
-                    }
                 } else {
                     num = 1;
                 }
-
-                L.e("=====num==" + num);
-                L.e("list.size():" + list.size() + "-- pro_id:" + pro_id + "-- from:" + from);
                 if (2 == from) {
                     Intent intent = new Intent();
                     intent.putExtra("num", num);
@@ -276,16 +269,21 @@ public class GoodsAttributeAty extends BaseAty {
 
             @Override
             public void afterTextChanged(Editable s) {
+                et_num.removeTextChangedListener(this);
                 // 文字改变之后
-                String numStr = et_num.getText().toString().trim();
+                String numStr = s.toString().trim();
                 if (numStr.equals("") || numStr.equals("0")) {
-                    return;
+                    numStr="1";
+                    et_num.setText(numStr);
                 }
-                num = Integer.parseInt(numStr.equals("") ? "0" : numStr);
-                if (num > maxNumber) {
+                num = Integer.parseInt(numStr);
+                if (tv_xg.getVisibility() == View.VISIBLE && num >= Long.parseLong(val.getMax_num())) {
+                    et_num.setText(val.getMax_num());
+                }else if (num > maxNumber) {
                     et_num.setText(maxNumber + "");
-                    et_num.setSelection(et_num.getText().length());
                 }
+                et_num.setSelection(et_num.getText().length());
+                et_num.addTextChangedListener(this);
             }
         });
         from = getIntent().getIntExtra("from", 0);
