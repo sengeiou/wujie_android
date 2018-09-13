@@ -97,7 +97,7 @@ public class ShopOrderManageAdapter extends RecyclerView.Adapter {
         List<ShopOrderBean.DataBean.OrderGoodsBean> order_goods = dataBean.getOrder_goods();
 
         holders.mListView.setAdapter(new MyAdapter(order_goods, context));
-
+        holders.time_tv.setVisibility(View.VISIBLE);
         holders.time_tv.setText(dataBean.getOrder_time());
 
         if (!TextUtils.isEmpty(dataBean.getIs_open()) || "0".equals(dataBean.getIs_open())) {
@@ -128,12 +128,16 @@ public class ShopOrderManageAdapter extends RecyclerView.Adapter {
         }
 
         if (holders.button_layout.getVisibility() == View.VISIBLE) {
+
+            holders.time_tv.setVisibility(View.GONE);
             //黄券额度
             final double ticket_lines = TextUtils.isEmpty(dataBean.getTicket_lines()) ? 0 : Double.parseDouble(dataBean.getTicket_lines());
+            holders.max_tv.setText("*最多可使用"+ticket_lines+"元黄券");
+
             final double ticket_pric = TextUtils.isEmpty(dataBean.getTicket_price()) ? 0 : Double.parseDouble(dataBean.getTicket_price());
             final double lesser = ticket_lines - ticket_pric > 0 ? ticket_pric : ticket_lines;
 
-            holders.input_et.setText(String.valueOf(lesser));
+            holders.input_et.setText("￥"+String.valueOf(lesser));
             holders.input_et.setSelection(holders.input_et.getText().length());
             holders.input_et.addTextChangedListener(new TextWatcher() {
                 @Override
@@ -154,7 +158,7 @@ public class ShopOrderManageAdapter extends RecyclerView.Adapter {
                     holders.input_et.removeTextChangedListener(this);
                     double price = Double.parseDouble(numStr.toString());
                     if (price > lesser) {
-                        holders.input_et.setText(String.valueOf(lesser));
+                        holders.input_et.setText("￥"+String.valueOf(lesser));
                     }
                     holders.input_et.setSelection(holders.input_et.getText().length());
                     holders.input_et.addTextChangedListener(this);
@@ -216,6 +220,7 @@ public class ShopOrderManageAdapter extends RecyclerView.Adapter {
         private EditText input_et;
         private TextView tv_btn_left;
         private TextView tv_btn_right;
+        private TextView  max_tv;
 
 
         public MyViewHolder(View itemView) {
@@ -249,6 +254,7 @@ public class ShopOrderManageAdapter extends RecyclerView.Adapter {
             input_et = itemView.findViewById(R.id.input_et);
             tv_btn_left = itemView.findViewById(R.id.tv_btn_left);
             tv_btn_right = itemView.findViewById(R.id.tv_btn_right);
+            max_tv=itemView.findViewById(R.id.max_tv);
 
         }
     }

@@ -153,7 +153,7 @@ public class ShopMain extends BaseAty implements OnClickListener {
                 break;
             case R.id.shop_give:
                 //赠送代金券
-                startActivity(ShopGiveBlueVoucher.class,null);
+                startActivity(ShopGiveYellowVoucher.class,null);
                 break;
         }
     }

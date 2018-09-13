@@ -30,7 +30,7 @@ import java.util.Map;
  * 创建时间：2018/9/11 15:34
  * 功能描述：
  */
-public class ShopGiveBlueVoucher extends BaseAty {
+public class ShopGiveYellowVoucher extends BaseAty {
 
     @ViewInject(R.id.titlt_conter_tv)
     private TextView titleName;
@@ -67,7 +67,7 @@ public class ShopGiveBlueVoucher extends BaseAty {
     @Override
     protected void initialized() {
         mContext = this;
-        titleName.setText("送代金券");
+        titleName.setText("黄券审核");
         mExhibitPst = new ShopExhibitPst(this);
         if (PreferencesUtils.containKey(mContext, "shop_id")) {
             mShop_id = PreferencesUtils.getString(mContext, "shop_id");
@@ -135,6 +135,11 @@ public class ShopGiveBlueVoucher extends BaseAty {
             ShopOrderBean shopOrderBean = JSONObject.parseObject(jsonStr, ShopOrderBean.class);
             if (200 == shopOrderBean.getCode()) {
                 final List<ShopOrderBean.DataBean> data = shopOrderBean.getData();
+                for (ShopOrderBean.DataBean dataBean:data){
+                    if (dataBean.getOrder_goods()==null || dataBean.getOrder_goods().size()==0){
+                        data.remove(dataBean);
+                    }
+                }
                 if (null != data && data.size() > 0) {
                     empty_layout.setVisibility(View.GONE);
                     refreshLayout.setVisibility(View.VISIBLE);
