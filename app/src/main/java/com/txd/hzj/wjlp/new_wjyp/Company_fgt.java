@@ -12,7 +12,6 @@ import android.widget.TextView;
 
 import com.ants.theantsgo.WeApplication;
 import com.ants.theantsgo.base.BaseActivity;
-import com.ants.theantsgo.config.Settings;
 import com.ants.theantsgo.imageLoader.GlideImageLoader;
 import com.ants.theantsgo.tips.MikyouCommonDialog;
 import com.ants.theantsgo.tool.ToolKit;
@@ -290,7 +289,7 @@ public class Company_fgt extends BaseFgt implements ProUrbAreaUtil.GetData {
             }
 
             // 将获取到的图片缓存成文件
-            final String comp_business_license = data.get("positive_id_card").toString();
+            final String comp_business_license = data.get("comp_business_license").toString();
             if (!comp_business_license.isEmpty()) {
                 new Thread(new Runnable() {
                     @Override
@@ -298,6 +297,8 @@ public class Company_fgt extends BaseFgt implements ProUrbAreaUtil.GetData {
                         file1 = new File(GlideUtils.getGlideFilePath(getActivity(), comp_business_license));
                     }
                 }).start();
+            }else {
+                file1=null;
             }
 
             isFirst = TextUtils.isEmpty(data.get("comp_business_license")) ? true : false;
@@ -341,44 +342,6 @@ public class Company_fgt extends BaseFgt implements ProUrbAreaUtil.GetData {
         }
 
     }
-
-
-//    private void download() {
-//
-//        Map<String, Object> parameters = new HashMap<String, Object>();
-//
-//        parameters.put("token", Config.getToken());
-//        new Novate.Builder(getActivity())
-//                .baseUrl(Config.BASE_URL)
-//                .addHeader(parameters)
-//                .build()
-//                .rxPost("User/personalAuthInfo", null, new RxStringCallback() {
-//
-//                    @Override
-//                    public void onNext(Object tag, String response) {
-////                        Toast.makeText(SortCityActivity.this, response, Toast.LENGTH_SHORT).show();
-//                        name.setText(data.get("com_name"));
-//                        num.setText(data.get("comp_reg_num"));
-//                        comp_start_time.setText(data.get("comp_start_date"));
-//                        comp_end_time.setText(data.get("comp_end_date").equals("0") ? "永久" : data.get("comp_end_date"));
-//                        ads0.setText(data.get("comp_province_name") + data.get("comp_city_name") + data.get("comp_area_name"));
-//                        ads1.setText(data.get("comp_street_name"));
-//                        Glide.with(getActivity()).load(data.get("comp_business_license")).into(image1);
-//                    }
-//
-//                    @Override
-//                    public void onError(Object tag, Throwable e) {
-//
-//                    }
-//
-//                    @Override
-//                    public void onCancel(Object tag, Throwable e) {
-//
-//                    }
-//
-//                });
-//
-//    }
 
     private void initTimePicker(View v) {
         pvTime = new TimePickerView.Builder(getActivity(), new TimePickerView.OnTimeSelectListener() {

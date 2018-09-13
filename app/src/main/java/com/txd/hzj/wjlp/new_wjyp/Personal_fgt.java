@@ -18,7 +18,6 @@ import android.widget.TextView;
 import com.ants.theantsgo.WeApplication;
 import com.ants.theantsgo.base.BaseActivity;
 import com.ants.theantsgo.config.Config;
-import com.ants.theantsgo.config.Settings;
 import com.ants.theantsgo.imageLoader.GlideImageLoader;
 import com.ants.theantsgo.tips.MikyouCommonDialog;
 import com.ants.theantsgo.tool.ToolKit;
@@ -322,7 +321,7 @@ public class Personal_fgt extends BaseFgt {
                 }).start();
             }
 
-            isFirst = (TextUtils.isEmpty(data.get("positive_id_card")) && TextUtils.isEmpty(data.get("back_id_card"))) ? true : false;
+            isFirst = (TextUtils.isEmpty(data.get("positive_id_card")) || TextUtils.isEmpty(data.get("back_id_card"))) ? true : false;
             sex = data.get("sex");
             start_time = data.get("id_card_start_date");
             end_time = data.get("id_card_end_time");
