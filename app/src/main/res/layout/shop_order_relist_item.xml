@@ -207,7 +207,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/shape_gray_btn_li"
             android:padding="6dp"
-            android:text="拒绝" />
+            android:text="\u3000拒绝\u3000" />
 
         <TextView
             android:id="@+id/tv_btn_right"
@@ -216,7 +216,7 @@
             android:layout_marginLeft="10dp"
             android:background="@drawable/shape_red_btn_bg"
             android:padding="6dp"
-            android:text="同意"
+            android:text="\u3000同意\u3000"
             android:textColor="@color/holo_red_light" />
     </LinearLayout>
 </LinearLayout>

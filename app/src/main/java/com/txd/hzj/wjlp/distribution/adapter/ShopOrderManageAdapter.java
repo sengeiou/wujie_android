@@ -3,13 +3,18 @@ package com.txd.hzj.wjlp.distribution.adapter;
 import android.content.Context;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ants.theantsgo.view.inScroll.ListViewForScrollView;
 import com.bumptech.glide.Glide;
@@ -30,6 +35,15 @@ public class ShopOrderManageAdapter extends RecyclerView.Adapter {
     private Context context;
     private ChangeTextViewStyle instance;
     private String type;
+    private OnButtonClickListener mButtonClickListener;
+
+    public interface OnButtonClickListener {
+        void buttonClick(int num, String price, String ticket_status);
+    }
+
+    public void setButtonClickListener(OnButtonClickListener buttonClickListener) {
+        mButtonClickListener = buttonClickListener;
+    }
 
     public ShopOrderManageAdapter(List<ShopOrderBean.DataBean> list, Context context, String type) {
         this.list = list;
@@ -45,9 +59,9 @@ public class ShopOrderManageAdapter extends RecyclerView.Adapter {
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
         instance = ChangeTextViewStyle.getInstance();
-        MyViewHolder holders = (MyViewHolder) holder;
+        final MyViewHolder holders = (MyViewHolder) holder;
 
         ShopOrderBean.DataBean dataBean = list.get(position);
         holders.shop_name_tv.setText(dataBean.getShop_name());
@@ -98,7 +112,7 @@ public class ShopOrderManageAdapter extends RecyclerView.Adapter {
             holders.liandian_tv.setVisibility(View.VISIBLE);
         }
 
-
+        holders.button_layout.setVisibility(View.GONE);
         if ("全部".equals(type)) {
             holders.orderType.setText("全部");
         } else if ("待付款".equals(type)) {
@@ -109,6 +123,79 @@ public class ShopOrderManageAdapter extends RecyclerView.Adapter {
             holders.orderType.setText("待收货");
         } else if ("已完成".equals(type)) {
             holders.orderType.setText("已完成");
+        } else if ("代金券".equals(type)) {
+            holders.button_layout.setVisibility(View.VISIBLE);
+        }
+
+        if (holders.button_layout.getVisibility() == View.VISIBLE) {
+            //黄券额度
+            final double ticket_lines = TextUtils.isEmpty(dataBean.getTicket_lines()) ? 0 : Double.parseDouble(dataBean.getTicket_lines());
+            final double ticket_pric = TextUtils.isEmpty(dataBean.getTicket_pric()) ? 0 : Double.parseDouble(dataBean.getTicket_pric());
+            final double lesser = ticket_lines - ticket_pric > 0 ? ticket_pric : ticket_lines;
+
+            holders.input_et.setText(String.valueOf(lesser));
+            holders.input_et.setSelection(holders.input_et.getText().length());
+            holders.input_et.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    String numStr = s.toString().trim();
+                    if (numStr.equals("") || numStr.equals("0")) {
+                        return;
+                    }
+                    holders.input_et.removeTextChangedListener(this);
+                    double price = Double.parseDouble(numStr.toString());
+                    if (price > lesser) {
+                        holders.input_et.setText(String.valueOf(lesser));
+                    }
+                    holders.input_et.setSelection(holders.input_et.getText().length());
+                    holders.input_et.addTextChangedListener(this);
+                }
+            });
+
+            holders.tv_btn_left.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (holders.input_et.getText().toString().isEmpty()) {
+                        Toast.makeText(context, "金额不能为空", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    if (mButtonClickListener != null) {
+                        mButtonClickListener.buttonClick(holder.getLayoutPosition(), holders.input_et.getText().toString(), "3");
+                    }
+                }
+            });
+
+            holders.tv_btn_right.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (holders.input_et.getText().toString().isEmpty()) {
+                        Toast.makeText(context, "金额不能为空", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    if (mButtonClickListener != null) {
+                        mButtonClickListener.buttonClick(holder.getLayoutPosition(), holders.input_et.getText().toString(), "2");
+                    }
+                }
+            });
+        }
+    }
+
+    public void notifyData(int position){
+        if (list!=null && list.size()>0){
+            list.remove(position);
+            notifyItemRemoved(position);
+            if(position != list.size()){ // 如果移除的是最后一个，忽略
+                notifyItemRangeChanged(position, list.size() - position);
+            }
         }
     }
 
@@ -124,6 +211,11 @@ public class ShopOrderManageAdapter extends RecyclerView.Adapter {
         private ListViewForScrollView mListView;
 
         private ImageView kaidian_pic;
+
+        private LinearLayout button_layout;
+        private EditText input_et;
+        private TextView tv_btn_left;
+        private TextView tv_btn_right;
 
 
         public MyViewHolder(View itemView) {
@@ -152,6 +244,11 @@ public class ShopOrderManageAdapter extends RecyclerView.Adapter {
             bendian_tv = itemView.findViewById(R.id.bendian_tv);
 
             liandian_tv = itemView.findViewById(R.id.liandian_tv);
+
+            button_layout = itemView.findViewById(R.id.button_layout);
+            input_et = itemView.findViewById(R.id.input_et);
+            tv_btn_left = itemView.findViewById(R.id.tv_btn_left);
+            tv_btn_right = itemView.findViewById(R.id.tv_btn_right);
 
         }
     }
@@ -188,7 +285,7 @@ public class ShopOrderManageAdapter extends RecyclerView.Adapter {
             ViewHolder holder;
             if (view == null) {
                 holder = new ViewHolder();
-                view = mInflater.inflate(R.layout.shop_order_relist_item2, parent,false);
+                view = mInflater.inflate(R.layout.shop_order_relist_item2, parent, false);
                 holder.head_img = view.findViewById(R.id.shop_order_ima);
                 holder.title_tv = view.findViewById(R.id.shop_order_content);
                 holder.price_tv = view.findViewById(R.id.price_tv);
