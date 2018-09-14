@@ -28,7 +28,7 @@ import java.util.List;
  * 作者：DUKE_HwangZj
  * 日期：2017/7/24 0024
  * 时间：11:17
- * 描述：
+ * 描述：商家收藏足迹适配器
  */
 
 public class MellListAdapter extends BaseAdapter {
@@ -73,7 +73,7 @@ public class MellListAdapter extends BaseAdapter {
     @Override
     public int getCount() {
 
-        return 0 == type ? mellsFoot.size() : mells.size();
+        return 0 == type ? (mellsFoot == null ? 0 : mellsFoot.size()) : (mells == null ? 0 : mells.size());
     }
 
     @Override
@@ -155,7 +155,7 @@ public class MellListAdapter extends BaseAdapter {
                     .into(mvh.mell_logo_iv);
             mvh.mell_name_tv.setText(mellName);
             mvh.textView7.setText(dexc);
-            mvh.mell_score_tv.setText(score);
+            mvh.mell_score_tv.setText("评分" + score + "分");
             //点击了进店逛逛
             mvh.into_mell_tv.setOnClickListener(new View.OnClickListener() {
                 @Override

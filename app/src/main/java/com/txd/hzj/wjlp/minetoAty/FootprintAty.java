@@ -174,10 +174,10 @@ public class FootprintAty extends BaseAty {
     @Override
     protected void initialized() {
         mFragment = new ArrayList<>();
-        mFragment.add(CollectGoodsHzjFgt.newInstance(false, 0));
-        mFragment.add(CollectMellHzjFgt.newInstance(false, 0));
-        mFragment.add(CollectBooksFgt.newInstance(false, 0));
-        mFragment.add(CollectOffLineshopFgt.newInstance(false, 0));
+        mFragment.add(CollectGoodsHzjFgt.newInstance(false, 0)); // 商品足迹
+        mFragment.add(CollectMellHzjFgt.newInstance(false, 0)); // 商家足迹
+        mFragment.add(CollectBooksFgt.newInstance(false, 0)); // 书店足迹
+        mFragment.add(CollectOffLineshopFgt.newInstance(false, 0)); // 线下足迹
     }
 
     @Override
