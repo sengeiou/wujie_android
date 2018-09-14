@@ -16,7 +16,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.alibaba.fastjson.JSONObject;
 import com.flyco.tablayout.SlidingTabLayout;
@@ -122,7 +121,6 @@ public class ShopExhibit extends BaseAty implements AdapterView.OnItemClickListe
 //                pos=position;
 //                cate_id=mTwo_cate_list.get(position).getId();
 //                mExhibitPst.goodsList("1",cate_id,1);
-                Toast.makeText(ShopExhibit.this, ""+position, Toast.LENGTH_SHORT).show();
             }
 
             @Override

@@ -25,7 +25,15 @@ import java.util.List;
 public class ShopExhibitAdapter extends RecyclerView.Adapter<ShopExhibitAdapter.ViewHolder> {
     private List<ExhibitGoodsBean.DataBean.ListBean> datas;
     private Context mContext;
+    private OnButtonClickListener mButtonClickListener;
 
+    public void setButtonClickListener(OnButtonClickListener buttonClickListener) {
+        mButtonClickListener = buttonClickListener;
+    }
+
+    public interface  OnButtonClickListener{
+        void buttonClick(int position);
+    }
     public ShopExhibitAdapter(List<ExhibitGoodsBean.DataBean.ListBean> datas) {
         this.datas = datas;
     }
@@ -39,7 +47,7 @@ public class ShopExhibitAdapter extends RecyclerView.Adapter<ShopExhibitAdapter.
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, final int position) {
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
         ExhibitGoodsBean.DataBean.ListBean listBean = datas.get(position);
                 Glide.with(mContext)
                 .load(listBean.getGoods_img())
@@ -52,16 +60,27 @@ public class ShopExhibitAdapter extends RecyclerView.Adapter<ShopExhibitAdapter.
         holder.img_shangjia.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                datas.remove(position);
-                notifyDataSetChanged();
+                if (mButtonClickListener!=null){
+                    mButtonClickListener.buttonClick(holder.getLayoutPosition());
+                }
             }
         });
+    }
+
+    public void notifyData(int position){
+        if (datas!=null && datas.size()>0){
+            datas.remove(position);
+            notifyItemRemoved(position);
+            if(position != datas.size()){ // 如果移除的是最后一个，忽略
+                notifyItemRangeChanged(position, datas.size() - position);
+            }
+        }
     }
 
 
     @Override
     public int getItemCount() {
-        return datas.size();
+        return datas.size()>0?datas.size():0;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

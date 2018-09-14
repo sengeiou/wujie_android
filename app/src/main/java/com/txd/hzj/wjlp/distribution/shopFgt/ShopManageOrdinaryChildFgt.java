@@ -202,7 +202,7 @@ public class ShopManageOrdinaryChildFgt extends BaseFgt implements View.OnClickL
     @Override
     public void onResume() {
         super.onResume();
-        if (getUserVisibleHint()){
+        if (getUserVisibleHint()) {
             getData();
         }
     }
@@ -224,39 +224,43 @@ public class ShopManageOrdinaryChildFgt extends BaseFgt implements View.OnClickL
         if (!isManage) {
             DistributionGoodsBean distributionGoodsBean = JSONObject.parseObject(jsonStr, DistributionGoodsBean.class);
             if (200 == distributionGoodsBean.getCode()) {
-                List<DistributionGoodsBean.DataBean> data = distributionGoodsBean.getData();
-                if (null != data && data.size() > 0) {
-                    emptyView.setVisibility(View.GONE);
-                    shopManageOrdinaryChild_sr_layout.setVisibility(View.VISIBLE);
-                    if (p == 1) {
-                        list.clear();
+                if (p==1){
+                    list = distributionGoodsBean.getData();
+                    if (null != list && list.size() > 0) {
+                        emptyView.setVisibility(View.GONE);
+                        shopManageOrdinaryChild_sr_layout.setVisibility(View.VISIBLE);
+                        adapter = new ShopManageOrdinaryAdapter(getActivity(), list, shopManageOrdinaryChild_selectAll_cbox);
+                        adapter.setOnImageClickListener(new ShopManageOrdinaryAdapter.ImageClick() {
+                            @Override
+                            public void onImageClick(View view, int position) {
+                                //分享功能，可以使用ToShareAty  toShare("无界优品", share_img, share_url, share_content, goods_id, "1");
+                                DistributionGoodsBean.DataBean goodsBean = list.get(position);
+                                Bundle bundle = new Bundle();
+                                bundle.putString("title", goodsBean.getGoods_name());
+                                bundle.putString("pic", goodsBean.getGoods_img());
+                                bundle.putString("url", "1");
+                                bundle.putString("context", goodsBean.getGoods_name());
+                                bundle.putString("id", "1");
+                                bundle.putString("Shapetype", "1");
+                                startActivity(ToShareAty.class, bundle);
+                            }
+                        });
+                        shopManageOrdinaryChild_data_lv.setAdapter(adapter);
+                    } else {
+                        emptyView.setVisibility(View.VISIBLE);
+                        shopManageOrdinaryChild_sr_layout.setVisibility(View.GONE);
                     }
-                    list.addAll(data);
-                    adapter = new ShopManageOrdinaryAdapter(getActivity(), list, shopManageOrdinaryChild_selectAll_cbox);
-                    adapter.setOnImageClickListener(new ShopManageOrdinaryAdapter.ImageClick() {
-                        @Override
-                        public void onImageClick(View view, int position) {
-                            //分享功能，可以使用ToShareAty  toShare("无界优品", share_img, share_url, share_content, goods_id, "1");
-                            DistributionGoodsBean.DataBean goodsBean = list.get(position);
-                            Bundle bundle = new Bundle();
-                            bundle.putString("title", goodsBean.getGoods_name());
-                            bundle.putString("pic", goodsBean.getGoods_img());
-                            bundle.putString("url", "1");
-                            bundle.putString("context", goodsBean.getGoods_name());
-                            bundle.putString("id", "1");
-                            bundle.putString("Shapetype", "1");
-                            startActivity(ToShareAty.class, bundle);
-                        }
-                    });
-                    shopManageOrdinaryChild_data_lv.setAdapter(adapter);
-                } else {
-                    emptyView.setVisibility(View.VISIBLE);
-                    shopManageOrdinaryChild_sr_layout.setVisibility(View.GONE);
+                }else {
+                    list.addAll(distributionGoodsBean.getData());
+                    adapter.notifyDataSetChanged();
                 }
+
+
+
             }
         } else {
             JSONObject jsonObject = JSONObject.parseObject(jsonStr);
-            if (jsonObject.containsKey("code") && "200".equals(jsonObject.getString("code"))){
+            if (jsonObject.containsKey("code") && "200".equals(jsonObject.getString("code"))) {
                 showToast("操作成功");
             }
         }

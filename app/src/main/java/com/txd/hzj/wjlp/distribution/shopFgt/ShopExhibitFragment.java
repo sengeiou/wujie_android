@@ -10,11 +10,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSONObject;
+import com.ants.theantsgo.util.PreferencesUtils;
 import com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout;
+import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseFgt;
@@ -33,6 +36,9 @@ import java.util.Map;
  */
 public class ShopExhibitFragment extends BaseFgt {
     private static final String ARG_PARAM1 = "param1";
+
+    @ViewInject(R.id.no_data_layout)
+    private LinearLayout no_data_layout;
 
     //积分
     private TextView internal_tv;
@@ -81,6 +87,9 @@ public class ShopExhibitFragment extends BaseFgt {
     private String name="red_return_integral";
     //
     private String flag="asc";
+
+    private int pos=0;
+    private String mShop_id;
 
 
     public static ShopExhibitFragment newInstance(int cate_id) {
@@ -192,25 +201,57 @@ public class ShopExhibitFragment extends BaseFgt {
         selectId.setBounds(0, 0, selectId.getMinimumWidth(), selectId.getMinimumHeight());
         twoSelectId.setBounds(0, 0, selectId.getMinimumWidth(), selectId.getMinimumHeight());
         unSelectId.setBounds(0, 0, unSelectId.getMinimumWidth(), unSelectId.getMinimumHeight());
+        datas = new ArrayList<>();
+        if (PreferencesUtils.containKey(mContext, "shop_id")) {
+            mShop_id = PreferencesUtils.getString(mContext, "shop_id");
+        }
     }
 
     @Override
     protected void requestData() {
-        mExhibitPst.goodsList(String.valueOf(p),String.valueOf(mCate_id),"red_return_integral","asc",0);
+        mExhibitPst.goodsList(String.valueOf(p),String.valueOf(mCate_id),"red_return_integral","desc",0);
     }
 
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
-        ExhibitGoodsBean exhibitGoodsBean = JSONObject.parseObject(jsonStr, ExhibitGoodsBean.class);
-        if (200 == exhibitGoodsBean.getCode()) {
-            datas = new ArrayList<>();
-            datas = exhibitGoodsBean.getData().getList();
-            if (datas != null) {
-                shopExhibitAdapter = new ShopExhibitAdapter(datas);
-                exhibit_recyclerView.setAdapter(shopExhibitAdapter);
+        if (requestUrl.contains("goodsList")){
+            ExhibitGoodsBean exhibitGoodsBean = JSONObject.parseObject(jsonStr, ExhibitGoodsBean.class);
+            if (200 == exhibitGoodsBean.getCode()) {
+                if (1==p){
+                    datas = exhibitGoodsBean.getData().getList();
+                    if (datas != null && datas.size()>0) {
+                        shopExhibitAdapter = new ShopExhibitAdapter(datas);
+                        exhibit_recyclerView.setAdapter(shopExhibitAdapter);
+                        shopExhibitAdapter.setButtonClickListener(new ShopExhibitAdapter.OnButtonClickListener() {
+                            @Override
+                            public void buttonClick(int position) {
+                                pos=position;
+                                mExhibitPst.shopExhibitGoods(mShop_id,datas.get(position).getGoods_id(),"0","0","0");
+                            }
+                        });
+                    }else {
+                        mSuperSwipeRefreshLayout.setVisibility(View.GONE);
+                        no_data_layout.setVisibility(View.VISIBLE);
+                    }
+                }else {
+                    datas.addAll(exhibitGoodsBean.getData().getList());
+                    shopExhibitAdapter.notifyDataSetChanged();
+                }
+
             }
         }
+
+        if (requestUrl.endsWith("goods")){
+            JSONObject jsonObject = JSONObject.parseObject(jsonStr);
+            if (jsonObject.containsKey("code") && "200".equals(jsonObject.getString("code"))) {
+                if (jsonObject.containsKey("message")) {
+                    showToast(jsonObject.getString("message"));
+                    shopExhibitAdapter.notifyData(pos);
+                }
+            }
+        }
+
         refreshVisibleState();
     }
 

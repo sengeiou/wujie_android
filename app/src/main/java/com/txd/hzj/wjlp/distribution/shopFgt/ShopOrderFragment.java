@@ -193,6 +193,11 @@ public class ShopOrderFragment extends BaseFgt {
             ShopOrderBean shopOrderBean = JSONObject.parseObject(jsonStr, ShopOrderBean.class);
             if (200==shopOrderBean.getCode()){
                 List<ShopOrderBean.DataBean> data = shopOrderBean.getData();
+                for (ShopOrderBean.DataBean dataBean:data){
+                    if (dataBean.getOrder_goods()==null || dataBean.getOrder_goods().size()==0){
+                        data.remove(dataBean);
+                    }
+                }
                 if (null != data && data.size()>0){
                     empty_layout.setVisibility(View.GONE);
                     refreshLayout.setVisibility(View.VISIBLE);

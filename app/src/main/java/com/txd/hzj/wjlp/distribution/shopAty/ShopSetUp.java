@@ -19,7 +19,6 @@ import android.widget.TextView;
 import com.ants.theantsgo.imageLoader.GlideImageLoader;
 import com.ants.theantsgo.util.CompressionUtil;
 import com.ants.theantsgo.util.JSONUtils;
-import com.ants.theantsgo.util.L;
 import com.ants.theantsgo.util.PreferencesUtils;
 import com.bumptech.glide.Glide;
 import com.lzy.imagepicker.ImagePicker;
@@ -62,6 +61,7 @@ public class ShopSetUp extends BaseAty implements View.OnClickListener {
     private String uri;
     private boolean isUpdata = false;
     private String mShop_id;
+    private String user_id;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -90,7 +90,7 @@ public class ShopSetUp extends BaseAty implements View.OnClickListener {
         setIma.setOnClickListener(this);
         titleRight.setOnClickListener(this);
         forImagePacker();
-        if (PreferencesUtils.containKey(ShopSetUp.this,"shop_id")){
+        if (PreferencesUtils.containKey(ShopSetUp.this, "shop_id")) {
             mShop_id = PreferencesUtils.getString(ShopSetUp.this, "shop_id");
         }
     }
@@ -134,13 +134,16 @@ public class ShopSetUp extends BaseAty implements View.OnClickListener {
                 String tvName = inPutName.getText().toString().trim();
                 String tvDetails = shopDetails.getText().toString().trim();
                 long l = System.currentTimeMillis();
-                if (file1 != null && !file1.equals("")) {
-                    uri = file1.toString();
-                } else {
-                    uri = shopUrl;
-                }
+                //                if (file1 != null && !file1.equals("")) {
+                //                    uri = file1.toString();
+                //                } else {
+                //                    uri = shopUrl;
+                //                }
                 isUpdata = true;
-                pst.shopsetData(mShop_id, tvName, uri, tvDetails, "1515", "1", "0", "0", "0", "0", l+ "");
+                if (file1 != null) {
+                    pst.shopsetData(mShop_id, tvName, file1, tvDetails, user_id, l + "");
+                }
+
                 break;
         }
     }
@@ -167,6 +170,9 @@ public class ShopSetUp extends BaseAty implements View.OnClickListener {
                 shopDesc = JSONUtils.getMapValue(mapData, "shop_desc");
                 //店铺头像
                 shopUrl = JSONUtils.getMapValue(mapData, "shop_url");
+
+
+                user_id = JSONUtils.getMapValue(mapData, "user_id");
                 if (shopUrl != null && !shopUrl.equals("")) {
                     Glide.with(ShopSetUp.this).load(shopUrl).error(R.mipmap.icon_idcard_front)
                             .placeholder(R.mipmap.icon_idcard_front).centerCrop().into(shopImage);

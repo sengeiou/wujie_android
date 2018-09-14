@@ -61,6 +61,7 @@ public class ApiTool2 {
         httpUtils.configCurrentHttpCacheExpiry(DEFULT_CURRENT_HTTP_CACHE_EXPIRY);
         String token = PreferencesUtils.getString(AppManager.getInstance().getTopActivity(), "token", "");
         params.addHeader("token", token);
+        params.addHeader("method","POST");
         L.i("token", "========token=========" + token);
         httpUtils.send(HttpRequest.HttpMethod.POST, url, params, new DefaultRequestCallBack(apiListener));
     }

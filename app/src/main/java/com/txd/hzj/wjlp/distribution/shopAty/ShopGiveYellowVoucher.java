@@ -58,6 +58,8 @@ public class ShopGiveYellowVoucher extends BaseAty {
     private ProgressBar footerProgressBar;
     private TextView footerTextView;
     private ImageView footerImageView;
+    private int page = 1;
+    private List<ShopOrderBean.DataBean> data;
 
     @Override
     protected int getLayoutResId() {
@@ -74,7 +76,7 @@ public class ShopGiveYellowVoucher extends BaseAty {
         }
 
         refreshLayout.setHeaderView(createHeaderView());// add headerView
-        //        refreshLayout.setFooterView(createFooterView());
+        refreshLayout.setFooterView(createFooterView());
         refreshLayout.setHeaderViewBackgroundColor(Color.WHITE);
         refreshLayout.setTargetScrollWithLayout(true);
         refreshLayout.setOnPullRefreshListener(new SuperSwipeRefreshLayout.OnPullRefreshListener() {
@@ -83,6 +85,7 @@ public class ShopGiveYellowVoucher extends BaseAty {
                 textView.setText("正在刷新");
                 imageView.setVisibility(View.GONE);
                 progressBar.setVisibility(View.VISIBLE);
+                page = 1;
                 requestData();
             }
 
@@ -98,32 +101,34 @@ public class ShopGiveYellowVoucher extends BaseAty {
                 imageView.setRotation(enable ? 180 : 0);
             }
         });
-        //        refreshLayout.setOnPushLoadMoreListener(new SuperSwipeRefreshLayout.OnPushLoadMoreListener() {
-        //            @Override
-        //            public void onLoadMore() {
-        //                footerTextView.setText("正在加载...");
-        //                footerImageView.setVisibility(View.GONE);
-        //                footerProgressBar.setVisibility(View.VISIBLE);
-        //            }
-        //
-        //            @Override
-        //            public void onPushDistance(int i) {
-        //
-        //            }
-        //
-        //            @Override
-        //            public void onPushEnable(boolean enable) {
-        //                footerTextView.setText(enable ? "松开加载" : "上拉加载");
-        //                footerImageView.setVisibility(View.VISIBLE);
-        //                footerImageView.setRotation(enable ? 0 : 180);
-        //            }
-        //        });
+        refreshLayout.setOnPushLoadMoreListener(new SuperSwipeRefreshLayout.OnPushLoadMoreListener() {
+            @Override
+            public void onLoadMore() {
+                footerTextView.setText("正在加载...");
+                footerImageView.setVisibility(View.GONE);
+                footerProgressBar.setVisibility(View.VISIBLE);
+                page+=1;
+                requestData();
+            }
+
+            @Override
+            public void onPushDistance(int i) {
+
+            }
+
+            @Override
+            public void onPushEnable(boolean enable) {
+                footerTextView.setText(enable ? "松开加载" : "上拉加载");
+                footerImageView.setVisibility(View.VISIBLE);
+                footerImageView.setRotation(enable ? 0 : 180);
+            }
+        });
     }
 
     @Override
     protected void requestData() {
         if (null != mExhibitPst && !TextUtils.isEmpty(mShop_id)) {
-            mExhibitPst.shopOrderList(mShop_id, "4", "");
+            mExhibitPst.shopYellowList(mShop_id, "4", String.valueOf(page));
         }
     }
 
@@ -134,29 +139,41 @@ public class ShopGiveYellowVoucher extends BaseAty {
         if (requestUrl.contains("orders")) {
             ShopOrderBean shopOrderBean = JSONObject.parseObject(jsonStr, ShopOrderBean.class);
             if (200 == shopOrderBean.getCode()) {
-                final List<ShopOrderBean.DataBean> data = shopOrderBean.getData();
-                for (ShopOrderBean.DataBean dataBean:data){
-                    if (dataBean.getOrder_goods()==null || dataBean.getOrder_goods().size()==0){
-                        data.remove(dataBean);
-                    }
-                }
-                if (null != data && data.size() > 0) {
-                    empty_layout.setVisibility(View.GONE);
-                    refreshLayout.setVisibility(View.VISIBLE);
-                    shop_order_re_list.setLayoutManager(new LinearLayoutManager(mContext));
-                    adapter = new ShopOrderManageAdapter(data, mContext, "代金券");
-                    shop_order_re_list.setAdapter(adapter);
-                    adapter.setButtonClickListener(new ShopOrderManageAdapter.OnButtonClickListener() {
-                        @Override
-                        public void buttonClick(int num, String price, String ticket_status) {
-                            postion = num;
-                            mExhibitPst.shopSetOrderTicket(data.get(num).getOrder_id(), ticket_status, price);
+                if (page==1){
+                    data = shopOrderBean.getData();
+                    for (ShopOrderBean.DataBean dataBean : data) {
+                        if (dataBean.getOrder_goods() == null || dataBean.getOrder_goods().size() == 0) {
+                            data.remove(dataBean);
                         }
-                    });
-                } else {
-                    empty_layout.setVisibility(View.VISIBLE);
-                    refreshLayout.setVisibility(View.GONE);
+                    }
+                    if (null != data && data.size() > 0) {
+                        empty_layout.setVisibility(View.GONE);
+                        refreshLayout.setVisibility(View.VISIBLE);
+                        shop_order_re_list.setLayoutManager(new LinearLayoutManager(mContext));
+                        adapter = new ShopOrderManageAdapter(data, mContext, "代金券");
+                        shop_order_re_list.setAdapter(adapter);
+                        adapter.setButtonClickListener(new ShopOrderManageAdapter.OnButtonClickListener() {
+                            @Override
+                            public void buttonClick(int num, String price, String ticket_status) {
+                                postion = num;
+                                mExhibitPst.shopSetOrderTicket(data.get(num).getOrder_id(), ticket_status, price);
+                            }
+                        });
+                    } else {
+                        empty_layout.setVisibility(View.VISIBLE);
+                        refreshLayout.setVisibility(View.GONE);
+                    }
+                }else {
+                    List<ShopOrderBean.DataBean> data = shopOrderBean.getData();
+                    for (ShopOrderBean.DataBean dataBean : data) {
+                        if (dataBean.getOrder_goods() == null || dataBean.getOrder_goods().size() == 0) {
+                            data.remove(dataBean);
+                        }
+                    }
+                    this.data.addAll(data);
+                   adapter.notifyDataSetChanged();
                 }
+
 
             }
         }
@@ -167,6 +184,10 @@ public class ShopGiveYellowVoucher extends BaseAty {
                 if (jsonObject.containsKey("message")) {
                     showToast(jsonObject.getString("message"));
                     adapter.notifyData(postion);
+                    if (adapter.getItemCount() == 0) {
+                        empty_layout.setVisibility(View.VISIBLE);
+                        refreshLayout.setVisibility(View.GONE);
+                    }
                 }
             }
         }
@@ -207,14 +228,14 @@ public class ShopGiveYellowVoucher extends BaseAty {
     }
 
     private void refreshComplete() {
-                if (progressBar.getVisibility()==View.VISIBLE){
-                    refreshLayout.setRefreshing(false);
-                    progressBar.setVisibility(View.GONE);
-                }
-        //        if (footerProgressBar.getVisibility()==View.VISIBLE){
-        //            refreshLayout.setLoadMore(false);
-        //            progressBar.setVisibility(View.GONE);
-        //        }
+        if (progressBar.getVisibility() == View.VISIBLE) {
+            refreshLayout.setRefreshing(false);
+            progressBar.setVisibility(View.GONE);
+        }
+        if (footerProgressBar.getVisibility() == View.VISIBLE) {
+            refreshLayout.setLoadMore(false);
+            progressBar.setVisibility(View.GONE);
+        }
 
     }
 }

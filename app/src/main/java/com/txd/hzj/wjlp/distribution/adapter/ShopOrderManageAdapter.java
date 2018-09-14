@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -132,12 +133,12 @@ public class ShopOrderManageAdapter extends RecyclerView.Adapter {
             holders.time_tv.setVisibility(View.GONE);
             //黄券额度
             final double ticket_lines = TextUtils.isEmpty(dataBean.getTicket_lines()) ? 0 : Double.parseDouble(dataBean.getTicket_lines());
-            holders.max_tv.setText("*最多可使用"+ticket_lines+"元黄券");
+
 
             final double ticket_pric = TextUtils.isEmpty(dataBean.getTicket_price()) ? 0 : Double.parseDouble(dataBean.getTicket_price());
             final double lesser = ticket_lines - ticket_pric > 0 ? ticket_pric : ticket_lines;
-
-            holders.input_et.setText("￥"+String.valueOf(lesser));
+            holders.max_tv.setText("*最多可使用"+lesser+"元黄券");
+            holders.input_et.setText(String.valueOf(lesser));
             holders.input_et.setSelection(holders.input_et.getText().length());
             holders.input_et.addTextChangedListener(new TextWatcher() {
                 @Override
@@ -152,28 +153,31 @@ public class ShopOrderManageAdapter extends RecyclerView.Adapter {
                 @Override
                 public void afterTextChanged(Editable s) {
                     String numStr = s.toString().trim();
-                    if (numStr.equals("") || numStr.equals("0")) {
-                        return;
+                    Log.e("TAG", "afterTextChanged: "+numStr );
+                    if (!TextUtils.isEmpty(numStr)){
+                        holders.input_et.removeTextChangedListener(this);
+                        double price = Double.parseDouble(numStr.toString());
+                        if (price > lesser) {
+                            holders.input_et.setText(String.valueOf(lesser));
+                        }
+                        holders.input_et.setSelection(holders.input_et.getText().length());
+                        holders.input_et.addTextChangedListener(this);
                     }
-                    holders.input_et.removeTextChangedListener(this);
-                    double price = Double.parseDouble(numStr.toString());
-                    if (price > lesser) {
-                        holders.input_et.setText("￥"+String.valueOf(lesser));
-                    }
-                    holders.input_et.setSelection(holders.input_et.getText().length());
-                    holders.input_et.addTextChangedListener(this);
+
                 }
             });
 
             holders.tv_btn_left.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (holders.input_et.getText().toString().isEmpty()) {
+                    String s = holders.input_et.getText().toString();
+                    if (TextUtils.isEmpty(s)) {
                         Toast.makeText(context, "金额不能为空", Toast.LENGTH_SHORT).show();
                         return;
                     }
+
                     if (mButtonClickListener != null) {
-                        mButtonClickListener.buttonClick(holder.getLayoutPosition(), holders.input_et.getText().toString(), "3");
+                        mButtonClickListener.buttonClick(holder.getLayoutPosition(), s, "3");
                     }
                 }
             });
@@ -181,12 +185,14 @@ public class ShopOrderManageAdapter extends RecyclerView.Adapter {
             holders.tv_btn_right.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (holders.input_et.getText().toString().isEmpty()) {
+                    String s = holders.input_et.getText().toString();
+                    if (TextUtils.isEmpty(s)) {
                         Toast.makeText(context, "金额不能为空", Toast.LENGTH_SHORT).show();
                         return;
                     }
+
                     if (mButtonClickListener != null) {
-                        mButtonClickListener.buttonClick(holder.getLayoutPosition(), holders.input_et.getText().toString(), "2");
+                        mButtonClickListener.buttonClick(holder.getLayoutPosition(), s, "2");
                     }
                 }
             });
