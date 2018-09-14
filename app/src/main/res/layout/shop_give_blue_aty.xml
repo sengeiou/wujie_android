@@ -6,6 +6,19 @@
     android:fitsSystemWindows="true"
     android:orientation="vertical">
     <include layout="@layout/aty_shop_title" />
+    <View
+        android:background="@color/line_color"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"/>
+
+    <TextView
+        android:id="@+id/total_tv"
+        android:textColor="#FF7512"
+        tools:text="剩余黄券额度0"
+        android:gravity="center"
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="35dp" />
     <com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout
         android:id="@+id/shop_order_refresh"
         android:background="@color/white"

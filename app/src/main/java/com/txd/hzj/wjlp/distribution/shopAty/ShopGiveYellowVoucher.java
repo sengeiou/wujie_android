@@ -60,6 +60,10 @@ public class ShopGiveYellowVoucher extends BaseAty {
     private ImageView footerImageView;
     private int page = 1;
     private List<ShopOrderBean.DataBean> data;
+    private double totalPrice=0;
+
+    @ViewInject(R.id.total_tv)
+    private TextView total_tv;
 
     @Override
     protected int getLayoutResId() {
@@ -139,6 +143,11 @@ public class ShopGiveYellowVoucher extends BaseAty {
         if (requestUrl.contains("orders")) {
             ShopOrderBean shopOrderBean = JSONObject.parseObject(jsonStr, ShopOrderBean.class);
             if (200 == shopOrderBean.getCode()) {
+                String nums = shopOrderBean.getNums();
+                if (!TextUtils.isEmpty(nums)){
+                    totalPrice=Double.parseDouble(nums);
+                    total_tv.setText("剩余黄券额度"+nums);
+                }
                 if (page==1){
                     data = shopOrderBean.getData();
                     for (ShopOrderBean.DataBean dataBean : data) {
@@ -156,10 +165,20 @@ public class ShopGiveYellowVoucher extends BaseAty {
                             @Override
                             public void buttonClick(int num, String price, String ticket_status) {
                                 postion = num;
-                                mExhibitPst.shopSetOrderTicket(data.get(num).getOrder_id(), ticket_status, price);
+                                if ("2".equals(ticket_status)){
+                                    if (totalPrice>0){
+                                        mExhibitPst.shopSetOrderTicket(data.get(num).getOrder_id(), ticket_status, price);
+                                    }
+                                }else {
+                                    mExhibitPst.shopSetOrderTicket(data.get(num).getOrder_id(), ticket_status, price);
+                                }
+
+
+
                             }
                         });
                     } else {
+                        total_tv.setVisibility(View.GONE);
                         empty_layout.setVisibility(View.VISIBLE);
                         refreshLayout.setVisibility(View.GONE);
                     }

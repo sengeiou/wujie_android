@@ -110,11 +110,12 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/fenxiao_goods_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="15dp"
-                android:text="5,000.00"
+                tools:text="5,000.00"
                 android:textColor="@color/shop_main_fontcolor_black"
                 android:textSize="16sp" />
 
@@ -146,12 +147,13 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/normal_goods_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="15dp"
                 android:gravity="center"
-                android:text="15,000.00"
+                tools:text="15,000.00"
                 android:textColor="@color/shop_main_fontcolor_black"
                 android:textSize="16sp" />
 

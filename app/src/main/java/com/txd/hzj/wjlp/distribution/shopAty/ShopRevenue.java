@@ -24,6 +24,7 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
+import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.distribution.presenter.ShopExhibitPst;
@@ -74,6 +75,13 @@ public class ShopRevenue extends BaseAty implements View.OnClickListener {
     //  1: 日 2：月 0 ：年
     private String c_base_type="1";
     private String mShop_id;
+
+
+    @ViewInject(R.id.fenxiao_goods_tv)
+    private TextView fenxiao_goods_tv;
+
+    @ViewInject(R.id.normal_goods_tv)
+    private TextView normal_goods_tv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -152,8 +160,12 @@ public class ShopRevenue extends BaseAty implements View.OnClickListener {
                     bottomList.add(horizon.getString(i));
                 }
                 JSONObject normal = data.getJSONObject("normal");
+                String count = normal.getString("count");
+                normal_goods_tv.setText(count);
                 JSONObject normalData = normal.getJSONObject("data");
                 JSONObject dis = data.getJSONObject("dis");
+                String disString = dis.getString("count");
+                fenxiao_goods_tv.setText(disString);
                 JSONObject disData = dis.getJSONObject("data");
                 normaList = new ArrayList<>();
                 disList = new ArrayList<>();
