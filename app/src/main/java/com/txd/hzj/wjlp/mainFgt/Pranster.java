@@ -118,15 +118,9 @@ public class Pranster implements Constant.Pranster, BaseView {
                         if (currentPage == 1) {
                             mellNearByHzjAdapter.getList().clear();
                         }
-                        if (offLineBean.getData().size() > 0) {
+                        if (null != offLineBean.getData() && offLineBean.getData().size() > 0) {
                             mellNearByHzjAdapter.getList().addAll(offLineBean.getData());
                             mellNearByHzjAdapter.notifyDataSetChanged();
-                            if (offLineBean.getData().size() < 10) {
-                                constantView.loadMoreOver();
-                            }
-                            listView.smoothScrollToPosition(mellNearByHzjAdapter.getList().size() - offLineBean.getData().size());
-                        } else {
-                            listView.smoothScrollToPosition(mellNearByHzjAdapter.getList().size());
                         }
                     }
                 }

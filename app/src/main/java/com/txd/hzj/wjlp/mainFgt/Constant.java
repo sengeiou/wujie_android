@@ -1,7 +1,6 @@
 package com.txd.hzj.wjlp.mainFgt;
 
 import com.txd.hzj.wjlp.bean.offline.OffLineDataBean;
-import com.txd.hzj.wjlp.mellOffLine.OffLineDetailsAty;
 
 /**
  * 创建者：TJDragon(LiuGang)
@@ -18,9 +17,5 @@ public interface Constant {
         void onItemClickListener(OffLineDataBean offLineDataBean,int position);
         void loadComplate();
 
-        /**
-         * 数据加载到最后了,没有更多的数据了
-         */
-        void loadMoreOver();
     }
 }

@@ -560,9 +560,4 @@ public class ShopMallDetailsAty extends BaseAty implements View.OnClickListener,
         mallRefrsh.setLoadMore(false);*/
     }
 
-    @Override
-    public void loadMoreOver() {
-        if (page > 1)
-            page -= 1;
-    }
 }

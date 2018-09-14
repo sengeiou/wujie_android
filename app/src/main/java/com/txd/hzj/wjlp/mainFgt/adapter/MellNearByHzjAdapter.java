@@ -97,44 +97,28 @@ public class MellNearByHzjAdapter extends BaseAdapter {
         } else {
             nyvh.delivery_status_tv.setVisibility(View.VISIBLE);
         }
-        //        nyvh.mell_goods_gv.setAdapter(new GoodsAdapter(list2));
         // 是否有更多优惠
         List<TicketBean> ticketBeans = offLineDataBean.getTicket();
-        if (null == nyvh.djpLayout.getTag()) {
-            nyvh.djpLayout.setTag(position);
-            nyvh.other_zk_layout.setTag(position);
-            if (null != ticketBeans) {
-                if (ticketBeans.size() > 1) {//都可见
-                    nyvh.djpLayout.setVisibility(View.VISIBLE);
-                    nyvh.show_or_hind_layout_iv.setVisibility(View.VISIBLE);
-
-                    for (int i = 0; i < offLineDataBean.getTicket().size(); i++) {
-                        TicketBean ticketBean = offLineDataBean.getTicket().get(i);
-                        if (i < 1) {
-                            addView(nyvh.djpLayout, ticketBean, false);
-                        } else {
-                            addView(nyvh.other_zk_layout, ticketBean, true);
-                        }
-                    }
-                } else if (ticketBeans.size() == 1) {//只有第一行可见
-                    nyvh.show_or_hind_layout_iv.setVisibility(View.GONE);
-                    nyvh.other_zk_layout.setVisibility(View.GONE);
-                    TicketBean ticketBean = offLineDataBean.getTicket().get(0);
-                    addView(nyvh.djpLayout, ticketBean, false);
-                } else {
-                    nyvh.vertical_line.setVisibility(View.GONE);
-                    nyvh.mell_sell_num.setVisibility(View.GONE);
-                    nyvh.voucher_layout.setVisibility(View.GONE);
-                }
-            } else {// 都不可见
-                nyvh.djpLayout.setVisibility(View.GONE);
-                nyvh.show_or_hind_layout_iv.setVisibility(View.GONE);
-                nyvh.other_zk_layout.setVisibility(View.GONE);
-            }
-        }
-        if (null != ticketBeans && ticketBeans.size() > 1) {
+        if (null != ticketBeans && ticketBeans.size() > 0) {
+            nyvh.djpLayout.removeAllViews();
             nyvh.line_view.setVisibility(View.VISIBLE);
             nyvh.voucher_layout.setVisibility(View.VISIBLE);
+            if (ticketBeans.size() == 1) {//只有第一行可见
+                nyvh.show_or_hind_layout_iv.setVisibility(View.GONE);
+                nyvh.other_zk_layout.setVisibility(View.GONE);
+                TicketBean ticketBean = offLineDataBean.getTicket().get(0);
+                addView(nyvh.djpLayout, ticketBean, false);
+            }else {
+                nyvh.other_zk_layout.removeAllViews();
+                for (int i = 0; i < offLineDataBean.getTicket().size(); i++) {
+                    TicketBean ticketBean = offLineDataBean.getTicket().get(i);
+                    if (i == 0) {
+                        addView(nyvh.djpLayout, ticketBean, false);
+                    } else {
+                        addView(nyvh.other_zk_layout, ticketBean, true);
+                    }
+                }
+            }
             if (offLineDataBean.isShow()) {
                 nyvh.other_zk_layout.setVisibility(View.VISIBLE);
                 nyvh.show_or_hind_layout_iv.setImageResource(R.drawable.icon_show_other_layout);
@@ -229,7 +213,7 @@ public class MellNearByHzjAdapter extends BaseAdapter {
         private LinearLayout djpLayout;
 
         @ViewInject(R.id.line_view)
-        private  View line_view;
+        private View line_view;
 
         @ViewInject(R.id.voucher_layout)
         private LinearLayout voucher_layout;
@@ -251,55 +235,5 @@ public class MellNearByHzjAdapter extends BaseAdapter {
         @ViewInject(R.id.delivery_status_tv)
         private TextView delivery_status_tv;
 
-        //        /**
-        //         * 商品列表
-        //         */
-        //        @ViewInject(R.id.mell_goods_gv)
-        //        private GridViewForScrollView mell_goods_gv;
     }
-
-    //    /**
-    //     * 商品列表
-    //     */
-    //    private class GoodsAdapter extends BaseAdapter {
-    //        private NYGVH nygvh;
-    //        private List<String> goods;
-    //
-    //        public GoodsAdapter(List<String> goods) {
-    //            this.goods = goods;
-    //        }
-    //
-    //        @Override
-    //        public int getCount() {
-    //            return 4;
-    //        }
-    //
-    //        @Override
-    //        public Object getItem(int i) {
-    //            return goods.get(i);
-    //        }
-    //
-    //        @Override
-    //        public long getItemId(int i) {
-    //            return i;
-    //        }
-    //
-    //        @Override
-    //        public View getView(int i, View view, ViewGroup viewGroup) {
-    //            if (view == null) {
-    //                view = LayoutInflater.from(context).inflate(R.layout.item_mell_goods_hzj_gv, viewGroup, false);
-    //                nygvh = new NYGVH();
-    //                ViewUtils.inject(nygvh, view);
-    //                view.setTag(nygvh);
-    //            } else {
-    //                nygvh = (NYGVH) view.getTag();
-    //            }
-    //            return view;
-    //        }
-    //
-    //        class NYGVH {
-    //
-    //        }
-    //    }
-
 }

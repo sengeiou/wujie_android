@@ -657,9 +657,4 @@ public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.Scro
         swipeRefreshLayout.setLoadMore(false);
     }
 
-    @Override
-    public void loadMoreOver() {
-        if (page > 1)
-            page -= 1;
-    }
 }
