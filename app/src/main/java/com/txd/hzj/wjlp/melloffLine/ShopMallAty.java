@@ -14,9 +14,11 @@ import android.widget.PopupWindow;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.config.Settings;
 import com.ants.theantsgo.tools.ObserTool;
 import com.ants.theantsgo.util.JSONUtils;
+import com.ants.theantsgo.util.PreferencesUtils;
 import com.ants.theantsgo.view.inScroll.ListViewForScrollView;
 import com.bumptech.glide.Glide;
 import com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout;
@@ -31,6 +33,7 @@ import com.txd.hzj.wjlp.http.OfflineStore;
 import com.txd.hzj.wjlp.http.Recommending;
 import com.txd.hzj.wjlp.mainfgt.adapter.MellNearByHzjAdapter;
 import com.txd.hzj.wjlp.mellonLine.MessageAty;
+import com.txd.hzj.wjlp.mellonLine.NoticeDetailsAty;
 import com.txd.hzj.wjlp.mellonLine.SearchAty;
 import com.txd.hzj.wjlp.tool.GlideImageLoader;
 import com.txd.hzj.wjlp.view.ObservableScrollView;
@@ -182,9 +185,31 @@ public class ShopMallAty extends BaseAty {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     OffLineDataBean offLineDataBea = mellNearByHzjAdapter.getItem(position);
-                    Bundle options = new Bundle();
-                    options.putSerializable("mellInfo", offLineDataBea);
-                    startActivity(ShopMallDetailsAty.class, options);
+                    String goods_num = offLineDataBea.getGoods_num();
+                    Bundle bundle = new Bundle();
+                    if (!TextUtils.isEmpty(goods_num) && Integer.parseInt(goods_num)>0){
+                        StringBuffer stringBuffer = new StringBuffer();
+                        if (Config.OFFICIAL_WEB.contains("api")){
+                            stringBuffer.append("http://www.wujiemall.com/");
+                        }else {
+                            stringBuffer.append(Config.OFFICIAL_WEB);
+                        }
+                        stringBuffer.append("Wap/OfflineStore/offlineShop/merchant_id/");
+                        stringBuffer.append(offLineDataBea.getS_id());
+                        if (Config.isLogin()) {
+                            stringBuffer.append("/invite_code/");
+                            stringBuffer.append(PreferencesUtils.getString(ShopMallAty.this, "invite_code"));
+                        }
+                        stringBuffer.append(".html");
+
+                        bundle.putString("desc", ""); // 传过去没什么用
+                        bundle.putString("href", stringBuffer.toString()); // url
+                        bundle.putInt("from", 2);
+                        startActivity(NoticeDetailsAty.class, bundle);
+                    }else {
+                        bundle.putSerializable("mellInfo", offLineDataBea);
+                        startActivity(ShopMallDetailsAty.class, bundle);
+                    }
                 }
             });
         }
