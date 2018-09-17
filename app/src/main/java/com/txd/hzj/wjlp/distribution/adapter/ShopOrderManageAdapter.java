@@ -114,18 +114,19 @@ public class ShopOrderManageAdapter extends RecyclerView.Adapter {
         }
 
         holders.button_layout.setVisibility(View.GONE);
-        if ("全部".equals(type)) {
-            holders.orderType.setText("全部");
-        } else if ("待付款".equals(type)) {
-            holders.orderType.setText("待付款");
-        } else if ("待发货".equals(type)) {
-            holders.orderType.setText("待发货");
-        } else if ("待收货".equals(type)) {
-            holders.orderType.setText("待收货");
-        } else if ("已完成".equals(type)) {
-            holders.orderType.setText("已完成");
-        } else if ("代金券".equals(type)) {
+        if ("代金券".equals(type)) {
             holders.button_layout.setVisibility(View.VISIBLE);
+        }
+
+        String order_status = dataBean.getOrder_status();
+        if ("0".equals(order_status)){
+            holders.orderType.setText("待付款");
+        }else if ("1".equals(order_status)){
+            holders.orderType.setText("待发货");
+        } if ("2".equals(order_status)){
+            holders.orderType.setText("待收货");
+        } if ("4".equals(order_status)){
+            holders.orderType.setText("已完成");
         }
 
         if (holders.button_layout.getVisibility() == View.VISIBLE) {

@@ -204,7 +204,6 @@ public class ShopGiveYellowVoucher extends BaseAty {
                     showToast(jsonObject.getString("message"));
                     adapter.notifyData(postion);
                     if (adapter.getItemCount() == 0) {
-                        total_tv.setVisibility(View.GONE);
                         empty_layout.setVisibility(View.VISIBLE);
                         refreshLayout.setVisibility(View.GONE);
                     }
