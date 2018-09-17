@@ -652,7 +652,7 @@ public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.Scro
         if (!TextUtils.isEmpty(goods_num) && Integer.parseInt(goods_num)>0){
             StringBuffer stringBuffer = new StringBuffer();
             if (Config.OFFICIAL_WEB.contains("api")){
-                stringBuffer.append("http://api.wujiemall.com/");
+                stringBuffer.append("http://www.wujiemall.com/");
             }else {
                 stringBuffer.append(Config.OFFICIAL_WEB);
             }
