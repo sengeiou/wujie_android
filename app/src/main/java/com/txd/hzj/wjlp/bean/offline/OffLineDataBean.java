@@ -24,6 +24,15 @@ public class OffLineDataBean implements Serializable {
     private String distance;//距离
     private List<TicketBean> ticket;
     private boolean isShow=false;
+    private String goods_num;
+
+    public String getGoods_num() {
+        return goods_num;
+    }
+
+    public void setGoods_num(String goods_num) {
+        this.goods_num = goods_num;
+    }
 
     public String getShow_type() {
         return show_type;
