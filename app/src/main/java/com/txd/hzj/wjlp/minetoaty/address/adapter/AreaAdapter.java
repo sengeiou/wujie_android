@@ -1,4 +1,4 @@
-package com.txd.hzj.wjlp.minetoAty.address.adapter;
+package com.txd.hzj.wjlp.minetoaty.address.adapter;
 
 import com.bigkoo.pickerview.adapter.WheelAdapter;
 

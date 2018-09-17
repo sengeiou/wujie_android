@@ -1,4 +1,4 @@
-package com.txd.hzj.wjlp.mellOnLine;
+package com.txd.hzj.wjlp.mellonLine;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -30,8 +30,8 @@ import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.bean.CateIndex;
 import com.txd.hzj.wjlp.http.category.GoodsCategoryPst;
-import com.txd.hzj.wjlp.mellOnLine.adapter.HotBrandAdapter;
-import com.txd.hzj.wjlp.mellOnLine.adapter.ThreeClassifyAdapter;
+import com.txd.hzj.wjlp.mellonLine.adapter.HotBrandAdapter;
+import com.txd.hzj.wjlp.mellonLine.adapter.ThreeClassifyAdapter;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.txd.hzj.wjlp.minetoAty.order.fgt;
+package com.txd.hzj.wjlp.minetoaty.order.fgt;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -23,7 +23,7 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseFgt;
 import com.txd.hzj.wjlp.bean.MemberOrderList;
-import com.txd.hzj.wjlp.minetoAty.order.VipCardDetailsAty;
+import com.txd.hzj.wjlp.minetoaty.order.VipCardDetailsAty;
 import com.txd.hzj.wjlp.new_wjyp.VipPayAty;
 import com.txd.hzj.wjlp.http.MemberOrder;
 import com.txd.hzj.wjlp.tool.MessageEvent;

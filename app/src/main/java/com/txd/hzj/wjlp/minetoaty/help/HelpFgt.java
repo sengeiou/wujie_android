@@ -1,4 +1,4 @@
-package com.txd.hzj.wjlp.minetoAty.help;
+package com.txd.hzj.wjlp.minetoaty.help;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -6,8 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebSettings;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;

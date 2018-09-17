@@ -1,4 +1,4 @@
-package com.txd.hzj.wjlp.minetoAty.feedback;
+package com.txd.hzj.wjlp.minetoaty.feedback;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -14,7 +14,7 @@ import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.bean.FeedbackType;
 import com.txd.hzj.wjlp.http.article.ArticlePst;
-import com.txd.hzj.wjlp.minetoAty.feedback.fgt.FeedbackFgt;
+import com.txd.hzj.wjlp.minetoaty.feedback.fgt.FeedbackFgt;
 
 import java.util.ArrayList;
 import java.util.List;

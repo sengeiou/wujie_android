@@ -1,4 +1,4 @@
-package com.txd.hzj.wjlp.minetoAty.balance;
+package com.txd.hzj.wjlp.minetoaty.balance;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -21,7 +21,6 @@ import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.http.balance.BalancePst;
-import com.txd.hzj.wjlp.view.MyEditText;
 
 import java.util.Map;
 

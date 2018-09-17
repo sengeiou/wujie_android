@@ -1,4 +1,4 @@
-package com.txd.hzj.wjlp.minetoAty.order;
+package com.txd.hzj.wjlp.minetoaty.order;
 
 import android.content.DialogInterface;
 import android.os.Bundle;

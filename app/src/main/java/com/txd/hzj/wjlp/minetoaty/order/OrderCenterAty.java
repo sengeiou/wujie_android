@@ -1,4 +1,4 @@
-package com.txd.hzj.wjlp.minetoAty.order;
+package com.txd.hzj.wjlp.minetoaty.order;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

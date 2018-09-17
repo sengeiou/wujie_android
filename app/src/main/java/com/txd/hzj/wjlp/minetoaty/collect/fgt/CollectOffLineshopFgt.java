@@ -1,4 +1,4 @@
-package com.txd.hzj.wjlp.minetoAty.collect.fgt;
+package com.txd.hzj.wjlp.minetoaty.collect.fgt;
 
 
 import android.content.Intent;
@@ -25,8 +25,8 @@ import com.txd.hzj.wjlp.bean.footPoint.OfflineFootBean;
 import com.txd.hzj.wjlp.bean.offline.OffLineDataBean;
 import com.txd.hzj.wjlp.http.collect.UserCollectPst;
 import com.txd.hzj.wjlp.http.user.UserPst;
-import com.txd.hzj.wjlp.mellOffLine.ShopMallDetailsAty;
-import com.txd.hzj.wjlp.mellOffLine.adapter.OffLineFooterAndCollectAdapter;
+import com.txd.hzj.wjlp.melloffLine.ShopMallDetailsAty;
+import com.txd.hzj.wjlp.melloffLine.adapter.OffLineFooterAndCollectAdapter;
 import com.txd.hzj.wjlp.view.SuperSwipeRefreshLayout;
 
 import java.util.ArrayList;

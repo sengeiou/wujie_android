@@ -1,4 +1,4 @@
-package com.txd.hzj.wjlp.minetoAty;
+package com.txd.hzj.wjlp.minetoaty;
 
 import android.Manifest;
 import android.graphics.Bitmap;

@@ -1,4 +1,4 @@
-package com.txd.hzj.wjlp.minetoAty;
+package com.txd.hzj.wjlp.minetoaty;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -26,8 +26,8 @@ import com.txd.hzj.wjlp.bean.Promoters;
 import com.txd.hzj.wjlp.bean.mine.MineInfoBean;
 import com.txd.hzj.wjlp.http.user.User;
 import com.txd.hzj.wjlp.http.user.UserPst;
-import com.txd.hzj.wjlp.mainFgt.MineFgt;
-import com.txd.hzj.wjlp.minetoAty.tricket.ParticularsUsedByTricketAty;
+import com.txd.hzj.wjlp.mainfgt.MineFgt;
+import com.txd.hzj.wjlp.minetoaty.tricket.ParticularsUsedByTricketAty;
 import com.txd.hzj.wjlp.new_wjyp.VipDetailsAty;
 
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package com.txd.hzj.wjlp.minetoAty.balance;
+package com.txd.hzj.wjlp.minetoaty.balance;
 
 /**
  * by Txunda_LH on 2018/2/27.

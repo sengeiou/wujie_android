@@ -1,4 +1,4 @@
-package com.txd.hzj.wjlp.minetoAty.mell;
+package com.txd.hzj.wjlp.minetoaty.mell;
 
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;

@@ -1,4 +1,4 @@
-package com.txd.hzj.wjlp.minetoAty.help;
+package com.txd.hzj.wjlp.minetoaty.help;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -6,15 +6,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.BaseExpandableListAdapter;
-import android.widget.ExpandableListView;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.lidroid.xutils.view.annotation.ViewInject;

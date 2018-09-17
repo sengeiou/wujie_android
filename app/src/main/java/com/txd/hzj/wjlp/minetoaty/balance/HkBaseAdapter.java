@@ -1,14 +1,11 @@
-package com.txd.hzj.wjlp.minetoAty.balance;
+package com.txd.hzj.wjlp.minetoaty.balance;
 
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 
 import java.util.ArrayList;

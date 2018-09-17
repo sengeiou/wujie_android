@@ -1,4 +1,4 @@
-package com.txd.hzj.wjlp.minetoAty.coupon.fgt;
+package com.txd.hzj.wjlp.minetoaty.coupon.fgt;
 
 
 import android.text.TextUtils;

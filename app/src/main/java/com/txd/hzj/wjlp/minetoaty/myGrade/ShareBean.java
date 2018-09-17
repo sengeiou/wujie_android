@@ -1,4 +1,4 @@
-package com.txd.hzj.wjlp.minetoAty.myGrade;
+package com.txd.hzj.wjlp.minetoaty.myGrade;
 
 /**
  * by Txunda_LH on 2018/2/26.

@@ -1,4 +1,4 @@
-package com.txd.hzj.wjlp.mellOnLine.fgt;
+package com.txd.hzj.wjlp.mellonLine.fgt;
 
 import android.graphics.Color;
 import android.os.Bundle;
@@ -33,14 +33,14 @@ import com.txd.hzj.wjlp.base.BaseFgt;
 import com.txd.hzj.wjlp.bean.CFGoodsList;
 import com.txd.hzj.wjlp.bean.TwoCateListBean;
 import com.txd.hzj.wjlp.http.goods.GoodsPst;
-import com.txd.hzj.wjlp.mainFgt.adapter.HorizontalAdapter;
-import com.txd.hzj.wjlp.mainFgt.adapter.RacycleAllAdapter;
-import com.txd.hzj.wjlp.mainFgt.adapter.TicketZoonAdapter;
-import com.txd.hzj.wjlp.mainFgt.adapter.ViewPagerAdapter;
-import com.txd.hzj.wjlp.mellOnLine.NoticeDetailsAty;
-import com.txd.hzj.wjlp.mellOnLine.SubclassificationAty;
-import com.txd.hzj.wjlp.mellOnLine.gridClassify.MellInfoAty;
-import com.txd.hzj.wjlp.mellOnLine.gridClassify.TicketGoodsDetialsAty;
+import com.txd.hzj.wjlp.mainfgt.adapter.HorizontalAdapter;
+import com.txd.hzj.wjlp.mainfgt.adapter.RacycleAllAdapter;
+import com.txd.hzj.wjlp.mainfgt.adapter.TicketZoonAdapter;
+import com.txd.hzj.wjlp.mainfgt.adapter.ViewPagerAdapter;
+import com.txd.hzj.wjlp.mellonLine.NoticeDetailsAty;
+import com.txd.hzj.wjlp.mellonLine.SubclassificationAty;
+import com.txd.hzj.wjlp.mellonLine.gridClassify.MellInfoAty;
+import com.txd.hzj.wjlp.mellonLine.gridClassify.TicketGoodsDetialsAty;
 import com.txd.hzj.wjlp.tool.GridDividerItemDecoration;
 
 import java.util.ArrayList;

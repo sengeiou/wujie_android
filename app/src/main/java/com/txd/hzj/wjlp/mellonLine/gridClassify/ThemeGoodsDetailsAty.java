@@ -1,4 +1,4 @@
-package com.txd.hzj.wjlp.mellOnLine.gridClassify;
+package com.txd.hzj.wjlp.mellonLine.gridClassify;
 
 import android.content.DialogInterface;
 import android.graphics.Color;
@@ -35,11 +35,11 @@ import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.bean.commodity.*;
 import com.txd.hzj.wjlp.http.collect.UserCollectPst;
 import com.txd.hzj.wjlp.http.street.ThemePst;
-import com.txd.hzj.wjlp.mellOnLine.adapter.GoodsCommentAttrAdapter;
-import com.txd.hzj.wjlp.mellOnLine.adapter.PostAdapter;
-import com.txd.hzj.wjlp.mellOnLine.adapter.PromotionAdapter;
-import com.txd.hzj.wjlp.mellOnLine.adapter.TheTrickAdapter;
-import com.txd.hzj.wjlp.mellOnLine.gridClassify.adapter.CommentPicAdapter;
+import com.txd.hzj.wjlp.mellonLine.adapter.GoodsCommentAttrAdapter;
+import com.txd.hzj.wjlp.mellonLine.adapter.PostAdapter;
+import com.txd.hzj.wjlp.mellonLine.adapter.PromotionAdapter;
+import com.txd.hzj.wjlp.mellonLine.adapter.TheTrickAdapter;
+import com.txd.hzj.wjlp.mellonLine.gridClassify.adapter.CommentPicAdapter;
 import com.txd.hzj.wjlp.tool.ChangeTextViewStyle;
 import com.txd.hzj.wjlp.tool.TextUtils;
 import com.txd.hzj.wjlp.view.ObservableScrollView;

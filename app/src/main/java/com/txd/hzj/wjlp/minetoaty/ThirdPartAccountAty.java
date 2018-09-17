@@ -1,4 +1,4 @@
-package com.txd.hzj.wjlp.minetoAty;
+package com.txd.hzj.wjlp.minetoaty;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -22,8 +22,8 @@ import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.bean.PayeeBindBean;
 import com.txd.hzj.wjlp.http.User;
-import com.txd.hzj.wjlp.minetoAty.balance.RechargeAty;
-import com.txd.hzj.wjlp.minetoAty.setting.EditPayPasswordAty;
+import com.txd.hzj.wjlp.minetoaty.balance.RechargeAty;
+import com.txd.hzj.wjlp.minetoaty.setting.EditPayPasswordAty;
 import com.txd.hzj.wjlp.tool.CommonPopupWindow;
 
 import org.json.JSONException;

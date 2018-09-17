@@ -1,4 +1,4 @@
-package com.txd.hzj.wjlp.minetoAty;
+package com.txd.hzj.wjlp.minetoaty;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -11,7 +11,6 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.ants.theantsgo.util.L;
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.lidroid.xutils.ViewUtils;

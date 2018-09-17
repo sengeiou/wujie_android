@@ -1,4 +1,4 @@
-package com.txd.hzj.wjlp.minetoAty.order;
+package com.txd.hzj.wjlp.minetoaty.order;
 
 import android.graphics.Color;
 import android.os.Bundle;
@@ -31,9 +31,9 @@ import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.http.AuctionOrder;
 import com.txd.hzj.wjlp.http.GroupBuyOrder;
 import com.txd.hzj.wjlp.http.user.User;
-import com.txd.hzj.wjlp.mellOnLine.gridClassify.GoodLuckDetailsAty;
-import com.txd.hzj.wjlp.minetoAty.OrderLogisticsAty;
-import com.txd.hzj.wjlp.minetoAty.PayForAppAty;
+import com.txd.hzj.wjlp.mellonLine.gridClassify.GoodLuckDetailsAty;
+import com.txd.hzj.wjlp.minetoaty.OrderLogisticsAty;
+import com.txd.hzj.wjlp.minetoaty.PayForAppAty;
 import com.txd.hzj.wjlp.new_wjyp.After_aty;
 import com.txd.hzj.wjlp.tool.ChangeTextViewStyle;
 import com.txd.hzj.wjlp.tool.CommonPopupWindow;

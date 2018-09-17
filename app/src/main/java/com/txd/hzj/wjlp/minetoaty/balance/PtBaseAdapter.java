@@ -1,20 +1,15 @@
-package com.txd.hzj.wjlp.minetoAty.balance;
+package com.txd.hzj.wjlp.minetoaty.balance;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ants.theantsgo.base.BaseView;
-import com.ants.theantsgo.util.L;
-import com.bumptech.glide.Glide;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.http.balance.BalancePst;
-import com.txd.hzj.wjlp.login.FindPwgBackHzjAty;
 
 import java.util.ArrayList;
 

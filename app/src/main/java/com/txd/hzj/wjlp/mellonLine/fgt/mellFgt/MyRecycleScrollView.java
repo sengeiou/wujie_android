@@ -1,4 +1,4 @@
-package com.txd.hzj.wjlp.mellOnLine.fgt.mellFgt;
+package com.txd.hzj.wjlp.mellonLine.fgt.mellFgt;
 
 import android.content.Context;
 import android.util.AttributeSet;

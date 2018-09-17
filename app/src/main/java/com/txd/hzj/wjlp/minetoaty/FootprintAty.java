@@ -1,4 +1,4 @@
-package com.txd.hzj.wjlp.minetoAty;
+package com.txd.hzj.wjlp.minetoaty;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -15,10 +15,10 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
-import com.txd.hzj.wjlp.minetoAty.collect.fgt.CollectBooksFgt;
-import com.txd.hzj.wjlp.minetoAty.collect.fgt.CollectGoodsHzjFgt;
-import com.txd.hzj.wjlp.minetoAty.collect.fgt.CollectMellHzjFgt;
-import com.txd.hzj.wjlp.minetoAty.collect.fgt.CollectOffLineshopFgt;
+import com.txd.hzj.wjlp.minetoaty.collect.fgt.CollectBooksFgt;
+import com.txd.hzj.wjlp.minetoaty.collect.fgt.CollectGoodsHzjFgt;
+import com.txd.hzj.wjlp.minetoaty.collect.fgt.CollectMellHzjFgt;
+import com.txd.hzj.wjlp.minetoaty.collect.fgt.CollectOffLineshopFgt;
 
 import java.util.ArrayList;
 

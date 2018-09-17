@@ -1,9 +1,7 @@
-package com.txd.hzj.wjlp.minetoAty.dialog;
+package com.txd.hzj.wjlp.minetoaty.dialog;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
@@ -11,7 +9,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ants.theantsgo.config.Config;
-import com.ants.theantsgo.tips.MikyouCommonDialog;
 import com.ants.theantsgo.tool.ToolKit;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;

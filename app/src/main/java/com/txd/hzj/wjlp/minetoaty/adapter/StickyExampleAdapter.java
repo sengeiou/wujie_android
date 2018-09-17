@@ -1,4 +1,4 @@
-package com.txd.hzj.wjlp.minetoAty.adapter;
+package com.txd.hzj.wjlp.minetoaty.adapter;
 
 import android.content.Context;
 import android.content.Intent;
@@ -18,13 +18,13 @@ import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.bean.TricketDetailks;
-import com.txd.hzj.wjlp.minetoAty.balance.RechargeOffLineAty;
-import com.txd.hzj.wjlp.minetoAty.order.CollageDetailsAty;
-import com.txd.hzj.wjlp.minetoAty.order.OffLineShopDetailsAty;
-import com.txd.hzj.wjlp.minetoAty.order.OnlineChongDetailsAty;
-import com.txd.hzj.wjlp.minetoAty.order.OrderDetailsAty;
-import com.txd.hzj.wjlp.minetoAty.order.VipCardDetailsAty;
-import com.txd.hzj.wjlp.minetoAty.tricket.ParticularsUserCouponAty;
+import com.txd.hzj.wjlp.minetoaty.balance.RechargeOffLineAty;
+import com.txd.hzj.wjlp.minetoaty.order.CollageDetailsAty;
+import com.txd.hzj.wjlp.minetoaty.order.OffLineShopDetailsAty;
+import com.txd.hzj.wjlp.minetoaty.order.OnlineChongDetailsAty;
+import com.txd.hzj.wjlp.minetoaty.order.OrderDetailsAty;
+import com.txd.hzj.wjlp.minetoaty.order.VipCardDetailsAty;
+import com.txd.hzj.wjlp.minetoaty.tricket.ParticularsUserCouponAty;
 
 import java.util.List;
 
@@ -243,7 +243,7 @@ public class StickyExampleAdapter extends RecyclerView.Adapter<RecyclerView.View
     }
 
     public String transport(String inputStr) {
-        char arr[] = inputStr.toCharArray();
+        char[] arr = inputStr.toCharArray();
         for (int i = 0; i < arr.length; i++) {
             if (arr[i] == ' ') {
                 arr[i] = '\u3000';

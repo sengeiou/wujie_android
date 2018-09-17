@@ -1,4 +1,4 @@
-package com.txd.hzj.wjlp.minetoAty.setting;
+package com.txd.hzj.wjlp.minetoaty.setting;
 
 import android.os.Bundle;
 import android.view.View;
