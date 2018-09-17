@@ -238,7 +238,9 @@ public class IndianaRecordAdapter extends BaseAdapter {
 
 
     public void showPop(View view, final String url, final String price, final String order_id) {
-        if (commonPopupWindow != null && commonPopupWindow.isShowing()) return;
+        if (commonPopupWindow != null && commonPopupWindow.isShowing()) {
+            return;
+        }
         commonPopupWindow = new CommonPopupWindow.Builder(context)
                 .setView(R.layout.popp_addorder)
                 .setWidthAndHeight(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)

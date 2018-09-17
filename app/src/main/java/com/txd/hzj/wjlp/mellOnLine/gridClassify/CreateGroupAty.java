@@ -19,7 +19,6 @@ import com.ants.theantsgo.tools.ObserTool;
 import com.ants.theantsgo.util.L;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.hp.hpl.sparta.Text;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
@@ -32,9 +31,9 @@ import com.txd.hzj.wjlp.bean.commodity.HeadPicBean;
 import com.txd.hzj.wjlp.bean.commodity.OfferedBean;
 import com.txd.hzj.wjlp.bean.commodity.OfferedDataBean;
 import com.txd.hzj.wjlp.bean.commodity.OfferedOfferBean;
+import com.txd.hzj.wjlp.http.GroupBuyOrder;
 import com.txd.hzj.wjlp.http.groupbuy.GroupBuyPst;
 import com.txd.hzj.wjlp.mellOnLine.adapter.GroupMemberAdapter;
-import com.txd.hzj.wjlp.http.GroupBuyOrder;
 import com.txd.hzj.wjlp.shoppingCart.BuildOrderAty;
 import com.txd.hzj.wjlp.tool.ChangeTextViewStyle;
 
@@ -46,12 +45,10 @@ import java.util.Map;
 import cn.iwgang.countdownview.CountdownView;
 
 /**
- *
  * 作者：DUKE_HwangZj
  * 日期：2017/7/10 0010
  * 时间：下午 1:21
  * 描述：4-3参团
- *
  */
 public class CreateGroupAty extends BaseAty {
     private OfferedDataBean offeredDataBean;
@@ -171,10 +168,10 @@ public class CreateGroupAty extends BaseAty {
             @Override
             public void onClick(View v) {
                 if (Integer.parseInt(offeredDataBean.getData().getIs_colonel()) > 0) {
-//                    "is_colonel": "1",
+                    //                    "is_colonel": "1",
                     Toast.makeText(CreateGroupAty.this, "拼主不能重复拼单", Toast.LENGTH_LONG).show();
                 } else if (Integer.parseInt(offeredDataBean.getData().getIs_member()) > 0) {
-//                    "0"//1是团员 0不是团员
+                    //                    "0"//1是团员 0不是团员
                     Toast.makeText(CreateGroupAty.this, "您已经在团里了", Toast.LENGTH_LONG).show();
                 } else {
                     if (!TextUtils.isEmpty(goods_id)) {
@@ -228,8 +225,9 @@ public class CreateGroupAty extends BaseAty {
                 bundle.putString("goods_id", data.getStringExtra("goods_id"));
                 bundle.putString("group_buy_id", data.getStringExtra("group_buy_id"));
                 String order_id = data.getStringExtra("order_id");
-                if (!android.text.TextUtils.isEmpty(order_id))
+                if (!android.text.TextUtils.isEmpty(order_id)) {
                     bundle.putString("order_id", order_id);
+                }
                 bundle.putString("num", data.getStringExtra("num"));
                 bundle.putString("product_id", data.getStringExtra("product_id"));
                 startActivity(BuildOrderAty.class, bundle);
@@ -242,9 +240,10 @@ public class CreateGroupAty extends BaseAty {
         // 积分
         Intent intent = getIntent();
         String integralStr = intent.getStringExtra("integral");
-        if (!TextUtils.isEmpty(integralStr))
+        if (!TextUtils.isEmpty(integralStr)) {
             ChangeTextViewStyle.getInstance().forTextColor(CreateGroupAty.this, goods_profit_num_tv,
                     "积分" + integralStr, 2, Color.parseColor("#E02F25"));
+        }
 
         GroupBuyOrder.offered(log_id, this);
 
@@ -297,7 +296,7 @@ public class CreateGroupAty extends BaseAty {
                     // 剩余时间
                     long last_endTime = endTrueTime - now_time;
                     long end_last = endTime - now_time;
-//                    times.setConvertDaysToHours(true);
+                    //                    times.setConvertDaysToHours(true);
                     if (last_endTime < 0) {
                         count_down_layout.setVisibility(View.GONE);
                         wctTv.setVisibility(View.VISIBLE);

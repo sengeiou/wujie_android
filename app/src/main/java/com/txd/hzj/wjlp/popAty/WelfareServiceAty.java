@@ -11,9 +11,6 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
-import com.txd.hzj.wjlp.minetoAty.collect.fgt.CollectBooksFgt;
-import com.txd.hzj.wjlp.minetoAty.collect.fgt.CollectGoodsHzjFgt;
-import com.txd.hzj.wjlp.minetoAty.collect.fgt.CollectMellHzjFgt;
 import com.txd.hzj.wjlp.popAty.fgt.GetCouponFgt;
 import com.txd.hzj.wjlp.popAty.fgt.RedPacagerFgt;
 
@@ -81,8 +78,9 @@ public class WelfareServiceAty extends BaseAty {
             foot_print_mell_tv.setTextColor(ContextCompat.getColor(this, R.color.colorAccent));
             foot_print_mell_view.setBackgroundColor(ContextCompat.getColor(this, R.color.colorAccent));
         }
-        if (position < 2)
+        if (position < 2) {
             fcm.setFragments(position);
+        }
     }
 
 

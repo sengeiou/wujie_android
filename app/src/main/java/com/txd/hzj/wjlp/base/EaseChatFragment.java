@@ -110,13 +110,13 @@ public class EaseChatFragment extends EaseBaseFragment implements ChatListener {
     static final int ITEM_LOCATION = 3;
     // 拍照，图片，位置
     protected int[] itemStrings = {R.string.attach_take_pic, R.string.attach_picture,
-//            R.string.attach_location
+            //            R.string.attach_location
     };
     protected int[] itemdrawables = {R.drawable.ease_chat_takepic_selector, R.drawable.ease_chat_image_selector,
-//            R.drawable.ease_chat_location_selector
+            //            R.drawable.ease_chat_location_selector
     };
     protected int[] itemIds = {ITEM_TAKE_PICTURE, ITEM_PICTURE,
-//            ITEM_LOCATION
+            //            ITEM_LOCATION
     };
     private boolean isMessageListInited;
     protected MyItemClickListener extendMenuItemClickListener;
@@ -141,6 +141,7 @@ public class EaseChatFragment extends EaseBaseFragment implements ChatListener {
     /**
      * 初始化视图View
      */
+    @Override
     protected void initView() {
         // hold to record voice
         //noinspection ConstantConditions
@@ -148,9 +149,10 @@ public class EaseChatFragment extends EaseBaseFragment implements ChatListener {
 
         // message list layout
         messageList = (EaseChatMessageList) getView().findViewById(R.id.message_list);
-        if (chatType != EaseConstant.CHATTYPE_SINGLE)
+        if (chatType != EaseConstant.CHATTYPE_SINGLE) {
             messageList.setShowUserNick(true);
-//        messageList.setAvatarShape(1);
+        }
+        //        messageList.setAvatarShape(1);
         listView = messageList.getListView();
 
         extendMenuItemClickListener = new MyItemClickListener();
@@ -196,6 +198,7 @@ public class EaseChatFragment extends EaseBaseFragment implements ChatListener {
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
     }
 
+    @Override
     protected void setUpView() {
         titleBar.setTitle(toChatUsername);
         if (chatType == EaseConstant.CHATTYPE_SINGLE) {
@@ -212,8 +215,9 @@ public class EaseChatFragment extends EaseBaseFragment implements ChatListener {
             if (chatType == EaseConstant.CHATTYPE_GROUP) {
                 //group chat
                 EMGroup group = EMClient.getInstance().groupManager().getGroup(toChatUsername);
-                if (group != null)
+                if (group != null) {
                     titleBar.setTitle(group.getGroupName());
+                }
                 // listen the event that user moved out group or group is dismissed
                 groupListener = new GroupListener();
                 EMClient.getInstance().groupManager().addGroupChangeListener(groupListener);
@@ -404,8 +408,9 @@ public class EaseChatFragment extends EaseBaseFragment implements ChatListener {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == REQUEST_CODE_CAMERA) { // capture new image
-                if (cameraFile != null && cameraFile.exists())
+                if (cameraFile != null && cameraFile.exists()) {
                     sendImageMessage(cameraFile.getAbsolutePath());
+                }
             } else if (requestCode == REQUEST_CODE_LOCAL) { // send local image
                 if (data != null) {
                     Uri selectedImage = data.getData();
@@ -431,8 +436,9 @@ public class EaseChatFragment extends EaseBaseFragment implements ChatListener {
     @Override
     public void onResume() {
         super.onResume();
-        if (isMessageListInited)
+        if (isMessageListInited) {
             messageList.refresh();
+        }
         EaseUI.getInstance().pushActivity(getActivity());
         // register the event listener when enter the foreground
         DemoApplication.getInstance().setChatListener(this);
@@ -447,7 +453,7 @@ public class EaseChatFragment extends EaseBaseFragment implements ChatListener {
         super.onStop();
         // unregister this event listener when this activity enters the
         // background
-//        EMClient.getInstance().chatManager().removeMessageListener(this);
+        //        EMClient.getInstance().chatManager().removeMessageListener(this);
         // remove activity from foreground activity list
         EaseUI.getInstance().popActivity(getActivity());
     }
@@ -491,8 +497,9 @@ public class EaseChatFragment extends EaseBaseFragment implements ChatListener {
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        if (getActivity().isFinishing() || !toChatUsername.equals(value.getId()))
+                        if (getActivity().isFinishing() || !toChatUsername.equals(value.getId())) {
                             return;
+                        }
                         pd.dismiss();
                         EMChatRoom room = EMClient.getInstance().chatroomManager().getChatRoom(toChatUsername);
                         if (room != null) {
@@ -587,6 +594,7 @@ public class EaseChatFragment extends EaseBaseFragment implements ChatListener {
 
     protected void showChatroomToast(final String toastContent) {
         getActivity().runOnUiThread(new Runnable() {
+            @Override
             public void run() {
                 Toast.makeText(getActivity(), toastContent, Toast.LENGTH_SHORT).show();
             }
@@ -664,7 +672,7 @@ public class EaseChatFragment extends EaseBaseFragment implements ChatListener {
                     selectPicFromLocal();
                     break;
                 case ITEM_LOCATION:
-//                    startActivityForResult(new Intent(getActivity(), EaseBaiduMapActivity.class), REQUEST_CODE_MAP);
+                    //                    startActivityForResult(new Intent(getActivity(), EaseBaiduMapActivity.class), REQUEST_CODE_MAP);
                     break;
 
                 default:
@@ -689,10 +697,11 @@ public class EaseChatFragment extends EaseBaseFragment implements ChatListener {
         if (user != null) {
             username = user.getNick();
         }
-        if (autoAddAtSymbol)
+        if (autoAddAtSymbol) {
             inputMenu.insertText("@" + username + " ");
-        else
+        } else {
             inputMenu.insertText(username + " ");
+        }
     }
 
 
@@ -918,16 +927,16 @@ public class EaseChatFragment extends EaseBaseFragment implements ChatListener {
         }
 
 
-//        cameraFile = new File(PathUtil.getInstance().getImagePath(), EMClient.getInstance().getCurrentUser()
-//                + System.currentTimeMillis() + ".jpg");
-//        // noinspection ResultOfMethodCallIgnored
-//        cameraFile.getParentFile().mkdirs();
-//        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-//        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(cameraFile));
-//        startActivityForResult(intent, REQUEST_CODE_CAMERA);
-//        startActivityForResult(
-//                new Intent(MediaStore.ACTION_IMAGE_CAPTURE).putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(cameraFile)),
-//                REQUEST_CODE_CAMERA);
+        //        cameraFile = new File(PathUtil.getInstance().getImagePath(), EMClient.getInstance().getCurrentUser()
+        //                + System.currentTimeMillis() + ".jpg");
+        //        // noinspection ResultOfMethodCallIgnored
+        //        cameraFile.getParentFile().mkdirs();
+        //        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        //        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(cameraFile));
+        //        startActivityForResult(intent, REQUEST_CODE_CAMERA);
+        //        startActivityForResult(
+        //                new Intent(MediaStore.ACTION_IMAGE_CAPTURE).putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(cameraFile)),
+        //                REQUEST_CODE_CAMERA);
     }
 
     /**
@@ -991,9 +1000,10 @@ public class EaseChatFragment extends EaseBaseFragment implements ChatListener {
     protected void hideKeyboard() {
         if (getActivity().getWindow().getAttributes().softInputMode != WindowManager.LayoutParams
                 .SOFT_INPUT_STATE_HIDDEN) {
-            if (getActivity().getCurrentFocus() != null)
+            if (getActivity().getCurrentFocus() != null) {
                 inputManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(),
                         InputMethodManager.HIDE_NOT_ALWAYS);
+            }
         }
     }
 
@@ -1045,7 +1055,7 @@ public class EaseChatFragment extends EaseBaseFragment implements ChatListener {
         @Override
         public void onUserRemoved(final String groupId, String groupName) {
             getActivity().runOnUiThread(new Runnable() {
-
+                @Override
                 public void run() {
                     if (toChatUsername.equals(groupId)) {
                         Toast.makeText(getActivity(), R.string.you_are_group, Toast.LENGTH_LONG).show();
@@ -1062,6 +1072,7 @@ public class EaseChatFragment extends EaseBaseFragment implements ChatListener {
         public void onGroupDestroyed(final String groupId, String groupName) {
             // prompt group is dismissed and finish this activity
             getActivity().runOnUiThread(new Runnable() {
+                @Override
                 public void run() {
                     if (toChatUsername.equals(groupId)) {
                         Toast.makeText(getActivity(), R.string.the_current_group_destroyed, Toast.LENGTH_LONG).show();
@@ -1083,6 +1094,7 @@ public class EaseChatFragment extends EaseBaseFragment implements ChatListener {
         @Override
         public void onChatRoomDestroyed(final String roomId, final String roomName) {
             getActivity().runOnUiThread(new Runnable() {
+                @Override
                 public void run() {
                     if (roomId.equals(toChatUsername)) {
                         Toast.makeText(getActivity(), R.string.the_current_chat_room_destroyed, Toast.LENGTH_LONG)
@@ -1099,6 +1111,7 @@ public class EaseChatFragment extends EaseBaseFragment implements ChatListener {
         @Override
         public void onRemovedFromChatRoom(final String roomId, final String roomName, final String participant) {
             getActivity().runOnUiThread(new Runnable() {
+                @Override
                 public void run() {
                     if (roomId.equals(toChatUsername)) {
                         Toast.makeText(getActivity(), R.string.quiting_the_chat_room, Toast.LENGTH_LONG).show();
@@ -1115,6 +1128,7 @@ public class EaseChatFragment extends EaseBaseFragment implements ChatListener {
         public void onMemberJoined(final String roomId, final String participant) {
             if (roomId.equals(toChatUsername)) {
                 getActivity().runOnUiThread(new Runnable() {
+                    @Override
                     public void run() {
                         Toast.makeText(getActivity(), "member join:" + participant, Toast.LENGTH_LONG).show();
                     }
@@ -1126,6 +1140,7 @@ public class EaseChatFragment extends EaseBaseFragment implements ChatListener {
         public void onMemberExited(final String roomId, final String roomName, final String participant) {
             if (roomId.equals(toChatUsername)) {
                 getActivity().runOnUiThread(new Runnable() {
+                    @Override
                     public void run() {
                         Toast.makeText(getActivity(), "member exit:" + participant, Toast.LENGTH_LONG).show();
                     }

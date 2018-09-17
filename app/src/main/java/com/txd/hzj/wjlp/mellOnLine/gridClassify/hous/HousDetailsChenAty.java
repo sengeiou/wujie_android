@@ -46,6 +46,7 @@ public class HousDetailsChenAty extends BaseAty implements RadioGroup.OnCheckedC
 
 
     @OnClick({R.id.tv_detail_phone})
+    @Override
     public void onClick(View v) {
         switch (v.getId()) {
             //打电话

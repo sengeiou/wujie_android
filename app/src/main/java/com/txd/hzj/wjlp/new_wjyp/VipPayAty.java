@@ -214,7 +214,9 @@ public class VipPayAty extends BaseAty {
         if (ticker_map.get("discount").equals("0") && ticker_map.get("yellow_discount").equals("0") && ticker_map.get("blue_discount").equals("0")) {
             return;
         }
-        if (commonPopupWindow != null && commonPopupWindow.isShowing()) return;
+        if (commonPopupWindow != null && commonPopupWindow.isShowing()) {
+            return;
+        }
 
         commonPopupWindow = new CommonPopupWindow.Builder(this)
                 .setOutsideTouchable(false)
@@ -428,7 +430,7 @@ public class VipPayAty extends BaseAty {
 
     @Override
     protected void initialized() {
-//        data = getIntent().getStringExtra("data");
+        //        data = getIntent().getStringExtra("data");
         order_id = getIntent().getStringExtra("order_id");
         sale_status = getIntent().getStringExtra("sale_status");
         rank_name = getIntent().getStringExtra("rank_name");
@@ -530,10 +532,10 @@ public class VipPayAty extends BaseAty {
             if (ticker_map.get("discount").equals("0") && ticker_map.get("yellow_discount").equals("0") && ticker_map.get("blue_discount").equals("0")) {
                 is_c = true;
             }
-//            if (is_c) {
-//                setCheck(this_num);
-//                showPop(this_view, this_num);
-//            }
+            //            if (is_c) {
+            //                setCheck(this_num);
+            //                showPop(this_view, this_num);
+            //            }
         }
         if (requestUrl.contains("settlement")) {
             date = JSONUtils.parseKeyAndValueToMap(jsonStr);
@@ -549,12 +551,12 @@ public class VipPayAty extends BaseAty {
             Map<String, String> maps = JSONUtils.parseKeyAndValueToMap(jsonStr);
             maps = JSONUtils.parseKeyAndValueToMap(maps.get("data"));
             if (maps.get("status").equals("1")) {
-//                if (pay_by_balance_cb.isChecked()) {
+                //                if (pay_by_balance_cb.isChecked()) {
                 // 验证成功
                 // 余额支付
                 MemberOrder.setOrder(member_coding, String.valueOf(num), getType(), type, order_id, this);
                 showProgressDialog();
-//                }
+                //                }
             } else {
                 showToast("请设置支付密码");
                 Bundle bundle = new Bundle();
@@ -610,7 +612,9 @@ public class VipPayAty extends BaseAty {
      * @param view
      */
     public void showPwdPop(View view) {
-        if (commonPopupWindow != null && commonPopupWindow.isShowing()) return;
+        if (commonPopupWindow != null && commonPopupWindow.isShowing()) {
+            return;
+        }
         commonPopupWindow = new CommonPopupWindow.Builder(this)
                 .setView(R.layout.popup_pwd)
                 .setWidthAndHeight(ViewGroup.LayoutParams.MATCH_PARENT, Settings.displayHeight / 4)

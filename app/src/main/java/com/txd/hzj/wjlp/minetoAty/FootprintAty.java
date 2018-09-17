@@ -162,8 +162,9 @@ public class FootprintAty extends BaseAty {
             foot_offline_tv.setTextColor(ContextCompat.getColor(this, R.color.colorAccent));
             foot_offline_view.setBackgroundColor(ContextCompat.getColor(this, R.color.colorAccent));
         }
-        if (position < 4)
+        if (position < 4) {
             fcm.setFragments(position);
+        }
     }
 
     @Override

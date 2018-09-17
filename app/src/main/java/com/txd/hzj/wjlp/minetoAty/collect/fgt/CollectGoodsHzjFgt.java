@@ -130,10 +130,11 @@ public class CollectGoodsHzjFgt extends BaseFgt implements RacycleAllAdapter.Sel
                 imageView.setVisibility(View.GONE);
                 progressBar.setVisibility(View.VISIBLE);
                 p = 1;
-                if (0 == dataType)
+                if (0 == dataType) {
                     userPst.myfooter(p, "1");
-                else
+                } else {
                     collectPst.collectList(p, "1");
+                }
                 if (collect_goods_select_all_cb.isChecked()) {
                     collect_goods_select_all_cb.setChecked(false);
                 }
@@ -163,8 +164,9 @@ public class CollectGoodsHzjFgt extends BaseFgt implements RacycleAllAdapter.Sel
                 p++;
                 if (0 == dataType) {
                     userPst.myfooter(p, "1");
-                } else
+                } else {
                     collectPst.collectList(p, "1");
+                }
             }
 
             @Override
@@ -194,7 +196,7 @@ public class CollectGoodsHzjFgt extends BaseFgt implements RacycleAllAdapter.Sel
                     cg.setIsSelect(select);
                 }
                 if (null != racycleAllAdapter) {
-//                if (racycleAllAdapter != null) {
+                    //                if (racycleAllAdapter != null) {
                     racycleAllAdapter.notifyDataSetChanged();
                 } else {
                     racycleAllAdapter = new RacycleAllAdapter(getActivity(), data);
@@ -278,7 +280,7 @@ public class CollectGoodsHzjFgt extends BaseFgt implements RacycleAllAdapter.Sel
             L.e("=====myfooter=====", jsonStr);
 
             getActivity().sendBroadcast(intent);
-//            ((FootprintAty)getActivity()).setView(View.VISIBLE);
+            //            ((FootprintAty)getActivity()).setView(View.VISIBLE);
 
             CollectOrFootpointGoods goods = GsonUtil.GsonToBean(jsonStr, CollectOrFootpointGoods.class);
             allNum = goods.getData().size();
@@ -317,7 +319,7 @@ public class CollectGoodsHzjFgt extends BaseFgt implements RacycleAllAdapter.Sel
                 }
             } else {
                 data2 = goods.getData();
-//                super_layout.
+                //                super_layout.
                 super_layout.setVisibility(this.data.size() > 0 ? View.VISIBLE : View.GONE);
                 no_data_layout.setVisibility(this.data.size() == 0 ? View.VISIBLE : View.GONE);
                 if (!ListUtils.isEmpty(data2)) {
@@ -401,6 +403,7 @@ public class CollectGoodsHzjFgt extends BaseFgt implements RacycleAllAdapter.Sel
             }
         }
     }
+
     private void loadComplate() {
         super_layout.setRefreshing(false); // 刷新成功
         footerImageView.setVisibility(View.VISIBLE);
@@ -436,8 +439,9 @@ public class CollectGoodsHzjFgt extends BaseFgt implements RacycleAllAdapter.Sel
                 racycleAllAdapter.setShowSelect(true);
             }
         }
-        if (racycleAllAdapter != null)
+        if (racycleAllAdapter != null) {
             racycleAllAdapter.notifyDataSetChanged();
+        }
     }
 
     private View createFooterView() {

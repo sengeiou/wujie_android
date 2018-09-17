@@ -317,7 +317,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
 
 
     @ViewInject(R.id.tv_gwc)
-    private TextView  tv_gwc;
+    private TextView tv_gwc;
     /**
      * 是否收藏
      */
@@ -517,9 +517,9 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
     private String integral_buy_id;
     /**
      * 普通商品详情页与2980商品详情页区别
-     *区别标识（字段 is_active == 3 是2980商品）
+     * 区别标识（字段 is_active == 3 是2980商品）
      */
-    private String mIs_active="0";
+    private String mIs_active = "0";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -590,7 +590,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
                 break;
             case R.id.goods_title_share_tv: // 分享
                 //todo 暂时跳转到注册页，以后需要修改
-//                toShare(goodsName, share_img, "1", share_url, goods_id, "1");
+                //                toShare(goodsName, share_img, "1", share_url, goods_id, "1");
                 share_url = Config.OFFICIAL_WEB + "Wap/Goods/goodsInfo/" + "goods_id/" + goods_id + ".html";
                 toShare(goodsName, share_img, share_url, share_content, ticket_buy_id, "1");
                 break;
@@ -607,11 +607,11 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
             case R.id.show_or_hide_lv_iv://展开,隐藏(无界驿站)
                 getHeight();// 重新计算高度
                 if (wujie_post_lv.getVisibility() == View.GONE) {// 隐藏状态
-//                    wujie_post_lv.setVisibility(View.VISIBLE);
-//                    show_or_hide_lv_iv.setImageResource(R.drawable.icon_show_other_layout);
+                    //                    wujie_post_lv.setVisibility(View.VISIBLE);
+                    //                    show_or_hide_lv_iv.setImageResource(R.drawable.icon_show_other_layout);
                 } else {// 显示状态
-//                    wujie_post_lv.setVisibility(View.GONE);
-//                    show_or_hide_lv_iv.setImageResource(R.drawable.icon_hide_other_layout);
+                    //                    wujie_post_lv.setVisibility(View.GONE);
+                    //                    show_or_hide_lv_iv.setImageResource(R.drawable.icon_hide_other_layout);
                 }
                 break;
             case R.id.show_or_hide_explain_iv: // 展开,隐藏(无界驿站)
@@ -641,8 +641,8 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
                 break;
             case R.id.to_chat_tv: // 客服
                 commodityDetailsPranster.chat_merchant(mell_id, TicketGoodsDetialsAty.this, merchant_phone);
-//                Easemob.bind(mell_id, this); // 获取商铺的环信账号
-//                toChat(easemob_account, merchant_logo, merchant_name);
+                //                Easemob.bind(mell_id, this); // 获取商铺的环信账号
+                //                toChat(easemob_account, merchant_logo, merchant_name);
 
                 break;
             case R.id.tv_tab_1:
@@ -694,9 +694,9 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
                 if (is_C) {
                     Intent intent = new Intent();
                     intent.putExtra("mid", mell_id);
-                    if (from==13){
+                    if (from == 13) {
                         intent.putExtra("type", from);
-                    }else {
+                    } else {
                         intent.putExtra("type", "1");
                     }
                     intent.putExtra("goods_id", goods_id);
@@ -707,15 +707,15 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
                     startActivity(intent);
                 } else {
                     //直接购买, (ArrayList) goodsAttrs, (ArrayList) goods_product
-                    if (goodsInfo.containsKey("goods_img") && goodsInfo.containsKey("shop_price")){
+                    if (goodsInfo.containsKey("goods_img") && goodsInfo.containsKey("shop_price")) {
                         String goods_img = goodsInfo.get("goods_img");
                         String shop_price = goodsInfo.get("shop_price");
-                        if (13==from){
+                        if (13 == from) {
                             toAttrs(v, 0, "13", goods_id + "-" + mell_id, goods_img, shop_price, "", goods_attr_first, first_val, is_attr);
-                        }else {
+                        } else {
                             toAttrs(v, 0, "1", goods_id + "-" + mell_id, goods_img, shop_price, "", goods_attr_first, first_val, is_attr);
                         }
-                    }else {
+                    } else {
                         showErrorTip("数据异常，请稍后重试");
                     }
                 }
@@ -747,19 +747,19 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
                 commodityDetailsPranster.showDjqPop(v, dj_ticket, TicketGoodsDetialsAty.this, vouchers_desc);
                 break;
             case R.id.tv_showClassify:
-//                cate_id = goodsInfo.get("cate_id");
-//                pcate_id = goodsInfo.get("pcate_id");
-//                GoodsCategory.cateIndexs(cate_id, this);
-//                showProgressDialog();
+                //                cate_id = goodsInfo.get("cate_id");
+                //                pcate_id = goodsInfo.get("pcate_id");
+                //                GoodsCategory.cateIndexs(cate_id, this);
+                //                showProgressDialog();
                 toClassify(v, goodsInfo.get("top_cate_id"));
                 break;
             case R.id.tv_quxiao://促销弹框
                 commodityDetailsPranster.showCXPop(v, TicketGoodsDetialsAty.this, promotionBeen);
-//                showCXPop(v);
+                //                showCXPop(v);
                 break;
             case R.id.tv_lingquan:
                 commodityDetailsPranster.showLQPop(v, "领券", TicketGoodsDetialsAty.this, theTrickAdapter);
-//                showLQPop(v, "领券");
+                //                showLQPop(v, "领券");
                 break;
             case R.id.tv_wjsd:
                 Bundle mBundle = new Bundle();
@@ -990,7 +990,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
             }
         }
 
-//        // 获取商品的运费信息
+        //        // 获取商品的运费信息
         if (requestUrl.contains("freight")) {
             try {
                 JSONObject jsonObject = new JSONObject(jsonStr);
@@ -1021,8 +1021,8 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
                 image = JSONUtils.parseKeyAndValueToMapList(data.get("goods_banner"));
                 forBanner();
             }
-//            goodsAttrs = GsonUtil.getObjectList(data.get("goods_attr"), GoodsAttrs.class);
-//            goods_product = GsonUtil.getObjectList(data.get("product"), GoodsAttrs.product.class);
+            //            goodsAttrs = GsonUtil.getObjectList(data.get("goods_attr"), GoodsAttrs.class);
+            //            goods_product = GsonUtil.getObjectList(data.get("product"), GoodsAttrs.product.class);
             goods_attr_first = data.get("first_list");
             first_val = data.get("first_val");
             vouchers_desc = data.get("vouchers_desc");
@@ -1034,13 +1034,13 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
              * 普通商品详情页与2980商品详情页区别
              *区别标识（字段 is_active == 3 是2980商品）
              */
-            if (goodsInfo.containsKey("is_active")){
+            if (goodsInfo.containsKey("is_active")) {
                 mIs_active = goodsInfo.get("is_active");
-                if ("3".equals(mIs_active)){
+                if ("3".equals(mIs_active)) {
                     goods_profit_num_tv.setVisibility(View.GONE);
                     layout_djq.setVisibility(View.GONE);
                     tv_gwc.setVisibility(View.GONE);
-                }else {
+                } else {
                     goods_profit_num_tv.setVisibility(View.VISIBLE);
                     layout_djq.setVisibility(View.VISIBLE);
                     tv_gwc.setVisibility(View.VISIBLE);
@@ -1076,11 +1076,11 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
                     allGvLvAdapter1 = new AllGvLvAdapter(this, ticket, 1);
                     ticket_gv.setAdapter(allGvLvAdapter1);
                 }
-//                else {
-//                    more = GsonUtil.getObjectList(data.get("guess_goods_list"), AllGoodsBean.class);
-//                    ticket.addAll(more);
-//                    allGvLvAdapter1.notifyDataSetChanged();
-//                }
+                //                else {
+                //                    more = GsonUtil.getObjectList(data.get("guess_goods_list"), AllGoodsBean.class);
+                //                    ticket.addAll(more);
+                //                    allGvLvAdapter1.notifyDataSetChanged();
+                //                }
             } else {
                 is_f = false;
             }
@@ -1202,66 +1202,66 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
                     }
                 }
                 //查看分类
-//                Intent intent = new Intent();
-//                intent.putExtra("appBarTitle", goodsInfo.get("two_cate_name"));
-//                intent.putExtra("two_cate_id", goodsInfo.get("cate_id"));
-//                intent.putExtra("page", mm);
-//                intent.setClass(this, SubclassificationAty.class);
-//                startActivity(intent);
+                //                Intent intent = new Intent();
+                //                intent.putExtra("appBarTitle", goodsInfo.get("two_cate_name"));
+                //                intent.putExtra("two_cate_id", goodsInfo.get("cate_id"));
+                //                intent.putExtra("page", mm);
+                //                intent.setClass(this, SubclassificationAty.class);
+                //                startActivity(intent);
             }
         }
 
         /**
          * 获取商家环信账号
          */
-//        if (requestUrl.contains("Easemob/bind")) {
-//            L.e("Easemob/bind：" + jsonStr);
-//            if (jsonStr == null || jsonStr.equals("")) {
-//                showErrorTip("获取数据为空，请联系我们");
-//                return;
-//            }
-//
-//            Gson gson = new Gson();
-//            easemobBean = gson.fromJson(jsonStr, EasemobBean.class); // 如果Json有值 bean 对象必定有值
-//
-//            // ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓创建Dialog弹窗显示列表项↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
-//            AlertDialog.Builder builder = new AlertDialog.Builder(this); // 创建对话框构建器
-//            View view2 = View.inflate(TicketGoodsDetialsAty.this, R.layout.popup_sel_chat, null); // 获取布局
-//            builder.setView(view2); // 设置参数主要是设置获取的布局View
-//            // 获取布局中的控件
-//            ListView dataLv = (ListView) view2.findViewById(R.id.popSelChat_data_lv);
-//            LinearLayout nodataLayout = (LinearLayout) view2.findViewById(R.id.popSelChat_nodata_layout);
-//
-//            // 以上判断Bean有值，但是以防万一还是先判空
-//            if (easemobBean == null || easemobBean.getData().getEasemob_account_num() < 1) {
-//                // 如果Bean为空或者获取的在线客服账号数小于1，也就是没有在线客服
-//                dataLv.setVisibility(View.GONE); // 隐藏List列表
-//                nodataLayout.setVisibility(View.VISIBLE); // 显示空数据提示
-//            } else {
-//                // 否则就是有在线客服
-//                dataLv.setVisibility(View.VISIBLE); // 显示List列表
-//                nodataLayout.setVisibility(View.GONE); // 隐藏空数据提示
-//            }
-//
-//            final AlertDialog alertDialog = builder.create();// 创建对话框
-//            // 设置相应的控件操作，赋值、点击事件等等
-//
-//            dataLv.setAdapter(new DialogAdapter(easemobBean.getData().getEasemob_account()));
-//
-//            dataLv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//                @Override
-//                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                    EasemobBean.DataBean.EasemobAccountBean easemobAccountBean = easemobBean.getData().getEasemob_account().get(position);
-//                    // 参数说明：账号、头像、昵称
-//                    toChat(easemobAccountBean.getHx(), easemobAccountBean.getHead_pic(), easemobAccountBean.getNickname());
-//                    alertDialog.dismiss();
-//                }
-//            });
-//            alertDialog.show();
-//
-//            // ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑创建Dialog弹窗显示列表项↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
-//
-//        }
+        //        if (requestUrl.contains("Easemob/bind")) {
+        //            L.e("Easemob/bind：" + jsonStr);
+        //            if (jsonStr == null || jsonStr.equals("")) {
+        //                showErrorTip("获取数据为空，请联系我们");
+        //                return;
+        //            }
+        //
+        //            Gson gson = new Gson();
+        //            easemobBean = gson.fromJson(jsonStr, EasemobBean.class); // 如果Json有值 bean 对象必定有值
+        //
+        //            // ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓创建Dialog弹窗显示列表项↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
+        //            AlertDialog.Builder builder = new AlertDialog.Builder(this); // 创建对话框构建器
+        //            View view2 = View.inflate(TicketGoodsDetialsAty.this, R.layout.popup_sel_chat, null); // 获取布局
+        //            builder.setView(view2); // 设置参数主要是设置获取的布局View
+        //            // 获取布局中的控件
+        //            ListView dataLv = (ListView) view2.findViewById(R.id.popSelChat_data_lv);
+        //            LinearLayout nodataLayout = (LinearLayout) view2.findViewById(R.id.popSelChat_nodata_layout);
+        //
+        //            // 以上判断Bean有值，但是以防万一还是先判空
+        //            if (easemobBean == null || easemobBean.getData().getEasemob_account_num() < 1) {
+        //                // 如果Bean为空或者获取的在线客服账号数小于1，也就是没有在线客服
+        //                dataLv.setVisibility(View.GONE); // 隐藏List列表
+        //                nodataLayout.setVisibility(View.VISIBLE); // 显示空数据提示
+        //            } else {
+        //                // 否则就是有在线客服
+        //                dataLv.setVisibility(View.VISIBLE); // 显示List列表
+        //                nodataLayout.setVisibility(View.GONE); // 隐藏空数据提示
+        //            }
+        //
+        //            final AlertDialog alertDialog = builder.create();// 创建对话框
+        //            // 设置相应的控件操作，赋值、点击事件等等
+        //
+        //            dataLv.setAdapter(new DialogAdapter(easemobBean.getData().getEasemob_account()));
+        //
+        //            dataLv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        //                @Override
+        //                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        //                    EasemobBean.DataBean.EasemobAccountBean easemobAccountBean = easemobBean.getData().getEasemob_account().get(position);
+        //                    // 参数说明：账号、头像、昵称
+        //                    toChat(easemobAccountBean.getHx(), easemobAccountBean.getHead_pic(), easemobAccountBean.getNickname());
+        //                    alertDialog.dismiss();
+        //                }
+        //            });
+        //            alertDialog.show();
+        //
+        //            // ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑创建Dialog弹窗显示列表项↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
+        //
+        //        }
 
     }
 
@@ -1506,7 +1506,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
         tv_salesvolume.setText("销量\t" + goodsInfo.get("sell_num"));
         tv_inventory.setText("库存\t" + goodsInfo.get("goods_num"));
         is_attr = is_attr + "-" + goodsInfo.get("goods_num");
-//        tv_freight.setText(goodsInfo.get(""));
+        //        tv_freight.setText(goodsInfo.get(""));
         L.e("TicketGoodsDetialsAty:" + goodsInfo.toString());
         tv_wy_price.setText("¥" + goodsInfo.get("wy_price"));
         tv_yx_price.setText("¥" + goodsInfo.get("yx_price"));
@@ -1637,9 +1637,10 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
         L.e("=========mInfo===============", mInfo.toString());
 
         mell_id = mInfo.get("merchant_id");
-        if (mInfo.containsKey("merchant_phone"))
+        if (mInfo.containsKey("merchant_phone")) {
             merchant_phone = mInfo.get("merchant_phone");
-//        Easemob.bind(mell_id, this);
+        }
+        //        Easemob.bind(mell_id, this);
         showProgressDialog();
         easemob_account = mInfo.get("merchant_easemob_account");
         merchant_logo = mInfo.get("logo");
@@ -1680,21 +1681,21 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
      */
     private void forPromotion(Map<String, String> data) {
         promotionBeen = GsonUtil.getObjectList(data.get("promotion"), PromotionBean.class);
-//        PromotionBean prom = promotionBeen.get(0);
-//        String type = prom.getType();
-//        int imageId = getResources().getIdentifier("icon_get_coupon_hzj_" + type, "drawable", getPackageName());
-//        onle_pro_type_iv.setImageResource(imageId);
-//        onle_pro_title_tv.setText(prom.getTitle());
-//        promotionBeen.remove(prom);
+        //        PromotionBean prom = promotionBeen.get(0);
+        //        String type = prom.getType();
+        //        int imageId = getResources().getIdentifier("icon_get_coupon_hzj_" + type, "drawable", getPackageName());
+        //        onle_pro_type_iv.setImageResource(imageId);
+        //        onle_pro_title_tv.setText(prom.getTitle());
+        //        promotionBeen.remove(prom);
         if (!ListUtils.isEmpty(promotionBeen)) {// 判断移除掉一个活动之后是否为空
-//            goods_bottom_lin_layout.setVisibility(View.VISIBLE);
+            //            goods_bottom_lin_layout.setVisibility(View.VISIBLE);
             promotionAdapter = new PromotionAdapter(this, promotionBeen);
             promotion_lv.setAdapter(promotionAdapter);
-//            show_or_hide_iv.setEnabled(true);
+            //            show_or_hide_iv.setEnabled(true);
         } else {
-//            goods_bottom_lin_layout.setVisibility(View.GONE);
+            //            goods_bottom_lin_layout.setVisibility(View.GONE);
             // 此处可以设置。。不呢点击
-//            show_or_hide_iv.setEnabled(false);
+            //            show_or_hide_iv.setEnabled(false);
         }
     }
 
@@ -1716,7 +1717,9 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
     }
 
     public void showPop(View view, final String title, final List<Map<String, String>> list, final int type) {//
-        if (commonPopupWindow != null && commonPopupWindow.isShowing()) return;
+        if (commonPopupWindow != null && commonPopupWindow.isShowing()) {
+            return;
+        }
         commonPopupWindow = new CommonPopupWindow.Builder(this)
                 .setView(R.layout.popup_layout)
                 .setWidthAndHeight(ViewGroup.LayoutParams.MATCH_PARENT, Settings.displayHeight / 2)
@@ -1744,151 +1747,151 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
         commonPopupWindow.showAtLocation(view, Gravity.BOTTOM, 0, 0);
     }
 
-//    /**
-//     * 代金券的弹窗
-//     *
-//     * @param view
-//     */
-//    public void showDjqPop(final View view, final List<DjTicketBean> list) {
-//        if (commonPopupWindow != null && commonPopupWindow.isShowing()) {
-//            return;
-//        }
-//        if (list == null || list.size() == 0) {
-//            return;
-//        }
-//        commonPopupWindow = new CommonPopupWindow.Builder(this)
-//                .setView(R.layout.layout_popp_djq)
-//                .setWidthAndHeight(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-//                .setBackGroundLevel(0.7f)
-//                .setViewOnclickListener(new CommonPopupWindow.ViewInterface() {
-//                    @Override
-//                    public void getChildView(View view, int layoutResId, int position) {
-//                        LinearLayout layout_djq0 = (LinearLayout) view.findViewById(R.id.layout_djq0);
-//                        LinearLayout layout_djq1 = (LinearLayout) view.findViewById(R.id.layout_djq1);
-//                        LinearLayout layout_djq2 = (LinearLayout) view.findViewById(R.id.layout_djq2);
-//                        TextView tv_djq_color0 = (TextView) view.findViewById(R.id.tv_djq_color0);
-//                        TextView tv_djq_color1 = (TextView) view.findViewById(R.id.tv_djq_color1);
-//                        TextView tv_djq_color2 = (TextView) view.findViewById(R.id.tv_djq_color2);
-//                        TextView tv_djq_desc0 = (TextView) view.findViewById(R.id.tv_djq_desc0);
-//                        TextView tv_djq_desc1 = (TextView) view.findViewById(R.id.tv_djq_desc1);
-//                        TextView tv_djq_desc2 = (TextView) view.findViewById(R.id.tv_djq_desc2);
-//                        TextView tv_desc = (TextView) view.findViewById(R.id.tv_desc);
-//                        TextView tv_cancel = (TextView) view.findViewById(R.id.tv_cancel);
-//                        tv_cancel.setOnClickListener(new View.OnClickListener() {
-//                            @Override
-//                            public void onClick(View v) {
-//                                commonPopupWindow.dismiss();
-//                            }
-//                        });
-//                        tv_desc.setText(vouchers_desc);
-//                        for (int i = 0; i < list.size(); i++) {
-//
-//                            switch (i) {
-//                                case 0: {
-//                                    layout_djq0.setVisibility(View.VISIBLE);
-//                                    tv_djq_desc0.setText(list.get(i).getDiscount_desc());
-//                                    break;
-//                                }
-//                                case 1: {
-//                                    layout_djq1.setVisibility(View.VISIBLE);
-//                                    tv_djq_desc1.setText(list.get(i).getDiscount_desc());
-//                                    break;
-//                                }
-//                                case 2: {
-//                                    layout_djq2.setVisibility(View.VISIBLE);
-//                                    tv_djq_desc2.setText(list.get(i).getDiscount_desc());
-//                                    break;
-//                                }
-//                            }
-//
-//                            switch (list.get(i).getType()) {
-//                                case "0": {
-//                                    tv_djq_color0.setBackgroundResource(R.drawable.shape_red_bg);
-//                                }
-//                                break;
-//                                case "1": {
-//                                    tv_djq_color1.setBackgroundResource(R.drawable.shape_yellow_bg);
-//                                }
-//                                break;
-//                                case "2": {
-//                                    tv_djq_color2.setBackgroundResource(R.drawable.shape_blue_bg);
-//                                }
-//
-//                                break;
-//                            }
-//                        }
-//
-//
-//                    }
-//                }, 0)
-//                .setAnimationStyle(R.style.animbottom)
-//                .create();
-//        commonPopupWindow.showAtLocation(view, Gravity.BOTTOM, 0, 0);
-//    }
+    //    /**
+    //     * 代金券的弹窗
+    //     *
+    //     * @param view
+    //     */
+    //    public void showDjqPop(final View view, final List<DjTicketBean> list) {
+    //        if (commonPopupWindow != null && commonPopupWindow.isShowing()) {
+    //            return;
+    //        }
+    //        if (list == null || list.size() == 0) {
+    //            return;
+    //        }
+    //        commonPopupWindow = new CommonPopupWindow.Builder(this)
+    //                .setView(R.layout.layout_popp_djq)
+    //                .setWidthAndHeight(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+    //                .setBackGroundLevel(0.7f)
+    //                .setViewOnclickListener(new CommonPopupWindow.ViewInterface() {
+    //                    @Override
+    //                    public void getChildView(View view, int layoutResId, int position) {
+    //                        LinearLayout layout_djq0 = (LinearLayout) view.findViewById(R.id.layout_djq0);
+    //                        LinearLayout layout_djq1 = (LinearLayout) view.findViewById(R.id.layout_djq1);
+    //                        LinearLayout layout_djq2 = (LinearLayout) view.findViewById(R.id.layout_djq2);
+    //                        TextView tv_djq_color0 = (TextView) view.findViewById(R.id.tv_djq_color0);
+    //                        TextView tv_djq_color1 = (TextView) view.findViewById(R.id.tv_djq_color1);
+    //                        TextView tv_djq_color2 = (TextView) view.findViewById(R.id.tv_djq_color2);
+    //                        TextView tv_djq_desc0 = (TextView) view.findViewById(R.id.tv_djq_desc0);
+    //                        TextView tv_djq_desc1 = (TextView) view.findViewById(R.id.tv_djq_desc1);
+    //                        TextView tv_djq_desc2 = (TextView) view.findViewById(R.id.tv_djq_desc2);
+    //                        TextView tv_desc = (TextView) view.findViewById(R.id.tv_desc);
+    //                        TextView tv_cancel = (TextView) view.findViewById(R.id.tv_cancel);
+    //                        tv_cancel.setOnClickListener(new View.OnClickListener() {
+    //                            @Override
+    //                            public void onClick(View v) {
+    //                                commonPopupWindow.dismiss();
+    //                            }
+    //                        });
+    //                        tv_desc.setText(vouchers_desc);
+    //                        for (int i = 0; i < list.size(); i++) {
+    //
+    //                            switch (i) {
+    //                                case 0: {
+    //                                    layout_djq0.setVisibility(View.VISIBLE);
+    //                                    tv_djq_desc0.setText(list.get(i).getDiscount_desc());
+    //                                    break;
+    //                                }
+    //                                case 1: {
+    //                                    layout_djq1.setVisibility(View.VISIBLE);
+    //                                    tv_djq_desc1.setText(list.get(i).getDiscount_desc());
+    //                                    break;
+    //                                }
+    //                                case 2: {
+    //                                    layout_djq2.setVisibility(View.VISIBLE);
+    //                                    tv_djq_desc2.setText(list.get(i).getDiscount_desc());
+    //                                    break;
+    //                                }
+    //                            }
+    //
+    //                            switch (list.get(i).getType()) {
+    //                                case "0": {
+    //                                    tv_djq_color0.setBackgroundResource(R.drawable.shape_red_bg);
+    //                                }
+    //                                break;
+    //                                case "1": {
+    //                                    tv_djq_color1.setBackgroundResource(R.drawable.shape_yellow_bg);
+    //                                }
+    //                                break;
+    //                                case "2": {
+    //                                    tv_djq_color2.setBackgroundResource(R.drawable.shape_blue_bg);
+    //                                }
+    //
+    //                                break;
+    //                            }
+    //                        }
+    //
+    //
+    //                    }
+    //                }, 0)
+    //                .setAnimationStyle(R.style.animbottom)
+    //                .create();
+    //        commonPopupWindow.showAtLocation(view, Gravity.BOTTOM, 0, 0);
+    //    }
 
-//    /**
-//     * 促销
-//     *
-//     * @param view
-//     */
-//    public void showCXPop(View view) {
-//        if (commonPopupWindow != null && commonPopupWindow.isShowing()) return;
-//        commonPopupWindow = new CommonPopupWindow.Builder(this)
-//                .setView(R.layout.layou_popp_cuxiao)
-//                .setWidthAndHeight(ViewGroup.LayoutParams.MATCH_PARENT, Settings.displayHeight / 2)
-//                .setBackGroundLevel(0.7f)
-//                .setViewOnclickListener(new CommonPopupWindow.ViewInterface() {
-//                    @Override
-//                    public void getChildView(View view, int layoutResId, int position) {
-//                        ListView promotion_lv = view.findViewById(R.id.promotion_lv);
-//                        PromotionAdapter promotionAdapter = new PromotionAdapter(TicketGoodsDetialsAty.this, promotionBeen);
-//                        promotion_lv.setAdapter(promotionAdapter);
-//                        TextView cancel = (TextView) view.findViewById(R.id.cancel);
-//                        cancel.setOnClickListener(new View.OnClickListener() {
-//                            @Override
-//                            public void onClick(View view) {
-//                                commonPopupWindow.dismiss();
-//                            }
-//                        });
-//
-//                    }
-//                }, 0)
-//                .setAnimationStyle(R.style.animbottom)
-//                .create();
-//        commonPopupWindow.showAtLocation(view, Gravity.BOTTOM, 0, 0);
-//    }
-//
-//    /**
-//     * 领券
-//     */
-//    public void showLQPop(View view, final String title) {//
-//        if (commonPopupWindow != null && commonPopupWindow.isShowing()) return;
-//        commonPopupWindow = new CommonPopupWindow.Builder(this)
-//                .setView(R.layout.popup_layout)
-//                .setWidthAndHeight(ViewGroup.LayoutParams.MATCH_PARENT, Settings.displayHeight / 2)
-//                .setBackGroundLevel(0.7f)
-//                .setViewOnclickListener(new CommonPopupWindow.ViewInterface() {
-//                    @Override
-//                    public void getChildView(View view, int layoutResId, int position) {
-//                        TextView cancel = (TextView) view.findViewById(R.id.cancel);
-//                        RecyclerView recyclerview = (RecyclerView) view.findViewById(R.id.recyclerview);
-//                        recyclerview.setLayoutManager(new GridLayoutManager(TicketGoodsDetialsAty.this, 2));
-//                        recyclerview.setAdapter(theTrickAdapter);
-//                        TextView tv_title = (TextView) view.findViewById(R.id.popp_title);
-//                        tv_title.setText(title);
-//                        cancel.setOnClickListener(new View.OnClickListener() {
-//                            @Override
-//                            public void onClick(View view) {
-//                                commonPopupWindow.dismiss();
-//                            }
-//                        });
-//
-//                    }
-//                }, 0)
-//                .setAnimationStyle(R.style.animbottom)
-//                .create();
-//        commonPopupWindow.showAtLocation(view, Gravity.BOTTOM, 0, 0);
-//    }
+    //    /**
+    //     * 促销
+    //     *
+    //     * @param view
+    //     */
+    //    public void showCXPop(View view) {
+    //        if (commonPopupWindow != null && commonPopupWindow.isShowing()) return;
+    //        commonPopupWindow = new CommonPopupWindow.Builder(this)
+    //                .setView(R.layout.layou_popp_cuxiao)
+    //                .setWidthAndHeight(ViewGroup.LayoutParams.MATCH_PARENT, Settings.displayHeight / 2)
+    //                .setBackGroundLevel(0.7f)
+    //                .setViewOnclickListener(new CommonPopupWindow.ViewInterface() {
+    //                    @Override
+    //                    public void getChildView(View view, int layoutResId, int position) {
+    //                        ListView promotion_lv = view.findViewById(R.id.promotion_lv);
+    //                        PromotionAdapter promotionAdapter = new PromotionAdapter(TicketGoodsDetialsAty.this, promotionBeen);
+    //                        promotion_lv.setAdapter(promotionAdapter);
+    //                        TextView cancel = (TextView) view.findViewById(R.id.cancel);
+    //                        cancel.setOnClickListener(new View.OnClickListener() {
+    //                            @Override
+    //                            public void onClick(View view) {
+    //                                commonPopupWindow.dismiss();
+    //                            }
+    //                        });
+    //
+    //                    }
+    //                }, 0)
+    //                .setAnimationStyle(R.style.animbottom)
+    //                .create();
+    //        commonPopupWindow.showAtLocation(view, Gravity.BOTTOM, 0, 0);
+    //    }
+    //
+    //    /**
+    //     * 领券
+    //     */
+    //    public void showLQPop(View view, final String title) {//
+    //        if (commonPopupWindow != null && commonPopupWindow.isShowing()) return;
+    //        commonPopupWindow = new CommonPopupWindow.Builder(this)
+    //                .setView(R.layout.popup_layout)
+    //                .setWidthAndHeight(ViewGroup.LayoutParams.MATCH_PARENT, Settings.displayHeight / 2)
+    //                .setBackGroundLevel(0.7f)
+    //                .setViewOnclickListener(new CommonPopupWindow.ViewInterface() {
+    //                    @Override
+    //                    public void getChildView(View view, int layoutResId, int position) {
+    //                        TextView cancel = (TextView) view.findViewById(R.id.cancel);
+    //                        RecyclerView recyclerview = (RecyclerView) view.findViewById(R.id.recyclerview);
+    //                        recyclerview.setLayoutManager(new GridLayoutManager(TicketGoodsDetialsAty.this, 2));
+    //                        recyclerview.setAdapter(theTrickAdapter);
+    //                        TextView tv_title = (TextView) view.findViewById(R.id.popp_title);
+    //                        tv_title.setText(title);
+    //                        cancel.setOnClickListener(new View.OnClickListener() {
+    //                            @Override
+    //                            public void onClick(View view) {
+    //                                commonPopupWindow.dismiss();
+    //                            }
+    //                        });
+    //
+    //                    }
+    //                }, 0)
+    //                .setAnimationStyle(R.style.animbottom)
+    //                .create();
+    //        commonPopupWindow.showAtLocation(view, Gravity.BOTTOM, 0, 0);
+    //    }
 
 
     @Override
@@ -2056,7 +2059,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
+        //        super.onActivityResult(requestCode, resultCode, data);
         L.e("返回商品详情" + requestCode + resultCode);
         if (requestCode == 1000) {
             L.e("返回商品详情");
@@ -2091,7 +2094,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
 
                 ChangeTextViewStyle.getInstance().forTextColor(this, goods_profit_num_tv,
                         "积分" + data.getStringExtra("red_return_integral"), 2, Color.parseColor("#FF0000"));
-//                ArrayList<Map<String, String>> dj_list = JSONUtils.parseKeyAndValueToMapList(data.getStringExtra("data"));
+                //                ArrayList<Map<String, String>> dj_list = JSONUtils.parseKeyAndValueToMapList(data.getStringExtra("data"));
                 dj_ticket = (List<DjTicketBean>) data.getSerializableExtra("data");
                 if (null != dj_ticket) {
                     for (int i = 0; i < dj_ticket.size(); i++) {
@@ -2100,18 +2103,18 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
                         }
                         switch (i) {
                             case 0: {
-//                                layout_djq0.setVisibility(View.VISIBLE);
-//                                tv_djq_desc0.setText(dj_ticket.get(i).get("discount_desc"));
+                                //                                layout_djq0.setVisibility(View.VISIBLE);
+                                //                                tv_djq_desc0.setText(dj_ticket.get(i).get("discount_desc"));
                                 break;
                             }
                             case 1: {
-//                                layout_djq1.setVisibility(View.VISIBLE);
-//                                tv_djq_desc1.setText(dj_ticket.get(i).get("discount_desc"));
+                                //                                layout_djq1.setVisibility(View.VISIBLE);
+                                //                                tv_djq_desc1.setText(dj_ticket.get(i).get("discount_desc"));
                                 break;
                             }
                             case 2: {
-//                                layout_djq2.setVisibility(View.VISIBLE);
-//                                tv_djq_desc2.setText(dj_ticket.get(i).get("discount_desc"));
+                                //                                layout_djq2.setVisibility(View.VISIBLE);
+                                //                                tv_djq_desc2.setText(dj_ticket.get(i).get("discount_desc"));
                                 break;
                             }
                         }
@@ -2158,6 +2161,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
         }
     }
 
+    @Override
     public void toAttrs(View v, int from, String type, String goods_id, String imageurl, String price,
                         String group_buy_id, String goods_attr, String goods_val, String is_attr) {
         Bundle bundle = new Bundle();
@@ -2176,7 +2180,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
     @Override
     protected void onRestart() {
         super.onRestart();
-//        goodsPst.goodsInfo(ticket_buy_id, page);
+        //        goodsPst.goodsInfo(ticket_buy_id, page);
     }
 
     @Override

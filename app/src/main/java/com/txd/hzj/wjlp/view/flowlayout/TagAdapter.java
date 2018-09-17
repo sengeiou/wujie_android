@@ -40,8 +40,9 @@ public abstract class TagAdapter<T> {
 
     public void setSelectedList(Set<Integer> set) {
         mCheckedPosList.clear();
-        if (set != null)
+        if (set != null) {
             mCheckedPosList.addAll(set);
+        }
         notifyDataChanged();
     }
 
@@ -51,13 +52,14 @@ public abstract class TagAdapter<T> {
 
 
     public int getCount() {
-        Log.i("商品属性个数aliang",mTagDatas.size()+"");
+        Log.i("商品属性个数aliang", mTagDatas.size() + "");
         return mTagDatas == null ? 0 : mTagDatas.size();
     }
 
     public void notifyDataChanged() {
-        if (mOnDataChangedListener != null)
+        if (mOnDataChangedListener != null) {
             mOnDataChangedListener.onChanged();
+        }
     }
 
     public T getItems(int position) {

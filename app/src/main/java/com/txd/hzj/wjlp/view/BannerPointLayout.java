@@ -66,15 +66,16 @@ public class BannerPointLayout extends RelativeLayout {
         //白点设置
         pointerMoveView = (ImageView) rootView.findViewById(R.id.whitePointImg);
         pointerMoveView.setImageDrawable(focusDrawable);
-        if (null != styleBannerPointLayout)
+        if (null != styleBannerPointLayout) {
             if (styleBannerPointLayout.equals(styleMovePoint)) {
                 pointerMoveView.setVisibility(View.VISIBLE);
                 LayoutParams params = (LayoutParams) pointerMoveView.getLayoutParams();
                 params.width = pointSize;
                 params.height = pointSize;
             } else if (styleBannerPointLayout.equals(styleNoPoint)) {
-//                pointerMoveView.setVisibility(View.GONE);
+                //                pointerMoveView.setVisibility(View.GONE);
             }
+        }
         //默认显示点设置
 
     }
@@ -111,8 +112,8 @@ public class BannerPointLayout extends RelativeLayout {
             //TODO 逻辑处理
             toView = pointLayout.getChildAt(position);
             if (null != toView) {
-                ObjectAnimator translationX = new ObjectAnimator().ofFloat(pointerMoveView, "translationX", lastLeft, toView.getLeft());
-                ObjectAnimator translationY = new ObjectAnimator().ofFloat(pointerMoveView, "translationY", 0, 0);
+                ObjectAnimator translationX = ObjectAnimator.ofFloat(pointerMoveView, "translationX", lastLeft, toView.getLeft());
+                ObjectAnimator translationY = ObjectAnimator.ofFloat(pointerMoveView, "translationY", 0, 0);
                 AnimatorSet animatorSet = new AnimatorSet();  //组合动画
                 animatorSet.playTogether(translationX, translationY); //设置动画
                 animatorSet.setDuration(500);  //设置动画时间

@@ -10,11 +10,9 @@ import android.widget.TextView;
 import com.ants.theantsgo.gson.GsonUtil;
 import com.ants.theantsgo.tool.ToolKit;
 import com.ants.theantsgo.util.JSONUtils;
-import com.ants.theantsgo.util.L;
 import com.google.gson.Gson;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
-import com.tencent.mm.opensdk.utils.Log;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.bean.CarBean;
@@ -96,6 +94,7 @@ public class CarChenAty extends BaseAty {
     }
 
     @OnClick({R.id.tv_car_screen})
+    @Override
     public void onClick(View v) {
         switch (v.getId()) {
             //跳转到汽车购商品页

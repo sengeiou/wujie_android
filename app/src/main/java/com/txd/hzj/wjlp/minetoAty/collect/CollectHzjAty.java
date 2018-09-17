@@ -104,19 +104,20 @@ public class CollectHzjAty extends BaseAty {
         } else if ((1 == position)) {
             middle_mell_tv.setTextColor(ContextCompat.getColor(this, R.color.colorAccent));
             middle_mell_view.setBackgroundColor(ContextCompat.getColor(this, R.color.colorAccent));
-        } else if (2==position){
+        } else if (2 == position) {
             right_books_tv.setTextColor(ContextCompat.getColor(this, R.color.colorAccent));
             right_books_view.setBackgroundColor(ContextCompat.getColor(this, R.color.colorAccent));
-        }else if (3==position){
+        } else if (3 == position) {
             right_offLine_tv.setTextColor(ContextCompat.getColor(this, R.color.colorAccent));
             right_offLine_view.setBackgroundColor(ContextCompat.getColor(this, R.color.colorAccent));
         }
-        if (position < 4)
+        if (position < 4) {
             fcm.setFragments(position);
+        }
     }
 
     @Override
-    @OnClick({R.id.foot_right_tv, R.id.collect_left_layout, R.id.collect_middle_layout, R.id.collect_right_layout,R.id.collect_offLine_layout})
+    @OnClick({R.id.foot_right_tv, R.id.collect_left_layout, R.id.collect_middle_layout, R.id.collect_right_layout, R.id.collect_offLine_layout})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
@@ -166,10 +167,10 @@ public class CollectHzjAty extends BaseAty {
         } else if (1 == selected) {// 商家
             ((CollectMellHzjFgt) f).setStatus(status);
             ((CollectMellHzjFgt) f).r();
-        } else if (2== selected){// 书院
+        } else if (2 == selected) {// 书院
             ((CollectBooksFgt) f).setStatus(status);
             ((CollectBooksFgt) f).r();
-        } else if (3== selected){// 线下店铺
+        } else if (3 == selected) {// 线下店铺
             ((CollectOffLineshopFgt) f).setStatus(status);
             ((CollectOffLineshopFgt) f).r();
         }

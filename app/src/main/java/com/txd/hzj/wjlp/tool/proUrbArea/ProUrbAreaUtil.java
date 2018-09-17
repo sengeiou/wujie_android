@@ -72,7 +72,7 @@ public class ProUrbAreaUtil implements BaseView {
                  * 注意：assets 目录下的Json文件仅供参考，实际使用可自行替换文件
                  * 关键逻辑在于循环体
                  */
-//        String JsonData = new GetJsonDataUtil().getJson(this, "provinceFotTxd.json");//获取assets目录下的json文件数据
+                //        String JsonData = new GetJsonDataUtil().getJson(this, "provinceFotTxd.json");//获取assets目录下的json文件数据
                 ArrayList<ProvinceForTxd> jsonBean = parseData(jsonData);//用Gson 转成实体
                 /*
                  * 添加省份数据
@@ -81,8 +81,9 @@ public class ProUrbAreaUtil implements BaseView {
                  * PickerView会通过getPickerViewText方法获取字符串显示出来。
                  */
                 if (null != options1Items && options1Items.size() > 0 && null != options2Items && options2Items.size() > 0 && null != options3Items && options3Items.size() > 0) {
-                    if (null != handler)
+                    if (null != handler) {
                         handler.sendEmptyMessage(MSG_LOAD_SUCCESS);
+                    }
                 } else {
                     options1Items = jsonBean;
                     for (int i = 0; i < jsonBean.size(); i++) {//遍历省份
@@ -116,8 +117,9 @@ public class ProUrbAreaUtil implements BaseView {
                         options3Items.add(Province_AreaList);
 
                     }
-                    if (null != handler)
+                    if (null != handler) {
                         handler.sendEmptyMessage(MSG_LOAD_SUCCESS);
+                    }
                 }
             }
         };
@@ -223,7 +225,7 @@ public class ProUrbAreaUtil implements BaseView {
             removeDialog();
             switch (msg.what) {
                 case MSG_LOAD_SUCCESS: {
-//                    专门为滚轮准备
+                    //                    专门为滚轮准备
                     OptionsPickerView pvOptions = new OptionsPickerView.Builder(activity, new OptionsPickerView
                             .OnOptionsSelectListener() {
                         @Override
@@ -250,8 +252,9 @@ public class ProUrbAreaUtil implements BaseView {
                             record_option2 = options2;
                             record_option3 = options3;
                             //选好城市区域之后,从服务器获取运费
-                            if (!TextUtils.isEmpty(goods_id))
+                            if (!TextUtils.isEmpty(goods_id)) {
                                 Freight.freight(goods_id, tx.toString(), goods_num, product_id, ProUrbAreaUtil.this);
+                            }
                             if (null != getData) {
                                 getData.getAddress();
                             }
@@ -397,8 +400,9 @@ public class ProUrbAreaUtil implements BaseView {
 
     @Override
     public void showDialog() {
-        if (null != baseActivity)
+        if (null != baseActivity) {
             baseActivity.showDialog();
+        }
     }
 
     @Override
@@ -413,8 +417,9 @@ public class ProUrbAreaUtil implements BaseView {
 
     @Override
     public void removeDialog() {
-        if (null != baseActivity)
+        if (null != baseActivity) {
             baseActivity.removeProgressDialog();
+        }
     }
 
     @Override
@@ -460,11 +465,12 @@ public class ProUrbAreaUtil implements BaseView {
         } else if (requestUrl.contains("freight")) {
             Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
             map = JSONUtils.parseKeyAndValueToMap(map.get("data"));
-            if (null != callBack)
+            if (null != callBack) {
                 callBack.freightGetEd(map);
-//            freight_tv.setText(map.get("pay"));
-//            freight_tv.setTextColor(Color.parseColor("#FD8214"));
-//            tv_freight.setText(map.get("pay"));
+            }
+            //            freight_tv.setText(map.get("pay"));
+            //            freight_tv.setTextColor(Color.parseColor("#FD8214"));
+            //            tv_freight.setText(map.get("pay"));
         }
 
     }

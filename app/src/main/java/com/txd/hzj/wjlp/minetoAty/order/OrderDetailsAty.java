@@ -204,7 +204,7 @@ public class OrderDetailsAty extends BaseAty {
         } else if (type.equals("10")) {
             titlt_conter_tv.setText("订单详情");
             IntegralBuyOrder.details(order_id, this);
-            type2WL="5";
+            type2WL = "5";
         }
     }
 
@@ -462,8 +462,8 @@ public class OrderDetailsAty extends BaseAty {
                 }
                 order_price_info_tv.setText(Html.fromHtml("共" + calcGoodsNum() + "件商品 合计： <font color='#DF3031'>¥" + (data.get("ticket_color").equals("0") ? data.get("order_price") :
                         (bd.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue() + "(已抵" + data.get("pay_tickets") + ticket_color + ")")) + "</font>"));
-            }else {
-                order_price_info_tv.setText(Html.fromHtml("共" + calcGoodsNum() + "件商品 合计： <font color='#DF3031'>" +  data.get("order_price") + "积分</font>"));
+            } else {
+                order_price_info_tv.setText(Html.fromHtml("共" + calcGoodsNum() + "件商品 合计： <font color='#DF3031'>" + data.get("order_price") + "积分</font>"));
             }
 
             tv_order_sn.setText("订单编号：" + data.get("order_sn"));
@@ -588,7 +588,7 @@ public class OrderDetailsAty extends BaseAty {
             case "4":
                 tv_state.setText("已完成");
                 tv_btn_left.setVisibility(View.GONE);
-                if ("10".equals(type)){
+                if ("10".equals(type)) {
                     tv_btn_right.setVisibility(View.GONE);
                 }
                 tv_btn_right.setText("删除");
@@ -843,7 +843,7 @@ public class OrderDetailsAty extends BaseAty {
                 tgvh.jifenTv.setText("（赠送:" + map.get("return_integral") + "积分）");
             }
             tgvh.textviews.setVisibility(View.VISIBLE); // 设置发票名称的控件显示或隐藏
-            tgvh.textviews.setText(map.get("invoice_name")+"(发票运费:"+map.get("express_fee")+" 税金:"+map.get("tax_pay")+")"); // 设置发票名称
+            tgvh.textviews.setText(map.get("invoice_name") + "(发票运费:" + map.get("express_fee") + " 税金:" + map.get("tax_pay") + ")"); // 设置发票名称
             L.e("time" + map.get("sure_delivery_time"));
 
 
@@ -901,7 +901,7 @@ public class OrderDetailsAty extends BaseAty {
 
             // 提醒发货按钮
             //如果 after_type等于0时  order_status=1（待发货） status = 0 （待发货）并且 remind_status=0（未提醒发货）时  显示提醒发货
-            if (map.containsKey("after_type")&&map.containsKey("status")&&map.containsKey("remind_status")) {
+            if (map.containsKey("after_type") && map.containsKey("status") && map.containsKey("remind_status")) {
                 if (map.get("after_type").equals("0") && order_status.equals("1") && map.get("status").equals("0") && map.get("remind_status").equals("0")) {
                     tgvh.tv_btn_remind.setText("提醒发货");
                     tgvh.tv_btn_remind.setVisibility(View.VISIBLE);
@@ -936,7 +936,7 @@ public class OrderDetailsAty extends BaseAty {
 
             //延迟收货
             //如果 after_type等于0时  order_status=2（待收货） status = 2 （待收货）并且 sale_status= 0（未延迟收货）时  显示延迟收货
-            if (map.containsKey("after_type")&&map.containsKey("status")&&map.containsKey("sale_status")) {
+            if (map.containsKey("after_type") && map.containsKey("status") && map.containsKey("sale_status")) {
                 if (map.get("after_type").equals("0") && order_status.equals("2") && map.get("status").equals("2") && map.get("sale_status").equals("0")) {
                     tgvh.delayReceiving.setText("延迟收货");
                     tgvh.delayReceiving.setVisibility(View.VISIBLE);
@@ -964,7 +964,7 @@ public class OrderDetailsAty extends BaseAty {
 
             //确认收货
             //如果 after_type等于0时  order_status=2（待收货） status = 2 （待收货）时  显示确认收货
-            if (map.containsKey("after_type")&&map.containsKey("status")) {
+            if (map.containsKey("after_type") && map.containsKey("status")) {
                 if (map.get("after_type").equals("0") && order_status.equals("2") && map.get("status").equals("2")) {
                     tgvh.confirmReceipt.setText("确认收货");
                     tgvh.confirmReceipt.setVisibility(View.VISIBLE);
@@ -1028,8 +1028,9 @@ public class OrderDetailsAty extends BaseAty {
                             // 跳转至申请售后界面发起售后
                             Bundle bundle = new Bundle();
                             //                        bundle.putString("price", String.valueOf(Double.parseDouble(map.get("shop_price")) * Integer.parseInt(map.get("goods_num"))));
-                            if (map.containsKey("refund_price"))
+                            if (map.containsKey("refund_price")) {
                                 bundle.putString("maxPrice", String.valueOf(Double.parseDouble(map.get("refund_price")))); // 此商品可退换的全部金额
+                            }
                             bundle.putString("order_goods_id", map.get("order_goods_id"));
                             bundle.putString("order_id", order_id);
                             bundle.putString("type", type);
@@ -1132,8 +1133,9 @@ public class OrderDetailsAty extends BaseAty {
     }
 
     public void showPwxPopWindow(View view) {
-        if (commonPopupWindow != null && commonPopupWindow.isShowing())
+        if (commonPopupWindow != null && commonPopupWindow.isShowing()) {
             return;
+        }
         commonPopupWindow = new CommonPopupWindow.Builder(this)
                 .setView(R.layout.popup_pwd)
                 .setWidthAndHeight(ViewGroup.LayoutParams.MATCH_PARENT, Settings.displayHeight / 4)
@@ -1163,8 +1165,9 @@ public class OrderDetailsAty extends BaseAty {
     }
 
     public void showPwdPop(View view, int i) {
-        if (commonPopupWindow != null && commonPopupWindow.isShowing())
+        if (commonPopupWindow != null && commonPopupWindow.isShowing()) {
             return;
+        }
         commonPopupWindow = new CommonPopupWindow.Builder(this)
                 .setView(R.layout.popup_confirmreceipt)
                 .setWidthAndHeight(ViewGroup.LayoutParams.MATCH_PARENT, Settings.displayHeight / 3)

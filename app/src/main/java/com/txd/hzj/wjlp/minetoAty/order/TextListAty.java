@@ -103,8 +103,8 @@ public class TextListAty extends BaseAty {
                     data.putExtra("express", dataList.get(i).get("cname"));
                     data.putExtra("id", dataList.get(i).get("invoice"));
                 } else if (title.equals("选择经营范围")) {
-//                    data.putExtra("scope", dataList.get(i).get("short_name"));
-//                    data.putExtra("cate_id", dataList.get(i).get("cate_id"));
+                    //                    data.putExtra("scope", dataList.get(i).get("short_name"));
+                    //                    data.putExtra("cate_id", dataList.get(i).get("cate_id"));
                     if (list_check.get(i) == 0) {
                         list_check.set(i, 1);
                     } else {
@@ -221,7 +221,7 @@ public class TextListAty extends BaseAty {
             if ("3".equals(type)) {
                 AfterSale.backApplyType(getIntent().getStringExtra("order_goods_id"), "2", this);
             } else {
-                AfterSale.backNormalApplyType(this, getIntent().getStringExtra("order_goods_id"),type);
+                AfterSale.backNormalApplyType(this, getIntent().getStringExtra("order_goods_id"), type);
             }
 
             showProgressDialog();
@@ -229,21 +229,21 @@ public class TextListAty extends BaseAty {
             if ("3".equals(type)) {
                 AfterSale.backApplyType(getIntent().getStringExtra("order_goods_id"), "2", this);
             } else {
-                AfterSale.backNormalApplyType(this, getIntent().getStringExtra("order_goods_id"),type);
+                AfterSale.backNormalApplyType(this, getIntent().getStringExtra("order_goods_id"), type);
             }
             showProgressDialog();
-//            map = new HashMap<>();
-//            map.put("name", "已收到货");
-//            list.add(map);
-//            map = new HashMap<>();
-//            map.put("name", "未收到货");
-//            list.add(map);
-//            tAdapter = new TextAdapter(list);
-//            all_text_lv.setAdapter(tAdapter);
+            //            map = new HashMap<>();
+            //            map.put("name", "已收到货");
+            //            list.add(map);
+            //            map = new HashMap<>();
+            //            map.put("name", "未收到货");
+            //            list.add(map);
+            //            tAdapter = new TextAdapter(list);
+            //            all_text_lv.setAdapter(tAdapter);
         } else if (title.equals("售后原因")) {
             AfterSale.cause(this);
         } else if (title.equals("选择快递")) {
-//            AfterSale.shipping(this);
+            //            AfterSale.shipping(this);
             AfterSale.get_company_name(getIntent().getStringExtra("invoice"), this);
             showProgressDialog();
         } else if (title.equals("选择类型")) {
@@ -364,15 +364,15 @@ public class TextListAty extends BaseAty {
                 tvvh = new TVVh();
                 ViewUtils.inject(tvvh, view);
                 view.setTag(tvvh);
-            } else
+            } else {
                 tvvh = (TVVh) view.getTag();
-
+            }
             if (title.equals("售后类型") || title.equals("货物状态") || title.equals("售后原因")) {
                 tvvh.text_context_tv.setText(map.get("name"));
             } else if (title.equals("选择快递")) {
                 tvvh.text_context_tv.setText(map.get("cname"));
             } else if (title.equals("选择经营范围")) {
-//                tvvh.text_context_tv.setText(map.get("short_name"));
+                //                tvvh.text_context_tv.setText(map.get("short_name"));
                 tvvh.layout.setVisibility(View.GONE);
                 tvvh.layout2.setVisibility(View.VISIBLE);
                 tvvh.tv.setText(map.get("short_name"));

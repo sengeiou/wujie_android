@@ -135,10 +135,11 @@ public abstract class BaseAty extends BaseActivity implements ChatListener {
                 ImmersionBar.with(this).titleBar(vid).init();
             }
         } else {
-            if (ImmersionBar.isSupportStatusBarDarkFont())
+            if (ImmersionBar.isSupportStatusBarDarkFont()) {
                 ImmersionBar.with(this).titleBar(vid).statusBarDarkFont(true).init();
-            else
+            } else {
                 ImmersionBar.with(this).titleBar(vid).statusBarDarkFont(true, 0.2f).init();
+            }
         }
     }
 
@@ -277,7 +278,8 @@ public abstract class BaseAty extends BaseActivity implements ChatListener {
     }
 
     /**
-     *  分享
+     * 分享
+     *
      * @param title
      * @param pic
      * @param url
@@ -287,8 +289,8 @@ public abstract class BaseAty extends BaseActivity implements ChatListener {
      */
     public void toShare(String title, String pic, String url, String context, String id, String Shapetype) {
         if (!Config.isLogin()) {
-//            toLogin();
-//            return;
+            //            toLogin();
+            //            return;
             Toast.makeText(BaseAty.this, "您未登陆，这会导致无法获得分享收益!", Toast.LENGTH_LONG).show();
         }
         Bundle bundle = new Bundle();
@@ -440,7 +442,7 @@ public abstract class BaseAty extends BaseActivity implements ChatListener {
     @Override
     protected void onStop() {
         super.onStop();
-//        DemoApplication.getInstance().removeLisetener(); 将该方法移动到退出账户
+        //        DemoApplication.getInstance().removeLisetener(); 将该方法移动到退出账户
     }
 
     public void call(String tel) {
@@ -469,7 +471,7 @@ public abstract class BaseAty extends BaseActivity implements ChatListener {
 
     @Override
     public void onException(Exception exception) {
-//        showProgressContent();
+        //        showProgressContent();
         // TODO 此处尽量不要统统的在Exception中关闭，否则有点页面正常关闭了也会造成闪退回桌面的感觉，
         // TODO Android系统在启动的时候也会打印出错误日志，所以有点无关紧要的错也不一定影响正常运行
         if (this instanceof TicketGoodsDetialsAty || this instanceof GoodLuckOrderDetailsAty || this instanceof LimitGoodsAty) {

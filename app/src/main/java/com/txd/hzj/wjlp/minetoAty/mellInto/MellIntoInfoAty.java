@@ -26,12 +26,10 @@ import java.util.List;
 import java.util.Map;
 
 /**
- *
  * 作者：DUKE_HwangZj
  * 日期：2017/8/16 0016
  * 时间：下午 3:16
  * 描述：推荐详情
- *
  */
 public class MellIntoInfoAty extends BaseAty {
 
@@ -199,8 +197,8 @@ public class MellIntoInfoAty extends BaseAty {
                     break;
             }
 
-//            mell_desc_tv.setText(data.get("desc"));
-//            mell_score_tv.setText("评分" + data.get("score") + "分");
+            //            mell_desc_tv.setText(data.get("desc"));
+            //            mell_score_tv.setText("评分" + data.get("score") + "分");
             mell_range_tv.setText(data.get("range_id"));
             job_for_mell_tv.setText(data.get("job"));
             job_for_mell_tv_name.setText(data.get("name"));
@@ -267,8 +265,9 @@ public class MellIntoInfoAty extends BaseAty {
                 pvh = new PicVh();
                 ViewUtils.inject(pvh, view);
                 view.setTag(pvh);
-            } else
+            } else {
                 pvh = (PicVh) view.getTag();
+            }
 
             Glide.with(MellIntoInfoAty.this).load(picTemp.get("path"))
                     .centerCrop()

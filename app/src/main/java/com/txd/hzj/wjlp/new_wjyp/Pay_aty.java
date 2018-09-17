@@ -168,9 +168,12 @@ public class Pay_aty extends BaseAty {
     }
 
     public void showPop(View view, final int type) {
-        if (data.get("discount").equals("0") && data.get("yellow_discount").equals("0") && data.get("blue_discount").equals("0"))
+        if (data.get("discount").equals("0") && data.get("yellow_discount").equals("0") && data.get("blue_discount").equals("0")) {
             return;
-        if (commonPopupWindow != null && commonPopupWindow.isShowing()) return;
+        }
+        if (commonPopupWindow != null && commonPopupWindow.isShowing()) {
+            return;
+        }
         commonPopupWindow = new CommonPopupWindow.Builder(this)
                 .setView(R.layout.popup_layout_djq)
                 .setWidthAndHeight(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
@@ -269,9 +272,10 @@ public class Pay_aty extends BaseAty {
     }
 
     private WxPayReceiver wxPayReceiver;
+
     @Override
     protected void requestData() {
-        wxPayReceiver = new  WxPayReceiver();
+        wxPayReceiver = new WxPayReceiver();
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction("wjyp.wxPay");
         registerReceiver(wxPayReceiver, intentFilter);
@@ -291,7 +295,9 @@ public class Pay_aty extends BaseAty {
             }
         }
     }
+
     Map<String, String> map;
+
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);

@@ -337,9 +337,9 @@ public class MellInfoAty extends BaseAty {
         switch (v.getId()) {
             case R.id.off_line_mell_share_tv:
 
-//                Wap/Merchant/merIndex/merchant_id/4.html
-//                    店铺首页
-                share_url = Config.OFFICIAL_WEB + "Wap/Merchant/merIndex/merchant_id/"+mell_id+ ".html";
+                //                Wap/Merchant/merIndex/merchant_id/4.html
+                //                    店铺首页
+                share_url = Config.OFFICIAL_WEB + "Wap/Merchant/merIndex/merchant_id/" + mell_id + ".html";
                 /**
                  * 1 商品 2商家 3书院 4红包 5其他(个人中心)
                  */
@@ -417,7 +417,7 @@ public class MellInfoAty extends BaseAty {
                 } else {
                     setStyle(soft_type);
                 }
-//                getData(soft_type);
+                //                getData(soft_type);
                 break;
         }
     }
@@ -456,8 +456,9 @@ public class MellInfoAty extends BaseAty {
                         Bundle bundle = new Bundle();
                         bundle.putString("group_buy_id", ads_list.get(position).get("group_buy_id"));
                         bundle.putInt("from", 1);
-                        if (ads_list.get(position).containsKey("a_id"))
-                            bundle.putString("a_id", ads_list.get(position).get("a_id"));//  "a_id": "1"
+                        if (ads_list.get(position).containsKey("a_id")) {
+                            bundle.putString("a_id", ads_list.get(position).get("a_id"));
+                        }//  "a_id": "1"
                         startActivity(GoodLuckDetailsAty.class, bundle);
                     }
                     break;
@@ -542,8 +543,9 @@ public class MellInfoAty extends BaseAty {
                             mell_goods_gv.setAdapter(mellGoodsAndAdsAdapter);
                         }
                     } else {
-                        if (mellGoodsAndAdsAdapter != null)
+                        if (mellGoodsAndAdsAdapter != null) {
                             mellGoodsAndAdsAdapter.notifyDataSetChanged();
+                        }
                     }
                     if (!frist) {
                         // 加载完成
@@ -579,8 +581,9 @@ public class MellInfoAty extends BaseAty {
                     footerProgressBar.setVisibility(View.GONE);
                     mell_super_sr_layout.setLoadMore(false);
                 }
-                if (mellGoodsAndAdsAdapter != null)
+                if (mellGoodsAndAdsAdapter != null) {
                     mellGoodsAndAdsAdapter.notifyDataSetChanged();
+                }
             }
             return;
         }
@@ -600,10 +603,10 @@ public class MellInfoAty extends BaseAty {
 
                         ads_list = JSONUtils.parseKeyAndValueToMapList(data.get("goods_list"));
                         L.e("=====数据=====", ads_list.toString());
-//                        if (mellGoodsAndAdsAdapter != null)
-//                            mellGoodsAndAdsAdapter.notifyDataSetChanged();
-//                        else {
-//                        }
+                        //                        if (mellGoodsAndAdsAdapter != null)
+                        //                            mellGoodsAndAdsAdapter.notifyDataSetChanged();
+                        //                        else {
+                        //                        }
                         mellGoodsAndAdsAdapter = new MellGoodsAndAdsAdapter(this, data_type, ads_list);
                         mell_goods_gv.setAdapter(mellGoodsAndAdsAdapter);
                     } else {
@@ -620,8 +623,9 @@ public class MellInfoAty extends BaseAty {
                 } else {
                     if (ToolKit.isList(data, "goods_list")) {
                         ads_list.addAll(JSONUtils.parseKeyAndValueToMapList(data.get("goods_list")));
-                        if (mellGoodsAndAdsAdapter != null)
+                        if (mellGoodsAndAdsAdapter != null) {
                             mellGoodsAndAdsAdapter.notifyDataSetChanged();
+                        }
                     }
                     // 加载完成
                     footerImageView.setVisibility(View.VISIBLE);
@@ -773,7 +777,7 @@ public class MellInfoAty extends BaseAty {
                         merchantPst.limitList(mell_id, p);
                         break;
                     case 3:// 拼团购
-//                        merchantPst.groupList(mell_id, p);
+                        //                        merchantPst.groupList(mell_id, p);
                         groupBuyPst.merchantGroupBuyList(mell_id, p);
                         break;
                     case 4:// 无界预购

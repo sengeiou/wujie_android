@@ -17,7 +17,6 @@ import net.sourceforge.pinyin4j.format.exception.BadHanyuPinyinOutputFormatCombi
  */
 public class PinyinUtils {
     /**
-     *
      * @param chines
      * @return
      */
@@ -43,7 +42,6 @@ public class PinyinUtils {
     }
 
     /**
-     *
      * string's chinese to pinying ,english string no change
      *
      * @param inputString
@@ -65,8 +63,9 @@ public class PinyinUtils {
                         String[] temp = PinyinHelper.toHanyuPinyinStringArray(
                                 input[i], format);
                         output += temp[0];
-                    } else
+                    } else {
                         output += Character.toString(input[i]);
+                    }
                 }
             } catch (BadHanyuPinyinOutputFormatCombination e) {
                 e.printStackTrace();
@@ -78,7 +77,7 @@ public class PinyinUtils {
     }
 
     /**
-     *c
+     * c
      *
      * @param chines
      * @return

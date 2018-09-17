@@ -238,6 +238,7 @@ public class SetAty extends BaseAty implements Handler.Callback, PlatformActionL
                                 showProgressDialog();
                                 GlideCacheUtil.getInstance().clearImageAllCache(getApplicationContext());
                                 TimerTask task = new TimerTask() {
+                                    @Override
                                     public void run() {
                                         removeProgressDialog();
                                     }
@@ -491,7 +492,7 @@ public class SetAty extends BaseAty implements Handler.Callback, PlatformActionL
             if (openid != null && nick != null) {
                 //head_pic = plat.getDb().getUserIcon();
                 User.bindOther(openid, loginType, nick, this);
-//                userPst.bindOther(openid, loginType, nick);
+                //                userPst.bindOther(openid, loginType, nick);
                 //getHeadPicAndLogin(head_pic);
                 return;
             }
@@ -520,7 +521,7 @@ public class SetAty extends BaseAty implements Handler.Callback, PlatformActionL
                         File head = new File(Environment.getExternalStorageDirectory() + "/Txunda/img_head/head.png");
                         //   registerPst.otherLogin(openid, loginType, head, nick);
                         User.bindOther(openid, loginType, nick, SetAty.this);
-//                        userPst.bindOther(openid, loginType, nick);
+                        //                        userPst.bindOther(openid, loginType, nick);
                     }
 
                     @Override
@@ -577,7 +578,7 @@ public class SetAty extends BaseAty implements Handler.Callback, PlatformActionL
             }
             nick = platform.getDb().getUserName();
             head_pic = platform.getDb().getUserIcon();
-//            userPst.bindOther(openid, loginType, nick);
+            //            userPst.bindOther(openid, loginType, nick);
             getHeadPicAndLogin(head_pic);
             // 三方登陆
         }
@@ -625,7 +626,7 @@ public class SetAty extends BaseAty implements Handler.Callback, PlatformActionL
                 String text = getString(com.ants.theantsgo.R.string.auth_complete);
                 showRightTip(text);
                 msg.obj = "正在登录";
-//                handler.sendMessage(msg);
+                //                handler.sendMessage(msg);
             }
             break;
         }
@@ -642,8 +643,8 @@ public class SetAty extends BaseAty implements Handler.Callback, PlatformActionL
                     AppUpdate.getInstance().install(SetAty.this);
                 } else {
                     //将用户引导至安装未知应用界面。
-//                    Intent intent = new Intent(Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES);
-//                    startActivityForResult(intent, GET_UNKNOWN_APP_SOURCES);
+                    //                    Intent intent = new Intent(Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES);
+                    //                    startActivityForResult(intent, GET_UNKNOWN_APP_SOURCES);
 
                     Uri packageURI = Uri.parse("package:" + getPackageName());
                     Intent intent = new Intent(android.provider.Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES, packageURI);

@@ -279,8 +279,9 @@ public class CollectMellHzjFgt extends BaseFgt implements MellListAdapter.ForSel
                 mellListAdapter.setShowSelect(true);
             }
         }
-        if (mellListAdapter != null)
+        if (mellListAdapter != null) {
             mellListAdapter.notifyDataSetChanged();
+        }
     }
 
     @Override
@@ -305,7 +306,7 @@ public class CollectMellHzjFgt extends BaseFgt implements MellListAdapter.ForSel
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
         if (requestUrl.contains("myfooter")) {
-//            ((FootprintAty )getActivity()).setView(View.VISIBLE);
+            //            ((FootprintAty )getActivity()).setView(View.VISIBLE);
             getActivity().sendBroadcast(intent);
             FootPointBean foot = GsonUtil.GsonToBean(jsonStr, FootPointBean.class);
             allNum = foot.getNums();

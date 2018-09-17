@@ -35,7 +35,9 @@ public class GlideImageGetter implements Html.ImageGetter, Drawable.Callback {
 
     public void clear() {
         GlideImageGetter prev = get(mTextView);
-        if (prev == null) return;
+        if (prev == null) {
+            return;
+        }
 
         for (ImageGetterViewTarget target : prev.mTargets) {
             Glide.clear(target);
@@ -46,7 +48,7 @@ public class GlideImageGetter implements Html.ImageGetter, Drawable.Callback {
         this.mContext = context;
         this.mTextView = textView;
 
-//        clear(); 屏蔽掉这句在TextView中可以加载多张图片
+        //        clear(); 屏蔽掉这句在TextView中可以加载多张图片
         mTargets = new HashSet<>();
         mTextView.setTag(R.id.drawable_callback_tag, this);
     }
@@ -83,7 +85,6 @@ public class GlideImageGetter implements Html.ImageGetter, Drawable.Callback {
     }
 
     private class ImageGetterViewTarget extends ViewTarget<TextView, GlideDrawable> {
-
         private final UrlDrawable_Glide mDrawable;
 
         private ImageGetterViewTarget(TextView view, UrlDrawable_Glide drawable) {

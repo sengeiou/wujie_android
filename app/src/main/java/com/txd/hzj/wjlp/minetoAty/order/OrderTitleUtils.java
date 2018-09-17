@@ -23,14 +23,15 @@ public class OrderTitleUtils {
 
     // 定义一个静态的方法（调用时再初始化OrderTitleUtils，使用synchronized 避免多线程访问时，可能造成重的复初始化问题）
     public static synchronized OrderTitleUtils getInstance() {
-        if (instance == null)
+        if (instance == null) {
             instance = new OrderTitleUtils();
+        }
         return instance;
     }
 
     private String title1[] = {"全部", "待付款", "待发货", "待收货", "待评价"};
-    private String title2[] = {"全部", "待抽奖", "未中奖", "待付款", "拼单中", "待发货", "待收货", "待评价","未拼成"};
-    private String type_pt[] = {"0", "7", "10", "1", "2", "3", "4", "5","8"};
+    private String title2[] = {"全部", "待抽奖", "未中奖", "待付款", "拼单中", "待发货", "待收货", "待评价", "未拼成"};
+    private String type_pt[] = {"0", "7", "10", "1", "2", "3", "4", "5", "8"};
     private String title3[] = {"全部", "预购中", "待付尾款", "待发货", "待收货", "待评价"};
     private String title4[] = {"全部", "进行中", "未中奖", "已中奖"};
     private String title5[] = {"全部", "待付款", "办理手续中", "待评价"};

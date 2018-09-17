@@ -47,8 +47,9 @@ public class GroupBuy {
         ApiTool2 apiTool2 = new ApiTool2();
         params.addBodyParameter("group_buy_id", group_buy_id);
         params.addBodyParameter("p", String.valueOf(page));
-        if (!android.text.TextUtils.isEmpty(a_id))
+        if (!android.text.TextUtils.isEmpty(a_id)) {
             params.addBodyParameter("a_id", a_id);
+        }
         apiTool2.postApi(url + "groupBuyInfo", params, baseView);
     }
 
@@ -109,8 +110,9 @@ public class GroupBuy {
         RequestParams requestParams = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
         requestParams.addBodyParameter("goods_id", goods_id);
-        if (!android.text.TextUtils.isEmpty(product_id))
+        if (!android.text.TextUtils.isEmpty(product_id)) {
             requestParams.addBodyParameter("product_id", product_id);
+        }
         requestParams.addBodyParameter("group_type", String.valueOf(group_type));
         apiTool2.postApi(url + "attrApi", requestParams, baseView);
     }
@@ -119,7 +121,7 @@ public class GroupBuy {
     /**
      * 拼单购规则显示
      */
-    public void changeShowStatus(BaseView baseView){
+    public void changeShowStatus(BaseView baseView) {
         RequestParams requestParams = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
         apiTool2.postApi(url + "changeShowStatus", requestParams, baseView);

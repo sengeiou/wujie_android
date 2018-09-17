@@ -142,7 +142,7 @@ public class CollageDetailsAty extends BaseAty {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         showStatusBar(R.id.title_re_layout);
-//        isTy = getIntent().getBooleanExtra("isTy", false);
+        //        isTy = getIntent().getBooleanExtra("isTy", false);
         titlt_conter_tv.setText(" ");
         details_order_sc.smoothScrollTo(0, 0);
         bot_for_order.setBackgroundColor(ContextCompat.getColor(this, R.color.white));
@@ -453,16 +453,16 @@ public class CollageDetailsAty extends BaseAty {
     private void setGroupBuyOrderStatus() {
         switch (order_status) {
             case "0":
-//                titlt_conter_tv.setText("待支付订单");
+                //                titlt_conter_tv.setText("待支付订单");
                 titlt_conter_tv.setText("订单详情");
                 tv_state.setText("待支付");
                 tv_btn_left.setText("取消订单");
                 tv_btn_right.setText("付款");
-//                layout_choose_address.setVisibility(View.GONE);
+                //                layout_choose_address.setVisibility(View.GONE);
                 lin_logistics.setVisibility(View.GONE);
                 break;
             case "1":
-//                titlt_conter_tv.setText("拼单中订单");
+                //                titlt_conter_tv.setText("拼单中订单");
                 titlt_conter_tv.setText("订单详情");
                 tv_state.setText("拼单中");
                 tv_btn_left.setVisibility(View.GONE);
@@ -472,7 +472,7 @@ public class CollageDetailsAty extends BaseAty {
                 lin_logistics.setVisibility(View.GONE);
                 break;
             case "2":
-//                titlt_conter_tv.setText("待发货订单");
+                //                titlt_conter_tv.setText("待发货订单");
                 titlt_conter_tv.setText("订单详情");
                 tv_state.setText("待发货");
                 tv_btn_left.setVisibility(View.GONE);
@@ -482,7 +482,7 @@ public class CollageDetailsAty extends BaseAty {
                 lin_logistics.setVisibility(View.GONE);
                 break;
             case "3":
-//                titlt_conter_tv.setText("待收货订单");
+                //                titlt_conter_tv.setText("待收货订单");
                 titlt_conter_tv.setText("订单详情");
                 tv_state.setText("待收货");
                 tv_btn_left.setVisibility(View.GONE);
@@ -491,7 +491,7 @@ public class CollageDetailsAty extends BaseAty {
                 lin_logistics.setVisibility(View.VISIBLE);
                 break;
             case "4":
-//                titlt_conter_tv.setText("待评价订单");
+                //                titlt_conter_tv.setText("待评价订单");
                 titlt_conter_tv.setText("订单详情");
                 tv_state.setText("待评价");
                 tv_btn_left.setVisibility(View.GONE);
@@ -500,7 +500,7 @@ public class CollageDetailsAty extends BaseAty {
                 lin_logistics.setVisibility(View.VISIBLE);
                 break;
             case "5":
-//                titlt_conter_tv.setText("已完成订单");
+                //                titlt_conter_tv.setText("已完成订单");
                 titlt_conter_tv.setText("订单详情");
                 tv_state.setText("已完成");
                 tv_btn_left.setVisibility(View.GONE);
@@ -510,7 +510,7 @@ public class CollageDetailsAty extends BaseAty {
                 lin_logistics.setVisibility(View.VISIBLE);
                 break;
             case "6":
-//                titlt_conter_tv.setText("已取消订单");
+                //                titlt_conter_tv.setText("已取消订单");
                 titlt_conter_tv.setText("订单详情");
                 tv_state.setText("已取消");
                 tv_btn_left.setVisibility(View.GONE);
@@ -596,13 +596,14 @@ public class CollageDetailsAty extends BaseAty {
                 Glide.with(CollageDetailsAty.this).load(map.get("goods_img")).into(tgvh.image);
                 if (isTy) {
                     tgvh.tyIv.setVisibility(View.VISIBLE);
-                } else
+                } else {
                     tgvh.tyIv.setVisibility(View.GONE);
+                }
                 tgvh.name.setText(map.get("goods_name")); // 设置商品名称显示
                 tgvh.tv_price.setText("¥" + map.get("shop_price")); // 设置订单中商品价格
                 tgvh.tv_price.setVisibility(View.VISIBLE); // 显示订单中商品价格
-//                tgvh.title.setText(map.get("attr")); // 设置商品属性
-//                tgvh.jifenTv.setText("（赠送:" + map.get("return_integral") + "积分）");
+                //                tgvh.title.setText(map.get("attr")); // 设置商品属性
+                //                tgvh.jifenTv.setText("（赠送:" + map.get("return_integral") + "积分）");
                 ChangeTextViewStyle.getInstance().forTextColor(CollageDetailsAty.this, tgvh.title,
                         map.get("attr") + "（赠送:" + map.get("return_integral") + "积分）", map.get("attr").length(), Color.parseColor("#F6B87A"));
 
@@ -628,8 +629,9 @@ public class CollageDetailsAty extends BaseAty {
                             if (getItem(i).containsKey("group_buy_id")) {//拼单购
                                 bundle.putString("group_buy_id", getItem(i).get("group_buy_id"));
                                 bundle.putInt("from", 1);
-                                if (getItem(i).containsKey("a_id"))
+                                if (getItem(i).containsKey("a_id")) {
                                     bundle.putString("a_id", getItem(i).get("a_id"));//  "a_id": "1",      //体验品活动id，非体验品拼单时此id为0
+                                }
                                 startActivity(GoodLuckDetailsAty.class, bundle);
                             }
                         }
@@ -670,8 +672,8 @@ public class CollageDetailsAty extends BaseAty {
                 } else if (order_status.equals("3")) { // 订单待收货状态
                     if (Integer.valueOf(map.get("status")) > 1 && map.containsKey("sale_status")) {
                         tgvh.delayReceiving.setVisibility(map.get("sale_status").equals("0") ? View.VISIBLE : View.GONE); // 延长收货按钮显示
-//                        tgvh.delayReceivingtv.setVisibility(map.get("sale_status").equals("0") ? View.GONE : View.VISIBLE);
-//                        tgvh.delayReceivingtv.setText(map.get("sale_status").equals("0") ? "" : map.get("auto_time"));
+                        //                        tgvh.delayReceivingtv.setVisibility(map.get("sale_status").equals("0") ? View.GONE : View.VISIBLE);
+                        //                        tgvh.delayReceivingtv.setText(map.get("sale_status").equals("0") ? "" : map.get("auto_time"));
                     } else {
                         tgvh.delayReceiving.setVisibility(View.GONE); // 延长收货按钮显示
                     }
@@ -699,8 +701,9 @@ public class CollageDetailsAty extends BaseAty {
                             if (getItem(i).containsKey("group_buy_id")) {//拼单购
                                 bundle.putString("group_buy_id", getItem(i).get("group_buy_id"));
                                 bundle.putInt("from", 1);
-                                if (getItem(i).containsKey("a_id"))
+                                if (getItem(i).containsKey("a_id")) {
                                     bundle.putString("a_id", getItem(i).get("a_id"));//  "a_id": "1",      //体验品活动id，非体验品拼单时此id为0
+                                }
                                 startActivity(GoodLuckDetailsAty.class, bundle);
                             }
                         }
@@ -716,8 +719,9 @@ public class CollageDetailsAty extends BaseAty {
                             // 跳转至申请售后界面发起售后
                             Bundle bundle = new Bundle();
                             //                        bundle.putString("price", String.valueOf(Double.parseDouble(map.get("shop_price")) * Integer.parseInt(map.get("goods_num"))));
-                            if (map.containsKey("refund_price"))
+                            if (map.containsKey("refund_price")) {
                                 bundle.putString("maxPrice", String.valueOf(Double.parseDouble(map.get("refund_price")))); // 此商品可退换的全部金额
+                            }
                             bundle.putString("order_goods_id", map.get("order_goods_id"));
                             bundle.putString("order_id", order_id);
                             bundle.putString("type", type);
@@ -759,8 +763,8 @@ public class CollageDetailsAty extends BaseAty {
                 Glide.with(CollageDetailsAty.this).load(map.get("goods_img")).into(tgvh.image);
                 tgvh.name.setText(map.get("goods_name")); // 设置商品名称显示
                 tgvh.num.setText("x" + map.get("goods_num")); // 设置商品数量显示
-//                tgvh.title.setText(map.get("attr")); // 设置商品属性
-//                tgvh.jifenTv.setText("（赠送:" + map.get("return_integral") + "积分）");
+                //                tgvh.title.setText(map.get("attr")); // 设置商品属性
+                //                tgvh.jifenTv.setText("（赠送:" + map.get("return_integral") + "积分）");
 
                 ChangeTextViewStyle.getInstance().forTextColor(CollageDetailsAty.this, tgvh.title,
                         map.get("attr") + "（赠送:" + map.get("return_integral") + "积分）", map.get("attr").length(), Color.parseColor("#F6B87A"));
@@ -845,8 +849,9 @@ public class CollageDetailsAty extends BaseAty {
                 }
                 if (isTy) {
                     tgvh.tyIv.setVisibility(View.VISIBLE);
-                } else
+                } else {
                     tgvh.tyIv.setVisibility(View.GONE);
+                }
             }
             //            "is_back_apply":  //是否对应售后服务 0不对应 1对应
             String is_back_apply = map.get("is_back_apply");
@@ -873,7 +878,7 @@ public class CollageDetailsAty extends BaseAty {
             @ViewInject(R.id.title)
             private TextView title;
             //            @ViewInject(R.id.jifenTv)
-//            private TextView jifenTv;
+            //            private TextView jifenTv;
             @ViewInject(R.id.tv_price)
             private TextView tv_price;
             @ViewInject(R.id.applyAfterSaleTv)
@@ -925,8 +930,9 @@ public class CollageDetailsAty extends BaseAty {
     }
 
     public void showPwxPopWindow(View view) {
-        if (commonPopupWindow != null && commonPopupWindow.isShowing())
+        if (commonPopupWindow != null && commonPopupWindow.isShowing()) {
             return;
+        }
         commonPopupWindow = new CommonPopupWindow.Builder(this)
                 .setView(R.layout.popup_pwd)
                 .setWidthAndHeight(ViewGroup.LayoutParams.MATCH_PARENT, Settings.displayHeight / 4)
@@ -956,8 +962,9 @@ public class CollageDetailsAty extends BaseAty {
     }
 
     public void showPwdPop(View view, int i) {
-        if (commonPopupWindow != null && commonPopupWindow.isShowing())
+        if (commonPopupWindow != null && commonPopupWindow.isShowing()) {
             return;
+        }
         commonPopupWindow = new CommonPopupWindow.Builder(this)
                 .setView(R.layout.popup_confirmreceipt)
                 .setWidthAndHeight(ViewGroup.LayoutParams.MATCH_PARENT, Settings.displayHeight / 3)

@@ -1,13 +1,8 @@
 package com.txd.hzj.wjlp.minetoAty.address;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.v4.content.ContextCompat;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -15,36 +10,21 @@ import android.widget.TextView;
 import com.ants.theantsgo.WeApplication;
 import com.ants.theantsgo.util.JSONUtils;
 import com.ants.theantsgo.util.L;
-import com.bigkoo.pickerview.OptionsPickerView;
-import com.google.gson.Gson;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
-
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
-import com.txd.hzj.wjlp.bean.addres.CityForTxd;
-import com.txd.hzj.wjlp.bean.addres.DistrictsForTxd;
-import com.txd.hzj.wjlp.bean.addres.ProvinceForTxd;
 import com.txd.hzj.wjlp.http.address.AddressPst;
-import com.txd.hzj.wjlp.mellOnLine.gridClassify.GoodLuckDetailsAty;
 import com.txd.hzj.wjlp.minetoAty.order.TextListAty;
-import com.txd.hzj.wjlp.tool.GetJsonDataUtil;
 import com.txd.hzj.wjlp.tool.proUrbArea.ProUrbAreaUtil;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
 import java.util.Map;
 
 /**
- *
  * 作者：DUKE_HwangZj
  * 日期：2017/9/25 0025
  * 时间：10:29
  * 描述：
- *
  */
 
 public class AddNewAddressAty2 extends BaseAty implements ProUrbAreaUtil.GetData {
@@ -180,7 +160,7 @@ public class AddNewAddressAty2 extends BaseAty implements ProUrbAreaUtil.GetData
                         } else {
                             addressPst.editAddress(address_id, receiver, phone, province, city, area, street, province_id, city_id, area_id, street_id, address, lng, lat);
                         }
-                    }catch (Exception e){
+                    } catch (Exception e) {
                         L.e("AddNewAddressAty2 is throw exception:" + e.toString());
                         showErrorTip("传入参数异常，请重新核对");
                     }
@@ -188,10 +168,10 @@ public class AddNewAddressAty2 extends BaseAty implements ProUrbAreaUtil.GetData
                 break;
             case R.id.zore_layout:// 解析数据，弹出城市选择弹窗
                 hideKeyBoard();
-//                if (isLoaded) {
-//                    ShowPickerView();
-//                }
-                ProUrbAreaUtil.gainInstance().showPickerView((TextView) findViewById(R.id.zore_tv), "","","", AddNewAddressAty2.this,null);
+                //                if (isLoaded) {
+                //                    ShowPickerView();
+                //                }
+                ProUrbAreaUtil.gainInstance().showPickerView((TextView) findViewById(R.id.zore_tv), "", "", "", AddNewAddressAty2.this, null);
                 break;
             case R.id.street_layout:// 解析数据，跳转至街道选择页面
                 if (choiceAddress) {
@@ -220,11 +200,11 @@ public class AddNewAddressAty2 extends BaseAty implements ProUrbAreaUtil.GetData
         addressPst = new AddressPst(this);
         type = getIntent().getIntExtra("type", 0);
         String data = application.getCityProvienceJson();
-//        if (android.text.TextUtils.isEmpty(data)) {
-//            addressPst.androidAddress();
-//        } else {
-//            initJsonData(data);
-//        }
+        //        if (android.text.TextUtils.isEmpty(data)) {
+        //            addressPst.androidAddress();
+        //        } else {
+        //            initJsonData(data);
+        //        }
         ProUrbAreaUtil.gainInstance().setGetData(this);
     }
 
@@ -265,10 +245,12 @@ public class AddNewAddressAty2 extends BaseAty implements ProUrbAreaUtil.GetData
 
             lng = data.get("lng");
             lat = data.get("lat");
-            if (lng.isEmpty())
+            if (lng.isEmpty()) {
                 lng = "0";
-            if (lat.isEmpty())
+            }
+            if (lat.isEmpty()) {
                 lat = "0";
+            }
             return;
         }
         if (requestUrl.contains("addAddress")) { // 添加地址
@@ -288,8 +270,9 @@ public class AddNewAddressAty2 extends BaseAty implements ProUrbAreaUtil.GetData
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (data == null)
+        if (data == null) {
             return;
+        }
         if (RESULT_OK == resultCode) {
             switch (requestCode) {
                 case 100:// 街道选择

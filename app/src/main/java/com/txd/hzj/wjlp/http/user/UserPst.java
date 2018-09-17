@@ -165,8 +165,8 @@ public class UserPst extends BasePresenter {
     }
 
     //蓝色代金券赠送
-    public void giveCoupon(String price, String code, String pay_password,String merchant_id) {
-        user.giveCoupon(price, code, pay_password,merchant_id, baseView);
+    public void giveCoupon(String price, String code, String pay_password, String merchant_id) {
+        user.giveCoupon(price, code, pay_password, merchant_id, baseView);
     }
 
     //诚招无界推广员
@@ -259,8 +259,9 @@ public class UserPst extends BasePresenter {
 
     // 工作成绩
     public void gradeRank(int p, String city_id, String type, String city_name, boolean show) {
-        if (show)
+        if (show) {
             baseView.showDialog();
+        }
         user.gradeRank(p, city_id, type, city_name, baseView);
     }
 

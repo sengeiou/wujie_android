@@ -5,10 +5,7 @@ import android.support.v4.app.Fragment;
 
 import com.ants.theantsgo.base.BaseFragment;
 import com.ants.theantsgo.systemBarUtil.ImmersionBar;
-import com.ants.theantsgo.util.L;
 import com.bumptech.glide.Glide;
-import com.squareup.leakcanary.RefWatcher;
-import com.txd.hzj.wjlp.DemoApplication;
 import com.umeng.analytics.MobclickAgent;
 
 /**
@@ -34,10 +31,11 @@ public abstract class BaseFgt extends BaseFragment {
                 ImmersionBar.with(this).titleBar(vid).init();
             }
         } else {
-            if (ImmersionBar.isSupportStatusBarDarkFont())
+            if (ImmersionBar.isSupportStatusBarDarkFont()) {
                 ImmersionBar.with(this).titleBar(vid).statusBarDarkFont(true).init();
-            else
+            } else {
                 ImmersionBar.with(this).titleBar(vid).statusBarDarkFont(true, 0.2f).init();
+            }
         }
     }
 

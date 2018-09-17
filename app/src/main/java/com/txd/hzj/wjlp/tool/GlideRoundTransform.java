@@ -36,7 +36,9 @@ public class GlideRoundTransform extends BitmapTransformation {
     }
 
     private Bitmap cornersCrop(BitmapPool pool, Bitmap source) {
-        if (source == null) return null;
+        if (source == null) {
+            return null;
+        }
 
         Bitmap result = pool.get(source.getWidth(), source.getHeight(), Bitmap.Config.ARGB_8888);
         if (result == null) {
@@ -44,7 +46,7 @@ public class GlideRoundTransform extends BitmapTransformation {
         }
 
         Canvas canvas = new Canvas(result);
-        Paint  paint  = new Paint();
+        Paint paint = new Paint();
         paint.setShader(new BitmapShader(source, BitmapShader.TileMode.CLAMP, BitmapShader.TileMode.CLAMP));
         paint.setAntiAlias(true);
         RectF rectF = new RectF(0f, 0f, source.getWidth(), source.getHeight());

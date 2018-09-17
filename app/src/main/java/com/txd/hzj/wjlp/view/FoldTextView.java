@@ -84,7 +84,9 @@ public class FoldTextView extends AppCompatTextView implements View.OnClickListe
         //赋值计算
         int linCount = getLineCount();
 
-        if (linCount <= 0) return;
+        if (linCount <= 0) {
+            return;
+        }
 
         int defaultShowLine = this.mDefaultShowLine;
 
@@ -99,9 +101,9 @@ public class FoldTextView extends AppCompatTextView implements View.OnClickListe
         this.mMaxHeight = contentHeight;
         this.mDefaultSHowHeight = defaultHeight;
 
-        if (mFoldHeight <= 0)
+        if (mFoldHeight <= 0) {
             this.mFoldHeight = contentHeight - defaultHeight;
-
+        }
         mLayoutParams.height = (int) defaultHeight + getPaddingBottom() + getPaddingTop();
         setLayoutParams(mLayoutParams);
 
@@ -115,7 +117,9 @@ public class FoldTextView extends AppCompatTextView implements View.OnClickListe
     public void onClick(final View v) {
 
         OnFoldListener onFoldListener = this.mOnFoldListener;
-        if (onFoldListener == null) return;
+        if (onFoldListener == null) {
+            return;
+        }
 
         float foldHeight = this.mFoldHeight;
         float defaultSHowHeight = mDefaultSHowHeight;
@@ -143,7 +147,9 @@ public class FoldTextView extends AppCompatTextView implements View.OnClickListe
 
         animator(-foldHeight, maxHeight);
         this.setTag(null);
-        if (onFoldListener == null) return;
+        if (onFoldListener == null) {
+            return;
+        }
         onFoldListener.fold();
     }
 
@@ -158,7 +164,9 @@ public class FoldTextView extends AppCompatTextView implements View.OnClickListe
 
         animator(foldHeight, defaultSHowHeight);
         this.setTag(true);
-        if (onFoldListener == null) return;
+        if (onFoldListener == null) {
+            return;
+        }
         onFoldListener.unfold();
     }
 

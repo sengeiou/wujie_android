@@ -120,7 +120,7 @@ public class ClassifyFgt extends BaseFgt {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-//
+        //
         classify_goods_rv.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL) {
             @Override
             public boolean canScrollVertically() {
@@ -197,33 +197,33 @@ public class ClassifyFgt extends BaseFgt {
                 });
 
     }
-//
-//    @Override
-//    @OnClick({R.id.classify_ads_iv})
-//    public void onClick(View v) {
-//        super.onClick(v);
-//        switch (v.getId()) {
-//            case R.id.classify_ads_iv:
-//                bundle = new Bundle();
-//                bundle.putString("desc", desc);
-//                bundle.putString("href", href);
-//                bundle.putInt("from", 2);
-//                startActivity(NoticeDetailsAty.class, bundle);
-//                break;
-//        }
-//    }
+    //
+    //    @Override
+    //    @OnClick({R.id.classify_ads_iv})
+    //    public void onClick(View v) {
+    //        super.onClick(v);
+    //        switch (v.getId()) {
+    //            case R.id.classify_ads_iv:
+    //                bundle = new Bundle();
+    //                bundle.putString("desc", desc);
+    //                bundle.putString("href", href);
+    //                bundle.putInt("from", 2);
+    //                startActivity(NoticeDetailsAty.class, bundle);
+    //                break;
+    //        }
+    //    }
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-//        if (getUserVisibleHint()) {
-//            try {
-//                goodsPst = new GoodsPst(this);
-//                goodsPst.goodsList(p, type, 1);
-//            } catch (NullPointerException e) {
-//                L.e("Classify======ERROR");
-//            }
-//        }
+        //        if (getUserVisibleHint()) {
+        //            try {
+        //                goodsPst = new GoodsPst(this);
+        //                goodsPst.goodsList(p, type, 1);
+        //            } catch (NullPointerException e) {
+        //                L.e("Classify======ERROR");
+        //            }
+        //        }
     }
 
     @Override
@@ -266,7 +266,7 @@ public class ClassifyFgt extends BaseFgt {
                     if (ToolKit.isList(data, "ads")) {
                         final Map<String, String> ads = JSONUtils.parseKeyAndValueToMap(data.get("ads"));
 
-//                        621:200
+                        //                        621:200
                         ViewGroup.LayoutParams lp = classify_ads_iv.getLayoutParams();
                         lp.width = Settings.displayWidth;
                         lp.height = Settings.displayWidth * 200 / 621;
@@ -324,7 +324,7 @@ public class ClassifyFgt extends BaseFgt {
                         racycleAllAdapter = new RacycleAllAdapter(getActivity(), goodsLists);
 
                         classify_goods_rv.setAdapter(racycleAllAdapter);
-                        classify_goods_rv.setLayoutManager(new GridLayoutManager(getActivity(),2));
+                        classify_goods_rv.setLayoutManager(new GridLayoutManager(getActivity(), 2));
                         racycleAllAdapter.setListener(new HorizontalAdapter.OnItemClickLitener() {
                             @Override
                             public void onItemClick(View view, int position) {
@@ -371,8 +371,9 @@ public class ClassifyFgt extends BaseFgt {
 
     @Override
     public void onError(String requestUrl, Map<String, String> error) {
-        if (!type.equals("0") && !type.equals(""))
+        if (!type.equals("0") && !type.equals("")) {
             super.onError(requestUrl, error);
+        }
     }
 
     private void forMenu() {

@@ -1107,8 +1107,9 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                             long endTrueTime = Long.parseLong(groupBean.getEnd_true_time());
                             long sysTime = Long.parseLong(groupBean.getSys_time());
                             long endTime = Long.parseLong(groupBean.getEnd_time());
-                            if (!TextUtils.isEmpty(groupBean.getSys_time()))
+                            if (!TextUtils.isEmpty(groupBean.getSys_time())) {
                                 calendar.setTimeInMillis(sysTime);
+                            }
 
                             // 当前时间
                             long now_time = calendar.getTimeInMillis();
@@ -1542,7 +1543,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                                     }, new View.OnClickListener() {
                                         @Override
                                         public void onClick(View v) {
-                                            Bundle mBundle=new Bundle();
+                                            Bundle mBundle = new Bundle();
                                             mBundle.putString("title", "拼单购");
                                             mBundle.putString("type", "3");
                                             startActivity(OnlineShopAty.class, mBundle);
@@ -1627,8 +1628,9 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                             twoGroupBean.addAll(groupList);
                         }
                         group_count = dataBean.getGroup_count();
-                        if (!TextUtils.isEmpty(group_count))
+                        if (!TextUtils.isEmpty(group_count)) {
                             pdnumTv.setText(group_count + "人在拼单");
+                        }
 
                         // 拼团列表
                         GoodLuckAdapter goodLuckAdapter = new GoodLuckAdapter(GoodLuckDetailsAty.this, twoGroupBean, groupType);
@@ -1704,8 +1706,9 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
         bundle.putSerializable("goods_attr_first", (Serializable) goods_attr_first);
         bundle.putSerializable("first_val", (Serializable) first_val);
         bundle.putString("is_attr", is_attr);
-        if (null != goodsInfo.getIntegral())
+        if (null != goodsInfo.getIntegral()) {
             bundle.putString("integral", goodsInfo.getIntegral());
+        }
         bundle.putString("group_buy_id", group_buy_id);
         bundle.putString("id", groupList.get(position).getId());
         startActivity(CreateGroupAty.class, bundle);
@@ -1854,9 +1857,9 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
         dialog = new Dialog(GoodLuckDetailsAty.this, R.style.Ticket_Dialog);
         View view = View.inflate(this, R.layout.goodluck_collage_dialog_view, null);
         dialog.setContentView(view);
-        ((TextView)view.findViewById(R.id.title_tv)).setText("主人，您已参与此商品拼手气活动，不可重复参与哦！");
-        TextView left_tv=view.findViewById(R.id.goodluck_yes);
-        TextView right_tv=view.findViewById(R.id.goodluck_no);
+        ((TextView) view.findViewById(R.id.title_tv)).setText("主人，您已参与此商品拼手气活动，不可重复参与哦！");
+        TextView left_tv = view.findViewById(R.id.goodluck_yes);
+        TextView right_tv = view.findViewById(R.id.goodluck_no);
         left_tv.setText("继续逛逛");
         right_tv.setText("看看进度");
         left_tv.setOnClickListener(yesListener);
@@ -1985,8 +1988,9 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                 }
                 bundle.putString("num", data.getStringExtra("num"));
                 bundle.putString("product_id", data.getStringExtra("product_id"));
-                if (data.hasExtra("group_type"))
+                if (data.hasExtra("group_type")) {
                     bundle.putString("group_type", data.getStringExtra("group_type"));
+                }
                 startActivity(BuildOrderAty.class, bundle);
             }
         }

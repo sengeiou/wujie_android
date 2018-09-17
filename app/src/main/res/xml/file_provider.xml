@@ -4,14 +4,14 @@
     <!--升级-->
     <external-cache-path
         name="mn_update_external_cache"
-        path="" />
+        path="images" />
 
     <cache-path
         name="mn_update_cache"
-        path="" />
+        path="images" />
 
     <external-path
         name="camera_photos"
-        path="" />
+        path="images" />
 
 </paths>

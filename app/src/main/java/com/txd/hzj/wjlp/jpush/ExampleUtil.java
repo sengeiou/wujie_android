@@ -12,7 +12,6 @@ import android.os.Bundle;
 import android.os.Looper;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
-import android.widget.Toast;
 
 import com.ants.theantsgo.util.L;
 
@@ -29,12 +28,15 @@ public class ExampleUtil {
     public static final String KEY_APP_KEY = "JPUSH_APPKEY";
 
     public static boolean isEmpty(String s) {
-        if (null == s)
+        if (null == s) {
             return true;
-        if (s.length() == 0)
+        }
+        if (s.length() == 0) {
             return true;
-        if (s.trim().length() == 0)
+        }
+        if (s.trim().length() == 0) {
             return true;
+        }
         return false;
     }
 
@@ -52,8 +54,9 @@ public class ExampleUtil {
         try {
             ApplicationInfo ai = context.getPackageManager().getApplicationInfo(
                     context.getPackageName(), PackageManager.GET_META_DATA);
-            if (null != ai)
+            if (null != ai) {
                 metaData = ai.metaData;
+            }
             if (null != metaData) {
                 appKey = metaData.getString(KEY_APP_KEY);
                 if ((null == appKey) || appKey.length() != 24) {
@@ -84,7 +87,7 @@ public class ExampleUtil {
                 @Override
                 public void run() {
                     Looper.prepare();
-//                    Toast.makeText(context, toast, Toast.LENGTH_SHORT).show();
+                    //                    Toast.makeText(context, toast, Toast.LENGTH_SHORT).show();
                     Looper.loop();
                 }
             }).start();
@@ -114,7 +117,9 @@ public class ExampleUtil {
     }
 
     private static boolean isReadableASCII(CharSequence string) {
-        if (TextUtils.isEmpty(string)) return false;
+        if (TextUtils.isEmpty(string)) {
+            return false;
+        }
         try {
             Pattern p = Pattern.compile("[\\x20-\\x7E]+");
             return p.matcher(string).matches();

@@ -49,9 +49,9 @@ public class GridDividerItemDecoration extends RecyclerView.ItemDecoration {
         right = eachWidth - left;
         bottom = mDividerWidth;
         //Log.e("zzz", "itemPosition:" + itemPosition + " |left:" + left + " right:" + right + " bottom:" + bottom);
-//        if (isLastRow) {
-//            bottom = 0;
-//        }
+        //        if (isLastRow) {
+        //            bottom = 0;
+        //        }
         if (isfirstRow) {
             top = (spanCount - 1) * mDividerWidth / spanCount;
         } else {
@@ -110,8 +110,9 @@ public class GridDividerItemDecoration extends RecyclerView.ItemDecoration {
                 }
             } else {
                 childCount = childCount - childCount % spanCount;
-                if (pos >= childCount)// 如果是最后一列，则不需要绘制右边
+                if (pos >= childCount) {// 如果是最后一列，则不需要绘制右边
                     return true;
+                }
             }
         }
         return false;
@@ -131,8 +132,9 @@ public class GridDividerItemDecoration extends RecyclerView.ItemDecoration {
             if (orientation == StaggeredGridLayoutManager.VERTICAL) {
                 childCount = childCount - childCount % spanCount;
                 // 如果是最后一行，则不需要绘制底部
-                if (pos >= childCount)
+                if (pos >= childCount) {
                     return true;
+                }
             } else {
                 // 如果是最后一行，则不需要绘制底部
                 if ((pos + 1) % spanCount == 0) {
@@ -162,8 +164,9 @@ public class GridDividerItemDecoration extends RecyclerView.ItemDecoration {
             if (orientation == StaggeredGridLayoutManager.VERTICAL) {
                 childCount = childCount - childCount % spanCount;
                 // 如果是最后一行，则不需要绘制底部
-                if (pos >= childCount)
+                if (pos >= childCount) {
                     return true;
+                }
             } else {
                 // 如果是最后一行，则不需要绘制底部
                 if ((pos + 1) % spanCount == 0) {

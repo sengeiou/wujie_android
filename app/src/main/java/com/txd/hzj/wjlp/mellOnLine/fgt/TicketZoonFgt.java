@@ -140,7 +140,6 @@ public class TicketZoonFgt extends BaseFgt implements NestedScrollView.OnScrollC
     private ImageView group_ad_pic_iv;
 
 
-
     @ViewInject(R.id.wujie_top_lin_layout)
     private LinearLayout wujie_top_lin_layout;
 
@@ -165,22 +164,22 @@ public class TicketZoonFgt extends BaseFgt implements NestedScrollView.OnScrollC
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-//        if (type != 8) {
+        //        if (type != 8) {
         allGvLvAdapter1 = new AllGvLvAdapter(getActivity(), data, type);
-//        }
+        //        }
 
-//        if (8 == type) {
-//            ticket_zoon_goods_lv.setVisibility(View.VISIBLE);
-//            ticket_zoon_goods_gv.setVisibility(View.GONE);
-//            ticket_zoon_goods_lv.setEmptyView(no_data_layout);
-//        } else {
+        //        if (8 == type) {
+        //            ticket_zoon_goods_lv.setVisibility(View.VISIBLE);
+        //            ticket_zoon_goods_gv.setVisibility(View.GONE);
+        //            ticket_zoon_goods_lv.setEmptyView(no_data_layout);
+        //        } else {
         ticket_zoon_goods_lv.setVisibility(View.GONE);
         ticket_zoon_goods_gv.setVisibility(View.VISIBLE);
         ticket_zoon_goods_gv.setEmptyView(no_data_layout);
 
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(Settings.displayWidth, Settings.displayWidth * 400 / 1242);
         group_ad_pic_iv.setLayoutParams(params);
-//        }
+        //        }
         ticket_zoon_goods_gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -294,13 +293,13 @@ public class TicketZoonFgt extends BaseFgt implements NestedScrollView.OnScrollC
         super.onClick(v);
         switch (v.getId()) {
             //R.id.group_ad_pic_iv,
-//            case R.id.group_ad_pic_iv:
-//                Bundle bundle = new Bundle();
-//                bundle.putInt("from", 2);
-//                bundle.putString("desc", desc);
-//                bundle.putString("href", href);
-//                startActivity(NoticeDetailsAty.class, bundle);
-//                break;
+            //            case R.id.group_ad_pic_iv:
+            //                Bundle bundle = new Bundle();
+            //                bundle.putInt("from", 2);
+            //                bundle.putString("desc", desc);
+            //                bundle.putString("href", href);
+            //                startActivity(NoticeDetailsAty.class, bundle);
+            //                break;
             case R.id.zoom_be_back_top_iv:
                 zoom_be_back_top_iv.setVisibility(View.GONE);
                 zooom_sc.fling(0);
@@ -418,8 +417,8 @@ public class TicketZoonFgt extends BaseFgt implements NestedScrollView.OnScrollC
 
                 }
                 //中奖信息
-                List<WinBean> winBeans=groupBuyBean.getData().getGroup_buy_msg();
-                if(null!=winBeans&&winBeans.size()>0){
+                List<WinBean> winBeans = groupBuyBean.getData().getGroup_buy_msg();
+                if (null != winBeans && winBeans.size() > 0) {
                     setView(winBeans);
                     collageUpMarqueeView.setViews(views);
                     wujie_top_lin_layout.setVisibility(View.VISIBLE);
@@ -460,13 +459,14 @@ public class TicketZoonFgt extends BaseFgt implements NestedScrollView.OnScrollC
      * 拼单购中奖信息列表
      */
     private List<View> views;
+
     /**
      * 初始化需要循环的View
      * 为了灵活的使用滚动的View，所以把滚动的内容让用户自定义
      * 假如滚动的是三条或者一条，或者是其他，只需要把对应的布局，和这个方法稍微改改就可以了，
      */
-    private void setView( List<WinBean> winBeans) {
-        views=new ArrayList<>();
+    private void setView(List<WinBean> winBeans) {
+        views = new ArrayList<>();
         for (int i = 0; i < winBeans.size(); i = i + 1) {
             //设置滚动的单个布局
             LinearLayout winingView = (LinearLayout) LayoutInflater.from(getActivity()).inflate(R.layout.winingmsg, null);
@@ -533,8 +533,8 @@ public class TicketZoonFgt extends BaseFgt implements NestedScrollView.OnScrollC
                     if (adsBean != null) {
                         Glide.with(getActivity()).load(adsBean.getPicture())
                                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-//                        .centerCrop()
-//                        .override(Settings.displayWidth, Settings.displayWidth / 2)
+                                //                        .centerCrop()
+                                //                        .override(Settings.displayWidth, Settings.displayWidth / 2)
                                 .error(R.drawable.ic_default)
                                 .placeholder(R.drawable.ic_default)
                                 .into(group_ad_pic_iv);
@@ -633,8 +633,9 @@ public class TicketZoonFgt extends BaseFgt implements NestedScrollView.OnScrollC
                     bundle.putString("appBarTitle", gv_classify.get(itemPos).getName());
                     bundle.putString("two_cate_id", gv_classify.get(itemPos).getTwo_cate_id());
                     bundle.putInt("type", type);
-                    if (WJConfig.JKG == type)
+                    if (WJConfig.JKG == type) {
                         bundle.putString("country_id", country_id);
+                    }
                     switch (type) {
                         case WJConfig.PQQ:// 票券区
                         case WJConfig.WJYG:// 无界预购

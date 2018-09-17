@@ -1,7 +1,5 @@
 package com.txd.hzj.wjlp.view;
 
-import java.text.DecimalFormat;
-
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -15,13 +13,12 @@ import android.os.Parcelable;
 import android.text.TextPaint;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 
-import com.ants.theantsgo.util.L;
+import com.ants.theantsgo.tool.ToolKit;
 import com.txd.hzj.wjlp.R;
 
-import com.ants.theantsgo.tool.ToolKit;
+import java.text.DecimalFormat;
 
 /**
  * 作者：woodnaonly on 2016/7/4 0031 10:18 邮箱：497917264@qq.com 内容： 备注：
@@ -167,8 +164,9 @@ public class ArcProgress extends View {
 
         // 旁边字体的字体
         progressSuffixText = attributes.getString(R.styleable.ArcProgress_arc_progress_suffix_text);
-        if (progressSuffixText == null)
+        if (progressSuffixText == null) {
             progressSuffixText = "";
+        }
         // 旁边字体的字体
         progressSuffixText2 = attributes.getString(R.styleable.ArcProgress_arc_progress_suffix_text2);
         if (progressSuffixText2 == null) {
@@ -392,15 +390,17 @@ public class ArcProgress extends View {
         canvas.drawArc(rectF, startAngle, arcAngle, false, paint);
         paint.setColor(finishedStrokeColor);
         if (getMax() != 0) {
-            if (finishedSweepAngle != 0)
+            if (finishedSweepAngle != 0) {
                 canvas.drawArc(rectF, finishedStartAngle, (float) finishedSweepAngle, false, paint);
+            }
         }
         String text = null;
         if ((decimal_digits) == 0) {
-            if (!progressSuffixText2.equals(""))
+            if (!progressSuffixText2.equals("")) {
                 text = progressSuffixText2 + Math.round(getProgress()) + progressSuffixText;
-            else
+            } else {
                 text = Math.round(getProgress()) + progressSuffixText;
+            }
         } else {
             DecimalFormat decimalFormat = new DecimalFormat("0.00");// 格式化设置
             if (!progressSuffixText2.equals("")) {

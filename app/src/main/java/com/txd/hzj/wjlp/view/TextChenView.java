@@ -67,6 +67,7 @@ public class TextChenView extends View {
      * 线程
      */
     class MyThread extends Thread{
+        @Override
         public void run(){
             while (true){
 

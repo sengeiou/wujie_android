@@ -43,7 +43,7 @@ public class ShareOptionFgt extends BaseFgt {
     @Override
     protected void initialized() {
 
-}
+    }
 
     @Override
     protected void requestData() {
@@ -56,8 +56,9 @@ public class ShareOptionFgt extends BaseFgt {
         String url = Config.OFFICIAL_WEB + "Wap/User/myTicket/status/3/p/1/type/1.html";
         Map<String, String> map = new HashMap<>();
         String token = Config.getToken();
-        if (TextUtils.isEmpty(token))
+        if (TextUtils.isEmpty(token)) {
             return;
+        }
         map.put("token", token);
         mWebView.loadUrl(url, map);
     }

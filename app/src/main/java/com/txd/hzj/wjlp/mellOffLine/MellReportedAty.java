@@ -93,15 +93,15 @@ public class MellReportedAty extends BaseAty {
                     toLogin();
                 }
                 String report_content = report_content_tv.getText().toString().trim();
-                if(TextUtils.isEmpty(String.valueOf(report_type_tv.getText()))){
+                if (TextUtils.isEmpty(String.valueOf(report_type_tv.getText()))) {
                     showErrorTip("请选择举报类型");
                     return;
                 }
-                if(TextUtils.isEmpty(String.valueOf(report_content))){
+                if (TextUtils.isEmpty(String.valueOf(report_content))) {
                     showErrorTip("请描述举报理由");
                     return;
                 }
-                if(list.size()==0){
+                if (list.size() == 0) {
                     showErrorTip("请选择上传凭证");
                     return;
                 }
@@ -184,8 +184,9 @@ public class MellReportedAty extends BaseAty {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (data == null)
+        if (data == null) {
             return;
+        }
         if (RESULT_OK == resultCode) {
             if (100 == requestCode) {
                 String type = data.getStringExtra("type");

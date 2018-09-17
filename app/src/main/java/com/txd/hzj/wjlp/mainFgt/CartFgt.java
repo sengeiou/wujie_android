@@ -22,13 +22,11 @@ import com.ants.theantsgo.gson.GsonUtil;
 import com.ants.theantsgo.httpTools.ApiTool2;
 import com.ants.theantsgo.tips.MikyouCommonDialog;
 import com.ants.theantsgo.util.JSONUtils;
-import com.ants.theantsgo.util.L;
 import com.ants.theantsgo.view.inScroll.ListViewForScrollView;
 import com.ants.theantsgo.view.pulltorefresh.PullToRefreshBase;
 import com.ants.theantsgo.view.pulltorefresh.PullToRefreshListView;
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
-import com.google.gson.JsonArray;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.http.RequestParams;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -124,9 +122,9 @@ public class CartFgt extends BaseFgt {
      */
     private BigDecimal all_price;//总价
     private ArrayList<Card_bean> json_list;
-//
-//    @ViewInject(R.id.swipe_layout)
-//    private SwipeRefreshLayout swipe_layout;
+    //
+    //    @ViewInject(R.id.swipe_layout)
+    //    private SwipeRefreshLayout swipe_layout;
 
 
     private boolean is_all = false;
@@ -158,18 +156,18 @@ public class CartFgt extends BaseFgt {
         EventBus.getDefault().register(this);
         cartAdapter = new CartAdapter();
         all_price = new BigDecimal("0.00");
-//        cart_lv.setRefreshing();
+        //        cart_lv.setRefreshing();
     }
 
     private void getDate() {
-//        swipe_layout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-//            @Override
-//            public void onRefresh() {
-//                RequestParams params = new RequestParams();
-//                ApiTool2 apiTool2 = new ApiTool2();
-//                apiTool2.postApi(Config.BASE_URL + "Cart/cartList", params, CartFgt.this);
-//            }
-//        });
+        //        swipe_layout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+        //            @Override
+        //            public void onRefresh() {
+        //                RequestParams params = new RequestParams();
+        //                ApiTool2 apiTool2 = new ApiTool2();
+        //                apiTool2.postApi(Config.BASE_URL + "Cart/cartList", params, CartFgt.this);
+        //            }
+        //        });
     }
 
     @Override
@@ -204,7 +202,7 @@ public class CartFgt extends BaseFgt {
         //  super.onError(requestUrl, error);
         removeContent();
         removeDialog();
-//        swipe_layout.setRefreshing(false);
+        //        swipe_layout.setRefreshing(false);
         if (requestUrl.contains("Cart/cartList")) {
             EventBus.getDefault().post(new MessageEvent("更新购物车"));
             cart_lv.onRefreshComplete();
@@ -222,7 +220,7 @@ public class CartFgt extends BaseFgt {
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
 
-//        swipe_layout.setRefreshing(false);
+        //        swipe_layout.setRefreshing(false);
         if (requestUrl.contains("Goods/attrApi")) {
             Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
             map = JSONUtils.parseKeyAndValueToMap(map.get("data"));
@@ -249,11 +247,11 @@ public class CartFgt extends BaseFgt {
             intent.putExtra("goods_val", map.get("first_val"));
             intent.putExtra("goods_id", goods_id);
             startActivityForResult(intent, 8888);
-//            Gson gson = new Gson();
-//            String json = gson.toJson(cg.getGoods_attr_first());
-//            intent.putExtra("goods_attr", json);
-////                    intent.putParcelableArrayListExtra("list", (ArrayList) getItem(i).getGoods_attr());
-////                    intent.putParcelableArrayListExtra("list_p", (ArrayList) getItem(i).getProduct());
+            //            Gson gson = new Gson();
+            //            String json = gson.toJson(cg.getGoods_attr_first());
+            //            intent.putExtra("goods_attr", json);
+            ////                    intent.putParcelableArrayListExtra("list", (ArrayList) getItem(i).getGoods_attr());
+            ////                    intent.putParcelableArrayListExtra("list_p", (ArrayList) getItem(i).getProduct());
         }
         if (requestUrl.contains("Cart/cartList")) {
             EventBus.getDefault().post(new MessageEvent("更新购物车"));
@@ -390,15 +388,15 @@ public class CartFgt extends BaseFgt {
                             if (cartGoods.isCheck()) {
                                 stringBuffer.append(cartGoods.getCart_id()); // 购物车ID
                                 stringBuffer.append(","); // 此处上传值字符串最后会多加一个逗号，后台已处理
-//                                if (!ListUtils.isEmpty(json_list)) {
-//                                    break;
-//                                }
+                                //                                if (!ListUtils.isEmpty(json_list)) {
+                                //                                    break;
+                                //                                }
                             }
                         }
                         if (!TextUtils.isEmpty(stringBuffer.toString())) {
                             is_all = true;
                             mId = shopingCart.getMerchant_id(); // 获取商家ID
-//                            showToast("请选择同商店的商品");
+                            //                            showToast("请选择同商店的商品");
                             break;
                         }
                     }
@@ -407,8 +405,8 @@ public class CartFgt extends BaseFgt {
                         Bundle bundle = new Bundle();
                         bundle.putString("type", "0");
                         bundle.putString("mid", mId);
-//                        String string = stringBuffer.toString();
-//                        string = string.substring(0 , string.length()- 1);
+                        //                        String string = stringBuffer.toString();
+                        //                        string = string.substring(0 , string.length()- 1);
                         bundle.putString("json", stringBuffer.toString());
                         startActivity(BuildOrderAty.class, bundle);
                     } else {
@@ -485,7 +483,9 @@ public class CartFgt extends BaseFgt {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode != Activity.RESULT_OK) return;
+        if (resultCode != Activity.RESULT_OK) {
+            return;
+        }
         if (requestCode == 8888) {
             shopingCarts.get(position_group).getGoodsInfo().get(position).setGoods_attr_name(data.getStringExtra("pro_value"));
             shopingCarts.get(position_group).getGoodsInfo().get(position).setProduct_id(data.getStringExtra("product_id"));

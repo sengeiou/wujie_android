@@ -87,7 +87,9 @@ public class Submit_order_aty extends BaseAty {
         im_jian.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (number == 1) return;
+                if (number == 1) {
+                    return;
+                }
                 number--;
                 setPrice(number);
             }
@@ -119,7 +121,7 @@ public class Submit_order_aty extends BaseAty {
         if (requestUrl.contains("CarOrder/addOrder")) {
             Map<String, String> data = JSONUtils.parseKeyAndValueToMap(jsonStr);
             Bundle bundle = new Bundle();
-            bundle.putString("type",intent.getStringExtra("type"));
+            bundle.putString("type", intent.getStringExtra("type"));
             bundle.putString("data", data.get("data"));
             startActivity(Pay_aty.class, bundle);
             finish();
@@ -127,7 +129,7 @@ public class Submit_order_aty extends BaseAty {
         if (requestUrl.contains("HouseOrder/addOrder")) {
             Map<String, String> data = JSONUtils.parseKeyAndValueToMap(jsonStr);
             Bundle bundle = new Bundle();
-            bundle.putString("type",intent.getStringExtra("type"));
+            bundle.putString("type", intent.getStringExtra("type"));
             bundle.putString("data", data.get("data"));
             startActivity(Pay_aty.class, bundle);
             finish();

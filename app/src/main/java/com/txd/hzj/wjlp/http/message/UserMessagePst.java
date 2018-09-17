@@ -22,8 +22,9 @@ public class UserMessagePst extends BasePresenter {
 
     // 消息中心
     public void newMsg(String account_json, int p, boolean show) {
-        if (show)
+        if (show) {
             baseView.showDialog();
+        }
         userMessage.newMsg(account_json, p, baseView);
     }
 
@@ -35,8 +36,9 @@ public class UserMessagePst extends BasePresenter {
      * @param show 是否显示加载框
      */
     public void messageList(int p, int type, boolean show) {
-        if (show)
+        if (show) {
             baseView.showDialog();
+        }
         if (0 == type) {
             userMessage.orderMsgList(p, baseView);
             return;

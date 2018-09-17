@@ -213,8 +213,8 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
     /**
      * 满折布局
      */
-//    @ViewInject(R.id.goods_bottom_lin_layout)
-//    private LinearLayout goods_bottom_lin_layout;
+    //    @ViewInject(R.id.goods_bottom_lin_layout)
+    //    private LinearLayout goods_bottom_lin_layout;
 
     /**
      * 展开，隐藏满折布局
@@ -678,7 +678,7 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
     private ImageView imageView;
 
     private CommodityDetailsInter.CommodityPranster commodityPranster;
-    private String goods_name="";
+    private String goods_name = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -959,7 +959,7 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
                     } else {
                         commodityPranster.isCollect(is_collect, "已收藏", goods_title_collect_tv, LimitGoodsAty.this);
                     }
-                    share_url = Config.OFFICIAL_WEB+"Wap/IntegralBuy/integralBuyInfo/integral_buy_id/"+limit_buy_id+".html";
+                    share_url = Config.OFFICIAL_WEB + "Wap/IntegralBuy/integralBuyInfo/integral_buy_id/" + limit_buy_id + ".html";
                     share_img = data.getShare_img();
                     share_content = data.getShare_content();
                     List<GoodsBannerBean> banners = data.getGoods_banner();
@@ -994,7 +994,7 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
                     is_attr = is_attr + "-" + goodsInfo.getGoods_num();
                     // 商品id
                     goods_id = goodsInfo.getGoods_id();
-                    goods_name=goodsInfo.getGoods_name();
+                    goods_name = goodsInfo.getGoods_name();
 
                     String tx = DemoApplication.getInstance().getLocInfo().get("province")
                             + "," + DemoApplication.getInstance().getLocInfo().get("city") + "," + DemoApplication.getInstance().getLocInfo().get("district");
@@ -1049,12 +1049,12 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
                         goods_count_down_view.start(difference);
                         // 限量购价格
                         if (WJConfig.XLG == type) {
-//                    ChangeTextViewStyle.getInstance().forGoodsPrice(this, now_price_tv, "￥" + goodsInfo.get
-//                            ("limit_price"));
+                            //                    ChangeTextViewStyle.getInstance().forGoodsPrice(this, now_price_tv, "￥" + goodsInfo.get
+                            //                            ("limit_price"));
                             now_price_tv.setText(goodsInfo.getLimit_price());
                         } else if (WJConfig.WJYG == type) {
                             now_price_tv.setText(goodsInfo.getPre_price());
-//                    ChangeTextViewStyle.getInstance().forGoodsPrice(this, now_price_tv, "￥" + goodsInfo.get("deposit"));
+                            //                    ChangeTextViewStyle.getInstance().forGoodsPrice(this, now_price_tv, "￥" + goodsInfo.get("deposit"));
                             tv_dingjin.setText("定金 " + goodsInfo.getDeposit());
                             tv_dingjin.setVisibility(View.VISIBLE);
                             tv_manfa.setVisibility(View.VISIBLE);
@@ -1130,8 +1130,8 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
                                     ContextCompat.getColor(LimitGoodsAty.this, R.color.theme_color));
                         }
                     } else {
-//                        layout_service.setVisibility(View.GONE);
-//                        layout_layout_settings.setVisibility(View.GONE);
+                        //                        layout_service.setVisibility(View.GONE);
+                        //                        layout_layout_settings.setVisibility(View.GONE);
                         layout_djq.setVisibility(View.GONE);
                         tv_kucun.setText("库存" + goodsInfo.getGoods_num());
                         layout_jgsm.setVisibility(View.GONE);
@@ -1152,12 +1152,12 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
                     goods_details_name_tv.setText(goodsInfo.getGoods_name());
 
 
-//            String tariff = "进口税 " + goodsInfo.getCountry_tax() + "元/件";
-//            ChangeTextViewStyle.getInstance().forTextColor(this, goods_tariff_tv, tariff, 4, tariff.length() - 3,
-//                    ContextCompat.getColor(this, R.color.theme_color));
-//            // 运费
-//            ChangeTextViewStyle.getInstance().forTextColor(this, freight_tv,
-//                    "运费10元", 2, Color.parseColor("#FF0000"));
+                    //            String tariff = "进口税 " + goodsInfo.getCountry_tax() + "元/件";
+                    //            ChangeTextViewStyle.getInstance().forTextColor(this, goods_tariff_tv, tariff, 4, tariff.length() - 3,
+                    //                    ContextCompat.getColor(this, R.color.theme_color));
+                    //            // 运费
+                    //            ChangeTextViewStyle.getInstance().forTextColor(this, freight_tv,
+                    //                    "运费10元", 2, Color.parseColor("#FF0000"));
 
                     goods_brief_tv.loadDataWithBaseURL(null, goodsInfo.getGoods_brief(), "text/html", "utf-8", null);
 
@@ -1199,26 +1199,26 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
 
                     tv_bzqd.setText(goodsInfo.getPackage_list()); //包装清单
                     tv_shfw.setText(goodsInfo.getAfter_sale_service()); //售后服务
-//                    tv_jgsm.setText(Html.fromHtml(data.getPrice_desc())); //价格说明
+                    //                    tv_jgsm.setText(Html.fromHtml(data.getPrice_desc())); //价格说明
                     tv_jgsm.setText(data.getPrice_desc()); //价格说明
                     // 促销活动
                     if (null != data.getPromotion() && data.getPromotion().size() > 0) {
                         promotionBeen = data.getPromotion();
-//                PromotionBean prom = promotionBeen.get(0);
-//                String type = prom.getType();
-//                int imageId = getResources().getIdentifier("icon_get_coupon_hzj_" + type, "drawable", getPackageName());
-//                onle_pro_type_iv.setImageResource(imageId);
-//                onle_pro_title_tv.setText(prom.getTitle());
-//                promotionBeen.remove(prom);
+                        //                PromotionBean prom = promotionBeen.get(0);
+                        //                String type = prom.getType();
+                        //                int imageId = getResources().getIdentifier("icon_get_coupon_hzj_" + type, "drawable", getPackageName());
+                        //                onle_pro_type_iv.setImageResource(imageId);
+                        //                onle_pro_title_tv.setText(prom.getTitle());
+                        //                promotionBeen.remove(prom);
                         if (!ListUtils.isEmpty(promotionBeen)) {// 判断移除掉一个活动之后是否为空
-//                    goods_bottom_lin_layout.setVisibility(View.VISIBLE);
+                            //                    goods_bottom_lin_layout.setVisibility(View.VISIBLE);
                             promotionAdapter = new PromotionAdapter(LimitGoodsAty.this, promotionBeen);
                             promotion_lv.setAdapter(promotionAdapter);
-//                    show_or_hide_iv.setEnabled(true);
+                            //                    show_or_hide_iv.setEnabled(true);
                         } else {
-//                    goods_bottom_lin_layout.setVisibility(View.GONE);
+                            //                    goods_bottom_lin_layout.setVisibility(View.GONE);
                             // 此处可以设置。。不呢点击
-//                    show_or_hide_iv.setEnabled(false);
+                            //                    show_or_hide_iv.setEnabled(false);
                         }
                         promotion_layout.setVisibility(View.VISIBLE);
                         promotion_layoutline.setVisibility(View.VISIBLE);
@@ -1258,7 +1258,7 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
                                     CommentPicAdapter picadapter = new CommentPicAdapter(LimitGoodsAty.this, pictures);
                                     estimate_pic.setAdapter(picadapter);
                                 }
-                            }else {
+                            } else {
                                 layout_comment.setVisibility(View.GONE);
                             }
                         } catch (JsonSyntaxException e) {
@@ -1391,7 +1391,7 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
         switch (v.getId()) {
             case R.id.all_evaluate_tv: {
                 Bundle bundle = new Bundle();
-//                bundle.putInt("from", 2);
+                //                bundle.putInt("from", 2);
                 bundle.putInt("from", 0);//0商品
                 bundle.putString("mid", mell_id);
                 bundle.putString("goods_id", goods_id);
@@ -1399,17 +1399,17 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
                 break;
             }
             case R.id.tv_chose_ads:
-//                if (isLoaded) {
-//                    ShowPickerView();
-//                }
+                //                if (isLoaded) {
+                //                    ShowPickerView();
+                //                }
                 ProUrbAreaUtil.gainInstance().showPickerView(tv_chose_ads, goods_id, String.valueOf(goods_number), product_id, LimitGoodsAty.this, LimitGoodsAty.this);
                 break;
             case R.id.tv_showClassify:
-//                Intent intent = new Intent();
-//                intent.putExtra("appBarTitle", goodsInfo.getTwo_cate_name());
-//                intent.putExtra("two_cate_id", goodsInfo.getCate_id());
-//                intent.setClass(this, SubclassificationAty.class);
-//                startActivity(intent);
+                //                Intent intent = new Intent();
+                //                intent.putExtra("appBarTitle", goodsInfo.getTwo_cate_name());
+                //                intent.putExtra("two_cate_id", goodsInfo.getCate_id());
+                //                intent.setClass(this, SubclassificationAty.class);
+                //                startActivity(intent);
                 toClassify(v, goodsInfo.getTop_cate_id());
                 break;
             case R.id.title_goods_layout://商品
@@ -1441,14 +1441,14 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
                 toShare(goods_name, share_img, share_url, share_content, goods_id, "1");
                 break;
             case R.id.show_or_hide_iv://展开,隐藏(满折布局)
-//                getHeight();// 重新计算高度
-//                if (goods_bottom_lin_layout.getVisibility() == View.GONE) {
-//                    goods_bottom_lin_layout.setVisibility(View.VISIBLE);
-//                    show_or_hide_iv.setImageResource(R.drawable.icon_show_other_layout);
-//                } else {
-//                    goods_bottom_lin_layout.setVisibility(View.GONE);
-//                    show_or_hide_iv.setImageResource(R.drawable.icon_hide_other_layout);
-//                }
+                //                getHeight();// 重新计算高度
+                //                if (goods_bottom_lin_layout.getVisibility() == View.GONE) {
+                //                    goods_bottom_lin_layout.setVisibility(View.VISIBLE);
+                //                    show_or_hide_iv.setImageResource(R.drawable.icon_show_other_layout);
+                //                } else {
+                //                    goods_bottom_lin_layout.setVisibility(View.GONE);
+                //                    show_or_hide_iv.setImageResource(R.drawable.icon_hide_other_layout);
+                //                }
                 break;
             case R.id.show_or_hide_lv_iv://展开,隐藏(无界驿站)
                 getHeight();// 重新计算高度
@@ -1488,7 +1488,7 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
                 break;
             case R.id.relation_mell_tv:// 客服
                 commodityPranster.chat_merchant(mell_id, LimitGoodsAty.this, merchant_phone);
-//                toChat(easemob_account, merchant_logo, merchant_name);
+                //                toChat(easemob_account, merchant_logo, merchant_name);
                 break;
             case R.id.tv_tab_1:
                 goods_desc_wv.setVisibility(View.VISIBLE);
@@ -1529,11 +1529,11 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
                 break;
             case R.id.tv_quxiao://促销弹框
                 commodityPranster.showCXPop(v, LimitGoodsAty.this, promotionBeen);
-//                showCXPop(v);
+                //                showCXPop(v);
                 break;
             case R.id.tv_lingquan:
                 commodityPranster.showLQPop(v, "领券", LimitGoodsAty.this, theTrickAdapter);
-//                showLQPop(v, "领券");
+                //                showLQPop(v, "领券");
                 break;
             case R.id.layout_layout_settings:
                 if (WJConfig.XLG == type) {
@@ -1543,7 +1543,7 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
                 } else if (WJConfig.WJSD == type) {
                     toAttrs(v, 4, WJConfig.TYPE_WJSD, goods_id + "-" + mell_id, goodsInfo.getGoods_img(), goodsInfo.getUse_integral(), limit_buy_id, goods_attr_first, first_val, is_attr);
                 }
-//                toAttrs(v, 4, "5", goods_id + "-" + mell_id, goodsInfo.getGoods_img(), goodsInfo.getLimit_price(), limit_buy_id, goods_attr_first, first_val, is_attr);
+                //                toAttrs(v, 4, "5", goods_id + "-" + mell_id, goodsInfo.getGoods_img(), goodsInfo.getLimit_price(), limit_buy_id, goods_attr_first, first_val, is_attr);
                 break;
             case R.id.tv_dpg:
                 Bundle bundle1 = new Bundle();
@@ -1556,7 +1556,9 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
     CommonPopupWindow commonPopupWindow;
 
     public void showServerPop(View view, final String title, final ArrayList<GoodsServerBean> list) {//
-        if (commonPopupWindow != null && commonPopupWindow.isShowing()) return;
+        if (commonPopupWindow != null && commonPopupWindow.isShowing()) {
+            return;
+        }
         commonPopupWindow = new CommonPopupWindow.Builder(this)
                 .setView(R.layout.popup_layout)
                 .setWidthAndHeight(ViewGroup.LayoutParams.MATCH_PARENT, Settings.displayHeight / 2)
@@ -1584,7 +1586,9 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
     }
 
     public void showPricePop(View view, final String title, final ArrayList<GoodsPriceDescBean> list) {//
-        if (commonPopupWindow != null && commonPopupWindow.isShowing()) return;
+        if (commonPopupWindow != null && commonPopupWindow.isShowing()) {
+            return;
+        }
         commonPopupWindow = new CommonPopupWindow.Builder(this)
                 .setView(R.layout.popup_layout)
                 .setWidthAndHeight(ViewGroup.LayoutParams.MATCH_PARENT, Settings.displayHeight / 2)
@@ -1612,69 +1616,69 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
     }
 
 
-//    /**
-//     * 领券
-//     */
-//    public void showLQPop(View view, final String title) {//
-//        if (commonPopupWindow != null && commonPopupWindow.isShowing()) return;
-//        commonPopupWindow = new CommonPopupWindow.Builder(this)
-//                .setView(R.layout.popup_layout)
-//                .setWidthAndHeight(ViewGroup.LayoutParams.MATCH_PARENT, Settings.displayHeight / 2)
-//                .setBackGroundLevel(0.7f)
-//                .setViewOnclickListener(new CommonPopupWindow.ViewInterface() {
-//                    @Override
-//                    public void getChildView(View view, int layoutResId, int position) {
-//                        TextView cancel = (TextView) view.findViewById(R.id.cancel);
-//                        RecyclerView recyclerview = (RecyclerView) view.findViewById(R.id.recyclerview);
-//                        recyclerview.setLayoutManager(new GridLayoutManager(LimitGoodsAty.this, 2));
-//                        recyclerview.setAdapter(theTrickAdapter);
-//                        TextView tv_title = (TextView) view.findViewById(R.id.popp_title);
-//                        tv_title.setText(title);
-//                        cancel.setOnClickListener(new View.OnClickListener() {
-//                            @Override
-//                            public void onClick(View view) {
-//                                commonPopupWindow.dismiss();
-//                            }
-//                        });
-//
-//                    }
-//                }, 0)
-//                .setAnimationStyle(R.style.animbottom)
-//                .create();
-//        commonPopupWindow.showAtLocation(view, Gravity.BOTTOM, 0, 0);
-//    }
+    //    /**
+    //     * 领券
+    //     */
+    //    public void showLQPop(View view, final String title) {//
+    //        if (commonPopupWindow != null && commonPopupWindow.isShowing()) return;
+    //        commonPopupWindow = new CommonPopupWindow.Builder(this)
+    //                .setView(R.layout.popup_layout)
+    //                .setWidthAndHeight(ViewGroup.LayoutParams.MATCH_PARENT, Settings.displayHeight / 2)
+    //                .setBackGroundLevel(0.7f)
+    //                .setViewOnclickListener(new CommonPopupWindow.ViewInterface() {
+    //                    @Override
+    //                    public void getChildView(View view, int layoutResId, int position) {
+    //                        TextView cancel = (TextView) view.findViewById(R.id.cancel);
+    //                        RecyclerView recyclerview = (RecyclerView) view.findViewById(R.id.recyclerview);
+    //                        recyclerview.setLayoutManager(new GridLayoutManager(LimitGoodsAty.this, 2));
+    //                        recyclerview.setAdapter(theTrickAdapter);
+    //                        TextView tv_title = (TextView) view.findViewById(R.id.popp_title);
+    //                        tv_title.setText(title);
+    //                        cancel.setOnClickListener(new View.OnClickListener() {
+    //                            @Override
+    //                            public void onClick(View view) {
+    //                                commonPopupWindow.dismiss();
+    //                            }
+    //                        });
+    //
+    //                    }
+    //                }, 0)
+    //                .setAnimationStyle(R.style.animbottom)
+    //                .create();
+    //        commonPopupWindow.showAtLocation(view, Gravity.BOTTOM, 0, 0);
+    //    }
 
-//    /**
-//     * 促销
-//     *
-//     * @param view
-//     */
-//    public void showCXPop(View view) {
-//        if (commonPopupWindow != null && commonPopupWindow.isShowing()) return;
-//        commonPopupWindow = new CommonPopupWindow.Builder(this)
-//                .setView(R.layout.layou_popp_cuxiao)
-//                .setWidthAndHeight(ViewGroup.LayoutParams.MATCH_PARENT, Settings.displayHeight / 2)
-//                .setBackGroundLevel(0.7f)
-//                .setViewOnclickListener(new CommonPopupWindow.ViewInterface() {
-//                    @Override
-//                    public void getChildView(View view, int layoutResId, int position) {
-//                        ListView promotion_lv = view.findViewById(R.id.promotion_lv);
-//                        PromotionAdapter promotionAdapter = new PromotionAdapter(LimitGoodsAty.this, promotionBeen);
-//                        promotion_lv.setAdapter(promotionAdapter);
-//                        TextView cancel = (TextView) view.findViewById(R.id.cancel);
-//                        cancel.setOnClickListener(new View.OnClickListener() {
-//                            @Override
-//                            public void onClick(View view) {
-//                                commonPopupWindow.dismiss();
-//                            }
-//                        });
-//
-//                    }
-//                }, 0)
-//                .setAnimationStyle(R.style.animbottom)
-//                .create();
-//        commonPopupWindow.showAtLocation(view, Gravity.BOTTOM, 0, 0);
-//    }
+    //    /**
+    //     * 促销
+    //     *
+    //     * @param view
+    //     */
+    //    public void showCXPop(View view) {
+    //        if (commonPopupWindow != null && commonPopupWindow.isShowing()) return;
+    //        commonPopupWindow = new CommonPopupWindow.Builder(this)
+    //                .setView(R.layout.layou_popp_cuxiao)
+    //                .setWidthAndHeight(ViewGroup.LayoutParams.MATCH_PARENT, Settings.displayHeight / 2)
+    //                .setBackGroundLevel(0.7f)
+    //                .setViewOnclickListener(new CommonPopupWindow.ViewInterface() {
+    //                    @Override
+    //                    public void getChildView(View view, int layoutResId, int position) {
+    //                        ListView promotion_lv = view.findViewById(R.id.promotion_lv);
+    //                        PromotionAdapter promotionAdapter = new PromotionAdapter(LimitGoodsAty.this, promotionBeen);
+    //                        promotion_lv.setAdapter(promotionAdapter);
+    //                        TextView cancel = (TextView) view.findViewById(R.id.cancel);
+    //                        cancel.setOnClickListener(new View.OnClickListener() {
+    //                            @Override
+    //                            public void onClick(View view) {
+    //                                commonPopupWindow.dismiss();
+    //                            }
+    //                        });
+    //
+    //                    }
+    //                }, 0)
+    //                .setAnimationStyle(R.style.animbottom)
+    //                .create();
+    //        commonPopupWindow.showAtLocation(view, Gravity.BOTTOM, 0, 0);
+    //    }
 
 
     private void setTextViewAndViewColor(int next) {
@@ -1961,8 +1965,8 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
                 pro_valStr = pro_valStr.substring(0, pro_valStr.lastIndexOf("+"));
             }
             goods_select_attr_tv.setText("已选商品配置(" + pro_valStr + ")x" + goods_number);
-//                old_price_tv.setText("￥" + data.getStringExtra("market_price"));
-//                old_price_tv.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+            //                old_price_tv.setText("￥" + data.getStringExtra("market_price"));
+            //                old_price_tv.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
 
             dj_ticket = (List<DjTicketBean>) data.getSerializableExtra("data");
             if (dj_ticket != null) {
@@ -2009,17 +2013,17 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
                 layout_djq.setVisibility(View.GONE);
             }
 
-//            L.e("product_id=" + data.getStringExtra("product_id") + "\n" +
-//                    "pro_value=" + data.getStringExtra("pro_value") + "\n" +
-//                    "num=" + data.getIntExtra("num", 0) + "\n" +
-//                    "shop_price=" + data.getStringExtra("shop_price") + "\n" +
-//                    "market_price=" + data.getStringExtra("market_price") + "\n" +
-//                    "red_return_integral=" + data.getStringExtra("red_return_integral") + "\n" +
-//                    "discount=" + data.getStringExtra("discount") + "\n" +
-//                    "yellow_discount=" + data.getStringExtra("yellow_discount") + "\n" +
-//                    "blue_discount=" + data.getStringExtra("blue_discount") + "\n" +
-//                    "wy_price=" + data.getStringExtra("wy_price") + "\n" +
-//                    "wy_price=" + data.getStringExtra("wy_price") + "\n");
+            //            L.e("product_id=" + data.getStringExtra("product_id") + "\n" +
+            //                    "pro_value=" + data.getStringExtra("pro_value") + "\n" +
+            //                    "num=" + data.getIntExtra("num", 0) + "\n" +
+            //                    "shop_price=" + data.getStringExtra("shop_price") + "\n" +
+            //                    "market_price=" + data.getStringExtra("market_price") + "\n" +
+            //                    "red_return_integral=" + data.getStringExtra("red_return_integral") + "\n" +
+            //                    "discount=" + data.getStringExtra("discount") + "\n" +
+            //                    "yellow_discount=" + data.getStringExtra("yellow_discount") + "\n" +
+            //                    "blue_discount=" + data.getStringExtra("blue_discount") + "\n" +
+            //                    "wy_price=" + data.getStringExtra("wy_price") + "\n" +
+            //                    "wy_price=" + data.getStringExtra("wy_price") + "\n");
 
         } else if (requestCode == 1000 && resultCode == 0x0001 && null != data) {
             L.e("返回商品详情");

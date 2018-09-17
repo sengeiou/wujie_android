@@ -60,14 +60,14 @@ public class InvoiceAty2 extends BaseAty {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-//                String json = getIntent().getStringExtra("json1");
+                //                String json = getIntent().getStringExtra("json1");
                 Intent intent = getIntent();
-//                intent.putExtra("data", list.get(position).get("invoice_type"));
-//                PreferencesUtils.putString(InvoiceAty2.this,"tax",list.get(position).get("tax"));
-//                PreferencesUtils.putString(InvoiceAty2.this,"express_fee",list.get(position).get("express_fee"));
+                //                intent.putExtra("data", list.get(position).get("invoice_type"));
+                //                PreferencesUtils.putString(InvoiceAty2.this,"tax",list.get(position).get("tax"));
+                //                PreferencesUtils.putString(InvoiceAty2.this,"express_fee",list.get(position).get("express_fee"));
 
-                InvoiceBean invoiceBean=  list.get(position);
-                Invoice1 invoice1=new Invoice1();
+                InvoiceBean invoiceBean = list.get(position);
+                Invoice1 invoice1 = new Invoice1();
                 invoice1.setExpress_fee(invoiceBean.getExpress_fee());
                 invoice1.setInvoice_type(invoiceBean.getInvoice_type());
                 invoice1.setTax(invoiceBean.getTax());
@@ -82,14 +82,14 @@ public class InvoiceAty2 extends BaseAty {
                 finish();
             }
         });
-//        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        //        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
     }
 
     @Override
     protected void requestData() {
         String json = getIntent().getStringExtra("data");
-        String use_integralStr= getIntent().getStringExtra("shop_price");
-        Invoice.invoice(json, use_integralStr,this);
+        String use_integralStr = getIntent().getStringExtra("shop_price");
+        Invoice.invoice(json, use_integralStr, this);
         showProgressDialog();
         List<Map<String, String>> map = JSONUtils.parseKeyAndValueToMapList(json);
         goods_id = map.get(0).get("goods_id");
@@ -105,9 +105,9 @@ public class InvoiceAty2 extends BaseAty {
         ObserTool.gainInstance().jsonToBean(jsonStr, InvoiceDataBean.class, new ObserTool.BeanListener() {
             @Override
             public void returnObj(Object t) {
-                InvoiceDataBean invoiceDataBean= (InvoiceDataBean) t;
-                com.txd.hzj.wjlp.bean.commodity.Invoice invoice=invoiceDataBean.getData();
-                list= invoice.getList();
+                InvoiceDataBean invoiceDataBean = (InvoiceDataBean) t;
+                com.txd.hzj.wjlp.bean.commodity.Invoice invoice = invoiceDataBean.getData();
+                list = invoice.getList();
                 //        tv_explain.setText(map.get("explain"));
                 Invoce2BaseAdapter = new Invoce2BaseAdapter(list, InvoiceAty2.this);
                 lv.setAdapter(Invoce2BaseAdapter);
@@ -129,8 +129,9 @@ public class InvoiceAty2 extends BaseAty {
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK)
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
             return true;//不执行父类点击事件
+        }
         return super.onKeyDown(keyCode, event);//继续执行父类其他点击事件
     }
 

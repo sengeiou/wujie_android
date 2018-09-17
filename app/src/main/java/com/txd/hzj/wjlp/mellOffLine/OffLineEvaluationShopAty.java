@@ -82,8 +82,9 @@ public class OffLineEvaluationShopAty extends BaseAty {
     @Override
     protected void initialized() {
         mOrder_id = getIntent().getStringExtra("order_id");
-        if (TextUtils.isEmpty(mOrder_id))
+        if (TextUtils.isEmpty(mOrder_id)) {
             return;
+        }
 
         picList = new ArrayList<>();
         imagePicker = ImagePicker.getInstance();
@@ -168,7 +169,7 @@ public class OffLineEvaluationShopAty extends BaseAty {
                     String logoUrl = data.getString("logo");
                     Glide.with(OffLineEvaluationShopAty.this).load(logoUrl).into(imageview);
                 }
-                if (data.containsKey("merchant_name")){
+                if (data.containsKey("merchant_name")) {
                     titlt_conter_tv.setText(data.getString("merchant_name"));
                 }
             }

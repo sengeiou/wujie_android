@@ -5,7 +5,6 @@ import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
-import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -80,15 +79,17 @@ public class GoodLuckDetailsPranster extends CommodityDetailsPranster implements
     }
 
     @Override
-    public void showExperiencePopWindow(Context context, View view, List<String> strList,String titleStr) {
+    public void showExperiencePopWindow(Context context, View view, List<String> strList, String titleStr) {
         View contentView = LayoutInflater.from(context).inflate(R.layout.layout_comdetail_exper, null);
         if (null != strList && strList.size() > 0) {
             RecyclerView recyclerView = contentView.findViewById(R.id.experRecyclerView);
             recyclerView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
             recyclerView.setAdapter(new ExpAdapter(strList, context));
-//            textView.setText(stringBuffer);
+            //            textView.setText(stringBuffer);
         }
-        if (commonPopupWindow != null && commonPopupWindow.isShowing()) return;
+        if (commonPopupWindow != null && commonPopupWindow.isShowing()) {
+            return;
+        }
         commonPopupWindow = new CommonPopupWindow.Builder(context)
                 .setView(contentView)
                 .setWidthAndHeight(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
@@ -109,9 +110,9 @@ public class GoodLuckDetailsPranster extends CommodityDetailsPranster implements
                 .setAnimationStyle(R.style.animbottom)
                 .create();
         commonPopupWindow.showAtLocation(view, Gravity.BOTTOM, 0, 0);
-        int screenHeight =Config.getScreenHeight((Activity) context);
-        if(contentView.getMeasuredHeight()> screenHeight/2){
-            contentView.getLayoutParams().height=screenHeight/2;
+        int screenHeight = Config.getScreenHeight((Activity) context);
+        if (contentView.getMeasuredHeight() > screenHeight / 2) {
+            contentView.getLayoutParams().height = screenHeight / 2;
         }
 
         contentView.findViewById(R.id.cancel).setOnClickListener(new View.OnClickListener() {
@@ -120,7 +121,7 @@ public class GoodLuckDetailsPranster extends CommodityDetailsPranster implements
                 commonPopupWindow.dismiss();
             }
         });
-        TextView textView=contentView.findViewById(R.id.title);
+        TextView textView = contentView.findViewById(R.id.title);
         textView.setText(titleStr);
     }
 
@@ -131,7 +132,9 @@ public class GoodLuckDetailsPranster extends CommodityDetailsPranster implements
 
 
     public void showCollagePop(View view, final String title, final List<GroupBean> list, final String type, final Activity activity, final String group_count) {
-        if (commonPopupWindow != null && commonPopupWindow.isShowing()) return;
+        if (commonPopupWindow != null && commonPopupWindow.isShowing()) {
+            return;
+        }
         commonPopupWindow = new CommonPopupWindow.Builder(activity)
                 .setView(R.layout.collagepop_layout)
                 .setWidthAndHeight(Settings.displayWidth * 370 / 414, Settings.displayHeight / 2)

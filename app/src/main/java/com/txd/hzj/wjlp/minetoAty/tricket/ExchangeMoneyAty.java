@@ -1,7 +1,6 @@
 package com.txd.hzj.wjlp.minetoAty.tricket;
 
 import android.content.Intent;
-import android.nfc.FormatException;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.Editable;
@@ -24,10 +23,10 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
-import com.txd.hzj.wjlp.http.balance.BalancePst;
-import com.txd.hzj.wjlp.minetoAty.balance.BankCardHzjAty;
 import com.txd.hzj.wjlp.http.User;
 import com.txd.hzj.wjlp.http.UserBalance;
+import com.txd.hzj.wjlp.http.balance.BalancePst;
+import com.txd.hzj.wjlp.minetoAty.balance.BankCardHzjAty;
 import com.txd.hzj.wjlp.tool.CommonPopupWindow;
 import com.txd.hzj.wjlp.view.MyEditText;
 
@@ -170,7 +169,7 @@ public class ExchangeMoneyAty extends BaseAty {
                 break;
             case R.id.my_bal_tv2:// 全部使用
 
-//                1:积分转余额 2：提现
+                //                1:积分转余额 2：提现
                 if (type == 1) {
                     money_ev.setText(myChangeIntegralStr);
                 } else {
@@ -206,7 +205,7 @@ public class ExchangeMoneyAty extends BaseAty {
                         return;
                     }
 
-//                1:积分转余额 2：提现
+                    //                1:积分转余额 2：提现
                     if (type == 1) { // 积分转余额
                         if (Double.parseDouble(moneyStr) - Double.parseDouble(myChangeIntegralStr) > 0) {
                             // 如果输入数值大于总积分
@@ -381,10 +380,10 @@ public class ExchangeMoneyAty extends BaseAty {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-//            myChangeIntegralStr = JSONUtils.parseKeyAndValueToMap(data.get("point_list")).get("my_change_integral");
+            //            myChangeIntegralStr = JSONUtils.parseKeyAndValueToMap(data.get("point_list")).get("my_change_integral");
             my_bal_tv1.setText("可兑换积分：" + myChangeIntegralStr + " "); // 显示积分总数
             rate_tv.setText(data.get("integral_percentage")); // 手续费率
-//            data.get("point_list")
+            //            data.get("point_list")
             String pointListStr = data.get("point_list");
             try {
                 JSONArray jsonArray = new JSONArray(pointListStr);
@@ -405,8 +404,9 @@ public class ExchangeMoneyAty extends BaseAty {
             rate_tv.setText(rate + "%");
             this.rate = data.get("rate");
             delay_time_tv.setText(data.get("delay_time"));
-            if (data.containsKey("cash_desc"))
+            if (data.containsKey("cash_desc")) {
                 cashDescTv.setText(data.get("cash_desc"));
+            }
         }
         if (urlLastStr.equals("autoChange")) { // 获取详情提示
             if (map.get("code").equals("1")) {
@@ -420,16 +420,18 @@ public class ExchangeMoneyAty extends BaseAty {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (data == null)
+        if (data == null) {
             return;
+        }
         if (RESULT_OK == resultCode) {
             switch (requestCode) {
                 case 100:// 银行卡
                     card_name_tv.setText(data.getStringExtra("name"));
 
                     String num = data.getStringExtra("num");
-                    if (num.length() >= 16)
+                    if (num.length() >= 16) {
                         num = num.replaceAll("(\\d{4})\\d{8,11}(\\w{4})", "***************$2");
+                    }
                     card_num_tv.setText(num);
                     bank_card_id = data.getStringExtra("bank_card_id");
                     break;

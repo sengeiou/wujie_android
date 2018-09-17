@@ -20,19 +20,16 @@ import com.bumptech.glide.Glide;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
-import com.txd.hzj.wjlp.popAty.adapter.CouponAdapter;
 import com.txd.hzj.wjlp.view.ArcProgress;
 
 import java.util.List;
 import java.util.Map;
 
 /**
- *
  * 作者：DUKE_HwangZj
  * 日期：2017/7/29 0029
  * 时间：11:13
  * 描述：
- *
  */
 
 public class MellCouponDialog extends Dialog implements AdapterView.OnItemClickListener {
@@ -72,8 +69,9 @@ public class MellCouponDialog extends Dialog implements AdapterView.OnItemClickL
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        if (itemClick != null)
+        if (itemClick != null) {
             itemClick.onItemClick(adapterView, view, i, l);
+        }
     }
 
     public interface ItemClick {

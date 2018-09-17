@@ -435,8 +435,9 @@ public class OrderOnLineFgt extends BaseFgt {
                 onlineChongAdapter = (OnlineChongAdapter) order_on_line_lv.getAdapter();
             }
             onlineChongAdapter.getList().clear();
-            if (null != userBalanceHjs.getData())
+            if (null != userBalanceHjs.getData()) {
                 onlineChongAdapter.getList().addAll(userBalanceHjs.getData());
+            }
             onlineChongAdapter.notifyDataSetChanged();
 
             order_on_line_lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -779,8 +780,8 @@ public class OrderOnLineFgt extends BaseFgt {
                 Bundle bundle = new Bundle();
                 bundle.putString("order_id", getItem(position).get("group_buy_order_id"));
                 bundle.putString("group_buy_id", group_buy_id);
-                bundle.putString("type", from );
-//                bundle.putString("type", String.valueOf(Integer.parseInt(getItem(position).get("order_type")) + 1));
+                bundle.putString("type", from);
+                //                bundle.putString("type", String.valueOf(Integer.parseInt(getItem(position).get("order_type")) + 1));
                 bundle.putString("is_pay_password", is_pay_password);
                 startActivity(PayForAppAty.class, bundle);
             } else if (getItem(position).get("order_status").equals("4")) {
@@ -791,7 +792,7 @@ public class OrderOnLineFgt extends BaseFgt {
             } else if (getItem(position).get("order_status").equals("3")) {
                 GroupBuyOrder.receiving(getItem(position).get("group_buy_order_id"), "", OrderOnLineFgt.this);
                 showProgressDialog();
-            } else if (getItem(position).get("order_status").equals("6") || getItem(position).get("order_status").equals("5")||getItem(position).get("order_status").equals("10")) {
+            } else if (getItem(position).get("order_status").equals("6") || getItem(position).get("order_status").equals("5") || getItem(position).get("order_status").equals("10")) {
 
                 new AlertDialog(getActivity()).builder().setTitle("提示").setMsg("删除订单").setPositiveButton("确定", new View.OnClickListener() {
                     @Override
@@ -1261,12 +1262,12 @@ public class OrderOnLineFgt extends BaseFgt {
             Glide.with(getActivity()).load(getItem(i).get("pic")).into(goVh.image);
             goVh.name.setText(getItem(i).get("goods_name"));
             goVh.num.setText("x" + getItem(i).get("goods_num"));
-//            if (!"10".equals(from)) {
-//                goVh.jifenTv.setVisibility(View.VISIBLE);
-//                goVh.jifenTv.setText("(赠送：" + getItem(i).get("return_integral") + "积分）");
-//            } else {//积分商店
-//                goVh.jifenTv.setVisibility(View.GONE);
-//            }
+            //            if (!"10".equals(from)) {
+            //                goVh.jifenTv.setVisibility(View.VISIBLE);
+            //                goVh.jifenTv.setText("(赠送：" + getItem(i).get("return_integral") + "积分）");
+            //            } else {//积分商店
+            //                goVh.jifenTv.setVisibility(View.GONE);
+            //            }
             L.e("wang", "===============>>>>>>>>>>>>.minetoAty.order.fgt.getItem(i)" + getItem(i));
             //            goVh.textview.setText("最晚发货时间");
             // TODO ============================================时间、积分设置=========================================================
@@ -1277,9 +1278,9 @@ public class OrderOnLineFgt extends BaseFgt {
             } else {
                 goVh.title.setVisibility(View.VISIBLE);
                 String goods_attr_str = "规格" + getItem(i).get("goods_attr");
-                String jifen=TextUtils.isEmpty(getItem(i).get("return_integral"))?"":"（赠送:" + getItem(i).get("return_integral") + "积分)";
-                    ChangeTextViewStyle.getInstance().forTextColor(getActivity(), goVh.title,
-                            goods_attr_str + jifen, goods_attr_str.length(), Color.parseColor("#F6B87A"));
+                String jifen = TextUtils.isEmpty(getItem(i).get("return_integral")) ? "" : "（赠送:" + getItem(i).get("return_integral") + "积分)";
+                ChangeTextViewStyle.getInstance().forTextColor(getActivity(), goVh.title,
+                        goods_attr_str + jifen, goods_attr_str.length(), Color.parseColor("#F6B87A"));
             }
 
             if ("10".equals(from)) {
@@ -1311,10 +1312,10 @@ public class OrderOnLineFgt extends BaseFgt {
             private TextView title;
             @ViewInject(R.id.tv_price)
             private TextView tv_price;
-//                        @ViewInject(R.id.jifenTv)
-//            private TextView jifenTv;
-//            @ViewInject(R.id.textview) // 收货时间，最晚发货时间等等
-//            private TextView textview;
+            //                        @ViewInject(R.id.jifenTv)
+            //            private TextView jifenTv;
+            //            @ViewInject(R.id.textview) // 收货时间，最晚发货时间等等
+            //            private TextView textview;
             @ViewInject(R.id.goodsForOrder_layout)
             private LinearLayout goodsForOrder_layout;
             @ViewInject(R.id.tyIv)

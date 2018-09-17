@@ -29,6 +29,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Map;
 
+import static android.app.Activity.RESULT_OK;
+
 public class WujiePostFgt extends BaseFgt implements ProUrbAreaUtil.GetData {
 
     private int size = 0;
@@ -356,7 +358,7 @@ public class WujiePostFgt extends BaseFgt implements ProUrbAreaUtil.GetData {
                 }
             }
         } else {
-            if (resultCode == getActivity().RESULT_OK) {
+            if (resultCode == RESULT_OK) {
                 if (requestCode == 100) {
                     type = data.getStringExtra("type");
                     rec_type_id = data.getStringExtra("rec_type_id");

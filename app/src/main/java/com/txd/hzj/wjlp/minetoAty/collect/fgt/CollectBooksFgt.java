@@ -126,10 +126,11 @@ public class CollectBooksFgt extends BaseFgt implements WjBooksAdapter.ForSelect
                 imageView.setVisibility(View.GONE);
                 progressBar.setVisibility(View.VISIBLE);
                 p = 1;
-                if (0 == dataType)
+                if (0 == dataType) {
                     userPst.myfooter(p, "3");
-                else
+                } else {
                     collectPst.collectList(p, "3");
+                }
             }
 
             @Override
@@ -155,10 +156,11 @@ public class CollectBooksFgt extends BaseFgt implements WjBooksAdapter.ForSelect
                     return;
                 }
                 p++;
-                if (0 == dataType)
+                if (0 == dataType) {
                     userPst.myfooter(p, "3");
-                else
+                } else {
                     collectPst.collectList(p, "3");
+                }
             }
 
             @Override
@@ -333,7 +335,7 @@ public class CollectBooksFgt extends BaseFgt implements WjBooksAdapter.ForSelect
             return;
         }
         if (requestUrl.contains("myfooter")) {
-//            ((FootprintAty)getActivity()).setView(View.VISIBLE);
+            //            ((FootprintAty)getActivity()).setView(View.VISIBLE);
 
             getActivity().sendBroadcast(intent);
             CollectBooks collectBooks = GsonUtil.GsonToBean(jsonStr, CollectBooks.class);
@@ -364,7 +366,7 @@ public class CollectBooksFgt extends BaseFgt implements WjBooksAdapter.ForSelect
     @Override
     public void onError(String requestUrl, Map<String, String> error) {
         if (requestUrl.contains("collectList") || requestUrl.contains("myfooter")) {
-//            ((FootprintAty)getActivity()).setView(View.VISIBLE);
+            //            ((FootprintAty)getActivity()).setView(View.VISIBLE);
             removeContent();
             removeDialog();
             footerImageView.setVisibility(View.VISIBLE);

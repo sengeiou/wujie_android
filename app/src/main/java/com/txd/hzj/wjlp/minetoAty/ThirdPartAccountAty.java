@@ -42,7 +42,7 @@ import cn.sharesdk.wechat.friends.Wechat;
  * 创建时间：2018/07/25 025 下午 16:02
  * 功能描述：三方收款账户
  */
-public class ThirdPartAccountAty extends BaseAty implements PlatformActionListener{
+public class ThirdPartAccountAty extends BaseAty implements PlatformActionListener {
 
     // 平台账号
     @ViewInject(R.id.thirdPartyAcc_wujieAccount_tv)
@@ -104,7 +104,7 @@ public class ThirdPartAccountAty extends BaseAty implements PlatformActionListen
 
     @Override
     protected void requestData() {
-        User.payeeBind(mStage_merchant_id,this);
+        User.payeeBind(mStage_merchant_id, this);
     }
 
     @OnClick({R.id.thirdPartyAcc_verificationWeChat_tv, R.id.thirdPartyAcc_verificationAlipay_tv,
@@ -172,7 +172,7 @@ public class ThirdPartAccountAty extends BaseAty implements PlatformActionListen
                             setCheckBoxChecked(3);
                         }
                     } else {
-                        User.pay_account_bind(newSelectCheckBox + "", "", "", "", "", mStage_merchant_id,ThirdPartAccountAty.this);
+                        User.pay_account_bind(newSelectCheckBox + "", "", "", "", "", mStage_merchant_id, ThirdPartAccountAty.this);
                     }
                 }
                 break;
@@ -285,7 +285,7 @@ public class ThirdPartAccountAty extends BaseAty implements PlatformActionListen
             try {
                 JSONObject jsonObject = new JSONObject(jsonStr);
                 showRightTip(jsonObject.getString("message"));
-                User.payeeBind(mStage_merchant_id,this);
+                User.payeeBind(mStage_merchant_id, this);
             } catch (JSONException e) {
             }
         }
@@ -297,11 +297,11 @@ public class ThirdPartAccountAty extends BaseAty implements PlatformActionListen
         L.e("qweqweqweqweqweqweqweqweqwe`````````````` : " + requestUrl + " : " + error.toString());
         if (requestUrl.contains("pay_account_bind")) {
             showErrorTip(error.get("message"));
-            User.payeeBind(mStage_merchant_id,this);
+            User.payeeBind(mStage_merchant_id, this);
         }
 
         if (requestUrl.contains("verificationPayPwd")) {
-//            showProgressDialog
+            //            showProgressDialog
             removeProgressDialog();
             showErrorTip(error.get("message"));
             error = JSONUtils.parseKeyAndValueToMap(error.get("data"));
@@ -356,10 +356,10 @@ public class ThirdPartAccountAty extends BaseAty implements PlatformActionListen
                         if (!trim.equals("")) {
                             if (clickView == R.id.thirdPartyAcc_verificationWeChat_tv) {
                                 // 微信转账
-                                User.pay_account_bind("", "wx", trim, weChatOpenid, nickName, mStage_merchant_id,ThirdPartAccountAty.this);
+                                User.pay_account_bind("", "wx", trim, weChatOpenid, nickName, mStage_merchant_id, ThirdPartAccountAty.this);
                             } else if (clickView == R.id.thirdPartyAcc_verificationAlipay_tv) {
                                 // 支付宝转账
-                                User.pay_account_bind("", "ali", trim, alipayAccounts, "", mStage_merchant_id,ThirdPartAccountAty.this);
+                                User.pay_account_bind("", "ali", trim, alipayAccounts, "", mStage_merchant_id, ThirdPartAccountAty.this);
                             }
                         }
                     }
@@ -374,7 +374,9 @@ public class ThirdPartAccountAty extends BaseAty implements PlatformActionListen
      * @param view
      */
     public void showPwdPop(View view) {
-        if (commonPopupWindow != null && commonPopupWindow.isShowing()) return;
+        if (commonPopupWindow != null && commonPopupWindow.isShowing()) {
+            return;
+        }
         commonPopupWindow = new CommonPopupWindow.Builder(this)
                 .setView(R.layout.popup_pwd)
                 .setWidthAndHeight(ViewGroup.LayoutParams.MATCH_PARENT, Settings.displayHeight / 4)
@@ -405,7 +407,7 @@ public class ThirdPartAccountAty extends BaseAty implements PlatformActionListen
 
     private void authorize(Platform plat, View view) {
 
-        if(plat ==null) {
+        if (plat == null) {
             showToast("授权平台为空");
             return;
         }
@@ -413,10 +415,10 @@ public class ThirdPartAccountAty extends BaseAty implements PlatformActionListen
         // 判断指定平台是否已经完成授权
         if (plat.isAuthValid()) {
             // 获取微信openid
-            weChatOpenid= plat.getDb().get("openid");
+            weChatOpenid = plat.getDb().get("openid");
             // 获取微信昵称
             nickName = plat.getDb().getUserName();
-            if (!TextUtils.isEmpty(weChatOpenid) && !TextUtils.isEmpty(nickName)){
+            if (!TextUtils.isEmpty(weChatOpenid) && !TextUtils.isEmpty(nickName)) {
                 thirdPartyAcc_weChatAccount_tv.setText(nickName);
                 showPwdPop(view);
             }
@@ -461,10 +463,10 @@ public class ThirdPartAccountAty extends BaseAty implements PlatformActionListen
     public void onComplete(Platform platform, int i, HashMap<String, Object> hashMap) {
         if (Platform.ACTION_USER_INFOR == i) {
             // 获取微信openid
-            weChatOpenid= platform.getDb().get("openid");
+            weChatOpenid = platform.getDb().get("openid");
             // 获取微信昵称
             nickName = platform.getDb().getUserName();
-            if (!TextUtils.isEmpty(weChatOpenid) && !TextUtils.isEmpty(nickName)){
+            if (!TextUtils.isEmpty(weChatOpenid) && !TextUtils.isEmpty(nickName)) {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {

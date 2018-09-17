@@ -30,33 +30,33 @@ public class ShopPersonAdapter extends RecyclerView.Adapter {
     //店主身份列表
     private final List<ShopPersonBean.DataBean.ShopBean> mShop;
 
-    public ShopPersonAdapter(ShopPersonBean shopPersonBean,Context context,int type) {
+    public ShopPersonAdapter(ShopPersonBean shopPersonBean, Context context, int type) {
         this.mShopPersonBean = shopPersonBean;
         this.context = context;
-        this.mInt=type;
+        this.mInt = type;
         mConsumer = mShopPersonBean.getData().getConsumer();
         mShop = mShopPersonBean.getData().getShop();
     }
 
-
+    @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        MyViewHolder holder = new MyViewHolder(LayoutInflater.from(context).inflate(R.layout.shop_person_relist_item, parent,false));
+        MyViewHolder holder = new MyViewHolder(LayoutInflater.from(context).inflate(R.layout.shop_person_relist_item, parent, false));
         return holder;
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        if (mInt==0 && holder instanceof MyViewHolder){
+        if (mInt == 0 && holder instanceof MyViewHolder) {
             ShopPersonBean.DataBean.ShopBean shopBean = mShop.get(position);
-            Glide.with(context).load(shopBean.getHead_path()).into( ((MyViewHolder) holder).shop_person_item_ima);
+            Glide.with(context).load(shopBean.getHead_path()).into(((MyViewHolder) holder).shop_person_item_ima);
             ((MyViewHolder) holder).shop_person_item_name.setText(shopBean.getNickname());
             ((MyViewHolder) holder).shop_priceTv.setText(shopBean.getProfit_num());
-            ((MyViewHolder) holder).shop_set_nameTv.setText(shopBean.getSet_name()+"店主");
+            ((MyViewHolder) holder).shop_set_nameTv.setText(shopBean.getSet_name() + "店主");
             ((MyViewHolder) holder).deal_timeT.setText(shopBean.getDeal_time());
 
-        }else if (mInt==1 && holder instanceof MyViewHolder){
+        } else if (mInt == 1 && holder instanceof MyViewHolder) {
             ShopPersonBean.DataBean.ConsumerBean consumerBean = mConsumer.get(position);
-            Glide.with(context).load(consumerBean.getHead_path()).into( ((MyViewHolder) holder).shop_person_item_ima);
+            Glide.with(context).load(consumerBean.getHead_path()).into(((MyViewHolder) holder).shop_person_item_ima);
             ((MyViewHolder) holder).shop_person_item_name.setText(consumerBean.getNickname());
             ((MyViewHolder) holder).shop_priceTv.setText(consumerBean.getProfit_num());
             ((MyViewHolder) holder).shop_set_nameTv.setText(consumerBean.getMember_coding_html());
@@ -66,10 +66,10 @@ public class ShopPersonAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemCount() {
-        return mInt==0?mShop.size()>0?mShop.size():0:mConsumer.size()>0?mConsumer.size():0;
+        return mInt == 0 ? mShop.size() > 0 ? mShop.size() : 0 : mConsumer.size() > 0 ? mConsumer.size() : 0;
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder{
+    public class MyViewHolder extends RecyclerView.ViewHolder {
         //头像
         private ImageView shop_person_item_ima;
         //店名
@@ -80,13 +80,14 @@ public class ShopPersonAdapter extends RecyclerView.Adapter {
         private TextView shop_set_nameTv;
         //日期
         private TextView deal_timeT;
+
         public MyViewHolder(View itemView) {
             super(itemView);
-            shop_person_item_ima=itemView.findViewById(R.id.shop_person_item_ima);
-            shop_person_item_name=itemView.findViewById(R.id.shop_person_item_name);
-            shop_priceTv=itemView.findViewById(R.id.shop_priceTv);
-            shop_set_nameTv=itemView.findViewById(R.id.shop_set_nameTv);
-            deal_timeT=itemView.findViewById(R.id.deal_timeT);
+            shop_person_item_ima = itemView.findViewById(R.id.shop_person_item_ima);
+            shop_person_item_name = itemView.findViewById(R.id.shop_person_item_name);
+            shop_priceTv = itemView.findViewById(R.id.shop_priceTv);
+            shop_set_nameTv = itemView.findViewById(R.id.shop_set_nameTv);
+            deal_timeT = itemView.findViewById(R.id.deal_timeT);
         }
     }
 }

@@ -54,8 +54,9 @@ public class User {
         params.addBodyParameter("city_id", city_id);
         params.addBodyParameter("area_id", area_id);
         params.addBodyParameter("street_id", street_id);
-        if (head_pic != null && head_pic.exists())
+        if (head_pic != null && head_pic.exists()) {
             params.addBodyParameter("head_pic", head_pic);
+        }
         apiTool2.postApi(url + "editInfo", params, baseView);
     }
 
@@ -314,8 +315,9 @@ public class User {
                 params.addBodyParameter("product_pic[" + i + "]", file);
             }
         }
-        if (business_license != null && business_license.exists())
+        if (business_license != null && business_license.exists()) {
             params.addBodyParameter("business_license[0]", business_license);
+        }
         for (int j = 0; j < other_license.size(); j++) {
             File file2 = other_license.get(j);
             if (file2 != null && file2.exists()) {
@@ -339,7 +341,7 @@ public class User {
     /**
      * 赠送蓝色代金券
      */
-    void giveCoupon(String price, String code, String pay_password, String merchant_id,BaseView baseView) {
+    void giveCoupon(String price, String code, String pay_password, String merchant_id, BaseView baseView) {
         RequestParams params = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
         params.addBodyParameter("price", price);
@@ -350,12 +352,12 @@ public class User {
     }
 
     /**
-      * 诚招无界推广员
-      */
-    void proMoters(BaseView baseView){
+     * 诚招无界推广员
+     */
+    void proMoters(BaseView baseView) {
         RequestParams params = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
-        apiTool2.postApi(url+"promoters",params,baseView);
+        apiTool2.postApi(url + "promoters", params, baseView);
     }
 
     /**
@@ -599,9 +601,10 @@ public class User {
 
     /**
      * 记录极光用户唯一性标识registrationID  极光用户唯一性标识registrationID
+     *
      * @param registrationID
      */
-    public static  void postRegistrationID(String registrationID,BaseView baseView){
+    public static void postRegistrationID(String registrationID, BaseView baseView) {
         RequestParams params = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
         params.addBodyParameter("registrationID", registrationID);
@@ -610,10 +613,9 @@ public class User {
 
 
     /**
-     *
-     * @param data 	{ "source": "1",//来源 1：Android 2：ios "data": [ { "name": "张三",	//姓名 "phone": "13688888888"//电话 }, { "name": "李四",	//姓名 "phone": "13866666666"//电话 } ] }
+     * @param data { "source": "1",//来源 1：Android 2：ios "data": [ { "name": "张三",	//姓名 "phone": "13688888888"//电话 }, { "name": "李四",	//姓名 "phone": "13866666666"//电话 } ] }
      */
-    public static void postUser_contacts(String data,BaseView baseView){
+    public static void postUser_contacts(String data, BaseView baseView) {
         RequestParams params = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
         params.addBodyParameter("data", data);

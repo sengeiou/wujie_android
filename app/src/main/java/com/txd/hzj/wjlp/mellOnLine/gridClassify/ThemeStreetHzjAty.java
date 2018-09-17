@@ -202,8 +202,9 @@ public class ThemeStreetHzjAty extends BaseAty implements NestedScrollView.OnScr
             } else {
                 if (ToolKit.isList(map, "data")) {
                     list2 = JSONUtils.parseKeyAndValueToMapList(map.get("data"));
-                    if (!ListUtils.isEmpty(list))
+                    if (!ListUtils.isEmpty(list)) {
                         list.addAll(list2);
+                    }
                     themeAdapter.notifyDataSetChanged();
                 }
                 footerImageView.setVisibility(View.VISIBLE);

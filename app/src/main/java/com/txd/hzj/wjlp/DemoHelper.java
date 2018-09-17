@@ -146,7 +146,7 @@ public class DemoHelper {
     Queue<String> msgQueue = new ConcurrentLinkedQueue<>();
 
     private DemoHelper() {
-//        创建一个可缓存线程池
+        //        创建一个可缓存线程池
         executor = Executors.newCachedThreadPool();
     }
 
@@ -169,9 +169,9 @@ public class DemoHelper {
     public void init(Context context) {
         demoModel = new DemoModel(context);
         EMOptions options = initChatOptions();
-//        options.setRestServer("103.241.230.122:31111");
-//        options.setIMServer("103.241.230.122");
-//        options.setImPort(31097);
+        //        options.setRestServer("103.241.230.122:31111");
+        //        options.setIMServer("103.241.230.122");
+        //        options.setImPort(31097);
 
         //use default options if options is null
         if (EaseUI.getInstance().init(context, options)) {
@@ -226,7 +226,7 @@ public class DemoHelper {
 
             // resolution
             String resolution = PreferenceManager.getInstance().getCallBackCameraResolution();
-            if (resolution.equals("")) {
+            if ("".equals(resolution)) {
                 resolution = PreferenceManager.getInstance().getCallFrontCameraResolution();
             }
             String[] wh = resolution.split("x");
@@ -327,7 +327,7 @@ public class DemoHelper {
 
         // resolution
         String resolution = PreferenceManager.getInstance().getCallBackCameraResolution();
-        if (resolution.equals("")) {
+        if ("".equals(resolution)) {
             resolution = PreferenceManager.getInstance().getCallFrontCameraResolution();
         }
         String[] wh = resolution.split("x");
@@ -626,8 +626,9 @@ public class DemoHelper {
                     break;
                 }
             }
-            if (!hasGroup)
+            if (!hasGroup) {
                 return;
+            }
 
             InviteMessage msg = new InviteMessage();
             msg.setFrom(groupId);
@@ -655,8 +656,9 @@ public class DemoHelper {
                     break;
                 }
             }
-            if (group == null)
+            if (group == null) {
                 return;
+            }
 
             InviteMessage msg = new InviteMessage();
             msg.setFrom(groupId);
@@ -947,10 +949,10 @@ public class DemoHelper {
                     updateContactNotificationStatus(target, "", InviteMessage.InviteMessageStatus.MULTI_DEVICE_CONTACT_DECLINE);
                     showToast("CONTACT_DECLINE");
                     break;
-//                case CONTACT_ADD:
-//                    updateContactNotificationStatus(target, "", InviteMessageStatus.MULTI_DEVICE_CONTACT_ADD);
-//                    showToast("CONTACT_ADD");
-//                break;
+                //                case CONTACT_ADD:
+                //                    updateContactNotificationStatus(target, "", InviteMessageStatus.MULTI_DEVICE_CONTACT_ADD);
+                //                    showToast("CONTACT_ADD");
+                //                break;
                 case CONTACT_BAN:
                     updateContactNotificationStatus(target, "", InviteMessage.InviteMessageStatus.MULTI_DEVICE_CONTACT_BAN);
                     showToast("CONTACT_BAN");
@@ -1201,33 +1203,34 @@ public class DemoHelper {
 
     }
 
-//    /**
-//     * 用户意外会话弹窗
-//     *
-//     * @param intent 意图
-//     */
-//    private void showExceptionDialogFromIntent(Intent intent) {
-//        EMLog.e("=====mainAty=====", "showExceptionDialogFromIntent");
-//        if (!isExceptionDialogShow && intent.getBooleanExtra(Constant.ACCOUNT_CONFLICT, false)) {
-//            showExceptionDialog(Constant.ACCOUNT_CONFLICT);
-//        } else if (!isExceptionDialogShow && intent.getBooleanExtra(Constant.ACCOUNT_REMOVED, false)) {
-//            showExceptionDialog(Constant.ACCOUNT_REMOVED);
-//        } else if (!isExceptionDialogShow && intent.getBooleanExtra(Constant.ACCOUNT_FORBIDDEN, false)) {
-//            showExceptionDialog(Constant.ACCOUNT_FORBIDDEN);
-//        } else if (intent.getBooleanExtra(Constant.ACCOUNT_KICKED_BY_CHANGE_PASSWORD, false) ||
-//                intent.getBooleanExtra(Constant.ACCOUNT_KICKED_BY_OTHER_DEVICE, false)) {
-//            this.finish();
-//            L.e("======voodoo========", "showExceptionDialogFromIntent Start Login Activity");
-//            startActivity(new Intent(this, LoginAty.class));
-//        }
-//    }
+    //    /**
+    //     * 用户意外会话弹窗
+    //     *
+    //     * @param intent 意图
+    //     */
+    //    private void showExceptionDialogFromIntent(Intent intent) {
+    //        EMLog.e("=====mainAty=====", "showExceptionDialogFromIntent");
+    //        if (!isExceptionDialogShow && intent.getBooleanExtra(Constant.ACCOUNT_CONFLICT, false)) {
+    //            showExceptionDialog(Constant.ACCOUNT_CONFLICT);
+    //        } else if (!isExceptionDialogShow && intent.getBooleanExtra(Constant.ACCOUNT_REMOVED, false)) {
+    //            showExceptionDialog(Constant.ACCOUNT_REMOVED);
+    //        } else if (!isExceptionDialogShow && intent.getBooleanExtra(Constant.ACCOUNT_FORBIDDEN, false)) {
+    //            showExceptionDialog(Constant.ACCOUNT_FORBIDDEN);
+    //        } else if (intent.getBooleanExtra(Constant.ACCOUNT_KICKED_BY_CHANGE_PASSWORD, false) ||
+    //                intent.getBooleanExtra(Constant.ACCOUNT_KICKED_BY_OTHER_DEVICE, false)) {
+    //            this.finish();
+    //            L.e("======voodoo========", "showExceptionDialogFromIntent Start Login Activity");
+    //            startActivity(new Intent(this, LoginAty.class));
+    //        }
+    //    }
 
     private EaseUser getUserInfo(String username) {
         // To get instance of EaseUser, here we get it from the user list in memory
         // You'd better cache it if you get it from your server
         EaseUser user = null;
-        if (username.equals(EMClient.getInstance().getCurrentUser()))
+        if (username.equals(EMClient.getInstance().getCurrentUser())) {
             return getUserProfileManager().getCurrentUserInfo();
+        }
         user = getContactList().get(username);
         if (user == null && getRobotList() != null) {
             user = getRobotList().get(username);
@@ -1277,7 +1280,7 @@ public class DemoHelper {
                     EMCmdMessageBody cmdMsgBody = (EMCmdMessageBody) message.getBody();
                     final String action = cmdMsgBody.action();//获取自定义action
 
-                    if (action.equals("__Call_ReqP2P_ConferencePattern")) {
+                    if ("__Call_ReqP2P_ConferencePattern".equals(action)) {
                         String title = message.getStringAttribute("em_apns_ext", "conference call");
                         Toast.makeText(appContext, title, Toast.LENGTH_LONG).show();
                     }

@@ -28,12 +28,9 @@ import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.synnapps.carouselview.CarouselView;
 import com.txd.hzj.wjlp.R;
-import com.txd.hzj.wjlp.base.BaseAty;
-import com.txd.hzj.wjlp.bean.CateIndex;
 import com.txd.hzj.wjlp.bean.EasemobBean;
 import com.txd.hzj.wjlp.bean.commodity.DjTicketBean;
 import com.txd.hzj.wjlp.bean.commodity.Event_msgBean;
-import com.txd.hzj.wjlp.bean.commodity.GoodLuckBean;
 import com.txd.hzj.wjlp.bean.commodity.GoodsMsgBean;
 import com.txd.hzj.wjlp.bean.commodity.GoodsServerBean;
 import com.txd.hzj.wjlp.bean.commodity.PromotionBean;
@@ -42,7 +39,6 @@ import com.txd.hzj.wjlp.http.Freight;
 import com.txd.hzj.wjlp.http.Goods;
 import com.txd.hzj.wjlp.mellOnLine.adapter.PromotionAdapter;
 import com.txd.hzj.wjlp.mellOnLine.adapter.TheTrickAdapter;
-import com.txd.hzj.wjlp.minetoAty.ExpressAtv;
 import com.txd.hzj.wjlp.tool.CommonPopupWindow;
 import com.txd.hzj.wjlp.tool.TextUtils;
 import com.txd.hzj.wjlp.view.ObservableScrollView;
@@ -84,6 +80,7 @@ public class CommodityDetailsPranster implements CommodityDetailsInter.Commodity
     private View title_goods_layout, title_details_layout, title_evaluate_layout;
     private Context context;
 
+    @Override
     public void setTabViews(View title_goods_layout, View title_details_layout, View title_evaluate_layout) {
         this.context = title_details_layout.getContext();
 
@@ -111,7 +108,7 @@ public class CommodityDetailsPranster implements CommodityDetailsInter.Commodity
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.be_back_top_iv:
-//                    setTextViewAndViewColor(0);
+                    //                    setTextViewAndViewColor(0);
                 case R.id.title_goods_layout: {
                     clickType = 1;
                     limit_goods_details_sc.smoothScrollTo(0, 0);
@@ -134,6 +131,7 @@ public class CommodityDetailsPranster implements CommodityDetailsInter.Commodity
 
     boolean init = false;
 
+    @Override
     public void getHeight(final CarouselView online_carvouse_view, final LinearLayout top_lin_layout, final LinearLayout second_lin_layout, final ObservableScrollView limit_goods_details_sc, ImageView be_back_top_iv) {
 
 
@@ -146,13 +144,13 @@ public class CommodityDetailsPranster implements CommodityDetailsInter.Commodity
                 bannerHeight = online_carvouse_view.getHeight();
                 topHeight = top_lin_layout.getHeight();
                 secondHeight = second_lin_layout.getHeight();
-//                limit_goods_details_sc.setScrollViewListener(GoodLuckDetailsAty.this);
+                //                limit_goods_details_sc.setScrollViewListener(GoodLuckDetailsAty.this);
             }
         });
 
-//        bannerHeight = online_carvouse_view.getHeight();
-//        topHeight = top_lin_layout.getHeight();
-//        secondHeight = second_lin_layout.getHeight();
+        //        bannerHeight = online_carvouse_view.getHeight();
+        //        topHeight = top_lin_layout.getHeight();
+        //        secondHeight = second_lin_layout.getHeight();
         if (!init) {
             limit_goods_details_sc.setScrollViewListener(this);
             this.limit_goods_details_sc = limit_goods_details_sc;
@@ -338,11 +336,11 @@ public class CommodityDetailsPranster implements CommodityDetailsInter.Commodity
             alertDialog.show();
             // ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑创建Dialog弹窗显示列表项↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
 
-        }else if(requestUrl.contains("Goods/goodsMsg")){
+        } else if (requestUrl.contains("Goods/goodsMsg")) {
             ObserTool.gainInstance().jsonToBean(jsonStr, GoodsMsgBean.class, new ObserTool.BeanListener() {
                 @Override
                 public void returnObj(Object t) {
-                    GoodsMsgBean  dataBean= (GoodsMsgBean) t;
+                    GoodsMsgBean dataBean = (GoodsMsgBean) t;
                     List<Event_msgBean> event_msgBeans = dataBean.getData().getEvent_msg();
                     if (null != event_msgBeans) {
                         toastView.setVisibility(View.VISIBLE);
@@ -370,8 +368,11 @@ public class CommodityDetailsPranster implements CommodityDetailsInter.Commodity
      *
      * @param view
      */
+    @Override
     public void showDjqPop(View view, List<DjTicketBean> list, Activity activity, String vouchers_desc) {
-        if (commonPopupWindow != null && commonPopupWindow.isShowing()) return;
+        if (commonPopupWindow != null && commonPopupWindow.isShowing()) {
+            return;
+        }
         CommonPopupWindow.Builder builder = new CommonPopupWindow.Builder(activity).setView(R.layout.layout_popp_djq)
                 .setWidthAndHeight(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
                 .setBackGroundLevel(0.7f)
@@ -456,7 +457,9 @@ public class CommodityDetailsPranster implements CommodityDetailsInter.Commodity
      */
     @Override
     public void showCXPop(View view, final Activity activity, final List<PromotionBean> promotion) {
-        if (commonPopupWindow != null && commonPopupWindow.isShowing()) return;
+        if (commonPopupWindow != null && commonPopupWindow.isShowing()) {
+            return;
+        }
         commonPopupWindow = new CommonPopupWindow.Builder(activity)
                 .setView(R.layout.layou_popp_cuxiao)
                 .setWidthAndHeight(ViewGroup.LayoutParams.MATCH_PARENT, Settings.displayHeight / 2)
@@ -488,7 +491,9 @@ public class CommodityDetailsPranster implements CommodityDetailsInter.Commodity
      */
     @Override
     public void showLQPop(View view, final String title, final Activity activity, final TheTrickAdapter theTrickAdapter) {//
-        if (commonPopupWindow != null && commonPopupWindow.isShowing()) return;
+        if (commonPopupWindow != null && commonPopupWindow.isShowing()) {
+            return;
+        }
         commonPopupWindow = new CommonPopupWindow.Builder(activity)
                 .setView(R.layout.popup_layout)
                 .setWidthAndHeight(ViewGroup.LayoutParams.MATCH_PARENT, Settings.displayHeight / 2)
@@ -518,7 +523,9 @@ public class CommodityDetailsPranster implements CommodityDetailsInter.Commodity
 
 
     public void showPop(View view, final String title, final List<GoodsServerBean> list, final int type, final Activity activity) {
-        if (commonPopupWindow != null && commonPopupWindow.isShowing()) return;
+        if (commonPopupWindow != null && commonPopupWindow.isShowing()) {
+            return;
+        }
         commonPopupWindow = new CommonPopupWindow.Builder(activity)
                 .setView(R.layout.popup_layout)
                 .setWidthAndHeight(ViewGroup.LayoutParams.MATCH_PARENT, Settings.displayHeight / 2)
@@ -626,10 +633,12 @@ public class CommodityDetailsPranster implements CommodityDetailsInter.Commodity
         };
         return listener;
     }
+
     private ToastView toastView;
+
     @Override
     public void goodsMsg(ToastView toastView) {
-        this.toastView=toastView;
+        this.toastView = toastView;
         Goods.goodsMsg(this);
     }
 }

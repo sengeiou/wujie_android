@@ -13,14 +13,10 @@
  */
 package com.txd.hzj.wjlp;
 
-import android.app.Application;
 import android.app.Service;
-import android.content.ComponentCallbacks;
 import android.content.Context;
 import android.content.res.Resources;
-import android.os.Build;
 import android.os.Vibrator;
-import android.support.annotation.RequiresApi;
 import android.support.multidex.MultiDex;
 import android.text.TextUtils;
 
@@ -78,7 +74,7 @@ public class DemoApplication extends WeApplication implements EMMessageListener 
     private ChatListener chatListener;
 
     //极光推送获取registrationID的方式
-    public static  String registrationID;
+    public static String registrationID;
 
  /*   public static RefWatcher getRefWatcher(Context context) {
         DemoApplication application = (DemoApplication) context.getApplicationContext();
@@ -230,14 +226,16 @@ public class DemoApplication extends WeApplication implements EMMessageListener 
      */
     @Override
     public void onMessageRead(List<EMMessage> list) {
-        if (chatListener != null)
+        if (chatListener != null) {
             chatListener.onMessageRead(list);
+        }
     }
 
     @Override
     public void onMessageDelivered(List<EMMessage> list) {
-        if (chatListener != null)
+        if (chatListener != null) {
             chatListener.onMessageDelivered(list);
+        }
     }
 
     /**
@@ -248,8 +246,9 @@ public class DemoApplication extends WeApplication implements EMMessageListener 
      */
     @Override
     public void onMessageChanged(EMMessage emMessage, Object o) {
-        if (chatListener != null)
+        if (chatListener != null) {
             chatListener.onMessageChanged(emMessage, o);
+        }
     }
 
     public void setChatListener(ChatListener chatListener) {

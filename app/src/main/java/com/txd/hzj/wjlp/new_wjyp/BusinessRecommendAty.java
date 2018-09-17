@@ -92,6 +92,7 @@ public class BusinessRecommendAty extends BaseAty {
     Map<String, String> map;
     List<Map<String, String>> list = new ArrayList<Map<String, String>>();
 
+    @Override
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
         L.e(jsonStr);

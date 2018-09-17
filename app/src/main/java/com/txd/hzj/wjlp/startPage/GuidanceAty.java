@@ -43,7 +43,6 @@ public class GuidanceAty extends BaseAty {
     }
 
     private void initEvent() {
-        Timer timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
             public void run() {

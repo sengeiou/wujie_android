@@ -163,6 +163,7 @@ public class HousDetailsHousesChenFgt extends BaseFgt implements ObservableScrol
     }
 
     @OnClick({R.id.tv_houses_evaluate, R.id.to_check_location_layout, R.id.hd_be_back_top_iv})
+    @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_houses_evaluate:

@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -17,8 +16,6 @@ import com.ants.theantsgo.util.JSONUtils;
 import com.ants.theantsgo.util.L;
 import com.ants.theantsgo.util.ListUtils;
 import com.ants.theantsgo.view.inScroll.GridViewForScrollView;
-import com.ants.theantsgo.view.pulltorefresh.PullToRefreshBase;
-import com.ants.theantsgo.view.pulltorefresh.PullToRefreshGridView;
 import com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
@@ -39,12 +36,10 @@ import java.util.List;
 import java.util.Map;
 
 /**
- *
  * 作者：DUKE_HwangZj
  * 日期：2017/9/8 0008
  * 时间：13:56
  * 描述：无界预购三积分了商品列表碎片
- *
  */
 
 public class PreBuyThirdFgt extends BaseFgt {
@@ -280,10 +275,11 @@ public class PreBuyThirdFgt extends BaseFgt {
                 }
                 if (!ListUtils.isEmpty(data2)) {
                     data.addAll(data2);
-                    if (10 == type)
+                    if (10 == type) {
                         wjAdapter.notifyDataSetChanged();
-                    else
+                    } else {
                         allGvLvAdapter1.notifyDataSetChanged();
+                    }
                 }
             }
             progressBar.setVisibility(View.GONE);

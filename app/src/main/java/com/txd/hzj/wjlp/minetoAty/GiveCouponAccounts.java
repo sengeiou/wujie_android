@@ -98,7 +98,7 @@ public class GiveCouponAccounts extends BaseAty implements View.OnClickListener 
         super.onComplete(requestUrl, jsonStr);
         Log.i("蓝色代金券", jsonStr);
         GiveCouponBean gson = GsonUtil.GsonToBean(jsonStr, GiveCouponBean.class);
-        if (gson.getCode().equals("1")) {
+        if ("1".equals(gson.getCode())) {
             showToast("赠送成功");
         }
         nums = gson.getNums();

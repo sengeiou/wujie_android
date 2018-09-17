@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.ants.theantsgo.util.JSONUtils;
 import com.ants.theantsgo.util.L;
@@ -121,7 +120,7 @@ public class AddBankCardAty extends BaseAty {
                     String open_bank = open_card_ev.getText().toString();
                     String card_number = card_num_ev.getText().toString();
                     String phone = phone_ev.getText().toString();
-//                    String bank_card_id, String name, String bank_type_id, String open_bank, String card_number, String phone
+                    //                    String bank_card_id, String name, String bank_type_id, String open_bank, String card_number, String phone
                     balancePst.editBank(bank_card_id, name, bank_type_id, open_bank, card_number, phone);
                 } else { // 添加银行卡
                     String name = card_name_tv.getText().toString();
@@ -162,6 +161,7 @@ public class AddBankCardAty extends BaseAty {
                 .setIcon(R.mipmap.ic_launcher)
                 .setCancelable(false) // 点击外侧不关闭对话框
                 .setItems(arrayOfString, new DialogInterface.OnClickListener() {
+                    @Override
                     public void onClick(DialogInterface paramAnonymousDialogInterface, int paramAnonymousInt) {
                         card_name_tv.setText(arrayOfString[paramAnonymousInt]); // 选择选项之后直接设置控件值
                         paramAnonymousDialogInterface.dismiss();
@@ -200,8 +200,9 @@ public class AddBankCardAty extends BaseAty {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (data == null)
+        if (data == null) {
             return;
+        }
         if (RESULT_OK == resultCode) {
             if (100 == requestCode) {
                 card_type_tv.setText(data.getStringExtra("card_type"));

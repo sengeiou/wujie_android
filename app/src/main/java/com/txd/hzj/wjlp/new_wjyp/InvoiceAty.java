@@ -15,17 +15,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ants.theantsgo.util.JSONUtils;
-import com.ants.theantsgo.util.L;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
-import com.txd.hzj.wjlp.bean.commodity.InvoiceBean;
-import com.txd.hzj.wjlp.minetoAty.order.TextListAty;
 import com.txd.hzj.wjlp.http.Invoice;
+import com.txd.hzj.wjlp.minetoAty.order.TextListAty;
 import com.txd.hzj.wjlp.shoppingCart.BuildOrderAty;
 
-
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -90,7 +86,7 @@ public class InvoiceAty extends BaseAty {
         titlt_right_tv.setVisibility(View.VISIBLE);
         titlt_right_tv.setText("完成");
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-//        layout.setVisibility(View.GONE);
+        //        layout.setVisibility(View.GONE);
 
     }
 
@@ -135,7 +131,7 @@ public class InvoiceAty extends BaseAty {
             public void onClick(View v) {
                 if (needCb.isChecked()) {
                     if (invoice1 != null) { // 第二次传入值不为空
-//                    invoice1:Invoice1{tax='5', express_fee='5', invoice_type='增值税专用发票', text1='fdkhg', text2='商品明细', text3='', text4='1', text5='null'}
+                        //                    invoice1:Invoice1{tax='5', express_fee='5', invoice_type='增值税专用发票', text1='fdkhg', text2='商品明细', text3='', text4='1', text5='null'}
 
                         // 直接点击完成按钮
 
@@ -274,12 +270,14 @@ public class InvoiceAty extends BaseAty {
             }
         });
     }
+
     private String use_integral_Str;
+
     @Override
     protected void requestData() {
         json = getIntent().getStringExtra("json");
-        use_integral_Str=getIntent().getStringExtra("shop_price");
-        Invoice.invoice(json,use_integral_Str, this);
+        use_integral_Str = getIntent().getStringExtra("shop_price");
+        Invoice.invoice(json, use_integral_Str, this);
         showProgressDialog();
         List<Map<String, String>> map = JSONUtils.parseKeyAndValueToMapList(json);
         goods_id = map.get(0).get("goods_id");
@@ -300,14 +298,14 @@ public class InvoiceAty extends BaseAty {
             public void onClick(View v) {
                 Bundle bundle = new Bundle();
                 bundle.putString("data", json);
-                bundle.putString("shop_price",use_integral_Str);
+                bundle.putString("shop_price", use_integral_Str);
                 startActivityForResult(InvoiceAty2.class, bundle, 108);
                 needCb.setChecked(true); // 点击的时候设置自己始终未选择状态
                 noCb.setChecked(false); // 不需要发票 设置为未选中状态
             }
         });
 
-//        invoice1 = getIntent().getParcelableExtra("data1");
+        //        invoice1 = getIntent().getParcelableExtra("data1");
         invoice1 = (Invoice1) getIntent().getSerializableExtra("data1");
         String data2Str = getIntent().getStringExtra("data2");
         if (invoice1 != null) {
@@ -315,7 +313,7 @@ public class InvoiceAty extends BaseAty {
             noCb.setChecked(false);
             needCb.setChecked(true);
             layout.setVisibility(View.VISIBLE);
-//            tv_tax.setText("税金" + invoice1.getText6());
+            //            tv_tax.setText("税金" + invoice1.getText6());
             tv_tax.setText(invoice1.getText6());
             tv_tax_pay.setText("您需要支付发票快递费" + invoice1.getExpress_fee() + "元");
 
@@ -357,13 +355,14 @@ public class InvoiceAty extends BaseAty {
         } else if (requestCode == 108) {
             if (data != null) {
                 invoice1 = (Invoice1) data.getSerializableExtra("data1");
-//                bt2.setText(invoice1.getInvoice_type());
+                //                bt2.setText(invoice1.getInvoice_type());
                 needCb.setText(invoice1.getInvoice_type());
-                if (!TextUtils.isEmpty(invoice1.getTax()))
-                tv_tax.setText("税金" + invoice1.getTax_pay());
+                if (!TextUtils.isEmpty(invoice1.getTax())) {
+                    tv_tax.setText("税金" + invoice1.getTax_pay());
+                }
                 tv_tax_pay.setText("您需要支付发票快递费" + invoice1.getExpress_fee() + "元");
                 layout.setVisibility(View.VISIBLE);
-//                L.e("===========",invoice1+"");
+                //                L.e("===========",invoice1+"");
             }
         }
     }
@@ -405,11 +404,11 @@ public class InvoiceAty extends BaseAty {
                 @Override
                 public void onClick(View v) {
                     if (!status.get(position)) {
-//                        if (position == 0) {
-//                            layout.setVisibility(View.GONE);
-//                        } else {
-//                            layout.setVisibility(View.VISIBLE);
-//                        }
+                        //                        if (position == 0) {
+                        //                            layout.setVisibility(View.GONE);
+                        //                        } else {
+                        //                            layout.setVisibility(View.VISIBLE);
+                        //                        }
                         if (touch != -1) {
                             status.set(touch, false);
                         }
@@ -420,11 +419,11 @@ public class InvoiceAty extends BaseAty {
                         touch = position;
                         notifyDataSetChanged();
                     }
-//                    if (position > 0) {
+                    //                    if (position > 0) {
                     tv_tax.setText("税金" + list.get(position - 1).get("tax") + "%");
                     tv_tax_pay.setText("您需要支付发票快递费" + list.get(position - 1).get("express_fee") + "元");
 
-//                    }
+                    //                    }
                 }
             });
             if (status.get(position)) {

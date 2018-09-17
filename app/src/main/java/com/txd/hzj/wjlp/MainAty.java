@@ -740,6 +740,7 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
         @Override
         public void onContactDeleted(final String username) {
             runOnUiThread(new Runnable() {
+                @Override
                 public void run() {
                     if (ChatActivity.activityInstance != null && ChatActivity.activityInstance.toChatUsername != null &&
                             username.equals(ChatActivity.activityInstance.toChatUsername)) {
@@ -1112,6 +1113,7 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
     @Override
     public void onCmdMessageReceived(List<EMMessage> messages) {
         runOnUiThread(new Runnable() {
+            @Override
             public void run() {
                 // refresh unread count
                 // 刷新未读消息数量

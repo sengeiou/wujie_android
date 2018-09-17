@@ -25,6 +25,7 @@ public class VpAdapter extends FragmentPagerAdapter {
         this.titleList = titleList;
         this.fragmentList = fragmentList;
     }
+    @Override
     public Fragment getItem(int position) {
         return fragmentList.get(position);
     }

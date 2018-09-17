@@ -24,12 +24,10 @@ import com.yanzhenjie.permission.AndPermission;
 import java.util.List;
 
 /**
- *
  * 作者：DUKE_HwangZj
  * 日期：2017/9/26 0026
  * 时间：下午 3:02
  * 描述：环信聊天
- *
  */
 public class ChatActivity extends BaseActivity {
     protected static final String TAG = "ChatActivity";
@@ -44,12 +42,12 @@ public class ChatActivity extends BaseActivity {
         super.onCreate(arg0);
         setContentView(R.layout.em_activity_chat);
 
-if (!AndPermission.hasPermission(ChatActivity.this, Manifest.permission.RECORD_AUDIO)){
-    AndPermission.with(ChatActivity.this)
-            .requestCode(100)
-            .permission(Manifest.permission.RECORD_AUDIO)
-            .send();
-}
+        if (!AndPermission.hasPermission(ChatActivity.this, Manifest.permission.RECORD_AUDIO)) {
+            AndPermission.with(ChatActivity.this)
+                    .requestCode(100)
+                    .permission(Manifest.permission.RECORD_AUDIO)
+                    .send();
+        }
         activityInstance = this;
         // 获取用户id或者群组id
         toChatUsername = getIntent().getExtras().getString("userId");
@@ -129,7 +127,7 @@ if (!AndPermission.hasPermission(ChatActivity.this, Manifest.permission.RECORD_A
         };
 
         EMClient.getInstance().chatManager().addMessageListener(messageListener);
-//        showStatusBar(R.id.container);
+        //        showStatusBar(R.id.container);
     }
 
 
@@ -148,10 +146,11 @@ if (!AndPermission.hasPermission(ChatActivity.this, Manifest.permission.RECORD_A
                 ImmersionBar.with(this).titleBar(vid).init();
             }
         } else {
-            if (ImmersionBar.isSupportStatusBarDarkFont())
+            if (ImmersionBar.isSupportStatusBarDarkFont()) {
                 ImmersionBar.with(this).titleBar(vid).statusBarDarkFont(true).init();
-            else
+            } else {
                 ImmersionBar.with(this).titleBar(vid).statusBarDarkFont(true, 0.2f).init();
+            }
         }
     }
 
@@ -171,9 +170,9 @@ if (!AndPermission.hasPermission(ChatActivity.this, Manifest.permission.RECORD_A
     protected void onNewIntent(Intent intent) {
         // 确保只有一个聊天页被打开
         String username = intent.getStringExtra("userId");
-        if (toChatUsername.equals(username))
+        if (toChatUsername.equals(username)) {
             super.onNewIntent(intent);
-        else {
+        } else {
             finish();
             startActivity(intent);
         }

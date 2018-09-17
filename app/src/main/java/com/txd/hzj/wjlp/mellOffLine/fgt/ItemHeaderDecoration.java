@@ -112,9 +112,9 @@ public class ItemHeaderDecoration extends RecyclerView.ItemDecoration {
         topTitleView.measure(toDrawWidthSpec, toDrawHeightSpec);
         topTitleView.layout(parent.getPaddingLeft(), parent.getPaddingTop(), parent.getPaddingLeft() + topTitleView.getMeasuredWidth(), parent.getPaddingTop() + topTitleView.getMeasuredHeight());
         topTitleView.draw(c);//Canvas默认在视图顶部，无需平移，直接绘制
-        if (flag)
+        if (flag) {
             c.restore();//恢复画布到之前保存的状态
-
+        }
         if (GoodsByMySelfFgt.select_left) {
             GoodsByMySelfFgt.select_left = false;
             return;

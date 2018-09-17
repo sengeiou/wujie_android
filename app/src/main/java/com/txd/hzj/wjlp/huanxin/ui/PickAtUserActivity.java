@@ -24,7 +24,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-public class PickAtUserActivity extends BaseActivity{
+public class PickAtUserActivity extends BaseActivity {
     ListView listView;
     View headerView;
 
@@ -35,7 +35,7 @@ public class PickAtUserActivity extends BaseActivity{
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
         setContentView(R.layout.activity_pick_at_user);
-        
+
         groupId = getIntent().getStringExtra("groupId");
         group = EMClient.getInstance().groupManager().getGroup(groupId);
 
@@ -72,7 +72,7 @@ public class PickAtUserActivity extends BaseActivity{
         List<EaseUser> userList = new ArrayList<EaseUser>();
         members.addAll(group.getAdminList());
         members.add(group.getOwner());
-        for(String username : members){
+        for (String username : members) {
             EaseUser user = EaseUserUtils.getUserInfo(username);
             userList.add(user);
         }
@@ -81,12 +81,12 @@ public class PickAtUserActivity extends BaseActivity{
 
             @Override
             public int compare(EaseUser lhs, EaseUser rhs) {
-                if(lhs.getInitialLetter().equals(rhs.getInitialLetter())){
+                if (lhs.getInitialLetter().equals(rhs.getInitialLetter())) {
                     return lhs.getNick().compareTo(rhs.getNick());
-                }else{
-                    if("#".equals(lhs.getInitialLetter())){
+                } else {
+                    if ("#".equals(lhs.getInitialLetter())) {
                         return 1;
-                    }else if("#".equals(rhs.getInitialLetter())){
+                    } else if ("#".equals(rhs.getInitialLetter())) {
                         return -1;
                     }
                     return lhs.getInitialLetter().compareTo(rhs.getInitialLetter());
@@ -95,7 +95,7 @@ public class PickAtUserActivity extends BaseActivity{
             }
         });
         final boolean isOwner = EMClient.getInstance().getCurrentUser().equals(group.getOwner());
-        if(isOwner) {
+        if (isOwner) {
             addHeadView();
         } else {
             if (headerView != null) {
@@ -108,19 +108,21 @@ public class PickAtUserActivity extends BaseActivity{
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if(isOwner){
-                    if(position != 0) {
+                if (isOwner) {
+                    if (position != 0) {
                         EaseUser user = (EaseUser) listView.getItemAtPosition(position);
-                        if (EMClient.getInstance().getCurrentUser().equals(user.getUsername()))
+                        if (EMClient.getInstance().getCurrentUser().equals(user.getUsername())) {
                             return;
+                        }
                         setResult(RESULT_OK, new Intent().putExtra("username", user.getUsername()));
-                    }else{
+                    } else {
                         setResult(RESULT_OK, new Intent().putExtra("username", getString(R.string.all_members)));
                     }
-                }else{
+                } else {
                     EaseUser user = (EaseUser) listView.getItemAtPosition(position);
-                    if (EMClient.getInstance().getCurrentUser().equals(user.getUsername()))
+                    if (EMClient.getInstance().getCurrentUser().equals(user.getUsername())) {
                         return;
+                    }
                     setResult(RESULT_OK, new Intent().putExtra("username", user.getUsername()));
                 }
 
@@ -129,7 +131,7 @@ public class PickAtUserActivity extends BaseActivity{
         });
     }
 
-    private void addHeadView(){
+    private void addHeadView() {
         if (listView.getHeaderViewsCount() == 0) {
             View view = LayoutInflater.from(this).inflate(R.layout.ease_row_contact, listView, false);
             ImageView avatarView = (ImageView) view.findViewById(R.id.avatar);
@@ -141,6 +143,7 @@ public class PickAtUserActivity extends BaseActivity{
         }
     }
 
+    @Override
     public void back(View view) {
         finish();
     }

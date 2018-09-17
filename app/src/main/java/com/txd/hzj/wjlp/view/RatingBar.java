@@ -83,6 +83,7 @@ public class RatingBar extends LinearLayout {
     /**
      * 设置星星是否可以点击操作
      */
+    @Override
     public void setClickable(boolean clickable) {
         this.mClickable = clickable;
     }

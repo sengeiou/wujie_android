@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.Html;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
@@ -39,13 +38,13 @@ import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.bean.commodity.AllGoodsBean;
 import com.txd.hzj.wjlp.bean.commodity.GoodsCommonAttrBean;
+import com.txd.hzj.wjlp.http.AuctionOrder;
+import com.txd.hzj.wjlp.http.Freight;
 import com.txd.hzj.wjlp.http.auction.AuctionPst;
 import com.txd.hzj.wjlp.mainFgt.adapter.AllGvLvAdapter;
 import com.txd.hzj.wjlp.mellOnLine.adapter.GoodsCommentAttrAdapter;
 import com.txd.hzj.wjlp.mellOnLine.dialog.AuctionSingUpDialog;
 import com.txd.hzj.wjlp.minetoAty.PayForAppAty;
-import com.txd.hzj.wjlp.http.AuctionOrder;
-import com.txd.hzj.wjlp.http.Freight;
 import com.txd.hzj.wjlp.shoppingCart.BuildOrderAty;
 import com.txd.hzj.wjlp.tool.ChangeTextViewStyle;
 import com.txd.hzj.wjlp.tool.CommonPopupWindow;
@@ -57,14 +56,12 @@ import java.util.List;
 import java.util.Map;
 
 /**
- *
  * 作者：DUKE_HwangZj
  * 日期：2017/7/11 0011
  * 时间：下午 4:17
  * 描述：8-3拍品详情
- *
  */
-public class AuctionGoodsDetailsAty extends BaseAty implements ObservableScrollView.onBottomListener,ProUrbAreaUtil.CallBack {
+public class AuctionGoodsDetailsAty extends BaseAty implements ObservableScrollView.onBottomListener, ProUrbAreaUtil.CallBack {
 
     @ViewInject(R.id.titlt_conter_tv)
     public TextView titlt_conter_tv;
@@ -355,11 +352,11 @@ public class AuctionGoodsDetailsAty extends BaseAty implements ObservableScrollV
         switch (v.getId()) {
 
             case R.id.tv_chose_ads:
-//                if (isLoaded) {
-//                    ShowPickerView();
-//                }
+                //                if (isLoaded) {
+                //                    ShowPickerView();
+                //                }
 
-                ProUrbAreaUtil.gainInstance().showPickerView(tv_chose_ads, goods_id,"","", this,this);
+                ProUrbAreaUtil.gainInstance().showPickerView(tv_chose_ads, goods_id, "", "", this, this);
                 break;
             case R.id.tv_tochar:
                 toChat(easemob_account, merchant_logo, merchant_name);
@@ -422,7 +419,9 @@ public class AuctionGoodsDetailsAty extends BaseAty implements ObservableScrollV
      * @param view
      */
     public void showDjqPop(final View view, final List<Map<String, String>> list) {
-        if (commonPopupWindow != null && commonPopupWindow.isShowing()) return;
+        if (commonPopupWindow != null && commonPopupWindow.isShowing()) {
+            return;
+        }
         commonPopupWindow = new CommonPopupWindow.Builder(this)
                 .setView(R.layout.layout_popp_djq)
                 .setWidthAndHeight(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
@@ -545,7 +544,7 @@ public class AuctionGoodsDetailsAty extends BaseAty implements ObservableScrollV
             String tx = DemoApplication.getInstance().getLocInfo().get("province")
                     + "," + DemoApplication.getInstance().getLocInfo().get("city") + "," + DemoApplication.getInstance().getLocInfo().get("district");
             tv_chose_ads.setText(tx);
-            Freight.freight(goods_id, tx,"",auctionInfo.get("product_id"), AuctionGoodsDetailsAty.this);
+            Freight.freight(goods_id, tx, "", auctionInfo.get("product_id"), AuctionGoodsDetailsAty.this);
             showProgressDialog();
             if (auctionInfo.get("is_new_goods").equals("0") && auctionInfo.get("is_end").equals("1")) {
                 tv_expirationdate.setText(auctionInfo.get("is_new_goods_desc") + "\n" + auctionInfo.get("is_end_desc"));
@@ -632,8 +631,8 @@ public class AuctionGoodsDetailsAty extends BaseAty implements ObservableScrollV
             ChangeTextViewStyle.getInstance().forAuctionPrice(this, auction_price_tv, "当前价 ￥" +
                     auctionInfo.get("now_price"));
             // 去报名(保证金额)
-//            ChangeTextViewStyle.getInstance().forSingUpWhite(this, sing_up_tv, "去报名\n(保证金金额￥" +
-//                    auctionInfo.get("base_money") + ")");
+            //            ChangeTextViewStyle.getInstance().forSingUpWhite(this, sing_up_tv, "去报名\n(保证金金额￥" +
+            //                    auctionInfo.get("base_money") + ")");
             // 围观人数
             String on_lookers = "围观 " + auctionInfo.get("click_num") + " 次";
             ChangeTextViewStyle.getInstance().forTextColor(this, on_lookers_tv, on_lookers, 3, 6,
@@ -684,7 +683,7 @@ public class AuctionGoodsDetailsAty extends BaseAty implements ObservableScrollV
 
             tv_bzqd.setText(auctionInfo.get("package_list")); //包装清单
             tv_shfw.setText(auctionInfo.get("after_sale_service")); //售后服务
-//            tv_jgsm.setText(Html.fromHtml(data.get("price_desc"))); //价格说明
+            //            tv_jgsm.setText(Html.fromHtml(data.get("price_desc"))); //价格说明
             tv_jgsm.setText(data.get("price_desc")); //价格说明
 
             if (ToolKit.isList(data, "guess_goods_list")) {
@@ -701,23 +700,23 @@ public class AuctionGoodsDetailsAty extends BaseAty implements ObservableScrollV
                 is_f = false;
             }
 
-//            if (auctionInfo.get("is_running").equals("0")) {
-//                auction_status_tv.setText("正在进行 " + auctionInfo.get("end_true_time") + "结束");
-//            } else {
-//                auction_status_tv.setText("已结束");
-//            }
+            //            if (auctionInfo.get("is_running").equals("0")) {
+            //                auction_status_tv.setText("正在进行 " + auctionInfo.get("end_true_time") + "结束");
+            //            } else {
+            //                auction_status_tv.setText("已结束");
+            //            }
 
-//            Map<String, String> merchantInfo = JSONUtils.parseKeyAndValueToMap(data.get("merchantInfo"));
-//            // 竞拍详情(商家名称，评分)
-//            ChangeTextViewStyle.getInstance().forAuctionNameAndGrade(this, mell_name_and_grade_tv,
-//                    merchantInfo.get("merchant_name") + "\n评分" + merchantInfo.get("score") + "分");
-//            Glide.with(this).load(merchantInfo.get("logo"))
-//                    .override(logoSize, logoSize)
-//                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-//                    .error(R.drawable.ic_default)
-//                    .placeholder(R.drawable.ic_default)
-//                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-//                    .into(auction_mell_logo_iv);
+            //            Map<String, String> merchantInfo = JSONUtils.parseKeyAndValueToMap(data.get("merchantInfo"));
+            //            // 竞拍详情(商家名称，评分)
+            //            ChangeTextViewStyle.getInstance().forAuctionNameAndGrade(this, mell_name_and_grade_tv,
+            //                    merchantInfo.get("merchant_name") + "\n评分" + merchantInfo.get("score") + "分");
+            //            Glide.with(this).load(merchantInfo.get("logo"))
+            //                    .override(logoSize, logoSize)
+            //                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+            //                    .error(R.drawable.ic_default)
+            //                    .placeholder(R.drawable.ic_default)
+            //                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+            //                    .into(auction_mell_logo_iv);
             if (ToolKit.isList(data, "auction_log")) {
                 auctionInfoList = JSONUtils.parseKeyAndValueToMapList(data.get("auction_log"));
                 auctionInfoAdapter = new AuctionInfoAdapter();
@@ -743,7 +742,9 @@ public class AuctionGoodsDetailsAty extends BaseAty implements ObservableScrollV
     CommonPopupWindow commonPopupWindow;
 
     public void showPop(View view, final String title, final List<Map<String, String>> list, final int type) {//
-        if (commonPopupWindow != null && commonPopupWindow.isShowing()) return;
+        if (commonPopupWindow != null && commonPopupWindow.isShowing()) {
+            return;
+        }
         commonPopupWindow = new CommonPopupWindow.Builder(this)
                 .setView(R.layout.popup_layout)
                 .setWidthAndHeight(ViewGroup.LayoutParams.MATCH_PARENT, Settings.displayHeight / 2)
@@ -845,8 +846,8 @@ public class AuctionGoodsDetailsAty extends BaseAty implements ObservableScrollV
 
     @Override
     public void freightGetEd(Map<String, String> map) {
-            ChangeTextViewStyle.getInstance().forTextColor(this, freight_tv,
-                    "运费" + map.get("pay") + "元", 2, Color.parseColor("#FF0000"));
+        ChangeTextViewStyle.getInstance().forTextColor(this, freight_tv,
+                "运费" + map.get("pay") + "元", 2, Color.parseColor("#FF0000"));
     }
 
     private class AuctionInfoAdapter extends BaseAdapter {

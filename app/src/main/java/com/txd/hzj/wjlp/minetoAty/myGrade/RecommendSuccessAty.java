@@ -19,7 +19,6 @@ import com.ants.theantsgo.view.pulltorefresh.PullToRefreshBase;
 import com.ants.theantsgo.view.pulltorefresh.PullToRefreshListView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.google.gson.Gson;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -113,8 +112,9 @@ public class RecommendSuccessAty extends BaseAty {
                         startActivity(RecommendSuccessAty.class, bundle);
                     }
                 });
-            } else
+            } else {
                 share_times_lv.setOnItemClickListener(null);
+            }
         } else {
             share_times_lv.setOnItemClickListener(null);
         }

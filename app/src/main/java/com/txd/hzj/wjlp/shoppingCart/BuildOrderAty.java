@@ -62,12 +62,10 @@ import java.util.List;
 import java.util.Map;
 
 /**
- *
  * 作者：DUKE_HwangZj
  * 日期：2017/7/25 0025
  * 时间：上午 9:00
  * 描述：确认订单
- *
  */
 public class BuildOrderAty extends BaseAty {
     /**
@@ -386,7 +384,7 @@ public class BuildOrderAty extends BaseAty {
             IntegralBuyOrder.ShoppingCart(mid, group_buy_id, num, this);
         } else if (type.equals("11")) {//搭配购
             Order.shoppingCart(cart_id, p, mid, goods_id, num, "4", product_id, getString("json", intent), this);
-        } else if (type.equals("13")){//2980专区
+        } else if (type.equals("13")) {//2980专区
             Order.shoppingCart(cart_id, p, mid, goods_id, num, "0", product_id, toJSon(), this);
         }
         showProgressDialog();
@@ -418,7 +416,7 @@ public class BuildOrderAty extends BaseAty {
             JSONObject jsonObject = new JSONObject(jsonStr);
             JSONObject data = jsonObject.getJSONObject("data");
             JSONArray jsonArray = data.getJSONArray("item");
-//            if (!"10".equals(type)) {
+            //            if (!"10".equals(type)) {
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject itemJson = (JSONObject) jsonArray.get(i);
                 countryTax += itemJson.getDouble("country_tax");
@@ -428,7 +426,7 @@ public class BuildOrderAty extends BaseAty {
                 tv_youfei.append("+进口税" + countryTax);
             }
 
-//            }
+            //            }
         } catch (JSONException e) {
             L.e("缺少对应字段");
         }
@@ -574,8 +572,9 @@ public class BuildOrderAty extends BaseAty {
      * 选择配送方式
      */
     public void showPop(View view, final List<Map<String, String>> data) {
-        if (commonPopupWindow != null && commonPopupWindow.isShowing())
+        if (commonPopupWindow != null && commonPopupWindow.isShowing()) {
             return;
+        }
         commonPopupWindow = new CommonPopupWindow.Builder(this)
                 .setView(R.layout.popup_sle_address)
                 .setWidthAndHeight(ViewGroup.LayoutParams.MATCH_PARENT, Settings.displayHeight / 3)
@@ -742,9 +741,9 @@ public class BuildOrderAty extends BaseAty {
             View view = View.inflate(BuildOrderAty.this, R.layout.item_sle_address, null);
             TextView tv_name = (TextView) view.findViewById(R.id.tv_name);
             TextView tv_price = (TextView) view.findViewById(R.id.tv_price);
-            if (data.get(position).get("desc").equals("")||data.get(position).get("desc")==null){
-                tv_name.setText(data.get(position).get("type_name") + "(" + data.get(position).get("shipping_name") + ")" );
-            }else {
+            if (data.get(position).get("desc").equals("") || data.get(position).get("desc") == null) {
+                tv_name.setText(data.get(position).get("type_name") + "(" + data.get(position).get("shipping_name") + ")");
+            } else {
                 tv_name.setText(data.get(position).get("type_name") + "(" + data.get(position).get("shipping_name") + ")\n" + data.get(position).get("desc"));
             }
             tv_price.setText(data.get(position).get("pay").equals("0") ? "包邮" : data.get(position).get("pay") + "元");
@@ -790,8 +789,9 @@ public class BuildOrderAty extends BaseAty {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode != RESULT_OK)
+        if (resultCode != RESULT_OK) {
             return;
+        }
         if (requestCode == 8888) {
             tv_name.setText("收货人：" + data.getStringExtra("receiver"));
             tv_tel.setText(data.getStringExtra("phone"));
@@ -911,35 +911,35 @@ public class BuildOrderAty extends BaseAty {
             }
             Glide.with(context).load(getItem(i).get("goods_img")).into(govh.goods_comment_pic);
             govh.tv_number.setText("×" + getItem(i).get("num"));
-//            try { // TODO 临时解决拼单和普通商品创建订单时赠送积分显示不正确的问题
-//                String return_integral = getItem(i).get("return_integral");
-//                // 如果返回积分为null，则将TextView设置成空字符串，但不隐藏，否则直接设置赠送积分提示
-//                govh.jifen_tv.setText(return_integral == null ? "" : "（赠送:" + return_integral + "积分）");
-//            } catch (Exception e) {
-//                // 如果有异常（主要是没有回传该字段）则将TextView设置成空字符串
-//                govh.jifen_tv.setText("");
-//            }
+            //            try { // TODO 临时解决拼单和普通商品创建订单时赠送积分显示不正确的问题
+            //                String return_integral = getItem(i).get("return_integral");
+            //                // 如果返回积分为null，则将TextView设置成空字符串，但不隐藏，否则直接设置赠送积分提示
+            //                govh.jifen_tv.setText(return_integral == null ? "" : "（赠送:" + return_integral + "积分）");
+            //            } catch (Exception e) {
+            //                // 如果有异常（主要是没有回传该字段）则将TextView设置成空字符串
+            //                govh.jifen_tv.setText("");
+            //            }
             L.e("wang", "====>>>>>>>>>>>getItem(i):" + getItem(i));
             govh.goods_title_for_evaluate_tv.setText(getItem(i).get("goods_name"));
 
             if (!TextUtils.isEmpty(getItem(i).get("goods_attr_first"))) {
 
-//                try { // TODO 临时解决拼单和普通商品创建订单时赠送积分显示不正确的问题
-//                    String return_integral = getItem(i).get("return_integral");
-//                    // 如果返回积分为null，则将TextView设置成空字符串，但不隐藏，否则直接设置赠送积分提示
-//                    govh.jifen_tv.setText(return_integral == null ? "" : "（赠送:" + return_integral + "积分）");
-//                } catch (Exception e) {
-//                    // 如果有异常（主要是没有回传该字段）则将TextView设置成空字符串
-//                    govh.jifen_tv.setText("");
-//                }
+                //                try { // TODO 临时解决拼单和普通商品创建订单时赠送积分显示不正确的问题
+                //                    String return_integral = getItem(i).get("return_integral");
+                //                    // 如果返回积分为null，则将TextView设置成空字符串，但不隐藏，否则直接设置赠送积分提示
+                //                    govh.jifen_tv.setText(return_integral == null ? "" : "（赠送:" + return_integral + "积分）");
+                //                } catch (Exception e) {
+                //                    // 如果有异常（主要是没有回传该字段）则将TextView设置成空字符串
+                //                    govh.jifen_tv.setText("");
+                //                }
                 String guigeJiFenStr = ""; // 积分和规格的字符串
                 String return_integral = ""; // 积分
-                if (getItem(i).containsKey("return_integral") && !"13".equals(type)){
+                if (getItem(i).containsKey("return_integral") && !"13".equals(type)) {
                     return_integral = "（赠送:" + getItem(i).get("return_integral") + "积分）";
                 }
                 guigeJiFenStr = getItem(i).get("goods_attr_first") + "<font color='#FD8214'><small><small>" + return_integral + "</small></small></font>";
 
-//                govh.price_for_goods_tv.setText(getItem(i).get("goods_attr_first"));
+                //                govh.price_for_goods_tv.setText(getItem(i).get("goods_attr_first"));
                 govh.price_for_goods_tv.setText(Html.fromHtml(guigeJiFenStr));
                 govh.price_for_goods_tv.setTextSize(12);
                 if ("10".equals(type)) {//积分商店积分处理
@@ -1004,7 +1004,7 @@ public class BuildOrderAty extends BaseAty {
 
             }
 
-//            if (!"10".equals(type)) {
+            //            if (!"10".equals(type)) {
 
             // 正品保证
             govh.layout_pinzhibaozhang.setVisibility(getItem(i).get("integrity_a").isEmpty() ? View.GONE : View.VISIBLE);
@@ -1017,12 +1017,13 @@ public class BuildOrderAty extends BaseAty {
             govh.tv_fahuoshijian.setText(getItem(i).get("integrity_c").isEmpty() ? "" : getItem(i).get("integrity_c"));
             // 公益宝贝
             govh.layout_gongyi.setVisibility(getItem(i).get("is_welfare").equals("0") ? View.GONE : View.VISIBLE);
-            if (getItem(i).containsKey("welfare"))
+            if (getItem(i).containsKey("welfare")) {
                 govh.tv_gongyi.setText("成交后卖家将捐赠" + getItem(i).get("welfare") + "元给公益计划");
+            }
             // 售后
             govh.layout_shouhou.setVisibility(getItem(i).get("after_sale_status").equals("1") ? View.VISIBLE : View.GONE);
             govh.tv_shouhou.setText(getItem(i).get("after_sale_type"));
-//            }
+            //            }
 
             /**
              * 选择配送方式
@@ -1059,7 +1060,7 @@ public class BuildOrderAty extends BaseAty {
             @ViewInject(R.id.price_for_goods_tv)
             private TextView price_for_goods_tv;
             //            @ViewInject(R.id.jifen_tv)
-//            private TextView jifen_tv;
+            //            private TextView jifen_tv;
             @ViewInject(R.id.tv_number)
             private TextView tv_number;
             @ViewInject(R.id.layout)

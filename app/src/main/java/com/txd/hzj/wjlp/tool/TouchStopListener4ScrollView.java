@@ -45,11 +45,11 @@ public class TouchStopListener4ScrollView implements View.OnTouchListener {
         }
     };
 
-
+    @Override
     public boolean onTouch(View v, MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_UP) {
             handler.sendMessageDelayed(handler.obtainMessage(touchEventId, v), 5);
-        } else if(event.getAction()==MotionEvent.ACTION_HOVER_MOVE){
+        } else if (event.getAction() == MotionEvent.ACTION_HOVER_MOVE) {
             if (null != listener) {
                 listener.setCanLoadImg(false);
             }
@@ -60,13 +60,14 @@ public class TouchStopListener4ScrollView implements View.OnTouchListener {
 
 
     private void handleStop(Object view) {
-//        NestedScrollView scroller = (NestedScrollView) view;
-//        if (L.isDebug) {
-//            Toast.makeText(context, "手指停止滑动", Toast.LENGTH_SHORT).show();
-//        }
+        //        NestedScrollView scroller = (NestedScrollView) view;
+        //        if (L.isDebug) {
+        //            Toast.makeText(context, "手指停止滑动", Toast.LENGTH_SHORT).show();
+        //        }
         Glide.with(context).resumeRequests();
-        if (null != listener)
+        if (null != listener) {
             listener.setCanLoadImg(true);
-//            scrollY = scroller.getScrollY();
+        }
+        //            scrollY = scroller.getScrollY();
     }
 }

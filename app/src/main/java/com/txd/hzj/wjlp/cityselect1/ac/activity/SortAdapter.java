@@ -14,7 +14,7 @@ import com.txd.hzj.wjlp.cityselect1.ac.bean.CitySortModel;
 import java.util.List;
 
 
-public class SortAdapter extends BaseAdapter  {
+public class SortAdapter extends BaseAdapter {
     private List<CitySortModel> list = null;
     private Context mContext;
 
@@ -33,18 +33,22 @@ public class SortAdapter extends BaseAdapter  {
         notifyDataSetChanged();
     }
 
+    @Override
     public int getCount() {
         return this.list.size();
     }
 
+    @Override
     public Object getItem(int position) {
         return list.get(position);
     }
 
+    @Override
     public long getItemId(int position) {
         return position;
     }
 
+    @Override
     public View getView(final int position, View view, ViewGroup arg2) {
         ViewHolder viewHolder = null;
         final CitySortModel mContent = list.get(position);

@@ -103,7 +103,7 @@ public class GoodsAttributeAty extends BaseAty {
     private String type;
     private List<FirstListBean> list;
     private List<FirstValBean> list_val;
-    private long maxNumber=0; // 库存件数
+    private long maxNumber = 0; // 库存件数
     @ViewInject(R.id.tv_kucun)
     private TextView tv_kucun;
     @ViewInject(R.id.lite)
@@ -132,7 +132,7 @@ public class GoodsAttributeAty extends BaseAty {
         super.onClick(v);
         switch (v.getId()) {
             case R.id.to_buy_must_tv:// 立即购买，确定
-                if (maxNumber==0) {
+                if (maxNumber == 0) {
                     showErrorTip("库存不足请您下次再买");
                     return;
                 }
@@ -311,8 +311,9 @@ public class GoodsAttributeAty extends BaseAty {
                     //                    to_buy_must_tv.setText("立即购买");
                 }
                 from = 1;
-                if (a.length > 1)
+                if (a.length > 1) {
                     mid = a[1];
+                }
             } else {
                 to_buy_must_tv.setText("加入购物车");
             }
@@ -472,16 +473,18 @@ public class GoodsAttributeAty extends BaseAty {
                     group_buy_id = string[0];
                     order_id = string[1];
                 }
-                if (!TextUtils.isEmpty(order_id))
+                if (!TextUtils.isEmpty(order_id)) {
                     intent.putExtra("order_id", order_id);
+                }
                 intent.putExtra("group_buy_id", group_buy_id);
                 intent.putExtra("num", String.valueOf(num));
                 intent.setClass(this, BuildOrderAty.class);
                 startActivity(intent);
                 finish();
                 return;
-            } else
+            } else {
                 Cart.addCart(goods_id, "", num, this);
+            }
             //            RequestParams params = new RequestParams();
             //            ApiTool2 apiTool2 = new ApiTool2();
             //            params.addBodyParameter("goods_id", goods_id);
@@ -504,8 +507,9 @@ public class GoodsAttributeAty extends BaseAty {
                     group_buy_id = string[0];
                     order_id = string[1];
                 }
-                if (!TextUtils.isEmpty(order_id))
+                if (!TextUtils.isEmpty(order_id)) {
                     intent.putExtra("order_id", order_id);
+                }
                 if (type.equals("10")) {//积分商店
                     intent.putExtra("use_integral", val.getUse_integral());
                     intent.putExtra("integral_buy_id", val.getIntegral_buy_id());
@@ -514,14 +518,16 @@ public class GoodsAttributeAty extends BaseAty {
                 //                intent.putExtra("group_buy_id", group_buy_id);
                 intent.putExtra("num", String.valueOf(num));
                 intent.putExtra("product_id", pro_id);
-                if (getIntent().hasExtra("group_type"))//体验拼单
+                if (getIntent().hasExtra("group_type")) {//体验拼单
                     intent.putExtra("group_type", getIntent().getStringExtra("group_type"));
+                }
                 L.e("cccc" + mid + "--" + type + "--" + goods_id + "--" + group_buy_id + "--" + num + "--" + pro_id);
                 setResult(0x0001, intent);
                 finish();
                 return;
-            } else
+            } else {
                 Cart.addCart(goods_id, pro_id, num, this);
+            }
         } else {
             showToast("库存不足！");
         }
@@ -775,8 +781,9 @@ public class GoodsAttributeAty extends BaseAty {
                 for (FirstValBean val : list_val) {
                     if (attrs.toString().contains(val.getArrtValue())) {
                         GoodsAttributeAty.this.val = val;
-                        if (!TextUtils.isEmpty(val.getGroup_buy_id()))
+                        if (!TextUtils.isEmpty(val.getGroup_buy_id())) {
                             group_buy_id = val.getGroup_buy_id();
+                        }
                         if (TextUtils.isEmpty(val.getMax_num()) || "0".equals(val.getMax_num())) {
                             tv_xg.setVisibility(View.INVISIBLE);
                         } else {
@@ -798,8 +805,9 @@ public class GoodsAttributeAty extends BaseAty {
                         }
                         if (val.getGoods_num().equals("0")) {//切换时候库存数目是0的时候，购买数量那块写成0
                             et_num.setText("0");
-                        } else
+                        } else {
                             et_num.setText("1");
+                        }
                         pro_value = val.getArrtValue();
                         image = val.getGoods_img();
                         pro_id = val.getId();
