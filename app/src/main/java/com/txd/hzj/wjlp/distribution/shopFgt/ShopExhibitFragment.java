@@ -86,7 +86,7 @@ public class ShopExhibitFragment extends BaseFgt {
     //排序字段名
     private String name="red_return_integral";
     //
-    private String flag="asc";
+    private String flag="desc";
 
     private int pos=0;
     private String mShop_id;

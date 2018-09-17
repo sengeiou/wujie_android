@@ -137,7 +137,7 @@ public class ShopManageOpenShopFgt extends BaseFgt {
     @Override
     protected void requestData() {
         if (null != mExhibitPst && !TextUtils.isEmpty(mShop_id)) {
-            mExhibitPst.getGoodsList("", String.valueOf(p),mShop_id, "1");
+            mExhibitPst.getGoodsList("", String.valueOf(p),mShop_id, "2");
         }
     }
 

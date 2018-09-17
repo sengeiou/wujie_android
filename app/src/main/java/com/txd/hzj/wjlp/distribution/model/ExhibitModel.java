@@ -157,7 +157,7 @@ public class ExhibitModel {
      * @param id      分销商品id   商品信息获取，传id取单个，不传id取列表
      * @param p       分页页数
      * @param shop_id 小店id
-     * @param type    0 普通 1 399分销
+     * @param type    3 已售完 2 399分销 1 普通商品下架 0 普通商品出售中
      */
     public void getfenxiaoGoods(String id, String p, String shop_id, String type, BaseView baseView) {
         RequestParams params = new RequestParams();
