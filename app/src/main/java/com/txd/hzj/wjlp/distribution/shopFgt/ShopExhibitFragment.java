@@ -60,10 +60,10 @@ public class ShopExhibitFragment extends BaseFgt {
     private Drawable selectId;
     private Drawable twoSelectId;
     private Drawable unSelectId;
-    private int internalNum = 0;
-    private int cashCouponNum = 0;
-    private int salesVolumeNum = 0;
-    private int priceNum = 0;
+    private int internalNum = 1;
+    private int cashCouponNum = 1;
+    private int salesVolumeNum = 1;
+    private int priceNum = 1;
     private ShopExhibitAdapter shopExhibitAdapter;
     private List<ExhibitGoodsBean.DataBean.ListBean> datas;
 
