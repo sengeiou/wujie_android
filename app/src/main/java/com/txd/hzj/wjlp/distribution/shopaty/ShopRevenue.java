@@ -1,4 +1,4 @@
-package com.txd.hzj.wjlp.distribution.shopAty;
+package com.txd.hzj.wjlp.distribution.shopaty;
 
 import android.graphics.Color;
 import android.os.Bundle;

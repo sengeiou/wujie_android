@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="@color/bg_color"
     android:orientation="vertical"
-    tools:context=".distribution.shopAty.ShopRevenue">
+    tools:context=".distribution.shopaty.ShopRevenue">
 
     <include layout="@layout/aty_shop_title" />
 

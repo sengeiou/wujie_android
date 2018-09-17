@@ -45,7 +45,7 @@ import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseFgt;
 import com.txd.hzj.wjlp.bean.Promoters;
 import com.txd.hzj.wjlp.bean.mine.MineInfoBean;
-import com.txd.hzj.wjlp.distribution.shopAty.ShopMain;
+import com.txd.hzj.wjlp.distribution.shopaty.ShopMain;
 import com.txd.hzj.wjlp.http.index.IndexPst;
 import com.txd.hzj.wjlp.http.user.User;
 import com.txd.hzj.wjlp.http.user.UserPst;
@@ -286,10 +286,14 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
     @ViewInject(R.id.im_tie)
     private ImageView im_tie;
 
-    //店铺管理
+    /**
+     * 店铺管理
+     */
     @ViewInject(R.id.personalStores)
     private TextView personalStores;
-    //拜师码
+    /**
+     * 拜师码
+     */
     @ViewInject(R.id.apprentice_code_tv)
     private View apprentice_code_tv;
     @ViewInject(R.id.apprentice_code_line)
@@ -302,20 +306,30 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
     private String imaUrl;
     private String stage_merchant_id;
     private String business_invite_code_code;
-    //"是否存在延时会员卡功能" 1 存在  0不存在
+    /**
+     * 是否存在延时会员卡功能" 1 存在  0不存在
+     */
     private int reward_status = 0;
-    //个人中心请求状态  1代表成功 0代表失败
+    /**
+     * 个人中心请求状态  1代表成功 0代表失败
+     */
     private int userCenterCode = 1;
-    private String balance; // 当前余额
+    /**
+     * 当前余额
+     */
+    private String balance;
 
     //商家码列表集合
     private List<MineInfoBean> shangjiamaList;
-    //三方付款列表集合
+    /**
+     * 三方付款列表集合
+     */
     private List<MineInfoBean> sanfangList;
     //蓝色代金券列表
     private List<MineInfoBean> bluedaijinquanList;
 
     private boolean isReadContacts = true;
+    private String mHas_shop = "0";
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -470,7 +484,9 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
                 break;
             //店铺管理
             case R.id.personalStores:
-                startActivity(ShopMain.class, null);
+                Bundle shopBundle=new Bundle();
+                shopBundle.putString("has_shop",mHas_shop);
+                startActivity(ShopMain.class, shopBundle);
                 break;
             case R.id.stock_record_tv:// 进货记录
                 this.bundle = new Bundle();
@@ -509,14 +525,14 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
             case R.id.bandOtherAccount_tv: // 联盟商家绑定账户
                 if (sanfangList != null && sanfangList.size() > 0) {
                     showTanchuang("联盟商家绑定账户");
-                }else {
+                } else {
                     showToast("暂无绑定账户");
                 }
                 break;
             case R.id.business_code_tv:// 商家码
                 if (shangjiamaList != null && shangjiamaList.size() > 0) {
                     showTanchuang("商家码");
-                }else {
+                } else {
                     showToast("暂无商家码");
                 }
                 break;
@@ -590,8 +606,8 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
         showDialog(); // 显示Dialog
         userPst.userCenter();
         userPst.userInfo();
-        isReadContacts=PreferencesUtils.getBoolean(getActivity(),"is_read_contacts",true);
-        if (isReadContacts){
+        isReadContacts = PreferencesUtils.getBoolean(getActivity(), "is_read_contacts", true);
+        if (isReadContacts) {
             readContacts();
         }
     }
@@ -606,9 +622,9 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
             cursor = getActivity().getContentResolver().query(
                     ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
                     null, null, null, null);
-            JSONObject object=new JSONObject();
-            object.put("source","1");
-            JSONArray array=new JSONArray();
+            JSONObject object = new JSONObject();
+            object.put("source", "1");
+            JSONArray array = new JSONArray();
             while (cursor.moveToNext()) {
                 // 获取联系人姓名
                 String displayName = cursor.getString(cursor.getColumnIndex(
@@ -616,13 +632,13 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
                 // 获取联系人手机号
                 String number = cursor.getString(cursor.getColumnIndex(
                         ContactsContract.CommonDataKinds.Phone.NUMBER));
-                JSONObject jsonObject=new JSONObject();
-                jsonObject.put("name",displayName);
-                jsonObject.put("phone",number);
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put("name", displayName);
+                jsonObject.put("phone", number);
                 array.put(jsonObject);
             }
-            object.put("data",array);
-            User.postUser_contacts(object.toString(),this);
+            object.put("data", array);
+            User.postUser_contacts(object.toString(), this);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -706,7 +722,7 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
                 if (mInfo != null && mInfo.length() > 0) {
                     shangjiamaList = new ArrayList<>();
                     sanfangList = new ArrayList<>();
-                    bluedaijinquanList=new ArrayList<>();
+                    bluedaijinquanList = new ArrayList<>();
                     for (int i = 0; i < mInfo.length(); i++) {
 
                         JSONObject obj = mInfo.getJSONObject(i);
@@ -723,7 +739,7 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
                         if (change_account_status1.equals("1")) {
                             sanfangList.add(mineInfoBean);
                         }
-                        if (Float.parseFloat(special_type)==0.00) {
+                        if (Float.parseFloat(special_type) == 0.00) {
                             bluedaijinquanList.add(mineInfoBean);
                         }
                     }
@@ -751,15 +767,16 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
                     userPst.proMoters();
                 }
             }
-            if (data.containsKey("has_shop") && "1".equals(data.get("has_shop"))) {
-                    personalStores.setVisibility(View.VISIBLE);
-                    if (data.containsKey("shop_id_ming")) {
-                        String shop_id = data.get("shop_id_ming");
-                        PreferencesUtils.putString(getActivity(), "shop_id", shop_id);
-                    } else {
-                        PreferencesUtils.putString(getActivity(), "shop_id", "");
-                    }
-            }else {
+            if (data.containsKey("has_shop") && ("1".equals(data.get("has_shop")) || "2".equals(data.get("has_shop")))) {
+                personalStores.setVisibility(View.VISIBLE);
+                mHas_shop = data.get("has_shop");
+                if (data.containsKey("shop_id_ming")) {
+                    String shop_id = data.get("shop_id_ming");
+                    PreferencesUtils.putString(getActivity(), "shop_id", shop_id);
+                } else {
+                    PreferencesUtils.putString(getActivity(), "shop_id", "");
+                }
+            } else {
                 personalStores.setVisibility(View.GONE);
             }
             /**else { // 如果没有该字段的情况下
@@ -937,11 +954,11 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
 
         }
 
-        if (requestUrl.contains("user_contacts")){
+        if (requestUrl.contains("user_contacts")) {
             try {
-                JSONObject jsonObject=new JSONObject(jsonStr);
-                if (jsonObject.has("code") && "1".equals(jsonObject.getString("code"))){
-                    PreferencesUtils.putBoolean(getActivity(),"is_read_contacts",false);
+                JSONObject jsonObject = new JSONObject(jsonStr);
+                if (jsonObject.has("code") && "1".equals(jsonObject.getString("code"))) {
+                    PreferencesUtils.putBoolean(getActivity(), "is_read_contacts", false);
                 }
             } catch (JSONException e) {
                 e.printStackTrace();

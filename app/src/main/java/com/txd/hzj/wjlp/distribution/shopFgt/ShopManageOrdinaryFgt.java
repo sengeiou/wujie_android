@@ -9,7 +9,7 @@ import android.support.v4.view.ViewPager;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseFgt;
-import com.txd.hzj.wjlp.distribution.shopAty.ShopGoodsManage;
+import com.txd.hzj.wjlp.distribution.shopaty.ShopGoodsManage;
 
 import java.util.ArrayList;
 import java.util.List;

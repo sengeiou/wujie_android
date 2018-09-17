@@ -26,7 +26,7 @@ import com.txd.hzj.wjlp.base.BaseFgt;
 import com.txd.hzj.wjlp.distribution.adapter.ShopManageOrdinaryAdapter;
 import com.txd.hzj.wjlp.distribution.bean.DistributionGoodsBean;
 import com.txd.hzj.wjlp.distribution.presenter.ShopExhibitPst;
-import com.txd.hzj.wjlp.distribution.shopAty.ShopGoodsManage;
+import com.txd.hzj.wjlp.distribution.shopaty.ShopGoodsManage;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.ToShareAty;
 import com.txd.hzj.wjlp.view.SuperSwipeRefreshLayout;
 

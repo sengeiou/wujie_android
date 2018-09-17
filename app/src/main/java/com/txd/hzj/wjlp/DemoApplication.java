@@ -81,6 +81,7 @@ public class DemoApplication extends WeApplication implements EMMessageListener 
         return application.refWatcher;
     }*/
 
+
     //    private RefWatcher refWatcher;
     @Override
     public void onCreate() {

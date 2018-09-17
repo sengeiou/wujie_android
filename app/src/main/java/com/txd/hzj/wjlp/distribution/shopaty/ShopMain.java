@@ -1,5 +1,6 @@
-package com.txd.hzj.wjlp.distribution.shopAty;
+package com.txd.hzj.wjlp.distribution.shopaty;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
@@ -9,6 +10,7 @@ import android.view.View.OnClickListener;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.ants.theantsgo.tips.MikyouCommonDialog;
 import com.ants.theantsgo.util.JSONUtils;
 import com.ants.theantsgo.util.PreferencesUtils;
 import com.txd.hzj.wjlp.R;
@@ -44,6 +46,23 @@ public class ShopMain extends BaseAty implements OnClickListener {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         showStatusBar(R.id.title_re_layout);
+        Bundle extras = getIntent().getExtras();
+        if (extras.containsKey("has_shop") && "2".equals(extras.getString("has_shop"))){
+            showTanchuang();
+        }
+    }
+
+    private void showTanchuang() {
+        final MikyouCommonDialog dialog=new MikyouCommonDialog(this,"您的店铺已过期，请重新申请","温馨提示","确定","",false);
+        dialog.setOnDiaLogListener(new MikyouCommonDialog.OnDialogListener() {
+            @Override
+            public void dialogListener(int btnType, View customView, DialogInterface dialogInterface, int which) {
+                if (btnType==MikyouCommonDialog.OK){
+                    finish();
+                }
+            }
+        });
+        dialog.showDialog();
     }
 
     @Override

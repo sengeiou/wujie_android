@@ -1,4 +1,4 @@
-package com.txd.hzj.wjlp.distribution.shopAty;
+package com.txd.hzj.wjlp.distribution.shopaty;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;

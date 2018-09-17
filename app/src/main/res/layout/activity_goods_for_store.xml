@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/bg_color"
     android:orientation="vertical"
-    tools:context=".distribution.shopAty.ShopExhibit">
+    tools:context=".distribution.shopaty.ShopExhibit">
 
     <LinearLayout
         android:id="@+id/ll"

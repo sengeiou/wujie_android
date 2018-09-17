@@ -175,7 +175,7 @@ dependencies {
     compile 'com.umeng.sdk:common:latest.integration'
     compile 'com.umeng.sdk:analytics:latest.integration'
     //noinspection GradleCompatible
-    compile 'com.android.support:gridlayout-v7:26.+'
+    compile 'com.android.support:gridlayout-v7:27.1.1'
     compile 'com.android.support:appcompat-v7:27.1.1'
     //极光推送
     compile files('libs/jcore-android-1.2.3.jar')
