@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.txd.hzj.wjlp.minetoAty.collect.CollectHzjAty">
+    tools:context="com.txd.hzj.wjlp.minetoaty.collect.CollectHzjAty">
 
     <RelativeLayout
         android:id="@+id/collect_title_layout"

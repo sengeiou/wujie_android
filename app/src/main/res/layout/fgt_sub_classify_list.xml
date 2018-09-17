@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:background="@color/bg_color"
     android:orientation="vertical"
-    tools:context=".mellOnLine.fgt.SubClassifyListFgt">
+    tools:context=".mellonLine.fgt.SubClassifyListFgt">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

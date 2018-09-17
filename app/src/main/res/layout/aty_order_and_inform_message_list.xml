@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="@color/bg_color"
     android:orientation="vertical"
-    tools:context="com.txd.hzj.wjlp.mellOnLine.OrderAndInformMessageListAty">
+    tools:context="com.txd.hzj.wjlp.mellonLine.OrderAndInformMessageListAty">
 
     <include layout="@layout/aty_title"/>
 

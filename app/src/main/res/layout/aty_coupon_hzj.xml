@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.txd.hzj.wjlp.minetoAty.coupon.CouponHzjAty">
+    tools:context="com.txd.hzj.wjlp.minetoaty.coupon.CouponHzjAty">
 
     <RelativeLayout
         android:id="@+id/card_title_layout"

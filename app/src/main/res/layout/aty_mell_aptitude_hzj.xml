@@ -8,7 +8,7 @@
     android:divider="@drawable/lin_layout_vertical_line_shape"
     android:orientation="vertical"
     android:showDividers="middle"
-    tools:context="com.txd.hzj.wjlp.mellOffLine.MellAptitudeAty">
+    tools:context="com.txd.hzj.wjlp.melloffLine.MellAptitudeAty">
 
     <include layout="@layout/aty_title"/>
 

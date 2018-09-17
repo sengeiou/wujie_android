@@ -2,7 +2,7 @@
              xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
-             tools:context="com.txd.hzj.wjlp.mellOnLine.gridClassify.snatch.fgt.GraphicDetailsFgt">
+             tools:context="com.txd.hzj.wjlp.mellonLine.gridClassify.snatch.fgt.GraphicDetailsFgt">
 
     <WebView
         android:id="@+id/sn_notice_details_wv"

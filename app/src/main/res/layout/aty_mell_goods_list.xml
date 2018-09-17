@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/bg_color"
-    tools:context="com.txd.hzj.wjlp.minetoAty.mell.MellGoodsListAty">
+    tools:context="com.txd.hzj.wjlp.minetoaty.mell.MellGoodsListAty">
     
     <include layout="@layout/aty_title"/>
     <Space

@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.txd.hzj.wjlp.minetoAty.FootprintAty">
+    tools:context="com.txd.hzj.wjlp.minetoaty.FootprintAty">
 
     <RelativeLayout
         android:id="@+id/foot_print_title_layout"

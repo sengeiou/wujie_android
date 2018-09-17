@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/bg_color"
     android:backgroundTint="@color/bg_color"
-    tools:context="com.txd.hzj.wjlp.mainFgt.MineFgt">
+    tools:context="com.txd.hzj.wjlp.mainfgt.MineFgt">
 
     <com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout
         android:id="@+id/super_mine_layout"

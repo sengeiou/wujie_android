@@ -174,15 +174,15 @@
         <!-- 引导页 -->
         <activity android:name=".startPage.GuidePageAty" />
         <!-- 线上商城分类(1-1-1 首页 2) -->
-        <activity android:name=".mellOnLine.MellOnLineClassifyAty" />
+        <activity android:name=".mellonLine.MellOnLineClassifyAty" />
         <!-- 子分类(1-1-2)二级分类 -->
-        <activity android:name=".mellOnLine.SubclassificationAty" />
+        <activity android:name=".mellonLine.SubclassificationAty" />
         <!-- 分类 (1-2) -->
-        <activity android:name=".mellOnLine.AllClassifyAty" />
+        <activity android:name=".mellonLine.AllClassifyAty" />
         <!-- 搜索 -->
-        <activity android:name=".mellOnLine.SearchAty" />
+        <activity android:name=".mellonLine.SearchAty" />
         <!-- 商品列表 -->
-        <activity android:name=".mellOnLine.GoodsListAty" />
+        <activity android:name=".mellonLine.GoodsListAty" />
         <!--分销店铺管理首页-->
         <!-- 店铺管理首页 -->
         <activity
@@ -202,91 +202,91 @@
             android:launchMode="singleTop" />
         <!-- 商家列表 -->
         <activity
-            android:name=".mellOnLine.MellListAty"
+            android:name=".mellonLine.MellListAty"
             android:theme="@style/AppTheme" />
         <!-- 消息 -->
-        <activity android:name=".mellOnLine.MessageAty" />
+        <activity android:name=".mellonLine.MessageAty" />
         <!-- 消息列表 -->
-        <activity android:name=".mellOnLine.OrderAndInformMessageListAty" />
+        <activity android:name=".mellonLine.OrderAndInformMessageListAty" />
         <!-- 公告详情 -->
-        <activity android:name=".mellOnLine.NoticeDetailsAty" />
+        <activity android:name=".mellonLine.NoticeDetailsAty" />
         <!-- 限量购 -->
-        <activity android:name=".mellOnLine.gridClassify.LimitShoppingAty" />
+        <activity android:name=".mellonLine.gridClassify.LimitShoppingAty" />
         <!-- 限量购详情 -->
-        <activity android:name=".mellOnLine.gridClassify.LimitGoodsAty" />
+        <activity android:name=".mellonLine.gridClassify.LimitGoodsAty" />
         <!-- 分类 -->
-        <activity android:name=".mellOnLine.gridClassify.TicketZoonAty" />
+        <activity android:name=".mellonLine.gridClassify.TicketZoonAty" />
         <!-- 票券详情 -->
-        <activity android:name=".mellOnLine.gridClassify.TicketGoodsDetialsAty" />
+        <activity android:name=".mellonLine.gridClassify.TicketGoodsDetialsAty" />
         <!-- 拼团详情 -->
-        <activity android:name=".mellOnLine.gridClassify.GoodLuckDetailsAty" />
+        <activity android:name=".mellonLine.gridClassify.GoodLuckDetailsAty" />
         <!-- 主题街 -->
-        <activity android:name=".mellOnLine.gridClassify.ThemeStreetHzjAty" />
+        <activity android:name=".mellonLine.gridClassify.ThemeStreetHzjAty" />
         <!-- 主题街商品列表 -->
-        <activity android:name=".mellOnLine.gridClassify.ThemeGoodsListAty" />
+        <activity android:name=".mellonLine.gridClassify.ThemeGoodsListAty" />
         <!-- 主题街商品详情 -->
-        <activity android:name=".mellOnLine.gridClassify.ThemeGoodsDetailsAty" />
+        <activity android:name=".mellonLine.gridClassify.ThemeGoodsDetailsAty" />
 
         <!-- 汽车购 -->
-        <activity android:name=".mellOnLine.gridClassify.car.CarChenAty" />
-        <activity android:name=".mellOnLine.gridClassify.car.CarCommodityChenAty" />
+        <activity android:name=".mellonLine.gridClassify.car.CarChenAty" />
+        <activity android:name=".mellonLine.gridClassify.car.CarCommodityChenAty" />
         <!-- 房产购 -->
-        <activity android:name=".mellOnLine.gridClassify.hous.HousChenAty" />
+        <activity android:name=".mellonLine.gridClassify.hous.HousChenAty" />
         <!-- 房产购详情 -->
-        <activity android:name=".mellOnLine.gridClassify.hous.HousDetailsChenAty" />
+        <activity android:name=".mellonLine.gridClassify.hous.HousDetailsChenAty" />
         <!-- 一元夺宝 -->
-        <activity android:name=".mellOnLine.gridClassify.snatch.SnatchChenAty" />
+        <activity android:name=".mellonLine.gridClassify.snatch.SnatchChenAty" />
 
         <!-- 商品属性选择 -->
         <activity
-            android:name=".mellOnLine.gridClassify.GoodsAttributeAty"
+            android:name=".mellonLine.gridClassify.GoodsAttributeAty"
             android:launchMode="singleTask"
             android:theme="@style/share_style" />
         <!-- 商品评价 -->
-        <activity android:name=".mellOnLine.gridClassify.GoodsEvaluateAty" />
+        <activity android:name=".mellonLine.gridClassify.GoodsEvaluateAty" />
         <!-- 分享 -->
         <activity
-            android:name=".mellOnLine.gridClassify.ToShareAty"
+            android:name=".mellonLine.gridClassify.ToShareAty"
             android:theme="@style/share_style" />
         <!-- 店铺详情 -->
-        <activity android:name=".mellOnLine.gridClassify.MellInfoAty" />
+        <activity android:name=".mellonLine.gridClassify.MellInfoAty" />
         <!-- 进口馆列表 -->
-        <activity android:name=".mellOnLine.gridClassify.GoodsInputHzjAty" />
+        <activity android:name=".mellonLine.gridClassify.GoodsInputHzjAty" />
         <!-- 进口馆商品详情 -->
-        <activity android:name=".mellOnLine.gridClassify.InputGoodsDetailsAty" />
+        <activity android:name=".mellonLine.gridClassify.InputGoodsDetailsAty" />
         <!-- 竞拍 -->
-        <activity android:name=".mellOnLine.gridClassify.AuctionCollectAty" />
+        <activity android:name=".mellonLine.gridClassify.AuctionCollectAty" />
         <!-- 竞拍详情 -->
-        <activity android:name=".mellOnLine.gridClassify.AuctionGoodsDetailsAty" />
+        <activity android:name=".mellonLine.gridClassify.AuctionGoodsDetailsAty" />
 
         <!-- 无界头条 -->
-        <activity android:name=".mellOnLine.WujieTopHzjAty" />
+        <activity android:name=".mellonLine.WujieTopHzjAty" />
         <!-- 扫一扫 -->
-        <activity android:name=".mellOnLine.ScanAty" />
+        <activity android:name=".mellonLine.ScanAty" />
         <!-- 设置 -->
-        <activity android:name=".minetoAty.setting.SetAty" />
+        <activity android:name=".minetoaty.setting.SetAty" />
         <!-- 个人信息 -->
-        <activity android:name=".minetoAty.setting.EditProfileAty" />
+        <activity android:name=".minetoaty.setting.EditProfileAty" />
         <!-- 修改当前密码 -->
-        <activity android:name=".minetoAty.setting.EditLoginPasswordAty" />
+        <activity android:name=".minetoaty.setting.EditLoginPasswordAty" />
         <!-- 修改支付密码 -->
-        <activity android:name=".minetoAty.setting.EditPayPasswordAty" />
+        <activity android:name=".minetoaty.setting.EditPayPasswordAty" />
         <!-- 实名认证 -->
-        <activity android:name=".minetoAty.RealnameAty" />
+        <activity android:name=".minetoaty.RealnameAty" />
         <!-- 绑定手机 -->
-        <activity android:name=".minetoAty.setting.BindPhoneAty" />
+        <activity android:name=".minetoaty.setting.BindPhoneAty" />
         <!-- 绑定新手机 -->
-        <activity android:name=".minetoAty.setting.BindNewPhoneAty" />
+        <activity android:name=".minetoaty.setting.BindNewPhoneAty" />
         <!-- 关于我们 -->
-        <activity android:name=".minetoAty.AboutOursAty" />
+        <activity android:name=".minetoaty.AboutOursAty" />
         <!-- 帮助中心 -->
-        <activity android:name=".minetoAty.help.NewHelpCenterAty" />
+        <activity android:name=".minetoaty.help.NewHelpCenterAty" />
         <!-- 注册设置密码 -->
         <activity android:name=".login.RegisterSetPwdAty" />
         <!-- 位置 -->
-        <activity android:name=".mellOnLine.gridClassify.hous.FindHouseByMapAty" />
+        <activity android:name=".mellonLine.gridClassify.hous.FindHouseByMapAty" />
         <!-- 户型详情 -->
-        <activity android:name=".mellOnLine.gridClassify.hous.HouseTypeDetailsHzjAty" />
+        <activity android:name=".mellonLine.gridClassify.hous.HouseTypeDetailsHzjAty" />
         <!-- 登录注册 -->
         <activity
             android:name=".login.LoginAty"
@@ -301,85 +301,85 @@
         <activity android:name=".login.RegisterGetCodeAty" />
         <!-- 线上商城 -->
         <activity
-            android:name=".minetoAty.order.OnlineShopAty"
+            android:name=".minetoaty.order.OnlineShopAty"
             android:launchMode="singleTask" />
         <!-- 订单中心 -->
-        <activity android:name=".minetoAty.order.OrderCenterAty" />
+        <activity android:name=".minetoaty.order.OrderCenterAty" />
         <!-- 线下商城店铺详情 -->
         <activity
-            android:name=".mellOffLine.OffLineDetailsAty"
+            android:name=".melloffLine.OffLineDetailsAty"
             android:launchMode="singleTop" />
         <!-- 竞拍纪录 -->
-        <activity android:name=".minetoAty.AuctionRecordAty" />
+        <activity android:name=".minetoaty.AuctionRecordAty" />
         <!-- 会员成长，会员等级 -->
-        <activity android:name=".minetoAty.GradeOfMemberAty" />
+        <activity android:name=".minetoaty.GradeOfMemberAty" />
         <!-- 支付 -->
-        <activity android:name=".minetoAty.PayForAppAty" />
+        <activity android:name=".minetoaty.PayForAppAty" />
         <!-- 购物券 -->
-        <activity android:name=".minetoAty.tricket.MyCouponAty" />
+        <activity android:name=".minetoaty.tricket.MyCouponAty" />
         <!-- 明细 -->
-        <activity android:name=".minetoAty.tricket.ParticularsUsedByTricketAty" />
+        <activity android:name=".minetoaty.tricket.ParticularsUsedByTricketAty" />
         <!-- 积分 -->
-        <activity android:name=".minetoAty.tricket.IntegralAty" />
+        <activity android:name=".minetoaty.tricket.IntegralAty" />
         <!-- 积分转余额 -->
-        <activity android:name=".minetoAty.tricket.ExchangeMoneyAty" />
+        <activity android:name=".minetoaty.tricket.ExchangeMoneyAty" />
         <!-- 注册码 -->
         <activity
-            android:name=".minetoAty.dialog.RegistrationCodeAty"
+            android:name=".minetoaty.dialog.RegistrationCodeAty"
             android:theme="@style/share_style" />
         <!-- 拜师码 -->
         <activity
-            android:name=".minetoAty.dialog.ApprenticeCodeAty"
+            android:name=".minetoaty.dialog.ApprenticeCodeAty"
             android:theme="@style/share_style" />
         <!-- 余额 -->
-        <activity android:name=".minetoAty.balance.BalanceAty" />
+        <activity android:name=".minetoaty.balance.BalanceAty" />
         <!-- 余额充值 -->
-        <activity android:name=".minetoAty.balance.RechargeAty" />
+        <activity android:name=".minetoaty.balance.RechargeAty" />
         <!-- 线下充值，选择银行卡 -->
-        <activity android:name=".minetoAty.balance.BankInfoForReChargeAty" />
+        <activity android:name=".minetoaty.balance.BankInfoForReChargeAty" />
         <!-- 银行卡列表 -->
-        <activity android:name=".minetoAty.balance.BankCardHzjAty" />
+        <activity android:name=".minetoaty.balance.BankCardHzjAty" />
         <!-- 汽车购商品详情 -->
-        <activity android:name=".mellOnLine.gridClassify.CarDetailseAty" />
+        <activity android:name=".mellonLine.gridClassify.CarDetailseAty" />
         <!-- 添加银行卡 -->
-        <activity android:name=".minetoAty.balance.AddBankCardAty" />
+        <activity android:name=".minetoaty.balance.AddBankCardAty" />
         <!-- 线下充值明细 -->
-        <activity android:name=".minetoAty.balance.RechargeOffLineAty" />
+        <activity android:name=".minetoaty.balance.RechargeOffLineAty" />
         <!-- 我的卡券包 -->
-        <activity android:name=".minetoAty.coupon.CouponHzjAty" />
+        <activity android:name=".minetoaty.coupon.CouponHzjAty" />
         <!-- 订单详情 -->
-        <activity android:name=".minetoAty.order.OrderDetailsAty" />
+        <activity android:name=".minetoaty.order.OrderDetailsAty" />
         <!-- 商品评价 -->
-        <activity android:name=".minetoAty.order.EvaluationReleaseAty" />
+        <activity android:name=".minetoaty.order.EvaluationReleaseAty" />
         <!-- 申请售后 -->
-        <activity android:name=".minetoAty.order.ApplyForAfterSalesAty" />
+        <activity android:name=".minetoaty.order.ApplyForAfterSalesAty" />
         <!-- 物流，退货原因等等界面 -->
-        <activity android:name=".minetoAty.order.TextListAty" />
+        <activity android:name=".minetoaty.order.TextListAty" />
         <!-- 一元夺宝详情 -->
-        <activity android:name=".minetoAty.order.GoodLuckOrderDetailsAty" />
+        <activity android:name=".minetoaty.order.GoodLuckOrderDetailsAty" />
         <!-- 地址列表 -->
-        <activity android:name=".minetoAty.address.AddressListAty" />
+        <activity android:name=".minetoaty.address.AddressListAty" />
         <!-- 添加地址 -->
-        <activity android:name=".minetoAty.address.AddNewAddressAty2" />
+        <activity android:name=".minetoaty.address.AddNewAddressAty2" />
         <!-- 添加地址再用 -->
         <!-- 意见反馈 -->
-        <activity android:name=".minetoAty.feedback.FeedBackAty" />
+        <activity android:name=".minetoaty.feedback.FeedBackAty" />
         <!-- 分享给好友 -->
-        <activity android:name=".minetoAty.ShareToFriendsAty" />
+        <activity android:name=".minetoaty.ShareToFriendsAty" />
         <!-- 工作成绩 -->
-        <activity android:name=".minetoAty.myGrade.ShareGradeAty" />
+        <activity android:name=".minetoaty.myGrade.ShareGradeAty" />
         <!-- 城市选择 -->
         <activity android:name=".citySelect.CitySelectAty" />
         <!-- 分享次数 -->
-        <activity android:name=".minetoAty.myGrade.ShareTimesAty" />
+        <activity android:name=".minetoaty.myGrade.ShareTimesAty" />
         <!-- 我的推荐 -->
-        <activity android:name=".minetoAty.myGrade.RecommendSuccessAty" />
+        <activity android:name=".minetoaty.myGrade.RecommendSuccessAty" />
         <!-- 我的收藏 -->
-        <activity android:name=".minetoAty.collect.CollectHzjAty" />
+        <activity android:name=".minetoaty.collect.CollectHzjAty" />
         <!-- 足迹 -->
-        <activity android:name=".minetoAty.FootprintAty" />
+        <activity android:name=".minetoaty.FootprintAty" />
         <!-- 商家入驻 -->
-        <activity android:name=".minetoAty.mellInto.MerchantWillMoveIntoAty" />
+        <activity android:name=".minetoaty.mellInto.MerchantWillMoveIntoAty" />
         <!-- 福利社 -->
         <activity android:name=".popAty.WelfareServiceAty" />
         <!-- 福利社，拿红包 -->
@@ -395,38 +395,38 @@
             android:name=".shoppingCart.BuildOrderAty"
             android:launchMode="singleTop" />
         <!-- 一元夺宝详情 -->
-        <activity android:name=".mellOnLine.gridClassify.snatch.SnatchGoodsDetailsAty" />
+        <activity android:name=".mellonLine.gridClassify.snatch.SnatchGoodsDetailsAty" />
 
         <!-- 无界书院 -->
-        <activity android:name=".minetoAty.books.BooksAty" />
+        <activity android:name=".minetoaty.books.BooksAty" />
         <!-- 无界驿站 -->
-        <activity android:name=".mellOffLine.point.PointWjAty" />
+        <activity android:name=".melloffLine.point.PointWjAty" />
         <!-- 线下商店详情 -->
-        <activity android:name=".mellOffLine.OffLineMellInfoAty" />
+        <activity android:name=".melloffLine.OffLineMellInfoAty" />
         <!-- 商家设置 -->
-        <activity android:name=".minetoAty.mell.MellSettingAty" />
+        <activity android:name=".minetoaty.mell.MellSettingAty" />
         <!-- 编辑商家信息 -->
-        <activity android:name=".minetoAty.mell.EditMellInfoAty" />
+        <activity android:name=".minetoaty.mell.EditMellInfoAty" />
         <!-- 进货，销货列表 -->
-        <activity android:name=".minetoAty.mell.StockRecordAty" />
+        <activity android:name=".minetoaty.mell.StockRecordAty" />
         <!-- 商品列表 -->
-        <activity android:name=".minetoAty.mell.MellGoodsListAty" />
+        <activity android:name=".minetoaty.mell.MellGoodsListAty" />
         <!-- 商品二维码 -->
         <activity
-            android:name=".minetoAty.mell.QRCodeForMellGoodsAty"
+            android:name=".minetoaty.mell.QRCodeForMellGoodsAty"
             android:theme="@style/share_style" />
         <!-- 商家地址选择 -->
         <activity android:name=".citySelect.MellCitySelectAty" />
         <!-- 推荐列表 -->
-        <activity android:name=".minetoAty.mellInto.MellIntoListAty" />
+        <activity android:name=".minetoaty.mellInto.MellIntoListAty" />
         <!-- 举报商家得红包 -->
-        <activity android:name=".mellOffLine.MellReportedAty" />
+        <activity android:name=".melloffLine.MellReportedAty" />
         <!-- 商家资质 -->
-        <activity android:name=".mellOffLine.MellAptitudeAty" />
+        <activity android:name=".melloffLine.MellAptitudeAty" />
         <!-- 转账给用户 -->
-        <activity android:name=".minetoAty.balance.TransferAccountsAty" />
+        <activity android:name=".minetoaty.balance.TransferAccountsAty" />
         <!-- 推荐详情 -->
-        <activity android:name=".minetoAty.mellInto.MellIntoInfoAty" />
+        <activity android:name=".minetoaty.mellInto.MellIntoInfoAty" />
 
         <!-- 环信聊天界面 -->
         <activity android:name=".huanxin.ui.ChatActivity" />
@@ -440,26 +440,26 @@
         <activity android:name=".new_wjyp.InvoiceAty2" />
 
         <!-- 重置支付密码 -->
-        <activity android:name=".minetoAty.setting.ResetPayPwdAty" />
+        <activity android:name=".minetoaty.setting.ResetPayPwdAty" />
         <!-- 第二步 -->
-        <activity android:name=".minetoAty.setting.ResetPayPwdSecAty" />
+        <activity android:name=".minetoaty.setting.ResetPayPwdSecAty" />
         <!-- 书院详情 -->
-        <activity android:name=".minetoAty.books.BooksDetailsAty" />
+        <activity android:name=".minetoaty.books.BooksDetailsAty" />
         <!-- 省市区选择 -->
         <!-- 拼团购开团 -->
-        <activity android:name=".mellOnLine.gridClassify.CreateGroupAty" />
+        <activity android:name=".mellonLine.gridClassify.CreateGroupAty" />
         <!-- 拼团购三级分类商品列表 -->
-        <activity android:name=".mellOnLine.gridClassify.groupbuy.GroupBuyThirdAty" />
+        <activity android:name=".mellonLine.gridClassify.groupbuy.GroupBuyThirdAty" />
 
         <!-- 无界预购三级分类商品列表 -->
-        <activity android:name=".mellOnLine.gridClassify.prebuy.PreBuyThirdAty" />
+        <activity android:name=".mellonLine.gridClassify.prebuy.PreBuyThirdAty" />
 
         <!--线下店铺支付界面-->
-        <activity android:name=".mellOffLine.PaymentAty" />
+        <activity android:name=".melloffLine.PaymentAty" />
         <!--线下店铺支付结果界面-->
-        <activity android:name=".mellOffLine.PaymentResultsAty" />
+        <activity android:name=".melloffLine.PaymentResultsAty" />
         <!--三方收款账户-->
-        <activity android:name=".minetoAty.ThirdPartAccountAty" />
+        <activity android:name=".minetoaty.ThirdPartAccountAty" />
 
         <!-- 环信相关服务等 ↓ BEGIN -->
         <!-- 开机自启动服务 -->
@@ -744,9 +744,9 @@
         <activity android:name=".new_wjyp.Submit_order_aty" />
         <activity android:name=".new_wjyp.Pay_aty" />
         <!-- 蓝色代金券转账页面 -->
-        <activity android:name=".minetoAty.GiveCouponAccounts" />
+        <activity android:name=".minetoaty.GiveCouponAccounts" />
         <!-- 蓝色代金券详情 -->
-        <activity android:name=".minetoAty.GiveCouponAty" />
+        <activity android:name=".minetoaty.GiveCouponAty" />
         <!-- Required SDK 核心功能 -->
         <!-- 可配置android:process参数将PushService放在其他进程中 -->
         <service
@@ -870,7 +870,7 @@
         <activity android:name=".new_wjyp.Addshipping_aty" />
         <!-- 比较记录的详情 -->
         <activity android:name=".new_wjyp.AuctionRecordAty" />
-        <activity android:name=".minetoAty._GradeOfMemberAty" />
+        <activity android:name=".minetoaty._GradeOfMemberAty" />
         <!-- 联盟商家申请 -->
         <activity android:name=".new_wjyp.UnionmerchartAty" />
         <activity
@@ -922,7 +922,7 @@
         <activity android:name=".wjyp.PersonnelManagementAty" />
         <activity android:name=".wjyp._PersonnelManagementAty" />
         <!-- 蓝色代金券使用明细 -->
-        <activity android:name=".minetoAty.tricket.ParticularsUserCouponAty" />
+        <activity android:name=".minetoaty.tricket.ParticularsUserCouponAty" />
         <!-- 拓展员添加 -->
         <activity android:name=".wjyp.AddRecordAty" />
         <!-- 编辑拓展员 -->
@@ -939,7 +939,7 @@
         <!-- 审核详情 -->
         <activity android:name=".wjyp.PlatformMaterialAuditDetailsAty" />
         <!--线下店铺详情-->
-        <activity android:name=".mellOffLine.ShopMallDetailsAty" />
+        <activity android:name=".melloffLine.ShopMallDetailsAty" />
         <!-- 下级物料审核 -->
         <activity android:name=".wjyp.LowerMaterialAuditAty" />
         <activity android:name=".wjyp.ExpandTheMemberAty" />
@@ -955,30 +955,30 @@
         <!-- 发票选择界面 -->
         <activity android:name=".new_wjyp.InvoiceAty" />
         <!-- 订单物流 -->
-        <activity android:name=".minetoAty.OrderLogisticsAty" />
+        <activity android:name=".minetoaty.OrderLogisticsAty" />
         <!-- 会员卡 -->
-        <activity android:name=".minetoAty.order.VipCardAty" />
+        <activity android:name=".minetoaty.order.VipCardAty" />
         <!-- 会员卡详情页 -->
-        <activity android:name=".minetoAty.order.VipCardDetailsAty" />
+        <activity android:name=".minetoaty.order.VipCardDetailsAty" />
         <!--线上充值明细-->
-        <activity android:name=".minetoAty.order.OnlineChongDetailsAty" />
+        <activity android:name=".minetoaty.order.OnlineChongDetailsAty" />
 
         <!-- 快递物流详情 -->
-        <activity android:name=".minetoAty.ExpressAtv" />
+        <activity android:name=".minetoaty.ExpressAtv" />
         <!-- 拼单购订单详情 -->
-        <activity android:name=".minetoAty.order.CollageDetailsAty" />
+        <activity android:name=".minetoaty.order.CollageDetailsAty" />
         <activity android:name=".distribution.ApplyForShop" />
         <activity android:name=".distribution.shopaty.ShopExhibit" />
         <activity android:name=".distribution.shopaty.ShopGoodsManage" />
         <activity android:name=".distribution.shopaty.ShopRevenue"></activity>
-        <activity android:name=".minetoAty.order.OffLineShopAty" />
-        <activity android:name=".minetoAty.order.OffLineShopDetailsAty" />
+        <activity android:name=".minetoaty.order.OffLineShopAty" />
+        <activity android:name=".minetoaty.order.OffLineShopDetailsAty" />
         <!--线下店铺搜索列表页-->
-        <activity android:name=".mellOffLine.MellOffLineListAty" />
-        <activity android:name=".mellOffLine.OffLineEvaluationShopAty"/>
-        <activity android:name=".mellOffLine.OffLineEvaluationShopListAty" />
+        <activity android:name=".melloffLine.MellOffLineListAty" />
+        <activity android:name=".melloffLine.OffLineEvaluationShopAty"/>
+        <activity android:name=".melloffLine.OffLineEvaluationShopListAty" />
         <activity android:name=".new_wjyp.FreeRenew"/>
-        <activity android:name=".mellOffLine.ShopMallAty" />
+        <activity android:name=".melloffLine.ShopMallAty" />
         <activity android:name=".distribution.shopaty.ShopGiveYellowVoucher"/>
     </application>
 

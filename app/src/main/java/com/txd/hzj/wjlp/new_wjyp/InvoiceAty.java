@@ -19,7 +19,7 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.http.Invoice;
-import com.txd.hzj.wjlp.minetoAty.order.TextListAty;
+import com.txd.hzj.wjlp.minetoaty.order.TextListAty;
 import com.txd.hzj.wjlp.shoppingCart.BuildOrderAty;
 
 import java.util.ArrayList;

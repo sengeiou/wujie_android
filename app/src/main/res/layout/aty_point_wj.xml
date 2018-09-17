@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="@color/bg_color"
     android:orientation="vertical"
-    tools:context="com.txd.hzj.wjlp.mellOffLine.point.PointWjAty">
+    tools:context="com.txd.hzj.wjlp.melloffLine.point.PointWjAty">
 
     <include layout="@layout/aty_title"/>
 

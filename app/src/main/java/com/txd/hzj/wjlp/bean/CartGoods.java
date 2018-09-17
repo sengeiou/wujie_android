@@ -1,6 +1,6 @@
 package com.txd.hzj.wjlp.bean;
 
-import com.txd.hzj.wjlp.mellOnLine.gridClassify.GoodsAttributeAty;
+import com.txd.hzj.wjlp.mellonLine.gridClassify.GoodsAttributeAty;
 
 import java.util.List;
 

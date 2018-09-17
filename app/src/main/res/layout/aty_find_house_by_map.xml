@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.txd.hzj.wjlp.mellOnLine.gridClassify.hous.FindHouseByMapAty">
+    tools:context="com.txd.hzj.wjlp.mellonLine.gridClassify.hous.FindHouseByMapAty">
 
     <include layout="@layout/aty_title"/>
 

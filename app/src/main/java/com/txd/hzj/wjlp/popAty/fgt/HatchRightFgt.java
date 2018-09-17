@@ -2,7 +2,6 @@ package com.txd.hzj.wjlp.popAty.fgt;
 
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,8 +13,7 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseFgt;
 import com.txd.hzj.wjlp.bean.MellInfoList;
-import com.txd.hzj.wjlp.mellOnLine.adapter.MellListAdapter;
-import com.txd.hzj.wjlp.minetoAty.coupon.fgt.ShareOptionFgt;
+import com.txd.hzj.wjlp.mellonLine.adapter.MellListAdapter;
 
 import java.util.ArrayList;
 import java.util.List;

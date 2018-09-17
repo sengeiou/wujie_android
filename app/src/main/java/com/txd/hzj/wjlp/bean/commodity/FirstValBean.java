@@ -1,7 +1,5 @@
 package com.txd.hzj.wjlp.bean.commodity;
 
-import com.txd.hzj.wjlp.mellOnLine.gridClassify.GoodsAttributeAty;
-
 import java.io.Serializable;
 import java.util.List;
 

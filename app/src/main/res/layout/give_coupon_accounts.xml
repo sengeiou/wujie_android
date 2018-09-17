@@ -8,7 +8,7 @@
     android:divider="@drawable/lin_layout_vertical_line_shape"
     android:orientation="vertical"
     android:showDividers="middle"
-    tools:context="com.txd.hzj.wjlp.minetoAty.balance.TransferAccountsAty">
+    tools:context="com.txd.hzj.wjlp.minetoaty.balance.TransferAccountsAty">
 
     <include layout="@layout/aty_title" />
 

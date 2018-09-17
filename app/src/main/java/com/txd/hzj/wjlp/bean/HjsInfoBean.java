@@ -1,7 +1,6 @@
 package com.txd.hzj.wjlp.bean;
 
 import com.txd.hzj.wjlp.bean.commodity.DataBaseBean;
-import com.txd.hzj.wjlp.minetoAty.order.OnlineChongDetailsAty;
 
 import java.util.List;
 

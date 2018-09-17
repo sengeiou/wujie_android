@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/bg_color"
-    tools:context="com.txd.hzj.wjlp.minetoAty.order.fgt.OrderOnLineFgt">
+    tools:context="com.txd.hzj.wjlp.minetoaty.order.fgt.OrderOnLineFgt">
 
     <com.txd.hzj.wjlp.view.SuperSwipeRefreshLayout
         android:id="@+id/super_sr_layout"

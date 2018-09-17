@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/bg_color"
-    tools:context="com.txd.hzj.wjlp.mellOnLine.fgt.HouseCommentFgt">
+    tools:context="com.txd.hzj.wjlp.mellonLine.fgt.HouseCommentFgt">
 
     <!-- TODO: Update blank fragment layout -->
     <com.txd.hzj.wjlp.view.ObservableScrollView

@@ -7,7 +7,7 @@
     android:divider="@drawable/lin_layout_vertical_line_shape"
     android:orientation="vertical"
     android:showDividers="middle"
-    tools:context="com.txd.hzj.wjlp.minetoAty.mellInto.MellIntoInfoAty">
+    tools:context="com.txd.hzj.wjlp.minetoaty.mellInto.MellIntoInfoAty">
 
     <include layout="@layout/aty_title" />
 

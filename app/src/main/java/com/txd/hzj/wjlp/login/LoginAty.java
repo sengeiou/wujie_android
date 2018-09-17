@@ -36,7 +36,7 @@ import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.http.register.RegisterPst;
 import com.txd.hzj.wjlp.http.user.User;
 import com.txd.hzj.wjlp.jpush.JpushSetTagAndAlias;
-import com.txd.hzj.wjlp.mellOnLine.NoticeDetailsAty;
+import com.txd.hzj.wjlp.mellonLine.NoticeDetailsAty;
 import com.txd.hzj.wjlp.tool.ChangeTextViewStyle;
 import com.umeng.analytics.MobclickAgent;
 

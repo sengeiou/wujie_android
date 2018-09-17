@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="@color/bg_color"
     android:orientation="vertical"
-    tools:context="com.txd.hzj.wjlp.minetoAty.collect.fgt.CollectMellHzjFgt">
+    tools:context="com.txd.hzj.wjlp.minetoaty.collect.fgt.CollectMellHzjFgt">
 
 
     <com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout

@@ -27,7 +27,7 @@ import com.txd.hzj.wjlp.distribution.adapter.ShopManageOrdinaryAdapter;
 import com.txd.hzj.wjlp.distribution.bean.DistributionGoodsBean;
 import com.txd.hzj.wjlp.distribution.presenter.ShopExhibitPst;
 import com.txd.hzj.wjlp.distribution.shopaty.ShopGoodsManage;
-import com.txd.hzj.wjlp.mellOnLine.gridClassify.ToShareAty;
+import com.txd.hzj.wjlp.mellonLine.gridClassify.ToShareAty;
 import com.txd.hzj.wjlp.view.SuperSwipeRefreshLayout;
 
 import java.util.ArrayList;

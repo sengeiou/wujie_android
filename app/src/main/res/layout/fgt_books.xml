@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/bg_color"
-    tools:context="com.txd.hzj.wjlp.minetoAty.books.fgt.BooksFgt">
+    tools:context="com.txd.hzj.wjlp.minetoaty.books.fgt.BooksFgt">
 
     <!--<include layout="@layout/refresh_head"/>-->
 

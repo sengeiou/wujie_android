@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="@color/bg_color"
     android:scrollbars="none"
-    tools:context="com.txd.hzj.wjlp.mellOnLine.fgt.TicketZoonFgt">
+    tools:context="com.txd.hzj.wjlp.mellonLine.fgt.TicketZoonFgt">
 
     <com.txd.hzj.wjlp.view.VpSwipeRefreshLayout
         android:id="@+id/refresh_view"

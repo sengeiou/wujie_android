@@ -22,8 +22,8 @@ import com.lzy.imagepicker.ui.ImageGridActivity;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.http.Order;
-import com.txd.hzj.wjlp.minetoAty.order.adapter.GridImageAdapter;
-import com.txd.hzj.wjlp.minetoAty.order.utils.FullyGridLayoutManager;
+import com.txd.hzj.wjlp.minetoaty.order.adapter.GridImageAdapter;
+import com.txd.hzj.wjlp.minetoaty.order.utils.FullyGridLayoutManager;
 
 import java.io.File;
 import java.util.ArrayList;

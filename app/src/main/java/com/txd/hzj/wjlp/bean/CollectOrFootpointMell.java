@@ -1,7 +1,5 @@
 package com.txd.hzj.wjlp.bean;
 
-import com.txd.hzj.wjlp.minetoAty.mellInto.MellIntoListAty;
-
 import java.util.List;
 
 /**

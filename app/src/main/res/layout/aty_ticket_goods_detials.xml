@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="@color/bg_color"
     android:orientation="vertical"
-    tools:context="com.txd.hzj.wjlp.mellOnLine.gridClassify.TicketGoodsDetialsAty">
+    tools:context="com.txd.hzj.wjlp.mellonLine.gridClassify.TicketGoodsDetialsAty">
 
     <include layout="@layout/aty_title_for_goods_details" />
 

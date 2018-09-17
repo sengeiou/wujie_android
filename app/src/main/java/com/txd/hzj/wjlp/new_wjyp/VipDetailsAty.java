@@ -27,7 +27,7 @@ import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.bean.mine.TwoNineEightZeroBean;
 import com.txd.hzj.wjlp.http.Goods;
-import com.txd.hzj.wjlp.mellOnLine.gridClassify.TicketGoodsDetialsAty;
+import com.txd.hzj.wjlp.mellonLine.gridClassify.TicketGoodsDetialsAty;
 
 import java.util.ArrayList;
 import java.util.List;

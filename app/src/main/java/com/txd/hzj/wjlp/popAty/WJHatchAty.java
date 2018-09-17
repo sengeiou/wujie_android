@@ -23,9 +23,9 @@ import com.synnapps.carouselview.ImageListener;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.http.companyDevelop.CompanyDevelopPst;
-import com.txd.hzj.wjlp.mellOnLine.NoticeDetailsAty;
-import com.txd.hzj.wjlp.mellOnLine.gridClassify.MellInfoAty;
-import com.txd.hzj.wjlp.mellOnLine.gridClassify.TicketGoodsDetialsAty;
+import com.txd.hzj.wjlp.mellonLine.NoticeDetailsAty;
+import com.txd.hzj.wjlp.mellonLine.gridClassify.MellInfoAty;
+import com.txd.hzj.wjlp.mellonLine.gridClassify.TicketGoodsDetialsAty;
 import com.txd.hzj.wjlp.popAty.adapter.RedPackageAdapter;
 
 import java.util.ArrayList;

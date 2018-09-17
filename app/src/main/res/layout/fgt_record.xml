@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.txd.hzj.wjlp.mellOnLine.gridClassify.snatch.fgt.RecordFgt">
+    tools:context="com.txd.hzj.wjlp.mellonLine.gridClassify.snatch.fgt.RecordFgt">
 
     <LinearLayout
         android:id="@+id/data_layout"

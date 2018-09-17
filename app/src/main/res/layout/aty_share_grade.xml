@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.txd.hzj.wjlp.minetoAty.myGrade.ShareGradeAty">
+    tools:context="com.txd.hzj.wjlp.minetoaty.myGrade.ShareGradeAty">
 
     <!--<com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout-->
     <!--android:id="@+id/grade_ssr_layout"-->

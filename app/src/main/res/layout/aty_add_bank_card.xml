@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="@color/bg_color"
     android:orientation="vertical"
-    tools:context="com.txd.hzj.wjlp.minetoAty.balance.AddBankCardAty">
+    tools:context="com.txd.hzj.wjlp.minetoaty.balance.AddBankCardAty">
 
     <include layout="@layout/aty_title"/>
 

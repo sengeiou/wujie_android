@@ -1,24 +1,19 @@
 package com.txd.hzj.wjlp.popAty;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.TextView;
 
 import com.ants.theantsgo.util.JSONUtils;
-import com.flyco.tablayout.utils.FragmentChangeManager;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.http.companyDevelop.CompanyDevelopPst;
-import com.txd.hzj.wjlp.mellOnLine.gridClassify.MellInfoAty;
-import com.txd.hzj.wjlp.popAty.fgt.HatchLeftFgt;
-import com.txd.hzj.wjlp.popAty.fgt.HatchRightFgt;
+import com.txd.hzj.wjlp.mellonLine.gridClassify.MellInfoAty;
 
-import java.util.ArrayList;
 import java.util.Map;
 
 /**

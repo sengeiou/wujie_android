@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.txd.hzj.wjlp.mellOnLine.gridClassify.MellInfoAty">
+    tools:context="com.txd.hzj.wjlp.mellonLine.gridClassify.MellInfoAty">
 
     <com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout
         android:id="@+id/mell_super_sr_layout"

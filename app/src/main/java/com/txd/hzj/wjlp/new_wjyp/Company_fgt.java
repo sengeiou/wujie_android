@@ -31,7 +31,7 @@ import com.lzy.imagepicker.ui.ImageGridActivity;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseFgt;
 import com.txd.hzj.wjlp.http.User;
-import com.txd.hzj.wjlp.minetoAty.order.TextListAty;
+import com.txd.hzj.wjlp.minetoaty.order.TextListAty;
 import com.txd.hzj.wjlp.tool.proUrbArea.ProUrbAreaUtil;
 
 import org.json.JSONException;

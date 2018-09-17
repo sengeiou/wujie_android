@@ -6,7 +6,7 @@
     android:divider="@drawable/lin_layout_vertical_line_shape"
     android:orientation="vertical"
     android:showDividers="middle"
-    tools:context=".mellOnLine.AllClassifyAty">
+    tools:context=".mellonLine.AllClassifyAty">
 
     <include layout="@layout/aty_search_title" />
 

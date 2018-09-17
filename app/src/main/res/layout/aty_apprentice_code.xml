@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#7f000000"
-    tools:context="com.txd.hzj.wjlp.minetoAty.dialog.ApprenticeCodeAty">
+    tools:context="com.txd.hzj.wjlp.minetoaty.dialog.ApprenticeCodeAty">
 
     <LinearLayout
         android:layout_width="match_parent"

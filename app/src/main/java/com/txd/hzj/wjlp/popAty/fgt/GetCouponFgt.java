@@ -6,12 +6,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ListView;
 
 import com.ants.theantsgo.tool.ToolKit;
 import com.ants.theantsgo.util.JSONUtils;
@@ -20,10 +14,6 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseFgt;
 import com.txd.hzj.wjlp.http.welfare.WelfarePst;
-import com.txd.hzj.wjlp.mainFgt.adapter.HorizontalAdapter;
-import com.txd.hzj.wjlp.mellOnLine.fgt.TicketZoonFgt;
-import com.txd.hzj.wjlp.mellOnLine.gridClassify.TicketZoonAty;
-import com.txd.hzj.wjlp.popAty.adapter.CouponAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
