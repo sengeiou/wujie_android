@@ -145,4 +145,25 @@ public class OffLineDataBean implements Serializable {
     public void setMonths_order(String months_order) {
         this.months_order = months_order;
     }
+
+    @Override
+    public String toString() {
+        return "OffLineDataBean{" +
+                "s_id='" + s_id + '\'' +
+                ", user_id='" + user_id + '\'' +
+                ", show_type='" + show_type + '\'' +
+                ", merchant_name='" + merchant_name + '\'' +
+                ", merchant_desc='" + merchant_desc + '\'' +
+                ", logo='" + logo + '\'' +
+                ", score='" + score + '\'' +
+                ", lat='" + lat + '\'' +
+                ", lng='" + lng + '\'' +
+                ", proportion='" + proportion + '\'' +
+                ", months_order='" + months_order + '\'' +
+                ", distance='" + distance + '\'' +
+                ", ticket=" + ticket +
+                ", isShow=" + isShow +
+                ", goods_num='" + goods_num + '\'' +
+                '}';
+    }
 }

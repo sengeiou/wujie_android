@@ -12,15 +12,29 @@ import com.bumptech.glide.request.FutureTarget;
 import java.io.File;
 
 /**
- *
  * 作者：DUKE_HwangZj
  * 日期：2017/6/5 0005
  * 时间：10:03
  * 描述：Glide加载图片工具类(可以加载网络图片和本地图片，圆形图片或者圆角图片)
- *
  */
 
 public class GlideUtils {
+
+    /**
+     * 简单的加载网络图片，不设置宽高
+     *
+     * @param context 上下文
+     * @param urlStr  图片Url
+     * @param imgv    ImageView
+     */
+    public static void loadUrlImg(Context context, String urlStr, ImageView imgv) {
+        Glide.with(context)
+                .load(urlStr)
+                .placeholder(R.drawable.ic_default)
+                .error(R.drawable.ic_default)
+                .into(imgv);
+    }
+
     /**
      * 原生API (中间显示图片，可能显示不全)
      *
@@ -180,11 +194,11 @@ public class GlideUtils {
      * @param h   高
      * @param iv  ImageView
      */
-    public static void urlRoundPic(String url, int w, int h, ImageView iv,int rdp) {
+    public static void urlRoundPic(String url, int w, int h, ImageView iv, int rdp) {
         Glide.with(iv.getContext()).load(url)
                 .placeholder(R.drawable.ic_default)
                 .error(R.drawable.ic_default)
-                .transform(new CenterCrop(iv.getContext()), new GlideRoundTransform(iv.getContext(),rdp))
+                .transform(new CenterCrop(iv.getContext()), new GlideRoundTransform(iv.getContext(), rdp))
                 .override(w, h)
                 .crossFade()
                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)
@@ -199,11 +213,11 @@ public class GlideUtils {
      * @param h   高
      * @param iv  ImageView
      */
-    public static void fileRoundPic(File url, int w, int h, ImageView iv,int rdp) {
+    public static void fileRoundPic(File url, int w, int h, ImageView iv, int rdp) {
         Glide.with(iv.getContext()).load(url)
                 .placeholder(R.drawable.ic_default)
                 .error(R.drawable.ic_default)
-                .transform(new CenterCrop(iv.getContext()), new GlideRoundTransform(iv.getContext(),rdp))
+                .transform(new CenterCrop(iv.getContext()), new GlideRoundTransform(iv.getContext(), rdp))
                 .override(w, h)
                 .crossFade()
                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)
@@ -233,7 +247,6 @@ public class GlideUtils {
         }
         return absolutePath;
     }
-
 
 
 }

@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ants.theantsgo.tool.glide.GlideUtils;
+import com.ants.theantsgo.util.L;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
@@ -75,17 +76,20 @@ public class MellNearByHzjAdapter extends BaseAdapter {
         } else {
             nyvh = (NYVH) view.getTag();
         }
-        if ("0".equals(offLineDataBean.getUser_id()) || "2".equals(offLineDataBean.getShow_type())) {
-            nyvh.vertical_line.setVisibility(View.GONE);
-            nyvh.mell_sell_num.setVisibility(View.GONE);
-            nyvh.voucher_layout.setVisibility(View.GONE);
-        } else {
+        String user_id = offLineDataBean.getUser_id() == null || offLineDataBean.getUser_id().isEmpty() ? "-1" : offLineDataBean.getUser_id();
+        String show_type = offLineDataBean.getShow_type() == null || offLineDataBean.getShow_type().isEmpty() ? "-1" : offLineDataBean.getShow_type();
+        if (Integer.parseInt(user_id) > 0 && Integer.parseInt(show_type) == 1) {
             nyvh.vertical_line.setVisibility(View.VISIBLE);
             nyvh.mell_sell_num.setVisibility(View.VISIBLE);
             nyvh.voucher_layout.setVisibility(View.VISIBLE);
+        } else {
+            nyvh.vertical_line.setVisibility(View.GONE);
+            nyvh.mell_sell_num.setVisibility(View.GONE);
+            nyvh.voucher_layout.setVisibility(View.GONE);
         }
         int width = (int) (Resources.getSystem().getDisplayMetrics().density * 67);
-        GlideUtils.urlRoundPic(offLineDataBean.getLogo(), width, width, nyvh.mell_img, 2);
+        GlideUtils.loadUrlImg(context, offLineDataBean.getLogo(), nyvh.mell_img);
+//        GlideUtils.urlRoundPic(offLineDataBean.getLogo(), width, width, nyvh.mell_img, 2);
         nyvh.mell_intro.setText(offLineDataBean.getMerchant_desc());
         nyvh.mell_name.setText(offLineDataBean.getMerchant_name());
         nyvh.mell_score_rating_bar.setStar(Float.parseFloat(offLineDataBean.getScore()));
@@ -102,13 +106,13 @@ public class MellNearByHzjAdapter extends BaseAdapter {
         if (null != ticketBeans && ticketBeans.size() > 0) {
             nyvh.djpLayout.removeAllViews();
             nyvh.line_view.setVisibility(View.VISIBLE);
-            nyvh.voucher_layout.setVisibility(View.VISIBLE);
+//            nyvh.voucher_layout.setVisibility(View.VISIBLE);
             if (ticketBeans.size() == 1) {//只有第一行可见
                 nyvh.show_or_hind_layout_iv.setVisibility(View.GONE);
-                nyvh.other_zk_layout.setVisibility(View.GONE);
+//                nyvh.other_zk_layout.setVisibility(View.GONE);
                 TicketBean ticketBean = offLineDataBean.getTicket().get(0);
                 addView(nyvh.djpLayout, ticketBean, false);
-            }else {
+            } else {
                 nyvh.other_zk_layout.removeAllViews();
                 for (int i = 0; i < offLineDataBean.getTicket().size(); i++) {
                     TicketBean ticketBean = offLineDataBean.getTicket().get(i);
@@ -126,7 +130,7 @@ public class MellNearByHzjAdapter extends BaseAdapter {
                 nyvh.other_zk_layout.setVisibility(View.GONE);
                 nyvh.show_or_hind_layout_iv.setImageResource(R.drawable.icon_hide_other_layout);
             }
-        }else {
+        } else {
             nyvh.line_view.setVisibility(View.INVISIBLE);
             nyvh.voucher_layout.setVisibility(View.GONE);
         }
