@@ -352,10 +352,10 @@ public class LoginAty extends BaseAty implements Handler.Callback, PlatformActio
 
             registrationID = DemoApplication.registrationID;
             boolean is_first_commit = PreferencesUtils.getBoolean(this, "is_first_commit", true);
-            if (!TextUtils.isEmpty(registrationID) && is_first_commit){
-                Log.e("TAG", "registrationID: "+ registrationID);
+            if (!TextUtils.isEmpty(registrationID) && is_first_commit) {
+                Log.e("TAG", "registrationID: " + registrationID);
                 PreferencesUtils.putBoolean(LoginAty.this, "is_first_commit", false);
-                User.postRegistrationID(registrationID,this);
+                User.postRegistrationID(registrationID, this);
             }
 
             // 环信登录
@@ -367,6 +367,19 @@ public class LoginAty extends BaseAty implements Handler.Callback, PlatformActio
             if (MainAty.isExit) {
                 startActivity(MainAty.class, null);
             }
+
+            String noticeDetailsUrl = PreferencesUtils.getString(this, "NoticeDetailsUrl");
+            if (!noticeDetailsUrl.isEmpty()) {
+                // 如果有值，则移除该值，并且将获取的值传入广告展示界面
+                AppManager.getInstance().killActivity(NoticeDetailsAty.class);
+                PreferencesUtils.remove(this, "NoticeDetailsUrl");
+                bundle = new Bundle();
+                bundle.putString("desc", "");
+                bundle.putString("href", noticeDetailsUrl);
+                bundle.putInt("from", 2);
+                startActivity(NoticeDetailsAty.class, bundle);
+            }
+//            PreferencesUtils.putString(NoticeDetailsAty.this, "NoticeDetailsUrl", url);
 
             finish();
             return;
@@ -401,10 +414,10 @@ public class LoginAty extends BaseAty implements Handler.Callback, PlatformActio
                 JpushSetTagAndAlias.getInstance().setTag(getApplicationContext());
                 registrationID = DemoApplication.registrationID;
                 boolean is_first_commit = PreferencesUtils.getBoolean(this, "is_first_commit", true);
-                if (!TextUtils.isEmpty(registrationID) && is_first_commit){
-                    Log.e("TAG", "registrationID: "+registrationID );
+                if (!TextUtils.isEmpty(registrationID) && is_first_commit) {
+                    Log.e("TAG", "registrationID: " + registrationID);
                     PreferencesUtils.putBoolean(LoginAty.this, "is_first_commit", false);
-                    User.postRegistrationID(registrationID,this);
+                    User.postRegistrationID(registrationID, this);
                 }
                 // 环信登录
                 registerPst.toLogin(data.get("easemob_account"), data.get("easemob_pwd"));
@@ -416,18 +429,18 @@ public class LoginAty extends BaseAty implements Handler.Callback, PlatformActio
             }
         }
 
-        if (requestUrl.contains("add_jpush_rid")){
+        if (requestUrl.contains("add_jpush_rid")) {
             Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
-            if (map.containsKey("code")){
-                Log.e("TAG", "add_jpush_rid=====code:"+map.get("code") );
-                if ("0".equals(map.containsKey("code"))){
+            if (map.containsKey("code")) {
+                Log.e("TAG", "add_jpush_rid=====code:" + map.get("code"));
+                if ("0".equals(map.containsKey("code"))) {
                     if (!TextUtils.isEmpty(registrationID)) {
                         User.postRegistrationID(registrationID, this);
                     }
                 }
             }
-            if (map.containsKey("message")){
-                Log.e("TAG", "add_jpush_rid=====message:"+map.get("message") );
+            if (map.containsKey("message")) {
+                Log.e("TAG", "add_jpush_rid=====message:" + map.get("message"));
             }
         }
 

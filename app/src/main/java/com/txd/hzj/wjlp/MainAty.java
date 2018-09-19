@@ -188,6 +188,21 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
         registerBroadcastReceiver();
         EMClient.getInstance().contactManager().setContactListener(new MyContactListener());
         EMClient.getInstance().addMultiDeviceListener(new MyMultiDeviceListener());
+
+        getPositioning(); // 获取定位信息
+
+        // 极光设置Tag或者别名
+        if (Config.isLogin()) {
+            JpushSetTagAndAlias.getInstance().setAlias(getApplicationContext());
+            JpushSetTagAndAlias.getInstance().setTag(getApplicationContext());
+        }
+
+    }
+
+    /**
+     * 获取定位
+     */
+    public void getPositioning(){
         locationService = DemoApplication.getInstance().locationService;
         // 获取locationservice实例，建议应用中只初始化1个location实例，然后使用，可以参考其他示例的activity，都是通过此种方式获取locationservice实例的
         if (mListener != null && locationService != null) {
@@ -202,14 +217,8 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
             locationService.setLocationOption(locationService.getOption());
         }
         locationService.start();// 定位SDK
-
-        // 极光设置Tag或者别名
-        if (Config.isLogin()) {
-            JpushSetTagAndAlias.getInstance().setAlias(getApplicationContext());
-            JpushSetTagAndAlias.getInstance().setTag(getApplicationContext());
-        }
-
     }
+
     private void checkNotification(){
         if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.KITKAT&&Build.VERSION.SDK_INT<Build.VERSION_CODES.O) {
             if (!NotificationsUtils.isNotificationEnabled(this)) {

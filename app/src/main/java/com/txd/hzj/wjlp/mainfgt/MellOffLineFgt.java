@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.config.Settings;
 import com.ants.theantsgo.util.JSONUtils;
+import com.ants.theantsgo.util.L;
 import com.ants.theantsgo.util.PreferencesUtils;
 import com.ants.theantsgo.view.inScroll.GridViewForScrollView;
 import com.ants.theantsgo.view.inScroll.ListViewForScrollView;
@@ -28,6 +29,7 @@ import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.synnapps.carouselview.CarouselView;
 import com.synnapps.carouselview.ImageListener;
 import com.txd.hzj.wjlp.DemoApplication;
+import com.txd.hzj.wjlp.MainAty;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseFgt;
 import com.txd.hzj.wjlp.bean.offline.OffLineDataBean;
@@ -188,9 +190,9 @@ public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.Scro
                 page = 1;
                 Map<String, String> locMap = DemoApplication.getInstance().getLocInfo();
                 if (null != locMap && !TextUtils.isEmpty(locMap.get("lon"))) {
-                    pranster.requestStoreData(page, locMap.get("lon"), locMap.get("lat"), "","","" ,getContext(), mell_near_by_lv);
+                    pranster.requestStoreData(page, locMap.get("lon"), locMap.get("lat"), "", "", "", getContext(), mell_near_by_lv);
                 } else {
-                    pranster.requestStoreData(page, "", "", "", "","" ,getContext(), mell_near_by_lv);
+                    pranster.requestStoreData(page, "", "", "", "", "", getContext(), mell_near_by_lv);
                 }
 
                 title_list.clear();
@@ -219,9 +221,9 @@ public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.Scro
                 page += 1;
                 Map<String, String> locMap = DemoApplication.getInstance().getLocInfo();
                 if (null != locMap && !TextUtils.isEmpty(locMap.get("lon"))) {
-                    pranster.requestStoreData(page, locMap.get("lon"), locMap.get("lat"), "","","" , getContext(), mell_near_by_lv);
+                    pranster.requestStoreData(page, locMap.get("lon"), locMap.get("lat"), "", "", "", getContext(), mell_near_by_lv);
                 } else {
-                    pranster.requestStoreData(page, "", "", "", "","" ,getContext(), mell_near_by_lv);
+                    pranster.requestStoreData(page, "", "", "", "", "", getContext(), mell_near_by_lv);
                 }
             }
 
@@ -238,8 +240,6 @@ public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.Scro
             }
         });
     }
-
-
 
 
     /**
@@ -320,14 +320,16 @@ public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.Scro
 
     @Override
     protected void initialized() {
-        title_list=new ArrayList<>();
-        image_list=new ArrayList<>();
-        rec_type_id_list=new ArrayList<>();
+        title_list = new ArrayList<>();
+        image_list = new ArrayList<>();
+        rec_type_id_list = new ArrayList<>();
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        MainAty mainAty = (MainAty) getActivity();
+        mainAty.getPositioning(); // 重新获取定位
         Recommending.businessType(this);
         to_location_tv.setText(DemoApplication.getInstance().getLocInfo().get("city"));
         OfflineStore.Index(this);
@@ -338,9 +340,9 @@ public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.Scro
         }
         page = 1;
         if (null != locMap && !TextUtils.isEmpty(locMap.get("lon"))) {
-            pranster.requestStoreData(page, locMap.get("lon"), locMap.get("lat"), "","","", getContext(), mell_near_by_lv);
+            pranster.requestStoreData(page, locMap.get("lon"), locMap.get("lat"), "", "", "", getContext(), mell_near_by_lv);
         } else {
-            pranster.requestStoreData(page, "", "", "", "","",getContext(), mell_near_by_lv);
+            pranster.requestStoreData(page, "", "", "", "", "", getContext(), mell_near_by_lv);
         }
     }
 
@@ -367,7 +369,7 @@ public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.Scro
             list_pic = JSONUtils.parseKeyAndValueToMapList(data.get("banner"));
             forBanner();
             list_ads = JSONUtils.parseKeyAndValueToMapList(data.get("ads"));
-            if (list_ads.size()>0){
+            if (list_ads.size() > 0) {
                 // 设置图片控件的宽高比
                 ViewGroup.LayoutParams lp = im_ads.getLayoutParams();
                 lp.width = Settings.displayWidth;
@@ -376,7 +378,7 @@ public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.Scro
                 im_ads.setMaxWidth(lp.width);
                 im_ads.setMaxHeight(lp.width * 400 / 1242);
 
-                if (list_ads.get(0).containsKey("picture")){
+                if (list_ads.get(0).containsKey("picture")) {
                     Glide.with(getActivity()).load(list_ads.get(0).get("picture"))
                             .override(lp.width, lp.height)
                             .diskCacheStrategy(DiskCacheStrategy.SOURCE)
@@ -392,17 +394,17 @@ public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.Scro
                             Bundle bundle = new Bundle();
                             bundle.putString("mell_id", list_ads.get(0).get("merchant_id"));
                             startActivity(MellInfoAty.class, bundle);
-                        }else if (list_ads.get(0).containsKey("goods_id") && !"0".equals(list_ads.get(0).get("goods_id"))){
+                        } else if (list_ads.get(0).containsKey("goods_id") && !"0".equals(list_ads.get(0).get("goods_id"))) {
                             Bundle bundle = new Bundle();
-                            if (list_ads.get(0).containsKey("goods_id")){
+                            if (list_ads.get(0).containsKey("goods_id")) {
                                 bundle.putString("ticket_buy_id", list_ads.get(0).get("goods_id"));
                             }
                             bundle.putInt("from", 1);
                             startActivity(TicketGoodsDetialsAty.class, bundle);
-                        }else {
+                        } else {
                             if (list_ads.get(0).containsKey("href") && !TextUtils.isEmpty(list_ads.get(0).get("href"))) {
                                 bundle = new Bundle();
-                                if (list_ads.get(0).containsKey("desc")){
+                                if (list_ads.get(0).containsKey("desc")) {
                                     bundle.putString("desc", list_ads.get(0).get("desc"));
                                 }
                                 bundle.putString("href", list_ads.get(0).get("href"));
@@ -415,7 +417,7 @@ public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.Scro
                 });
             }
             list_brand = JSONUtils.parseKeyAndValueToMapList(data.get("brand"));
-            if (list_brand.size()==3){
+            if (list_brand.size() == 3) {
                 Glide.with(getActivity()).load(list_brand.get(0).get("picture")).override(img_w, img_h)
                         .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                         .error(R.mipmap.icon_200)
@@ -459,19 +461,19 @@ public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.Scro
 
         }
 
-        if (requestUrl.contains("Recommending/businessType")){
+        if (requestUrl.contains("Recommending/businessType")) {
             Map<String, String> businessMap = JSONUtils.parseKeyAndValueToMap(jsonStr);
-            if (businessMap.containsKey("code") && "1".equals(businessMap.get("code"))){
-                if (businessMap.containsKey("data")){
+            if (businessMap.containsKey("code") && "1".equals(businessMap.get("code"))) {
+                if (businessMap.containsKey("data")) {
                     ArrayList<Map<String, String>> data = JSONUtils.parseKeyAndValueToMapList(businessMap.get("data"));
                     for (int i = 0; i < data.size(); i++) {
-                        if (data.get(i).containsKey("type")){
+                        if (data.get(i).containsKey("type")) {
                             title_list.add(data.get(i).get("type"));
                         }
-                        if (data.get(i).containsKey("cate_img")){
+                        if (data.get(i).containsKey("cate_img")) {
                             image_list.add(data.get(i).get("cate_img"));
                         }
-                        if (data.get(i).containsKey("rec_type_id")){
+                        if (data.get(i).containsKey("rec_type_id")) {
                             rec_type_id_list.add(data.get(i).get("rec_type_id"));
                         }
                     }
@@ -487,17 +489,17 @@ public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.Scro
             Bundle bundle = new Bundle();
             bundle.putString("mell_id", list_brand.get(i).get("merchant_id"));
             startActivity(MellInfoAty.class, bundle);
-        }else if (list_brand.get(i).containsKey("goods_id") && !"0".equals(list_brand.get(i).get("goods_id"))){
+        } else if (list_brand.get(i).containsKey("goods_id") && !"0".equals(list_brand.get(i).get("goods_id"))) {
             Bundle bundle = new Bundle();
-            if (list_brand.get(i).containsKey("goods_id")){
+            if (list_brand.get(i).containsKey("goods_id")) {
                 bundle.putString("ticket_buy_id", list_brand.get(i).get("goods_id"));
             }
             bundle.putInt("from", 1);
             startActivity(TicketGoodsDetialsAty.class, bundle);
-        }else {
+        } else {
             if (list_brand.get(i).containsKey("href") && !TextUtils.isEmpty(list_brand.get(i).get("href"))) {
                 bundle = new Bundle();
-                if (list_brand.get(i).containsKey("desc")){
+                if (list_brand.get(i).containsKey("desc")) {
                     bundle.putString("desc", list_brand.get(i).get("desc"));
                 }
                 bundle.putString("href", list_brand.get(i).get("href"));
@@ -509,7 +511,7 @@ public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.Scro
 
     private void forMenu() {
 
-        if (title_list.size()>0) {
+        if (title_list.size() > 0) {
 
             // 获取总页数
             int pageCount = (int) Math.ceil(title_list.size() * 1.0 / pageSize);
@@ -571,10 +573,10 @@ public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.Scro
 //
 //                        }
 
-                        Bundle menuBundle=new Bundle();
-                        menuBundle.putString("menu_title",title_list.get(pos));
-                        menuBundle.putString("top_cate",rec_type_id_list.get(pos));
-                        startActivity(ShopMallAty.class,menuBundle);
+                        Bundle menuBundle = new Bundle();
+                        menuBundle.putString("menu_title", title_list.get(pos));
+                        menuBundle.putString("top_cate", rec_type_id_list.get(pos));
+                        startActivity(ShopMallAty.class, menuBundle);
                     }
                 });
                 // 给ViewPager设置适配器
@@ -649,11 +651,11 @@ public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.Scro
         //http://www.wujiemall.com/Wap/OfflineStore/offlineShop/merchant_id/12/invite_code/pp0IKpSv.html
         String goods_num = offLineDataBean.getGoods_num();
         Bundle bundle = new Bundle();
-        if (!TextUtils.isEmpty(goods_num) && Integer.parseInt(goods_num)>0){
+        if (!TextUtils.isEmpty(goods_num) && Integer.parseInt(goods_num) > 0) {
             StringBuffer stringBuffer = new StringBuffer();
-            if (Config.OFFICIAL_WEB.contains("api")){
+            if (Config.OFFICIAL_WEB.contains("api")) {
                 stringBuffer.append("http://www.wujiemall.com/");
-            }else {
+            } else {
                 stringBuffer.append(Config.OFFICIAL_WEB);
             }
             stringBuffer.append("Wap/OfflineStore/offlineShop/merchant_id/");
@@ -668,7 +670,7 @@ public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.Scro
             bundle.putString("href", stringBuffer.toString()); // url
             bundle.putInt("from", 2);
             startActivity(NoticeDetailsAty.class, bundle);
-        }else {
+        } else {
             bundle.putSerializable("mellInfo", offLineDataBean);
             startActivity(ShopMallDetailsAty.class, bundle);
         }
