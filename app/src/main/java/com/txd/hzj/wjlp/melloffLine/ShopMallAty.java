@@ -187,11 +187,11 @@ public class ShopMallAty extends BaseAty {
                     OffLineDataBean offLineDataBea = mellNearByHzjAdapter.getItem(position);
                     String goods_num = offLineDataBea.getGoods_num();
                     Bundle bundle = new Bundle();
-                    if (!TextUtils.isEmpty(goods_num) && Integer.parseInt(goods_num)>0){
+                    if (!TextUtils.isEmpty(goods_num) && Integer.parseInt(goods_num) > 0) {
                         StringBuffer stringBuffer = new StringBuffer();
-                        if (Config.OFFICIAL_WEB.contains("api")){
+                        if (Config.OFFICIAL_WEB.contains("api")) {
                             stringBuffer.append("http://www.wujiemall.com/");
-                        }else {
+                        } else {
                             stringBuffer.append(Config.OFFICIAL_WEB);
                         }
                         stringBuffer.append("Wap/OfflineStore/offlineShop/merchant_id/");
@@ -206,7 +206,7 @@ public class ShopMallAty extends BaseAty {
                         bundle.putString("href", stringBuffer.toString()); // url
                         bundle.putInt("from", 2);
                         startActivity(NoticeDetailsAty.class, bundle);
-                    }else {
+                    } else {
                         bundle.putSerializable("mellInfo", offLineDataBea);
                         startActivity(ShopMallDetailsAty.class, bundle);
                     }
@@ -310,9 +310,11 @@ public class ShopMallAty extends BaseAty {
                             mellNearByHzjAdapter.getList().clear();
                         }
                         if (offLineBean.getData().size() > 0) {
+                            mellNearByHzjAdapter.getList().addAll(offLineBean.getData());
+                        }
+                        if (mellNearByHzjAdapter.getList().size() > 0) {
                             mell_near_by_lv.setVisibility(View.VISIBLE);
                             no_data_layout.setVisibility(View.GONE);
-                            mellNearByHzjAdapter.getList().addAll(offLineBean.getData());
                             mellNearByHzjAdapter.notifyDataSetChanged();
                         } else {
                             mell_near_by_lv.setVisibility(View.GONE);

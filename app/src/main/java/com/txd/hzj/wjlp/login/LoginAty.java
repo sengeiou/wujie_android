@@ -369,7 +369,7 @@ public class LoginAty extends BaseAty implements Handler.Callback, PlatformActio
             }
 
             String noticeDetailsUrl = PreferencesUtils.getString(this, "NoticeDetailsUrl");
-            if (!noticeDetailsUrl.isEmpty()) {
+            if (noticeDetailsUrl != null && !noticeDetailsUrl.isEmpty()) {
                 // 如果有值，则移除该值，并且将获取的值传入广告展示界面
                 AppManager.getInstance().killActivity(NoticeDetailsAty.class);
                 PreferencesUtils.remove(this, "NoticeDetailsUrl");
@@ -378,8 +378,8 @@ public class LoginAty extends BaseAty implements Handler.Callback, PlatformActio
                 bundle.putString("href", noticeDetailsUrl);
                 bundle.putInt("from", 2);
                 startActivity(NoticeDetailsAty.class, bundle);
+//                PreferencesUtils.putString(LoginAty.this, "NoticeDetailsUrl", url);
             }
-//            PreferencesUtils.putString(NoticeDetailsAty.this, "NoticeDetailsUrl", url);
 
             finish();
             return;
@@ -443,7 +443,6 @@ public class LoginAty extends BaseAty implements Handler.Callback, PlatformActio
                 Log.e("TAG", "add_jpush_rid=====message:" + map.get("message"));
             }
         }
-
 
     }
 

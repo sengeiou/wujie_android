@@ -352,14 +352,6 @@ public class NoticeDetailsAty extends BaseAty {
     String discount_type;
 
     class NoticeDetailsJsInterface {
-        //        /**
-//         * H5调用手机端支付
-//         *
-//         * @param order_id      订单id
-//         * @param discount_type 使用代金券 0不使用代金券 1使用红券 2使用黄券 3使用蓝券(多个用','隔开)
-//         * @param type          类型 1.充值,2汽车购订单，3房产购 4 订单支付(限量购) 5 预购 6拼单购 7限量购(作废) 8竞拍汇 9 线下店铺 10无界驿店 13 2980专区
-//         * @param payType       支付类型 微信（WeChat）或支付宝（Alipay）
-//         */
         @JavascriptInterface
         public void payForApplication(String resultJson) {
             try {
@@ -461,6 +453,7 @@ public class NoticeDetailsAty extends BaseAty {
                         @Override
                         public void onFailure() {
                             showToast("支付失败！");
+                            Pay.findPayResult(order_id, "11", new MyBaseView());
                         }
 
                         @Override
@@ -505,10 +498,10 @@ public class NoticeDetailsAty extends BaseAty {
             int errCode = intent.getIntExtra("errCode", 5);
             if (errCode == 0) {
                 showToast("支付成功");
-                Pay.findPayResult(order_id, "11", new MyBaseView());
             } else {
                 showToast("支付失败");
             }
+            Pay.findPayResult(order_id, "11", new MyBaseView());
         }
     }
 
