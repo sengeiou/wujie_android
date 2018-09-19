@@ -18,8 +18,12 @@ public class GlideImageLoader extends ImageLoader {
     @Override
     public void displayImage( Context context, final Object path, final ImageView imageView) {
 
+        imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
 
-        Glide.with(context).load(path).transform(new CenterCrop(context),new GlideRoundTransform(context,15)).into(imageView);
+        Glide.with(context)
+                .load(path)
+                .transform(new CenterCrop(context),new GlideRoundTransform(context,15))
+                .into(imageView);
 
 
         Uri uri = Uri.parse((String) path);

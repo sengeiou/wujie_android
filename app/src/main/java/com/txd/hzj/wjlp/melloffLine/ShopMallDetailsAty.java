@@ -10,6 +10,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -55,6 +57,10 @@ public class ShopMallDetailsAty extends BaseAty implements View.OnClickListener,
      * 轮播图控件
      */
     private Banner bannerIma;
+    /**
+     * 轮播图父布局
+     */
+    private RelativeLayout downShopMallDetail_rlayout;
 
     /*// Header View
     private ProgressBar progressBar;
@@ -155,6 +161,17 @@ public class ShopMallDetailsAty extends BaseAty implements View.OnClickListener,
 
         //mallRefrsh = findViewById(R.id.shop_mall_refrsh);
         bannerIma = findViewById(R.id.banner);
+        downShopMallDetail_rlayout = findViewById(R.id.downShopMallDetail_rlayout);
+        downShopMallDetail_rlayout.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+            @Override
+            public boolean onPreDraw() {
+                downShopMallDetail_rlayout.getViewTreeObserver().removeOnPreDrawListener(this);
+                ViewGroup.LayoutParams layoutParams = downShopMallDetail_rlayout.getLayoutParams();
+                layoutParams.height = (int) (downShopMallDetail_rlayout.getWidth() * 618 / 1000);
+                downShopMallDetail_rlayout.setLayoutParams(layoutParams);
+                return true;
+            }
+        });
         shopEvaluate = findViewById(R.id.shop_mall_evaluate_list);
         shopGoddsNumber = findViewById(R.id.shop_goods_number);
         shop_goods_number_tabRow = findViewById(R.id.shop_goods_number_tabRow);

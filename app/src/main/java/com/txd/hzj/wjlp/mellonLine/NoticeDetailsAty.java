@@ -351,6 +351,9 @@ public class NoticeDetailsAty extends BaseAty {
     String order_id;
     String discount_type;
 
+    /**
+     * H5交互接口
+     */
     class NoticeDetailsJsInterface {
         @JavascriptInterface
         public void payForApplication(String resultJson) {
@@ -386,6 +389,12 @@ public class NoticeDetailsAty extends BaseAty {
         @JavascriptInterface
         public void toOfflinePage() {
             title_be_back_iv.performClick();
+        }
+
+        @JavascriptInterface
+        public void toShare(String content){
+            L.e("NoticeDetailsJsInterface.toShare" + content);
+//            NoticeDetailsAty.this.toShare(goodsName, share_img, share_url, share_content, ticket_buy_id, "1");
         }
     }
 

@@ -58,6 +58,7 @@
                     android:background="@color/shop_division" />
 
                 <RelativeLayout
+                    android:id="@+id/downShopMallDetail_rlayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/white"
@@ -69,7 +70,7 @@
                     <com.youth.banner.Banner
                         android:id="@+id/banner"
                         android:layout_width="match_parent"
-                        android:layout_height="145dp"
+                        android:layout_height="match_parent"
                         android:layout_alignParentStart="true"
                         android:layout_alignParentTop="true" />
 
