@@ -200,12 +200,16 @@ public class ShopManageOrdinaryChildFgt extends BaseFgt implements View.OnClickL
                 shopManageOrdinaryChild_removeForShelves_lLayout.setVisibility(View.GONE); // 下架按钮隐藏
                 break;
         }
+        if (isVisible()) {
+            p=1;
+            getData();
+        }
+
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (getUserVisibleHint()) {
+    public void sendMessage(){
+        if (isVisible()) {
+            p=1;
             getData();
         }
     }
@@ -228,7 +232,8 @@ public class ShopManageOrdinaryChildFgt extends BaseFgt implements View.OnClickL
             DistributionGoodsBean distributionGoodsBean = JSONObject.parseObject(jsonStr, DistributionGoodsBean.class);
             if (200 == distributionGoodsBean.getCode()) {
                 if (p == 1) {
-                    list = distributionGoodsBean.getData();
+                    list.clear();
+                    list.addAll(distributionGoodsBean.getData());
                     if (null != list && list.size() > 0) {
                         emptyView.setVisibility(View.GONE);
                         shopManageOrdinaryChild_sr_layout.setVisibility(View.VISIBLE);
