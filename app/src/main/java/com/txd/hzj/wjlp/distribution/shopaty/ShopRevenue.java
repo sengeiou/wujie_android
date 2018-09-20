@@ -30,6 +30,7 @@ import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.distribution.presenter.ShopExhibitPst;
 import com.txd.hzj.wjlp.view.MyShopTitleView;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -82,6 +83,7 @@ public class ShopRevenue extends BaseAty implements View.OnClickListener {
 
     @ViewInject(R.id.normal_goods_tv)
     private TextView normal_goods_tv;
+    private DecimalFormat mFormat;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -135,6 +137,8 @@ public class ShopRevenue extends BaseAty implements View.OnClickListener {
                 requestData(c_base_type);
             }
         });
+
+        mFormat = new DecimalFormat("0.00");
     }
 
     @Override
@@ -161,11 +165,11 @@ public class ShopRevenue extends BaseAty implements View.OnClickListener {
                 }
                 JSONObject normal = data.getJSONObject("normal");
                 String count = normal.getString("count");
-                normal_goods_tv.setText(count);
+                normal_goods_tv.setText(mFormat.format(Double.parseDouble(count)));
                 JSONObject normalData = normal.getJSONObject("data");
                 JSONObject dis = data.getJSONObject("dis");
                 String disString = dis.getString("count");
-                fenxiao_goods_tv.setText(disString);
+                fenxiao_goods_tv.setText(mFormat.format(Double.parseDouble(disString)));
                 JSONObject disData = dis.getJSONObject("data");
                 normaList = new ArrayList<>();
                 disList = new ArrayList<>();

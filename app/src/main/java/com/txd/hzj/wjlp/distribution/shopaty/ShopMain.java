@@ -17,6 +17,7 @@ import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.distribution.presenter.ShopExhibitPst;
 
+import java.text.DecimalFormat;
 import java.util.Map;
 
 /**
@@ -41,6 +42,7 @@ public class ShopMain extends BaseAty implements OnClickListener {
     private TextView orderNum;
     private ShopExhibitPst mExhibitPst;
     private String mShop_id;
+    private DecimalFormat mFormat;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -108,6 +110,8 @@ public class ShopMain extends BaseAty implements OnClickListener {
         if (PreferencesUtils.containKey(this,"shop_id")){
             mShop_id = PreferencesUtils.getString(this, "shop_id");
         }
+
+        mFormat = new DecimalFormat("0.00");
     }
 
     @Override
@@ -136,7 +140,7 @@ public class ShopMain extends BaseAty implements OnClickListener {
                 //访问量
                 String visit_nums = JSONUtils.getMapValue(mapData, "visit_nums");
 
-                money_tv.setText(pay_money);
+                money_tv.setText(mFormat.format(Double.parseDouble(pay_money)));
                 orderNum.setText(pay_orders);
                 visitor.setText(visit_nums);
             }

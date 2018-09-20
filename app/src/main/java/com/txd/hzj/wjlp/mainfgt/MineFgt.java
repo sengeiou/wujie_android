@@ -771,10 +771,12 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
                 personalStores.setVisibility(View.VISIBLE);
                 mHas_shop = data.get("has_shop");
                 if (data.containsKey("shop_id_ming")) {
-                    String shop_id = data.get("shop_id_ming");
-                    PreferencesUtils.putString(getActivity(), "shop_id", shop_id);
-                } else {
-                    PreferencesUtils.putString(getActivity(), "shop_id", "");
+                    String shop_id_ming = data.get("shop_id_ming");
+                    PreferencesUtils.putString(getActivity(), "shop_id", shop_id_ming);
+                }
+                if (data.containsKey("shop_id")){
+                    String shop_id = data.get("shop_id");
+                    PreferencesUtils.putString(getActivity(), "shop_id_jiami", shop_id);
                 }
             } else {
                 personalStores.setVisibility(View.GONE);

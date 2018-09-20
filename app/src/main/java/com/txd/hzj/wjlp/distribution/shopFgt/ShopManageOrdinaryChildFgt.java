@@ -17,6 +17,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSONObject;
+import com.ants.theantsgo.AppManager;
+import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.tips.MikyouCommonDialog;
 import com.ants.theantsgo.util.PreferencesUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -234,14 +236,16 @@ public class ShopManageOrdinaryChildFgt extends BaseFgt implements View.OnClickL
                             @Override
                             public void onImageClick(View view, int position) {
                                 //分享功能，可以使用ToShareAty  toShare("无界优品", share_img, share_url, share_content, goods_id, "1");
+                                //http://test3.wujiemall.com/Distribution/DistributionShop/shop/g_id/676/shop_id/ZAAADU.html
                                 DistributionGoodsBean.DataBean goodsBean = list.get(position);
                                 Bundle bundle = new Bundle();
                                 bundle.putString("title", goodsBean.getGoods_name());
                                 bundle.putString("pic", goodsBean.getGoods_img());
-                                bundle.putString("url", "1");
+                                String shop_id_jiami = PreferencesUtils.getString(AppManager.getInstance().getTopActivity(), "shop_id_jiami");
+                                bundle.putString("url", Config.SHARE_URL+"Distribution/DistributionShop/shop/g_id/"+goodsBean.getGoods_id()+"/shop_id/"+shop_id_jiami+".html" );
                                 bundle.putString("context", goodsBean.getGoods_name());
-                                bundle.putString("id", "1");
-                                bundle.putString("Shapetype", "1");
+                                bundle.putString("id", goodsBean.getDsg_id());
+                                bundle.putString("Shapetype", "6");
                                 startActivity(ToShareAty.class, bundle);
                             }
                         });

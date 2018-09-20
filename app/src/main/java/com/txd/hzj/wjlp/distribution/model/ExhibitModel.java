@@ -15,8 +15,6 @@ import java.util.List;
  * 联系方式：
  */
 public class ExhibitModel {
-    //分销的base_url
-    public static final String DISTRIBUTION_URL = Config.OFFICIAL_WEB + "Api/Distribution/";
 
     /**
      * 小店上货接口
@@ -33,7 +31,7 @@ public class ExhibitModel {
         params.addQueryStringParameter("cate_id", cate_id);
         params.addQueryStringParameter("name", name);
         params.addQueryStringParameter("flag", flag);
-        apiTool2.getApi(DISTRIBUTION_URL + "goodsList", params, baseView);
+        apiTool2.getApi(Config.DISTRIBUTION_URL + "goodsList", params, baseView);
     }
 
 
@@ -52,7 +50,7 @@ public class ExhibitModel {
         params.addQueryStringParameter("type", type);
         params.addQueryStringParameter("c_type", c_type);
         params.addQueryStringParameter("c_base_type", c_base_type);
-        apiTool2.getApi(DISTRIBUTION_URL + "shops", params, baseView);
+        apiTool2.getApi(Config.DISTRIBUTION_URL + "shops", params, baseView);
     }
 
 
@@ -65,7 +63,7 @@ public class ExhibitModel {
         RequestParams params = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
         params.addQueryStringParameter("id", cate_id);
-        apiTool2.getApi(DISTRIBUTION_URL + "shops", params, baseView);
+        apiTool2.getApi(Config.DISTRIBUTION_URL + "shops", params, baseView);
     }
 
     /**
@@ -88,7 +86,9 @@ public class ExhibitModel {
         ApiTool2 apiTool2 = new ApiTool2();
         params.addBodyParameter("id", id);
         params.addBodyParameter("shop_name", shop_name);
-        params.addBodyParameter("shop_pic", shop_pic);
+        if (shop_pic!=null){
+            params.addBodyParameter("shop_pic", shop_pic);
+        }
         params.addBodyParameter("shop_desc", shop_desc);
         params.addBodyParameter("user_id", user_id);
         //        params.addBodyParameter("set_id", set_id);
@@ -98,7 +98,7 @@ public class ExhibitModel {
         //        params.addBodyParameter("visit_nums", visit_nums);
         params.addBodyParameter("update_time", update_time);
 
-        apiTool2.postApis(DISTRIBUTION_URL + "shops", params, baseView);
+        apiTool2.postApis(Config.DISTRIBUTION_URL + "shops", params, baseView);
     }
 
 
@@ -113,7 +113,7 @@ public class ExhibitModel {
         ApiTool2 apiTool2 = new ApiTool2();
         params.addQueryStringParameter("id", id);
         params.addQueryStringParameter("type", type);
-        apiTool2.getApi(DISTRIBUTION_URL + "orders", params, baseView);
+        apiTool2.getApi(Config.DISTRIBUTION_URL + "orders", params, baseView);
     }
 
 
@@ -132,7 +132,7 @@ public class ExhibitModel {
         if (!status.isEmpty()) {
             params.addQueryStringParameter("status", status);
         }
-        apiTool2.getApi(DISTRIBUTION_URL + "orders", params, baseView);
+        apiTool2.getApi(Config.DISTRIBUTION_URL + "orders", params, baseView);
     }
 
     /**
@@ -147,7 +147,7 @@ public class ExhibitModel {
         params.addQueryStringParameter("id", id);
         params.addQueryStringParameter("type", type);
         params.addQueryStringParameter("p", p);
-        apiTool2.getApi(DISTRIBUTION_URL + "orders", params, baseView);
+        apiTool2.getApi(Config.DISTRIBUTION_URL + "orders", params, baseView);
     }
 
 
@@ -168,7 +168,7 @@ public class ExhibitModel {
         params.addQueryStringParameter("p", p);
         params.addQueryStringParameter("shop_id", shop_id);
         params.addQueryStringParameter("type", type);
-        apiTool2.getApi(DISTRIBUTION_URL + "goods", params, baseView);
+        apiTool2.getApi(Config.DISTRIBUTION_URL + "goods", params, baseView);
     }
 
 
@@ -190,7 +190,7 @@ public class ExhibitModel {
         }
         params.addBodyParameter("id", builder.toString());
         params.addBodyParameter("shop_goods_status", shop_goods_status);
-        apiTool2.postApis(DISTRIBUTION_URL + "goods", params, baseView);
+        apiTool2.postApis(Config.DISTRIBUTION_URL + "goods", params, baseView);
     }
 
 
@@ -211,7 +211,7 @@ public class ExhibitModel {
         params.addBodyParameter("product_id", product_id);
         params.addBodyParameter("shop_goods_status", shop_goods_status);
         params.addBodyParameter("is_special", is_special);
-        apiTool2.postApi(DISTRIBUTION_URL + "goods", params, baseView);
+        apiTool2.postApi(Config.DISTRIBUTION_URL + "goods", params, baseView);
     }
 
     /**
@@ -227,7 +227,7 @@ public class ExhibitModel {
         params.addBodyParameter("order_id", order_id);
         params.addBodyParameter("ticket_status", ticket_status);
         params.addBodyParameter("ticket_price", ticket_price);
-        apiTool2.postApi(DISTRIBUTION_URL + "setOrderTicket", params, baseView);
+        apiTool2.postApi(Config.DISTRIBUTION_URL + "setOrderTicket", params, baseView);
     }
 
 

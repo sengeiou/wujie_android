@@ -76,7 +76,7 @@
             android:background="@null"
             android:hint="请输入店铺名称"
             android:lines="1"
-            android:maxLength="6"
+            android:maxLength="10"
             android:textColor="@color/black"
             android:textSize="17sp" />
     </RelativeLayout>

@@ -13,6 +13,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSONObject;
+import com.ants.theantsgo.AppManager;
+import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.util.PreferencesUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
@@ -165,10 +167,11 @@ public class ShopManageOpenShopFgt extends BaseFgt {
                             Bundle bundle = new Bundle();
                             bundle.putString("title", goodsBean.getGoods_name());
                             bundle.putString("pic", goodsBean.getGoods_img());
-                            bundle.putString("url","1" );
+                            String shop_id_jiami = PreferencesUtils.getString(AppManager.getInstance().getTopActivity(), "shop_id_jiami");
+                            bundle.putString("url", Config.SHARE_URL+"Distribution/DistributionShop/shop/g_id/"+goodsBean.getGoods_id()+"/shop_id/"+shop_id_jiami+".html" );
                             bundle.putString("context", goodsBean.getGoods_name());
-                            bundle.putString("id", "1");
-                            bundle.putString("Shapetype", "1");
+                            bundle.putString("id", goodsBean.getGoods_id());
+                            bundle.putString("Shapetype", "6");
                             startActivity(ToShareAty.class, bundle);
                         }
                     });

@@ -134,15 +134,10 @@ public class ShopSetUp extends BaseAty implements View.OnClickListener {
                 String tvName = inPutName.getText().toString().trim();
                 String tvDetails = shopDetails.getText().toString().trim();
                 long l = System.currentTimeMillis();
-                //                if (file1 != null && !file1.equals("")) {
-                //                    uri = file1.toString();
-                //                } else {
-                //                    uri = shopUrl;
-                //                }
                 isUpdata = true;
-                if (file1 != null) {
+//                if (file1 != null) {
                     pst.shopsetData(mShop_id, tvName, file1, tvDetails, user_id, l + "");
-                }
+//                }
 
                 break;
         }
@@ -173,14 +168,13 @@ public class ShopSetUp extends BaseAty implements View.OnClickListener {
 
 
                 user_id = JSONUtils.getMapValue(mapData, "user_id");
-                if (shopUrl != null && !shopUrl.equals("")) {
-                    Glide.with(ShopSetUp.this).load(shopUrl).error(R.mipmap.icon_idcard_front)
-                            .placeholder(R.mipmap.icon_idcard_front).centerCrop().into(shopImage);
+                if (!TextUtils.isEmpty(shopUrl)) {
+                    Glide.with(ShopSetUp.this).load(shopUrl).centerCrop().into(shopImage);
                 }
-                if (shopName != null && !shopName.equals("")) {
+                if (!TextUtils.isEmpty(shopName)) {
                     inPutName.setText(shopName);
                 }
-                if (!shopDesc.equals("") && shopDesc != null) {
+                if (!TextUtils.isEmpty(shopDesc) && !"null".equalsIgnoreCase(shopDesc)) {
                     shopDetails.setText(shopDesc);
                 }
 
