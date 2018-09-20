@@ -51,10 +51,6 @@ public class ToShareAty extends BaseAty {
      */
     private String type;
 
-    private boolean isSharing;  //是否调起了分享。如果调起分享，这个值为true。
-    private boolean isResume;  //Activity是否处于前台。
-    //    private ShareForApp.StatusForShare mStatusForShare;
-
     @ViewInject(R.id.share_to_sine_tv)
     private TextView share_to_sine_tv;
 
@@ -71,7 +67,6 @@ public class ToShareAty extends BaseAty {
             case R.id.share_to_wachar: // 微信
                 L.e("微信");
                 shareType = "1";
-//                isSharing = true;
                 if (!CheckAppExist.getInstancei().isAppAvilible(this, "com.tencent.mm")) {
                     showErrorTip("请安装微信");
                     break;
@@ -81,7 +76,6 @@ public class ToShareAty extends BaseAty {
             case R.id.share_to_WechatMoments: // 微信朋友圈
                 L.e("微信朋友圈");
                 shareType = "4";
-//                isSharing = true;
                 if (!CheckAppExist.getInstancei().isAppAvilible(this, "com.tencent.mm")) {
                     showErrorTip("请安装微信");
                     break;
@@ -177,16 +171,10 @@ public class ToShareAty extends BaseAty {
         ShareForApp shareForApp = new ShareForApp(name, pic, title, context, shareUrl, new ShareBeBackListener() {
             @Override
             public void beBack(ShareForApp.PlatformForShare platformForShare, ShareForApp.StatusForShare statusForShare, int code) {
-//                mStatusForShare = statusForShare;
-
-                if (L.isDebug) {
-                    showErrorTip("~~~~~~~从微信返回到应用~~~~~~~~~~``");
-                }
                 switch (statusForShare) {
                     case Success:
                         userPst.shareBack(shareType, context, id, type, shareUrl);
                         showRightTip("分享成功");
-                        finish();
                         break;
                     case Error:
                         showErrorTip("分享失败");
@@ -195,60 +183,11 @@ public class ToShareAty extends BaseAty {
                         showErrorTip("分享取消");
                         break;
                 }
+                removeProgressDialog();
+                ToShareAty.this.finish();
             }
         });
         shareForApp.toShareWithPicUrl();
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-//        isSharing = false;
-        isResume = true;
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        isResume = false;
-    }
-
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-//        if (isSharing) {
-//            isSharing = false;
-//            //这里要延时0.2秒在判断是否回调了onResume，因为onRestart在onResume之前执行。
-//            new Handler().postDelayed(new Runnable() {
-//                @Override
-//                public void run() {
-//                    // 如果0.2秒后没有调用onResume，则认为是分享成功并且留着微信。
-//                    if (!isResume) {
-//                        if (userPst == null) { // 判断对象是否为空，防止空指针报错
-//                            userPst = new UserPst(ToShareAty.this);
-//                        }
-//                        if (mStatusForShare != null) {
-//                            switch (mStatusForShare) {
-//                                case Error:
-//                                    showErrorTip("分享失败");
-//                                    break;
-//                                case Cancel:
-//                                    showErrorTip("分享取消");
-//                                    break;
-//                                case Success:
-//                        if (L.isDebug) {
-//                            showErrorTip("0.2s分享成功");
-//                        }
-//                        userPst.shareBack(shareType, context, id, type, link);
-//                        showRightTip("分享成功");
-//                        finish();
-//                                    break;
-//                            }
-//                        }
-
-//                    }
-//                }
-//            }, 200);
-//        }
-    }
 }

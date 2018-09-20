@@ -339,7 +339,7 @@ public class MellInfoAty extends BaseAty {
 
                 //                Wap/Merchant/merIndex/merchant_id/4.html
                 //                    店铺首页
-                share_url = Config.OFFICIAL_WEB + "Wap/Merchant/merIndex/merchant_id/" + mell_id + ".html";
+                share_url = Config.SHARE_URL + "Wap/Merchant/merIndex/merchant_id/" + mell_id + ".html";
                 /**
                  * 1 商品 2商家 3书院 4红包 5其他(个人中心)
                  */
