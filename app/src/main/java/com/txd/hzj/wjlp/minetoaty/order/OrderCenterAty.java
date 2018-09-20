@@ -10,12 +10,14 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.util.JSONUtils;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.http.index.IndexPst;
+import com.txd.hzj.wjlp.webviewH5.WebViewAty;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +39,12 @@ public class OrderCenterAty extends BaseAty {
 
     Bundle mBundle = new Bundle();
     private ItemAdapter itemAdapter;
+
+    String[] itemShowNames = {
+            "线上商城", "线下店铺", "堂食点餐",
+            "积分商店", "拼单购", "无界预购",
+            "比价购", "积分抽奖", "汽车购",
+            "房产购", "会员卡", "线上充值"};
 
     @Override
     protected int getLayoutResId() {
@@ -65,44 +73,51 @@ public class OrderCenterAty extends BaseAty {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 ShowItem showItem = list.get(position);
-                if (showItem.getShowName().equals("线上商城")) {
+                if (showItem.getShowName().equals(itemShowNames[0])) {
                     mBundle.putString("title", "线上商城");
                     mBundle.putString("type", "0");
                     startActivity(OnlineShopAty.class, mBundle);
-                } else if (showItem.getShowName().equals("线下店铺")) {
+                } else if (showItem.getShowName().equals(itemShowNames[1])) {
                     mBundle.putString("title", "线下店铺");
                     startActivity(OffLineShopAty.class, mBundle);
-                } else if (showItem.getShowName().equals("积分商店")) {
+                } else if (showItem.getShowName().equals(itemShowNames[2])) {
+                    // 堂食点餐 Meal order
+                    String url = Config.OFFICIAL_WEB.contains("api") ? Config.OFFICIAL_WEB.replace("api", "www") : Config.OFFICIAL_WEB;
+                    url = url + "Wap/OfflineStore/os_orderlist/status/9/p/1.html";
+                    mBundle.putString("url", url);
+                    startActivity(WebViewAty.class, mBundle);
+                } else if (showItem.getShowName().equals(itemShowNames[3])) {
                     mBundle.putString("title", "积分商店");
                     mBundle.putString("type", "10");
                     startActivity(OnlineShopAty.class, mBundle);
-                } else if (showItem.getShowName().equals("拼单购")) {
+                } else if (showItem.getShowName().equals(itemShowNames[4])) {
                     mBundle.putString("title", "拼单购");
                     mBundle.putString("type", "3");
                     startActivity(OnlineShopAty.class, mBundle);
-                } else if (showItem.getShowName().equals("无界预购")) {
+                } else if (showItem.getShowName().equals(itemShowNames[5])) {
                     mBundle.putString("title", "无界预购");
                     mBundle.putString("type", "4");
                     startActivity(OnlineShopAty.class, mBundle);
-                } else if (showItem.getShowName().equals("比价购")) {
+                } else if (showItem.getShowName().equals(itemShowNames[6])) {
                     mBundle.putString("title", "比价购");
                     mBundle.putString("type", "6");
                     startActivity(OnlineShopAty.class, mBundle);
-                } else if (showItem.getShowName().equals("积分抽奖")) {
+                } else if (showItem.getShowName().equals(itemShowNames[7])) {
                     mBundle.putString("title", "积分抽奖");
                     mBundle.putString("type", "5");
                     startActivity(OnlineShopAty.class, mBundle);
-                } else if (showItem.getShowName().equals("汽车购")) {
+                } else if (showItem.getShowName().equals(itemShowNames[8])) {
                     mBundle.putString("title", "汽车购");
                     mBundle.putString("type", "1");
                     startActivity(OnlineShopAty.class, mBundle);
-                } else if (showItem.getShowName().equals("房产购")) {
+                } else if (showItem.getShowName().equals(itemShowNames[9])) {
                     mBundle.putString("title", "房产购");
                     mBundle.putString("type", "2");
                     startActivity(OnlineShopAty.class, mBundle);
-                } else if (showItem.getShowName().equals("会员卡")) {
+                } else if (showItem.getShowName().equals(itemShowNames[10])) {
+                    // 会员卡
                     startActivity(VipCardAty.class, null);
-                } else if (showItem.getShowName().equals("线上充值")) {
+                } else if (showItem.getShowName().equals(itemShowNames[11])) {
                     mBundle.putString("title", "线上充值");
                     mBundle.putString("type", "8");
                     startActivity(OnlineShopAty.class, mBundle);
@@ -127,23 +142,24 @@ public class OrderCenterAty extends BaseAty {
                 // 获取信息成功之后先移除所有项
                 list.removeAll(list);
                 // 添加然后添加所有项
-                list.add(new ShowItem(R.drawable.icon_order_center_01, "线上商城"));
-                list.add(new ShowItem(R.drawable.icon_order_center_02, "线下店铺"));
-                list.add(new ShowItem(R.drawable.icon_order_center_03, "积分商店"));
-                list.add(new ShowItem(R.drawable.icon_order_center_04, "拼单购"));
-                list.add(new ShowItem(R.drawable.icon_order_center_05, "无界预购"));
-                list.add(new ShowItem(R.drawable.icon_order_center_06, "比价购"));
-                list.add(new ShowItem(R.drawable.icon_order_center_07, "积分抽奖"));
-                list.add(new ShowItem(R.drawable.icon_order_center_08, "汽车购"));
-                list.add(new ShowItem(R.drawable.icon_order_center_09, "房产购"));
-                list.add(new ShowItem(R.mipmap.icon_order_vipcard, "会员卡"));
-                list.add(new ShowItem(R.drawable.icon_chong, "线上充值"));
+                list.add(new ShowItem(R.drawable.icon_order_center_01, itemShowNames[0])); // 线上商城
+                list.add(new ShowItem(R.drawable.icon_order_center_02, itemShowNames[1])); // 线下店铺
+                list.add(new ShowItem(R.drawable.icon_order_center_02, itemShowNames[2])); // 堂食点餐
+                list.add(new ShowItem(R.drawable.icon_order_center_03, itemShowNames[3])); // 积分商店
+                list.add(new ShowItem(R.drawable.icon_order_center_04, itemShowNames[4])); // 拼单购
+                list.add(new ShowItem(R.drawable.icon_order_center_05, itemShowNames[5])); // 无界预购
+                list.add(new ShowItem(R.drawable.icon_order_center_06, itemShowNames[6])); // 比价购
+                list.add(new ShowItem(R.drawable.icon_order_center_07, itemShowNames[7])); // 积分抽奖
+                list.add(new ShowItem(R.drawable.icon_order_center_08, itemShowNames[8])); // 汽车购
+                list.add(new ShowItem(R.drawable.icon_order_center_09, itemShowNames[9])); // 房产购
+                list.add(new ShowItem(R.mipmap.icon_order_vipcard, itemShowNames[10])); // 会员卡
+                list.add(new ShowItem(R.drawable.icon_chong, itemShowNames[11])); // 线上充值
             } else { // 不开启活动，只添加相应的功能
                 list.removeAll(list);
-                list.add(new ShowItem(R.drawable.icon_order_center_01, "线上商城"));
-                list.add(new ShowItem(R.mipmap.icon_order_vipcard, "会员卡"));
-                list.add(new ShowItem(R.drawable.icon_chong, "线上充值"));
-                list.add(new ShowItem(R.drawable.icon_order_center_04, "拼单购")); // 2018-07-09 上线
+                list.add(new ShowItem(R.drawable.icon_order_center_01, itemShowNames[0])); // 线上商城
+                list.add(new ShowItem(R.mipmap.icon_order_vipcard, itemShowNames[10])); // 会员卡
+                list.add(new ShowItem(R.drawable.icon_chong, itemShowNames[11])); // 线上充值
+                list.add(new ShowItem(R.drawable.icon_order_center_04, itemShowNames[4])); // 拼单购
             }
             itemAdapter.notifyDataSetChanged(); // 通知Adapter刷新
         }

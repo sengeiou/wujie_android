@@ -12,7 +12,7 @@
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
 
     <!--读取手机联系人-->
-    <uses-permission android:name="android.permission.READ_CONTACTS"/>
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
 
     <!-- 友盟统计所需权限 -->
     <!-- <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> -->
@@ -24,7 +24,8 @@
     <!-- 相机权限 -->
     <uses-permission android:name="android.permission.CAMERA" />
     <!-- 在SDCard中创建与删除文件权限 -->
-    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"
+    <uses-permission
+        android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"
         tools:ignore="ProtectedPermissions" />
     <!-- 往SDCard写入数据权限 -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -52,7 +53,8 @@
     <uses-permission android:name="android.permission.USE_CREDENTIALS" />
     <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" />
     <uses-permission android:name="android.permission.BROADCAST_STICKY" />
-    <uses-permission android:name="android.permission.WRITE_SETTINGS"
+    <uses-permission
+        android:name="android.permission.WRITE_SETTINGS"
         tools:ignore="ProtectedPermissions" />
     <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
     <!-- GCM required, remember replace "com.hyphenate.chatuidemo" to your own package -->
@@ -71,7 +73,8 @@
     <uses-permission android:name="com.txd.hzj.wjlp.permission.MIPUSH_RECEIVE" />
 
     <!-- 百度地图 权限 Begin -->
-    <uses-permission android:name="android.permission.READ_LOGS"
+    <uses-permission
+        android:name="android.permission.READ_LOGS"
         tools:ignore="ProtectedPermissions" />
     <!-- 百度地图 权限 End -->
 
@@ -146,7 +149,8 @@
 
         <!-- 百度地图 End -->
         <!-- 首页启动界面 android:name=".MainAty" -->
-        <activity android:name=".startPage.GuidanceAty"
+        <activity
+            android:name=".startPage.GuidanceAty"
             android:theme="@style/styleSplashImage">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -461,6 +465,9 @@
         <!--三方收款账户-->
         <activity android:name=".minetoaty.ThirdPartAccountAty" />
 
+        <!-- 网页H5展示以及交互 -->
+        <activity android:name=".webviewH5.WebViewAty" />
+
         <!-- 环信相关服务等 ↓ BEGIN -->
         <!-- 开机自启动服务 -->
         <receiver android:name=".huanxin.receiver.StartServiceReceiver">
@@ -601,13 +608,6 @@
         </receiver>
 
 
-
-
-
-
-
-
-
         <!-- 设置环信应用的appkey -->
         <meta-data
             android:name="EASEMOB_APPKEY"
@@ -721,8 +721,7 @@
         <service
             android:name="cn.jpush.android.service.DownloadService"
             android:enabled="true"
-            android:exported="false" >
-        </service>
+            android:exported="false"></service>
         <!-- Required SDK核心功能 -->
         <activity
             android:name="cn.jpush.android.ui.PushActivity"
@@ -752,7 +751,7 @@
         <service
             android:name="cn.jpush.android.service.PushService"
             android:enabled="true"
-            android:exported="false" >
+            android:exported="false">
             <intent-filter>
                 <action android:name="cn.jpush.android.intent.REGISTER" />
                 <action android:name="cn.jpush.android.intent.REPORT" />
@@ -762,10 +761,9 @@
         </service>
         <!-- since 3.0.9 Required SDK 核心功能 -->
         <provider
-            android:authorities="com.txd.hzj.wjlp.DataProvider"
             android:name="cn.jpush.android.service.DataProvider"
-            android:exported="true"
-            />
+            android:authorities="com.txd.hzj.wjlp.DataProvider"
+            android:exported="true" />
 
         <!-- since 1.8.0 option 可选项。用于同一设备中不同应用的JPush服务相互拉起的功能。 -->
         <!-- 若不启用该功能可删除该组件，将不拉起其他应用也不能被其他应用拉起 -->
@@ -773,27 +771,26 @@
             android:name="cn.jpush.android.service.DaemonService"
             android:enabled="true"
             android:exported="true">
-            <intent-filter >
+            <intent-filter>
                 <action android:name="cn.jpush.android.intent.DaemonService" />
-                <category android:name="com.txd.hzj.wjlp"/>
+                <category android:name="com.txd.hzj.wjlp" />
             </intent-filter>
         </service>
 
         <!-- since 3.1.0 Required SDK 核心功能-->
         <provider
-            android:authorities="com.txd.hzj.wjlp.DownloadProvider"
             android:name="cn.jpush.android.service.DownloadProvider"
-            android:exported="true"
-            />
+            android:authorities="com.txd.hzj.wjlp.DownloadProvider"
+            android:exported="true" />
 
         <!-- Required SDK核心功能 -->
 
         <receiver
             android:name="cn.jpush.android.service.PushReceiver"
-            android:enabled="true" >
+            android:enabled="true">
             <intent-filter android:priority="1000">
                 <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED_PROXY" /> <!-- Required  显示通知栏 -->
-                <category android:name="com.txd.hzj.wjlp"/>
+                <category android:name="com.txd.hzj.wjlp" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.USER_PRESENT" />
@@ -803,6 +800,7 @@
             <intent-filter>
                 <action android:name="android.intent.action.PACKAGE_ADDED" />
                 <action android:name="android.intent.action.PACKAGE_REMOVED" />
+
                 <data android:scheme="package" />
             </intent-filter>
         </receiver>
@@ -975,11 +973,11 @@
         <activity android:name=".minetoaty.order.OffLineShopDetailsAty" />
         <!--线下店铺搜索列表页-->
         <activity android:name=".melloffLine.MellOffLineListAty" />
-        <activity android:name=".melloffLine.OffLineEvaluationShopAty"/>
+        <activity android:name=".melloffLine.OffLineEvaluationShopAty" />
         <activity android:name=".melloffLine.OffLineEvaluationShopListAty" />
-        <activity android:name=".new_wjyp.FreeRenew"/>
+        <activity android:name=".new_wjyp.FreeRenew" />
         <activity android:name=".melloffLine.ShopMallAty" />
-        <activity android:name=".distribution.shopaty.ShopGiveYellowVoucher"/>
+        <activity android:name=".distribution.shopaty.ShopGiveYellowVoucher" />
     </application>
 
 </manifest>

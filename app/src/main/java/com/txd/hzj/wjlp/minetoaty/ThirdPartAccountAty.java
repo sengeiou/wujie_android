@@ -137,9 +137,9 @@ public class ThirdPartAccountAty extends BaseAty implements PlatformActionListen
                 break;
             case R.id.thirdPartyAcc_verificationAlipay_tv: // 绑定支付宝账号
                 clickView = R.id.thirdPartyAcc_verificationAlipay_tv;
-                if (balance <= 2.0) { // 如果余额小于2则弹窗提醒
+                if (balance < 2.0) { // 如果余额小于2则弹窗提醒
                     showMenyDialog();
-                } else {
+                } else { // 否则的话是余额大于等于2就可以验证
                     if (thirdPartyAcc_alipayAccount_et.getText().toString().trim().equals("")) {
                         showToast("请输入支付宝账号");
                         return;

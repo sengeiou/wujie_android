@@ -404,6 +404,17 @@ public class NoticeDetailsAty extends BaseAty {
                 e.printStackTrace();
             }
         }
+
+        /**
+         * 跳转至相应界面（暂时用不着这个）
+         *
+         * @param resultUrl 目标Url
+         */
+        @JavascriptInterface
+        public void toOrder(String resultUrl) {
+            url = resultUrl;
+            initWebView(false);
+        }
     }
 
     class MyBaseView implements BaseView {
