@@ -125,10 +125,10 @@ public class ToShareAty extends BaseAty {
         type = getIntent().getStringExtra("Shapetype");
         id = getIntent().getStringExtra("id");
         userPst = new UserPst(this);
-        if (!link.contains("://")) {
-            GroupBuyOrder.shareurl(link, id, this);
-        } else {
+        if (link.contains("://")) {
             shareUrl = link;
+        } else {
+            GroupBuyOrder.shareurl(link, id, this);
         }
     }
 

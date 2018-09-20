@@ -61,9 +61,6 @@ public class NoticeDetailsAty extends BaseAty {
     @ViewInject(R.id.titlt_right_tv)
     public TextView titlt_right_tv;
 
-    @ViewInject(R.id.title_be_back_iv)
-    public ImageView title_be_back_iv;
-
     @ViewInject(R.id.notice_details_wv)
     public NoScrollWebView notice_details_wv;
 
@@ -169,7 +166,7 @@ public class NoticeDetailsAty extends BaseAty {
      */
     @SuppressLint("NewApi")
     private void initWebView(boolean noScroll) {
-        if (url.isEmpty()) {
+        if (url.isEmpty()) { // 如果Url为空，则直接等待两秒退出界面
             showToast("链接地址为空，请重新检查");
             new CountDownTimer(2000, 1000) {
                 @Override
@@ -199,12 +196,6 @@ public class NoticeDetailsAty extends BaseAty {
         webSettings.setLoadWithOverviewMode(true);
         webSettings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
 
-//        // 对webView添加H5调用接口
-        notice_details_wv.addJavascriptInterface(new NoticeDetailsJsInterface(), Constant.H5NAME);// 无滑动的主要是进行无界头条展示
-        // 开启DOM缓存，开启LocalStorage存储（html5的本地存储方式）
-        notice_details_wv.getSettings().setDomStorageEnabled(true);
-        notice_details_wv.getSettings().setDatabaseEnabled(true);
-        notice_details_wv.getSettings().setDatabasePath(NoticeDetailsAty.this.getApplicationContext().getCacheDir().getAbsolutePath());
         details_webview.addJavascriptInterface(new NoticeDetailsJsInterface(), Constant.H5NAME); // 原生的WebView主要是进行产品展示
         // 开启DOM缓存，开启LocalStorage存储（html5的本地存储方式）
         details_webview.getSettings().setDomStorageEnabled(true);
@@ -265,17 +256,6 @@ public class NoticeDetailsAty extends BaseAty {
         }
     }
 
-    @OnClick({R.id.title_be_back_iv})
-    @Override
-    public void onClick(View v) {
-        super.onClick(v);
-        switch (v.getId()) {
-            case R.id.title_be_back_iv: // 退出当前界面
-                this.finish();
-                break;
-        }
-    }
-
     @Override
     protected int getLayoutResId() {
         return R.layout.aty_notice_details;
@@ -300,7 +280,6 @@ public class NoticeDetailsAty extends BaseAty {
 
     @Override
     protected void requestData() {
-
     }
 
     @Override
@@ -355,6 +334,12 @@ public class NoticeDetailsAty extends BaseAty {
      * H5交互接口
      */
     class NoticeDetailsJsInterface {
+
+        /**
+         * H5调用付款（微信支付和支付宝支付）
+         *
+         * @param resultJson
+         */
         @JavascriptInterface
         public void payForApplication(String resultJson) {
             try {
@@ -368,13 +353,18 @@ public class NoticeDetailsAty extends BaseAty {
                 } else if ("Alipay".equals(payType)) { // 支付宝支付
                     Pay.getAlipayParam(order_id, discount_type, type, new MyBaseView());
                 } else {
-
+                    L.e("payForApplication show: other pay type");
                 }
             } catch (JSONException e) {
-
+                L.e("payForApplication Exception:" + e.toString());
             }
         }
 
+        /**
+         * H5调用登录
+         *
+         * @param url
+         */
         @JavascriptInterface
         public void toLogin(String url) { // window.phone.toLogin(String url)
             if (!url.isEmpty()) { // 如果Url不为空，那么直接解码并添加到本地共享存储
@@ -386,15 +376,33 @@ public class NoticeDetailsAty extends BaseAty {
             startActivity(LoginAty.class, bundle);
         }
 
+        /**
+         * H5支付结果返回首页
+         */
         @JavascriptInterface
         public void toOfflinePage() {
-            title_be_back_iv.performClick();
+            NoticeDetailsAty.this.finish();
         }
 
+        /**
+         * H5调用分享
+         *
+         * @param content
+         */
         @JavascriptInterface
-        public void toShare(String content){
+        public void toShare(String content) {
             L.e("NoticeDetailsJsInterface.toShare" + content);
-//            NoticeDetailsAty.this.toShare(goodsName, share_img, share_url, share_content, ticket_buy_id, "1");
+            try {
+                JSONObject jsonObject = new JSONObject(content);
+                String goodsName = jsonObject.has("goodsName") ? jsonObject.getString("goodsName") : "";
+                String share_img = jsonObject.has("share_img") ? jsonObject.getString("share_img") : "";
+                String share_url = jsonObject.has("share_url") ? jsonObject.getString("share_url") : "";
+                String share_content = jsonObject.has("share_content") ? jsonObject.getString("share_content") : "";
+                String id = jsonObject.has("id") ? jsonObject.getString("id") : "0";
+                NoticeDetailsAty.this.toShare(goodsName, share_img, share_url, share_content, id, "1");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -494,6 +502,12 @@ public class NoticeDetailsAty extends BaseAty {
         if (null != wxPayReceiver) {
             unregisterReceiver(wxPayReceiver);
         }
+//        url = Config.OFFICIAL_WEB;
+//        if (url.contains("api")){
+//            url = url.replace("api", "www");
+//        }
+//        url = url + "Wap/Register/loginOut.html";
+//        initWebView(false);
     }
 
     /**
