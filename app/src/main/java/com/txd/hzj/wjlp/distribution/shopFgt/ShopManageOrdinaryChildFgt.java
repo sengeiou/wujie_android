@@ -146,9 +146,13 @@ public class ShopManageOrdinaryChildFgt extends BaseFgt implements View.OnClickL
                 progressBar.setVisibility(View.VISIBLE);
                 p = 1;
                 getData();
-
+                if (shopManageOrdinaryChild_batchManagement_tv.getVisibility()==View.GONE){
+                    shopManageOrdinaryChild_batchManagement_tv.setVisibility(View.VISIBLE);
+                    shopManageOrdinaryChild_selectAll_cbox.setChecked(false);
+                    ShopGoodsManage shopGoodsManage = (ShopGoodsManage) getActivity();
+                    shopGoodsManage.setTitltRightVisibility(false);
+                }
             }
-
             @Override
             public void onPullDistance(int distance) {
 
@@ -169,6 +173,14 @@ public class ShopManageOrdinaryChildFgt extends BaseFgt implements View.OnClickL
                 footerProgressBar.setVisibility(View.VISIBLE);
                 p++;
                 getData();
+                if (shopManageOrdinaryChild_batchManagement_tv.getVisibility()==View.GONE){
+                    shopManageOrdinaryChild_batchManagement_tv.setVisibility(View.VISIBLE);
+                    shopManageOrdinaryChild_selectAll_cbox.setChecked(false);
+                    ShopGoodsManage shopGoodsManage = (ShopGoodsManage) getActivity();
+                    shopGoodsManage.setTitltRightVisibility(false);
+                    adapter.setShowCbox(false);
+                    adapter.notifyDataSetChanged();
+                }
             }
 
             @Override
@@ -389,10 +401,12 @@ public class ShopManageOrdinaryChildFgt extends BaseFgt implements View.OnClickL
                                                 getData();
                                             }
                                         },200);
-                                        shopManageOrdinaryChild_batchManagement_tv.setVisibility(View.VISIBLE);
-                                        shopManageOrdinaryChild_selectAll_cbox.setChecked(false);
-                                        ShopGoodsManage shopGoodsManage = (ShopGoodsManage) getActivity();
-                                        shopGoodsManage.setTitltRightVisibility(false);
+                                        if (shopManageOrdinaryChild_batchManagement_tv.getVisibility()==View.GONE){
+                                            shopManageOrdinaryChild_batchManagement_tv.setVisibility(View.VISIBLE);
+                                            shopManageOrdinaryChild_selectAll_cbox.setChecked(false);
+                                            ShopGoodsManage shopGoodsManage = (ShopGoodsManage) getActivity();
+                                            shopGoodsManage.setTitltRightVisibility(false);
+                                        }
                                     }
 
                                 }

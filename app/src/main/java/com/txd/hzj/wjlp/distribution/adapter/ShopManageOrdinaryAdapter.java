@@ -39,9 +39,6 @@ public class ShopManageOrdinaryAdapter extends BaseAdapter {
     public void setCheckedCount(){
         this.checkedCount=0;
     }
-    public boolean isShowCbox() {
-        return isShowCbox;
-    }
 
     public void setShowCbox(boolean showCbox) {
         isShowCbox = showCbox;
