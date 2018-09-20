@@ -209,7 +209,7 @@ public class ShopExhibitFragment extends BaseFgt {
 
     @Override
     protected void requestData() {
-        mExhibitPst.goodsList(String.valueOf(p),String.valueOf(mCate_id),"red_return_integral","desc",0);
+        mExhibitPst.goodsList(String.valueOf(p),String.valueOf(mCate_id),name,flag,0);
     }
 
     @Override
@@ -333,23 +333,21 @@ public class ShopExhibitFragment extends BaseFgt {
     }
 
     private void sort(int index){
+        p=1;
         if (index==0){
             name="red_return_integral";
             flag=internalNum%2==0?"asc":"desc";
-            mExhibitPst.goodsList("1",String.valueOf(mCate_id),"red_return_integral",internalNum%2==0?"asc":"desc",0);
         }else  if (index==1){
             name="discount";
             flag=cashCouponNum%2==0?"asc":"desc";
-            mExhibitPst.goodsList("1",String.valueOf(mCate_id),"discount",cashCouponNum%2==0?"asc":"desc",0);
         } else  if (index==2){
             name="new_sell_num";
             flag=salesVolumeNum%2==0?"asc":"desc";
-            mExhibitPst.goodsList("1",String.valueOf(mCate_id),"new_sell_num",salesVolumeNum%2==0?"asc":"desc",0);
         }else  if (index==3){
             name="shop_price";
             flag=priceNum%2==0?"asc":"desc";
-            mExhibitPst.goodsList("1",String.valueOf(mCate_id),"shop_price",priceNum%2==0?"asc":"desc",0);
         }
+        requestData();
     }
 
     private void setChioceItem(int index) {

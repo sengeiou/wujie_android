@@ -724,20 +724,22 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
                     sanfangList = new ArrayList<>();
                     bluedaijinquanList = new ArrayList<>();
                     for (int i = 0; i < mInfo.length(); i++) {
-
                         JSONObject obj = mInfo.getJSONObject(i);
                         String stage_merchant_id = obj.has("stage_merchant_id") ? obj.getString("stage_merchant_id") : "";
                         String wxpay_accounts = obj.has("wxpay_accounts") ? obj.getString("wxpay_accounts") : "";
                         String alipay_accounts = obj.has("alipay_accounts") ? obj.getString("alipay_accounts") : "";
                         String default_account = obj.has("default_account") ? obj.getString("default_account") : "";
+                        String show_type = obj.has("show_type") ? obj.getString("show_type") : "";
                         String change_account_status1 = obj.has("change_account_status") ? obj.getString("change_account_status") : "";
                         String merchant_name = obj.has("merchant_name") ? obj.getString("merchant_name") : "";
                         String logo = obj.has("logo") ? obj.getString("logo") : "";
                         String special_type = obj.has("jeanne_cate") ? obj.getString("jeanne_cate") : "";
                         MineInfoBean mineInfoBean = new MineInfoBean(stage_merchant_id, wxpay_accounts, alipay_accounts, default_account, change_account_status1, merchant_name, logo);
-                        shangjiamaList.add(mineInfoBean);
-                        if (change_account_status1.equals("1")) {
-                            sanfangList.add(mineInfoBean);
+                        if ("1".equalsIgnoreCase(show_type)){
+                            shangjiamaList.add(mineInfoBean);
+                            if (change_account_status1.equals("1")) {
+                                sanfangList.add(mineInfoBean);
+                            }
                         }
                         if (Float.parseFloat(special_type) == 0.00) {
                             bluedaijinquanList.add(mineInfoBean);

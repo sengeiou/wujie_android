@@ -62,6 +62,7 @@ public class DistributionGoodsBean {
          * shop_id : ZAAADU
          * integral : 13.00
          * goods_name : （女士凉鞋）欧美夏季新款女式尖头凉鞋
+         * goods_brief:
          * g_integral : 0.00
          * goods_img : http://test2.wujiemall.com/Uploads/Goods/2018-02-23/5a8fb5483cd25.jpg
          * country_id : 47
@@ -78,6 +79,7 @@ public class DistributionGoodsBean {
         private String shop_id;
         private String integral;
         private String goods_name;
+        private String goods_brief;
         private String g_integral;
         private String goods_img;
         private String country_id;
@@ -87,6 +89,15 @@ public class DistributionGoodsBean {
         private String sell_num;
         private int ticket_buy_discount;
         private boolean mChecked=false;
+
+
+        public String getGoods_brief() {
+            return goods_brief;
+        }
+
+        public void setGoods_brief(String goods_brief) {
+            this.goods_brief = goods_brief;
+        }
 
         public String getDsg_id() {
             return dsg_id;

@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -226,7 +227,7 @@ public class ShopManageOrdinaryChildFgt extends BaseFgt implements View.OnClickL
         if (!isManage) {
             DistributionGoodsBean distributionGoodsBean = JSONObject.parseObject(jsonStr, DistributionGoodsBean.class);
             if (200 == distributionGoodsBean.getCode()) {
-                if (p==1){
+                if (p == 1) {
                     list = distributionGoodsBean.getData();
                     if (null != list && list.size() > 0) {
                         emptyView.setVisibility(View.GONE);
@@ -235,15 +236,14 @@ public class ShopManageOrdinaryChildFgt extends BaseFgt implements View.OnClickL
                         adapter.setOnImageClickListener(new ShopManageOrdinaryAdapter.ImageClick() {
                             @Override
                             public void onImageClick(View view, int position) {
-                                //分享功能，可以使用ToShareAty  toShare("无界优品", share_img, share_url, share_content, goods_id, "1");
                                 //http://test3.wujiemall.com/Distribution/DistributionShop/shop/g_id/676/shop_id/ZAAADU.html
                                 DistributionGoodsBean.DataBean goodsBean = list.get(position);
                                 Bundle bundle = new Bundle();
                                 bundle.putString("title", goodsBean.getGoods_name());
                                 bundle.putString("pic", goodsBean.getGoods_img());
                                 String shop_id_jiami = PreferencesUtils.getString(AppManager.getInstance().getTopActivity(), "shop_id_jiami");
-                                bundle.putString("url", Config.SHARE_URL+"Distribution/DistributionShop/shop/g_id/"+goodsBean.getGoods_id()+"/shop_id/"+shop_id_jiami+".html" );
-                                bundle.putString("context", goodsBean.getGoods_name());
+                                bundle.putString("url", Config.SHARE_URL + "Distribution/DistributionShop/shop/g_id/" + goodsBean.getGoods_id() + "/shop_id/" + shop_id_jiami + ".html");
+                                bundle.putString("context", goodsBean.getGoods_brief());
                                 bundle.putString("id", goodsBean.getDsg_id());
                                 bundle.putString("Shapetype", "6");
                                 startActivity(ToShareAty.class, bundle);
@@ -254,11 +254,10 @@ public class ShopManageOrdinaryChildFgt extends BaseFgt implements View.OnClickL
                         emptyView.setVisibility(View.VISIBLE);
                         shopManageOrdinaryChild_sr_layout.setVisibility(View.GONE);
                     }
-                }else {
+                } else {
                     list.addAll(distributionGoodsBean.getData());
                     adapter.notifyDataSetChanged();
                 }
-
 
 
             }
@@ -362,13 +361,6 @@ public class ShopManageOrdinaryChildFgt extends BaseFgt implements View.OnClickL
                                 }
                                 if (null != ids && ids.size() > 0) {
                                     list.removeAll(chuLiList);
-                                    if (list.size() > 0) {
-                                        emptyView.setVisibility(View.GONE);
-                                        shopManageOrdinaryChild_sr_layout.setVisibility(View.VISIBLE);
-                                    } else {
-                                        emptyView.setVisibility(View.VISIBLE);
-                                        shopManageOrdinaryChild_sr_layout.setVisibility(View.GONE);
-                                    }
                                     if (1 == type) {
                                         // 上架商品
                                         chuliGoods(ids, "0");
@@ -379,8 +371,25 @@ public class ShopManageOrdinaryChildFgt extends BaseFgt implements View.OnClickL
                                         // 删除商品
                                         chuliGoods(ids, "9");
                                     }
-                                    adapter.setCheckedCount();
-                                    adapter.notifyDataSetChanged();
+                                    if (list.size() > 0) {
+                                        emptyView.setVisibility(View.GONE);
+                                        shopManageOrdinaryChild_sr_layout.setVisibility(View.VISIBLE);
+                                        adapter.setCheckedCount();
+                                        adapter.notifyDataSetChanged();
+                                    } else {
+                                        new Handler().postDelayed(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                p = 1;
+                                                getData();
+                                            }
+                                        },200);
+                                        shopManageOrdinaryChild_batchManagement_tv.setVisibility(View.VISIBLE);
+                                        shopManageOrdinaryChild_selectAll_cbox.setChecked(false);
+                                        ShopGoodsManage shopGoodsManage = (ShopGoodsManage) getActivity();
+                                        shopGoodsManage.setTitltRightVisibility(false);
+                                    }
+
                                 }
 
                             }
