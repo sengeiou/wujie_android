@@ -17,12 +17,13 @@ buildscript {
 
 allprojects {
     repositories {
-        maven{url"https://maven.google.com"}
+        maven { url "https://maven.google.com" }
         jcenter()
         maven { url "https://jitpack.io" }
         maven {
-            url  "http://dl.bintray.com/nuptboyzhb/maven"
+            url "http://dl.bintray.com/nuptboyzhb/maven"
         }
+        maven { url "http://maven.aliyun.com/nexus/content/repositories/releases" }
         google()
     }
 }

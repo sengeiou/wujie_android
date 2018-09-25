@@ -29,6 +29,9 @@ import com.hyphenate.EMMessageListener;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMMessage;
 import com.hyphenate.easeui.txdHxListener.ChatListener;
+import com.taobao.sophix.PatchStatus;
+import com.taobao.sophix.SophixManager;
+import com.taobao.sophix.listener.PatchLoadStatusListener;
 import com.tencent.bugly.crashreport.CrashReport;
 import com.txd.hzj.wjlp.baidu.LocationService;
 import com.umeng.commonsdk.UMConfigure;
@@ -113,6 +116,7 @@ public class DemoApplication extends WeApplication implements EMMessageListener 
         mVibrator = (Vibrator) getApplicationContext().getSystemService(Service.VIBRATOR_SERVICE);
         SDKInitializer.initialize(getApplicationContext());
         initLocInfo();
+        SophixManager.getInstance().queryAndLoadNewPatch(); // 初始化阿里云热修复模块
         try {
             EMClient.getInstance().chatManager().addMessageListener(this);
         } catch (NullPointerException e) {
@@ -179,9 +183,33 @@ public class DemoApplication extends WeApplication implements EMMessageListener 
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
+        initAliHotFix();
         MultiDex.install(this);
     }
 
+    /**
+     * 初始化阿里云热修复
+     */
+    private void initAliHotFix() {
+        SophixManager.getInstance().setContext(this)
+                .setAppVersion(BuildConfig.VERSION_NAME)
+                .setAesKey(null)
+                .setEnableDebug(true)
+                .setPatchLoadStatusStub(new PatchLoadStatusListener() {
+                    @Override
+                    public void onLoad(final int mode, final int code, final String info, final int handlePatchVersion) {
+                        // 补丁加载回调通知
+                        if (code == PatchStatus.CODE_LOAD_SUCCESS) {
+                            // 表明补丁加载成功
+                        } else if (code == PatchStatus.CODE_LOAD_RELAUNCH) {
+                            // 表明新补丁生效需要重启. 开发者可提示用户或者强制重启;
+                            // 建议: 用户可以监听进入后台事件, 然后调用killProcessSafely自杀，以此加快应用补丁
+                        } else {
+                            // 其它错误信息, 查看PatchStatus类说明
+                        }
+                    }
+                }).initialize();
+    }
 
     /**
      * 环信
