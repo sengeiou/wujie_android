@@ -50,7 +50,6 @@ import com.hyphenate.chat.EMMessage;
 import com.hyphenate.util.EMLog;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
-import com.taobao.sophix.SophixManager;
 import com.txd.hzj.wjlp.baidu.LocationService;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.bean.UpdataApp;
