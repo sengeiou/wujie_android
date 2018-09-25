@@ -112,6 +112,7 @@
         tools:replace="icon,theme,allowBackup">
         <!--android:theme="@style/styleSplashImage"-->
         <!--tools:replace="icon,label,theme,allowBackup"-->
+
         <!-- Glide缓存 -->
         <meta-data
             android:name="com.ants.theantsgo.GlideCache"

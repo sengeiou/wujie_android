@@ -10,8 +10,8 @@ android {
         applicationId "com.txd.hzj.wjlp"
         minSdkVersion 21
         targetSdkVersion 27
-        versionCode 20180913
-        versionName "1.1.4"
+        versionCode 20180920
+        versionName "1.1.5"
         multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         manifestPlaceholders = [
@@ -180,4 +180,8 @@ dependencies {
     //极光推送
     compile files('libs/jcore-android-1.2.3.jar')
     compile files('libs/jpush-android-3.1.5.jar')
+
+    // 阿里云热修复
+    compile 'com.aliyun.ams:alicloud-android-hotfix:3.2.6'
+
 }

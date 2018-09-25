@@ -29,6 +29,9 @@ import com.hyphenate.EMMessageListener;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMMessage;
 import com.hyphenate.easeui.txdHxListener.ChatListener;
+import com.taobao.sophix.PatchStatus;
+import com.taobao.sophix.SophixManager;
+import com.taobao.sophix.listener.PatchLoadStatusListener;
 import com.tencent.bugly.crashreport.CrashReport;
 import com.txd.hzj.wjlp.baidu.LocationService;
 import com.umeng.commonsdk.UMConfigure;
@@ -113,6 +116,7 @@ public class DemoApplication extends WeApplication implements EMMessageListener 
         mVibrator = (Vibrator) getApplicationContext().getSystemService(Service.VIBRATOR_SERVICE);
         SDKInitializer.initialize(getApplicationContext());
         initLocInfo();
+        SophixManager.getInstance().queryAndLoadNewPatch(); // 初始化阿里云热修复模块
         try {
             EMClient.getInstance().chatManager().addMessageListener(this);
         } catch (NullPointerException e) {
@@ -187,7 +191,37 @@ public class DemoApplication extends WeApplication implements EMMessageListener 
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
+        initAliHotFix();
         MultiDex.install(this);
+    }
+
+    private static final String idSecret = "25086106";
+    private static final String appSecret = "ccf7d71e61e728581be0b9a0b114a69d";
+    private static final String rsaSecret = "MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCKCR+xnM3ShWLuIntcI4bY6BO9WadGCn9qsT3/0B2rfIULHXmJ6xa4J47A4N6ElOmqW5OXRx37CXK7sFlsv05/5pExLJw55qM/HwhrVeEI3eRueAeCkAyuPbMFpl7YNodo87jCiQB9cdz8Aqj6rN8W2saWSpdsct1FfDl3mKczFbINVXcbVGNE5k8TLVvyFqS+dx9Roa5Wv5vbYl2iNSFncjU4xDBgYnePlnCCaN36OYEX7p5sBQD0eRFmxkePvrAOgfZ1IDQNnNnr9nNWccmlQTcKboTo1rRV01cRdDMJjIH+gRTIon22F2EiPEIsbEESW6r7NQNxEe9CxrMCOSx5AgMBAAECggEATY4uxoZJhlz3ZsDs+qnjW/+ZB6xVtZ60VGfdY9u0r+M4hTQ8U2dIzpM7O9ecbnWUi+kEFd0ZVTDLy/SbaeRa4LXVIgHkjQuu8QoomtYXp/m0HPVHku4IkeWMrkH5zBVnI2q8hmCfa9wLw3RjKOT0O00UguDKD17CQAY5655TYvmcNakarmupJiHviOBjUqAWz7yJDat+Rq3WguZ8jD0tsaP8ZAGQ49Pwuc36GBXEZpZKefHYbmfPSX5fpUJwlNRC6Tc3CYcWETER3Dy8nsQiJM1dwvqno4DCNOhigKlJDjrfvTkImggIf8TUb9GBU42eUobz93eqKgp3TdUEJYssAQKBgQDDt2OTxXzgC/d8lf6li3Q6fTQq4HQRFeTpGWB1JsB1yGVVWX2UCOwbYXo1HZWvg4pY1q3vo+QpeICmcyHxxerg3PzEd5RMgA4cYw3Qx/EvyLgj1znWZWXfK9s41ENKBhqNaGZlFw2xZyKGtVpvHSFJVFqknQuFIecj416YTAvYuQKBgQC0jX/BcFsVB2H/VwrWP+Zioue03kVZmwoiCELY2SlgclW8LcSxTOAEre58dCKPazjOgxptn1gSzoLfiBMIIrNX9sksep5i/0pV73rSyB5JyqErAKUxyXLEd3hWdmWHFfd7ljI6bXxAppMoO0/qBeL9MRzGeQAy63rSGbpSutqRwQKBgFM/Whes1OTnsilIE7yOiK2oO9xRBI2P5oJPzPuHtC1lQ9T977Bb6zHqUHTvVJAHP31yMyHPcGlDXFVwe2u/Z5yl4s4envG7NkVUzLeVlD1i/xAfp/ZNwvseSGzvvH9sATdMxOES4TwoRkNOOF0y4smyG6wRMKk8NnjJaZ8WGaPhAoGBAIlzf2LgCjcEG9KrjRB2LQnCQusqm1kP8rLd3yX+jMVjxWkw3qCriY+GahxMvVK5qdFtdV0nBYGrvW42xWZYJHg+4//8iT+MYibx3WtB9ezvWarHHvu8BKcU3IPWNoyUaIepXCum1gTRyw3BuaDLQnbGQMXHsCMTqbjw5Su+HE8BAoGAAVgnHMBAa5nppbFlUaE8iDoLNTNgtl60of1eWaMF516/JJc9+0DIo2WzD69S/YZpyap41R6j07/1t8p2/z5C7QzrE7lmuIQW8Se+KDHghFem/kRbOfLxVzTuqbiNdTni1N95/czk7TSmjm0aUECShtB2nsdkkGXrDM+LaQgwQwk=";
+
+    /**
+     * 初始化阿里云热修复
+     */
+    private void initAliHotFix() {
+        SophixManager.getInstance().setContext(this)
+                .setAppVersion(BuildConfig.VERSION_NAME)
+                .setAesKey(null)
+                .setSecretMetaData(idSecret, appSecret, rsaSecret)
+                .setEnableDebug(true)
+                .setPatchLoadStatusStub(new PatchLoadStatusListener() {
+                    @Override
+                    public void onLoad(final int mode, final int code, final String info, final int handlePatchVersion) {
+                        // 补丁加载回调通知
+                        if (code == PatchStatus.CODE_LOAD_SUCCESS) {
+                            // 表明补丁加载成功
+                        } else if (code == PatchStatus.CODE_LOAD_RELAUNCH) {
+                            // 表明新补丁生效需要重启. 开发者可提示用户或者强制重启;
+                            // 建议: 用户可以监听进入后台事件, 然后调用killProcessSafely自杀，以此加快应用补丁
+                        } else {
+                            // 其它错误信息, 查看PatchStatus类说明
+                        }
+                    }
+                }).initialize();
     }
 
     /**

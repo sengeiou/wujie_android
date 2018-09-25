@@ -50,6 +50,7 @@ import com.hyphenate.chat.EMMessage;
 import com.hyphenate.util.EMLog;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
+import com.taobao.sophix.SophixManager;
 import com.txd.hzj.wjlp.baidu.LocationService;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.bean.UpdataApp;
@@ -203,6 +204,7 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
      * 获取定位
      */
     public void getPositioning(){
+
         locationService = DemoApplication.getInstance().locationService;
         // 获取locationservice实例，建议应用中只初始化1个location实例，然后使用，可以参考其他示例的activity，都是通过此种方式获取locationservice实例的
         if (mListener != null && locationService != null) {

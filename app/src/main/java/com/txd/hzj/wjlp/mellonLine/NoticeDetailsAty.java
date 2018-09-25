@@ -406,14 +406,12 @@ public class NoticeDetailsAty extends BaseAty {
         }
 
         /**
-         * 跳转至相应界面（暂时用不着这个）
-         *
-         * @param resultUrl 目标Url
+         * 跳转至个人中心
          */
         @JavascriptInterface
-        public void toOrder(String resultUrl) {
-            url = resultUrl;
-            initWebView(false);
+        public void toPersonalCenter() {
+            backMain(3);
+            NoticeDetailsAty.this.finish();
         }
     }
 
