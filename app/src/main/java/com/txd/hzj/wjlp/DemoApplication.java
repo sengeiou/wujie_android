@@ -116,7 +116,9 @@ public class DemoApplication extends WeApplication implements EMMessageListener 
         mVibrator = (Vibrator) getApplicationContext().getSystemService(Service.VIBRATOR_SERVICE);
         SDKInitializer.initialize(getApplicationContext());
         initLocInfo();
-        SophixManager.getInstance().queryAndLoadNewPatch(); // 初始化阿里云热修复模块
+        if (!L.isDebug) {
+            SophixManager.getInstance().queryAndLoadNewPatch(); // 初始化阿里云热修复模块
+        }
         try {
             EMClient.getInstance().chatManager().addMessageListener(this);
         } catch (NullPointerException e) {
@@ -183,7 +185,9 @@ public class DemoApplication extends WeApplication implements EMMessageListener 
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
-        initAliHotFix();
+        if (!L.isDebug) { // 正式版的情况下打开热更新
+            initAliHotFix();
+        }
         MultiDex.install(this);
     }
 
