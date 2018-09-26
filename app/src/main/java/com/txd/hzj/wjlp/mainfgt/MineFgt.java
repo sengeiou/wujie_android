@@ -319,14 +319,18 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
      */
     private String balance;
 
-    //商家码列表集合
-    private List<MineInfoBean> shangjiamaList;
+    /**
+     * 商家码列表集合
+     */
+    private List<MineInfoBean> shangjiamaList = new ArrayList<>();
     /**
      * 三方付款列表集合
      */
-    private List<MineInfoBean> sanfangList;
-    //蓝色代金券列表
-    private List<MineInfoBean> bluedaijinquanList;
+    private List<MineInfoBean> sanfangList = new ArrayList<>();
+    /**
+     * 蓝色代金券列表
+     */
+    private List<MineInfoBean> bluedaijinquanList = new ArrayList<>();
 
     private boolean isReadContacts = true;
     private String mHas_shop = "0";
@@ -484,8 +488,8 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
                 break;
             //店铺管理
             case R.id.personalStores:
-                Bundle shopBundle=new Bundle();
-                shopBundle.putString("has_shop",mHas_shop);
+                Bundle shopBundle = new Bundle();
+                shopBundle.putString("has_shop", mHas_shop);
                 startActivity(ShopMain.class, shopBundle);
                 break;
             case R.id.stock_record_tv:// 进货记录
@@ -710,19 +714,12 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
             try {
                 JSONObject jsonObject = new JSONObject(jsonStr);
                 JSONObject jsonData = jsonObject.getJSONObject("data");
-                String alliance_merchant = jsonData.has("alliance_merchant") ? jsonData.getString("alliance_merchant") : "";
-                String change_account_status = jsonData.has("change_account_status") ? jsonData.getString("change_account_status") : "";
-                if (change_account_status.equals("1") && !alliance_merchant.equals("0")) {
-                    // 支持账户切换 并且 是联盟商家 则显示该按钮
-                    bandOtherAccount_tv.setVisibility(View.VISIBLE);
-                    business_code_tv.setVisibility(View.VISIBLE);
-                }
 
                 JSONArray mInfo = jsonData.has("mInfo") ? jsonData.getJSONArray("mInfo") : null;
+                shangjiamaList.removeAll(shangjiamaList);
+                sanfangList.removeAll(sanfangList);
+                bluedaijinquanList.removeAll(bluedaijinquanList);
                 if (mInfo != null && mInfo.length() > 0) {
-                    shangjiamaList = new ArrayList<>();
-                    sanfangList = new ArrayList<>();
-                    bluedaijinquanList = new ArrayList<>();
                     for (int i = 0; i < mInfo.length(); i++) {
                         JSONObject obj = mInfo.getJSONObject(i);
                         String stage_merchant_id = obj.has("stage_merchant_id") ? obj.getString("stage_merchant_id") : "";
@@ -735,18 +732,35 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
                         String logo = obj.has("logo") ? obj.getString("logo") : "";
                         String special_type = obj.has("jeanne_cate") ? obj.getString("jeanne_cate") : "";
                         MineInfoBean mineInfoBean = new MineInfoBean(stage_merchant_id, wxpay_accounts, alipay_accounts, default_account, change_account_status1, merchant_name, logo);
-                        if ("1".equalsIgnoreCase(show_type)){
-                            shangjiamaList.add(mineInfoBean);
-                            if (change_account_status1.equals("1")) {
-                                sanfangList.add(mineInfoBean);
-                            }
+                        if ("1".equalsIgnoreCase(show_type)) {
+                            shangjiamaList.add(mineInfoBean); // 商家码
+                        }
+                        if (change_account_status1.equals("1")) {
+                            sanfangList.add(mineInfoBean); // 三方账户绑定
                         }
                         if (Float.parseFloat(special_type) == 0.00) {
-                            bluedaijinquanList.add(mineInfoBean);
+                            bluedaijinquanList.add(mineInfoBean); // 蓝色代金券
                         }
                     }
+                }
 
+                bandOtherAccount_tv.setVisibility(View.GONE); // 三方账户绑定
+                give_coupon_tv.setVisibility(View.GONE); // 赠送蓝色代金券
+                business_code_tv.setVisibility(View.GONE); // 商家码
+                String alliance_merchant = jsonData.has("alliance_merchant") ? jsonData.getString("alliance_merchant") : "";
+                String member_coding = jsonData.has("member_coding") ? jsonData.getString("member_coding") : "";
 
+                if (alliance_merchant.equals("1") && sanfangList.size() > 0) { // 联盟商家并且支持切换账户
+                    bandOtherAccount_tv.setVisibility(View.VISIBLE); // 显示三方账户绑定
+                }
+                if ((alliance_merchant.equals("1") && bluedaijinquanList.size() > 0) || "3".equals(member_coding)) { // 如果是联盟商家或者有店铺符合条件 或者 是优享会员
+                    if (!(alliance_merchant.equals("1") && bluedaijinquanList.size() > 0)) {
+                        bluedaijinquanList.removeAll(bluedaijinquanList);
+                    }
+                    give_coupon_tv.setVisibility(View.VISIBLE); // 显示赠送蓝色代金券
+                }
+                if (shangjiamaList.size() > 0) { // 商家显示类型不为0
+                    business_code_tv.setVisibility(View.VISIBLE); // 显示商家码
                 }
 
             } catch (JSONException e) {
@@ -776,26 +790,13 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
                     String shop_id_ming = data.get("shop_id_ming");
                     PreferencesUtils.putString(getActivity(), "shop_id", shop_id_ming);
                 }
-                if (data.containsKey("shop_id")){
+                if (data.containsKey("shop_id")) {
                     String shop_id = data.get("shop_id");
                     PreferencesUtils.putString(getActivity(), "shop_id_jiami", shop_id);
                 }
             } else {
                 personalStores.setVisibility(View.GONE);
             }
-            /**else { // 如果没有该字段的情况下
-             // 该if..else和上方的if..else逻辑相同，只是没有complete_status进行这一步的判断
-             if (data.get("member_coding").equals("3")) { // 判断是否是优享会员
-             // 如果是优享会员则设置状态和传到下一界面的属性值
-             blue_voucher = data.get("blue_voucher");
-             give_coupon_tv.setText("赠送蓝色代金券");
-             TYPE = "0";
-             } else { // 否则不是优享会员
-             // 设置其不可转的属性
-             TYPE = "1";
-             userPst.proMoters();
-             }
-             }*/
             /***********************拜师码*************************************/
             /************************************************************/
             // 昵称
