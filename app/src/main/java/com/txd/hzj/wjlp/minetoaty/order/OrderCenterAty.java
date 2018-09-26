@@ -144,7 +144,7 @@ public class OrderCenterAty extends BaseAty {
                 // 添加然后添加所有项
                 list.add(new ShowItem(R.drawable.icon_order_center_01, itemShowNames[0])); // 线上商城
                 list.add(new ShowItem(R.drawable.icon_order_center_02, itemShowNames[1])); // 线下店铺
-                list.add(new ShowItem(R.drawable.icon_order_center_02, itemShowNames[2])); // 堂食点餐
+//                list.add(new ShowItem(R.drawable.icon_order_center_02, itemShowNames[2])); // 堂食点餐
                 list.add(new ShowItem(R.drawable.icon_order_center_03, itemShowNames[3])); // 积分商店
                 list.add(new ShowItem(R.drawable.icon_order_center_04, itemShowNames[4])); // 拼单购
                 list.add(new ShowItem(R.drawable.icon_order_center_05, itemShowNames[5])); // 无界预购

@@ -185,9 +185,7 @@ public class DemoApplication extends WeApplication implements EMMessageListener 
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
-        if (!L.isDebug) { // 正式版的情况下打开热更新
-            initAliHotFix();
-        }
+        initAliHotFix();
         MultiDex.install(this);
     }
 
