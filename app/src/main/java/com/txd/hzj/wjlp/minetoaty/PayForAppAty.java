@@ -231,33 +231,61 @@ public class PayForAppAty extends BaseAty {
                 break;
             case R.id.tv_submit:
                 if (pay_by_wechat_cb.isChecked()) { // 微信支付
-                    if (is_pay_password.equals("1")) {
-                        //已设置密码跳入输入密码页
-                        showPwdPop(v);
-                    } else {
-                        //未设置密码跳入设置密码页
-                        showToast("请设置支付密码");
-                        Bundle bundle = new Bundle();
-                        bundle.putString("is_pay_password", "0");
-                        bundle.putString("phone", "");
-                        startActivity(EditPayPasswordAty.class, bundle);
-
+//                    if (is_pay_password.equals("1")) {
+//                        //已设置密码跳入输入密码页
+//                        showPwdPop(v);
+//                    } else {
+//                        //未设置密码跳入设置密码页
+//                        showToast("请设置支付密码");
+//                        Bundle bundle = new Bundle();
+//                        bundle.putString("is_pay_password", "0");
+//                        bundle.putString("phone", "");
+//                        startActivity(EditPayPasswordAty.class, bundle);
+//
+//                    }
+                    if (TextUtils.isEmpty(mType) || mType.equals("1") || mType.equals("5") || mType.equals("0")) {
+                        Pay.getJsTine(order.get("order_id"), getType(), "4", this);
+                    } else if (mType.equals("2") || mType.equals("3") || mType.equals("4")) {
+                        Pay.getJsTine(order.get("group_buy_order_id"), getType(), "6", this);
+                    } else if (mType.equals("6")) {
+                        Pay.getJsTine(order.get("order_id"), getType(), "5", this);
+                    } else if (mType.equals("9")) {
+                        Pay.getJsTine(order.get("order_id"), getType(), "8", this);
+                    } else if (mType.equals("13")) {
+                        Pay.getJsTine(order_id, getType(), "13", this);
+                    } else if (mType.equals("100")) {
+                        Pay.getJsTine(order_id, getType(), "9", this);
                     }
+                    showProgressDialog();
                     return;
                 }
                 if (pay_by_ali_cb.isChecked()) { // 支付宝支付
-                    if (is_pay_password.equals("1")) {
-                        // 已设置密码跳入输入密码页
-                        showPwdPop(v);
-                    } else {
-                        // 未设置密码跳入设置密码页
-                        showToast("请设置支付密码");
-                        Bundle bundle = new Bundle();
-                        bundle.putString("is_pay_password", "0");
-                        bundle.putString("phone", "");
-                        startActivity(EditPayPasswordAty.class, bundle);
-
+//                    if (is_pay_password.equals("1")) {
+//                        // 已设置密码跳入输入密码页
+//                        showPwdPop(v);
+//                    } else {
+//                        // 未设置密码跳入设置密码页
+//                        showToast("请设置支付密码");
+//                        Bundle bundle = new Bundle();
+//                        bundle.putString("is_pay_password", "0");
+//                        bundle.putString("phone", "");
+//                        startActivity(EditPayPasswordAty.class, bundle);
+//
+//                    }
+                    if (TextUtils.isEmpty(mType) || mType.equals("0") || mType.equals("1") || mType.equals("5")) {
+                        Pay.getAlipayParam(order.get("order_id"), getType(), "4", this);
+                    } else if (mType.equals("2") || mType.equals("3") || mType.equals("4")) {
+                        Pay.getAlipayParam(order.get("group_buy_order_id"), getType(), "6", this);
+                    } else if (mType.equals("6")) {
+                        Pay.getAlipayParam(order.get("order_id"), getType(), "5", this);
+                    } else if (mType.equals("9")) {
+                        Pay.getAlipayParam(order.get("order_id"), getType(), "8", this);
+                    } else if (mType.equals("13")) {
+                        Pay.getAlipayParam(order_id, getType(), "13", this);
+                    } else if (mType.equals("100")) {
+                        Pay.getAlipayParam(order_id, getType(), "9", this);
                     }
+                    showProgressDialog();
                     return;
                 }
                 if (pay_by_balance_cb.isChecked()) { // 余额支付
@@ -646,39 +674,39 @@ public class PayForAppAty extends BaseAty {
                     showProgressDialog();
                 }
 
-                if (pay_by_wechat_cb.isChecked()) { // 微信支付
-                    if (TextUtils.isEmpty(mType) || mType.equals("1") || mType.equals("5") || mType.equals("0")) {
-                        Pay.getJsTine(order.get("order_id"), getType(), "4", this);
-                    } else if (mType.equals("2") || mType.equals("3") || mType.equals("4")) {
-                        Pay.getJsTine(order.get("group_buy_order_id"), getType(), "6", this);
-                    } else if (mType.equals("6")) {
-                        Pay.getJsTine(order.get("order_id"), getType(), "5", this);
-                    } else if (mType.equals("9")) {
-                        Pay.getJsTine(order.get("order_id"), getType(), "8", this);
-                    } else if (mType.equals("13")) {
-                        Pay.getJsTine(order_id, getType(), "13", this);
-                    } else if (mType.equals("100")) {
-                        Pay.getJsTine(order_id, getType(), "9", this);
-                    }
-                    showProgressDialog();
-                }
-
-                if (pay_by_ali_cb.isChecked()) { // 支付宝支付
-                    if (TextUtils.isEmpty(mType) || mType.equals("0") || mType.equals("1") || mType.equals("5")) {
-                        Pay.getAlipayParam(order.get("order_id"), getType(), "4", this);
-                    } else if (mType.equals("2") || mType.equals("3") || mType.equals("4")) {
-                        Pay.getAlipayParam(order.get("group_buy_order_id"), getType(), "6", this);
-                    } else if (mType.equals("6")) {
-                        Pay.getAlipayParam(order.get("order_id"), getType(), "5", this);
-                    } else if (mType.equals("9")) {
-                        Pay.getAlipayParam(order.get("order_id"), getType(), "8", this);
-                    } else if (mType.equals("13")) {
-                        Pay.getAlipayParam(order_id, getType(), "13", this);
-                    } else if (mType.equals("100")) {
-                        Pay.getAlipayParam(order_id, getType(), "9", this);
-                    }
-                    showProgressDialog();
-                }
+//                if (pay_by_wechat_cb.isChecked()) { // 微信支付
+//                    if (TextUtils.isEmpty(mType) || mType.equals("1") || mType.equals("5") || mType.equals("0")) {
+//                        Pay.getJsTine(order.get("order_id"), getType(), "4", this);
+//                    } else if (mType.equals("2") || mType.equals("3") || mType.equals("4")) {
+//                        Pay.getJsTine(order.get("group_buy_order_id"), getType(), "6", this);
+//                    } else if (mType.equals("6")) {
+//                        Pay.getJsTine(order.get("order_id"), getType(), "5", this);
+//                    } else if (mType.equals("9")) {
+//                        Pay.getJsTine(order.get("order_id"), getType(), "8", this);
+//                    } else if (mType.equals("13")) {
+//                        Pay.getJsTine(order_id, getType(), "13", this);
+//                    } else if (mType.equals("100")) {
+//                        Pay.getJsTine(order_id, getType(), "9", this);
+//                    }
+//                    showProgressDialog();
+//                }
+//
+//                if (pay_by_ali_cb.isChecked()) { // 支付宝支付
+//                    if (TextUtils.isEmpty(mType) || mType.equals("0") || mType.equals("1") || mType.equals("5")) {
+//                        Pay.getAlipayParam(order.get("order_id"), getType(), "4", this);
+//                    } else if (mType.equals("2") || mType.equals("3") || mType.equals("4")) {
+//                        Pay.getAlipayParam(order.get("group_buy_order_id"), getType(), "6", this);
+//                    } else if (mType.equals("6")) {
+//                        Pay.getAlipayParam(order.get("order_id"), getType(), "5", this);
+//                    } else if (mType.equals("9")) {
+//                        Pay.getAlipayParam(order.get("order_id"), getType(), "8", this);
+//                    } else if (mType.equals("13")) {
+//                        Pay.getAlipayParam(order_id, getType(), "13", this);
+//                    } else if (mType.equals("100")) {
+//                        Pay.getAlipayParam(order_id, getType(), "9", this);
+//                    }
+//                    showProgressDialog();
+//                }
 
                 // 积分支付
                 if (cb_jfzf.isChecked()) {

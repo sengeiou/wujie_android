@@ -139,7 +139,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
-        android:text="* 密码必须6-16位并且必须包含大写字母和数字"
+        android:text="* 密码必须6-16位并且必须包含字母和数字"
         android:textColor="@color/colorRed" />
 
     <TextView
