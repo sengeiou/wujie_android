@@ -574,7 +574,6 @@ public class Personal_fgt extends BaseFgt {
                 }
             } catch (Exception e) {
                 L.e("Personal_fgt onActivityResult is exception:" + e.toString());
-                showErrorTip("图片选择出现异常");
             }
         }
 
