@@ -54,6 +54,7 @@ import com.txd.hzj.wjlp.tool.WJConfig;
 import com.txd.hzj.wjlp.view.TouchViewpager;
 import com.txd.hzj.wjlp.view.UPMarqueeView;
 import com.txd.hzj.wjlp.view.VpSwipeRefreshLayout;
+import com.txd.hzj.wjlp.webviewH5.WebViewAty;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -404,10 +405,10 @@ public class TicketZoonFgt extends BaseFgt implements NestedScrollView.OnScrollC
                                 startActivity(TicketGoodsDetialsAty.class, bundle);
                             } else {
                                 Bundle bundle = new Bundle();
-                                bundle.putInt("from", 2);
-                                bundle.putString("desc", desc);
-                                bundle.putString("href", href);
-                                startActivity(NoticeDetailsAty.class, bundle);
+//                                bundle.putInt("from", 2);
+//                                bundle.putString("desc", desc);
+                                bundle.putString("url", href);
+                                startActivity(WebViewAty.class, bundle);
                             }
 
                         }
@@ -552,10 +553,10 @@ public class TicketZoonFgt extends BaseFgt implements NestedScrollView.OnScrollC
                                     startActivity(TicketGoodsDetialsAty.class, bundle);
                                 } else {
                                     Bundle bundle = new Bundle();
-                                    bundle.putInt("from", 2);
-                                    bundle.putString("desc", desc);
-                                    bundle.putString("href", href);
-                                    startActivity(NoticeDetailsAty.class, bundle);
+//                                    bundle.putInt("from", 2);
+//                                    bundle.putString("desc", desc);
+                                    bundle.putString("url", href);
+                                    startActivity(WebViewAty.class, bundle);
                                 }
 
                             }

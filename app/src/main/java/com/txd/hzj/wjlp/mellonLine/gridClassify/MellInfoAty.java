@@ -45,6 +45,7 @@ import com.txd.hzj.wjlp.melloffLine.dialog.MellCouponDialog;
 import com.txd.hzj.wjlp.melloffLine.dialog.NoticeDialog;
 import com.txd.hzj.wjlp.mellonLine.NoticeDetailsAty;
 import com.txd.hzj.wjlp.mellonLine.adapter.MellGoodsAndAdsAdapter;
+import com.txd.hzj.wjlp.webviewH5.WebViewAty;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -486,10 +487,10 @@ public class MellInfoAty extends BaseAty {
                     startActivity(TicketGoodsDetialsAty.class, bundle);
                 } else {
                     Bundle bundle = new Bundle();
-                    bundle.putString("desc", ads_list.get(position).get("href"));
-                    bundle.putString("href", ads_list.get(position).get("desc"));
-                    bundle.putInt("from", 2);
-                    startActivity(NoticeDetailsAty.class, bundle);
+//                    bundle.putString("desc", ads_list.get(position).get("href"));
+                    bundle.putString("url", ads_list.get(position).get("desc"));
+//                    bundle.putInt("from", 2);
+                    startActivity(WebViewAty.class, bundle);
                 }
             }
         });

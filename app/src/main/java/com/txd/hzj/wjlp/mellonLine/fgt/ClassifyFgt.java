@@ -42,6 +42,7 @@ import com.txd.hzj.wjlp.mellonLine.SubclassificationAty;
 import com.txd.hzj.wjlp.mellonLine.gridClassify.MellInfoAty;
 import com.txd.hzj.wjlp.mellonLine.gridClassify.TicketGoodsDetialsAty;
 import com.txd.hzj.wjlp.tool.GridDividerItemDecoration;
+import com.txd.hzj.wjlp.webviewH5.WebViewAty;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -295,10 +296,10 @@ public class ClassifyFgt extends BaseFgt {
                                     startActivity(TicketGoodsDetialsAty.class, bundle);
                                 } else {
                                     Bundle bundle = new Bundle();
-                                    bundle.putString("desc", desc);
+//                                    bundle.putString("desc", desc);
                                     bundle.putString("href", href);
-                                    bundle.putInt("from", 2);
-                                    startActivity(NoticeDetailsAty.class, bundle);
+//                                    bundle.putInt("from", 2);
+                                    startActivity(WebViewAty.class, bundle);
                                 }
                             }
                         });

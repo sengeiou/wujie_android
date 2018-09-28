@@ -34,6 +34,7 @@ import com.txd.hzj.wjlp.mellonLine.adapter.HousChenAdapter;
 import com.txd.hzj.wjlp.mellonLine.gridClassify.MellInfoAty;
 import com.txd.hzj.wjlp.mellonLine.gridClassify.TicketGoodsDetialsAty;
 import com.txd.hzj.wjlp.tool.GridDividerItemDecoration;
+import com.txd.hzj.wjlp.webviewH5.WebViewAty;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -368,10 +369,10 @@ public class HousChenAty extends BaseAty {
                                 startActivity(TicketGoodsDetialsAty.class, bundle);
                             } else {
                                 Bundle bundle = new Bundle();
-                                bundle.putString("desc", desc);
-                                bundle.putString("href", href);
-                                bundle.putInt("from", 2);
-                                startActivity(NoticeDetailsAty.class, bundle);
+//                                bundle.putString("desc", desc);
+                                bundle.putString("url", href);
+//                                bundle.putInt("from", 2);
+                                startActivity(WebViewAty.class, bundle);
                             }
 
 

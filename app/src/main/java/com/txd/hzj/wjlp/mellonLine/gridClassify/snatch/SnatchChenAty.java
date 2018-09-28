@@ -42,6 +42,7 @@ import com.txd.hzj.wjlp.mellonLine.gridClassify.MellInfoAty;
 import com.txd.hzj.wjlp.mellonLine.gridClassify.TicketGoodsDetialsAty;
 import com.txd.hzj.wjlp.tool.GridDividerItemDecoration;
 import com.txd.hzj.wjlp.view.UPMarqueeView;
+import com.txd.hzj.wjlp.webviewH5.WebViewAty;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -391,10 +392,10 @@ public class SnatchChenAty extends BaseAty {
                         startActivity(TicketGoodsDetialsAty.class, bundle);
                     } else {
                         Bundle bundle = new Bundle();
-                        bundle.putInt("from", 2);
-                        bundle.putString("desc", image.get(position).getDesc());
-                        bundle.putString("href", image.get(position).getHref());
-                        startActivity(NoticeDetailsAty.class, bundle);
+//                        bundle.putInt("from", 2);
+//                        bundle.putString("desc", image.get(position).getDesc());
+                        bundle.putString("url", image.get(position).getHref());
+                        startActivity(WebViewAty.class, bundle);
                     }
 
 

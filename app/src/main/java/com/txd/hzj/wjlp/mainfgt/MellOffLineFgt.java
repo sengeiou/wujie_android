@@ -45,6 +45,7 @@ import com.txd.hzj.wjlp.mellonLine.gridClassify.MellInfoAty;
 import com.txd.hzj.wjlp.mellonLine.gridClassify.TicketGoodsDetialsAty;
 import com.txd.hzj.wjlp.view.ObservableScrollView;
 import com.txd.hzj.wjlp.view.VpSwipeRefreshLayout;
+import com.txd.hzj.wjlp.webviewH5.WebViewAty;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -293,9 +294,9 @@ public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.Scro
     private void forShowAds(String limit_desc, String limit_href) {
         bundle = new Bundle();
         bundle.putString("desc", limit_desc);
-        bundle.putString("href", limit_href);
-        bundle.putInt("from", 2);
-        startActivity(NoticeDetailsAty.class, bundle);
+        bundle.putString("url", limit_href);
+//        bundle.putInt("from", 2);
+        startActivity(WebViewAty.class, bundle);
     }
 
     @Override
@@ -407,9 +408,9 @@ public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.Scro
                                 if (list_ads.get(0).containsKey("desc")) {
                                     bundle.putString("desc", list_ads.get(0).get("desc"));
                                 }
-                                bundle.putString("href", list_ads.get(0).get("href"));
-                                bundle.putInt("from", 6);
-                                startActivity(NoticeDetailsAty.class, bundle);
+                                bundle.putString("url", list_ads.get(0).get("href"));
+//                                bundle.putInt("from", 6);
+                                startActivity(WebViewAty.class, bundle);
                             }
                         }
 
@@ -502,9 +503,9 @@ public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.Scro
                 if (list_brand.get(i).containsKey("desc")) {
                     bundle.putString("desc", list_brand.get(i).get("desc"));
                 }
-                bundle.putString("href", list_brand.get(i).get("href"));
-                bundle.putInt("from", 2);
-                startActivity(NoticeDetailsAty.class, bundle);
+                bundle.putString("url", list_brand.get(i).get("href"));
+//                bundle.putInt("from", 2);
+                startActivity(WebViewAty.class, bundle);
             }
         }
     }
@@ -666,10 +667,10 @@ public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.Scro
             }
             stringBuffer.append(".html");
 
-            bundle.putString("desc", ""); // 传过去没什么用
-            bundle.putString("href", stringBuffer.toString()); // url
-            bundle.putInt("from", 2);
-            startActivity(NoticeDetailsAty.class, bundle);
+//            bundle.putString("desc", ""); // 传过去没什么用
+            bundle.putString("url", stringBuffer.toString()); // url
+//            bundle.putInt("from", 2);
+            startActivity(WebViewAty.class, bundle);
         } else {
             bundle.putSerializable("mellInfo", offLineDataBean);
             startActivity(ShopMallDetailsAty.class, bundle);

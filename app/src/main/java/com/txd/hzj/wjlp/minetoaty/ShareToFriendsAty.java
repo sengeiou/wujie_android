@@ -19,6 +19,7 @@ import com.txd.hzj.wjlp.http.user.UserPst;
 import com.txd.hzj.wjlp.mellonLine.NoticeDetailsAty;
 import com.txd.hzj.wjlp.mellonLine.gridClassify.MellInfoAty;
 import com.txd.hzj.wjlp.mellonLine.gridClassify.TicketGoodsDetialsAty;
+import com.txd.hzj.wjlp.webviewH5.WebViewAty;
 
 import java.util.Map;
 
@@ -118,10 +119,10 @@ public class ShareToFriendsAty extends BaseAty {
                         startActivity(TicketGoodsDetialsAty.class, bundle);
                     } else {
                         Bundle bundle = new Bundle();
-                        bundle.putString("desc", share_title);
-                        bundle.putString("href", share_url);
-                        bundle.putInt("from", 2);
-                        startActivity(NoticeDetailsAty.class, bundle);
+//                        bundle.putString("desc", share_title);
+                        bundle.putString("url", share_url);
+//                        bundle.putInt("from", 2);
+                        startActivity(WebViewAty.class, bundle);
                     }
                 }
             });

@@ -27,6 +27,7 @@ import com.txd.hzj.wjlp.mellonLine.NoticeDetailsAty;
 import com.txd.hzj.wjlp.mellonLine.gridClassify.MellInfoAty;
 import com.txd.hzj.wjlp.mellonLine.gridClassify.TicketGoodsDetialsAty;
 import com.txd.hzj.wjlp.popAty.adapter.RedPackageAdapter;
+import com.txd.hzj.wjlp.webviewH5.WebViewAty;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -197,9 +198,9 @@ public class WJHatchAty extends BaseAty {
                 public void onClick(View view) {
                     bundle = new Bundle();
                     bundle.putString("desc", image.get(position).get("desc"));
-                    bundle.putString("href", image.get(position).get("href"));
-                    bundle.putInt("from", 2);
-                    startActivity(NoticeDetailsAty.class, bundle);
+                    bundle.putString("url", image.get(position).get("href"));
+//                    bundle.putInt("from", 2);
+                    startActivity(WebViewAty.class, bundle);
                 }
             });
         }

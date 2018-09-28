@@ -29,6 +29,7 @@ import com.txd.hzj.wjlp.mellonLine.gridClassify.MellInfoAty;
 import com.txd.hzj.wjlp.mellonLine.gridClassify.TicketGoodsDetialsAty;
 import com.txd.hzj.wjlp.minetoaty.adapter.WjBooksAdapter;
 import com.txd.hzj.wjlp.minetoaty.books.BooksDetailsAty;
+import com.txd.hzj.wjlp.webviewH5.WebViewAty;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -248,10 +249,10 @@ public class BooksFgt extends BaseFgt {
                         startActivity(TicketGoodsDetialsAty.class, bundle);
                     } else {
                         bundle = new Bundle();
-                        bundle.putInt("from", 2);
-                        bundle.putString("desc", image.get(position).getDesc());
-                        bundle.putString("href", image.get(position).getHref());
-                        startActivity(NoticeDetailsAty.class, bundle);
+//                        bundle.putInt("from", 2);
+//                        bundle.putString("desc", image.get(position).getDesc());
+                        bundle.putString("url", image.get(position).getHref());
+                        startActivity(WebViewAty.class, bundle);
                     }
 
                 }

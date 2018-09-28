@@ -32,6 +32,7 @@ import com.txd.hzj.wjlp.bean.auction.AuctonIndex;
 import com.txd.hzj.wjlp.http.auction.AuctionPst;
 import com.txd.hzj.wjlp.mellonLine.NoticeDetailsAty;
 import com.txd.hzj.wjlp.mellonLine.adapter.LimitAdapter;
+import com.txd.hzj.wjlp.webviewH5.WebViewAty;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -293,10 +294,10 @@ public class AuctionCollectAty extends BaseAty {
                             startActivity(TicketGoodsDetialsAty.class, bundle);
                         } else {
                             Bundle bundle = new Bundle();
-                            bundle.putInt("from", 2);
-                            bundle.putString("desc", desc);
-                            bundle.putString("href", href);
-                            startActivity(NoticeDetailsAty.class, bundle);
+//                            bundle.putInt("from", 2);
+//                            bundle.putString("desc", desc);
+                            bundle.putString("url", href);
+                            startActivity(WebViewAty.class, bundle);
                         }
 
                     }

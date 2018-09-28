@@ -36,6 +36,7 @@ import com.txd.hzj.wjlp.mellonLine.adapter.LimitAdapter;
 import com.txd.hzj.wjlp.mellonLine.gridClassify.LimitGoodsAty;
 import com.txd.hzj.wjlp.mellonLine.gridClassify.MellInfoAty;
 import com.txd.hzj.wjlp.mellonLine.gridClassify.TicketGoodsDetialsAty;
+import com.txd.hzj.wjlp.webviewH5.WebViewAty;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -275,10 +276,10 @@ public class LimitFgt extends BaseFgt implements NestedScrollView.OnScrollChange
                             startActivity(TicketGoodsDetialsAty.class, bundle);
                         } else {
                             Bundle bundle = new Bundle();
-                            bundle.putInt("from", 2);
-                            bundle.putString("desc", desc);
-                            bundle.putString("href", href);
-                            startActivity(NoticeDetailsAty.class, bundle);
+//                            bundle.putInt("from", 2);
+//                            bundle.putString("desc", desc);
+                            bundle.putString("url", href);
+                            startActivity(WebViewAty.class, bundle);
                         }
                     }
                 });

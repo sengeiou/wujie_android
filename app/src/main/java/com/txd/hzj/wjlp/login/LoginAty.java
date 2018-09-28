@@ -38,6 +38,7 @@ import com.txd.hzj.wjlp.http.user.User;
 import com.txd.hzj.wjlp.jpush.JpushSetTagAndAlias;
 import com.txd.hzj.wjlp.mellonLine.NoticeDetailsAty;
 import com.txd.hzj.wjlp.tool.ChangeTextViewStyle;
+import com.txd.hzj.wjlp.webviewH5.WebViewAty;
 import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONException;
@@ -374,10 +375,8 @@ public class LoginAty extends BaseAty implements Handler.Callback, PlatformActio
                 AppManager.getInstance().killActivity(NoticeDetailsAty.class);
                 PreferencesUtils.remove(this, "NoticeDetailsUrl");
                 bundle = new Bundle();
-                bundle.putString("desc", "");
-                bundle.putString("href", noticeDetailsUrl);
-                bundle.putInt("from", 2);
-                startActivity(NoticeDetailsAty.class, bundle);
+                bundle.putString("url", noticeDetailsUrl);
+                startActivity(WebViewAty.class, bundle);
 //                PreferencesUtils.putString(LoginAty.this, "NoticeDetailsUrl", url);
             }
 

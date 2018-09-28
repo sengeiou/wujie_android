@@ -1,16 +1,33 @@
 package com.txd.hzj.wjlp.webviewH5;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.os.Bundle;
+import android.webkit.JavascriptInterface;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.ants.theantsgo.config.Config;
+import com.ants.theantsgo.payByThirdParty.AliPay;
+import com.ants.theantsgo.payByThirdParty.aliPay.AliPayCallBack;
+import com.ants.theantsgo.rsa.Base64Utils;
+import com.ants.theantsgo.util.L;
+import com.ants.theantsgo.util.PreferencesUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.Constant;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
+import com.txd.hzj.wjlp.http.Pay;
+import com.txd.hzj.wjlp.login.LoginAty;
+import com.txd.hzj.wjlp.mellonLine.NoticeDetailsAty;
+import com.txd.hzj.wjlp.wxapi.GetPrepayIdTask;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -26,6 +43,11 @@ public class WebViewAty extends BaseAty {
 
     @ViewInject(R.id.webView_show_webv)
     private WebView webView_show_webv;
+
+    private String payType; // 支付类型
+    private String type; // 返回Type
+    private String order_id; // 订单id
+    private String discount_type; // 折扣类型
 
     @Override
     protected int getLayoutResId() {
@@ -47,6 +69,11 @@ public class WebViewAty extends BaseAty {
             url = intent.getStringExtra("url");
         }
 
+        wxPayReceiver = new WxPayReceiver();
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction("wjyp.wxPay");
+        registerReceiver(wxPayReceiver, intentFilter);
+
         initWebView();
 
     }
@@ -60,7 +87,7 @@ public class WebViewAty extends BaseAty {
         webSettings.setUseWideViewPort(true); // 使用宽视图窗口
         webSettings.setLoadWithOverviewMode(true); // 缩放至屏幕的大小
 
-        webView_show_webv.addJavascriptInterface(new H5WebViewJsInterface(this), Constant.H5NAME); // 原生的WebView主要是进行产品展示
+        webView_show_webv.addJavascriptInterface(new H5WebViewJsInterface(), Constant.H5NAME); // 原生的WebView主要是进行产品展示
         webView_show_webv.getSettings().setDomStorageEnabled(true); // 开启DOM缓存
         webView_show_webv.getSettings().setDatabaseEnabled(true); // 开启（LocalStorage）数据存储
         webView_show_webv.getSettings().setDatabasePath(this.getCacheDir().getAbsolutePath()); // 设置数据缓存路径
@@ -85,6 +112,189 @@ public class WebViewAty extends BaseAty {
 
     @Override
     protected void requestData() {
+    }
 
+    @Override
+    public void onComplete(String requestUrl, String jsonStr) {
+        super.onComplete(requestUrl, jsonStr);
+        try {
+            JSONObject jsonObject = new JSONObject(jsonStr);
+            JSONObject data = jsonObject.getJSONObject("data");
+
+            // 微信支付
+            if (requestUrl.contains("getJsTine")) {
+                GetPrepayIdTask wxPay = new GetPrepayIdTask(WebViewAty.this, data.getString("sign"), data.getString("appid"),
+                        data.getString("nonce_str"), data.getString("package"), data.getString("time_stamp"), data.getString("prepay_id"),
+                        data.getString("mch_id"), "");
+                wxPay.execute();
+            }
+
+            // 支付宝支付
+            if (requestUrl.contains("getAlipayParam")) {
+                AliPay aliPay = new AliPay(data.getString("pay_string"), new AliPayCallBack() {
+                    @Override
+                    public void onComplete() {
+                        showToast("支付成功！");
+                        Pay.findPayResult(order_id, type, WebViewAty.this);
+                    }
+
+                    @Override
+                    public void onFailure() {
+                        showToast("支付失败！");
+                        Pay.findPayResult(order_id, type, WebViewAty.this);
+                    }
+
+                    @Override
+                    public void onProcessing() {
+                    }
+                });
+                aliPay.pay();
+            }
+
+            if (requestUrl.contains("findPayResult")) {
+                paySuccess(jsonObject);
+            }
+        } catch (JSONException e) {
+        }
+    }
+
+    /**
+     * 微信支付以及回调
+     */
+    private WxPayReceiver wxPayReceiver;
+
+    private class WxPayReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            int errCode = intent.getIntExtra("errCode", 5);
+            if (errCode == 0) {
+                showToast("支付成功");
+            } else {
+                showToast("支付失败");
+            }
+            Pay.findPayResult(order_id, "11", WebViewAty.this);
+        }
+    }
+
+    /**
+     * 支付成功后执行方法
+     */
+    private void paySuccess(JSONObject jsonObject) {
+        L.e("findPayResult:" + jsonObject.toString());
+        try {
+            JSONObject data = jsonObject.has("data") ? jsonObject.getJSONObject("data") : null;
+            String order_sn = data.has("order_sn") ? data.getString("order_sn") : "";
+            if (order_sn.isEmpty()) {
+                return;
+            }
+            String urlStr = Config.OFFICIAL_WEB;
+            if (urlStr.contains("api")) { // 正式版的情况下将api替换为www
+                urlStr = urlStr.replace("api", "www");
+            }
+//          http://www.wujiemall.com/Wap/Pay/pay_back/order/153232656966415.html
+            StringBuffer stringBuffer = new StringBuffer();
+            stringBuffer.append(urlStr);
+            stringBuffer.append("Wap/Pay/pay_back/order/");
+            stringBuffer.append(order_sn);
+            stringBuffer.append(".html");
+            url = stringBuffer.toString();
+            initWebView();
+        } catch (JSONException e) {
+        }
+
+    }
+
+    // ======================================== H5交互接口 ========================================
+    class H5WebViewJsInterface {
+
+
+        /**
+         * H5调用付款（微信支付和支付宝支付）
+         *
+         * @param resultJson
+         */
+        @JavascriptInterface
+        public void payForApplication(String resultJson) {
+            try {
+                JSONObject jsonObject = new JSONObject(resultJson);
+                payType = jsonObject.has("pay_type") ? jsonObject.getString("pay_type") : "";
+                type = jsonObject.has("type") ? jsonObject.getString("type") : "";
+                order_id = jsonObject.has("order_id") ? jsonObject.getString("order_id") : "";
+                discount_type = jsonObject.has("discount_type") ? jsonObject.getString("discount_type") : "";
+
+                if ("WeChat".equals(payType)) { // 微信支付
+                    Pay.getJsTine(order_id, discount_type, type, WebViewAty.this);
+                } else if ("Alipay".equals(payType)) { // 支付宝支付
+                    Pay.getAlipayParam(order_id, discount_type, type, WebViewAty.this);
+                } else {
+                    L.e("payForApplication show: other pay type");
+                }
+            } catch (JSONException e) {
+                L.e("payForApplication Exception:" + e.toString());
+            }
+        }
+
+        /**
+         * H5调用登录
+         *
+         * @param url
+         */
+        @JavascriptInterface
+        public void toLogin(String url) { // window.phone.toLogin(String url)
+            if (!url.isEmpty()) { // 如果Url不为空，那么直接解码并添加到本地共享存储
+                byte[] decode = Base64Utils.decode(url);
+                PreferencesUtils.putString(WebViewAty.this, "NoticeDetailsUrl", new String(decode));
+            }
+            Bundle bundle = new Bundle();
+            bundle.putInt("type", 1);
+            startActivity(LoginAty.class, bundle);
+            WebViewAty.this.finish();
+        }
+
+        /**
+         * H5支付结果返回首页
+         */
+        @JavascriptInterface
+        public void toOfflinePage() {
+            WebViewAty.this.finish();
+        }
+
+        /**
+         * H5调用分享
+         *
+         * @param content
+         */
+        @JavascriptInterface
+        public void toShare(String content) {
+            L.e("NoticeDetailsJsInterface.toShare" + content);
+            try {
+                JSONObject jsonObject = new JSONObject(content);
+                String goodsName = jsonObject.has("goodsName") ? jsonObject.getString("goodsName") : "";
+                String share_img = jsonObject.has("share_img") ? jsonObject.getString("share_img") : "";
+                String share_url = jsonObject.has("share_url") ? jsonObject.getString("share_url") : "";
+                String share_content = jsonObject.has("share_content") ? jsonObject.getString("share_content") : "";
+                String id = jsonObject.has("id") ? jsonObject.getString("id") : "0";
+                WebViewAty.this.toShare(goodsName, share_img, share_url, share_content, id, "1");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+        /**
+         * 跳转至个人中心
+         */
+        @JavascriptInterface
+        public void toPersonalCenter() {
+            backMain(3);
+            WebViewAty.this.finish();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (null != wxPayReceiver) {
+            unregisterReceiver(wxPayReceiver);
+        }
     }
 }

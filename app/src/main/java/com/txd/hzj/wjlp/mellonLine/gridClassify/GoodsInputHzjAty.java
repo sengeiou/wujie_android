@@ -32,6 +32,7 @@ import com.txd.hzj.wjlp.mainfgt.adapter.GlobalAdapter;
 import com.txd.hzj.wjlp.mainfgt.adapter.ViewPagerAdapter;
 import com.txd.hzj.wjlp.mellonLine.NoticeDetailsAty;
 import com.txd.hzj.wjlp.view.TouchViewpager;
+import com.txd.hzj.wjlp.webviewH5.WebViewAty;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -268,10 +269,10 @@ public class GoodsInputHzjAty extends BaseAty implements NestedScrollView.OnScro
                             startActivity(TicketGoodsDetialsAty.class, bundle);
                         } else {
                             Bundle bundle = new Bundle();
-                            bundle.putInt("from", 2);
-                            bundle.putString("desc", desc);
-                            bundle.putString("href", href);
-                            startActivity(NoticeDetailsAty.class, bundle);
+//                            bundle.putInt("from", 2);
+//                            bundle.putString("desc", desc);
+                            bundle.putString("url", href);
+                            startActivity(WebViewAty.class, bundle);
                         }
                     }
                 });

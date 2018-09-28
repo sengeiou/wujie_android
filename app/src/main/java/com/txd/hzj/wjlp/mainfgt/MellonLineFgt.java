@@ -62,6 +62,7 @@ import com.txd.hzj.wjlp.minetoaty.setting.EditProfileAty;
 import com.txd.hzj.wjlp.view.ObservableScrollView;
 import com.txd.hzj.wjlp.view.UPMarqueeView;
 import com.txd.hzj.wjlp.view.VpSwipeRefreshLayout;
+import com.txd.hzj.wjlp.webviewH5.WebViewAty;
 
 import org.json.JSONObject;
 
@@ -705,9 +706,9 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
         }
         bundle = new Bundle();
         bundle.putString("desc", limit_desc);
-        bundle.putString("href", limit_href);
-        bundle.putInt("from", 2);
-        startActivity(NoticeDetailsAty.class, bundle);
+        bundle.putString("url", limit_href);
+//        bundle.putInt("from", 2);
+        startActivity(WebViewAty.class, bundle);
     }
 
     /**

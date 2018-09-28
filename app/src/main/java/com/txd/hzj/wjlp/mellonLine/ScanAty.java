@@ -2,6 +2,7 @@ package com.txd.hzj.wjlp.mellonLine;
 
 import android.os.Bundle;
 import android.os.Vibrator;
+import android.view.View;
 import android.widget.TextView;
 
 import com.ants.theantsgo.AppManager;
@@ -14,6 +15,7 @@ import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.http.register.RegisterPst;
 import com.txd.hzj.wjlp.melloffLine.PaymentAty;
+import com.txd.hzj.wjlp.webviewH5.WebViewAty;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -99,6 +101,7 @@ public class ScanAty extends BaseAty implements QRCodeView.Delegate {
      * @param result 扫码成功返回字符串
      */
     private void dataProcessing(String result) {
+
         // 扫描商家拜师码
         if (result.contains("User/mentorship/invite_code")) {
             if (!Config.isLogin()) { // 如果未登录则先去登录
@@ -107,6 +110,7 @@ public class ScanAty extends BaseAty implements QRCodeView.Delegate {
                 toDetail(4, result);
             }
         }
+
         // 扫网站的二维码
         if (result.contains("type")) {// type:1登录，2邀请码注册 ，3下载
             if (!Config.isLogin()) { // 如果未登录则先去登录
@@ -152,6 +156,14 @@ public class ScanAty extends BaseAty implements QRCodeView.Delegate {
         } else {
             toDetail(4, result);
         }
+
+//        http://test2.wujiemall.com/Wap/OsManager/pay_money/pm_id/i3R4SSynYfPHZjxJ/money/0.02/mid/12.html
+        if (result.contains("pay_money/pm_id")) {
+            Bundle bundle = new Bundle();
+            bundle.putString("url", result);
+            startActivity(WebViewAty.class, bundle);
+        }
+
         finish();
     }
 

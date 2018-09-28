@@ -31,6 +31,7 @@ public class ApiTool2 {
      * 默认的缓存超时时间(缓存时间)
      */
     private final int DEFULT_CURRENT_HTTP_CACHE_EXPIRY = 3000;
+    private final String DEVICE = "android";
 
     /**
      * 通过GET方式联网请求接口
@@ -45,6 +46,7 @@ public class ApiTool2 {
         httpUtils.configCurrentHttpCacheExpiry(DEFULT_CURRENT_HTTP_CACHE_EXPIRY);
         String token = PreferencesUtils.getString(AppManager.getInstance().getTopActivity(), "token", "");
         params.addHeader("token", token);
+        params.addHeader("device", DEVICE);
         httpUtils.send(HttpRequest.HttpMethod.GET, url, params, new DefaultRequestCallBack(apiListener));
     }
 
@@ -61,17 +63,20 @@ public class ApiTool2 {
         httpUtils.configCurrentHttpCacheExpiry(DEFULT_CURRENT_HTTP_CACHE_EXPIRY);
         String token = PreferencesUtils.getString(AppManager.getInstance().getTopActivity(), "token", "");
         params.addHeader("token", token);
-        params.addHeader("method","POST");
+        params.addHeader("device", DEVICE);
+        params.addHeader("method", "POST");
         L.i("token", "========token=========" + token);
         httpUtils.send(HttpRequest.HttpMethod.POST, url, params, new DefaultRequestCallBack(apiListener));
     }
+
     public void postApis(String url, RequestParams params, final BaseView apiListener) {
         HttpUtils httpUtils = new HttpUtils();
         // 设置缓存超时时间
         httpUtils.configCurrentHttpCacheExpiry(DEFULT_CURRENT_HTTP_CACHE_EXPIRY);
         String token = PreferencesUtils.getString(AppManager.getInstance().getTopActivity(), "token", "");
         params.addHeader("token", token);
-        params.addHeader("method","PUT");
+        params.addHeader("device", DEVICE);
+        params.addHeader("method", "PUT");
         L.i("token", "========token=========" + token);
         httpUtils.send(HttpRequest.HttpMethod.POST, url, params, new DefaultRequestCallBack(apiListener));
     }

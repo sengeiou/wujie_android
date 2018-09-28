@@ -38,6 +38,7 @@ import com.txd.hzj.wjlp.mellonLine.SearchAty;
 import com.txd.hzj.wjlp.tool.GlideImageLoader;
 import com.txd.hzj.wjlp.view.ObservableScrollView;
 import com.txd.hzj.wjlp.view.VpSwipeRefreshLayout;
+import com.txd.hzj.wjlp.webviewH5.WebViewAty;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.Transformer;
@@ -202,10 +203,10 @@ public class ShopMallAty extends BaseAty {
                         }
                         stringBuffer.append(".html");
 
-                        bundle.putString("desc", ""); // 传过去没什么用
-                        bundle.putString("href", stringBuffer.toString()); // url
-                        bundle.putInt("from", 2);
-                        startActivity(NoticeDetailsAty.class, bundle);
+//                        bundle.putString("desc", ""); // 传过去没什么用
+                        bundle.putString("url", stringBuffer.toString()); // url
+//                        bundle.putInt("from", 2);
+                        startActivity(WebViewAty.class, bundle);
                     } else {
                         bundle.putSerializable("mellInfo", offLineDataBea);
                         startActivity(ShopMallDetailsAty.class, bundle);
