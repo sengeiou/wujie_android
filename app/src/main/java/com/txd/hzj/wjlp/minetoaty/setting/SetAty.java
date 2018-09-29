@@ -199,16 +199,14 @@ public class SetAty extends BaseAty implements Handler.Callback, PlatformActionL
                                 Platform qq = ShareSDK.getPlatform(QZone.NAME);
                                 Platform wx = ShareSDK.getPlatform(Wechat.NAME);
                                 Platform sl = ShareSDK.getPlatform(SinaWeibo.NAME);
-                                if (qq.isAuthValid()) {
+                                if (null != qq && qq.isAuthValid()) {
                                     qq.removeAccount(true);
                                 }
-                                if (wx.isAuthValid()) {
+                                if (null != wx && wx.isAuthValid()) {
                                     wx.removeAccount(true);
                                 }
-                                if (null != sl) {
-                                    if (sl.isAuthValid()) {
-                                        sl.removeAccount(true);
-                                    }
+                                if (null != sl && sl.isAuthValid()) {
+                                    sl.removeAccount(true);
                                 }
                                 Config.setLoginState(false);
                                 PreferencesUtils.putString(SetAty.this, "token", "");
