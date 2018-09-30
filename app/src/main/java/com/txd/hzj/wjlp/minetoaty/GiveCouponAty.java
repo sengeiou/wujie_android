@@ -15,6 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.config.Settings;
 import com.ants.theantsgo.util.JSONUtils;
 import com.bumptech.glide.Glide;
@@ -27,6 +28,7 @@ import com.txd.hzj.wjlp.bean.mine.MineInfoBean;
 import com.txd.hzj.wjlp.http.user.User;
 import com.txd.hzj.wjlp.http.user.UserPst;
 import com.txd.hzj.wjlp.mainfgt.MineFgt;
+import com.txd.hzj.wjlp.mellonLine.NoticeDetailsAty;
 import com.txd.hzj.wjlp.minetoaty.tricket.ParticularsUsedByTricketAty;
 import com.txd.hzj.wjlp.new_wjyp.VipDetailsAty;
 
@@ -49,6 +51,7 @@ public class GiveCouponAty extends BaseAty implements View.OnClickListener {
     private TextView ablance;
     private TextView giveCoupon;
     private String blue_voucher;
+    private TextView income_details_tv;
     private UserPst userPst;
     private String type;
     private LinearLayout view;
@@ -112,6 +115,8 @@ public class GiveCouponAty extends BaseAty implements View.OnClickListener {
         ablance = findViewById(R.id.give_details_tv);
         //转账
         giveCoupon = findViewById(R.id.give_accounts_tv);
+
+        income_details_tv=findViewById(R.id.income_details_tv);
         /**
          * 注册点击事件
          * */
@@ -119,6 +124,7 @@ public class GiveCouponAty extends BaseAty implements View.OnClickListener {
         ima_view.setOnClickListener(this);
         ablance.setOnClickListener(this);
         giveCoupon.setOnClickListener(this);
+        income_details_tv.setOnClickListener(this);
     }
 
 
@@ -158,6 +164,13 @@ public class GiveCouponAty extends BaseAty implements View.OnClickListener {
                     bundle.putString("merchant_id","");
                     startActivityForResult(GiveCouponAccounts.class, bundle, 1000);
                 }
+                break;
+            case  R.id.income_details_tv:
+                Bundle bundle1=new Bundle();
+                bundle1.putInt("from", 2);
+                bundle1.putString("desc", "");
+                bundle1.putString("href", Config.SHARE_URL+"Wap/ExIntegral/sendBlueVouchersPreRevenue.html");
+                startActivity(NoticeDetailsAty.class,bundle1);
                 break;
             case R.id.iv_vip:
                 try {

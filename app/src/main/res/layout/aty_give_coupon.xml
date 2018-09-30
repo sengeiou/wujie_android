@@ -79,6 +79,18 @@
                 android:paddingTop="12dp"
                 android:text="赠送明细"
                 android:textColor="@color/app_text_color" />
+            <TextView
+                android:id="@+id/income_details_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableEnd="@drawable/icon_turn_right_g"
+                android:drawablePadding="8dp"
+                android:drawableStart="@drawable/icon_three_party_receipts"
+                android:paddingBottom="12dp"
+                android:paddingEnd="12dp"
+                android:paddingTop="12dp"
+                android:text="收益明细"
+                android:textColor="@color/app_text_color" />
 
         </LinearLayout>
     </LinearLayout>
