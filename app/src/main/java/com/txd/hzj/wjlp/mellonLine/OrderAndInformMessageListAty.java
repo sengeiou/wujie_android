@@ -243,7 +243,7 @@ public class OrderAndInformMessageListAty extends BaseAty {
                 mvh.item_message_content_tv.setText(msg.get("title"));
                 mvh.is_read_tv.setVisibility(msg.get("is_read").equals("0") ? View.VISIBLE : View.GONE);
             } else {
-                mvh.item_message_content_tv.setText(StringUtils.halfWidthToFullWidth(msg.get("content")));
+                mvh.item_message_content_tv.setText(msg.get("content"));
             }
 
             if (msg.get("status").equals("0")) {// 未读
