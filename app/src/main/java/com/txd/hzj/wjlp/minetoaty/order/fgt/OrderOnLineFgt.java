@@ -603,7 +603,12 @@ public class OrderOnLineFgt extends BaseFgt {
                 }
             }
             final List<Map<String, String>> list_data = JSONUtils.parseKeyAndValueToMapList(getItem(position).get("order_goods"));
-            holder.title.setText(getItem(position).get("merchant_name"));
+            if (getItem(position).containsKey("shop_id") && Integer.parseInt(getItem(position).get("shop_id"))>0){
+                holder.title.setText(getItem(position).get("shop_name")+"(分销)");
+            }else {
+                holder.title.setText(getItem(position).get("merchant_name"));
+            }
+
             String freight = getItem(position).get("freight");
             int num = 0;
             if (list_data.size() > 0) {

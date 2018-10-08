@@ -46,7 +46,6 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:ellipsize="end"
-                    android:maxLines="3"
                     android:text="积分转余额 赠送"
                     android:textColor="@color/app_text_color" />
 
