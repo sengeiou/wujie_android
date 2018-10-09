@@ -44,7 +44,7 @@ public class OrderCenterAty extends BaseAty {
             "线上商城", "线下店铺", "堂食点餐",
             "积分商店", "拼单购", "无界预购",
             "比价购", "积分抽奖", "汽车购",
-            "房产购", "会员卡", "线上充值"};
+            "房产购", "会员卡", "线上充值","2980专区"};
 
     @Override
     protected int getLayoutResId() {
@@ -121,6 +121,9 @@ public class OrderCenterAty extends BaseAty {
                     mBundle.putString("title", "线上充值");
                     mBundle.putString("type", "8");
                     startActivity(OnlineShopAty.class, mBundle);
+                }else if (showItem.getShowName().equals(itemShowNames[12])) {
+                    mBundle.putString("url", Config.SHARE_URL+"Wap/Order/OrderList/order_status/9/order_type/13/p/1.html");
+                    startActivity(WebViewAty.class,mBundle);
                 }
             }
         });
@@ -154,6 +157,7 @@ public class OrderCenterAty extends BaseAty {
                 list.add(new ShowItem(R.drawable.icon_order_center_09, itemShowNames[9])); // 房产购
                 list.add(new ShowItem(R.mipmap.icon_order_vipcard, itemShowNames[10])); // 会员卡
                 list.add(new ShowItem(R.drawable.icon_chong, itemShowNames[11])); // 线上充值
+                list.add(new ShowItem(R.drawable.icon_order_center_01, itemShowNames[12])); // 线上充值
             } else { // 不开启活动，只添加相应的功能
                 list.removeAll(list);
                 list.add(new ShowItem(R.drawable.icon_order_center_01, itemShowNames[0])); // 线上商城

@@ -102,7 +102,7 @@ public class ThemeGoodsListAty extends BaseAty implements NestedScrollView.OnScr
         size2 = Settings.displayWidth / 2;
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(size1, size2);
         theme_piv_iv.setLayoutParams(params);
-
+        theme_goods_gv.setFocusable(false);
         theme_goods_gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {

@@ -434,7 +434,7 @@ public class PayForAppAty extends BaseAty {
         } else if (mType.equals("12")) {
             showToast("jakgflkasfhksajdfhakdj");
         } else if (mType.equals("13")) {
-            Order.setOrder(address_id, "0", order_id, "", "", getString("invoiceList"), getString("leave_message"), TextUtils.isEmpty(cart_id) ? getString("goodsList") : getString("goodsCartList"), this);
+            Order.setOrder(address_id, "13", order_id, "", "", getString("invoiceList"), getString("leave_message"), TextUtils.isEmpty(cart_id) ? getString("goodsList") : getString("goodsCartList"), this);
         } else if (mType.equals("100")) {
             //线下店铺
             OfflineStore.setOrder(mMerchant_id, mMoney, order_id, this);
