@@ -333,6 +333,26 @@
                         android:textSize="13sp"
                         android:textColor="@color/shop_main_fontcolor_black" />
                 </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/share_shop"
+                    android:layout_marginTop="27dp"
+                    android:background="@color/white"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    app:layout_columnWeight="1"
+                    android:paddingTop="9dp"
+                    app:rowCount="1">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableTop="@drawable/icon_share_shop"
+                        android:gravity="center"
+                        android:text="分享店铺"
+                        android:drawablePadding="14dp"
+                        android:textSize="13sp"
+                        android:textColor="@color/shop_main_fontcolor_black" />
+                </LinearLayout>
             </android.support.v7.widget.GridLayout>
         </LinearLayout>
         </LinearLayout>

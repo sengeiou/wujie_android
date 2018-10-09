@@ -10,12 +10,16 @@ import android.view.View.OnClickListener;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.ants.theantsgo.AppManager;
+import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.tips.MikyouCommonDialog;
 import com.ants.theantsgo.util.JSONUtils;
 import com.ants.theantsgo.util.PreferencesUtils;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
+import com.txd.hzj.wjlp.distribution.bean.DistributionGoodsBean;
 import com.txd.hzj.wjlp.distribution.presenter.ShopExhibitPst;
+import com.txd.hzj.wjlp.mellonLine.gridClassify.ToShareAty;
 
 import java.text.DecimalFormat;
 import java.util.Map;
@@ -37,12 +41,17 @@ public class ShopMain extends BaseAty implements OnClickListener {
     private LinearLayout shopPersonManage;
     private LinearLayout shopOrderManage;
     private LinearLayout shop_give;
+    private LinearLayout share_shop;
     private TextView money_tv;
     private TextView visitor;
     private TextView orderNum;
     private ShopExhibitPst mExhibitPst;
     private String mShop_id;
     private DecimalFormat mFormat;
+    private String shopName;
+    private String shopDesc;
+    private String shopUrl;
+    private String user_id;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -98,6 +107,8 @@ public class ShopMain extends BaseAty implements OnClickListener {
         //订单量
         orderNum = findViewById(R.id.shop_order);
 
+        share_shop=findViewById(R.id.share_shop);
+
         //注册点击事件
         shopUpGoods.setOnClickListener(this);
         shopGoodsManage.setOnClickListener(this);
@@ -106,6 +117,7 @@ public class ShopMain extends BaseAty implements OnClickListener {
         shopPersonManage.setOnClickListener(this);
         shopOrderManage.setOnClickListener(this);
         shop_give.setOnClickListener(this);
+        share_shop.setOnClickListener(this);
         mExhibitPst = new ShopExhibitPst(this);
         if (PreferencesUtils.containKey(this,"shop_id")){
             mShop_id = PreferencesUtils.getString(this, "shop_id");
@@ -143,6 +155,16 @@ public class ShopMain extends BaseAty implements OnClickListener {
                 money_tv.setText(mFormat.format(Double.parseDouble(pay_money)));
                 orderNum.setText(pay_orders);
                 visitor.setText(visit_nums);
+
+                //店铺名字
+                shopName = JSONUtils.getMapValue(mapData, "shop_name");
+                //店铺描述
+                shopDesc = JSONUtils.getMapValue(mapData, "shop_desc");
+                //店铺头像
+                shopUrl = JSONUtils.getMapValue(mapData, "shop_url");
+
+
+                user_id = JSONUtils.getMapValue(mapData, "user_id");
             }
 
         }
@@ -177,6 +199,18 @@ public class ShopMain extends BaseAty implements OnClickListener {
             case R.id.shop_give:
                 //赠送代金券
                 startActivity(ShopGiveYellowVoucher.class,null);
+                break;
+            case R.id.share_shop:
+                //分享店铺
+                Bundle bundle = new Bundle();
+                bundle.putString("title", shopName);
+                bundle.putString("pic", shopUrl);
+                String shop_id_jiami = PreferencesUtils.getString(AppManager.getInstance().getTopActivity(), "shop_id_jiami");
+                bundle.putString("url", Config.SHARE_URL+"Distribution/DistributionShop/shop/shop_id/"+shop_id_jiami+".html" );
+                bundle.putString("context", shopDesc);
+                bundle.putString("id", user_id);
+                bundle.putString("Shapetype", "6");
+                startActivity(ToShareAty.class, bundle);
                 break;
         }
     }
