@@ -923,9 +923,6 @@ public class PayForAppAty extends BaseAty {
             mBundle.putString("type", "10");
             startActivity(OnlineShopAty.class, mBundle);
         }
-        if (mType.equals("13")) {
-            showToast("需要调整到2980专区");
-        }
         if (mType.equals("100")) {
             mBundle.putString("orderId", order_id);
             startActivity(PaymentResultsAty.class, mBundle);
