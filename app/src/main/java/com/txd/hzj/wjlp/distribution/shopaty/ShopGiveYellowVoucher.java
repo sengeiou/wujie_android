@@ -28,7 +28,7 @@ import java.util.Map;
 /**
  * 创建者：zhangyunfei
  * 创建时间：2018/9/11 15:34
- * 功能描述：
+ * 功能描述：黄券审核
  */
 public class ShopGiveYellowVoucher extends BaseAty {
 

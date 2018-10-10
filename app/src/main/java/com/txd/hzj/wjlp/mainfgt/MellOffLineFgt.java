@@ -329,6 +329,10 @@ public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.Scro
     @Override
     public void onResume() {
         super.onResume();
+    }
+
+    @Override
+    protected void requestData() {
         MainAty mainAty = (MainAty) getActivity();
         mainAty.getPositioning(); // 重新获取定位
         Recommending.businessType(this);
@@ -345,10 +349,6 @@ public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.Scro
         } else {
             pranster.requestStoreData(page, "", "", "", "", "", getContext(), mell_near_by_lv);
         }
-    }
-
-    @Override
-    protected void requestData() {
     }
 
     @Override
