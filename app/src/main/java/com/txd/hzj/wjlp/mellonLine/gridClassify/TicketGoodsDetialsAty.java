@@ -695,7 +695,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
                     Intent intent = new Intent();
                     intent.putExtra("mid", mell_id);
                     if (from == 13) {
-                        intent.putExtra("type", from);
+                        intent.putExtra("type", from+"");
                     } else {
                         intent.putExtra("type", "1");
                     }
@@ -735,7 +735,11 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
                 try {
                     String goods_img = goodsInfo.get("goods_img");
                     String shop_price = goodsInfo.get("shop_price");
-                    toAttrs(v, 4, "1", goods_id + "-" + mell_id, goods_img, shop_price, "", goods_attr_first, first_val, is_attr);
+                    if (13 == from) {
+                        toAttrs(v, 4, "13", goods_id + "-" + mell_id, goods_img, shop_price, "", goods_attr_first, first_val, is_attr);
+                    } else {
+                        toAttrs(v, 4, "1", goods_id + "-" + mell_id, goods_img, shop_price, "", goods_attr_first, first_val, is_attr);
+                    }
                 } catch (Exception e) {
                     L.e("layout_layout_settings throw Exception :" + e.toString());
                     showErrorTip("获取字段异常");

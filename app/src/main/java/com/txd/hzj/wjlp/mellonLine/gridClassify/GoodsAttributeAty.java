@@ -8,6 +8,7 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -125,6 +126,12 @@ public class GoodsAttributeAty extends BaseAty {
     private int position = 0;
     @ViewInject(R.id.tv_xg)//限购
     private TextView tv_xg;
+
+    @ViewInject(R.id.im_jian)
+    private ImageView im_jian;
+
+    @ViewInject(R.id.im_jia)
+    private ImageView im_jia;
 
     @Override
     @OnClick({R.id.to_buy_must_tv, R.id.im_jian, R.id.im_jia})
@@ -287,8 +294,20 @@ public class GoodsAttributeAty extends BaseAty {
             }
         });
         from = getIntent().getIntExtra("from", 0);
+
         goods_id = getIntent().getStringExtra("goods_id");
         type = getIntent().getStringExtra("type");
+        if ("13".equals(type)){
+            im_jian.setVisibility(View.GONE);
+            im_jia.setVisibility(View.GONE);
+            et_num.setFocusable(false);
+            et_num.setFocusableInTouchMode(false);
+        }else {
+            im_jian.setVisibility(View.VISIBLE);
+            im_jia.setVisibility(View.VISIBLE);
+            et_num.setFocusable(true);
+            et_num.setFocusableInTouchMode(true);
+        }
         if (getIntent().hasExtra("group_buy_id")) { // 如果传入的值中包含Key：group_buy_id则去获取该值
             String getgroup_buy_id = getIntent().getStringExtra("group_buy_id");
             group_buy_id = getgroup_buy_id == null ? "" : getgroup_buy_id;

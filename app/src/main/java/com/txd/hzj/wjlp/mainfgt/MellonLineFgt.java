@@ -46,7 +46,6 @@ import com.txd.hzj.wjlp.mainfgt.adapter.HorizontalAdapter;
 import com.txd.hzj.wjlp.mainfgt.adapter.OnLineMenuGvAdapter;
 import com.txd.hzj.wjlp.mainfgt.adapter.ViewPagerAdapter;
 import com.txd.hzj.wjlp.mellonLine.MellOnLineClassifyAty;
-import com.txd.hzj.wjlp.mellonLine.NoticeDetailsAty;
 import com.txd.hzj.wjlp.mellonLine.WujieTopHzjAty;
 import com.txd.hzj.wjlp.mellonLine.gridClassify.AuctionGoodsDetailsAty;
 import com.txd.hzj.wjlp.mellonLine.gridClassify.CarDetailseAty;
@@ -54,8 +53,10 @@ import com.txd.hzj.wjlp.mellonLine.gridClassify.GoodLuckDetailsAty;
 import com.txd.hzj.wjlp.mellonLine.gridClassify.GoodsInputHzjAty;
 import com.txd.hzj.wjlp.mellonLine.gridClassify.LimitGoodsAty;
 import com.txd.hzj.wjlp.mellonLine.gridClassify.MellInfoAty;
+import com.txd.hzj.wjlp.mellonLine.gridClassify.ThemeStreetHzjAty;
 import com.txd.hzj.wjlp.mellonLine.gridClassify.TicketGoodsDetialsAty;
 import com.txd.hzj.wjlp.mellonLine.gridClassify.TicketZoonAty;
+import com.txd.hzj.wjlp.mellonLine.gridClassify.hous.HousChenAty;
 import com.txd.hzj.wjlp.mellonLine.gridClassify.hous.HousDetailsChenAty;
 import com.txd.hzj.wjlp.mellonLine.gridClassify.snatch.SnatchGoodsDetailsAty;
 import com.txd.hzj.wjlp.minetoaty.setting.EditProfileAty;
@@ -434,8 +435,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
                             startActivity(TicketZoonAty.class, bundle);
                             break;
                         case 3:// 主题街
-                            showToast("开发中，敬请期待");
-                            //                            startActivity(ThemeStreetHzjAty.class, null);
+                            startActivity(ThemeStreetHzjAty.class, null);
                             break;
                         case 4:// 无界预购
                             showToast("开发中，敬请期待");
@@ -465,7 +465,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
                             break;
                         case 8://房产购
                             showToast("开发中，敬请期待");
-                            //                            startActivity(HousChenAty.class, null);
+//                            startActivity(HousChenAty.class, null);
                             break;
                         case 9://一元夺宝
                             showToast("开发中，敬请期待");
@@ -707,7 +707,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
         bundle = new Bundle();
         bundle.putString("desc", limit_desc);
         bundle.putString("url", limit_href);
-//        bundle.putInt("from", 2);
+        //        bundle.putInt("from", 2);
         startActivity(WebViewAty.class, bundle);
     }
 
@@ -1480,17 +1480,17 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
                 //添加到循环滚动数组里面去
                 views.add(moreView);
             }
-        }else {
+        } else {
             for (int i = 0; i < updata.size(); i = i + 2) {
                 //设置滚动的单个布局
                 LinearLayout moreView = (LinearLayout) LayoutInflater.from(getContext()).inflate(R.layout.iten_wj_top_view, null);
                 //初始化布局的控件
                 TextView tv1 = moreView.findViewById(R.id.top_tv1);
                 //进行对控件赋值
-                if (i!=updata.size()-1){
+                if (i != updata.size() - 1) {
                     tv1.setText(updata.get(i).get("title"));
-                    tv1.append("\n"+updata.get(i+1).get("title"));
-                }else {
+                    tv1.append("\n" + updata.get(i + 1).get("title"));
+                } else {
                     tv1.setText(updata.get(i).get("title"));
                 }
 
