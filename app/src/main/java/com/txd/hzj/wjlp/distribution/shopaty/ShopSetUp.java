@@ -29,7 +29,9 @@ import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.distribution.presenter.ShopExhibitPst;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Map;
 
 import cn.gavinliu.android.lib.shapedimageview.ShapedImageView;
@@ -62,6 +64,7 @@ public class ShopSetUp extends BaseAty implements View.OnClickListener {
     private boolean isUpdata = false;
     private String mShop_id;
     private String user_id;
+    private TextView date_tv;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -83,6 +86,7 @@ public class ShopSetUp extends BaseAty implements View.OnClickListener {
         titleName = findViewById(R.id.titlt_conter_tv);
         inPutName = findViewById(R.id.shop_imput_name);
         shopDetails = findViewById(R.id.shop_details);
+        date_tv=findViewById(R.id.date_tv);
         shop_person_title_manage = findViewById(R.id.shop_person_title_manage);
         shop_person_title_manage.setVisibility(View.GONE);
         titleName.setText("店铺设置");
@@ -166,6 +170,11 @@ public class ShopSetUp extends BaseAty implements View.OnClickListener {
                 //店铺头像
                 shopUrl = JSONUtils.getMapValue(mapData, "shop_url");
 
+                String end_time = JSONUtils.getMapValue(mapData, "end_time");
+                SimpleDateFormat sdr = new SimpleDateFormat("yyyy-MM-dd");
+                int i = Integer.parseInt(end_time);
+                String times = sdr.format(new Date(i * 1000L));
+                date_tv.setText(times);
 
                 user_id = JSONUtils.getMapValue(mapData, "user_id");
                 if (!TextUtils.isEmpty(shopUrl)) {
