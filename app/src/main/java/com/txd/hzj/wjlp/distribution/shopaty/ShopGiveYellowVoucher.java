@@ -178,7 +178,6 @@ public class ShopGiveYellowVoucher extends BaseAty {
                             }
                         });
                     } else {
-                        total_tv.setVisibility(View.GONE);
                         empty_layout.setVisibility(View.VISIBLE);
                         refreshLayout.setVisibility(View.GONE);
                     }

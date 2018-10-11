@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/bg_color"
     android:orientation="vertical">
 
@@ -15,350 +15,373 @@
         android:background="@color/shop_division" />
 
     <android.support.v4.widget.NestedScrollView
-        android:scrollbars="none"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:scrollbars="none">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
             <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:background="@drawable/shopbg"></FrameLayout>
+                android:layout_height="wrap_content">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="12dp"
-                android:layout_marginStart="12dp"
-                android:layout_marginTop="34dp"
-                android:background="@drawable/collage_pop"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="24dp"
-                    android:text="付款金额（元）"
-                    android:textColor="@color/shop_main_fontcolor_black"
-                    android:textSize="13sp" />
-
-                <TextView
-                    android:id="@+id/money_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="10dp"
-                    tools:text="172980.00"
-                    android:textStyle="bold"
-                    android:textColor="@color/shop_main_fontcolor_red"
-                    android:textSize="20sp" />
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:background="@drawable/shopbg"></FrameLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="33dp"
-                    android:orientation="horizontal">
+                    android:layout_marginEnd="12dp"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginTop="34dp"
+                    android:background="@drawable/collage_pop"
+                    android:orientation="vertical">
 
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
+                    <RelativeLayout
+                        android:layout_marginTop="24dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/level_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/icon_shop_star"
+                            android:gravity="center"
+                            android:paddingEnd="10dp"
+                            android:textSize="12sp"
+                            android:paddingTop="2dp"
+                            android:paddingBottom="2dp"
+                            android:textColor="@color/white" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
-                            android:text="访客量"
+
+                            android:layout_centerInParent="true"
+                            android:text="付款金额（元）"
                             android:textColor="@color/shop_main_fontcolor_black"
                             android:textSize="13sp" />
+                    </RelativeLayout>
 
-                        <TextView
-                            android:id="@+id/shop_visitor"
+
+                    <TextView
+                        android:id="@+id/money_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="10dp"
+                        android:textColor="@color/shop_main_fontcolor_red"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        tools:text="172980.00" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="33dp"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
-                            android:layout_marginBottom="38dp"
-                            android:layout_marginTop="7dp"
-                            tools:text="700"
-                            android:textSize="16sp" />
-                    </LinearLayout>
+                            android:layout_weight="1"
+                            android:orientation="vertical">
 
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:text="访客量"
+                                android:textColor="@color/shop_main_fontcolor_black"
+                                android:textSize="13sp" />
+
+                            <TextView
+                                android:id="@+id/shop_visitor"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:layout_marginBottom="38dp"
+                                android:layout_marginTop="7dp"
+                                android:textSize="16sp"
+                                tools:text="700" />
+                        </LinearLayout>
+
+
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginBottom="32dp"
+                            android:alpha="0.2"
+                            android:background="#ff000000" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:gravity="center"
+                                android:text="订单数"
+                                android:textColor="@color/shop_main_fontcolor_black"
+                                android:textSize="13sp" />
+
+                            <TextView
+                                android:id="@+id/shop_order"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:layout_marginBottom="38dp"
+                                android:layout_marginTop="7dp"
+                                android:textSize="16sp"
+                                tools:text="5" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+            </FrameLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_weight="1"
+                android:background="@color/white"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:paddingBottom="13dp"
+                    android:paddingTop="13dp">
+
+                    <TextView
+                        android:id="@+id/gongju"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:text="常用工具"
+                        android:textColor="#ff000000"
+                        android:textSize="15sp" />
 
                     <View
-                        android:layout_width="1dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginBottom="32dp"
-                        android:alpha="0.2"
-                        android:background="#ff000000" />
+                        android:layout_width="15dp"
+                        android:layout_height="1dp"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="7dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_toLeftOf="@+id/gongju"
+                        android:background="#ffe72420"
+
+                        />
+
+                    <View
+                        android:layout_width="15dp"
+                        android:layout_height="1dp"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="7dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_toRightOf="@+id/gongju"
+                        android:background="#ffe72420"
+
+                        />
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:alpha="0.1"
+                    android:background="#ff000000" />
+
+                <android.support.v7.widget.GridLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:columnCount="3">
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
+                        android:id="@+id/shop_up_goods"
+                        android:layout_marginTop="26dp"
+                        android:background="@color/white"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        app:layout_columnWeight="1"
+                        app:rowCount="1">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
+                            android:drawablePadding="14dp"
+                            android:drawableTop="@drawable/shopshanghuo"
                             android:gravity="center"
-                            android:text="订单数"
+                            android:text="小店上货"
                             android:textColor="@color/shop_main_fontcolor_black"
                             android:textSize="13sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/shop_goods_manage"
+                        android:layout_marginTop="32dp"
+                        android:background="@color/white"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:paddingTop="2dp"
+                        app:layout_columnWeight="1"
+                        app:rowCount="1">
 
                         <TextView
-                            android:id="@+id/shop_order"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
-                            android:layout_marginBottom="38dp"
-                            android:layout_marginTop="7dp"
-                            tools:text="5"
-                            android:textSize="16sp" />
+                            android:drawablePadding="13dp"
+                            android:drawableTop="@drawable/shopgoods"
+                            android:gravity="center"
+                            android:text="商品管理"
+                            android:textColor="@color/shop_main_fontcolor_black"
+                            android:textSize="13sp" />
                     </LinearLayout>
-                </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/shop_money"
+                        android:layout_marginTop="30dp"
+                        android:background="@color/white"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:paddingTop="5dp"
+                        app:layout_columnWeight="1"
+                        app:rowCount="1">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:drawablePadding="14dp"
+                            android:drawableTop="@drawable/shopyingshou"
+                            android:gravity="center"
+                            android:text="小店营收"
+                            android:textColor="@color/shop_main_fontcolor_black"
+                            android:textSize="13sp" />
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:id="@+id/shop_order_magage"
+                        android:layout_marginTop="27dp"
+                        android:background="@color/white"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        app:layout_columnWeight="1"
+                        app:rowCount="1">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:drawablePadding="13dp"
+                            android:drawableTop="@drawable/shopmanage"
+                            android:gravity="center"
+                            android:text="订单管理"
+                            android:textColor="@color/shop_main_fontcolor_black"
+                            android:textSize="13sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/shop_person_manage"
+                        android:layout_marginTop="27dp"
+                        android:background="@color/white"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:paddingTop="4dp"
+                        app:layout_columnWeight="1"
+                        app:rowCount="1">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:drawablePadding="13dp"
+                            android:drawableTop="@drawable/shopcustom"
+                            android:gravity="center"
+                            android:text="顾客管理"
+                            android:textColor="@color/shop_main_fontcolor_black"
+                            android:textSize="13sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/shop_set_up"
+                        android:layout_marginTop="27dp"
+                        android:background="@color/white"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:paddingTop="9dp"
+                        app:layout_columnWeight="1"
+                        app:rowCount="1">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:drawablePadding="14dp"
+                            android:drawableTop="@drawable/shopset"
+                            android:gravity="center"
+                            android:text="店铺设置"
+                            android:textColor="@color/shop_main_fontcolor_black"
+                            android:textSize="13sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/shop_give"
+                        android:layout_marginTop="27dp"
+                        android:background="@color/white"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:paddingTop="9dp"
+                        app:layout_columnWeight="1"
+                        app:rowCount="1">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:drawablePadding="14dp"
+                            android:drawableTop="@drawable/yellowvouchereview"
+                            android:gravity="center"
+                            android:text="黄券审核"
+                            android:textColor="@color/shop_main_fontcolor_black"
+                            android:textSize="13sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/share_shop"
+                        android:layout_marginTop="27dp"
+                        android:background="@color/white"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:paddingTop="9dp"
+                        app:layout_columnWeight="1"
+                        app:rowCount="1">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:drawablePadding="14dp"
+                            android:drawableTop="@drawable/icon_share_shop"
+                            android:gravity="center"
+                            android:text="分享店铺"
+                            android:textColor="@color/shop_main_fontcolor_black"
+                            android:textSize="13sp" />
+                    </LinearLayout>
+                </android.support.v7.widget.GridLayout>
             </LinearLayout>
-        </FrameLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginTop="16dp"
-            android:background="@color/white"
-            android:orientation="vertical">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:paddingBottom="13dp"
-                android:paddingTop="13dp">
-
-                <TextView
-                    android:id="@+id/gongju"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:text="常用工具"
-                    android:textColor="#ff000000"
-                    android:textSize="15sp" />
-
-                <View
-                    android:layout_width="15dp"
-                    android:layout_height="1dp"
-                    android:layout_centerHorizontal="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="7dp"
-                    android:layout_marginTop="20dp"
-                    android:layout_toLeftOf="@+id/gongju"
-                    android:background="#ffe72420"
-
-                    />
-
-                <View
-                    android:layout_width="15dp"
-                    android:layout_height="1dp"
-                    android:layout_centerHorizontal="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="7dp"
-                    android:layout_marginTop="20dp"
-                    android:layout_toRightOf="@+id/gongju"
-                    android:background="#ffe72420"
-
-                    />
-            </RelativeLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:alpha="0.1"
-                android:background="#ff000000" />
-
-            <android.support.v7.widget.GridLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:columnCount="3"
-               >
-
-                <LinearLayout
-                    android:layout_marginTop="26dp"
-                    android:id="@+id/shop_up_goods"
-                    android:background="@color/white"
-                    android:gravity="center"
-                    android:orientation="horizontal"
-                    app:layout_columnWeight="1"
-                    app:rowCount="1">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:drawablePadding="14dp"
-                        android:drawableTop="@drawable/shopshanghuo"
-                        android:gravity="center"
-                        android:text="小店上货"
-                        android:textSize="13sp"
-                        android:textColor="@color/shop_main_fontcolor_black" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_marginTop="32dp"
-                    android:id="@+id/shop_goods_manage"
-                    android:background="@color/white"
-                    android:gravity="center"
-                    android:orientation="horizontal"
-                    app:layout_columnWeight="1"
-                    android:paddingTop="2dp"
-                    app:rowCount="1">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:drawablePadding="13dp"
-                        android:drawableTop="@drawable/shopgoods"
-                        android:gravity="center"
-                        android:text="商品管理"
-                        android:textColor="@color/shop_main_fontcolor_black"
-                        android:textSize="13sp" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/shop_money"
-                    android:layout_marginTop="30dp"
-                    android:background="@color/white"
-                    android:gravity="center"
-                    android:paddingTop="5dp"
-                    android:orientation="horizontal"
-                    app:layout_columnWeight="1"
-                    app:rowCount="1">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:drawableTop="@drawable/shopyingshou"
-                        android:gravity="center"
-                        android:text="小店营收"
-                        android:drawablePadding="14dp"
-                        android:textSize="13sp"
-                        android:textColor="@color/shop_main_fontcolor_black" />
-                </LinearLayout>
-
-
-                <LinearLayout
-                    android:layout_marginTop="27dp"
-                    android:id="@+id/shop_order_magage"
-                    android:background="@color/white"
-                    android:gravity="center"
-                    android:orientation="horizontal"
-                    app:layout_columnWeight="1"
-                    app:rowCount="1">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:drawableTop="@drawable/shopmanage"
-                        android:gravity="center"
-                        android:text="订单管理"
-                        android:drawablePadding="13dp"
-                        android:textSize="13sp"
-                        android:textColor="@color/shop_main_fontcolor_black" />
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_marginTop="27dp"
-                    android:id="@+id/shop_person_manage"
-                    android:background="@color/white"
-                    android:gravity="center"
-                    android:orientation="horizontal"
-                    app:layout_columnWeight="1"
-                    android:paddingTop="4dp"
-                    app:rowCount="1">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:drawableTop="@drawable/shopcustom"
-                        android:gravity="center"
-                        android:text="顾客管理"
-                        android:drawablePadding="13dp"
-                        android:textSize="13sp"
-                        android:textColor="@color/shop_main_fontcolor_black" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/shop_set_up"
-                    android:layout_marginTop="27dp"
-                    android:background="@color/white"
-                    android:gravity="center"
-                    android:orientation="horizontal"
-                    app:layout_columnWeight="1"
-                    android:paddingTop="9dp"
-                    app:rowCount="1">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:drawableTop="@drawable/shopset"
-                        android:gravity="center"
-                        android:text="店铺设置"
-                        android:drawablePadding="14dp"
-                        android:textSize="13sp"
-                        android:textColor="@color/shop_main_fontcolor_black" />
-                </LinearLayout>
-                <LinearLayout
-                    android:id="@+id/shop_give"
-                    android:layout_marginTop="27dp"
-                    android:background="@color/white"
-                    android:gravity="center"
-                    android:orientation="horizontal"
-                    app:layout_columnWeight="1"
-                    android:paddingTop="9dp"
-                    app:rowCount="1">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:drawableTop="@drawable/yellowvouchereview"
-                        android:gravity="center"
-                        android:text="黄券审核"
-                        android:drawablePadding="14dp"
-                        android:textSize="13sp"
-                        android:textColor="@color/shop_main_fontcolor_black" />
-                </LinearLayout>
-                <LinearLayout
-                    android:id="@+id/share_shop"
-                    android:layout_marginTop="27dp"
-                    android:background="@color/white"
-                    android:gravity="center"
-                    android:orientation="horizontal"
-                    app:layout_columnWeight="1"
-                    android:paddingTop="9dp"
-                    app:rowCount="1">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:drawableTop="@drawable/icon_share_shop"
-                        android:gravity="center"
-                        android:text="分享店铺"
-                        android:drawablePadding="14dp"
-                        android:textSize="13sp"
-                        android:textColor="@color/shop_main_fontcolor_black" />
-                </LinearLayout>
-            </android.support.v7.widget.GridLayout>
-        </LinearLayout>
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
+
     <View
-        android:background="@color/white"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:background="@color/white" />
 </LinearLayout>

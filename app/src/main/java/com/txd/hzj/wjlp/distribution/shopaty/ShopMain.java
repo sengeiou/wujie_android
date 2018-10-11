@@ -45,6 +45,7 @@ public class ShopMain extends BaseAty implements OnClickListener {
     private TextView money_tv;
     private TextView visitor;
     private TextView orderNum;
+    private TextView level_tv;
     private ShopExhibitPst mExhibitPst;
     private String mShop_id;
     private DecimalFormat mFormat;
@@ -58,17 +59,17 @@ public class ShopMain extends BaseAty implements OnClickListener {
         super.onCreate(savedInstanceState);
         showStatusBar(R.id.title_re_layout);
         Bundle extras = getIntent().getExtras();
-        if (extras.containsKey("has_shop") && "2".equals(extras.getString("has_shop"))){
+        if (extras.containsKey("has_shop") && "2".equals(extras.getString("has_shop"))) {
             showTanchuang();
         }
     }
 
     private void showTanchuang() {
-        final MikyouCommonDialog dialog=new MikyouCommonDialog(this,"您的店铺已过期，请重新申请","温馨提示","确定","",false);
+        final MikyouCommonDialog dialog = new MikyouCommonDialog(this, "您的店铺已过期，请重新申请", "温馨提示", "确定", "", false);
         dialog.setOnDiaLogListener(new MikyouCommonDialog.OnDialogListener() {
             @Override
             public void dialogListener(int btnType, View customView, DialogInterface dialogInterface, int which) {
-                if (btnType==MikyouCommonDialog.OK){
+                if (btnType == MikyouCommonDialog.OK) {
                     finish();
                 }
             }
@@ -99,15 +100,17 @@ public class ShopMain extends BaseAty implements OnClickListener {
         //订单管理
         shopOrderManage = findViewById(R.id.shop_order_magage);
         //代金券
-        shop_give=findViewById(R.id.shop_give);
+        shop_give = findViewById(R.id.shop_give);
         //付款金额
-        money_tv=findViewById(R.id.money_tv);
+        money_tv = findViewById(R.id.money_tv);
         //访客量
         visitor = findViewById(R.id.shop_visitor);
         //订单量
         orderNum = findViewById(R.id.shop_order);
 
-        share_shop=findViewById(R.id.share_shop);
+        level_tv=findViewById(R.id.level_tv);
+
+        share_shop = findViewById(R.id.share_shop);
 
         //注册点击事件
         shopUpGoods.setOnClickListener(this);
@@ -119,7 +122,7 @@ public class ShopMain extends BaseAty implements OnClickListener {
         shop_give.setOnClickListener(this);
         share_shop.setOnClickListener(this);
         mExhibitPst = new ShopExhibitPst(this);
-        if (PreferencesUtils.containKey(this,"shop_id")){
+        if (PreferencesUtils.containKey(this, "shop_id")) {
             mShop_id = PreferencesUtils.getString(this, "shop_id");
         }
 
@@ -151,6 +154,21 @@ public class ShopMain extends BaseAty implements OnClickListener {
                 String pay_orders = JSONUtils.getMapValue(mapData, "pay_orders");
                 //访问量
                 String visit_nums = JSONUtils.getMapValue(mapData, "visit_nums");
+                //店主等级  [1 => '初级店铺', 2 =>'中级店铺', 3 => '高级店铺' ]
+                String set_id = JSONUtils.getMapValue(mapData, "set_id");
+                if ("1".equals(set_id)){
+                    level_tv.setBackgroundResource(R.drawable.icon_shop_star);
+                    level_tv.setText("初级店主");
+                }else if ("2".equals(set_id)){
+                    level_tv.setBackgroundResource(R.drawable.icon_shop_star);
+                    level_tv.setText("中级店主");
+                }else if ("3".equals(set_id)){
+                    level_tv.setBackgroundResource(R.drawable.icon_shop_star);
+                    level_tv.setText("高级店主");
+                }else if ("4".equals(set_id)){
+                    level_tv.setBackgroundResource(R.drawable.icon_shop_v);
+                    level_tv.setText("高级店主加V");
+                }
 
                 money_tv.setText(mFormat.format(Double.parseDouble(pay_money)));
                 orderNum.setText(pay_orders);
@@ -176,13 +194,13 @@ public class ShopMain extends BaseAty implements OnClickListener {
         super.onClick(v);
         switch (v.getId()) {
             case R.id.shop_up_goods:
-                startActivity(ShopExhibit.class,null);
+                startActivity(ShopExhibit.class, null);
                 break;
             case R.id.shop_goods_manage:
-                startActivity(ShopGoodsManage.class,null);
+                startActivity(ShopGoodsManage.class, null);
                 break;
             case R.id.shop_money:
-                startActivity(ShopRevenue.class,null);
+                startActivity(ShopRevenue.class, null);
                 break;
             case R.id.shop_set_up:
                 //店铺设置
@@ -198,7 +216,7 @@ public class ShopMain extends BaseAty implements OnClickListener {
                 break;
             case R.id.shop_give:
                 //赠送代金券
-                startActivity(ShopGiveYellowVoucher.class,null);
+                startActivity(ShopGiveYellowVoucher.class, null);
                 break;
             case R.id.share_shop:
                 //分享店铺
@@ -206,7 +224,7 @@ public class ShopMain extends BaseAty implements OnClickListener {
                 bundle.putString("title", shopName);
                 bundle.putString("pic", shopUrl);
                 String shop_id_jiami = PreferencesUtils.getString(AppManager.getInstance().getTopActivity(), "shop_id_jiami");
-                bundle.putString("url", Config.SHARE_URL+"Distribution/DistributionShop/shop/shop_id/"+shop_id_jiami+".html" );
+                bundle.putString("url", Config.SHARE_URL + "Distribution/DistributionShop/shop/shop_id/" + shop_id_jiami + ".html");
                 bundle.putString("context", shopDesc);
                 bundle.putString("id", user_id);
                 bundle.putString("Shapetype", "6");
@@ -214,8 +232,6 @@ public class ShopMain extends BaseAty implements OnClickListener {
                 break;
         }
     }
-
-
 
 
 }

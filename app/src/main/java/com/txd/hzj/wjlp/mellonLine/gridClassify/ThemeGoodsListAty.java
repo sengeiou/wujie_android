@@ -96,7 +96,7 @@ public class ThemeGoodsListAty extends BaseAty implements NestedScrollView.OnScr
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         showStatusBar(R.id.title_re_layout);
-        titlt_conter_tv.setText("主题街");
+
 
         size1 = Settings.displayWidth;
         size2 = Settings.displayWidth / 2;
@@ -210,6 +210,10 @@ public class ThemeGoodsListAty extends BaseAty implements NestedScrollView.OnScr
             Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
             if (ToolKit.isList(map, "data")) {
                 Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
+                if (data.containsKey("theme_title")){
+                    titlt_conter_tv.setText(data.get("theme_title"));
+                }
+
                 Glide.with(this).load(data.get("theme_img"))
                         .override(size1, size2)
                         .placeholder(R.drawable.ic_default)
