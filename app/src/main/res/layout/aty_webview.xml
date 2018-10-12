@@ -5,6 +5,16 @@
     android:background="@color/white"
     android:orientation="vertical">
 
+    <LinearLayout
+        android:id="@+id/webView_title_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:orientation="horizontal">
+
+        <include layout="@layout/aty_title" />
+    </LinearLayout>
+
     <WebView
         android:id="@+id/webView_show_webv"
         android:layout_width="match_parent"

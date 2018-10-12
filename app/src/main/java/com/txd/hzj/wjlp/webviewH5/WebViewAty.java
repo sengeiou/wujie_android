@@ -5,11 +5,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.view.View;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.payByThirdParty.AliPay;
@@ -18,6 +22,7 @@ import com.ants.theantsgo.rsa.Base64Utils;
 import com.ants.theantsgo.util.L;
 import com.ants.theantsgo.util.PreferencesUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
+import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.Constant;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
@@ -44,6 +49,12 @@ public class WebViewAty extends BaseAty {
     @ViewInject(R.id.webView_show_webv)
     private WebView webView_show_webv;
 
+    // 标题栏
+    @ViewInject(R.id.webView_title_layout)
+    public LinearLayout webView_title_layout;
+    @ViewInject(R.id.titlt_conter_tv)
+    public TextView titlt_conter_tv;
+
     private String payType; // 支付类型
     private String type; // 返回Type
     private String order_id; // 订单id
@@ -67,6 +78,11 @@ public class WebViewAty extends BaseAty {
         Intent intent = getIntent();
         if (intent.hasExtra("url")) {
             url = intent.getStringExtra("url");
+            if (url.contains("OrderList/order_status/9/order_type/13")) {
+                // 2980 专区
+                webView_title_layout.setVisibility(View.VISIBLE);
+                titlt_conter_tv.setText("2980专区");
+            }
         }
 
         wxPayReceiver = new WxPayReceiver();
@@ -112,6 +128,17 @@ public class WebViewAty extends BaseAty {
 
     @Override
     protected void requestData() {
+    }
+
+    @OnClick({R.id.webView_title_layout})
+    @Override
+    public void onClick(View v) {
+        super.onClick(v);
+        switch (v.getId()) {
+            case R.id.title_be_back_iv:
+                this.finish();
+                break;
+        }
     }
 
     @Override
@@ -206,7 +233,6 @@ public class WebViewAty extends BaseAty {
 
     // ======================================== H5交互接口 ========================================
     class H5WebViewJsInterface {
-
 
         /**
          * H5调用付款（微信支付和支付宝支付）
