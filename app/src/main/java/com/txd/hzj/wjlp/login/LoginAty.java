@@ -18,6 +18,9 @@ import android.widget.TextView;
 
 import com.ants.theantsgo.AppManager;
 import com.ants.theantsgo.config.Config;
+import com.ants.theantsgo.payByThirdParty.AliPay;
+import com.ants.theantsgo.payByThirdParty.OrderInfoUtil2_0;
+import com.ants.theantsgo.payByThirdParty.aliPay.AliPayCallBack;
 import com.ants.theantsgo.util.FileUtils;
 import com.ants.theantsgo.util.JSONUtils;
 import com.ants.theantsgo.util.L;
@@ -160,6 +163,24 @@ public class LoginAty extends BaseAty implements Handler.Callback, PlatformActio
     private ImageView login_go_back_tv;
     private String registrationID;
 
+    /** 支付宝支付业务：入参app_id */
+    public static final String APPID = "2016052801453164";
+
+    /** 支付宝账户登录授权业务：入参pid值 */
+    public static final String PID = "2088711981544066";
+    /** 支付宝账户登录授权业务：入参target_id值 */
+    public static final String TARGET_ID = "11";
+
+    /** 商户私钥，pkcs8格式 */
+    /** 如下私钥，RSA2_PRIVATE 或者 RSA_PRIVATE 只需要填入一个 */
+    /** 如果商户两个都设置了，优先使用 RSA2_PRIVATE */
+    /** RSA2_PRIVATE 可以保证商户交易在更加安全的环境下进行，建议使用 RSA2_PRIVATE */
+    /** 获取 RSA2_PRIVATE，建议使用支付宝提供的公私钥生成工具生成， */
+    /** 工具地址：https://doc.open.alipay.com/docs/doc.htm?treeId=291&articleId=106097&docType=1 */
+    public static final String RSA2_PRIVATE = "";
+    public static final String RSA_PRIVATE = "MIICXAIBAAKBgQCcImOej6Yf0SIH/b1ZpILORIPqB9sEhuiQ3pBFkcAMluRvJL9Ch6ZqRzrisRB/2XLY3ctt4qjQzmOaSG51CvgzXExkLXboeO7mNK+fqnIH7hq4na2Vv26J/OB4vo5DyNbw2NBL6+iAxZm+axHl70wIIgcvAissttVSNdylOrt8KQIDAQABAoGAfGfeTooRCQr+/bUNOa8eVrI7Fa+asLm59yyPcg9XIfDdJT33c1BYphgJcHU7O1OM8gWPwQe4EWBR9q297V6HMk6xZnayJbI2NpdlINVPU7OkvEs2IXeNWiYYzrS2gKVGyH/BGfxwyXESa2vWMyEiQy4PY63ieIJEWUrtCXXP53ECQQDLt0TcBD1rnXKXq4cn7VgkwcAkpPIHxjiqqTy4rxlhYDYlv5hn5wrVUaLq3RmIfbtHespU4ZGQPF2yYrz5OryFAkEAxDTfRbfjeOrKcTRQnvOdKEzx+3N1zENnEO4o6SR5dPkINszm4rPAuxOGxQYFBeSH/Dhs/DTDjtGmJFkLW6aUVQJAXk/xpD6eROU2uTsjLnv2c8Xzc8OdfbXqZDBHuWTvRiKpzt4d6/SOEmZiG4PTH1q+SoBxjcyEfJdF9aE6xdPIlQJBAI8q+WR5Cw33XSL/hniF0L5Qbx4JIQKciD9NWSLOD6Yv9TNvjmYLve2EEQoBG3cyS5vaXIQnyC6VggLxypzkz0UCQBEjsdfjJOCnLgKDqt6OrRnd011xBiClAEiMj8zJN5Dkkd/FxD1TG9oigiJY8ZP2+XBN8pf7Mdoq+3OP5wPuQZs=";
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -193,7 +214,7 @@ public class LoginAty extends BaseAty implements Handler.Callback, PlatformActio
 
     @Override
     @OnClick({R.id.to_login_tv, R.id.to_register_tv, R.id.forget_pwd_tv, R.id.to_login_or_register_tv,
-            R.id.share_to_wachar, R.id.share_to_qq, R.id.share_to_sine, R.id.terms_of_service_tv, R.id.login_go_back_tv})
+            R.id.share_to_wachar, R.id.share_to_qq, R.id.share_to_sine,R.id.share_to_alipay, R.id.terms_of_service_tv, R.id.login_go_back_tv})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
@@ -250,6 +271,38 @@ public class LoginAty extends BaseAty implements Handler.Callback, PlatformActio
                 }
                 Platform wb = ShareSDK.getPlatform(SinaWeibo.NAME);
                 authorize(wb);
+                break;
+            case R.id.share_to_alipay://
+                loginType = "2";
+                if (!LoginAty.this.isDestroyed()) {
+                    showDialog();
+                }
+                boolean rsa2 = (RSA2_PRIVATE.length() > 0);
+                Map<String, String> authInfoMap = OrderInfoUtil2_0.buildAuthInfoMap(PID, APPID, TARGET_ID, rsa2);
+                String info = OrderInfoUtil2_0.buildOrderParam(authInfoMap);
+
+                String privateKey = rsa2 ? RSA2_PRIVATE : RSA_PRIVATE;
+                String sign = OrderInfoUtil2_0.getSign(authInfoMap, privateKey, rsa2);
+                final String authInfo = info + "&" + sign;
+                AliPay aliPay=new AliPay(authInfo, new AliPayCallBack() {
+                    @Override
+                    public void onComplete() {
+
+                    }
+
+                    @Override
+                    public void onFailure() {
+
+                    }
+
+                    @Override
+                    public void onProcessing() {
+
+                    }
+                });
+                aliPay.setMessageWhat(AliPay.SDK_AUTH_FLAG);
+                aliPay.pay();
+
                 break;
             case R.id.terms_of_service_tv:// 服务条款
                 bundle = new Bundle();
