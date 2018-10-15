@@ -24,6 +24,7 @@ import android.widget.TextView;
 import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.config.Settings;
 import com.ants.theantsgo.gson.GsonUtil;
+import com.ants.theantsgo.tips.MikyouCommonDialog;
 import com.ants.theantsgo.tool.ToolKit;
 import com.ants.theantsgo.tools.ObserTool;
 import com.ants.theantsgo.util.JSONUtils;
@@ -45,6 +46,7 @@ import com.txd.hzj.wjlp.mainfgt.adapter.AllGvLvAdapter;
 import com.txd.hzj.wjlp.mainfgt.adapter.HorizontalAdapter;
 import com.txd.hzj.wjlp.mainfgt.adapter.OnLineMenuGvAdapter;
 import com.txd.hzj.wjlp.mainfgt.adapter.ViewPagerAdapter;
+import com.txd.hzj.wjlp.melloffLine.dialog.CouponDialog;
 import com.txd.hzj.wjlp.mellonLine.MellOnLineClassifyAty;
 import com.txd.hzj.wjlp.mellonLine.WujieTopHzjAty;
 import com.txd.hzj.wjlp.mellonLine.gridClassify.AuctionGoodsDetailsAty;
@@ -60,6 +62,7 @@ import com.txd.hzj.wjlp.mellonLine.gridClassify.hous.HousChenAty;
 import com.txd.hzj.wjlp.mellonLine.gridClassify.hous.HousDetailsChenAty;
 import com.txd.hzj.wjlp.mellonLine.gridClassify.snatch.SnatchGoodsDetailsAty;
 import com.txd.hzj.wjlp.minetoaty.setting.EditProfileAty;
+import com.txd.hzj.wjlp.tool.CommonPopupWindow;
 import com.txd.hzj.wjlp.view.ObservableScrollView;
 import com.txd.hzj.wjlp.view.UPMarqueeView;
 import com.txd.hzj.wjlp.view.VpSwipeRefreshLayout;
@@ -858,27 +861,31 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
                 JSONObject jsonData = jsonObject.getJSONObject("data");
                 // 获取个人所在地址填写状态 0是未填写 1是已填写
                 if (!Config.getToken().equals("") && jsonData.getString("city_status").equals("0")) {
-                    //                if (message.equals("请先填写个人所在地") && !Config.getToken().equals("")) {
-                    new AlertDialog.Builder(getActivity())
-                            .setTitle("请完善个人资料地区信息")
-                            .setMessage("前往个人个人资料页面？")
-                            .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    String return_ticket = jsonData.has("return_ticket") ? jsonData.getString("return_ticket") : "0";
+                    new MikyouCommonDialog(getActivity(), "请完善个人资料，获取" + return_ticket + "代金券！", "温馨提示", "确定", "取消", true)
+                            .setOnDiaLogListener(new MikyouCommonDialog.OnDialogListener() {
                                 @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    if (Config.getToken().equals("")) {
-                                        Intent intent = new Intent();
-                                        intent.setClass(getActivity(), LoginAty.class);
-                                        getActivity().startActivity(intent);
-                                    } else {
-                                        Intent intent = new Intent();
-                                        intent.setClass(getActivity(), EditProfileAty.class);
-                                        getActivity().startActivity(intent);
+                                public void dialogListener(int btnType, View customView, DialogInterface dialogInterface, int which) {
+                                    switch (btnType) {
+                                        case MikyouCommonDialog.OK: {
+                                            if (Config.getToken().equals("")) {
+                                                Intent intent = new Intent();
+                                                intent.setClass(getActivity(), LoginAty.class);
+                                                getActivity().startActivity(intent);
+                                            } else {
+                                                Intent intent = new Intent();
+                                                intent.setClass(getActivity(), EditProfileAty.class);
+                                                getActivity().startActivity(intent);
+                                            }
+                                        }
+                                        break;
+                                        case MikyouCommonDialog.NO: {
+                                            // 直接关闭该对话框
+                                        }
+                                        break;
                                     }
-
                                 }
-                            })
-                            .setNegativeButton("取消", null)
-                            .show();
+                            }).showDialog();
                 }
             } catch (Exception e) {
                 e.printStackTrace();
