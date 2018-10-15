@@ -4,13 +4,13 @@ import android.annotation.SuppressLint;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
-import android.util.Log;
+import android.widget.Toast;
 
 import com.alipay.sdk.app.PayTask;
 import com.ants.theantsgo.AppManager;
 import com.ants.theantsgo.payByThirdParty.aliPay.AliPayCallBack;
+import com.ants.theantsgo.payByThirdParty.aliPay.AuthResult;
 import com.ants.theantsgo.payByThirdParty.aliPay.PayResult;
-import com.ants.theantsgo.util.L;
 
 import java.util.Map;
 
@@ -24,11 +24,12 @@ public class AliPay implements Runnable {
 
     private Thread thread;
     private String orderInfo;
+
     private AliPayCallBack aliPayCallBack;
 
-    private static final int SDK_PAY_FLAG = 1;
-    private static final int SDK_AUTH_FLAG = 2;
-
+    public static final int SDK_PAY_FLAG = 1;
+    public static final int SDK_AUTH_FLAG = 2;
+    private int messageWhat=SDK_PAY_FLAG;
     /**
      * 够造函数
      *
@@ -40,6 +41,9 @@ public class AliPay implements Runnable {
         thread = new Thread(this);
     }
 
+    public void setMessageWhat(int messageWhat){
+        this.messageWhat=messageWhat;
+    }
     /**
      * 吊起支付宝
      */
@@ -52,7 +56,7 @@ public class AliPay implements Runnable {
         PayTask alipay = new PayTask(AppManager.getInstance().getTopActivity());
         Map<String, String> result = alipay.payV2(orderInfo, true);
         Message msg = new Message();
-        msg.what = SDK_PAY_FLAG;
+        msg.what = messageWhat;
         msg.obj = result;
         mHandler.sendMessage(msg);
     }
@@ -85,26 +89,26 @@ public class AliPay implements Runnable {
                     break;
                 }
                 case SDK_AUTH_FLAG: {
-//                    @SuppressWarnings("unchecked")
-//                    AuthResult authResult = new AuthResult((Map<String, String>) msg.obj, true);
-//                    String resultStatus = authResult.getResultStatus();
-//                    // 判断resultStatus 为“9000”且result_code
-//                    // 为“200”则代表授权成功，具体状态码代表含义可参考授权接口文档
-//                    if (TextUtils.equals(resultStatus, "9000") &&
-//                            TextUtils.equals(authResult.getResultCode(), "200")) {
-//                        // 获取alipay_open_id，调支付时作为参数extern_token 的value
-//                        // 传入，则支付账户为该授权账户
-//                        Toast.makeText(PayDemoActivity.this,
-//                                "授权成功\n" + String.format("authCode:%s", authResult.getAuthCode()), Toast
-//                                        .LENGTH_SHORT)
-//                                .show();
-//                    } else {
-//                        // 其他状态值则为授权失败
-//                        Toast.makeText(PayDemoActivity.this,
-//                                "授权失败" + String.format("authCode:%s", authResult.getAuthCode()), Toast.LENGTH_SHORT)
-//                                .show();
-//
-//                    }
+                    @SuppressWarnings("unchecked")
+                    AuthResult authResult = new AuthResult((Map<String, String>) msg.obj, true);
+                    String resultStatus = authResult.getResultStatus();
+                    // 判断resultStatus 为“9000”且result_code
+                    // 为“200”则代表授权成功，具体状态码代表含义可参考授权接口文档
+                    if (TextUtils.equals(resultStatus, "9000") &&
+                            TextUtils.equals(authResult.getResultCode(), "200")) {
+                        // 获取alipay_open_id，调支付时作为参数extern_token 的value
+                        // 传入，则支付账户为该授权账户
+                        Toast.makeText(AppManager.getInstance().getTopActivity(),
+                                "授权成功\n" + String.format("authCode:%s", authResult.getAuthCode()), Toast
+                                        .LENGTH_SHORT)
+                                .show();
+                    } else {
+                        // 其他状态值则为授权失败
+                        Toast.makeText(AppManager.getInstance().getTopActivity(),
+                                "授权失败" + String.format("authCode:%s", authResult.getAuthCode()), Toast.LENGTH_SHORT)
+                                .show();
+
+                    }
                     break;
                 }
                 default:
