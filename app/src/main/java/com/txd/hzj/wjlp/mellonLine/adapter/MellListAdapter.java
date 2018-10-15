@@ -2,9 +2,11 @@ package com.txd.hzj.wjlp.mellonLine.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -20,6 +22,7 @@ import com.txd.hzj.wjlp.bean.MellInfoList;
 import com.txd.hzj.wjlp.bean.footPoint.FootMellsBan;
 import com.txd.hzj.wjlp.bean.footPoint.GoodsListBean;
 import com.txd.hzj.wjlp.mellonLine.gridClassify.MellInfoAty;
+import com.txd.hzj.wjlp.mellonLine.gridClassify.TicketGoodsDetialsAty;
 import com.txd.hzj.wjlp.tool.ChangeTextViewStyle;
 
 import java.util.List;
@@ -166,6 +169,17 @@ public class MellListAdapter extends BaseAdapter {
                 }
             });
             mvh.mell_prodect_gv.setAdapter(new MellProdectAdapter(context, goods));
+            mvh.mell_prodect_gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    Bundle bundle = new Bundle();
+                    bundle.putString("ticket_buy_id", mellInfoList.getMerchantFace().getGoodsList().get(position).getGoods_id());
+                    bundle.putInt("from", 1);
+                    Intent intent=new Intent(context,TicketGoodsDetialsAty.class);
+                    intent.putExtras(bundle);
+                    context.startActivity(intent);
+                }
+            });
         }
 
 
