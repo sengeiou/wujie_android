@@ -77,6 +77,17 @@
                 android:layout_height="30dp"
                 android:src="@drawable/ty"
                 android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/tv_2980"
+                android:text="2980"
+                android:textSize="10sp"
+                android:paddingStart="5dp"
+                android:visibility="gone"
+                android:textColor="@color/white"
+                android:background="@drawable/kaidian2980"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
         </RelativeLayout>
 
         <LinearLayout

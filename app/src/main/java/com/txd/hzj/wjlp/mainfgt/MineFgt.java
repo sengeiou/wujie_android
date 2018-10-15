@@ -75,6 +75,7 @@ import com.txd.hzj.wjlp.minetoaty.order.OrderCenterAty;
 import com.txd.hzj.wjlp.minetoaty.setting.SetAty;
 import com.txd.hzj.wjlp.minetoaty.tricket.IntegralAty;
 import com.txd.hzj.wjlp.minetoaty.tricket.MyCouponAty;
+import com.txd.hzj.wjlp.minetoaty.tricket.TradingStampAty;
 import com.txd.hzj.wjlp.new_wjyp.BusinessRecommendAty;
 import com.txd.hzj.wjlp.new_wjyp.VipDetailsAty;
 import com.txd.hzj.wjlp.new_wjyp.Mine2_aty;
@@ -370,7 +371,7 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
 
     @Override
     @OnClick({R.id.tv_set, R.id.rel_mine_about, R.id.tv_help_center, R.id.tv_order_center, R.id.grade_of_member_layout,
-            R.id.mine_member_type_layout, R.id.my_coupon_layout, R.id.integral_tv, R.id.registration_code_tv,
+            R.id.mine_member_type_layout, R.id.my_coupon_layout, R.id.my_gift_layout, R.id.integral_tv, R.id.registration_code_tv,
             R.id.my_balance_layout, R.id.coupon_tv, R.id.address_tv, R.id.feedBack_tv, R.id.shre_to_friends_tv,
             R.id.share_grade_tv, R.id.collect_tv, R.id.footprint_tv, R.id.evaluate_tv, R.id.call_service_tv,
             R.id.merchant_will_move_into_tv, R.id.books_tv, R.id.stock_record_tv, R.id.sales_record_tv, R.id.personalStores,
@@ -429,6 +430,9 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
                 break;
             case R.id.my_coupon_layout: // 购物券
                 startActivity(MyCouponAty.class, null);
+                break;
+            case R.id.my_gift_layout:
+                startActivity(TradingStampAty.class, null);
                 break;
             case R.id.integral_tv: // 积分
                 String s = center_tv.getText().toString();

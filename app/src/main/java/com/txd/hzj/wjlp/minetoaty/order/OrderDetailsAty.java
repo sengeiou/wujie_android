@@ -190,7 +190,7 @@ public class OrderDetailsAty extends BaseAty {
             order_id = getIntent().getStringExtra("id");
             type = getIntent().getStringExtra("type");
         }
-        if (type.equals("0")) {//普通商品
+        if (type.equals("0") || type.equals("13")) {//0 普通商品   13  2980专区
             Order.details(order_id, this);
             type2WL = "0";
         } else if (type.equals("3")) {//拼单购
@@ -213,7 +213,7 @@ public class OrderDetailsAty extends BaseAty {
         tv_btn_right.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (type.equals("0") || type.equals("10")) {
+                if (type.equals("0") || type.equals("10") || type.equals("13")) {
                     //订单状态（'0': '待付款‘ ； '1': '待发货' ； '2': '待收货' ；'3': '待评价'；'4': '已完成；‘5’：取消订单） 默认9（全部）
                     if (order_status.equals("0")) {
                         Bundle bundle = new Bundle();
@@ -224,7 +224,7 @@ public class OrderDetailsAty extends BaseAty {
                         bundle.putString("is_pay_password", is_pay_password);
                         startActivity(PayForAppAty.class, bundle);
                     } else if (order_status.equals("2")) {
-                        if (type.equals("0")) {
+                        if (type.equals("0") || type.equals("13")) {
                             //                            Order.receiving(order_id, OrderDetailsAty.this);
                             //                            showProgressDialog();
                         } else {
@@ -240,7 +240,7 @@ public class OrderDetailsAty extends BaseAty {
                         new AlertDialog(OrderDetailsAty.this).builder().setTitle("提示").setMsg("删除订单").setPositiveButton("确定", new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                if (type.equals("0")) {
+                                if (type.equals("0") || type.equals("13")) {
                                     Order.deleteOrder(order_id, OrderDetailsAty.this);
                                     showProgressDialog();
                                 } else {
@@ -364,7 +364,7 @@ public class OrderDetailsAty extends BaseAty {
                     @Override
                     public void onClick(View v) {
 
-                        if (type.equals("0")) {
+                        if (type.equals("0") || type.equals("13")) {
                             if (order_status.equals("0")) {
 
                                 Order.cancelOrder(order_id, OrderDetailsAty.this);
@@ -420,7 +420,7 @@ public class OrderDetailsAty extends BaseAty {
                 // 如果订单状态为待付款或待发货，则隐藏订单详情查看入口
                 lin_logistics.setVisibility(View.GONE);
             }
-            if (type.equals("0") || type.equals("10")) {
+            if (type.equals("0") || type.equals("10") || type.equals("13")) {
                 setOrderStatus();
             } else if (type.equals("3")) {
                 setGroupBuyOrderStatus();
@@ -480,7 +480,7 @@ public class OrderDetailsAty extends BaseAty {
         if (requestUrlSplit.equals("cancelOrder") ||
                 requestUrlSplit.equals("preCancelOrder") ||
                 requestUrlSplit.equals("CancelOrder")) {
-            if (type.equals("0")) {
+            if (type.equals("0") || type.equals("13")) {
                 Order.details(order_id, this);
             } else if (type.equals("3")) {
                 GroupBuyOrder.details(order_id, this);
@@ -497,7 +497,7 @@ public class OrderDetailsAty extends BaseAty {
         if (requestUrlSplit.equals("receiving") ||
                 requestUrlSplit.equals("preReceiving") ||
                 requestUrlSplit.equals("Receiving")) {
-            if (type.equals("0")) {
+            if (type.equals("0") || type.equals("13")) {
                 Order.details(order_id, this);
             } else if (type.equals("3")) {
                 GroupBuyOrder.details(order_id, this);
@@ -836,7 +836,7 @@ public class OrderDetailsAty extends BaseAty {
             tgvh.name.setText(map.get("goods_name")); // 设置商品名称显示
             tgvh.num.setText("x" + map.get("goods_num")); // 设置商品数量显示
             tgvh.title.setText(map.get("attr")); // 设置商品属性
-            if ("10".equals(type)) {
+            if ("10".equals(type) || "13".equals(type)) {
                 tgvh.jifenTv.setVisibility(View.GONE);
             } else {
                 tgvh.jifenTv.setVisibility(View.VISIBLE);
@@ -846,7 +846,11 @@ public class OrderDetailsAty extends BaseAty {
             tgvh.textviews.setText(map.get("invoice_name") + "(发票运费:" + map.get("express_fee") + " 税金:" + map.get("tax_pay") + ")"); // 设置发票名称
             L.e("time" + map.get("sure_delivery_time"));
 
-
+            if ("13".equals(type)) {
+                tgvh.tv_2980.setVisibility(View.VISIBLE);
+            } else {
+                tgvh.tv_2980.setVisibility(View.GONE);
+            }
             if (isTy) {
                 tgvh.tyIv.setVisibility(View.VISIBLE);
             } else {
@@ -1129,6 +1133,8 @@ public class OrderDetailsAty extends BaseAty {
             private TextView tv_fahuoshijian;
             @ViewInject(R.id.itemGoods_goods_layout)
             private View itemGoods_goods_layout;
+            @ViewInject(R.id.tv_2980)
+            private TextView tv_2980;
         }
     }
 

@@ -121,9 +121,10 @@ public class OrderCenterAty extends BaseAty {
                     mBundle.putString("title", "线上充值");
                     mBundle.putString("type", "8");
                     startActivity(OnlineShopAty.class, mBundle);
-                }else if (showItem.getShowName().equals(itemShowNames[12])) {
-                    mBundle.putString("url", Config.SHARE_URL+"Wap/Order/OrderList/order_status/9/order_type/13/p/1.html");
-                    startActivity(WebViewAty.class,mBundle);
+                }if (showItem.getShowName().equals(itemShowNames[12])) {
+                    mBundle.putString("title", itemShowNames[12]);
+                    mBundle.putString("type", "13");
+                    startActivity(OnlineShopAty.class, mBundle);
                 }
             }
         });

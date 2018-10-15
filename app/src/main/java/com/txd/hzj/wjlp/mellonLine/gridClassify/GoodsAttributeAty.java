@@ -297,17 +297,7 @@ public class GoodsAttributeAty extends BaseAty {
 
         goods_id = getIntent().getStringExtra("goods_id");
         type = getIntent().getStringExtra("type");
-        if ("13".equals(type)){
-            im_jian.setVisibility(View.GONE);
-            im_jia.setVisibility(View.GONE);
-            et_num.setFocusable(false);
-            et_num.setFocusableInTouchMode(false);
-        }else {
-            im_jian.setVisibility(View.VISIBLE);
-            im_jia.setVisibility(View.VISIBLE);
-            et_num.setFocusable(true);
-            et_num.setFocusableInTouchMode(true);
-        }
+
         if (getIntent().hasExtra("group_buy_id")) { // 如果传入的值中包含Key：group_buy_id则去获取该值
             String getgroup_buy_id = getIntent().getStringExtra("group_buy_id");
             group_buy_id = getgroup_buy_id == null ? "" : getgroup_buy_id;
