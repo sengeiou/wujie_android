@@ -113,7 +113,7 @@ public class MellListAdapter extends BaseAdapter {
         String score;
         final String merchant_id;
         final boolean itemSelect;
-        List<GoodsListBean> goods;
+        final List<GoodsListBean> goods;
         if (0 == type) {// 足迹
             footMellsBan = (FootMellsBan) getItem(i);
             logo = footMellsBan.getMerInfo().getLogo();
@@ -172,12 +172,16 @@ public class MellListAdapter extends BaseAdapter {
             mvh.mell_prodect_gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    Bundle bundle = new Bundle();
-                    bundle.putString("ticket_buy_id", mellInfoList.getMerchantFace().getGoodsList().get(position).getGoods_id());
-                    bundle.putInt("from", 1);
-                    Intent intent=new Intent(context,TicketGoodsDetialsAty.class);
-                    intent.putExtras(bundle);
-                    context.startActivity(intent);
+                    List<GoodsListBean> goodsList = mellInfoList.getMerchantFace().getGoodsList();
+                    if (goodsList!=null && goodsList.size()>0){
+                        Bundle bundle = new Bundle();
+                        bundle.putString("ticket_buy_id", goodsList.get(position).getGoods_id());
+                        bundle.putInt("from", 1);
+                        Intent intent=new Intent(context,TicketGoodsDetialsAty.class);
+                        intent.putExtras(bundle);
+                        context.startActivity(intent);
+                    }
+
                 }
             });
         }

@@ -1,5 +1,4 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -8,7 +7,7 @@
     tools:context="com.txd.hzj.wjlp.minetoaty.collect.fgt.CollectMellHzjFgt">
 
 
-    <com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout
+    <com.txd.hzj.wjlp.view.SuperSwipeRefreshLayout
         android:id="@+id/super_layouts"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -22,7 +21,7 @@
             android:layout_weight="1"
             android:background="@color/white" />
 
-    </com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout>
+    </com.txd.hzj.wjlp.view.SuperSwipeRefreshLayout>
 
     <include
         layout="@layout/aty_no_data_layout"
