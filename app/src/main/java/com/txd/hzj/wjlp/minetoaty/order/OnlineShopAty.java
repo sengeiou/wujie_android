@@ -87,7 +87,7 @@ public class OnlineShopAty extends BaseAty implements View.OnClickListener {
         //mTabLayout.setTabGravity(TabLayout.);
 
         //添加页卡标题
-        if (title.equals("线上商城") || title.equals("线下商城")||title.equals("积分商店") || title.equals("2980专区")) {
+        if (title.equals("线上商城") || title.equals("线下商城")||title.equals("积分商店")) {
             mTitleList = OrderTitleUtils.getInstance().orderTitle1();
         }else if (title.equals("线上充值")){
             mTitleList = OrderTitleUtils.getInstance().orderTitle6();
