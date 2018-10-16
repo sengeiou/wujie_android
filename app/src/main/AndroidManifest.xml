@@ -575,7 +575,6 @@
 
         <!-- 华为推送 ←→ end -->
 
-
         <activity
             android:name="com.mob.tools.MobUIShell"
             android:configChanges="keyboardHidden|orientation|screenSize"

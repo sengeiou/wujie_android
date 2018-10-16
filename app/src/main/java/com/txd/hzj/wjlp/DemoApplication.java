@@ -19,6 +19,7 @@ import android.content.res.Resources;
 import android.os.Vibrator;
 import android.support.multidex.MultiDex;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.ants.theantsgo.WeApplication;
 import com.ants.theantsgo.util.L;
@@ -109,6 +110,7 @@ public class DemoApplication extends WeApplication implements EMMessageListener 
         JPushInterface.setDebugMode(L.isDebug);    // 设置开启日志,发布时请关闭日志
         JPushInterface.init(this);            // 初始化 JPush
         registrationID = JPushInterface.getRegistrationID(this);
+        Log.e("registrationID", registrationID );
         /*
          * 初始化定位sdk，建议在Application中创建
          */
