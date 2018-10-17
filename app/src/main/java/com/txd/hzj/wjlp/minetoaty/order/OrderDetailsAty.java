@@ -828,7 +828,11 @@ public class OrderDetailsAty extends BaseAty {
                     } else {
                         if (getItem(i).containsKey("goods_id")) {//普通商品
                             bundle.putString("ticket_buy_id", getItem(i).get("goods_id"));
-                            bundle.putInt("from", 1);
+                            if ("13".equals(mOrder_type)){
+                                bundle.putInt("from", 13);
+                            }else {
+                                bundle.putInt("from", 1);
+                            }
                             startActivity(TicketGoodsDetialsAty.class, bundle);
                         }
                     }

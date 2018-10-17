@@ -327,6 +327,7 @@ public class SetAty extends BaseAty implements Handler.Callback, PlatformActionL
                 break;
                 //支付宝绑定
             case R.id.layout_alipay_bind:
+
                 if (alipay_bind.get("is_bind").equals("0")) {
                     showDialog();
                     loginType = "7";
@@ -353,7 +354,7 @@ public class SetAty extends BaseAty implements Handler.Callback, PlatformActionL
                     }).setPositiveButton("确定", new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            User.removeBind(loginType, SetAty.this);
+                            User.removeBind("7", SetAty.this);
                         }
                     }).show();
                 }
@@ -716,7 +717,7 @@ public class SetAty extends BaseAty implements Handler.Callback, PlatformActionL
     @Override
     public void onSuccess(String auth_code) {
         PreferencesUtils.putString(SetAty.this,"alipay_auth_code",auth_code);
-        User.bindOther(auth_code, loginType, "", this);
+        User.bindOther(auth_code, "7", "", this);
     }
 
     @Override

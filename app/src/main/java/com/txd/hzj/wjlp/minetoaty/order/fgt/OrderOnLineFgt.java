@@ -566,6 +566,7 @@ public class OrderOnLineFgt extends BaseFgt {
 
     class GoodsAdapter extends BaseAdapter {
         ViewHolder holder;
+        String mOrderType="0";
 
         @Override
         public int getCount() {
@@ -611,7 +612,7 @@ public class OrderOnLineFgt extends BaseFgt {
 
             String freight = getItem(position).get("freight");
             int num = 0;
-            String order_type=getItem(position).containsKey("order_type")?getItem(position).get("order_type"):"";
+            mOrderType=getItem(position).containsKey("order_type")?getItem(position).get("order_type"):"";
             if (list_data.size() > 0) {
                 for (int i = 0; i < list_data.size(); i++) {
                     String goods_num = list_data.get(i).get("goods_num");
@@ -654,7 +655,7 @@ public class OrderOnLineFgt extends BaseFgt {
             is_pay_password = getItem(position).get("is_pay_password");
             L.e("wang", "getItem(position):" + getItem(position));
             // TODO ======================================设置商品显示适配器=======================================================
-            holder.goods_for_order_lv.setAdapter(new GoodsForOrderAdapter(list_data, position,order_type));
+            holder.goods_for_order_lv.setAdapter(new GoodsForOrderAdapter(list_data, position,mOrderType));
             holder.goods_for_order_lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int i, long id) {
@@ -866,6 +867,8 @@ public class OrderOnLineFgt extends BaseFgt {
                 bundle.putString("order_id", getItem(position).get("order_id"));
                 if (from.equals("10")) {
                     bundle.putString("type", from);
+                }else {
+                    bundle.putString("type", mOrderType);
                 }
                 bundle.putString("is_pay_password", is_pay_password);
                 startActivity(PayForAppAty.class, bundle);
