@@ -15,6 +15,8 @@ import android.widget.TextView;
 
 import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.gson.GsonUtil;
+import com.ants.theantsgo.payByThirdParty.AliPay;
+import com.ants.theantsgo.payByThirdParty.OrderInfoUtil2_0;
 import com.ants.theantsgo.tips.MikyouCommonDialog;
 import com.ants.theantsgo.tool.glide.GlideCacheUtil;
 import com.ants.theantsgo.tools.AlertDialog;
@@ -33,12 +35,12 @@ import com.txd.hzj.wjlp.DemoHelper;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.bean.UpdataApp;
+import com.txd.hzj.wjlp.http.User;
 import com.txd.hzj.wjlp.http.updataApp.UpdataPst;
 import com.txd.hzj.wjlp.http.user.UserPst;
 import com.txd.hzj.wjlp.jpush.JpushSetTagAndAlias;
 import com.txd.hzj.wjlp.minetoaty.balance.BankInfoForReChargeAty;
 import com.txd.hzj.wjlp.new_wjyp.Authentication_aty;
-import com.txd.hzj.wjlp.http.User;
 import com.txd.hzj.wjlp.tool.AppUpdate;
 import com.umeng.analytics.MobclickAgent;
 
@@ -56,13 +58,19 @@ import cn.sharesdk.tencent.qzone.QZone;
 import cn.sharesdk.wechat.friends.Wechat;
 import io.reactivex.annotations.NonNull;
 
+import static com.txd.hzj.wjlp.login.LoginAty.APPID;
+import static com.txd.hzj.wjlp.login.LoginAty.PID;
+import static com.txd.hzj.wjlp.login.LoginAty.RSA2_PRIVATE;
+import static com.txd.hzj.wjlp.login.LoginAty.RSA_PRIVATE;
+import static com.txd.hzj.wjlp.login.LoginAty.TARGET_ID;
+
 /**
  * 作者：DUKE_HwangZj
  * 日期：2017/7/26 0026
  * 时间：下午 3:40
  * 描述：设置
  */
-public class SetAty extends BaseAty implements Handler.Callback, PlatformActionListener {
+public class SetAty extends BaseAty implements Handler.Callback, PlatformActionListener ,AliPay.OnAuthInterface{
     private Handler handler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(Message message) {
@@ -125,6 +133,8 @@ public class SetAty extends BaseAty implements Handler.Callback, PlatformActionL
     private TextView tv_wx_bind;
     @ViewInject(R.id.tv_wb_bind)
     private TextView tv_wb_bind;
+    @ViewInject(R.id.tv_ali_bind)
+    private TextView tv_ali_bind;
     @ViewInject(R.id.set_upDate_tv)
     private TextView set_upDate_tv;
 
@@ -139,6 +149,7 @@ public class SetAty extends BaseAty implements Handler.Callback, PlatformActionL
     private Map<String, String> qq_bind;
     private Map<String, String> wx_bind;
     private Map<String, String> weibo_bind;
+    private Map<String,String> alipay_bind;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -150,7 +161,7 @@ public class SetAty extends BaseAty implements Handler.Callback, PlatformActionL
     @Override
     @OnClick({R.id.rel_editprofile, R.id.rel_editpassword, R.id.rel_editpaypassword, R.id.rel_realname,
             R.id.rel_bind_phone, R.id.sing_out_tv, R.id.clear_cach_layout
-            , R.id.layout_wechat_bind, R.id.layout_qq_bind, R.id.layout_sina_bind, R.id.set_upDate_tv, R.id.rel_myBankCard})
+            , R.id.layout_wechat_bind, R.id.layout_qq_bind, R.id.layout_sina_bind,R.id.layout_alipay_bind, R.id.set_upDate_tv, R.id.rel_myBankCard})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
@@ -314,6 +325,39 @@ public class SetAty extends BaseAty implements Handler.Callback, PlatformActionL
                 }
 
                 break;
+                //支付宝绑定
+            case R.id.layout_alipay_bind:
+                if (alipay_bind.get("is_bind").equals("0")) {
+                    showDialog();
+                    loginType = "7";
+                    String alipay_auth_code = PreferencesUtils.getString(SetAty.this, "alipay_auth_code");
+                    if (TextUtils.isEmpty(alipay_auth_code)){
+                        boolean rsa2 = (RSA2_PRIVATE.length() > 0);
+                        Map<String, String> authInfoMap = OrderInfoUtil2_0.buildAuthInfoMap(PID, APPID, TARGET_ID, rsa2);
+                        String info = OrderInfoUtil2_0.buildOrderParam(authInfoMap);
+                        String privateKey = rsa2 ? RSA2_PRIVATE : RSA_PRIVATE;
+                        String sign = OrderInfoUtil2_0.getSign(authInfoMap, privateKey, rsa2);
+                        final String authInfo = info + "&" + sign;
+                        AliPay aliPay=new AliPay(authInfo, this);
+                        aliPay.setMessageWhat(AliPay.SDK_AUTH_FLAG);
+                        aliPay.pay();
+                    }else {
+                        User.bindOther(alipay_auth_code, loginType, "", this);
+                    }
+                } else {
+                    new AlertDialog(this).builder().setTitle("提示").setMsg("是否取消绑定？").setNegativeButton("取消", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+
+                        }
+                    }).setPositiveButton("确定", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            User.removeBind(loginType, SetAty.this);
+                        }
+                    }).show();
+                }
+                break;
             case R.id.set_upDate_tv: // 检查更新
                 UpdataPst updataPst = new UpdataPst(this);
                 updataPst.toUpdata();
@@ -347,6 +391,7 @@ public class SetAty extends BaseAty implements Handler.Callback, PlatformActionL
      * 1.微信
      * 2.微博
      * 3.QQ
+     * 7.支付宝
      */
     private String loginType = "";
 
@@ -433,6 +478,7 @@ public class SetAty extends BaseAty implements Handler.Callback, PlatformActionL
             return;
 
         }
+
         // 请求更新时不返回下面这些字段，防止其报空指针异常，所以直接除去更新对这块的调用
         if (!requestUrl.contains("Upgrade")) {
             Map<String, Object> map = GsonUtil.GsonToMaps(jsonStr);
@@ -464,6 +510,8 @@ public class SetAty extends BaseAty implements Handler.Callback, PlatformActionL
             setBindText(tv_wx_bind, wx_bind);
             weibo_bind = JSONUtils.parseKeyAndValueToMap(m.get("weibo_bind"));
             setBindText(tv_wb_bind, weibo_bind);
+            alipay_bind = JSONUtils.parseKeyAndValueToMap(m.get("alipay_bind"));
+            setBindText(tv_ali_bind, alipay_bind);
         }
 
     }
@@ -662,6 +710,18 @@ public class SetAty extends BaseAty implements Handler.Callback, PlatformActionL
                 AppUpdate.getInstance().install(SetAty.this);
                 break;
         }
+    }
+
+
+    @Override
+    public void onSuccess(String auth_code) {
+        PreferencesUtils.putString(SetAty.this,"alipay_auth_code",auth_code);
+        User.bindOther(auth_code, loginType, "", this);
+    }
+
+    @Override
+    public void onFailure() {
+        removeDialog();
     }
 
 }

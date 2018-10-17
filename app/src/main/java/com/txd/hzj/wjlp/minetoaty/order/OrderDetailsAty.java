@@ -1002,7 +1002,7 @@ public class OrderDetailsAty extends BaseAty {
             //先判断 is_back_apply是否显示售后按钮 然后判断after_type 售后按钮中的文字
             //            "is_back_apply":  //是否对应售后服务 0不对应 1对应
             String is_back_apply = map.get("is_back_apply");
-            if (!TextUtils.isEmpty(is_back_apply) && "1".equals(is_back_apply)) {
+            if (!TextUtils.isEmpty(is_back_apply) && "1".equals(is_back_apply) && !"13".equals(mOrder_type)) {
                 tgvh.applyAfterSaleTv.setVisibility(View.VISIBLE);
                 // 设置右侧按钮显示的文字
                 /**

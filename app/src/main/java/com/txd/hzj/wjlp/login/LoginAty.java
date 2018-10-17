@@ -105,6 +105,7 @@ public class LoginAty extends BaseAty implements Handler.Callback, PlatformActio
      * 1.微信
      * 2.微博
      * 3.QQ
+     * 7支付宝
      */
     private String loginType = "";
 
@@ -275,8 +276,9 @@ public class LoginAty extends BaseAty implements Handler.Callback, PlatformActio
                 Platform wb = ShareSDK.getPlatform(SinaWeibo.NAME);
                 authorize(wb);
                 break;
-            case R.id.share_to_alipay://
-                loginType = "2";
+                //支付宝
+            case R.id.share_to_alipay:
+                loginType = "7";
                 if (!LoginAty.this.isDestroyed()) {
                     showDialog();
                 }
@@ -293,7 +295,7 @@ public class LoginAty extends BaseAty implements Handler.Callback, PlatformActio
                     aliPay.setMessageWhat(AliPay.SDK_AUTH_FLAG);
                     aliPay.pay();
                 }else {
-                    registerPst.otherLogin(alipay_auth_code,"7",null,"");
+                    registerPst.otherLogin(alipay_auth_code,loginType,null,"");
                 }
 
 
@@ -631,7 +633,7 @@ public class LoginAty extends BaseAty implements Handler.Callback, PlatformActio
     @Override
     public void onSuccess(String auth_code) {
         PreferencesUtils.putString(LoginAty.this,"alipay_auth_code",auth_code);
-        registerPst.otherLogin(auth_code,"7",null,"");
+        registerPst.otherLogin(auth_code,loginType,null,"");
     }
 
     @Override

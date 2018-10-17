@@ -20,7 +20,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ants.theantsgo.AppManager;
-import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.config.Settings;
 import com.ants.theantsgo.payByThirdParty.AliPay;
 import com.ants.theantsgo.payByThirdParty.aliPay.AliPayCallBack;
@@ -49,7 +48,6 @@ import com.txd.hzj.wjlp.minetoaty.order.OnlineShopAty;
 import com.txd.hzj.wjlp.minetoaty.setting.EditPayPasswordAty;
 import com.txd.hzj.wjlp.tool.CommonPopupWindow;
 import com.txd.hzj.wjlp.view.PayForDialog;
-import com.txd.hzj.wjlp.webviewH5.WebViewAty;
 import com.txd.hzj.wjlp.wxapi.GetPrepayIdTask;
 
 import java.math.BigDecimal;
@@ -894,7 +892,7 @@ public class PayForAppAty extends BaseAty {
 
     private void OrderList() {
         mBundle = new Bundle();
-        if (TextUtils.isEmpty(mType) || mType.equals("0") || mType.equals("0") || mType.equals("1") || mType.equals("5") || mType.equals("11")) {
+        if (TextUtils.isEmpty(mType) || mType.equals("0") || mType.equals("0") || mType.equals("1") || mType.equals("5") || mType.equals("11") || mType.equals("13")) {
             mBundle.putString("title", "线上商城");
             mBundle.putString("type", "0");
             startActivity(OnlineShopAty.class, mBundle);
@@ -924,10 +922,6 @@ public class PayForAppAty extends BaseAty {
             mBundle.putString("title", "积分商店");
             mBundle.putString("type", "10");
             startActivity(OnlineShopAty.class, mBundle);
-        }
-        if (mType.equals("13")) {
-            mBundle.putString("url", Config.SHARE_URL+"Wap/Order/OrderList/order_status/9/order_type/13/p/1.html");
-            startActivity(WebViewAty.class,mBundle);
         }
         if (mType.equals("100")) {
             mBundle.putString("orderId", order_id);

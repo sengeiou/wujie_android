@@ -204,7 +204,29 @@
                         android:paddingTop="12dp"
                         android:text="未绑定" />
                 </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/layout_alipay_bind"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center">
 
+                    <TextView
+                        style="@style/mine_text_list"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawablePadding="10dp"
+                        android:text="支付宝绑定"
+                        android:textColor="@color/black" />
+
+                    <TextView
+                        android:id="@+id/tv_ali_bind"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="end"
+                        android:paddingBottom="12dp"
+                        android:paddingTop="12dp"
+                        android:text="未绑定" />
+                </LinearLayout>
             </LinearLayout>
 
             <LinearLayout
