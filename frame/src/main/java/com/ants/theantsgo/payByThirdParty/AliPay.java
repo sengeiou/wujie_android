@@ -26,6 +26,7 @@ public class AliPay implements Runnable {
     private String orderInfo;
 
     private AliPayCallBack aliPayCallBack;
+    private OnAuthInterface mOnAuthInterface;
 
     public static final int SDK_PAY_FLAG = 1;
     public static final int SDK_AUTH_FLAG = 2;
@@ -41,6 +42,11 @@ public class AliPay implements Runnable {
         thread = new Thread(this);
     }
 
+    public AliPay(String orderInfo, OnAuthInterface authInterface) {
+        this.orderInfo = orderInfo;
+        this.mOnAuthInterface = authInterface;
+        thread = new Thread(this);
+    }
     public void setMessageWhat(int messageWhat){
         this.messageWhat=messageWhat;
     }
@@ -98,16 +104,15 @@ public class AliPay implements Runnable {
                             TextUtils.equals(authResult.getResultCode(), "200")) {
                         // 获取alipay_open_id，调支付时作为参数extern_token 的value
                         // 传入，则支付账户为该授权账户
+
+                        mOnAuthInterface.onSuccess(authResult.getAuthCode());
                         Toast.makeText(AppManager.getInstance().getTopActivity(),
-                                "授权成功\n" + String.format("authCode:%s", authResult.getAuthCode()), Toast
-                                        .LENGTH_SHORT)
-                                .show();
+                                "授权成功",Toast.LENGTH_SHORT).show();
                     } else {
                         // 其他状态值则为授权失败
+                        mOnAuthInterface.onFailure();
                         Toast.makeText(AppManager.getInstance().getTopActivity(),
-                                "授权失败" + String.format("authCode:%s", authResult.getAuthCode()), Toast.LENGTH_SHORT)
-                                .show();
-
+                                "授权失败",Toast.LENGTH_SHORT).show();
                     }
                     break;
                 }
@@ -116,5 +121,10 @@ public class AliPay implements Runnable {
             }
         }
     };
+
+    public interface OnAuthInterface{
+        void onSuccess(String auth_code);
+        void onFailure();
+    }
 
 }
