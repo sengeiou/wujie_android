@@ -82,6 +82,7 @@ class Register {
         params.addBodyParameter("phone", phone);
         params.addBodyParameter("password", password);
         params.addBodyParameter("confirmPassword", confirmPassword);
+//        params.addBodyParameter("regid", DemoApplication.registrationID);
         apiTool2.postApi(url + "register", params, baseView);
     }
 
