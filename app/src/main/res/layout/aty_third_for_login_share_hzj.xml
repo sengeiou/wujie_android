@@ -130,15 +130,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:visibility="gone"
         android:gravity="center_horizontal"
         android:orientation="vertical"
-        android:padding="8dp">
+        android:padding="8dp"
+        android:visibility="gone">
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/icon_share_sine" />
+            android:src="@drawable/icon_alipay_login" />
 
         <me.grantland.widget.AutofitTextView
             android:layout_width="wrap_content"

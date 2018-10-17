@@ -20,7 +20,6 @@ import com.ants.theantsgo.AppManager;
 import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.payByThirdParty.AliPay;
 import com.ants.theantsgo.payByThirdParty.OrderInfoUtil2_0;
-import com.ants.theantsgo.payByThirdParty.aliPay.AliPayCallBack;
 import com.ants.theantsgo.util.FileUtils;
 import com.ants.theantsgo.util.JSONUtils;
 import com.ants.theantsgo.util.L;
@@ -65,7 +64,7 @@ import cn.sharesdk.wechat.friends.Wechat;
  * 时间：下午 7:10
  * 描述：登录，注册(50-1 登录，50-5 注册)
  */
-public class LoginAty extends BaseAty implements Handler.Callback, PlatformActionListener {
+public class LoginAty extends BaseAty implements Handler.Callback, PlatformActionListener ,AliPay.OnAuthInterface{
     /**
      * 登录
      */
@@ -111,6 +110,9 @@ public class LoginAty extends BaseAty implements Handler.Callback, PlatformActio
 
     @ViewInject(R.id.for_third_layout)
     private LinearLayout for_third_layout;
+
+    @ViewInject(R.id.share_to_alipay)
+    private LinearLayout share_to_alipay;
 
     /**
      * 服务条款
@@ -165,6 +167,8 @@ public class LoginAty extends BaseAty implements Handler.Callback, PlatformActio
 
     /** 支付宝支付业务：入参app_id */
     public static final String APPID = "2016052801453164";
+//    public static final String APPID = "2016091900544420";
+
 
     /** 支付宝账户登录授权业务：入参pid值 */
     public static final String PID = "2088711981544066";
@@ -284,22 +288,7 @@ public class LoginAty extends BaseAty implements Handler.Callback, PlatformActio
                 String privateKey = rsa2 ? RSA2_PRIVATE : RSA_PRIVATE;
                 String sign = OrderInfoUtil2_0.getSign(authInfoMap, privateKey, rsa2);
                 final String authInfo = info + "&" + sign;
-                AliPay aliPay=new AliPay(authInfo, new AliPayCallBack() {
-                    @Override
-                    public void onComplete() {
-
-                    }
-
-                    @Override
-                    public void onFailure() {
-
-                    }
-
-                    @Override
-                    public void onProcessing() {
-
-                    }
-                });
+                AliPay aliPay=new AliPay(authInfo, this);
                 aliPay.setMessageWhat(AliPay.SDK_AUTH_FLAG);
                 aliPay.pay();
 
@@ -348,6 +337,7 @@ public class LoginAty extends BaseAty implements Handler.Callback, PlatformActio
     protected void initialized() {
         skip_type = getIntent().getIntExtra("type", 1);
         registerPst = new RegisterPst(this);
+        share_to_alipay.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -496,6 +486,15 @@ public class LoginAty extends BaseAty implements Handler.Callback, PlatformActio
             }
         }
 
+        if (requestUrl.contains("User/alipay_info")){
+            Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
+            Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
+            String open_id = data.containsKey("open_id") ? data.get("open_id") : "";
+            if (!TextUtils.isEmpty(open_id)){
+                registerPst.otherLogin(openid,"7",null,"");
+            }
+        }
+
     }
 
     private boolean isExistMainActivity(Class<?> activity) {
@@ -631,5 +630,15 @@ public class LoginAty extends BaseAty implements Handler.Callback, PlatformActio
             break;
         }
         return false;
+    }
+
+    @Override
+    public void onSuccess(String auth_code) {
+        User.getAlipayInfo(auth_code,this);
+    }
+
+    @Override
+    public void onFailure() {
+        removeDialog();
     }
 }

@@ -622,4 +622,15 @@ public class User {
         apiTool2.postApi(url + "user_contacts", params, baseView);
     }
 
+    /**
+     *获取支付宝openid
+     * @param auth_code 获取支付宝auth_code
+     */
+    public static void getAlipayInfo(String auth_code,BaseView baseView){
+        RequestParams params = new RequestParams();
+        ApiTool2 apiTool2 = new ApiTool2();
+        params.addBodyParameter("auth_code", auth_code);
+        apiTool2.postApi(url + "alipay_info", params, baseView);
+    }
+
 }
