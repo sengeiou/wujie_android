@@ -184,12 +184,11 @@ public class LoginAty extends BaseAty implements Handler.Callback, PlatformActio
     public static final String RSA2_PRIVATE = "";
     public static final String RSA_PRIVATE = "MIICXAIBAAKBgQCcImOej6Yf0SIH/b1ZpILORIPqB9sEhuiQ3pBFkcAMluRvJL9Ch6ZqRzrisRB/2XLY3ctt4qjQzmOaSG51CvgzXExkLXboeO7mNK+fqnIH7hq4na2Vv26J/OB4vo5DyNbw2NBL6+iAxZm+axHl70wIIgcvAissttVSNdylOrt8KQIDAQABAoGAfGfeTooRCQr+/bUNOa8eVrI7Fa+asLm59yyPcg9XIfDdJT33c1BYphgJcHU7O1OM8gWPwQe4EWBR9q297V6HMk6xZnayJbI2NpdlINVPU7OkvEs2IXeNWiYYzrS2gKVGyH/BGfxwyXESa2vWMyEiQy4PY63ieIJEWUrtCXXP53ECQQDLt0TcBD1rnXKXq4cn7VgkwcAkpPIHxjiqqTy4rxlhYDYlv5hn5wrVUaLq3RmIfbtHespU4ZGQPF2yYrz5OryFAkEAxDTfRbfjeOrKcTRQnvOdKEzx+3N1zENnEO4o6SR5dPkINszm4rPAuxOGxQYFBeSH/Dhs/DTDjtGmJFkLW6aUVQJAXk/xpD6eROU2uTsjLnv2c8Xzc8OdfbXqZDBHuWTvRiKpzt4d6/SOEmZiG4PTH1q+SoBxjcyEfJdF9aE6xdPIlQJBAI8q+WR5Cw33XSL/hniF0L5Qbx4JIQKciD9NWSLOD6Yv9TNvjmYLve2EEQoBG3cyS5vaXIQnyC6VggLxypzkz0UCQBEjsdfjJOCnLgKDqt6OrRnd011xBiClAEiMj8zJN5Dkkd/FxD1TG9oigiJY8ZP2+XBN8pf7Mdoq+3OP5wPuQZs=";
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         showStatusBar(R.id.longin_title_layout);
-
+//        EnvUtils.setEnv(EnvUtils.EnvEnum.SANDBOX);
         // 注册登录的时候不显示微信朋友圈和QQ空间
         share_to_WechatMoments.setVisibility(View.GONE);
         share_to_QZone.setVisibility(View.GONE);
@@ -281,16 +280,22 @@ public class LoginAty extends BaseAty implements Handler.Callback, PlatformActio
                 if (!LoginAty.this.isDestroyed()) {
                     showDialog();
                 }
-                boolean rsa2 = (RSA2_PRIVATE.length() > 0);
-                Map<String, String> authInfoMap = OrderInfoUtil2_0.buildAuthInfoMap(PID, APPID, TARGET_ID, rsa2);
-                String info = OrderInfoUtil2_0.buildOrderParam(authInfoMap);
+                String alipay_auth_code = PreferencesUtils.getString(LoginAty.this, "alipay_auth_code");
+                if (TextUtils.isEmpty(alipay_auth_code)){
+                    boolean rsa2 = (RSA2_PRIVATE.length() > 0);
+                    Map<String, String> authInfoMap = OrderInfoUtil2_0.buildAuthInfoMap(PID, APPID, TARGET_ID, rsa2);
+                    String info = OrderInfoUtil2_0.buildOrderParam(authInfoMap);
 
-                String privateKey = rsa2 ? RSA2_PRIVATE : RSA_PRIVATE;
-                String sign = OrderInfoUtil2_0.getSign(authInfoMap, privateKey, rsa2);
-                final String authInfo = info + "&" + sign;
-                AliPay aliPay=new AliPay(authInfo, this);
-                aliPay.setMessageWhat(AliPay.SDK_AUTH_FLAG);
-                aliPay.pay();
+                    String privateKey = rsa2 ? RSA2_PRIVATE : RSA_PRIVATE;
+                    String sign = OrderInfoUtil2_0.getSign(authInfoMap, privateKey, rsa2);
+                    final String authInfo = info + "&" + sign;
+                    AliPay aliPay=new AliPay(authInfo, this);
+                    aliPay.setMessageWhat(AliPay.SDK_AUTH_FLAG);
+                    aliPay.pay();
+                }else {
+                    registerPst.otherLogin(alipay_auth_code,"7",null,"");
+                }
+
 
                 break;
             case R.id.terms_of_service_tv:// 服务条款
@@ -486,15 +491,6 @@ public class LoginAty extends BaseAty implements Handler.Callback, PlatformActio
             }
         }
 
-        if (requestUrl.contains("User/alipay_info")){
-            Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
-            Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
-            String open_id = data.containsKey("open_id") ? data.get("open_id") : "";
-            if (!TextUtils.isEmpty(open_id)){
-                registerPst.otherLogin(openid,"7",null,"");
-            }
-        }
-
     }
 
     private boolean isExistMainActivity(Class<?> activity) {
@@ -634,7 +630,8 @@ public class LoginAty extends BaseAty implements Handler.Callback, PlatformActio
 
     @Override
     public void onSuccess(String auth_code) {
-        User.getAlipayInfo(auth_code,this);
+        PreferencesUtils.putString(LoginAty.this,"alipay_auth_code",auth_code);
+        registerPst.otherLogin(auth_code,"7",null,"");
     }
 
     @Override

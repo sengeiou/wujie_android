@@ -1,5 +1,7 @@
 package com.txd.hzj.wjlp.http.register;
 
+import android.text.TextUtils;
+
 import com.ants.theantsgo.base.BaseView;
 import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.httpTools.ApiTool2;
@@ -130,8 +132,13 @@ class Register {
         ApiTool2 apiTool2 = new ApiTool2();
         params.addBodyParameter("openid", openid);
         params.addBodyParameter("type", type);
-        params.addBodyParameter("head_pic", head_pic);
-        params.addBodyParameter("nickname", nickname);
+        if (head_pic!=null){
+            params.addBodyParameter("head_pic", head_pic);
+        }
+        if (!TextUtils.isEmpty(nickname)){
+            params.addBodyParameter("nickname", nickname);
+        }
+
         apiTool2.postApi(url + "otherLogin", params, baseView);
     }
 
