@@ -112,6 +112,7 @@ dependencies {
 
     /* 环信*/
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
+
     //noinspection GradleCompatible
     compile 'com.android.support:support-v4:27.1.1'
     compile 'com.android.support:design:27.1.1'
@@ -174,14 +175,16 @@ dependencies {
     /*友盟统计需要的最新版本组件化基础库和统计SDK*/
     compile 'com.umeng.sdk:common:latest.integration'
     compile 'com.umeng.sdk:analytics:latest.integration'
+
     //noinspection GradleCompatible
     compile 'com.android.support:gridlayout-v7:27.1.1'
     compile 'com.android.support:appcompat-v7:27.1.1'
+
     //极光推送
     compile files('libs/jcore-android-1.2.3.jar')
     compile files('libs/jpush-android-3.1.5.jar')
 
     // 阿里云热修复
     compile 'com.aliyun.ams:alicloud-android-hotfix:3.2.6'
-
+    compile files('libs/com.baidu.tts_2.3.2.20180713_6101c2a.jar')
 }

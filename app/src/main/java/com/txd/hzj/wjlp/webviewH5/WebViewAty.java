@@ -77,11 +77,9 @@ public class WebViewAty extends BaseAty {
         // 获取传入的Url
         Intent intent = getIntent();
         if (intent.hasExtra("url")) {
-            url = intent.getStringExtra("url");
-            if (url.contains("OrderList/order_status/9/order_type/13")) {
-                // 2980 专区
-                webView_title_layout.setVisibility(View.VISIBLE);
-                titlt_conter_tv.setText("2980专区");
+            String urlTemp = intent.getStringExtra("url");
+            if (!urlTemp.isEmpty()) {
+                url = urlTemp; // 如果存在url字段，并且字段不为空，则赋值给需要加载的url
             }
         }
 
