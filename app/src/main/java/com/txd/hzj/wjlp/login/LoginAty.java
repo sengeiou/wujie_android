@@ -446,10 +446,12 @@ public class LoginAty extends BaseAty implements Handler.Callback, PlatformActio
                 finish();
             } else {
                 showRightTip("登录成功");
-                boolean existMainActivity = isExistMainActivity(MainAty.class);
-                if (existMainActivity) {
-                    startActivity(MainAty.class, null);
-                }
+                startActivity(MainAty.class, null);
+                AppManager.getInstance().killOtherActivity();
+//                boolean existMainActivity = isExistMainActivity(MainAty.class);
+//                if (existMainActivity) {
+//                    startActivity(MainAty.class, null);
+//                }
                 application.setUserInfo(data);
                 Config.setLoginState(true);
                 if (data.containsKey("invite_code")) {
@@ -470,10 +472,10 @@ public class LoginAty extends BaseAty implements Handler.Callback, PlatformActio
                 }
                 // 环信登录
                 registerPst.toLogin(data.get("easemob_account"), data.get("easemob_pwd"));
-                if (0 == skip_type) {
-                    startActivity(MainAty.class, null);
-                    AppManager.getInstance().killAllActivity();
-                }
+//                if (0 == skip_type) {
+//                    startActivity(MainAty.class, null);
+//                    AppManager.getInstance().killAllActivity();
+//                }
                 finish();
             }
         }

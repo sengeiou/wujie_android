@@ -145,6 +145,7 @@ public class BindAccountAty extends BaseAty {
             case R.id.bind_success_tv:// 完成
                 String verify = in_put_code_ev.getText().toString();
                 registerPst.otherLoginBind(bind_id, phone, verify, invite_code);
+                hideKeyBoard();
                 break;
         }
     }
