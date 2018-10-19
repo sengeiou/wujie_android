@@ -93,7 +93,9 @@ public class DemoApplication extends WeApplication implements EMMessageListener 
 
         // 该处只在正式版需要打印Log日志的时候打开，调完之后及时关闭，其他地方非特殊情况不要添加
         //        L.isDebug = false; // 正式版头部信息
-
+        if (!L.isDebug) {
+            SophixManager.getInstance().queryAndLoadNewPatch(); // 初始化阿里云热修复模块
+        }
         if (!L.isDebug) { // 如果是正式版则开启异常上报，意在防止在测试过程中上报的异常影响正常用户上报的真实数据
             // 腾讯Bugly初始化，第三个参数为SDK调试模式开关，建议在测试阶段建议设置成true，发布时设置为false。
             CrashReport.initCrashReport(getApplicationContext(), "c07fb2c1b8", false);
@@ -118,9 +120,7 @@ public class DemoApplication extends WeApplication implements EMMessageListener 
         mVibrator = (Vibrator) getApplicationContext().getSystemService(Service.VIBRATOR_SERVICE);
         SDKInitializer.initialize(getApplicationContext());
         initLocInfo();
-        if (!L.isDebug) {
-            SophixManager.getInstance().queryAndLoadNewPatch(); // 初始化阿里云热修复模块
-        }
+
         try {
             EMClient.getInstance().chatManager().addMessageListener(this);
         } catch (NullPointerException e) {
@@ -187,8 +187,8 @@ public class DemoApplication extends WeApplication implements EMMessageListener 
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
-        initAliHotFix();
         MultiDex.install(this);
+        initAliHotFix();
     }
 
     /**

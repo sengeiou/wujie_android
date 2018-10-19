@@ -194,10 +194,8 @@ public class BindAccountAty extends BaseAty {
             JpushSetTagAndAlias.getInstance().setTag(getApplicationContext());
             // 环信登录
             registerPst.toLogin(data.get("easemob_account"), data.get("easemob_pwd"));
-            if (0 == skip_type) {
-                startActivity(MainAty.class, null);
-                AppManager.getInstance().killAllActivity();
-            }
+            startActivity(MainAty.class, null);
+            AppManager.getInstance().killOtherActivity();
             finish();
         }
     }
