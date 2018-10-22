@@ -573,8 +573,14 @@ public class PayForAppAty extends BaseAty {
                         cb_jfzf.setText("积分支付(" + data.get("integral") + ")");
                     }
                     cb_jfzf.setVisibility(View.VISIBLE);
-                } else if (data.containsKey("integration_status") && "2".equals(data.get("integration_status"))) {
+                } else  {
                     cb_jfzf.setVisibility(View.GONE);
+                }
+                //是否能用余额支付  1可以  2不可以
+                if (data.containsKey("balance_status") && "1".equals(data.get("balance_status"))) {
+                    layout_yue.setVisibility(View.VISIBLE);
+                } else {
+                    layout_yue.setVisibility(View.GONE);
                 }
             } else {
                 if (!mType.equals("10")) {

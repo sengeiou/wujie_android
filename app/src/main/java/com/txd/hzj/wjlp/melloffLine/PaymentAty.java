@@ -38,9 +38,9 @@ public class PaymentAty extends BaseAty implements MyKeyboard.OnOkClick, View.On
     @ViewInject(R.id.offlinePay_meny_et)
     private EditText offlinePay_meny_et;
     @ViewInject(R.id.offLinePay_goback_imgv)
-    private EditText offLinePay_goback_imgv;
+    private ImageView offLinePay_goback_imgv;
     @ViewInject(R.id.offLinePay_closePage_imgv)
-    private EditText offLinePay_closePage_imgv;
+    private ImageView offLinePay_closePage_imgv;
 
     private MyKeyboard myKeyboard;
     private ShopOffLineBean shopOffLineBean;
