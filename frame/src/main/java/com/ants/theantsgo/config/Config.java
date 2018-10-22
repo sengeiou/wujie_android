@@ -37,6 +37,9 @@ public class Config {
     //分销的base_url
     public static final String DISTRIBUTION_URL = OFFICIAL_WEB + "Api/Distribution/";
 
+    //赠品专区的base_url
+    public static final String GIVEAWAYAREA_URL=OFFICIAL_WEB+"Api/GiftGoods/";
+
     public static List<Activity> list = new ArrayList<>();
 
     /**

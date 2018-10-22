@@ -78,12 +78,14 @@ public class FeedBackAty extends BaseAty {
         String user_id = feedbackType.getData().getUser_id();
         String real_name = feedbackType.getData().getReal_name();
         horizontal_list = feedbackType.getData().getFeedback_type();
-        for (FeedbackType.DataBean.FeedbackTypeBean ftb : horizontal_list) {
-            mFragments.add(FeedbackFgt.newInstance(ftb.getF_type_id(), user_id, real_name));
+        if (horizontal_list.size()>0) {
+            for (FeedbackType.DataBean.FeedbackTypeBean ftb : horizontal_list) {
+                mFragments.add(FeedbackFgt.newInstance(ftb.getF_type_id(), user_id, real_name));
+            }
+            myPagerAdapter = new MyPagerAdapter(getSupportFragmentManager());
+            feedback_vp_for_title.setAdapter(myPagerAdapter);
+            title_feedbac_tab_layout.setViewPager(feedback_vp_for_title);
         }
-        myPagerAdapter = new MyPagerAdapter(getSupportFragmentManager());
-        feedback_vp_for_title.setAdapter(myPagerAdapter);
-        title_feedbac_tab_layout.setViewPager(feedback_vp_for_title);
     }
 
     private class MyPagerAdapter extends FragmentPagerAdapter {

@@ -988,6 +988,7 @@
         <activity android:name=".melloffLine.ShopMallAty" />
         <activity android:name=".distribution.shopaty.ShopGiveYellowVoucher" />
         <activity android:name=".minetoaty.tricket.TradingStampAty" />
+        <activity android:name=".mellonLine.gridClassify.giveawayarea.GiveAwayAreaAty" />
     </application>
 
 </manifest>

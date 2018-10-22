@@ -754,13 +754,10 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
                 String alliance_merchant = jsonData.has("alliance_merchant") ? jsonData.getString("alliance_merchant") : "";
                 String member_coding = jsonData.has("member_coding") ? jsonData.getString("member_coding") : "";
 
-                if (alliance_merchant.equals("1") && sanfangList.size() > 0) { // 联盟商家并且支持切换账户
+                if (Integer.parseInt(alliance_merchant)>0 && sanfangList.size() > 0) { // 联盟商家并且支持切换账户
                     bandOtherAccount_tv.setVisibility(View.VISIBLE); // 显示三方账户绑定
                 }
-                if ((alliance_merchant.equals("1") && bluedaijinquanList.size() > 0) || "3".equals(member_coding)) { // 如果是联盟商家或者有店铺符合条件 或者 是优享会员
-                    if (!(alliance_merchant.equals("1") && bluedaijinquanList.size() > 0)) {
-                        bluedaijinquanList.removeAll(bluedaijinquanList);
-                    }
+                if ((Integer.parseInt(alliance_merchant)>0 && bluedaijinquanList.size() > 0) || "3".equals(member_coding)) { // 如果是联盟商家或者有店铺符合条件 或者 是优享会员
                     give_coupon_tv.setVisibility(View.VISIBLE); // 显示赠送蓝色代金券
                 }
                 if (shangjiamaList.size() > 0) { // 商家显示类型不为0

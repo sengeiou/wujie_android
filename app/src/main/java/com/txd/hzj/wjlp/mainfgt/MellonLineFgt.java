@@ -1,7 +1,6 @@
 package com.txd.hzj.wjlp.mainfgt;
 
 
-import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
@@ -46,7 +45,6 @@ import com.txd.hzj.wjlp.mainfgt.adapter.AllGvLvAdapter;
 import com.txd.hzj.wjlp.mainfgt.adapter.HorizontalAdapter;
 import com.txd.hzj.wjlp.mainfgt.adapter.OnLineMenuGvAdapter;
 import com.txd.hzj.wjlp.mainfgt.adapter.ViewPagerAdapter;
-import com.txd.hzj.wjlp.melloffLine.dialog.CouponDialog;
 import com.txd.hzj.wjlp.mellonLine.MellOnLineClassifyAty;
 import com.txd.hzj.wjlp.mellonLine.WujieTopHzjAty;
 import com.txd.hzj.wjlp.mellonLine.gridClassify.AuctionGoodsDetailsAty;
@@ -58,11 +56,9 @@ import com.txd.hzj.wjlp.mellonLine.gridClassify.MellInfoAty;
 import com.txd.hzj.wjlp.mellonLine.gridClassify.ThemeStreetHzjAty;
 import com.txd.hzj.wjlp.mellonLine.gridClassify.TicketGoodsDetialsAty;
 import com.txd.hzj.wjlp.mellonLine.gridClassify.TicketZoonAty;
-import com.txd.hzj.wjlp.mellonLine.gridClassify.hous.HousChenAty;
 import com.txd.hzj.wjlp.mellonLine.gridClassify.hous.HousDetailsChenAty;
 import com.txd.hzj.wjlp.mellonLine.gridClassify.snatch.SnatchGoodsDetailsAty;
 import com.txd.hzj.wjlp.minetoaty.setting.EditProfileAty;
-import com.txd.hzj.wjlp.tool.CommonPopupWindow;
 import com.txd.hzj.wjlp.view.ObservableScrollView;
 import com.txd.hzj.wjlp.view.UPMarqueeView;
 import com.txd.hzj.wjlp.view.VpSwipeRefreshLayout;
@@ -466,8 +462,9 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
                             bundle.putString("title", "积分商店");
                             startActivity(TicketZoonAty.class, bundle);
                             break;
-                        case 8://房产购
+                        case 8://赠品专区  之前是房产购
                             showToast("开发中，敬请期待");
+//                            startActivity(GiveAwayAreaAty.class,null);
 //                            startActivity(HousChenAty.class, null);
                             break;
                         case 9://一元夺宝
@@ -748,7 +745,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
         gv_classify.add("进口馆");
         gv_classify.add("比价购");
         gv_classify.add("积分商店");
-        gv_classify.add("房产购");
+        gv_classify.add("赠品专区");
         gv_classify.add("积分抽奖");
 
         groupList = new ArrayList<>();
