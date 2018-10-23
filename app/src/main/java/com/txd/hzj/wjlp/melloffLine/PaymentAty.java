@@ -20,6 +20,7 @@ import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.bean.ShopOffLineBean;
 import com.txd.hzj.wjlp.http.offlineStoreInfo.StoreInfoPst;
 import com.txd.hzj.wjlp.minetoaty.PayForAppAty;
+import com.txd.hzj.wjlp.tool.WJConfig;
 import com.txd.hzj.wjlp.view.keyboard.MyKeyboard;
 
 import java.text.DecimalFormat;
@@ -121,7 +122,7 @@ public class PaymentAty extends BaseAty implements MyKeyboard.OnOkClick, View.On
 
                         if (!TextUtils.isEmpty(mStage_merchant_id)) {
                             Bundle bundle = new Bundle();
-                            bundle.putString("type", "100");
+                            bundle.putString("type", String.valueOf(WJConfig.XIDP));
                             // 需要传入下一页的数据
                             bundle.putString("order_id",order_id);
                             bundle.putString("money",meny);

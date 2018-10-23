@@ -17,6 +17,7 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.http.index.IndexPst;
+import com.txd.hzj.wjlp.tool.WJConfig;
 import com.txd.hzj.wjlp.webviewH5.WebViewAty;
 
 import java.util.ArrayList;
@@ -88,7 +89,7 @@ public class OrderCenterAty extends BaseAty {
                     startActivity(WebViewAty.class, mBundle);
                 } else if (showItem.getShowName().equals(itemShowNames[3])) {
                     mBundle.putString("title", "积分商店");
-                    mBundle.putString("type", "10");
+                    mBundle.putString("type", String.valueOf(WJConfig.WJSD));
                     startActivity(OnlineShopAty.class, mBundle);
                 } else if (showItem.getShowName().equals(itemShowNames[4])) {
                     mBundle.putString("title", "拼单购");

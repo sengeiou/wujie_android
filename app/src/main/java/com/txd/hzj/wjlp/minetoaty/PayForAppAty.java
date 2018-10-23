@@ -47,6 +47,7 @@ import com.txd.hzj.wjlp.mellonLine.gridClassify.CreateGroupAty;
 import com.txd.hzj.wjlp.minetoaty.order.OnlineShopAty;
 import com.txd.hzj.wjlp.minetoaty.setting.EditPayPasswordAty;
 import com.txd.hzj.wjlp.tool.CommonPopupWindow;
+import com.txd.hzj.wjlp.tool.WJConfig;
 import com.txd.hzj.wjlp.view.PayForDialog;
 import com.txd.hzj.wjlp.wxapi.GetPrepayIdTask;
 
@@ -252,7 +253,7 @@ public class PayForAppAty extends BaseAty {
                         Pay.getJsTine(order.get("order_id"), getType(), "8", this);
                     } else if (mType.equals("13")) {
                         Pay.getJsTine(order_id, getType(), "13", this);
-                    } else if (mType.equals("100")) {
+                    } else if (mType.equals(String.valueOf(WJConfig.XIDP))) {
                         Pay.getJsTine(order_id, getType(), "9", this);
                     }
                     showProgressDialog();
@@ -281,7 +282,7 @@ public class PayForAppAty extends BaseAty {
                         Pay.getAlipayParam(order.get("order_id"), getType(), "8", this);
                     } else if (mType.equals("13")) {
                         Pay.getAlipayParam(order_id, getType(), "13", this);
-                    } else if (mType.equals("100")) {
+                    } else if (mType.equals(String.valueOf(WJConfig.XIDP))) {
                         Pay.getAlipayParam(order_id, getType(), "9", this);
                     }
                     showProgressDialog();
@@ -434,7 +435,7 @@ public class PayForAppAty extends BaseAty {
             showToast("jakgflkasfhksajdfhakdj");
         } else if (mType.equals("13")) {
             Order.setOrder(address_id, "13", order_id, "", "", getString("invoiceList"), getString("leave_message"), TextUtils.isEmpty(cart_id) ? getString("goodsList") : getString("goodsCartList"), this);
-        } else if (mType.equals("100")) {
+        } else if (mType.equals(String.valueOf(WJConfig.XIDP))) {
             //线下店铺
             OfflineStore.setOrder(mMerchant_id, mMoney, order_id, this);
             cb_jfzf.setVisibility(View.GONE);
@@ -560,7 +561,7 @@ public class PayForAppAty extends BaseAty {
             if (data.containsKey("order_price")) {
                 total_price = Double.parseDouble(data.get("order_price"));
             }
-            if (mType.equals("100")) {
+            if (mType.equals(String.valueOf(WJConfig.XIDP))) {
                 tv_price.setText("¥" + data.get("order_price"));
                 order_id = data.get("order_id");
 
@@ -673,7 +674,7 @@ public class PayForAppAty extends BaseAty {
                         }
                     } else if (mType.equals("13")) {
                         BalancePay.BalancePay(order_id, "13", getType(), "", this);
-                    } else if (mType.equals("100")) {
+                    } else if (mType.equals(String.valueOf(WJConfig.XIDP))) {
                         BalancePay.BalancePay(order_id, "9", getType(), "", this);
                     }
                     showProgressDialog();
@@ -690,7 +691,7 @@ public class PayForAppAty extends BaseAty {
 //                        Pay.getJsTine(order.get("order_id"), getType(), "8", this);
 //                    } else if (mType.equals("13")) {
 //                        Pay.getJsTine(order_id, getType(), "13", this);
-//                    } else if (mType.equals("100")) {
+//                    } else if (mType.equals(String.valueOf(WJConfig.XIDP))) {
 //                        Pay.getJsTine(order_id, getType(), "9", this);
 //                    }
 //                    showProgressDialog();
@@ -707,7 +708,7 @@ public class PayForAppAty extends BaseAty {
 //                        Pay.getAlipayParam(order.get("order_id"), getType(), "8", this);
 //                    } else if (mType.equals("13")) {
 //                        Pay.getAlipayParam(order_id, getType(), "13", this);
-//                    } else if (mType.equals("100")) {
+//                    } else if (mType.equals(String.valueOf(WJConfig.XIDP))) {
 //                        Pay.getAlipayParam(order_id, getType(), "9", this);
 //                    }
 //                    showProgressDialog();
@@ -736,7 +737,7 @@ public class PayForAppAty extends BaseAty {
                         IntegralPay.integralPay(order_id, "4", "", num, this);
                     } else if (mType.equals("10")) {//积分商店
                         IntegralPay.integralPay(order_id, "5", "", num, this);
-                    } else if (mType.equals("100")) {//线下店铺积分支付
+                    } else if (mType.equals(String.valueOf(WJConfig.XIDP))) {//线下店铺积分支付
                         IntegralPay.integralPay(order_id, "9", "", num, this);
                     }
                     showProgressDialog();
@@ -821,7 +822,7 @@ public class PayForAppAty extends BaseAty {
                         Pay.findPayResult(order_id, "5", PayForAppAty.this);
                     } else if (mType.equals("9")) {
                         Pay.findPayResult(order_id, "8", PayForAppAty.this);
-                    } else if (mType.equals("100")) {
+                    } else if (mType.equals(String.valueOf(WJConfig.XIDP))) {
                         Pay.findPayResult(order_id, "9", PayForAppAty.this);
                     }
                 }
@@ -925,10 +926,10 @@ public class PayForAppAty extends BaseAty {
         }
         if (mType.equals("10")) {
             mBundle.putString("title", "积分商店");
-            mBundle.putString("type", "10");
+            mBundle.putString("type", String.valueOf(WJConfig.WJSD));
             startActivity(OnlineShopAty.class, mBundle);
         }
-        if (mType.equals("100")) {
+        if (mType.equals(String.valueOf(WJConfig.XIDP))) {
             mBundle.putString("orderId", order_id);
             startActivity(PaymentResultsAty.class, mBundle);
             //            startActivity(OffLineShopAty.class, mBundle);
