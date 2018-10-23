@@ -114,8 +114,12 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
     private SuperSwipeRefreshLayout superSwipeRefreshLayout;
     @ViewInject(R.id.bandOtherAccount_tv)
     private TextView bandOtherAccount_tv; // 绑定第三方账户
+    @ViewInject(R.id.bandOtherAccount_line)
+    private TextView bandOtherAccount_line; // 绑定第三方账户
     @ViewInject(R.id.business_code_tv)
     private TextView business_code_tv; // 商家码
+    @ViewInject(R.id.business_line)
+    private TextView business_line;
 
     /**
      * 标题栏
@@ -253,15 +257,15 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
 
     @ViewInject(R.id.merchant_will_move_into_tv)
     private TextView merchant_will_move_into_tv;
+
+    @ViewInject(R.id.merchant_will_move_into_line)
+    private View merchant_will_move_into_line;
     // 赠送蓝色代金券
     @ViewInject(R.id.give_coupon_tv)
     private TextView give_coupon_tv;
+    @ViewInject(R.id.give_coupon_line)
+    private TextView give_coupon_line;
 
-    /**
-     * 赠送蓝色代金券ll
-     */
-    @ViewInject(R.id.give_coupon_tv_ll)
-    private LinearLayout give_coupon_tv_ll;
 
     @ViewInject(R.id.message_num_tv)
     private TextView message_num_tv;
@@ -375,7 +379,7 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
             R.id.my_balance_layout, R.id.coupon_tv, R.id.address_tv, R.id.feedBack_tv, R.id.shre_to_friends_tv,
             R.id.share_grade_tv, R.id.collect_tv, R.id.footprint_tv, R.id.evaluate_tv, R.id.call_service_tv,
             R.id.merchant_will_move_into_tv, R.id.books_tv, R.id.stock_record_tv, R.id.sales_record_tv, R.id.personalStores,
-            R.id.mell_goods_list_tv, R.id.grade_for_app_tv, R.id.tv_dljm, R.id.tv_lmsj, R.id.give_coupon_tv_ll, R.id.apprentice_code_tv,
+            R.id.mell_goods_list_tv, R.id.grade_for_app_tv, R.id.tv_dljm, R.id.tv_lmsj, R.id.give_coupon_tv, R.id.apprentice_code_tv,
             R.id.bandOtherAccount_tv, R.id.business_code_tv})
     public void onClick(View v) {
         super.onClick(v);
@@ -469,7 +473,7 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
             case R.id.books_tv:// 无界书院
                 startActivity(BooksAty.class, null);
                 break;
-            case R.id.give_coupon_tv_ll:// 蓝色代金券赠送
+            case R.id.give_coupon_tv:// 蓝色代金券赠送
                 Intent intent1 = new Intent(getActivity(), GiveCouponAty.class);
                 Bundle bundle = new Bundle();
                 bundle.putString("TYPE", TYPE);
@@ -706,6 +710,8 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
 
     @ViewInject(R.id.tv_dljm)
     private TextView tv_dljm;
+    @ViewInject(R.id.dljm_line)
+    private View dljm_line;
     @ViewInject(R.id.tv_lmsj)
     private TextView tv_lmsj;
 
@@ -756,12 +762,15 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
 
                 if (Integer.parseInt(alliance_merchant)>0 && sanfangList.size() > 0) { // 联盟商家并且支持切换账户
                     bandOtherAccount_tv.setVisibility(View.VISIBLE); // 显示三方账户绑定
+                    bandOtherAccount_line.setVisibility(View.VISIBLE);
                 }
                 if ((Integer.parseInt(alliance_merchant)>0 && bluedaijinquanList.size() > 0) || "3".equals(member_coding)) { // 如果是联盟商家或者有店铺符合条件 或者 是优享会员
                     give_coupon_tv.setVisibility(View.VISIBLE); // 显示赠送蓝色代金券
+                    give_coupon_line.setVisibility(View.VISIBLE);
                 }
                 if (shangjiamaList.size() > 0) { // 商家显示类型不为0
                     business_code_tv.setVisibility(View.VISIBLE); // 显示商家码
+                    business_line.setVisibility(View.VISIBLE);
                 }
 
             } catch (JSONException e) {
@@ -823,8 +832,10 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
             String is_agent = data.get("is_agent");
             if (!TextUtils.isEmpty(is_agent) && "1".equals(is_agent)) {
                 tv_dljm.setVisibility(View.VISIBLE);
+                dljm_line.setVisibility(View.VISIBLE);
             } else {
                 tv_dljm.setVisibility(View.GONE);
+                dljm_line.setVisibility(View.GONE);
             }
             //            拜师码判断
             is_member_trainer = data.get("is_member_trainer");
@@ -849,6 +860,7 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
             // 如果是无忧、优享会员则显示商家推荐
             if (data.get("user_card_type").equals("2") || data.get("user_card_type").equals("3")) {
                 merchant_will_move_into_tv.setVisibility(View.VISIBLE);
+                merchant_will_move_into_line.setVisibility(View.VISIBLE);
             }
 
             /**
@@ -931,6 +943,8 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
                 if (data.getAds().size() > 0) { // List列表get的时候判断一下size，否则容易报数组下标越界异常
                     imaUrl = data.getAds().get(0).getPicture();
                     give_coupon_tv.setText(promoters.getData().getAds().get(0).getDesc());
+                    give_coupon_tv.setVisibility(View.VISIBLE);
+                    give_coupon_line.setVisibility(View.VISIBLE);
                     Log.i("textviewtoStroing", imaUrl + "===================" + promoters.getData().getAds().get(0).getDesc());
                 }
             }
