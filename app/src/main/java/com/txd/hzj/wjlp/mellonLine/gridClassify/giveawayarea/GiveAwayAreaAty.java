@@ -3,6 +3,7 @@ package com.txd.hzj.wjlp.mellonLine.gridClassify.giveawayarea;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Rect;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -23,6 +24,7 @@ import com.lidroid.xutils.http.RequestParams;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
+import com.txd.hzj.wjlp.tool.WJConfig;
 import com.txd.hzj.wjlp.view.SuperSwipeRefreshLayout;
 
 import java.util.ArrayList;
@@ -159,6 +161,20 @@ public class GiveAwayAreaAty extends BaseAty {
             mGift_goods_list.addAll(gift_goods_list);
             mGiveAwayAdapter = new GiveAwayAdapter(mGift_goods_list);
             mRecyclerView.setAdapter(mGiveAwayAdapter);
+            mGiveAwayAdapter.setOnItemClickListener(new GiveAwayAdapter.OnItemClickListener() {
+                @Override
+                public void onClick(int position) {
+                    Map<String, String> map = mGift_goods_list.get(position);
+                    String gift_goods_id = map.containsKey("gift_goods_id")?map.get("gift_goods_id"):"";
+                    if (!gift_goods_id.isEmpty()){
+                        Bundle bundle=new Bundle();
+                        bundle.putString("limit_buy_id", gift_goods_id);
+                        bundle.putInt("type", WJConfig.ZPZQ);
+                        startActivity(GiveAwayDetailsAty.class, bundle);
+                    }
+
+                }
+            });
         }
         refreshVisibleState();
     }
@@ -212,9 +228,14 @@ public class GiveAwayAreaAty extends BaseAty {
     private static class GiveAwayAdapter extends RecyclerView.Adapter<GiveAwayAdapter.MyViewHolder> {
         private Context mContext;
         private ArrayList<Map<String, String>> gift_goods_list;
+        private OnItemClickListener mOnItemClickListener;
 
         public GiveAwayAdapter(ArrayList<Map<String, String>> gift_goods_list) {
             this.gift_goods_list = gift_goods_list;
+        }
+
+        public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+            mOnItemClickListener = onItemClickListener;
         }
 
         @NonNull
@@ -228,7 +249,7 @@ public class GiveAwayAreaAty extends BaseAty {
         }
 
         @Override
-        public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+        public void onBindViewHolder(@NonNull final MyViewHolder holder, int position) {
             /**
              * "goods_id": "666",
              "product_id": "1065",
@@ -241,11 +262,10 @@ public class GiveAwayAreaAty extends BaseAty {
              "exchange_num": "4",
              "shop_price": "399.00"
              */
-            Map<String, String> map=gift_goods_list.get(position);
+            final Map<String, String> map=gift_goods_list.get(position);
             String goods_img = map.containsKey("goods_img")?map.get("goods_img"):"";
             String country_logo = map.containsKey("country_logo")?map.get("country_logo"):"";
             String goods_name = map.containsKey("goods_name")?map.get("goods_name"):"";
-            String gift_goods_id = map.containsKey("gift_goods_id")?map.get("gift_goods_id"):"";
             String use_voucher = map.containsKey("use_voucher")?map.get("use_voucher"):"";
             String exchange_num = map.containsKey("exchange_num")?map.get("exchange_num"):"";
             String shop_price = map.containsKey("shop_price")?map.get("shop_price"):"";
@@ -260,6 +280,14 @@ public class GiveAwayAreaAty extends BaseAty {
             holder.goods_name_tv.setText(goods_name);
             holder.goods_price_info_tv.setText("原价￥"+shop_price+"|已售"+exchange_num+"件");
             holder.goods_price_tv.setText("赠品券价 ￥"+use_voucher);
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (null!=mOnItemClickListener){
+                        mOnItemClickListener.onClick(holder.getLayoutPosition());
+                    }
+                }
+            });
 
 
         }
@@ -284,6 +312,10 @@ public class GiveAwayAreaAty extends BaseAty {
             public MyViewHolder(View itemView) {
                 super(itemView);
             }
+        }
+
+        public interface  OnItemClickListener{
+            void onClick(int position);
         }
     }
 }

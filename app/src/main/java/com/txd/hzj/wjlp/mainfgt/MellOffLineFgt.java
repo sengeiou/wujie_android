@@ -18,7 +18,6 @@ import android.widget.TextView;
 import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.config.Settings;
 import com.ants.theantsgo.util.JSONUtils;
-import com.ants.theantsgo.util.L;
 import com.ants.theantsgo.util.PreferencesUtils;
 import com.ants.theantsgo.view.inScroll.GridViewForScrollView;
 import com.ants.theantsgo.view.inScroll.ListViewForScrollView;
@@ -39,7 +38,6 @@ import com.txd.hzj.wjlp.mainfgt.adapter.OffLineMenuGvAdapter;
 import com.txd.hzj.wjlp.mainfgt.adapter.ViewPagerAdapter;
 import com.txd.hzj.wjlp.melloffLine.ShopMallAty;
 import com.txd.hzj.wjlp.melloffLine.ShopMallDetailsAty;
-import com.txd.hzj.wjlp.mellonLine.NoticeDetailsAty;
 import com.txd.hzj.wjlp.mellonLine.SearchAty;
 import com.txd.hzj.wjlp.mellonLine.gridClassify.MellInfoAty;
 import com.txd.hzj.wjlp.mellonLine.gridClassify.TicketGoodsDetialsAty;
@@ -409,7 +407,6 @@ public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.Scro
                                     bundle.putString("desc", list_ads.get(0).get("desc"));
                                 }
                                 bundle.putString("url", list_ads.get(0).get("href"));
-//                                bundle.putInt("from", 6);
                                 startActivity(WebViewAty.class, bundle);
                             }
                         }

@@ -11,6 +11,7 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.tool.ToolKit;
 import com.ants.theantsgo.util.JSONUtils;
 import com.ants.theantsgo.util.L;
@@ -90,6 +91,23 @@ public class MessageAty extends BaseAty {
      */
     @ViewInject(R.id.message_content_tv2)
     private TextView notice_message_content_tv;
+
+    /**
+     * 店铺数量
+     */
+    @ViewInject(R.id.shop_message_num_tv)
+    private TextView shop_message_num_tv;
+    /**
+     * 店铺发布时间
+     */
+    @ViewInject(R.id.shop_message_time_tv)
+    private TextView shop_message_time_tv;
+    /**
+     * 店铺消息内容
+     */
+    @ViewInject(R.id.shop_message_content_tv)
+    private TextView shop_message_content_tv;
+
     /**
      * 公告数量
      */
@@ -185,7 +203,7 @@ public class MessageAty extends BaseAty {
 
 
     @Override
-    @OnClick({R.id.order_message_layout, R.id.noty_message_layout, R.id.annou_message_layout})
+    @OnClick({R.id.order_message_layout, R.id.noty_message_layout,R.id.shop_message_layout, R.id.annou_message_layout})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
@@ -194,6 +212,13 @@ public class MessageAty extends BaseAty {
                 break;
             case R.id.noty_message_layout:// 通知消息
                 toMsgListPage(1);
+                break;
+            case R.id.shop_message_layout:// 店铺消息
+                Bundle bundle=new Bundle();
+                bundle.putInt("from",6);
+                bundle.putString("href", Config.SHARE_URL+"/Wap/UserMessage/stage_message/p/1.html");
+                bundle.putString("desc","店铺消息");
+                startActivity(NoticeDetailsAty.class,bundle);
                 break;
             case R.id.annou_message_layout:// 公告
                 toMsgListPage(2);
@@ -263,6 +288,16 @@ public class MessageAty extends BaseAty {
                     }
                     anno_message_time_tv.setText(data.get("announce_time"));
                     anno_message_content_tv.setText(data.get("announce_title"));
+
+                    if (data.get("stage_count").equals("0")) {
+                        shop_message_num_tv.setVisibility(View.GONE);
+                    } else {
+                        shop_message_num_tv.setVisibility(View.VISIBLE);
+                        shop_message_num_tv.setText(data.get("stage_count"));
+                    }
+
+                    shop_message_time_tv.setText(data.get("stage_time"));
+                    shop_message_content_tv.setText(data.get("stage_title"));
 
                     if (data.get("order_count").equals("0")) {
                         order_message_num_tv.setVisibility(View.GONE);

@@ -94,7 +94,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:gravity="end"
-                                    android:text="昨天下午"
+                                    tools:text="昨天下午"
                                     android:textColor="@color/gray_text_color"
                                     android:textSize="12sp" />
 
@@ -166,7 +166,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:gravity="end"
-                                    android:text="昨天下午"
+                                    tools:text="昨天下午"
                                     android:textColor="@color/gray_text_color"
                                     android:textSize="12sp" />
 
@@ -174,6 +174,77 @@
 
                             <TextView
                                 android:id="@+id/message_content_tv2"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp"
+                                android:ellipsize="end"
+                                android:maxLines="1"
+                                android:textSize="14sp" />
+                            <!-- 消息详情 -->
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/shop_message_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical">
+
+                        <FrameLayout
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            android:padding="4dp">
+
+                            <ImageView
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:layout_gravity="center"
+                                android:src="@drawable/icon_message_for_shop" />
+
+                            <TextView
+                                android:id="@+id/shop_message_num_tv"
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:layout_gravity="end"
+                                android:background="@drawable/shape_search_message_num_tv"
+                                android:gravity="center"
+                                android:text="5"
+                                android:textColor="@color/white"
+                                android:textSize="10sp"
+                                android:visibility="gone" />
+                        </FrameLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:orientation="vertical">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="店铺消息"
+                                    android:textColor="@color/app_text_color"
+                                    android:textSize="16sp" />
+
+                                <TextView
+                                    android:id="@+id/shop_message_time_tv"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="end"
+                                    tools:text="昨天下午"
+                                    android:textColor="@color/gray_text_color"
+                                    android:textSize="12sp" />
+
+                            </LinearLayout>
+
+                            <TextView
+                                android:id="@+id/shop_message_content_tv"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="8dp"
@@ -237,7 +308,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:gravity="end"
-                                    android:text="昨天下午"
+                                    tools:text="昨天下午"
                                     android:textColor="@color/gray_text_color"
                                     android:textSize="12sp" />
 

@@ -1,14 +1,9 @@
 package com.txd.hzj.wjlp.mellonLine;
 
 import android.annotation.SuppressLint;
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
-import android.webkit.JavascriptInterface;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -17,33 +12,17 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.ants.theantsgo.base.BaseView;
 import com.ants.theantsgo.config.Config;
-import com.ants.theantsgo.payByThirdParty.AliPay;
-import com.ants.theantsgo.payByThirdParty.aliPay.AliPayCallBack;
-import com.ants.theantsgo.rsa.Base64Utils;
 import com.ants.theantsgo.util.JSONUtils;
-import com.ants.theantsgo.util.L;
-import com.ants.theantsgo.util.PreferencesUtils;
 import com.bumptech.glide.Glide;
-import com.google.gson.JsonObject;
 import com.lidroid.xutils.view.annotation.ViewInject;
-import com.lidroid.xutils.view.annotation.event.OnClick;
-import com.txd.hzj.wjlp.Constant;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
-import com.txd.hzj.wjlp.http.Pay;
 import com.txd.hzj.wjlp.http.article.ArticlePst;
 import com.txd.hzj.wjlp.http.index.IndexPst;
 import com.txd.hzj.wjlp.http.message.UserMessagePst;
-import com.txd.hzj.wjlp.login.LoginAty;
-import com.txd.hzj.wjlp.minetoaty.PayForAppAty;
 import com.txd.hzj.wjlp.view.NoScrollWebView;
 import com.txd.hzj.wjlp.view.ScForWebView;
-import com.txd.hzj.wjlp.wxapi.GetPrepayIdTask;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -144,10 +123,10 @@ public class NoticeDetailsAty extends BaseAty {
             only_for_top_layout.setVisibility(View.GONE);
             titlt_conter_tv.setText("会员协议");
             articlePst.getArticle("2");
-        } else if (6 == from) { //商家推荐
+        } else if (6 == from) {
             only_for_top_layout.setVisibility(View.GONE);
             String desc = getIntent().getStringExtra("desc");
-            titlt_conter_tv.setText("无界优品");
+            titlt_conter_tv.setText(desc);
             url = getIntent().getStringExtra("href");
             initWebView(false); // 不使用noScrollWebView
         }
