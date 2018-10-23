@@ -56,7 +56,6 @@ import com.txd.hzj.wjlp.mellonLine.gridClassify.MellInfoAty;
 import com.txd.hzj.wjlp.mellonLine.gridClassify.ThemeStreetHzjAty;
 import com.txd.hzj.wjlp.mellonLine.gridClassify.TicketGoodsDetialsAty;
 import com.txd.hzj.wjlp.mellonLine.gridClassify.TicketZoonAty;
-import com.txd.hzj.wjlp.mellonLine.gridClassify.giveawayarea.GiveAwayAreaAty;
 import com.txd.hzj.wjlp.mellonLine.gridClassify.hous.HousDetailsChenAty;
 import com.txd.hzj.wjlp.mellonLine.gridClassify.snatch.SnatchGoodsDetailsAty;
 import com.txd.hzj.wjlp.minetoaty.setting.EditProfileAty;
@@ -464,8 +463,8 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
                             startActivity(TicketZoonAty.class, bundle);
                             break;
                         case 8://赠品专区  之前是房产购
-//                            showToast("开发中，敬请期待");
-                            startActivity(GiveAwayAreaAty.class,null);
+                            showToast("开发中，敬请期待");
+//                            startActivity(GiveAwayAreaAty.class,null);
 //                            startActivity(HousChenAty.class, null);
                             break;
                         case 9://一元夺宝
