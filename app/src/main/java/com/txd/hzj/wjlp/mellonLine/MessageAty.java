@@ -271,43 +271,43 @@ public class MessageAty extends BaseAty {
             if (ToolKit.isList(map, "data")) {
                 Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map != null ? map.get("data") : "");
                 if (1 == p) {
-                    if (data.get("msg_count").equals("0")) {
-                        notice_message_num_tv.setVisibility(View.GONE);
-                    } else {
+                    if (data.containsKey("msg_count") && !data.get("msg_count").equals("0")) {
                         notice_message_num_tv.setVisibility(View.VISIBLE);
                         notice_message_num_tv.setText(data.get("msg_count"));
+                    } else {
+                        notice_message_num_tv.setVisibility(View.GONE);
                     }
                     notice_message_time_tv.setText(data.get("msg_time"));
                     notice_message_content_tv.setText(data.get("msg_title"));
 
-                    if (data.get("announce_count").equals("0")) {
-                        anno_message_num_tv.setVisibility(View.GONE);
-                    } else {
+                    if (data.containsKey("announce_count") && !data.get("announce_count").equals("0")) {
                         anno_message_num_tv.setVisibility(View.VISIBLE);
                         anno_message_num_tv.setText(data.get("announce_count"));
+                    } else {
+                        anno_message_num_tv.setVisibility(View.GONE);
                     }
                     anno_message_time_tv.setText(data.get("announce_time"));
                     anno_message_content_tv.setText(data.get("announce_title"));
 
-                    if (data.get("stage_count").equals("0")) {
-                        shop_message_num_tv.setVisibility(View.GONE);
-                    } else {
+                    if (data.containsKey("stage_count") && !data.get("stage_count").equals("0")) {
                         shop_message_num_tv.setVisibility(View.VISIBLE);
                         shop_message_num_tv.setText(data.get("stage_count"));
+                    } else {
+                        shop_message_num_tv.setVisibility(View.GONE);
                     }
 
                     shop_message_time_tv.setText(data.get("stage_time"));
                     shop_message_content_tv.setText(data.get("stage_title"));
 
-                    if (data.get("order_count").equals("0")) {
-                        order_message_num_tv.setVisibility(View.GONE);
-                    } else {
+                    if (data.containsKey("order_count") && !data.get("order_count").equals("0")) {
                         order_message_num_tv.setVisibility(View.VISIBLE);
                         order_message_num_tv.setText(data.get("order_count"));
+                    } else {
+                        order_message_num_tv.setVisibility(View.GONE);
                     }
-
                     order_message_time_tv.setText(data.get("order_time"));
                     order_message_content_tv.setText(data.get("order_title"));
+
 
                     if (ToolKit.isList(data, "chat_list")) {
                         getFridends = JSONUtils.parseKeyAndValueToMapList(data.get("chat_list"));
