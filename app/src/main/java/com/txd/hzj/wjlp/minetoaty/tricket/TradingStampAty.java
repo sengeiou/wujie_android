@@ -93,6 +93,7 @@ public class TradingStampAty extends BaseAty {
         if (requestUrl.endsWith("Api/GiftGoodsVouchers/changeMoney")) {
             if ("200".equals(map.get("code"))){
                 showToast(map.get("message"));
+                GiveAwayModel.postGiftGoodsVouchersGiftVoucherIndex(p, this);
             }
             return;
         }
