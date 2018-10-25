@@ -94,7 +94,7 @@ public class TicketZoonAty extends BaseAty {
                 ticketBuyPst = new TicketBuyPst(this);
             }
             break;
-            case WJConfig.WJSD: {
+            case WJConfig.JFSD: {
                 // 积分商店
                 integralBuyPst = new IntegralBuyPst(this);
             }
@@ -138,7 +138,7 @@ public class TicketZoonAty extends BaseAty {
             case WJConfig.PTG:// 拼团购
                 groupBuyPst.groupBuyIndex(1, "");
                 break;
-            case WJConfig.WJSD:// 积分商店
+            case WJConfig.JFSD:// 积分商店
                 integralBuyPst.integralBuyIndex(1, "");
                 break;
         }

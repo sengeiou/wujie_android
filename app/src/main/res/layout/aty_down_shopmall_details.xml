@@ -333,6 +333,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:paddingBottom="7dp"
+                            android:stretchColumns = "1"
                             android:paddingTop="7dp">
 
                             <TextView
@@ -348,6 +349,9 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:textColor="@color/black"
+                                android:gravity="right"
+                                android:drawablePadding="9dp"
+                                android:drawableRight="@drawable/icon_turn_right_gray"
                                 android:textSize="13sp" />
 
                         </TableRow>

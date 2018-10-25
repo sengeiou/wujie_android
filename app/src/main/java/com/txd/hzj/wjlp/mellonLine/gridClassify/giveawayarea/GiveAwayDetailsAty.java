@@ -28,10 +28,8 @@ import android.widget.TextView;
 
 import com.alibaba.fastjson.JSONObject;
 import com.ants.theantsgo.WeApplication;
-import com.ants.theantsgo.base.BaseView;
 import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.config.Settings;
-import com.ants.theantsgo.httpTools.ApiTool2;
 import com.ants.theantsgo.tips.CustomDialog;
 import com.ants.theantsgo.tool.ToolKit;
 import com.ants.theantsgo.util.JSONUtils;
@@ -44,7 +42,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout;
 import com.google.gson.JsonSyntaxException;
-import com.lidroid.xutils.http.RequestParams;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.synnapps.carouselview.CarouselView;
@@ -760,7 +757,7 @@ public class GiveAwayDetailsAty extends BaseAty implements ObservableScrollView.
     private void getData() {
         switch (type) {
             case WJConfig.ZPZQ:// 赠品专区
-                postGiftGoodsInfo(limit_buy_id, this);
+                GiveAwayModel.postGiftGoodsInfo(limit_buy_id, this);
                 break;
         }
 
@@ -779,7 +776,7 @@ public class GiveAwayDetailsAty extends BaseAty implements ObservableScrollView.
                 if (is_C) {
                     Intent intent = new Intent();
                     intent.putExtra("mid", mell_id);
-                    intent.putExtra("type", WJConfig.TYPE_WJSD);
+                    intent.putExtra("type", WJConfig.TYPE_ZPZQ);
                     intent.putExtra("goods_id", goods_id);
                     intent.putExtra("group_buy_id", limit_buy_id);
                     intent.putExtra("num", String.valueOf(goods_number));
@@ -787,25 +784,19 @@ public class GiveAwayDetailsAty extends BaseAty implements ObservableScrollView.
                     intent.setClass(GiveAwayDetailsAty.this, BuildOrderAty.class);
                     startActivity(intent);
                 } else {
-                    toAttrs(v, 0, WJConfig.TYPE_WJSD, goods_id + "-" + mell_id, JSONUtils.getMapValue(goodsInfo,"goods_img"), JSONUtils.getMapValue(goodsInfo,"use_integral"), limit_buy_id, goods_attr_first, first_val, is_attr);
+                    toAttrs(v, 0, WJConfig.TYPE_ZPZQ, goods_id + "-" + mell_id, JSONUtils.getMapValue(goodsInfo, "goods_img"), JSONUtils.getMapValue(goodsInfo, "use_voucher"), limit_buy_id, goods_attr_first, first_val, is_attr);
                 }
             }
         });
         commodityPranster.goodsMsg(toastView);
     }
 
-    public void postGiftGoodsInfo(String gift_goods_id, BaseView baseView) {
-        RequestParams params = new RequestParams();
-        ApiTool2 apiTool2 = new ApiTool2();
-        params.addBodyParameter("gift_goods_id", gift_goods_id);
-        apiTool2.postApis(Config.GIVEAWAYAREA_URL + "giftGoodsInfo", params, baseView);
-    }
 
     @Override
     protected void requestData() {
         switch (type) {
             case WJConfig.ZPZQ:// 赠品专区
-                postGiftGoodsInfo(limit_buy_id, this);
+                GiveAwayModel.postGiftGoodsInfo(limit_buy_id, this);
                 break;
         }
 
@@ -824,7 +815,7 @@ public class GiveAwayDetailsAty extends BaseAty implements ObservableScrollView.
                 if (is_C) {
                     Intent intent = new Intent();
                     intent.putExtra("mid", mell_id);
-                    intent.putExtra("type", WJConfig.TYPE_WJSD);
+                    intent.putExtra("type", WJConfig.TYPE_ZPZQ);
                     intent.putExtra("goods_id", goods_id);
                     intent.putExtra("group_buy_id", limit_buy_id);
                     intent.putExtra("num", String.valueOf(goods_number));
@@ -832,7 +823,7 @@ public class GiveAwayDetailsAty extends BaseAty implements ObservableScrollView.
                     intent.setClass(GiveAwayDetailsAty.this, BuildOrderAty.class);
                     startActivity(intent);
                 } else {
-                    toAttrs(v, 0, WJConfig.TYPE_WJSD, goods_id + "-" + mell_id, JSONUtils.getMapValue(goodsInfo,"goods_img"), JSONUtils.getMapValue(goodsInfo,"use_integral"), limit_buy_id, goods_attr_first, first_val, is_attr);
+                    toAttrs(v, 0, WJConfig.TYPE_ZPZQ, goods_id + "-" + mell_id, JSONUtils.getMapValue(goodsInfo, "goods_img"), JSONUtils.getMapValue(goodsInfo, "use_voucher"), limit_buy_id, goods_attr_first, first_val, is_attr);
                 }
             }
         });
@@ -851,10 +842,10 @@ public class GiveAwayDetailsAty extends BaseAty implements ObservableScrollView.
             remarks.setText(JSONUtils.getMapValue(data, "remarks"));
             String cart_num = JSONUtils.getMapValue(data, "cart_num");
             if (data.containsKey("first_list")) {
-                goods_attr_first = JSONObject.parseArray(data.get("first_list"),FirstListBean.class);
+                goods_attr_first = JSONObject.parseArray(data.get("first_list"), FirstListBean.class);
             }
             if (data.containsKey("first_val")) {
-                first_val = JSONObject.parseArray(data.get("first_val"),FirstValBean.class);
+                first_val = JSONObject.parseArray(data.get("first_val"), FirstValBean.class);
             }
 
             if (!cart_num.equals("0")) {
@@ -863,7 +854,6 @@ public class GiveAwayDetailsAty extends BaseAty implements ObservableScrollView.
             } else {
                 user_cart_num_tv.setVisibility(View.GONE);
             }
-
 
 
             vouchers_desc = JSONUtils.getMapValue(data, "vouchers_desc");
@@ -880,7 +870,7 @@ public class GiveAwayDetailsAty extends BaseAty implements ObservableScrollView.
             share_content = JSONUtils.getMapValue(data, "share_content");
 
             if (data.containsKey("goods_banner")) {
-                ArrayList<GoodsBannerBean> banners = (ArrayList<GoodsBannerBean>) JSONObject.parseArray(data.get("goods_banner"),GoodsBannerBean.class);
+                ArrayList<GoodsBannerBean> banners = (ArrayList<GoodsBannerBean>) JSONObject.parseArray(data.get("goods_banner"), GoodsBannerBean.class);
                 // 轮播图
                 if (null != banners && banners.size() > 0) {
                     image = banners;
@@ -914,7 +904,7 @@ public class GiveAwayDetailsAty extends BaseAty implements ObservableScrollView.
             is_attr = JSONUtils.getMapValue(data, "is_attr");
             is_attr = is_attr + "-" + JSONUtils.getMapValue(goodsInfo, "goods_num");
             // 商品id
-            goods_id = JSONUtils.getMapValue(goodsInfo, "goods_id");
+            goods_id = JSONUtils.getMapValue(goodsInfo, "gift_goods_id");
             goods_name = JSONUtils.getMapValue(goodsInfo, "goods_name");
 
             String tx = DemoApplication.getInstance().getLocInfo().get("province")
@@ -951,7 +941,7 @@ public class GiveAwayDetailsAty extends BaseAty implements ObservableScrollView.
             goods_profit_num_tv.setVisibility(View.GONE);
             old_price_tv.setText("￥" + JSONUtils.getMapValue(goodsInfo, "market_price"));
             old_price_tv.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
-            now_price_tv.setText("此物品兑换，需要" + JSONUtils.getMapValue(goodsInfo, "use_integral") + "积分");
+            now_price_tv.setText("此物品兑换，需要" + JSONUtils.getMapValue(goodsInfo, "use_voucher") + "赠品券");
             now_price_tv.setTextSize(16f);
             //goods_residue_tv.setText("已兑换" + goodsInfo.getSell_num() + "件");
             goods_residue_tv.setVisibility(View.GONE);
@@ -965,7 +955,7 @@ public class GiveAwayDetailsAty extends BaseAty implements ObservableScrollView.
             goods_desc_wv.loadDataWithBaseURL(null, JSONUtils.getMapValue(goodsInfo, "goods_desc"), "text/html", "utf-8", null);
 
             // 商家信息
-            mInfo = JSONObject.parseObject(JSONUtils.getMapValue(data, "mInfo"),MInfoBean.class);
+            mInfo = JSONObject.parseObject(JSONUtils.getMapValue(data, "mInfo"), MInfoBean.class);
             mell_id = mInfo.getMerchant_id();
             merchant_phone = mInfo.getMerchant_phone();
             easemob_account = mInfo.getEasemob_account();
@@ -1006,7 +996,7 @@ public class GiveAwayDetailsAty extends BaseAty implements ObservableScrollView.
                 ArrayList<Map<String, String>> promotion = JSONUtils.parseKeyAndValueToMapList(JSONUtils.getMapValue(data, "promotion"));
                 promotionBeen = new ArrayList<>();
                 for (int i = 0; i < promotion.size(); i++) {
-                    PromotionBean bean=new PromotionBean();
+                    PromotionBean bean = new PromotionBean();
                     Map<String, String> stringMap = promotion.get(i);
                     bean.setTitle(JSONUtils.getMapValue(stringMap, "title"));
                     bean.setType(JSONUtils.getMapValue(stringMap, "type"));
@@ -1024,7 +1014,7 @@ public class GiveAwayDetailsAty extends BaseAty implements ObservableScrollView.
                 promotion_layoutline.setVisibility(View.GONE);
             }
             // 优惠券列表
-            List<TicketListBean> ticketListBeens = JSONObject.parseArray(JSONUtils.getMapValue(data,"ticketList"),TicketListBean.class);
+            List<TicketListBean> ticketListBeens = JSONObject.parseArray(JSONUtils.getMapValue(data, "ticketList"), TicketListBean.class);
             if (null != ticketListBeens && ticketListBeens.size() > 0) {
                 theTrickAdapter = new TheTrickAdapter(GiveAwayDetailsAty.this, ticketListBeens);
                 goods_trick_rv.setAdapter(theTrickAdapter);
@@ -1034,7 +1024,7 @@ public class GiveAwayDetailsAty extends BaseAty implements ObservableScrollView.
             // 评论
             Map<String, String> commentMap = JSONUtils.parseKeyAndValueToMap(JSONUtils.getMapValue(data, "comment"));
             CommentBean comment = new CommentBean();
-            BodyBean bean= (BodyBean) JSONUtils.parseKeyAndValueToMap(JSONUtils.getMapValue(commentMap, "body"));
+            BodyBean bean = (BodyBean) JSONUtils.parseKeyAndValueToMap(JSONUtils.getMapValue(commentMap, "body"));
             comment.setBody(bean);
             comment.setTotal(JSONUtils.getMapValue(commentMap, "total"));
             if (null != comment) {
@@ -1069,11 +1059,11 @@ public class GiveAwayDetailsAty extends BaseAty implements ObservableScrollView.
             } else {
                 layout_comment.setVisibility(View.GONE);
             }
-            List<GoodsPriceDescBean> goodsPriceDescBeans = JSONObject.parseArray(JSONUtils.getMapValue(data,"goods_price_desc"),GoodsPriceDescBean.class);
+            List<GoodsPriceDescBean> goodsPriceDescBeans = JSONObject.parseArray(JSONUtils.getMapValue(data, "goods_price_desc"), GoodsPriceDescBean.class);
             if (null != goodsPriceDescBeans && goodsPriceDescBeans.size() > 0) {
                 goods_price_desc = (ArrayList<GoodsPriceDescBean>) goodsPriceDescBeans;
             }
-            ArrayList<GoodsServerBean> goodsServerBeans = (ArrayList<GoodsServerBean>) JSONObject.parseArray(JSONUtils.getMapValue(data,"goods_server"),GoodsServerBean.class);
+            ArrayList<GoodsServerBean> goodsServerBeans = (ArrayList<GoodsServerBean>) JSONObject.parseArray(JSONUtils.getMapValue(data, "goods_server"), GoodsServerBean.class);
             if (null != goodsServerBeans && goodsServerBeans.size() > 0) {
                 ser_list = goodsServerBeans;
                 rv_service.setAdapter(new GiveAwayDetailsAty.service_adp(ser_list, 3));
@@ -1081,7 +1071,7 @@ public class GiveAwayDetailsAty extends BaseAty implements ObservableScrollView.
                 layout_service.setVisibility(View.GONE);
             }
 
-            List<DjTicketBean> dj_ticketList = JSONObject.parseArray(JSONUtils.getMapValue(goodsInfo,"dj_ticket"),DjTicketBean.class);
+            List<DjTicketBean> dj_ticketList = JSONObject.parseArray(JSONUtils.getMapValue(goodsInfo, "dj_ticket"), DjTicketBean.class);
             if (null != dj_ticketList && dj_ticketList.size() > 0) {
                 dj_ticket = dj_ticketList;
                 for (int i = 0; i < dj_ticket.size(); i++) {
@@ -1126,12 +1116,12 @@ public class GiveAwayDetailsAty extends BaseAty implements ObservableScrollView.
                 layout_djq.setVisibility(View.GONE);
             }
             // TODO==========产品属性==========
-            List<GoodsCommonAttrBean> gca = JSONObject.parseArray(JSONUtils.getMapValue(data,"goods_common_attr"),GoodsCommonAttrBean.class);
+            List<GoodsCommonAttrBean> gca = JSONObject.parseArray(JSONUtils.getMapValue(data, "goods_common_attr"), GoodsCommonAttrBean.class);
             if (null != gca && gca.size() > 0) {
                 GoodsCommentAttrAdapter gcaAdapter = new GoodsCommentAttrAdapter(GiveAwayDetailsAty.this, gca);
                 goods_common_attr_lv.setAdapter(gcaAdapter);
             }
-            List<AllGoodsBean> gusssGoodLists = JSONObject.parseArray(JSONUtils.getMapValue(data,"guess_goods_list"),AllGoodsBean.class);
+            List<AllGoodsBean> gusssGoodLists = JSONObject.parseArray(JSONUtils.getMapValue(data, "guess_goods_list"), AllGoodsBean.class);
             if (null != gusssGoodLists && gusssGoodLists.size() > 0) {
                 if (page == 1) {
                     ticket = gusssGoodLists;
@@ -1146,7 +1136,7 @@ public class GiveAwayDetailsAty extends BaseAty implements ObservableScrollView.
                 is_f = false;
             }
             //搭配购
-            CheapGroupBean cheap_group = JSONObject.parseObject(JSONUtils.getMapValue(data,"cheap_group"),CheapGroupBean.class);
+            CheapGroupBean cheap_group = JSONObject.parseObject(JSONUtils.getMapValue(data, "cheap_group"), CheapGroupBean.class);
             if (cheap_group != null) {
                 tv_ticket_buy_discount.setText("最多可用" + cheap_group.getTicket_buy_discount() + "%代金券");
                 tv_group_price.setText("搭配价：¥" + cheap_group.getGroup_price());
@@ -1204,7 +1194,7 @@ public class GiveAwayDetailsAty extends BaseAty implements ObservableScrollView.
                 ProUrbAreaUtil.gainInstance().showPickerView(tv_chose_ads, goods_id, String.valueOf(goods_number), product_id, GiveAwayDetailsAty.this, GiveAwayDetailsAty.this);
                 break;
             case R.id.tv_showClassify:
-                toClassify(v, JSONUtils.getMapValue(goodsInfo,"top_cate_id"));
+                toClassify(v, JSONUtils.getMapValue(goodsInfo, "top_cate_id"));
                 break;
             case R.id.title_goods_layout://商品
                 clickType = 1;
@@ -1330,7 +1320,7 @@ public class GiveAwayDetailsAty extends BaseAty implements ObservableScrollView.
                 //                showLQPop(v, "领券");
                 break;
             case R.id.layout_layout_settings:
-                toAttrs(v, 4, WJConfig.TYPE_WJSD, goods_id + "-" + mell_id, JSONUtils.getMapValue(goodsInfo,"goods_img"), JSONUtils.getMapValue(goodsInfo,"use_integral"), limit_buy_id, goods_attr_first, first_val, is_attr);
+                toAttrs(v, 4, WJConfig.TYPE_ZPZQ, goods_id + "-" + mell_id, JSONUtils.getMapValue(goodsInfo, "goods_img"), JSONUtils.getMapValue(goodsInfo, "use_voucher"), limit_buy_id, goods_attr_first, first_val, is_attr);
                 break;
             case R.id.tv_dpg:
                 Bundle bundle1 = new Bundle();
@@ -1493,7 +1483,7 @@ public class GiveAwayDetailsAty extends BaseAty implements ObservableScrollView.
             page++;
             switch (type) {
                 case WJConfig.ZPZQ:// 赠品专区
-                    postGiftGoodsInfo(limit_buy_id, this);
+                    GiveAwayModel.postGiftGoodsInfo(limit_buy_id, this);
                     break;
             }
         }
@@ -1662,11 +1652,11 @@ public class GiveAwayDetailsAty extends BaseAty implements ObservableScrollView.
             is_C = true;
             goods_number = data.getIntExtra("num", 0);
             product_id = data.getStringExtra("product_id");
-            if (WJConfig.TYPE_WJSD.equals(data.getStringExtra("type"))) {//积分商店
+            if (WJConfig.TYPE_ZPZQ.equals(data.getStringExtra("type"))) {//赠品专区
                 limit_buy_id = data.getStringExtra("integral_buy_id");
-                String use_integral = data.getStringExtra("use_integral");
+                String use_voucher = data.getStringExtra("use_voucher");
                 old_price_tv.setText("￥" + data.getStringExtra("shop_price"));
-                now_price_tv.setText("此物品兑换，需要" + use_integral + "积分");
+                now_price_tv.setText("此物品兑换，需要" + use_voucher + "赠品券");
                 tv_kucun.setText("库存" + data.getStringExtra("goods_num"));
             } else {
                 ChangeTextViewStyle.getInstance().forTextColor(this, goods_profit_num_tv,
@@ -1746,11 +1736,7 @@ public class GiveAwayDetailsAty extends BaseAty implements ObservableScrollView.
             bundle.putString("mid", data.getStringExtra("mid"));
             bundle.putString("type", data.getStringExtra("type"));
             bundle.putString("goods_id", data.getStringExtra("goods_id"));
-            if (WJConfig.WJSD == type) {//积分商店
-                bundle.putString("group_buy_id", data.getStringExtra("integral_buy_id"));
-            } else {
-                bundle.putString("group_buy_id", data.getStringExtra("group_buy_id"));
-            }
+            bundle.putString("group_buy_id", data.getStringExtra("group_buy_id"));
             String order_id = data.getStringExtra("order_id");
             if (!android.text.TextUtils.isEmpty(order_id)) {
                 bundle.putString("order_id", order_id);

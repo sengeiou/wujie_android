@@ -253,6 +253,11 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
      */
     @ViewInject(R.id.ticket_num_tv)
     private TextView ticket_num_tv;
+    /**
+     * 赠品券
+     */
+    @ViewInject(R.id.gift_num_tv)
+    private TextView gift_num_tv;
     private String head_pic = "";
 
     @ViewInject(R.id.merchant_will_move_into_tv)
@@ -911,6 +916,7 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
             balance = data.get("balance");
             balance_tv.setText(balance);
             ticket_num_tv.setText((String) data.get("ticket_num"));
+            gift_num_tv.setText(data.containsKey("gift_num")?data.get("gift_num"):"");
 
             server_line = data.get("server_line");
             // 消息

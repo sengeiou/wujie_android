@@ -35,6 +35,8 @@ import com.txd.hzj.wjlp.http.user.User;
 import com.txd.hzj.wjlp.mellonLine.gridClassify.GoodLuckDetailsAty;
 import com.txd.hzj.wjlp.mellonLine.gridClassify.LimitGoodsAty;
 import com.txd.hzj.wjlp.mellonLine.gridClassify.TicketGoodsDetialsAty;
+import com.txd.hzj.wjlp.mellonLine.gridClassify.giveawayarea.GiveAwayDetailsAty;
+import com.txd.hzj.wjlp.mellonLine.gridClassify.giveawayarea.GiveAwayModel;
 import com.txd.hzj.wjlp.minetoaty.OrderLogisticsAty;
 import com.txd.hzj.wjlp.minetoaty.PayForAppAty;
 import com.txd.hzj.wjlp.new_wjyp.After_aty;
@@ -140,9 +142,6 @@ public class OrderDetailsAty extends BaseAty {
         titlt_conter_tv.setText(" ");
         details_order_sc.smoothScrollTo(0, 0);
         bot_for_order.setBackgroundColor(ContextCompat.getColor(this, R.color.white));
-        //        ChangeTextViewStyle.getInstance().forOrderPrice2(this, order_price_info_tv, "共1件商品 合计：￥14.80");
-        //        ChangeTextViewStyle.getInstance().forOrderPrice2(this, reserve_first_step_price_tv, "￥5.24");
-        //        ChangeTextViewStyle.getInstance().forOrderPrice2(this, reserve_sec_step_price_tv, "￥43.86");
     }
 
     @Override
@@ -191,7 +190,7 @@ public class OrderDetailsAty extends BaseAty {
             order_id = getIntent().getStringExtra("id");
             type = getIntent().getStringExtra("type");
         }
-        if (type.equals("0") ) {//0 普通商品
+        if (type.equals("0")) {//0 普通商品
             Order.details(order_id, this);
             type2WL = "0";
         } else if (type.equals("3")) {//拼单购
@@ -202,10 +201,15 @@ public class OrderDetailsAty extends BaseAty {
             layout_yugou.setVisibility(View.VISIBLE);
         } else if (type.equals("6")) {
             AuctionOrder.preDetails(order_id, this);
-        } else if (type.equals(String.valueOf(WJConfig.WJSD))) {
+        } else if (type.equals(WJConfig.TYPE_JFSD)) {
             titlt_conter_tv.setText("订单详情");
             IntegralBuyOrder.details(order_id, this);
             type2WL = "5";
+        } else if (type.equals(WJConfig.TYPE_ZPZQ)) {
+            titlt_conter_tv.setText("订单详情");
+            GiveAwayModel.postGiftGoodsOrderDetails(order_id, this);
+            //TODO 赠品专区的物流类型需要确认
+            //            type2WL = "5";
         }
     }
 
@@ -214,18 +218,20 @@ public class OrderDetailsAty extends BaseAty {
         tv_btn_right.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (type.equals("0") || type.equals(String.valueOf(WJConfig.WJSD)) ) {
+                if (type.equals("0") || type.equals(WJConfig.TYPE_JFSD) || type.equals(WJConfig.TYPE_ZPZQ)) {
                     //订单状态（'0': '待付款‘ ； '1': '待发货' ； '2': '待收货' ；'3': '待评价'；'4': '已完成；‘5’：取消订单） 默认9（全部）
                     if (order_status.equals("0")) {
                         Bundle bundle = new Bundle();
                         bundle.putString("order_id", order_id);
-                        if (type.equals(String.valueOf(WJConfig.WJSD))) {
-                            bundle.putString("type", String.valueOf(WJConfig.WJSD));
+                        if (type.equals(WJConfig.TYPE_JFSD)) {
+                            bundle.putString("type", WJConfig.TYPE_JFSD);
+                        } else if (type.equals(WJConfig.TYPE_ZPZQ)) {
+                            bundle.putString("type", WJConfig.TYPE_ZPZQ);
                         }
                         bundle.putString("is_pay_password", is_pay_password);
                         startActivity(PayForAppAty.class, bundle);
                     } else if (order_status.equals("2")) {
-                        if (type.equals("0") ) {
+                        if (type.equals("0")) {
                             //                            Order.receiving(order_id, OrderDetailsAty.this);
                             //                            showProgressDialog();
                         } else {
@@ -241,10 +247,12 @@ public class OrderDetailsAty extends BaseAty {
                         new AlertDialog(OrderDetailsAty.this).builder().setTitle("提示").setMsg("删除订单").setPositiveButton("确定", new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                if (type.equals("0") ) {
+                                if (type.equals("0")) {
                                     Order.deleteOrder(order_id, OrderDetailsAty.this);
                                     showProgressDialog();
-                                } else {
+                                } else if(WJConfig.TYPE_ZPZQ.equals(type)){
+                                    GiveAwayModel.postGiftGoodsOrderDeleteOrder(order_id, OrderDetailsAty.this);
+                                }else if (WJConfig.TYPE_JFSD.equals(type)){
                                     IntegralBuyOrder.DeleteOrder(order_id, OrderDetailsAty.this);
                                     showProgressDialog();
                                 }
@@ -365,7 +373,7 @@ public class OrderDetailsAty extends BaseAty {
                     @Override
                     public void onClick(View v) {
 
-                        if (type.equals("0") ) {
+                        if (type.equals("0")) {
                             if (order_status.equals("0")) {
 
                                 Order.cancelOrder(order_id, OrderDetailsAty.this);
@@ -382,9 +390,14 @@ public class OrderDetailsAty extends BaseAty {
                                 showProgressDialog();
                             }
 
-                        } else if (type.equals(String.valueOf(WJConfig.WJSD))) {
+                        } else if (type.equals(WJConfig.TYPE_JFSD)) {
                             if (order_status.equals("0")) {
                                 IntegralBuyOrder.CancelOrder(order_id, OrderDetailsAty.this);
+                                showProgressDialog();
+                            }
+                        } else if (type.equals(WJConfig.TYPE_ZPZQ)) {
+                            if (order_status.equals("0")) {
+                                GiveAwayModel.postGiftGoodsOrderCancelOrder(order_id, OrderDetailsAty.this);
                                 showProgressDialog();
                             }
                         }
@@ -417,12 +430,12 @@ public class OrderDetailsAty extends BaseAty {
              * "order_status": "4",//订单状态 （0待支付 1拼单中 2待发货 3 待收货 4 待评价 5 已完成  6已取消 8未拼成 9删除  拼单购
              */
             order_status = data.get("order_status");
-            mOrder_type = data.containsKey("order_type")?data.get("order_type"):"";
+            mOrder_type = data.containsKey("order_type") ? data.get("order_type") : "";
             if (order_status.equals("0") || order_status.equals("1")) {
                 // 如果订单状态为待付款或待发货，则隐藏订单详情查看入口
                 lin_logistics.setVisibility(View.GONE);
             }
-            if (type.equals("0") || type.equals(String.valueOf(WJConfig.WJSD)) ) {
+            if (type.equals("0") || type.equals(WJConfig.TYPE_JFSD) || type.equals(WJConfig.TYPE_ZPZQ)) {
                 setOrderStatus();
             } else if (type.equals("3")) {
                 setGroupBuyOrderStatus();
@@ -482,7 +495,7 @@ public class OrderDetailsAty extends BaseAty {
         if (requestUrlSplit.equals("cancelOrder") ||
                 requestUrlSplit.equals("preCancelOrder") ||
                 requestUrlSplit.equals("CancelOrder")) {
-            if (type.equals("0") ) {
+            if (type.equals("0")) {
                 Order.details(order_id, this);
             } else if (type.equals("3")) {
                 GroupBuyOrder.details(order_id, this);
@@ -490,8 +503,10 @@ public class OrderDetailsAty extends BaseAty {
                 PreOrder.preDetails(order_id, this);
             } else if (type.equals("6")) {
                 AuctionOrder.preDetails(order_id, this);
-            } else if (type.equals(String.valueOf(WJConfig.WJSD))) {
+            } else if (type.equals(WJConfig.TYPE_JFSD)) {
                 IntegralBuyOrder.details(order_id, this);
+            } else if (type.equals(WJConfig.TYPE_ZPZQ)) {
+                GiveAwayModel.postGiftGoodsOrderDetails(order_id, this);
             }
             showProgressDialog();
 
@@ -499,7 +514,7 @@ public class OrderDetailsAty extends BaseAty {
         if (requestUrlSplit.equals("receiving") ||
                 requestUrlSplit.equals("preReceiving") ||
                 requestUrlSplit.equals("Receiving")) {
-            if (type.equals("0") ) {
+            if (type.equals("0")) {
                 Order.details(order_id, this);
             } else if (type.equals("3")) {
                 GroupBuyOrder.details(order_id, this);
@@ -507,8 +522,10 @@ public class OrderDetailsAty extends BaseAty {
                 PreOrder.preDetails(order_id, this);
             } else if (type.equals("6")) {
                 AuctionOrder.preDetails(order_id, this);
-            } else if (type.equals(String.valueOf(WJConfig.WJSD))) {
+            } else if (type.equals(WJConfig.TYPE_JFSD)) {
                 IntegralBuyOrder.details(order_id, this);
+            } else if (type.equals(WJConfig.TYPE_ZPZQ)) {
+                GiveAwayModel.postGiftGoodsOrderDetails(order_id, this);
             }
             showProgressDialog();
 
@@ -536,11 +553,14 @@ public class OrderDetailsAty extends BaseAty {
                 if (clickMap.get("sure_status").equals("1")) { // 如果该商品存在七天无理由退换货 1存在 0不存在
                     showPwdPop(clickView, 0);
                 } else {
-                    if (!String.valueOf(WJConfig.WJSD).equals(type)) {
-                        Order.receiving(order_id, clickMap.get("order_goods_id"), "", OrderDetailsAty.this);
-                    } else {
+                    if (WJConfig.TYPE_JFSD.equals(type)) {
                         Order.shopReceiving(order_id, clickMap.get("order_goods_id"), "", OrderDetailsAty.this);
+                    } else if (WJConfig.TYPE_ZPZQ.equals(type)) {
+                        GiveAwayModel.postGiftGoodsOrderReceiving(order_id, "", OrderDetailsAty.this);
+                    } else {
+                        Order.receiving(order_id, clickMap.get("order_goods_id"), "", OrderDetailsAty.this);
                     }
+
                     showProgressDialog();
                 }
             } else {
@@ -585,12 +605,15 @@ public class OrderDetailsAty extends BaseAty {
             case "3":
                 tv_state.setText("待评价");
                 tv_btn_left.setVisibility(View.GONE);
+                if (WJConfig.TYPE_ZPZQ.equals(type)){
+                    tv_btn_right.setVisibility(View.GONE);
+                }
                 tv_btn_right.setText("评价");
                 break;
             case "4":
                 tv_state.setText("已完成");
                 tv_btn_left.setVisibility(View.GONE);
-                if (String.valueOf(WJConfig.WJSD).equals(type)) {
+                if (WJConfig.TYPE_JFSD.equals(type) || WJConfig.TYPE_ZPZQ.equals(type)) {
                     tv_btn_right.setVisibility(View.GONE);
                 }
                 tv_btn_right.setText("删除");
@@ -803,7 +826,7 @@ public class OrderDetailsAty extends BaseAty {
                 tgvh.lin_shouhou.setVisibility(View.GONE); // 不存在售后的话直接隐藏售后layout
                 tgvh.shouhou_divis.setVisibility(View.GONE);
             }
-            tgvh.tv_price.setText(String.valueOf(WJConfig.WJSD).equals(type) ? map.get("use_integral") + "积分" : "¥" + map.get("shop_price")); // 设置订单中商品价格
+            tgvh.tv_price.setText(WJConfig.TYPE_JFSD.equals(type) ? map.get("use_integral") + "积分" : "¥" + map.get("shop_price")); // 设置订单中商品价格
             tgvh.tv_price.setVisibility(View.VISIBLE); // 显示订单中商品价格
             tgvh.itemGoods_goods_layout.setTag(i);
             // 商品点击跳转至商品详情
@@ -818,19 +841,25 @@ public class OrderDetailsAty extends BaseAty {
                             bundle.putInt("from", 1);
                             startActivity(GoodLuckDetailsAty.class, bundle);
                         }
-                    } else if (String.valueOf(WJConfig.WJSD).equals(type)) {
+                    } else if (WJConfig.TYPE_JFSD.equals(type)) {
                         if (data.containsKey("integralBuy_id")) {//拼单购
                             bundle.putString("limit_buy_id", data.get("integralBuy_id"));
                             bundle.putInt("from", 1);
-                            bundle.putInt("type", WJConfig.WJSD);
+                            bundle.putInt("type", WJConfig.JFSD);
                             startActivity(LimitGoodsAty.class, bundle);
+                        }
+                    } else if (WJConfig.TYPE_ZPZQ.equals(type)) {
+                        if (getItem(i).containsKey("goods_id")) {
+                            bundle.putString("ticket_buy_id", getItem(i).get("goods_id"));
+                            bundle.putInt("from", WJConfig.ZPZQ);
+                            startActivity(GiveAwayDetailsAty.class, bundle);
                         }
                     } else {
                         if (getItem(i).containsKey("goods_id")) {//普通商品
                             bundle.putString("ticket_buy_id", getItem(i).get("goods_id"));
-                            if ("13".equals(mOrder_type)){
+                            if (WJConfig.TYPE_EJBL.equals(mOrder_type)) {
                                 bundle.putInt("from", 13);
-                            }else {
+                            } else {
                                 bundle.putInt("from", 1);
                             }
                             startActivity(TicketGoodsDetialsAty.class, bundle);
@@ -842,7 +871,7 @@ public class OrderDetailsAty extends BaseAty {
             tgvh.name.setText(map.get("goods_name")); // 设置商品名称显示
             tgvh.num.setText("x" + map.get("goods_num")); // 设置商品数量显示
             tgvh.title.setText(map.get("attr")); // 设置商品属性
-            if (String.valueOf(WJConfig.WJSD).equals(type)) {
+            if (WJConfig.TYPE_JFSD.equals(type) || WJConfig.TYPE_ZPZQ.equals(type) || WJConfig.TYPE_EJBL.equals(mOrder_type)) {
                 tgvh.jifenTv.setVisibility(View.GONE);
             } else {
                 tgvh.jifenTv.setVisibility(View.VISIBLE);
@@ -852,13 +881,10 @@ public class OrderDetailsAty extends BaseAty {
             tgvh.textviews.setText(map.get("invoice_name") + "(发票运费:" + map.get("express_fee") + " 税金:" + map.get("tax_pay") + ")"); // 设置发票名称
             L.e("time" + map.get("sure_delivery_time"));
 
-            if ( "13".equals(mOrder_type)){
+            if (WJConfig.TYPE_EJBL.equals(mOrder_type)) {
                 tgvh.tv_2980.setVisibility(View.VISIBLE);
-                tgvh.jifenTv.setVisibility(View.GONE);
-            }else {
+            } else {
                 tgvh.tv_2980.setVisibility(View.GONE);
-                tgvh.jifenTv.setVisibility(View.VISIBLE);
-                tgvh.jifenTv.setText("（赠送:" + map.get("return_integral") + "积分）");
             }
             if (isTy) {
                 tgvh.tyIv.setVisibility(View.VISIBLE);
@@ -934,10 +960,14 @@ public class OrderDetailsAty extends BaseAty {
                             GroupBuyOrder.remind(OrderDetailsAty.this, order_id);
                         }
                         break;
-                        case "10": {//积分商店
+                        case WJConfig.TYPE_JFSD: {//积分商店
                             IntegralBuyOrder.remind(order_id, OrderDetailsAty.this);
                         }
                         break;
+                        case WJConfig.TYPE_ZPZQ:{
+                            GiveAwayModel.postGiftGoodsOrderRemind(order_id, OrderDetailsAty.this);
+                            break;
+                        }
                         default:
                             Order.remind(OrderDetailsAty.this, list.get(i).get("order_goods_id")); // 请求后台提醒发货接口
                     }
@@ -964,9 +994,11 @@ public class OrderDetailsAty extends BaseAty {
                     if ("3".equals(type)) {//拼单购，无用代码
                         GroupBuyOrder.delayReceiving(list.get(i).get("order_goods_id"), OrderDetailsAty.this);
                     }
-                    if (String.valueOf(WJConfig.WJSD).equals(type)) {
+                    if (WJConfig.TYPE_JFSD.equals(type)) {
                         Order.delayShopReceiving(list.get(i).get("order_goods_id"), OrderDetailsAty.this);
-                    } else {
+                    } else if(WJConfig.TYPE_ZPZQ.equals(type)){
+                        GiveAwayModel.postGiftGoodsOrderDelayReceiving(list.get(i).get("order_goods_id"), OrderDetailsAty.this);
+                    }else {
                         Order.delayReceiving(list.get(i).get("order_goods_id"), OrderDetailsAty.this); // 请求后台延长收货接口
                     }
                     showProgressDialog(); // 显示加载框
@@ -1006,7 +1038,7 @@ public class OrderDetailsAty extends BaseAty {
             //先判断 is_back_apply是否显示售后按钮 然后判断after_type 售后按钮中的文字
             //            "is_back_apply":  //是否对应售后服务 0不对应 1对应
             String is_back_apply = map.get("is_back_apply");
-            if (!TextUtils.isEmpty(is_back_apply) && "1".equals(is_back_apply) && !"13".equals(mOrder_type)) {
+            if (!TextUtils.isEmpty(is_back_apply) && "1".equals(is_back_apply) && !WJConfig.TYPE_EJBL.equals(mOrder_type)) {
                 tgvh.applyAfterSaleTv.setVisibility(View.VISIBLE);
                 // 设置右侧按钮显示的文字
                 /**
@@ -1055,7 +1087,7 @@ public class OrderDetailsAty extends BaseAty {
                             bundle.putString("after_type", map.get("after_type"));
                             bundle.putString("back_apply_id", map.get("back_apply_id"));
                             // 继续申请售后需要传的参数
-                            if (String.valueOf(WJConfig.WJSD).equals(type)) {
+                            if (WJConfig.TYPE_JFSD.equals(type)) {
                                 bundle.putString("price", "0");
                             } else {
                                 bundle.putString("price", String.valueOf(Double.parseDouble(map.get("refund_price"))));
@@ -1209,10 +1241,15 @@ public class OrderDetailsAty extends BaseAty {
                                         GroupBuyOrder.receiving(group_buy_id, "2", OrderDetailsAty.this);
                                     }
                                     break;
-                                    case "10": {
+                                    case WJConfig.TYPE_JFSD: {
                                         IntegralBuyOrder.Receiving(order_id, "2", OrderDetailsAty.this);
                                     }
                                     break;
+                                    case WJConfig.TYPE_ZPZQ: {
+                                        GiveAwayModel.postGiftGoodsOrderReceiving(order_id, "2", OrderDetailsAty.this);
+                                        break;
+                                    }
+
                                 }
                                 L.e("wang", "===============>>>>>>>>>>>>>>> tv1 click status = 1");
                                 // 确定放弃七天售后
@@ -1227,16 +1264,21 @@ public class OrderDetailsAty extends BaseAty {
                                 switch (type) {
                                     case "0": {
                                         Order.receiving(order_id, list.get(clickIndex).get("order_goods_id"), "1", OrderDetailsAty.this);
+                                        break;
                                     }
-                                    break;
                                     case "3": {
                                         GroupBuyOrder.receiving(group_buy_id, "1", OrderDetailsAty.this);
+                                        break;
                                     }
-                                    break;
-                                    case "10": {
+                                    case WJConfig.TYPE_JFSD: {
                                         IntegralBuyOrder.Receiving(order_id, "1", OrderDetailsAty.this);
+                                        break;
                                     }
-                                    break;
+                                    case WJConfig.TYPE_ZPZQ: {
+                                        GiveAwayModel.postGiftGoodsOrderReceiving(order_id, "1", OrderDetailsAty.this);
+                                        break;
+                                    }
+
                                 }
                                 showProgressDialog();
                                 commonPopupWindow.dismiss();

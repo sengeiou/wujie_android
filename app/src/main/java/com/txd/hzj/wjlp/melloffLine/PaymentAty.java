@@ -122,7 +122,7 @@ public class PaymentAty extends BaseAty implements MyKeyboard.OnOkClick, View.On
 
                         if (!TextUtils.isEmpty(mStage_merchant_id)) {
                             Bundle bundle = new Bundle();
-                            bundle.putString("type", String.valueOf(WJConfig.XIDP));
+                            bundle.putString("type", WJConfig.TYPE_XXDP);
                             // 需要传入下一页的数据
                             bundle.putString("order_id",order_id);
                             bundle.putString("money",meny);

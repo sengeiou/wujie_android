@@ -62,6 +62,25 @@ public class FirstValBean implements Serializable {
     private String integral_buy_id;//积分商店商品id
     private String use_integral; //积分价格
 
+    private String use_voucher;//赠品专区价格
+    private String gift_goods_id;
+
+    public String getGift_goods_id() {
+        return gift_goods_id;
+    }
+
+    public void setGift_goods_id(String gift_goods_id) {
+        this.gift_goods_id = gift_goods_id;
+    }
+
+    public String getUse_voucher() {
+        return use_voucher;
+    }
+
+    public void setUse_voucher(String use_voucher) {
+        this.use_voucher = use_voucher;
+    }
+
     public String getIntegral_buy_id() {
         return integral_buy_id;
     }

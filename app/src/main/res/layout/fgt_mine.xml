@@ -344,7 +344,7 @@
                         android:layout_weight="1"
                         android:gravity="center"
                         android:orientation="vertical"
-                        android:visibility="gone">
+                        android:visibility="visible">
 
                         <me.grantland.widget.AutofitTextView
                             android:id="@+id/gift_num_tv"

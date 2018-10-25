@@ -87,7 +87,7 @@ public class OnlineShopAty extends BaseAty implements View.OnClickListener {
         //mTabLayout.setTabGravity(TabLayout.);
 
         //添加页卡标题
-        if (title.equals("线上商城") || title.equals("线下商城")||title.equals("积分商店")) {
+        if (title.equals("线上商城") || title.equals("线下商城")||title.equals("积分商店") || title.equals("赠品券商店")) {
             mTitleList = OrderTitleUtils.getInstance().orderTitle1();
         }else if (title.equals("线上充值")){
             mTitleList = OrderTitleUtils.getInstance().orderTitle6();
@@ -102,16 +102,11 @@ public class OnlineShopAty extends BaseAty implements View.OnClickListener {
             titlt_right_tv.setVisibility(View.VISIBLE);
             titlt_right_tv.setTextColor(Color.RED);
             mTitleList = OrderTitleUtils.getInstance().orderTitle1();
-        } else if (title.equals("积分抽奖")) {
+        }else if (title.equals("积分抽奖")) {
             mTitleList = OrderTitleUtils.getInstance().orderTitle4();
-        } else {
+        }else {
             mTitleList = OrderTitleUtils.getInstance().orderTitle5();
         }
-//          if (mTitleList.size() >= 4) {
-//
-//        } else {
-//            mTabLayout.setTabMode(TabLayout.MODE_FIXED);
-//        }
         // 添加碎片
         for (Map<String, String> fgt : mTitleList) {
             L.e("wang", title + "\t" + fgt.get("type") + "\t" + getIntent().getStringExtra("type"));

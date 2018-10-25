@@ -42,7 +42,6 @@ import com.txd.hzj.wjlp.http.ticketbuy.TicketBuyPst;
 import com.txd.hzj.wjlp.mainfgt.adapter.AllGvLvAdapter;
 import com.txd.hzj.wjlp.mainfgt.adapter.TicketZoonAdapter;
 import com.txd.hzj.wjlp.mainfgt.adapter.ViewPagerAdapter;
-import com.txd.hzj.wjlp.mellonLine.NoticeDetailsAty;
 import com.txd.hzj.wjlp.mellonLine.adapter.WjMellAdapter;
 import com.txd.hzj.wjlp.mellonLine.gridClassify.GoodLuckDetailsAty;
 import com.txd.hzj.wjlp.mellonLine.gridClassify.LimitGoodsAty;
@@ -199,9 +198,9 @@ public class TicketZoonFgt extends BaseFgt implements NestedScrollView.OnScrollC
                         bundle.putInt("type", WJConfig.WJYG);
                         startActivity(LimitGoodsAty.class, bundle);
                         break;
-                    case WJConfig.WJSD:// 无界商家
+                    case WJConfig.JFSD:// 积分商店
                         bundle.putString("limit_buy_id", data.get(i).getIntegral_buy_id());
-                        bundle.putInt("type", WJConfig.WJSD);
+                        bundle.putInt("type", WJConfig.JFSD);
                         startActivity(LimitGoodsAty.class, bundle);
                         break;
                     case WJConfig.JKG:// 进口馆
@@ -347,7 +346,7 @@ public class TicketZoonFgt extends BaseFgt implements NestedScrollView.OnScrollC
             case WJConfig.PTG:// 拼团购
                 groupBuyPst.groupBuyIndex(p, title);
                 break;
-            case WJConfig.WJSD:// 积分商店
+            case WJConfig.JFSD:// 积分商店
                 integralBuyPst.integralBuyIndex(p, title);
                 break;
         }
@@ -515,7 +514,7 @@ public class TicketZoonFgt extends BaseFgt implements NestedScrollView.OnScrollC
                         case WJConfig.JKG:// 进口馆
                             data = groupBuyBean.getData().getList();
                             break;
-                        case WJConfig.WJSD:// 积分商店
+                        case WJConfig.JFSD:// 积分商店
                             data = groupBuyBean.getData().getIntegral_buy_list();
                             break;
                     }
@@ -579,13 +578,13 @@ public class TicketZoonFgt extends BaseFgt implements NestedScrollView.OnScrollC
                         case WJConfig.JKG:// 进口馆
                             data = groupBuyBean.getData().getList();
                             break;
-                        case WJConfig.WJSD:// 积分商店
+                        case WJConfig.JFSD:// 积分商店
                             data2 = groupBuyBean.getData().getIntegral_buy_list();
                             break;
                     }
                     if (!ListUtils.isEmpty(data2)) {
                         data.addAll(data2);
-                        if (WJConfig.WJSD == type) {
+                        if (WJConfig.JFSD == type) {
                             wjMellAdapter.notifyDataSetChanged();
                         } else {
                             allGvLvAdapter1.notifyDataSetChanged();
@@ -641,7 +640,7 @@ public class TicketZoonFgt extends BaseFgt implements NestedScrollView.OnScrollC
                         case WJConfig.PQQ:// 票券区
                         case WJConfig.WJYG:// 无界预购
                         case WJConfig.JKG:// 进口馆
-                        case WJConfig.WJSD:// 积分商店
+                        case WJConfig.JFSD:// 积分商店
                             startActivity(PreBuyThirdAty.class, bundle);
                             break;
                         case WJConfig.PTG:// 拼团购

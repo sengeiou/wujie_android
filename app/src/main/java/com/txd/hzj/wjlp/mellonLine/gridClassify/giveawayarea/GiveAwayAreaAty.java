@@ -14,13 +14,9 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.ants.theantsgo.base.BaseView;
-import com.ants.theantsgo.config.Config;
-import com.ants.theantsgo.httpTools.ApiTool2;
 import com.ants.theantsgo.util.JSONUtils;
 import com.bumptech.glide.Glide;
 import com.lidroid.xutils.ViewUtils;
-import com.lidroid.xutils.http.RequestParams;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
@@ -29,6 +25,7 @@ import com.txd.hzj.wjlp.view.SuperSwipeRefreshLayout;
 
 import java.util.ArrayList;
 import java.util.Map;
+
 
 /**
  * 创建者：zhangyunfei
@@ -138,15 +135,10 @@ public class GiveAwayAreaAty extends BaseAty {
 
     @Override
     protected void requestData() {
-        postGiftGoodsIndex(String.valueOf(p),this);
+        GiveAwayModel.postGiftGoodsIndex(String.valueOf(p),this);
     }
 
-    public void postGiftGoodsIndex(String p, BaseView baseView) {
-        RequestParams params = new RequestParams();
-        ApiTool2 apiTool2 = new ApiTool2();
-        params.addBodyParameter("p", p);
-        apiTool2.postApis(Config.GIVEAWAYAREA_URL + "giftGoodsIndex", params, baseView);
-    }
+
 
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
