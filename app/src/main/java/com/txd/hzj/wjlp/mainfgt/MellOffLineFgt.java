@@ -15,6 +15,7 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSONObject;
 import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.config.Settings;
 import com.ants.theantsgo.util.JSONUtils;
@@ -31,9 +32,11 @@ import com.txd.hzj.wjlp.DemoApplication;
 import com.txd.hzj.wjlp.MainAty;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseFgt;
+import com.txd.hzj.wjlp.bean.offline.OffLineBean;
 import com.txd.hzj.wjlp.bean.offline.OffLineDataBean;
 import com.txd.hzj.wjlp.http.OfflineStore;
 import com.txd.hzj.wjlp.http.Recommending;
+import com.txd.hzj.wjlp.mainfgt.adapter.MellNearByHzjAdapter;
 import com.txd.hzj.wjlp.mainfgt.adapter.OffLineMenuGvAdapter;
 import com.txd.hzj.wjlp.mainfgt.adapter.ViewPagerAdapter;
 import com.txd.hzj.wjlp.melloffLine.ShopMallAty;
@@ -92,6 +95,12 @@ public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.Scro
     private int allHeight = 0;
 
     /**
+     * 优质商家
+     */
+    @ViewInject(R.id.high_quality_business_lv)
+    private ListViewForScrollView high_quality_business_lv;
+
+    /**
      * 附近商家列表
      */
     @ViewInject(R.id.mell_near_by_lv)
@@ -147,6 +156,8 @@ public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.Scro
     private Pranster pranster;
     private int page = 1;
 
+    private MellNearByHzjAdapter mMellNearByHzjAdapter;
+
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -189,8 +200,10 @@ public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.Scro
                 page = 1;
                 Map<String, String> locMap = DemoApplication.getInstance().getLocInfo();
                 if (null != locMap && !TextUtils.isEmpty(locMap.get("lon"))) {
+                    requestHighQualityBusiness(locMap.get("lon"), locMap.get("lat"),page,"", "", "");
                     pranster.requestStoreData(page, locMap.get("lon"), locMap.get("lat"), "", "", "", getContext(), mell_near_by_lv);
                 } else {
+                    requestHighQualityBusiness("", "", page,"", "", "");
                     pranster.requestStoreData(page, "", "", "", "", "", getContext(), mell_near_by_lv);
                 }
 
@@ -238,6 +251,42 @@ public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.Scro
                 footerImageView.setRotation(enable ? 0 : 180);
             }
         });
+
+        if (null == mMellNearByHzjAdapter) {
+            mMellNearByHzjAdapter = new MellNearByHzjAdapter(getActivity());
+            high_quality_business_lv.setAdapter(mMellNearByHzjAdapter);
+            high_quality_business_lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    OffLineDataBean offLineDataBean = mMellNearByHzjAdapter.getItem(position);
+                    String goods_num = offLineDataBean.getGoods_num();
+                    Bundle bundle = new Bundle();
+                    if (!TextUtils.isEmpty(goods_num) && Integer.parseInt(goods_num) > 0) {
+                        StringBuffer stringBuffer = new StringBuffer();
+                        if (Config.OFFICIAL_WEB.contains("api")) {
+                            stringBuffer.append("http://www.wujiemall.com/");
+                        } else {
+                            stringBuffer.append(Config.OFFICIAL_WEB);
+                        }
+                        stringBuffer.append("Wap/OfflineStore/offlineShop/merchant_id/");
+                        stringBuffer.append(offLineDataBean.getS_id());
+                        if (Config.isLogin()) {
+                            stringBuffer.append("/invite_code/");
+                            stringBuffer.append(PreferencesUtils.getString(getActivity(), "invite_code"));
+                        }
+                        stringBuffer.append(".html");
+
+                        //            bundle.putString("desc", ""); // 传过去没什么用
+                        bundle.putString("url", stringBuffer.toString()); // url
+                        //            bundle.putInt("from", 2);
+                        startActivity(WebViewAty.class, bundle);
+                    } else {
+                        bundle.putSerializable("mellInfo", offLineDataBean);
+                        startActivity(ShopMallDetailsAty.class, bundle);
+                    }
+                }
+            });
+        }
     }
 
 
@@ -322,6 +371,7 @@ public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.Scro
         title_list = new ArrayList<>();
         image_list = new ArrayList<>();
         rec_type_id_list = new ArrayList<>();
+
     }
 
     @Override
@@ -343,11 +393,19 @@ public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.Scro
         }
         page = 1;
         if (null != locMap && !TextUtils.isEmpty(locMap.get("lon"))) {
+            requestHighQualityBusiness(locMap.get("lon"), locMap.get("lat"),page,"", "", "");
             pranster.requestStoreData(page, locMap.get("lon"), locMap.get("lat"), "", "", "", getContext(), mell_near_by_lv);
         } else {
+            requestHighQualityBusiness("", "", page,"", "", "");
             pranster.requestStoreData(page, "", "", "", "", "", getContext(), mell_near_by_lv);
         }
     }
+
+
+    private void requestHighQualityBusiness( String lng, String lat,int p, String merchant_id, String top_cate, String little_cate){
+        OfflineStore.offlineStoreList(lng, lat, p, merchant_id, top_cate, little_cate, this);
+    }
+
 
     @Override
     public void onError(String requestUrl, Map<String, String> error) {
@@ -456,6 +514,7 @@ public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.Scro
             }
 
             progressBar.setVisibility(View.GONE);
+            return;
 
         }
 
@@ -478,6 +537,21 @@ public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.Scro
                     forMenu();
                 }
             }
+            return;
+        }
+
+        if (requestUrl.endsWith("offlineStoreList")){
+            OffLineBean offLineBean = JSONObject.parseObject(jsonStr, OffLineBean.class);
+            if ("1".equals(offLineBean.getCode())) {
+                if (page == 1) {
+                    mMellNearByHzjAdapter.getList().clear();
+                }
+                if (null != offLineBean.getTop_list() && offLineBean.getTop_list().size() > 0) {
+                    mMellNearByHzjAdapter.getList().addAll(offLineBean.getTop_list());
+                    mMellNearByHzjAdapter.notifyDataSetChanged();
+                }
+            }
+            progressBar.setVisibility(View.GONE);
         }
 
     }

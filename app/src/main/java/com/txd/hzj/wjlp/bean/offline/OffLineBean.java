@@ -12,8 +12,17 @@ import java.util.List;
  */
 public class OffLineBean extends DataBaseBean {
     private List<OffLineDataBean> data;
+    private List<OffLineDataBean> top_list;
     private List<NumsBean> nums;
     private String tip_num;
+
+    public List<OffLineDataBean> getTop_list() {
+        return top_list;
+    }
+
+    public void setTop_list(List<OffLineDataBean> top_list) {
+        this.top_list = top_list;
+    }
 
     public String getTip_num() {
         return tip_num;
