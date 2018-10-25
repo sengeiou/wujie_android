@@ -990,6 +990,7 @@
         <activity android:name=".minetoaty.tricket.TradingStampAty" />
         <activity android:name=".mellonLine.gridClassify.giveawayarea.GiveAwayAreaAty" />
         <activity android:name=".mellonLine.gridClassify.giveawayarea.GiveAwayDetailsAty" />
+        <activity android:name=".minetoaty.tricket.TradingStampDetailsAty" />
     </application>
 
 </manifest>

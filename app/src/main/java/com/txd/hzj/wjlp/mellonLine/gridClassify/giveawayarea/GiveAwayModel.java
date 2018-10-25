@@ -197,6 +197,38 @@ public class GiveAwayModel {
     }
 
 
+    /**
+     *赠品券首页接口
+     * @param p
+     */
+    public static void postGiftGoodsVouchersGiftVoucherIndex(int p, BaseView baseView){
+        RequestParams params = new RequestParams();
+        ApiTool2 apiTool2 = new ApiTool2();
+        params.addBodyParameter("p", String.valueOf(p));
+        apiTool2.postApis(Config.OFFICIAL_WEB + "Api/GiftGoodsVouchers/giftVoucherIndex", params, baseView);
+    }
 
+
+    /**
+     *赠品券明细接口
+     * @param id 赠品券id
+     * @param p
+     */
+    public static void postGiftGoodsVouchersGetGiftVouchersInfo(String id,int p, BaseView baseView){
+        RequestParams params = new RequestParams();
+        ApiTool2 apiTool2 = new ApiTool2();
+        params.addBodyParameter("id", id);
+        params.addBodyParameter("p", String.valueOf(p));
+        apiTool2.postApis(Config.OFFICIAL_WEB + "Api/GiftGoodsVouchers/getGiftVouchersInfo", params, baseView);
+    }
+
+    /**
+     *赠品券兑换接口
+     */
+    public static void postGiftGoodsVouchersChangeMoney( BaseView baseView){
+        RequestParams params = new RequestParams();
+        ApiTool2 apiTool2 = new ApiTool2();
+        apiTool2.postApis(Config.OFFICIAL_WEB + "Api/GiftGoodsVouchers/changeMoney", params, baseView);
+    }
 
 }
