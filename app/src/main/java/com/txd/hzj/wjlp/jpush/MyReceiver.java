@@ -1,6 +1,5 @@
 package com.txd.hzj.wjlp.jpush;
 
-import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
@@ -8,14 +7,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.media.RingtoneManager;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
-import android.util.Log;
+import android.widget.Toast;
 
 import com.ants.theantsgo.util.L;
 import com.txd.hzj.wjlp.DemoApplication;
@@ -43,7 +39,7 @@ import static android.content.Context.NOTIFICATION_SERVICE;
  */
 public class MyReceiver extends BroadcastReceiver {
     private static final String TAG = "JIGUANG-Example";
-    private static final int NOTIFICATION_SHOW_SHOW_AT_MOST = 3; // 通知显示最多条数
+    private static final String ACTION_CUSTOMIZE_MY_MSG = "com.txd.hzj.wjlp.jpush.CUSTOMIZE_MY_MSG";
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -69,12 +65,10 @@ public class MyReceiver extends BroadcastReceiver {
             } else if (JPushInterface.ACTION_NOTIFICATION_OPENED.equals(intent.getAction())) {
                 L.e(TAG, "[MyReceiver] 用户点击打开了通知");
 
-                //打开自定义的Activity
-//                Intent i = new Intent(context, MainAty.class);
+                // 打开自定义的Activity
                 Intent i = onTouchOpenPage(context, bundle.getString(JPushInterface.EXTRA_EXTRA));
                 if (i != null) {
                     i.putExtras(bundle);
-                    //i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     context.startActivity(i);
                 }
@@ -86,11 +80,24 @@ public class MyReceiver extends BroadcastReceiver {
             } else if (JPushInterface.ACTION_CONNECTION_CHANGE.equals(intent.getAction())) {
                 boolean connected = intent.getBooleanExtra(JPushInterface.EXTRA_CONNECTION_CHANGE, false);
                 L.e(TAG, "[MyReceiver]" + intent.getAction() + " connected state change to " + connected);
+            } else if (ACTION_CUSTOMIZE_MY_MSG.equals(intent.getAction())) {
+
+                // 自定义的Action，点击Notification跳转至相应的界面
+                NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+                notificationManager.cancel(intent.getIntExtra("notificationId", Integer.parseInt(bundle.getString("notificationId"))));
+
+                Intent i = onTouchOpenPage(context, bundle.getString("extras"));
+                if (i != null) {
+                    i.putExtras(bundle);
+                    i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    context.startActivity(i);
+                }
+
             } else {
                 L.e(TAG, "[MyReceiver] Unhandled intent - " + intent.getAction());
             }
         } catch (Exception e) {
-
+            L.e(e.toString());
         }
 
     }
@@ -113,35 +120,42 @@ public class MyReceiver extends BroadcastReceiver {
         if (!"".equals(extras)) {
             try {
                 JSONObject extraJson = new JSONObject(extras);
+                if (title == null) {
+                    title = extraJson.has("title") ? extraJson.getString("title") : "";
+                }
+                if (msg == null) {
+                    msg = extraJson.has("content") ? extraJson.getString("content") : "";
+                }
                 if ((extraJson.has("sound") ? extraJson.getString("sound") : "0").equals("0")) {
                     return;
                 }
-                NotificationCompat.Builder notification = new NotificationCompat.Builder(context); // 创建一个消息通知
-                Intent intent = onTouchOpenPage(context, extras);
-                PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
+                // 设置一个id和Intent意图，并放入参数
+                int id = (int) (System.currentTimeMillis() / 1000);
+                Intent intent = new Intent(context, MyReceiver.class);
+                Bundle bundle1 = new Bundle();
+                bundle1.putString("notificationId", id + "");
+                bundle1.putString("extras", extras);
+                intent.putExtras(bundle1);
+                intent.setAction(ACTION_CUSTOMIZE_MY_MSG); // 设置Action
 
-                // 设置Notification
-                notification.setContentIntent(pendingIntent)
-                        .setAutoCancel(true)
-                        .setContentTitle(extraJson.has("title") ? extraJson.getString("title") : "无界优品")
-                        .setContentText(extraJson.has("content") ? extraJson.getString("content") : "您有一条新消息")
-                        .setSmallIcon(R.mipmap.ic_launcher)
-//                        .setDefaults(Notification.DEFAULT_ALL) // 使用默认的声音、振动、闪光
-                        .setLargeIcon(bitmap);
-//                        .setNumber(NOTIFICATION_SHOW_SHOW_AT_MOST);
+                // 设置跳转
+                PendingIntent pendingIntent = PendingIntent.getBroadcast(context, id, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
+                // 实例化一个Notification并设置参数
+                NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
+                builder.setSmallIcon(R.mipmap.ic_launcher);
+                builder.setContentTitle(title.isEmpty() ? "无界优品" : title);
+                builder.setContentText(msg.isEmpty() ? "您有一条新消息" : msg);
+                builder.setContentIntent(pendingIntent);
+                NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+                notificationManager.notify(id, builder.build());
+
+                // 判断是否播放语音
                 String sound = extraJson.has("sound") ? extraJson.getString("sound") : "0";
                 if (sound.equals("1")) {
-                    BaiDuTtsSoundUtil.playSound(context, title, "4"); // 调用百度语音合成进行语音播放
+                    BaiDuTtsSoundUtil.getInstance(context).speak(title, "4"); // 调用百度语音合成进行语音播放
                 }
-//                Uri uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION); // 设置默认通知铃声
-//                if (sound.equals("1")) { // 播放声音，放资源声音
-//                    uri = Uri.parse("android.resource://" + context.getPackageName() + "/" + R.raw.aiya);
-//                }
-//                notification.setSound(uri);
 
-                NotificationManager notificationManager = (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
-                notificationManager.notify(NOTIFICATION_SHOW_SHOW_AT_MOST, notification.build()); //id随意，正好使用定义的常量做id，0除外，0为默认的Notification
             } catch (JSONException e) {
                 L.e(e.toString());
             }
@@ -191,6 +205,7 @@ public class MyReceiver extends BroadcastReceiver {
      */
     private Intent onTouchOpenPage(Context context, String extras) {
         try {
+            L.e("TAG", "onTouchOpenPage:" + extras);
             JSONObject extrasJson = new JSONObject(extras);
             String type = extrasJson.has("type") ? extrasJson.getString("type") : "2";
             Intent intent = new Intent();
@@ -212,7 +227,8 @@ public class MyReceiver extends BroadcastReceiver {
                 }
             }
             return intent;
-        } catch (JSONException e) {
+        } catch (Exception e) {
+            L.e(e.toString());
             return null;
         }
     }

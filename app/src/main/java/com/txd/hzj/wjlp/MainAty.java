@@ -925,7 +925,6 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
                 !AndPermission.hasPermission(MainAty.this, Manifest.permission.ACCESS_COARSE_LOCATION) ||
                 !AndPermission.hasPermission(MainAty.this,Manifest.permission.READ_CONTACTS) ||
                 !AndPermission.hasPermission(MainAty.this,Manifest.permission.CALL_PHONE)
-
                 ) {
             // 申请权限。
             AndPermission.with(MainAty.this)
