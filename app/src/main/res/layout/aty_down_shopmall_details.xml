@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
 
     <include layout="@layout/aty_title_down_shopmall_details" />
@@ -207,6 +208,7 @@
                         android:layout_height="wrap_content"
                         android:paddingBottom="5dp"
                         android:paddingLeft="15dp"
+                        android:stretchColumns="1"
                         android:paddingRight="10dp"
                         android:paddingTop="5dp">
 
@@ -333,7 +335,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:paddingBottom="7dp"
-                            android:stretchColumns = "1"
                             android:paddingTop="7dp">
 
                             <TextView
@@ -346,10 +347,11 @@
 
                             <TextView
                                 android:id="@+id/shop_tele_phone"
-                                android:layout_width="match_parent"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:textColor="@color/black"
                                 android:gravity="right"
+                                tools:text="18338699733"
                                 android:drawablePadding="9dp"
                                 android:drawableRight="@drawable/icon_turn_right_gray"
                                 android:textSize="13sp" />

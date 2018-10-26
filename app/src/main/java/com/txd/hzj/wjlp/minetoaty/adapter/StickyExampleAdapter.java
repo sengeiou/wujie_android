@@ -214,10 +214,10 @@ public class StickyExampleAdapter extends RecyclerView.Adapter<RecyclerView.View
                 Glide.with(context).load(stickyExampleModel.imgStr).into(recyclerViewHolder.t_details_logo_tv);
             } else if (3 == type) { // 余额明细
                 // 获得，消费积分(转出，消费) add_sub：1加 2减
-                if (stickyExampleModel.getAdd_sub().equals("1")) {
+                if (stickyExampleModel.getAdd_sub()!=null && stickyExampleModel.getAdd_sub().equals("1")) {
                     recyclerViewHolder.t_details_price_tv.setText("+" + stickyExampleModel.profession);
                     //                    recyclerViewHolder.check_details_for_balance_tv.setVisibility(View.GONE);
-                } else {
+                } else if (stickyExampleModel.getAdd_sub()!=null && stickyExampleModel.getAdd_sub().equals("2")){
                     recyclerViewHolder.t_details_price_tv.setText("-" + stickyExampleModel.profession);
                 }
                 Glide.with(context).load(stickyExampleModel.imgStr).into(recyclerViewHolder.t_details_logo_tv);
