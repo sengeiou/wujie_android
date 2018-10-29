@@ -1,15 +1,12 @@
 package com.txd.hzj.wjlp.login;
 
-import android.Manifest;
 import android.app.ActivityManager;
 import android.content.ComponentName;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.Log;
@@ -27,10 +24,6 @@ import com.ants.theantsgo.util.FileUtils;
 import com.ants.theantsgo.util.JSONUtils;
 import com.ants.theantsgo.util.L;
 import com.ants.theantsgo.util.PreferencesUtils;
-import com.baidu.tts.client.SpeechError;
-import com.baidu.tts.client.SpeechSynthesizer;
-import com.baidu.tts.client.SpeechSynthesizerListener;
-import com.baidu.tts.client.TtsMode;
 import com.lidroid.xutils.HttpUtils;
 import com.lidroid.xutils.exception.HttpException;
 import com.lidroid.xutils.http.ResponseInfo;
@@ -46,7 +39,6 @@ import com.txd.hzj.wjlp.http.register.RegisterPst;
 import com.txd.hzj.wjlp.http.user.User;
 import com.txd.hzj.wjlp.jpush.JpushSetTagAndAlias;
 import com.txd.hzj.wjlp.mellonLine.NoticeDetailsAty;
-import com.txd.hzj.wjlp.tool.BaiDuTtsSoundUtil;
 import com.txd.hzj.wjlp.tool.ChangeTextViewStyle;
 import com.txd.hzj.wjlp.webviewH5.WebViewAty;
 import com.umeng.analytics.MobclickAgent;
@@ -55,7 +47,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -201,7 +192,6 @@ public class LoginAty extends BaseAty implements Handler.Callback, PlatformActio
      */
     public static final String RSA2_PRIVATE = "";
     public static final String RSA_PRIVATE = "MIICXAIBAAKBgQCcImOej6Yf0SIH/b1ZpILORIPqB9sEhuiQ3pBFkcAMluRvJL9Ch6ZqRzrisRB/2XLY3ctt4qjQzmOaSG51CvgzXExkLXboeO7mNK+fqnIH7hq4na2Vv26J/OB4vo5DyNbw2NBL6+iAxZm+axHl70wIIgcvAissttVSNdylOrt8KQIDAQABAoGAfGfeTooRCQr+/bUNOa8eVrI7Fa+asLm59yyPcg9XIfDdJT33c1BYphgJcHU7O1OM8gWPwQe4EWBR9q297V6HMk6xZnayJbI2NpdlINVPU7OkvEs2IXeNWiYYzrS2gKVGyH/BGfxwyXESa2vWMyEiQy4PY63ieIJEWUrtCXXP53ECQQDLt0TcBD1rnXKXq4cn7VgkwcAkpPIHxjiqqTy4rxlhYDYlv5hn5wrVUaLq3RmIfbtHespU4ZGQPF2yYrz5OryFAkEAxDTfRbfjeOrKcTRQnvOdKEzx+3N1zENnEO4o6SR5dPkINszm4rPAuxOGxQYFBeSH/Dhs/DTDjtGmJFkLW6aUVQJAXk/xpD6eROU2uTsjLnv2c8Xzc8OdfbXqZDBHuWTvRiKpzt4d6/SOEmZiG4PTH1q+SoBxjcyEfJdF9aE6xdPIlQJBAI8q+WR5Cw33XSL/hniF0L5Qbx4JIQKciD9NWSLOD6Yv9TNvjmYLve2EEQoBG3cyS5vaXIQnyC6VggLxypzkz0UCQBEjsdfjJOCnLgKDqt6OrRnd011xBiClAEiMj8zJN5Dkkd/FxD1TG9oigiJY8ZP2+XBN8pf7Mdoq+3OP5wPuQZs=";
-    private SpeechSynthesizer mSpeechSynthesizer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -661,198 +651,4 @@ public class LoginAty extends BaseAty implements Handler.Callback, PlatformActio
         removeDialog();
     }
 
-//    String AppId = "14469834";
-//    String AppKey = "OoxiAtx474sQQkuo4I0THiDf";
-//    String AppSecret = "70fDXcxAiF2iskY5495YCBntngS0tgTW";
-//
-//    /**
-//     * 初始化百度语音合成
-//     */
-//    private void initBauDuTTS() {
-//        mSpeechSynthesizer = SpeechSynthesizer.getInstance();
-//        mSpeechSynthesizer.setContext(this); // 设置当前Context 是Context的之类，如Activity
-//        mSpeechSynthesizer.setSpeechSynthesizerListener(this); //listener是SpeechSynthesizerListener 的实现类，需要实现您自己的业务逻辑。SDK合成后会对这个类的方法进行回调。
-//        mSpeechSynthesizer.setAppId(AppId); // 设置 App Id和 App Key 及 App Secret
-//        mSpeechSynthesizer.setApiKey(AppKey, AppSecret); // 设置 App Key 及 App Secret
-//        mSpeechSynthesizer.auth(TtsMode.ONLINE);  // 纯在线
-//        mSpeechSynthesizer.setParam(SpeechSynthesizer.PARAM_SPEAKER, "0"); // 设置发声的人声音，在线生效
-//        int i = mSpeechSynthesizer.initTts(TtsMode.MIX);// 初始化离在线混合模式，如果只需要在线合成功能，使用 TtsMode.ONLINE
-//        L.i("asdgsfjfadsgsfkgsdlkf", "initBauDuTTS:" + getErrorStr(i));
-//        mSpeechSynthesizer.speak("登录");
-//    }
-//
-//    @Override
-//    public void onSynthesizeStart(String s) {
-//    }
-//
-//    @Override
-//    public void onSynthesizeDataArrived(String s, byte[] bytes, int i) {
-//    }
-//
-//    @Override
-//    public void onSynthesizeFinish(String s) {
-//    }
-//
-//    @Override
-//    public void onSpeechStart(String s) {
-//    }
-//
-//    @Override
-//    public void onSpeechProgressChanged(String s, int i) {
-//    }
-//
-//    @Override
-//    public void onSpeechFinish(String s) {
-//        mSpeechSynthesizer.release(); // 释放资源
-//    }
-//
-//    @Override
-//    public void onError(String s, SpeechError speechError) {
-//        L.i("asdgsfjfadsgsfkgsdlkf", "speechError.code:" + getErrorStr(speechError.code));
-//    }
-//
-//    private String getErrorStr(int state) {
-//        String string = "";
-//        switch (state) {
-//            case -1:
-//                string = "在线引擎授权失败";
-//                break;
-//            case -2:
-//                string = "在线合成请求失败";
-//                break;
-//            case -3:
-//                string = "在线合成停止失败";
-//                break;
-//            case -4:
-//                string = "在线授权中断异常";
-//                break;
-//            case -5:
-//                string = "在线授权执行时异常";
-//                break;
-//            case -6:
-//                string = "在线授权时间超时";
-//                break;
-//            case -7:
-//                string = "在线合成返回错误信息";
-//                break;
-//            case -8:
-//                string = "在线授权token为空";
-//                break;
-//            case -9:
-//                string = "在线引擎没有初始化";
-//                break;
-//            case -10:
-//                string = "在线引擎合成时异常";
-//                break;
-//            case -100:
-//                string = "离线引擎授权失败";
-//                break;
-//            case -101:
-//                string = "离线合成停止失败";
-//                break;
-//            case -102:
-//                string = "离线授权下载License失败";
-//                break;
-//            case -103:
-//                string = "离线授权信息为空";
-//                break;
-//            case -104:
-//                string = "离线授权类型未知";
-//                break;
-//            case -105:
-//                string = "离线授权中断异常";
-//                break;
-//            case -106:
-//                string = "离线授权执行时异常";
-//                break;
-//            case -107:
-//                string = "离线授权执行时间超时";
-//                break;
-//            case -108:
-//                string = "离线合成引擎初始化失败";
-//                break;
-//            case -109:
-//                string = "离线引擎未初始化";
-//                break;
-//            case -110:
-//                string = "离线合成时异常";
-//                break;
-//            case -111:
-//                string = "离线合成返回值非0";
-//                break;
-//            case -112:
-//                string = "离线授权已过期";
-//                break;
-//            case -113:
-//                string = "离线授权包名不匹配";
-//                break;
-//            case -114:
-//                string = "离线授权签名不匹配";
-//                break;
-//            case -115:
-//                string = "离线授权设备信息不匹配";
-//                break;
-//            case -116:
-//                string = "离线授权平台不匹配";
-//                break;
-//            case -117:
-//                string = "离线授权的license文件不存在";
-//                break;
-//            case -200:
-//                string = "混合引擎离线在线都授权失败";
-//                break;
-//            case -201:
-//                string = "混合引擎授权中断异常";
-//                break;
-//            case -202:
-//                string = "混合引擎授权执行时异常";
-//                break;
-//            case -203:
-//                string = "混合引擎授权执行时间超时";
-//                break;
-//            case -204:
-//                string = "在线合成初始化成功，离线合成初始化失败。 可能是离线资源dat文件未加载或包名错误";
-//                break;
-//            case -300:
-//                string = "合成文本为空";
-//                break;
-//            case -301:
-//                string = "合成文本长度过长（不要超过GBK1024个字节）";
-//                break;
-//            case -302:
-//                string = "合成文本无法获取GBK字节";
-//                break;
-//            case -400:
-//                string = "TTS未初始化";
-//                break;
-//            case -401:
-//                string = "TTS模式无效";
-//                break;
-//            case -402:
-//                string = "TTS合成队列已满（最大限度为1000）";
-//                break;
-//            case -403:
-//                string = "TTS批量合成文本过多（最多为100）";
-//                break;
-//            case -404:
-//                string = "TTS停止失败";
-//                break;
-//            case -405:
-//                string = "TTS APP ID无效";
-//                break;
-//            case -406:
-//                string = "TTS被调用方法参数无效";
-//                break;
-//            case -500:
-//                string = "Context被释放或为空";
-//                break;
-//            case -600:
-//                string = "播放器为空";
-//                break;
-//            case -9999:
-//                string = "未知错误";
-//                break;
-//        }
-//        return string;
-//    }
 }

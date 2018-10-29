@@ -16,13 +16,19 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ants.theantsgo.config.Config;
+import com.ants.theantsgo.imageLoader.GlideImageLoader;
 import com.ants.theantsgo.payByThirdParty.AliPay;
 import com.ants.theantsgo.payByThirdParty.aliPay.AliPayCallBack;
 import com.ants.theantsgo.rsa.Base64Utils;
+import com.ants.theantsgo.util.CompressionUtil;
 import com.ants.theantsgo.util.L;
 import com.ants.theantsgo.util.PreferencesUtils;
+import com.bumptech.glide.Glide;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
+import com.lzy.imagepicker.ImagePicker;
+import com.lzy.imagepicker.bean.ImageItem;
+import com.lzy.imagepicker.ui.ImageGridActivity;
 import com.txd.hzj.wjlp.Constant;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
@@ -34,6 +40,8 @@ import com.txd.hzj.wjlp.wxapi.GetPrepayIdTask;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -229,6 +237,17 @@ public class WebViewAty extends BaseAty {
 
     }
 
+    /**
+     * 初始化ImagePicker
+     */
+    private void initImagePicker() {
+        ImagePicker imagePicker = ImagePicker.getInstance();
+        imagePicker.setImageLoader(new GlideImageLoader());// 图片加载
+        imagePicker.setCrop(false);// 不裁剪
+        imagePicker.setMultiMode(false);// 单选
+        imagePicker.setShowCamera(false);// 不显示拍照按钮
+    }
+
     // ======================================== H5交互接口 ========================================
     class H5WebViewJsInterface {
 
@@ -312,6 +331,30 @@ public class WebViewAty extends BaseAty {
             backMain(3);
             WebViewAty.this.finish();
         }
+
+        /**
+         * 打开相机
+         */
+        @JavascriptInterface
+        public void openCamera() {
+            initImagePicker();
+            Intent intent = new Intent(WebViewAty.this, ImageGridActivity.class);
+            intent.putExtra(ImageGridActivity.EXTRAS_TAKE_PICKERS, true); // 直接调取相机
+            startActivityForResult(intent, 121);
+//            showToast("调取相机，直接拍照");
+//            openPhotoFolder();
+        }
+
+        /**
+         * 打开相册选择照片
+         */
+        @JavascriptInterface
+        public void openPhotoFolder() {
+            initImagePicker();
+            Intent i = new Intent(WebViewAty.this, ImageGridActivity.class);
+            startActivityForResult(i, 121);
+        }
+
     }
 
     @Override
@@ -319,6 +362,34 @@ public class WebViewAty extends BaseAty {
         super.onDestroy();
         if (null != wxPayReceiver) {
             unregisterReceiver(wxPayReceiver);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == ImagePicker.RESULT_CODE_ITEMS) {
+            if (data != null) {
+                ArrayList<ImageItem> images = (ArrayList<ImageItem>) data.getSerializableExtra(ImagePicker.EXTRA_RESULT_ITEMS);
+                if (images != null && images.size() > 0) {
+                    String pic_path = CompressionUtil.compressionBitmap(images.get(0).path);
+                    switch (requestCode) {
+                        case 121:
+                            try {
+                                File file = new File(pic_path);
+                                webView_show_webv.loadUrl("JavaScript:TakePhoto(" + file + ")");
+//                                L.e("File:" + file.getPath());
+//                                L.e("File:" + file);
+                            } catch (Exception e) {
+                                L.e("File Exception:" + e.toString());
+                                showToast("未找到图片文件，请重新选择。");
+                            }
+                            break;
+                    }
+                }
+            } else {
+                showErrorTip("没有返回任何数据。。");
+            }
         }
     }
 }

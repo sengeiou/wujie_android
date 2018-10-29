@@ -511,7 +511,7 @@ public class EditProfileAty extends BaseAty implements View.OnClickListener {
         if (resultCode == ImagePicker.RESULT_CODE_ITEMS) {
             if (data != null) {
                 ArrayList<ImageItem> images = (ArrayList<ImageItem>) data.getSerializableExtra(ImagePicker.EXTRA_RESULT_ITEMS);
-                if (images.size() > 0) {
+                if (images != null && images.size() > 0) {
                     String pic_path = CompressionUtil.compressionBitmap(images.get(0).path);
                     switch (requestCode) {
                         case 100:
