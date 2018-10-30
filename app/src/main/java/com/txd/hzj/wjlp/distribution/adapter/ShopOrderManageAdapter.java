@@ -107,9 +107,11 @@ public class ShopOrderManageAdapter extends RecyclerView.Adapter {
             holders.kaidian_pic.setVisibility(View.VISIBLE);
         }
 
-        if (!TextUtils.isEmpty(dataBean.getShop_type()) || "本店".equals(dataBean.getShop_type())) {
+        if (!TextUtils.isEmpty(dataBean.getShop_type()) && "本店".equals(dataBean.getShop_type())) {
             holders.bendian_tv.setVisibility(View.VISIBLE);
-        } else if (!TextUtils.isEmpty(dataBean.getShop_type()) || "链店".equals(dataBean.getShop_type())) {
+            holders.liandian_tv.setVisibility(View.GONE);
+        } else if (!TextUtils.isEmpty(dataBean.getShop_type()) && "链店".equals(dataBean.getShop_type())) {
+            holders.bendian_tv.setVisibility(View.GONE);
             holders.liandian_tv.setVisibility(View.VISIBLE);
         }
 

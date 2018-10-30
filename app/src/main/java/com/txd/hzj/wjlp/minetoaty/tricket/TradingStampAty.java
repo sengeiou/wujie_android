@@ -4,9 +4,11 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.TextView;
 
 import com.ants.theantsgo.util.JSONUtils;
@@ -32,6 +34,8 @@ public class TradingStampAty extends BaseAty {
     public TextView total_price_tv;
     @ViewInject(R.id.tips_tv)
     public TextView tips_tv;
+    @ViewInject(R.id.tips_tv2)
+    public TextView tips_tv2;
     @ViewInject(R.id.recyclerView)
     private RecyclerView recyclerView;
     private int p = 1;
@@ -67,9 +71,29 @@ public class TradingStampAty extends BaseAty {
                 String exchange_money = giftData.containsKey("exchange_money") ? giftData.get("exchange_money") : "";
                 String exchange_voucher = giftData.containsKey("exchange_voucher") ? giftData.get("exchange_voucher") : "";
                 total_price_tv.setText(gift_num);
-                tips_tv.setText("今日福利：可将" + sum_money + "赠品券转换成" + exchange_money + "余额+" + exchange_voucher + "积分");
-
-
+                final String result="今日福利：可将" + sum_money + "赠品券转换成" + exchange_money + "余额+" + exchange_voucher + "积分";
+                tips_tv.setText(result);
+                ViewTreeObserver viewTreeObserver = tips_tv.getViewTreeObserver();
+                viewTreeObserver.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+                    @Override
+                    public boolean onPreDraw() {
+                        Layout layout = tips_tv.getLayout();
+                        int lineEnd = layout.getLineEnd(0);
+                        String substring="";
+                        String substring2="";
+                        if (result.length()>lineEnd){
+                             substring= result.substring(lineEnd, result.length());
+                            substring="\u3000\u3000\u3000\u3000\u3000"+substring;
+                            substring2=result.substring(0,lineEnd);
+                            tips_tv2.setVisibility(View.VISIBLE);
+                            tips_tv2.setText(substring);
+                        }
+                        tips_tv.setText(substring2);
+                        tips_tv.getViewTreeObserver().removeOnPreDrawListener(
+                                this);
+                        return false;
+                    }
+                });
             }
             if (data.containsKey("giftlist")) {
                 final ArrayList<Map<String, String>> giftlist = JSONUtils.parseKeyAndValueToMapList(data.get("giftlist"));
