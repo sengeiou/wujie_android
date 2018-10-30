@@ -162,6 +162,8 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
      */
     private List<GoodsBannerBean> image;
 
+    private ArrayList<String> mImageUrls;
+
     /**
      * 现价
      */
@@ -1057,6 +1059,10 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                     goods_name = dataBean.getGoodsInfo().getGoods_name();
                     // 团购商品轮播图
                     if (!ListUtils.isEmpty(image)) {
+                        mImageUrls=new ArrayList<>();
+                        for (int i = 0; i < image.size(); i++) {
+                            mImageUrls.add(image.get(i).getPath());
+                        }
                         forBanner();
                     }
                     goods_attr_first = dataBean.getFirst_list();
@@ -1246,53 +1252,6 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                         layout_djq.setVisibility(View.GONE);
                     }
                     lv_qkk.setVisibility(View.GONE);
-                    //                    if (null != goodsInfo.getGoods_active() && goodsInfo.getGoods_active().size() > 0) {
-                    //                        final ArrayList<GoodsActiveBean> qkk_list = (ArrayList<GoodsActiveBean>) goodsInfo.getGoods_active();
-                    //                        lv_qkk.setAdapter(new qkk_adapter(qkk_list));
-                    //                        lv_qkk.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    //                            @Override
-                    //                            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                    //                                switch (qkk_list.get(i).getAct_type()) {
-                    //                                    case "1": {
-                    //                                        Bundle bundle = new Bundle();
-                    //                                        bundle.putString("one_buy_id", qkk_list.get(i).getAct_id());
-                    //                                        startActivity(SnatchGoodsDetailsAty.class, bundle);
-                    //                                    }
-                    //                                    break;
-                    //                                    case "2": {
-                    //                                        Bundle bundle = new Bundle();
-                    //                                        bundle.putString("limit_buy_id", qkk_list.get(i).getAct_id());
-                    //                                        bundle.putInt("type", 2);//无界预购
-                    //                                        startActivity(LimitGoodsAty.class, bundle);
-                    //                                    }
-                    //                                    break;
-                    //                                    case "3": {
-                    //                                        Bundle bundle = new Bundle();
-                    //                                        bundle.putString("auction_id", qkk_list.get(i).getAct_id());
-                    //                                        startActivity(AuctionGoodsDetailsAty.class, bundle);
-                    //                                    }
-                    //                                    break;
-                    //                                    case "4": {
-                    //                                        Bundle bundle = new Bundle();
-                    //                                        bundle.putString("limit_buy_id", qkk_list.get(i).getAct_id());
-                    //                                        bundle.putInt("type", 0);//限量购
-                    //                                        startActivity(LimitGoodsAty.class, bundle);
-                    //                                    }
-                    //
-                    //                                    break;
-                    //                                    case "5": {
-                    //                                        Bundle bundle = new Bundle();
-                    //                                        bundle.putString("group_buy_id", qkk_list.get(i).getAct_id());
-                    //                                        startActivity(GoodLuckDetailsAty.class, bundle);
-                    //                                    }
-                    //
-                    //                                    break;
-                    //
-                    //
-                    //                                }
-                    //                            }
-                    //                        });
-                    //                    }
 
                     // 代金券列表
                     if (null != dataBean.getTicketList() && dataBean.getTicketList().size() > 0) {
@@ -1569,22 +1528,6 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                     one_price_tv.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {//, (ArrayList) goodsAttrs, (ArrayList) goods_produc
-
-                            //                            if (is_C) {
-                            //                                Intent intent = new Intent();
-                            //                                intent.putExtra("mid", mellInfoBean.getMerchant_id());
-                            //                                intent.putExtra("type", "2");
-                            //                                intent.putExtra("goods_id", goods_id);
-                            //                                intent.putExtra("group_buy_id", group_buy_id);
-                            //                                intent.putExtra("num", String.valueOf(goods_number));
-                            //                                intent.putExtra("product_id", product_id);
-                            //                                intent.setClass(GoodLuckDetailsAty.this, BuildOrderAty.class);
-                            //                                startActivity(intent);
-                            //                            } else {
-                            //                                //直接购买, (ArrayList) goodsAttrs, (ArrayList) goods_product
-                            //                                toAttrs(v, 0, "2", goods_id + "-" + mellInfoBean.getMerchant_id(), goodsInfo.getGoods_img(),
-                            //                                        goodsInfo.getShop_price(), group_buy_id, goods_attr_first, first_val, is_attr);
-                            //                            }
                             //直接跳转普通商品界面 暂定
                             if (!Config.isLogin()) {
                                 toLogin();
@@ -1658,6 +1601,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                         GoodsCommentAttrAdapter gcaAdapter = new GoodsCommentAttrAdapter(GoodLuckDetailsAty.this, gca);
                         goods_common_attr_lv.setAdapter(gcaAdapter);
                     }
+                    goodLuckPranster.setData(GoodLuckDetailsAty.this,"2",group_buy_id,mImageUrls,goods_name,goodsInfo.getIntegral(),goodsInfo.getTicket_buy_discount(),goodsInfo.getShop_price(),goodsInfo.getMarket_price(),"",goodsInfo.getGoods_brief(),goodsInfo.getSell_num());
                     return;
                 }
             });
@@ -1771,36 +1715,6 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
         }
     }
 
-    //    class qkk_adapter extends BaseAdapter {
-    //        ArrayList<GoodsActiveBean> list;
-    //
-    //        public qkk_adapter(ArrayList<GoodsActiveBean> list) {
-    //            this.list = list;
-    //        }
-    //
-    //        @Override
-    //        public int getCount() {
-    //            return list.size();
-    //        }
-    //
-    //        @Override
-    //        public Object getItem(int i) {
-    //            return null;
-    //        }
-    //
-    //        @Override
-    //        public long getItemId(int i) {
-    //            return 0;
-    //        }
-    //
-    //        @Override
-    //        public View getView(int i, View view, ViewGroup viewGroup) {
-    //            view = View.inflate(GoodLuckDetailsAty.this, R.layout.item_lh_qkk, null);
-    //            TextView act_desc = (TextView) view.findViewById(R.id.tv_qkk);
-    //            act_desc.setText(list.get(i).getAct_desc());
-    //            return view;
-    //        }
-    //    }
 
     /**
      * 拼单购发起拼单
@@ -1891,7 +1805,6 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                     groupType = data.getStringExtra("group_type");
                 }
                 if (!TextUtils.isEmpty(data.getStringExtra("p_integral"))) {
-                    //
                     if ("1".equals(groupType)) {
                         one_price_tv.setText("送" + goodsInfo.getP_integral() + "积分\n单买" + onePrice + "元");
                     } else {

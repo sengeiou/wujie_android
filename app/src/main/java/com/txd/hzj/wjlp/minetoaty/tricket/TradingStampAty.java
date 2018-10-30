@@ -67,7 +67,7 @@ public class TradingStampAty extends BaseAty {
                 String exchange_money = giftData.containsKey("exchange_money") ? giftData.get("exchange_money") : "";
                 String exchange_voucher = giftData.containsKey("exchange_voucher") ? giftData.get("exchange_voucher") : "";
                 total_price_tv.setText(gift_num);
-                tips_tv.setText("今日福利：可将" + sum_money + "赠品券转换成" + exchange_money + "余额+" + exchange_voucher + "红券");
+                tips_tv.setText("今日福利：可将" + sum_money + "赠品券转换成" + exchange_money + "余额+" + exchange_voucher + "积分");
 
 
             }

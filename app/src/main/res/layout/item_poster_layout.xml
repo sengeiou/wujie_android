@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_marginTop="15dp">
+
+    <ImageView
+        android:id="@+id/banner_img"
+        android:layout_width="87dp"
+        android:layout_height="87dp"
+        android:layout_marginTop="7dp"
+        android:layout_marginStart="2dp"
+        tools:src="@drawable/goods_manage" />
+
+    <ImageView
+        android:id="@+id/state_img"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:layout_gravity="right"
+        android:layout_marginStart="83dp"
+        android:src="@drawable/poster_drawable" />
+</FrameLayout>

@@ -145,7 +145,7 @@
                 android:paddingTop="11dp"
                 android:textColor="@color/black"
                 android:textSize="13sp"
-                tools:text="用卷类型：红券" />
+                tools:text="用券类型：红券" />
 
             <TextView
                 android:id="@+id/shop_order_item_voucher_proportion"
@@ -155,7 +155,7 @@
                 android:layout_marginTop="8dp"
                 android:textColor="@color/black"
                 android:textSize="13sp"
-                tools:text="用卷比例：50%" />
+                tools:text="用券比例：50%" />
         </RelativeLayout>
     </LinearLayout>
     <View

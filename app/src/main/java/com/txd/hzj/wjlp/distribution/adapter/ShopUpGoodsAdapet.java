@@ -55,11 +55,9 @@ public class ShopUpGoodsAdapet extends BaseAdapter{
             convertView = View.inflate(context, R.layout.shop_up_goods_gr_view_item, null);
             hodler.nameItem = convertView.findViewById(R.id.name_item);
             hodler.nameItem.setText(list.get(position).toString());
-
             convertView.setTag(hodler);
         } else {
             hodler = (ViewHodler) convertView.getTag();
-            notifyDataSetChanged();
         }
         if (clickTemp == position) {
             hodler.nameItem.setBackgroundResource(R.drawable.gr_item_back_white);

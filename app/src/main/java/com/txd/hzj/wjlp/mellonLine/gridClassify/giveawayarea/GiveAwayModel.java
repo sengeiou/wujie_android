@@ -21,7 +21,7 @@ public class GiveAwayModel {
         RequestParams params = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
         params.addBodyParameter("p", p);
-        apiTool2.postApis(Config.OFFICIAL_WEB + "Api/GiftGoods/giftGoodsIndex", params, baseView);
+        apiTool2.postApi(Config.OFFICIAL_WEB + "Api/GiftGoods/giftGoodsIndex", params, baseView);
     }
 
     /**
@@ -32,7 +32,7 @@ public class GiveAwayModel {
         RequestParams params = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
         params.addBodyParameter("gift_goods_id", gift_goods_id);
-        apiTool2.postApis(Config.OFFICIAL_WEB + "Api/GiftGoods/giftGoodsInfo", params, baseView);
+        apiTool2.postApi(Config.OFFICIAL_WEB + "Api/GiftGoods/giftGoodsInfo", params, baseView);
     }
 
     /**
@@ -49,7 +49,7 @@ public class GiveAwayModel {
         if (!address_id.isEmpty()){
             params.addBodyParameter("address_id", address_id);
         }
-        apiTool2.postApis(Config.OFFICIAL_WEB + "Api/GiftGoodsOrder/shoppingCart", params, baseView);
+        apiTool2.postApi(Config.OFFICIAL_WEB + "Api/GiftGoodsOrder/shoppingCart", params, baseView);
     }
 
 
@@ -74,7 +74,7 @@ public class GiveAwayModel {
         params.addBodyParameter("invoice", invoice);
         params.addBodyParameter("order_type", "15");
 
-        apiTool2.postApis(Config.OFFICIAL_WEB + "Api/GiftGoodsOrder/setOrder", params, baseView);
+        apiTool2.postApi(Config.OFFICIAL_WEB + "Api/GiftGoodsOrder/setOrder", params, baseView);
     }
 
 
@@ -90,7 +90,7 @@ public class GiveAwayModel {
         params.addBodyParameter("order_type", "15");
         params.addBodyParameter("goods_num", goods_num);
 
-        apiTool2.postApis(Config.OFFICIAL_WEB + "Api/GiftGoodsPay/giftGoodsPay", params, baseView);
+        apiTool2.postApi(Config.OFFICIAL_WEB + "Api/GiftGoodsPay/giftGoodsPay", params, baseView);
     }
 
 
@@ -122,7 +122,7 @@ public class GiveAwayModel {
         params.addBodyParameter("order_status", order_status);
         params.addBodyParameter("p", String.valueOf(p));
 
-        apiTool2.postApis(Config.OFFICIAL_WEB + "Api/GiftGoodsOrder/OrderList", params, baseView);
+        apiTool2.postApi(Config.OFFICIAL_WEB + "Api/GiftGoodsOrder/OrderList", params, baseView);
     }
 
 
@@ -134,7 +134,7 @@ public class GiveAwayModel {
         RequestParams params = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
         params.addBodyParameter("order_id", order_id);
-        apiTool2.postApis(Config.OFFICIAL_WEB + "Api/GiftGoodsOrder/details", params, baseView);
+        apiTool2.postApi(Config.OFFICIAL_WEB + "Api/GiftGoodsOrder/details", params, baseView);
     }
 
     /**
@@ -145,7 +145,7 @@ public class GiveAwayModel {
         RequestParams params = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
         params.addBodyParameter("order_id", order_id);
-        apiTool2.postApis(Config.OFFICIAL_WEB + "Api/GiftGoodsOrder/CancelOrder", params, baseView);
+        apiTool2.postApi(Config.OFFICIAL_WEB + "Api/GiftGoodsOrder/CancelOrder", params, baseView);
     }
 
     /**
@@ -156,7 +156,7 @@ public class GiveAwayModel {
         RequestParams params = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
         params.addBodyParameter("order_id", order_id);
-        apiTool2.postApis(Config.OFFICIAL_WEB + "Api/GiftGoodsOrder/DeleteOrder", params, baseView);
+        apiTool2.postApi(Config.OFFICIAL_WEB + "Api/GiftGoodsOrder/DeleteOrder", params, baseView);
     }
 
 
@@ -170,7 +170,7 @@ public class GiveAwayModel {
         ApiTool2 apiTool2 = new ApiTool2();
         params.addBodyParameter("order_id", order_id);
         params.addBodyParameter("status", status);
-        apiTool2.postApis(Config.OFFICIAL_WEB + "Api/GiftGoodsOrder/Receiving", params, baseView);
+        apiTool2.postApi(Config.OFFICIAL_WEB + "Api/GiftGoodsOrder/Receiving", params, baseView);
     }
 
 
@@ -182,7 +182,7 @@ public class GiveAwayModel {
         RequestParams params = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
         params.addBodyParameter("order_id", order_id);
-        apiTool2.postApis(Config.OFFICIAL_WEB + "Api/GiftGoodsOrder/remind", params, baseView);
+        apiTool2.postApi(Config.OFFICIAL_WEB + "Api/GiftGoodsOrder/remind", params, baseView);
     }
 
     /**
@@ -193,7 +193,7 @@ public class GiveAwayModel {
         RequestParams params = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
         params.addBodyParameter("order_goods_id", order_goods_id);
-        apiTool2.postApis(Config.OFFICIAL_WEB + "Api/GiftGoodsOrder/delayReceiving", params, baseView);
+        apiTool2.postApi(Config.OFFICIAL_WEB + "Api/GiftGoodsOrder/delayReceiving", params, baseView);
     }
 
 
@@ -205,7 +205,7 @@ public class GiveAwayModel {
         RequestParams params = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
         params.addBodyParameter("p", String.valueOf(p));
-        apiTool2.postApis(Config.OFFICIAL_WEB + "Api/GiftGoodsVouchers/giftVoucherIndex", params, baseView);
+        apiTool2.postApi(Config.OFFICIAL_WEB + "Api/GiftGoodsVouchers/giftVoucherIndex", params, baseView);
     }
 
 
@@ -219,7 +219,7 @@ public class GiveAwayModel {
         ApiTool2 apiTool2 = new ApiTool2();
         params.addBodyParameter("id", id);
         params.addBodyParameter("p", String.valueOf(p));
-        apiTool2.postApis(Config.OFFICIAL_WEB + "Api/GiftGoodsVouchers/getGiftVouchersInfo", params, baseView);
+        apiTool2.postApi(Config.OFFICIAL_WEB + "Api/GiftGoodsVouchers/getGiftVouchersInfo", params, baseView);
     }
 
     /**
@@ -228,7 +228,7 @@ public class GiveAwayModel {
     public static void postGiftGoodsVouchersChangeMoney( BaseView baseView){
         RequestParams params = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
-        apiTool2.postApis(Config.OFFICIAL_WEB + "Api/GiftGoodsVouchers/changeMoney", params, baseView);
+        apiTool2.postApi(Config.OFFICIAL_WEB + "Api/GiftGoodsVouchers/changeMoney", params, baseView);
     }
 
 }

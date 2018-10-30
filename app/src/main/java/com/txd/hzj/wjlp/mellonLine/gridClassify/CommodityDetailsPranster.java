@@ -46,6 +46,7 @@ import com.txd.hzj.wjlp.view.ToastView;
 import com.yanzhenjie.permission.AndPermission;
 import com.yanzhenjie.permission.PermissionListener;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -59,6 +60,29 @@ public class CommodityDetailsPranster implements CommodityDetailsInter.Commodity
     protected CommodityDetailsInter.CommodityView commodityView;
     private Activity activity;
     private String phoneNo;
+    //1、普通商品(进口管、主题街) 2、拼单购 3、积分商城 4、分销（普通商品） 5、分销（399商品）
+    private String mType;
+    //商品id
+    private String mGoods_id;
+    //轮播图地址
+    private ArrayList<String> mImageUrls;
+
+    //商品名称
+    private String mGoods_name;
+    //商品简介
+    private String mGoods_brief;
+    //售价
+    private String mShop_price;
+    //市场价
+    private String mMarket_price;
+    //积分
+    private String mIntegral;
+    private String mTicket_buy_discount;
+    //已售数量
+    private String mSell_num;
+
+    //分销的shop_id
+    private String mShop_id;
 
     public CommodityDetailsPranster(CommodityDetailsInter.CommodityView view) {
         setView(view);
@@ -103,6 +127,24 @@ public class CommodityDetailsPranster implements CommodityDetailsInter.Commodity
 
     }
 
+    public void setData(Activity activity,String type,String id, ArrayList<String> images, String goods_name, String integral, String discount, String shop_price, String market_price, String shop_id, String goods_brief, String sell_num){
+        this.activity=activity;
+        mType=type;
+        mGoods_id=id;
+        mImageUrls=images;
+        mGoods_name=goods_name;
+        mIntegral=integral;
+        mTicket_buy_discount=discount;
+        mShop_price=shop_price;
+        mMarket_price=market_price;
+        mShop_id=shop_id;
+        mGoods_brief=goods_brief;
+        mSell_num=sell_num;
+
+    }
+
+
+
     private View.OnClickListener listener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -116,7 +158,8 @@ public class CommodityDetailsPranster implements CommodityDetailsInter.Commodity
                 break;
                 case R.id.title_details_layout: {
                     clickType = 2;
-                    limit_goods_details_sc.smoothScrollTo(0, secondHeight);
+//                    limit_goods_details_sc.smoothScrollTo(0, secondHeight);
+                    PosterAty.getInstance(activity,mType,mGoods_id,mImageUrls,mGoods_name,mIntegral,mTicket_buy_discount,mShop_price,mMarket_price,mShop_id,mGoods_brief,mSell_num);
                 }
                 break;
                 case R.id.title_evaluate_layout: {
@@ -147,10 +190,6 @@ public class CommodityDetailsPranster implements CommodityDetailsInter.Commodity
                 //                limit_goods_details_sc.setScrollViewListener(GoodLuckDetailsAty.this);
             }
         });
-
-        //        bannerHeight = online_carvouse_view.getHeight();
-        //        topHeight = top_lin_layout.getHeight();
-        //        secondHeight = second_lin_layout.getHeight();
         if (!init) {
             limit_goods_details_sc.setScrollViewListener(this);
             this.limit_goods_details_sc = limit_goods_details_sc;

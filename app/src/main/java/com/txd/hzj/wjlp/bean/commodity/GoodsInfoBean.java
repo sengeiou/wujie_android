@@ -70,6 +70,24 @@ public class GoodsInfoBean implements Serializable {
     private String product_id;// //属性id
     private String cate_id;//"商品二级分类id",
     private String group_num;//"成单所需人数"
+    private String gift_goods_id;
+    private String use_voucher;
+
+    public String getUse_voucher() {
+        return use_voucher;
+    }
+
+    public void setUse_voucher(String use_voucher) {
+        this.use_voucher = use_voucher;
+    }
+
+    public String getGift_goods_id() {
+        return gift_goods_id;
+    }
+
+    public void setGift_goods_id(String gift_goods_id) {
+        this.gift_goods_id = gift_goods_id;
+    }
 
     public String getCate_id() {
         return cate_id;

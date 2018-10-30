@@ -90,10 +90,10 @@ public class ShopOrderManageAdapter extends RecyclerView.Adapter {
             } else if ("3".equals(ticket_color)) {
                 type = "蓝券";
             }
-            instance.forTextColor(context, holders.vouvherType, "用卷类型：" + type, 5, Color.parseColor("#777777"));
+            instance.forTextColor(context, holders.vouvherType, "用券类型：" + type, 5, Color.parseColor("#777777"));
         }
 
-        instance.forTextColor(context, holders.proportion, "用卷金额：50%", 5, Color.parseColor("#777777"));
+        instance.forTextColor(context, holders.proportion, "用券金额："+dataBean.getTicket_price(), 5, Color.parseColor("#777777"));
 
         List<ShopOrderBean.DataBean.OrderGoodsBean> order_goods = dataBean.getOrder_goods();
 

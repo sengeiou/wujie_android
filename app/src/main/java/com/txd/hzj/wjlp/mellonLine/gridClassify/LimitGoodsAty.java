@@ -680,6 +680,18 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
     private CommodityDetailsInter.CommodityPranster commodityPranster;
     private String goods_name = "";
 
+    //售价
+    private String mShop_price;
+    //市场价
+    private String mMarket_price;
+    //积分
+    private String mIntegral;
+    private String mTicket_buy_discount;
+    //已售数量
+    private String mCat_id;
+    //轮播图
+    private ArrayList<String> mImageUrls;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -966,6 +978,10 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
                     // 轮播图
                     if (null != banners && banners.size() > 0) {
                         image = banners;
+                        mImageUrls=new ArrayList<>();
+                        for (int i = 0; i < banners.size(); i++) {
+                            mImageUrls.add(banners.get(i).getPath());
+                        }
                         forBanner();
                     }
                     // 商品基本信息
@@ -1360,6 +1376,7 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
                         layout_cheap_group.setVisibility(View.GONE);
 
                     }
+                    commodityPranster.setData(LimitGoodsAty.this,"3",limit_buy_id,mImageUrls,goods_name,goodsInfo.getIntegral(),goodsInfo.getTicket_buy_discount(),goodsInfo.getShop_price(),goodsInfo.getMarket_price(),"",goodsInfo.getGoods_brief(),goodsInfo.getSell_num());
                 }
             });
             return;
@@ -1377,9 +1394,8 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
             return;
         }
     }
-
     @Override
-    @OnClick({R.id.title_goods_layout, R.id.title_details_layout, R.id.title_evaluate_layout,
+    @OnClick({
             R.id.goods_title_collect_layout, R.id.goods_title_share_tv, R.id.show_or_hide_iv,
             R.id.show_or_hide_lv_iv, R.id.show_or_hide_explain_iv, R.id.be_back_top_iv, R.id.tv_showClassify,
             R.id.go_to_cart_layout, R.id.to_main_layout, R.id.details_into_mell_tv, R.id.tv_dpg,
@@ -1399,32 +1415,10 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
                 break;
             }
             case R.id.tv_chose_ads:
-                //                if (isLoaded) {
-                //                    ShowPickerView();
-                //                }
                 ProUrbAreaUtil.gainInstance().showPickerView(tv_chose_ads, goods_id, String.valueOf(goods_number), product_id, LimitGoodsAty.this, LimitGoodsAty.this);
                 break;
             case R.id.tv_showClassify:
-                //                Intent intent = new Intent();
-                //                intent.putExtra("appBarTitle", goodsInfo.getTwo_cate_name());
-                //                intent.putExtra("two_cate_id", goodsInfo.getCate_id());
-                //                intent.setClass(this, SubclassificationAty.class);
-                //                startActivity(intent);
                 toClassify(v, goodsInfo.getTop_cate_id());
-                break;
-            case R.id.title_goods_layout://商品
-                clickType = 1;
-                limit_goods_details_sc.smoothScrollTo(0, 0);
-                break;
-            case R.id.title_details_layout://详情
-                clickType = 2;
-                setTextViewAndViewColor(1);
-                limit_goods_details_sc.smoothScrollTo(0, secondHeight);
-                break;
-            case R.id.title_evaluate_layout://评价
-                clickType = 3;
-                setTextViewAndViewColor(2);
-                limit_goods_details_sc.smoothScrollTo(0, topHeighe);
                 break;
             case R.id.goods_title_collect_layout://收藏,取消收藏
                 if (!Config.isLogin()) {

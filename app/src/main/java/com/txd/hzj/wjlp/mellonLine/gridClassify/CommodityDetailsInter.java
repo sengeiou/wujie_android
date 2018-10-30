@@ -14,6 +14,7 @@ import com.txd.hzj.wjlp.view.ObservableScrollView;
 import com.txd.hzj.wjlp.view.ToastView;
 import com.yanzhenjie.permission.PermissionListener;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -74,6 +75,8 @@ public interface CommodityDetailsInter {
         void isCollect(String is_collect, String viewContent, View view, Context context);
 
         void chat_merchant(String merchant_id, Activity activity, String phoneNo);
+
+        void setData(Activity activity, String type, String id, ArrayList<String> images, String goods_name, String integral, String discount, String shop_price, String market_price, String shop_id, String goods_brief, String sell_num);
 
         /**
          *拨打电话

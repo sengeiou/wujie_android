@@ -148,6 +148,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
      */
     private ArrayList<Map<String, String>> image;
 
+    private ArrayList<String> imageUrls;
     /**
      * 现价
      */
@@ -520,6 +521,17 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
      * 区别标识（字段 is_active == 3 是2980商品）
      */
     private String mIs_active = "0";
+    //商品名称
+    private String mGoods_name;
+    //售价
+    private String mShop_price;
+    //市场价
+    private String mMarket_price;
+    //积分
+    private String mIntegral;
+    private String mTicket_buy_discount;
+    //已售数量
+    private String mSell_num;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -571,7 +583,8 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
                 break;
             case R.id.title_details_layout:// 详情
                 clickType = 2;
-                limit_goods_details_sc.smoothScrollTo(0, secondHeight);
+//                limit_goods_details_sc.smoothScrollTo(0, secondHeight);
+                PosterAty.getInstance(TicketGoodsDetialsAty.this,"1",goods_id,imageUrls,mGoods_name,mIntegral,mTicket_buy_discount,mShop_price,mMarket_price,"",share_content,mSell_num);
                 break;
             case R.id.title_evaluate_layout:// 评价
                 clickType = 3;
@@ -1023,6 +1036,10 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
             // 轮播图
             if (ToolKit.isList(data, "goods_banner")) {
                 image = JSONUtils.parseKeyAndValueToMapList(data.get("goods_banner"));
+                imageUrls=new ArrayList<>();
+                for (int i = 0; i < image.size(); i++) {
+                    imageUrls.add(image.get(i).get("path"));
+                }
                 forBanner();
             }
             //            goodsAttrs = GsonUtil.getObjectList(data.get("goods_attr"), GoodsAttrs.class);
@@ -1451,12 +1468,15 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
         showProgressDialog();
         // 商品价格
         // ChangeTextViewStyle.getInstance().forGoodsPrice(this, now_price_tv, "￥" + goodsInfo.get("shop_price"));
-        now_price_tv.setText(goodsInfo.get("shop_price"));
+        mShop_price = goodsInfo.get("shop_price");
+        now_price_tv.setText(mShop_price);
         // 商品原价
-        old_price_tv.setText("￥" + goodsInfo.get("market_price"));
+        mMarket_price = goodsInfo.get("market_price");
+        old_price_tv.setText("￥" + mMarket_price);
         old_price_tv.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
         // 积分
-        ChangeTextViewStyle.getInstance().forTextColor(this, goods_profit_num_tv, "积分" + goodsInfo.get("integral"), 2, Color.parseColor("#FF0000"));
+        mIntegral = goodsInfo.get("integral");
+        ChangeTextViewStyle.getInstance().forTextColor(this, goods_profit_num_tv, "积分" + mIntegral, 2, Color.parseColor("#FF0000"));
         // 运费(待定)
         ChangeTextViewStyle.getInstance().forTextColor(this, freight_tv, "运费10元", 2, Color.parseColor("#FF0000"));
         // 文字描述
@@ -1465,7 +1485,8 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
 
 
         goods_desc_wv.loadDataWithBaseURL(null, goodsInfo.get("goods_desc"), "text/html", "utf-8", null);
-        goods_details_name_tv.setText(goodsInfo.get("goods_name"));
+        mGoods_name = goodsInfo.get("goods_name");
+        goods_details_name_tv.setText(mGoods_name);
         // 长按标题进行复制标题文字
         goods_details_name_tv.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
@@ -1491,7 +1512,8 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
                 return false;
             }
         });
-        ticket_goods_tv.setText("可使用" + goodsInfo.get("ticket_buy_discount") + "%代金券");
+        mTicket_buy_discount = goodsInfo.get("ticket_buy_discount");
+        ticket_goods_tv.setText("可使用" + mTicket_buy_discount + "%代金券");
         /**判断这块儿显示和隐藏
          * "is_new_goods": "1",//是否是新品  0不是 1是
          "is_new_goods_desc": "此件商品是旧货八五成新",//新品描述
@@ -1507,7 +1529,8 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
         } else {
             tv_expirationdate.setVisibility(View.GONE);
         }
-        tv_salesvolume.setText("销量\t" + goodsInfo.get("sell_num"));
+        mSell_num = goodsInfo.get("sell_num");
+        tv_salesvolume.setText("销量\t" + mSell_num);
         tv_inventory.setText("库存\t" + goodsInfo.get("goods_num"));
         is_attr = is_attr + "-" + goodsInfo.get("goods_num");
         //        tv_freight.setText(goodsInfo.get(""));

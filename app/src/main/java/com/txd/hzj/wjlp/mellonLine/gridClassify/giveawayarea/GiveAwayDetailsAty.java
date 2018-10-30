@@ -61,6 +61,7 @@ import com.txd.hzj.wjlp.bean.commodity.GoodsBean;
 import com.txd.hzj.wjlp.bean.commodity.GoodsCommonAttrBean;
 import com.txd.hzj.wjlp.bean.commodity.GoodsPriceDescBean;
 import com.txd.hzj.wjlp.bean.commodity.GoodsServerBean;
+import com.txd.hzj.wjlp.bean.commodity.LimitGoodsInfo;
 import com.txd.hzj.wjlp.bean.commodity.MInfoBean;
 import com.txd.hzj.wjlp.bean.commodity.PicturesBean;
 import com.txd.hzj.wjlp.bean.commodity.PromotionBean;
@@ -628,7 +629,7 @@ public class GiveAwayDetailsAty extends BaseAty implements ObservableScrollView.
 
     private List<DjTicketBean> dj_ticket;
     private List<PromotionBean> promotionBeen;
-    private Map<String, String> goodsInfo;
+    private LimitGoodsInfo goodsInfo;
 
     private List<FirstListBean> goods_attr_first;
     private List<FirstValBean> first_val;
@@ -666,6 +667,7 @@ public class GiveAwayDetailsAty extends BaseAty implements ObservableScrollView.
 
     private CommodityDetailsInter.CommodityPranster commodityPranster;
     private String goods_name = "";
+    private ArrayList<String> mImageUrls;
 
     @Override
     protected int getLayoutResId() {
@@ -784,7 +786,7 @@ public class GiveAwayDetailsAty extends BaseAty implements ObservableScrollView.
                     intent.setClass(GiveAwayDetailsAty.this, BuildOrderAty.class);
                     startActivity(intent);
                 } else {
-                    toAttrs(v, 0, WJConfig.TYPE_ZPZQ, goods_id + "-" + mell_id, JSONUtils.getMapValue(goodsInfo, "goods_img"), JSONUtils.getMapValue(goodsInfo, "use_voucher"), limit_buy_id, goods_attr_first, first_val, is_attr);
+                    toAttrs(v, 0, WJConfig.TYPE_ZPZQ, goods_id + "-" + mell_id, goodsInfo.getGoods_img(), goodsInfo.getUse_voucher(), limit_buy_id, goods_attr_first, first_val, is_attr);
                 }
             }
         });
@@ -823,7 +825,7 @@ public class GiveAwayDetailsAty extends BaseAty implements ObservableScrollView.
                     intent.setClass(GiveAwayDetailsAty.this, BuildOrderAty.class);
                     startActivity(intent);
                 } else {
-                    toAttrs(v, 0, WJConfig.TYPE_ZPZQ, goods_id + "-" + mell_id, JSONUtils.getMapValue(goodsInfo, "goods_img"), JSONUtils.getMapValue(goodsInfo, "use_voucher"), limit_buy_id, goods_attr_first, first_val, is_attr);
+                    toAttrs(v, 0, WJConfig.TYPE_ZPZQ, goods_id + "-" + mell_id, goodsInfo.getGoods_img(), goodsInfo.getUse_voucher(), limit_buy_id, goods_attr_first, first_val, is_attr);
                 }
             }
         });
@@ -874,18 +876,21 @@ public class GiveAwayDetailsAty extends BaseAty implements ObservableScrollView.
                 // 轮播图
                 if (null != banners && banners.size() > 0) {
                     image = banners;
+                    mImageUrls=new ArrayList<>();
+                    for (int i = 0; i < banners.size(); i++) {
+                        mImageUrls.add(banners.get(i).getPath());
+                    }
                     forBanner();
                 }
             }
 
             // 商品基本信息
 
-            goodsInfo = JSONUtils.parseKeyAndValueToMap(JSONUtils.getMapValue(data, "goodsInfo"));
-
+            goodsInfo = JSONObject.parseObject(JSONUtils.getMapValue(data, "goodsInfo"), LimitGoodsInfo.class);
             /**
              *以下表示如果buy_status==0，表示当前商品已经下架
              * */
-            String buyStatusStr = JSONUtils.getMapValue(goodsInfo, "buy_status");
+            String buyStatusStr = goodsInfo.getBuy_status();
             if (!TextUtils.isEmpty(buyStatusStr) && buyStatusStr.equals("0")) {
                 CustomDialog.Builder dialog = new CustomDialog.Builder(GiveAwayDetailsAty.this);
                 dialog.setCancelable(false);
@@ -902,57 +907,55 @@ public class GiveAwayDetailsAty extends BaseAty implements ObservableScrollView.
 
 
             is_attr = JSONUtils.getMapValue(data, "is_attr");
-            is_attr = is_attr + "-" + JSONUtils.getMapValue(goodsInfo, "goods_num");
+            is_attr = is_attr + "-" + goodsInfo.getGoods_num();
             // 商品id
-            goods_id = JSONUtils.getMapValue(goodsInfo, "gift_goods_id");
-            goods_name = JSONUtils.getMapValue(goodsInfo, "goods_name");
+            goods_id = goodsInfo.getGift_goods_id();
+            goods_name = goodsInfo.getGoods_name();
 
             String tx = DemoApplication.getInstance().getLocInfo().get("province")
                     + "," + DemoApplication.getInstance().getLocInfo().get("city") + "," + DemoApplication.getInstance().getLocInfo().get("district");
             tv_chose_ads.setText(tx);
             commodityPranster.freight(goods_id, tx, String.valueOf(goods_number), product_id);
 
-            if (JSONUtils.getMapValue(goodsInfo, "is_new_goods").equals("0") && JSONUtils.getMapValue(goodsInfo, "is_end").equals("1")) {
-                tv_expirationdate.setText(JSONUtils.getMapValue(goodsInfo, "is_new_goods_desc") + "\n" + JSONUtils.getMapValue(goodsInfo, "is_end_desc"));
-            } else if (JSONUtils.getMapValue(goodsInfo, "is_new_goods").equals("0")) {
-                tv_expirationdate.setText(JSONUtils.getMapValue(goodsInfo, "is_new_goods_desc"));
-            } else if (JSONUtils.getMapValue(goodsInfo, "is_end").equals("1")) {
-                tv_expirationdate.setText(JSONUtils.getMapValue(goodsInfo, "is_end_desc"));
+            if (goodsInfo.getIs_new_goods().equals("0") && goodsInfo.getIs_end().equals("1")) {
+                tv_expirationdate.setText(goodsInfo.getIs_new_goods_desc() + "\n" + goodsInfo.getIs_end_desc());
+            } else if (goodsInfo.getIs_new_goods().equals("0")) {
+                tv_expirationdate.setText(goodsInfo.getIs_new_goods_desc());
+            } else if (goodsInfo.getIs_end().equals("1")) {
+                tv_expirationdate.setText(goodsInfo.getIs_end_desc());
             } else {
                 tv_expirationdate.setVisibility(View.GONE);
             }
-
-            tv_wy_price.setText("¥" + JSONUtils.getMapValue(goodsInfo, "wy_price"));
-            tv_yx_price.setText("¥" + JSONUtils.getMapValue(goodsInfo, "yx_price"));
-            commodityPranster.setBitmap(GiveAwayDetailsAty.this, JSONUtils.getMapValue(goodsInfo, "country_logo"), im_country_logo);
-            commodityPranster.setTextContent(JSONUtils.getMapValue(goodsInfo, "country_desc"), tv_country_desc);
-            commodityPranster.setTextContent(JSONUtils.getMapValue(goodsInfo, "country_tax") + "积分", tv_country_tax);
-            if (Double.parseDouble(JSONUtils.getMapValue(goodsInfo, "country_tax")) <= 0) {
+            tv_wy_price.setText("¥" +goodsInfo.getWy_price());
+            tv_yx_price.setText("¥" + goodsInfo.getYx_price());
+            commodityPranster.setBitmap(GiveAwayDetailsAty.this, goodsInfo.getCountry_logo(), im_country_logo);
+            commodityPranster.setTextContent(goodsInfo.getCountry_desc(), tv_country_desc);
+            commodityPranster.setTextContent(goodsInfo.getCountry_tax() + "积分", tv_country_tax);
+            if (Double.parseDouble(goodsInfo.getCountry_tax()) <= 0) {
                 layou_jinkoushui.setVisibility(View.GONE);
             }
 
-            tv_brief.setText(JSONUtils.getMapValue(goodsInfo, "goods_brief"));
+            tv_brief.setText(goodsInfo.getGoods_brief());
             layout_djq.setVisibility(View.GONE);
-            tv_kucun.setText("库存" + JSONUtils.getMapValue(goodsInfo, "goods_num"));
+            tv_kucun.setText("库存" + goodsInfo.getGoods_num());
             layout_jgsm.setVisibility(View.GONE);
             tv_rmb.setVisibility(View.GONE);
             count_down_layout.setVisibility(View.GONE);
             goods_pro_layout.setVisibility(View.GONE);
             goods_profit_num_tv.setVisibility(View.GONE);
-            old_price_tv.setText("￥" + JSONUtils.getMapValue(goodsInfo, "market_price"));
+            old_price_tv.setText("￥" + goodsInfo.getMarket_price());
             old_price_tv.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
-            now_price_tv.setText("此物品兑换，需要" + JSONUtils.getMapValue(goodsInfo, "use_voucher") + "赠品券");
+            now_price_tv.setText("此物品兑换，需要" + goodsInfo.getUse_voucher() + "赠品券");
             now_price_tv.setTextSize(16f);
-            //goods_residue_tv.setText("已兑换" + goodsInfo.getSell_num() + "件");
             goods_residue_tv.setVisibility(View.GONE);
             tv_ljgm.setText("立即兑换");
 
             // 商品名称
             goods_details_name_tv.setText(goods_name);
 
-            goods_brief_tv.loadDataWithBaseURL(null, JSONUtils.getMapValue(goodsInfo, "goods_brief"), "text/html", "utf-8", null);
+            goods_brief_tv.loadDataWithBaseURL(null, goodsInfo.getGoods_brief(), "text/html", "utf-8", null);
 
-            goods_desc_wv.loadDataWithBaseURL(null, JSONUtils.getMapValue(goodsInfo, "goods_desc"), "text/html", "utf-8", null);
+            goods_desc_wv.loadDataWithBaseURL(null, goodsInfo.getGoods_desc(), "text/html", "utf-8", null);
 
             // 商家信息
             mInfo = JSONObject.parseObject(JSONUtils.getMapValue(data, "mInfo"), MInfoBean.class);
@@ -987,9 +990,8 @@ public class GiveAwayDetailsAty extends BaseAty implements ObservableScrollView.
                     "卖家服务" + mInfo.getMerchant_score(), 4, Color.parseColor("#FF0000"));
             ChangeTextViewStyle.getInstance().forTextColor(GiveAwayDetailsAty.this, log_serve_tv,
                     "物流服务" + mInfo.getShipping_score(), 4, Color.parseColor("#FF0000"));
-
-            tv_bzqd.setText(JSONUtils.getMapValue(goodsInfo, "package_list")); //包装清单
-            tv_shfw.setText(JSONUtils.getMapValue(goodsInfo, "after_sale_service")); //售后服务
+            tv_bzqd.setText(goodsInfo.getPackage_list()); //包装清单
+            tv_shfw.setText(goodsInfo.getAfter_sale_service() ); //售后服务
             tv_jgsm.setText(JSONUtils.getMapValue(data, "price_desc")); //价格说明
             // 促销活动
             if (null != JSONUtils.parseKeyAndValueToMapList(JSONUtils.getMapValue(data, "promotion")) && JSONUtils.parseKeyAndValueToMapList(JSONUtils.getMapValue(data, "promotion")).size() > 0) {
@@ -1071,7 +1073,7 @@ public class GiveAwayDetailsAty extends BaseAty implements ObservableScrollView.
                 layout_service.setVisibility(View.GONE);
             }
 
-            List<DjTicketBean> dj_ticketList = JSONObject.parseArray(JSONUtils.getMapValue(goodsInfo, "dj_ticket"), DjTicketBean.class);
+            List<DjTicketBean> dj_ticketList = goodsInfo.getDj_ticket();
             if (null != dj_ticketList && dj_ticketList.size() > 0) {
                 dj_ticket = dj_ticketList;
                 for (int i = 0; i < dj_ticket.size(); i++) {
@@ -1151,6 +1153,7 @@ public class GiveAwayDetailsAty extends BaseAty implements ObservableScrollView.
                 layout_cheap_group.setVisibility(View.GONE);
 
             }
+            commodityPranster.setData(GiveAwayDetailsAty.this, "5", limit_buy_id, mImageUrls, goods_name, goodsInfo.getIntegral(), goodsInfo.getTicket_buy_discount(), goodsInfo.getShop_price(), goodsInfo.getMarket_price(), "", goodsInfo.getGoods_brief(), goodsInfo.getSell_num());
             return;
         }
         if (requestUrl.contains("addCollect")) {// 添加收藏
@@ -1194,7 +1197,7 @@ public class GiveAwayDetailsAty extends BaseAty implements ObservableScrollView.
                 ProUrbAreaUtil.gainInstance().showPickerView(tv_chose_ads, goods_id, String.valueOf(goods_number), product_id, GiveAwayDetailsAty.this, GiveAwayDetailsAty.this);
                 break;
             case R.id.tv_showClassify:
-                toClassify(v, JSONUtils.getMapValue(goodsInfo, "top_cate_id"));
+                toClassify(v, goodsInfo.getTop_cate_id());
                 break;
             case R.id.title_goods_layout://商品
                 clickType = 1;
@@ -1320,7 +1323,7 @@ public class GiveAwayDetailsAty extends BaseAty implements ObservableScrollView.
                 //                showLQPop(v, "领券");
                 break;
             case R.id.layout_layout_settings:
-                toAttrs(v, 4, WJConfig.TYPE_ZPZQ, goods_id + "-" + mell_id, JSONUtils.getMapValue(goodsInfo, "goods_img"), JSONUtils.getMapValue(goodsInfo, "use_voucher"), limit_buy_id, goods_attr_first, first_val, is_attr);
+                toAttrs(v, 4, WJConfig.TYPE_ZPZQ, goods_id + "-" + mell_id, goodsInfo.getGoods_img(), goodsInfo.getUse_voucher(), limit_buy_id, goods_attr_first, first_val, is_attr);
                 break;
             case R.id.tv_dpg:
                 Bundle bundle1 = new Bundle();

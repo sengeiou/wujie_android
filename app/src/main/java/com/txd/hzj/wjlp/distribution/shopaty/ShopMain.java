@@ -17,7 +17,6 @@ import com.ants.theantsgo.util.JSONUtils;
 import com.ants.theantsgo.util.PreferencesUtils;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
-import com.txd.hzj.wjlp.distribution.bean.DistributionGoodsBean;
 import com.txd.hzj.wjlp.distribution.presenter.ShopExhibitPst;
 import com.txd.hzj.wjlp.mellonLine.gridClassify.ToShareAty;
 
@@ -131,7 +130,7 @@ public class ShopMain extends BaseAty implements OnClickListener {
 
     @Override
     protected void requestData() {
-        titleName.setText("店铺管理");
+        titleName.setText("我的店铺");
         if (null != mExhibitPst && !TextUtils.isEmpty(mShop_id)) {
             mExhibitPst.shops(mShop_id);
         }

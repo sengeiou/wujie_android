@@ -114,23 +114,27 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:background="@color/bg_color" />
+                <View
+                    android:background="@color/white"
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp"/>
 
                 <GridView
                     android:id="@+id/gr_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/white"
-                    android:horizontalSpacing="12dp"
                     android:listSelector="@android:color/transparent"
                     android:numColumns="4"
-                    android:paddingBottom="18dp"
                     android:paddingEnd="10dp"
                     android:paddingStart="10dp"
-                    android:paddingTop="12dp"
                     android:scrollbars="none"
-                    android:verticalSpacing="20dp"
+                    android:verticalSpacing="10dp"
                     android:visibility="visible" />
-
+                <View
+                    android:background="@color/white"
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp"/>
                 <View
                     android:id="@+id/shop_view_backs"
                     android:layout_width="match_parent"

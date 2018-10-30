@@ -3,6 +3,7 @@ package com.txd.hzj.wjlp.tool;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -10,6 +11,9 @@ import android.provider.MediaStore;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 /**
  * 创建者：Qyl
@@ -34,6 +38,37 @@ public class BitmapUtils {
 
     public interface Listener {
         void saveSuccess();
+    }
+
+    public void savePic(final Context context, final String url, final String picName, final Listener listener){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                getBitmap(context,url,picName,listener);
+            }
+        }).start();
+    }
+
+    private void getBitmap(Context context,String imageUrl,String picName,  Listener listener){
+        URL url = null;
+        HttpURLConnection conn = null;
+        try {
+            url = new URL(imageUrl);
+            conn = (HttpURLConnection)url.openConnection();
+            conn.setConnectTimeout(5000);
+            conn.setRequestMethod("GET");
+            if(conn.getResponseCode() == 200) {
+                InputStream inputStream = conn.getInputStream();
+                Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+                saveBmp2Gallery(context,bitmap,picName,listener);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }finally {
+            conn.disconnect();
+        }
+
     }
 
     public void saveBmp2Gallery(Context context, Bitmap bmp, String picName, Listener listener) {

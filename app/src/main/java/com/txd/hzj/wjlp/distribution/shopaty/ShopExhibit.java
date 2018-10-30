@@ -107,20 +107,15 @@ public class ShopExhibit extends BaseAty implements AdapterView.OnItemClickListe
         mExhibitPst = new ShopExhibitPst(this);
         fragments = new ArrayList<>();
 
-        myAdapter = new ShopUpGoodsAdapet(this, lists);
-        //注册点击事件
-        grView.setAdapter(myAdapter);
+
         spread_img.setOnClickListener(this);
         ll_view.setOnClickListener(this);
         viewBack.setOnClickListener(this);
         back.setOnClickListener(this);
-        grView.setOnItemClickListener(this);
         exhibit_tab_layout.setOnTabSelectListener(new OnTabSelectListener() {
             @Override
             public void onTabSelect(int position) {
-//                pos=position;
-//                cate_id=mTwo_cate_list.get(position).getId();
-//                mExhibitPst.goodsList("1",cate_id,1);
+
             }
 
             @Override
@@ -135,8 +130,7 @@ public class ShopExhibit extends BaseAty implements AdapterView.OnItemClickListe
         super.onItemClick(parent, view, position, id);
         myAdapter.setseclection(position);
         myAdapter.notifyDataSetChanged();
-        exhibit_tab_layout.onPageScrolled(position, 0, 0);
-        exhibit_tab_layout.onPageSelected(position);
+        exhibit_tab_layout.setCurrentTab(position);
         ll_view.setVisibility(View.GONE);
         ll_view.setAnimation(moveToViewLocation());
     }
@@ -159,6 +153,10 @@ public class ShopExhibit extends BaseAty implements AdapterView.OnItemClickListe
                 fragments.add(ShopExhibitFragment.newInstance(topNavBean.getCate_id()));
                 lists.add(topNavBean.getShort_name());
             }
+            myAdapter = new ShopUpGoodsAdapet(this, lists);
+            //注册点击事件
+            grView.setAdapter(myAdapter);
+            grView.setOnItemClickListener(this);
             // ViewPager设置适配器
             vp_for_exhibit.setAdapter(myPagerAdapter);
             // TabLayout绑定ViewPager
