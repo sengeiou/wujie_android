@@ -123,6 +123,7 @@ public class ShopPersonBean {
              * path : null
              * set_name :
              * "profit_num": "100",
+             * "is_balance": 1, //1：余额 0: 积分
              * head_path : http://test.wujiemall.com/Uploads/User/default.png
              */
 
@@ -175,6 +176,15 @@ public class ShopPersonBean {
             private String set_name;
             private String head_path;
             private String profit_num;
+            private String is_balance;
+
+            public String getIs_balance() {
+                return is_balance;
+            }
+
+            public void setIs_balance(String is_balance) {
+                this.is_balance = is_balance;
+            }
 
             public String getProfit_num() {
                 return profit_num;
@@ -618,6 +628,7 @@ public class ShopPersonBean {
              * head_pic : 23436
              * path : /Uploads/User/2018-06-01/5b10b070b764f.jpg
              * set_name : 中级
+             * "is_balance": 1, //1：余额 0: 积分
              * head_path : http://test.wujiemall.com/Uploads/User/2018-06-01/5b10b070b764f.jpg
              */
 
@@ -670,6 +681,15 @@ public class ShopPersonBean {
             private String set_name;
             private String head_path;
             private String profit_num;
+            private String is_balance;
+
+            public String getIs_balance() {
+                return is_balance;
+            }
+
+            public void setIs_balance(String is_balance) {
+                this.is_balance = is_balance;
+            }
 
             public String getProfit_num() {
                 return profit_num;

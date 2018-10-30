@@ -237,7 +237,7 @@ public class PayForAppAty extends BaseAty {
                     //                        startActivity(EditPayPasswordAty.class, bundle);
                     //
                     //                    }
-                    if (TextUtils.isEmpty(mType) || mType.equals("1") || mType.equals("5") || mType.equals("0")) {
+                    if (TextUtils.isEmpty(mType) || mType.equals("1") || mType.equals("5") || mType.equals("0") || mType.equals(WJConfig.TYPE_SJJZQ)) {
                         Pay.getJsTine(order.get("order_id"), getType(), "4", this);
                     } else if (mType.equals("2") || mType.equals("3") || mType.equals("4")) {
                         Pay.getJsTine(order.get("group_buy_order_id"), getType(), "6", this);
@@ -266,7 +266,7 @@ public class PayForAppAty extends BaseAty {
                     //                        startActivity(EditPayPasswordAty.class, bundle);
                     //
                     //                    }
-                    if (TextUtils.isEmpty(mType) || mType.equals("0") || mType.equals("1") || mType.equals("5")) {
+                    if (TextUtils.isEmpty(mType) || mType.equals("0") || mType.equals("1") || mType.equals("5") || mType.equals(WJConfig.TYPE_SJJZQ)) {
                         Pay.getAlipayParam(order.get("order_id"), getType(), "4", this);
                     } else if (mType.equals("2") || mType.equals("3") || mType.equals("4")) {
                         Pay.getAlipayParam(order.get("group_buy_order_id"), getType(), "6", this);
@@ -383,7 +383,7 @@ public class PayForAppAty extends BaseAty {
         freight_type = getString("freight_type");
         tv_shopname.setText(shop_name);
         decimalFormat = new DecimalFormat("0.00");
-        if (mType.equals("0") || mType.equals("1") || TextUtils.isEmpty(mType)) {
+        if (mType.equals("0") || mType.equals("1") || TextUtils.isEmpty(mType) || mType.equals(WJConfig.TYPE_SJJZQ)) {
             Order.setOrder(address_id, "0", order_id, "", "", getString("invoiceList"), getString("leave_message"), TextUtils.isEmpty(cart_id) ? getString("goodsList") : getString("goodsCartList"), this);
         } else if (mType.equals("2")) {
             GroupBuyOrder.setOrder(address_id, num, goods_id, product_id, TextUtils.isEmpty(address_id) ? "4" : "1", order_id, group_buy_id, freight, freight_type, getString("invoiceList"), getString("leave_message"), TextUtils.isEmpty(cart_id) ? getString("goodsList") : getString("goodsCartList"), getString("shippingId"), getString("leave_message"), this);
@@ -630,7 +630,7 @@ public class PayForAppAty extends BaseAty {
             map = JSONUtils.parseKeyAndValueToMap(map.get("data"));
             if (map.get("status").equals("1")) {
                 if (pay_by_balance_cb.isChecked()) { // 余额支付选中
-                    if (mType.equals("0") || mType.equals("1") || mType.equals("5") || TextUtils.isEmpty(mType)) {//主界面购物车  票券   限量购详情
+                    if (mType.equals("0") || mType.equals("1") || mType.equals("5") || TextUtils.isEmpty(mType) || mType.equals(WJConfig.TYPE_SJJZQ)) {//主界面购物车  票券   限量购详情
                         try {
                             if (!TextUtils.isEmpty(order_id)) {
                                 BalancePay.BalancePay(order_id, "1", getType(), num, this);
@@ -689,7 +689,7 @@ public class PayForAppAty extends BaseAty {
 
                 // 积分支付
                 if (cb_jfzf.isChecked()) {
-                    if (mType.equals("0") || mType.equals("1") || mType.equals("5") || TextUtils.isEmpty(mType)) {
+                    if (mType.equals("0") || mType.equals("1") || mType.equals("5") || TextUtils.isEmpty(mType) || mType.equals(WJConfig.TYPE_SJJZQ)) {
                         if (TextUtils.isEmpty(mType)) {
                             mType = "1";
                         }
@@ -802,7 +802,7 @@ public class PayForAppAty extends BaseAty {
             AliPay aliPay = new AliPay(data.get("pay_string"), new AliPayCallBack() {
                 @Override
                 public void onComplete() {
-                    if (mType.equals("0") || mType.equals("1") || mType.equals("5")) {
+                    if (mType.equals("0") || mType.equals("1") || mType.equals("5") || mType.equals(WJConfig.TYPE_SJJZQ)) {
                         Pay.findPayResult(order_id, "4", PayForAppAty.this);
                     } else if (mType.equals("2") || mType.equals("3") || mType.equals("4")) {
                         Pay.findPayResult(group_buy_id, "6", PayForAppAty.this);
@@ -886,9 +886,14 @@ public class PayForAppAty extends BaseAty {
 
     private void OrderList() {
         mBundle = new Bundle();
-        if (TextUtils.isEmpty(mType) || mType.equals("0") || mType.equals("0") || mType.equals("1") || mType.equals("5") || mType.equals("11") || mType.equals(WJConfig.TYPE_EJBL)) {
+        if (TextUtils.isEmpty(mType) || mType.equals("0") || mType.equals("1") || mType.equals("5") || mType.equals("11") || mType.equals(WJConfig.TYPE_EJBL)) {
             mBundle.putString("title", "线上商城");
             mBundle.putString("type", "0");
+            startActivity(OnlineShopAty.class, mBundle);
+        }
+        if (mType.equals(WJConfig.TYPE_SJJZQ)) {
+            mBundle.putString("title", "399专区");
+            mBundle.putString("type", WJConfig.TYPE_SJJZQ);
             startActivity(OnlineShopAty.class, mBundle);
         }
         if (mType.equals("2") || mType.equals("3") || mType.equals("4")) {

@@ -72,15 +72,28 @@
                 android:textSize="12sp"
                 tools:text="10.00积分" />
         </LinearLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_marginTop="5dp"
+            android:layout_height="wrap_content">
 
-        <ImageView
-            android:id="@+id/img_shangjia"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:layout_marginBottom="15dp"
-            android:layout_marginTop="3dp"
-            android:src="@drawable/shopshangjia" />
+            <TextView
+                android:id="@+id/sell_num_tv"
+                android:textSize="12sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <ImageView
+                android:id="@+id/img_shangjia"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_marginBottom="15dp"
+                android:layout_marginTop="3dp"
+                android:src="@drawable/shopshangjia" />
+        </RelativeLayout>
+
+
     </LinearLayout>
 
 </LinearLayout>

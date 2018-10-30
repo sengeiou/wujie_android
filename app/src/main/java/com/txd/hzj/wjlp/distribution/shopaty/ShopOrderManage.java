@@ -48,6 +48,7 @@ public class ShopOrderManage extends BaseAty {
         titles.add("待付款");
         titles.add("待发货");
         titles.add("待收货");
+        titles.add("待评价");
         titles.add("已完成");
         tabView = findViewById(R.id.exhibit_tab_layout);
         titleName = findViewById(R.id.titlt_conter_tv);

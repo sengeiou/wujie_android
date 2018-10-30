@@ -1774,151 +1774,6 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
         commonPopupWindow.showAtLocation(view, Gravity.BOTTOM, 0, 0);
     }
 
-    //    /**
-    //     * 代金券的弹窗
-    //     *
-    //     * @param view
-    //     */
-    //    public void showDjqPop(final View view, final List<DjTicketBean> list) {
-    //        if (commonPopupWindow != null && commonPopupWindow.isShowing()) {
-    //            return;
-    //        }
-    //        if (list == null || list.size() == 0) {
-    //            return;
-    //        }
-    //        commonPopupWindow = new CommonPopupWindow.Builder(this)
-    //                .setView(R.layout.layout_popp_djq)
-    //                .setWidthAndHeight(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-    //                .setBackGroundLevel(0.7f)
-    //                .setViewOnclickListener(new CommonPopupWindow.ViewInterface() {
-    //                    @Override
-    //                    public void getChildView(View view, int layoutResId, int position) {
-    //                        LinearLayout layout_djq0 = (LinearLayout) view.findViewById(R.id.layout_djq0);
-    //                        LinearLayout layout_djq1 = (LinearLayout) view.findViewById(R.id.layout_djq1);
-    //                        LinearLayout layout_djq2 = (LinearLayout) view.findViewById(R.id.layout_djq2);
-    //                        TextView tv_djq_color0 = (TextView) view.findViewById(R.id.tv_djq_color0);
-    //                        TextView tv_djq_color1 = (TextView) view.findViewById(R.id.tv_djq_color1);
-    //                        TextView tv_djq_color2 = (TextView) view.findViewById(R.id.tv_djq_color2);
-    //                        TextView tv_djq_desc0 = (TextView) view.findViewById(R.id.tv_djq_desc0);
-    //                        TextView tv_djq_desc1 = (TextView) view.findViewById(R.id.tv_djq_desc1);
-    //                        TextView tv_djq_desc2 = (TextView) view.findViewById(R.id.tv_djq_desc2);
-    //                        TextView tv_desc = (TextView) view.findViewById(R.id.tv_desc);
-    //                        TextView tv_cancel = (TextView) view.findViewById(R.id.tv_cancel);
-    //                        tv_cancel.setOnClickListener(new View.OnClickListener() {
-    //                            @Override
-    //                            public void onClick(View v) {
-    //                                commonPopupWindow.dismiss();
-    //                            }
-    //                        });
-    //                        tv_desc.setText(vouchers_desc);
-    //                        for (int i = 0; i < list.size(); i++) {
-    //
-    //                            switch (i) {
-    //                                case 0: {
-    //                                    layout_djq0.setVisibility(View.VISIBLE);
-    //                                    tv_djq_desc0.setText(list.get(i).getDiscount_desc());
-    //                                    break;
-    //                                }
-    //                                case 1: {
-    //                                    layout_djq1.setVisibility(View.VISIBLE);
-    //                                    tv_djq_desc1.setText(list.get(i).getDiscount_desc());
-    //                                    break;
-    //                                }
-    //                                case 2: {
-    //                                    layout_djq2.setVisibility(View.VISIBLE);
-    //                                    tv_djq_desc2.setText(list.get(i).getDiscount_desc());
-    //                                    break;
-    //                                }
-    //                            }
-    //
-    //                            switch (list.get(i).getType()) {
-    //                                case "0": {
-    //                                    tv_djq_color0.setBackgroundResource(R.drawable.shape_red_bg);
-    //                                }
-    //                                break;
-    //                                case "1": {
-    //                                    tv_djq_color1.setBackgroundResource(R.drawable.shape_yellow_bg);
-    //                                }
-    //                                break;
-    //                                case "2": {
-    //                                    tv_djq_color2.setBackgroundResource(R.drawable.shape_blue_bg);
-    //                                }
-    //
-    //                                break;
-    //                            }
-    //                        }
-    //
-    //
-    //                    }
-    //                }, 0)
-    //                .setAnimationStyle(R.style.animbottom)
-    //                .create();
-    //        commonPopupWindow.showAtLocation(view, Gravity.BOTTOM, 0, 0);
-    //    }
-
-    //    /**
-    //     * 促销
-    //     *
-    //     * @param view
-    //     */
-    //    public void showCXPop(View view) {
-    //        if (commonPopupWindow != null && commonPopupWindow.isShowing()) return;
-    //        commonPopupWindow = new CommonPopupWindow.Builder(this)
-    //                .setView(R.layout.layou_popp_cuxiao)
-    //                .setWidthAndHeight(ViewGroup.LayoutParams.MATCH_PARENT, Settings.displayHeight / 2)
-    //                .setBackGroundLevel(0.7f)
-    //                .setViewOnclickListener(new CommonPopupWindow.ViewInterface() {
-    //                    @Override
-    //                    public void getChildView(View view, int layoutResId, int position) {
-    //                        ListView promotion_lv = view.findViewById(R.id.promotion_lv);
-    //                        PromotionAdapter promotionAdapter = new PromotionAdapter(TicketGoodsDetialsAty.this, promotionBeen);
-    //                        promotion_lv.setAdapter(promotionAdapter);
-    //                        TextView cancel = (TextView) view.findViewById(R.id.cancel);
-    //                        cancel.setOnClickListener(new View.OnClickListener() {
-    //                            @Override
-    //                            public void onClick(View view) {
-    //                                commonPopupWindow.dismiss();
-    //                            }
-    //                        });
-    //
-    //                    }
-    //                }, 0)
-    //                .setAnimationStyle(R.style.animbottom)
-    //                .create();
-    //        commonPopupWindow.showAtLocation(view, Gravity.BOTTOM, 0, 0);
-    //    }
-    //
-    //    /**
-    //     * 领券
-    //     */
-    //    public void showLQPop(View view, final String title) {//
-    //        if (commonPopupWindow != null && commonPopupWindow.isShowing()) return;
-    //        commonPopupWindow = new CommonPopupWindow.Builder(this)
-    //                .setView(R.layout.popup_layout)
-    //                .setWidthAndHeight(ViewGroup.LayoutParams.MATCH_PARENT, Settings.displayHeight / 2)
-    //                .setBackGroundLevel(0.7f)
-    //                .setViewOnclickListener(new CommonPopupWindow.ViewInterface() {
-    //                    @Override
-    //                    public void getChildView(View view, int layoutResId, int position) {
-    //                        TextView cancel = (TextView) view.findViewById(R.id.cancel);
-    //                        RecyclerView recyclerview = (RecyclerView) view.findViewById(R.id.recyclerview);
-    //                        recyclerview.setLayoutManager(new GridLayoutManager(TicketGoodsDetialsAty.this, 2));
-    //                        recyclerview.setAdapter(theTrickAdapter);
-    //                        TextView tv_title = (TextView) view.findViewById(R.id.popp_title);
-    //                        tv_title.setText(title);
-    //                        cancel.setOnClickListener(new View.OnClickListener() {
-    //                            @Override
-    //                            public void onClick(View view) {
-    //                                commonPopupWindow.dismiss();
-    //                            }
-    //                        });
-    //
-    //                    }
-    //                }, 0)
-    //                .setAnimationStyle(R.style.animbottom)
-    //                .create();
-    //        commonPopupWindow.showAtLocation(view, Gravity.BOTTOM, 0, 0);
-    //    }
 
 
     @Override
@@ -1932,9 +1787,10 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
                 setTextViewAndViewColor(0);
             } else if (y >= topHeighe && y < secondHeight) {
                 setTextViewAndViewColor(2);
-            } else {
-                setTextViewAndViewColor(1);
             }
+//            else {
+//                setTextViewAndViewColor(1);
+//            }
         }
 
         if (oldy > y) {

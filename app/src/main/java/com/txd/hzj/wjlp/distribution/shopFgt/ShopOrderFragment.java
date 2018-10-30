@@ -98,7 +98,9 @@ public class ShopOrderFragment extends BaseFgt {
                 mStatus="1";
             } else if ("待收货".equals(mTitle)) {
                 mStatus="2";
-            } else if ("已完成".equals(mTitle)) {
+            } else if ("待评价".equals(mTitle)) {
+                mStatus="3";
+            }else if ("已完成".equals(mTitle)) {
                 mStatus="4";
             }
         }

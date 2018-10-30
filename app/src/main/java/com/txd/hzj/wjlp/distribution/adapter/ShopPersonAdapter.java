@@ -46,11 +46,17 @@ public class ShopPersonAdapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        String state="";
         if (mInt == 0 && holder instanceof MyViewHolder) {
             ShopPersonBean.DataBean.ShopBean shopBean = mShop.get(position);
             Glide.with(context).load(shopBean.getHead_path()).into(((MyViewHolder) holder).shop_person_item_ima);
             ((MyViewHolder) holder).shop_person_item_name.setText(shopBean.getNickname());
-            ((MyViewHolder) holder).shop_priceTv.setText(shopBean.getProfit_num());
+            if (null!=shopBean.getIs_balance() && "0".equals(shopBean.getIs_balance())){
+                state="积分";
+            }else if (null!=shopBean.getIs_balance() && "1".equals(shopBean.getIs_balance())){
+                state="余额";
+            }
+            ((MyViewHolder) holder).shop_priceTv.setText(shopBean.getProfit_num()+state);
             ((MyViewHolder) holder).shop_set_nameTv.setText(shopBean.getSet_name() + "店主");
             ((MyViewHolder) holder).deal_timeT.setText(shopBean.getDeal_time());
 
@@ -58,7 +64,12 @@ public class ShopPersonAdapter extends RecyclerView.Adapter {
             ShopPersonBean.DataBean.ConsumerBean consumerBean = mConsumer.get(position);
             Glide.with(context).load(consumerBean.getHead_path()).into(((MyViewHolder) holder).shop_person_item_ima);
             ((MyViewHolder) holder).shop_person_item_name.setText(consumerBean.getNickname());
-            ((MyViewHolder) holder).shop_priceTv.setText(consumerBean.getProfit_num());
+            if (null!=consumerBean.getIs_balance() && "0".equals(consumerBean.getIs_balance())){
+                state="积分";
+            }else if (null!=consumerBean.getIs_balance() && "1".equals(consumerBean.getIs_balance())){
+                state="余额";
+            }
+            ((MyViewHolder) holder).shop_priceTv.setText(consumerBean.getProfit_num()+state);
             ((MyViewHolder) holder).shop_set_nameTv.setText(consumerBean.getMember_coding_html());
             ((MyViewHolder) holder).deal_timeT.setText(consumerBean.getDeal_time());
         }

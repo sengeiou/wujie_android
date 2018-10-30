@@ -123,9 +123,11 @@ public class ShopOrderManageAdapter extends RecyclerView.Adapter {
             holders.orderType.setText("待付款");
         }else if ("1".equals(order_status)){
             holders.orderType.setText("待发货");
-        } if ("2".equals(order_status)){
+        }else if ("2".equals(order_status)){
             holders.orderType.setText("待收货");
-        } if ("4".equals(order_status)){
+        }else if ("3".equals(order_status)){
+            holders.orderType.setText("待评价");
+        }else if ("4".equals(order_status)){
             holders.orderType.setText("已完成");
         }
 

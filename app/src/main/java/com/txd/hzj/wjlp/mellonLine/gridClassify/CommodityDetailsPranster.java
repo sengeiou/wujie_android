@@ -209,9 +209,10 @@ public class CommodityDetailsPranster implements CommodityDetailsInter.Commodity
                 setTextViewAndViewColor(0);
             } else if (y >= topHeight && y < secondHeight) {
                 setTextViewAndViewColor(2);
-            } else {
-                setTextViewAndViewColor(1);
             }
+//            else {
+//                setTextViewAndViewColor(1);
+//            }
         }
         if (oldy > y) {
             clickType = 0;
