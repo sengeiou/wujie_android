@@ -127,7 +127,7 @@
                 android:layout_marginTop="12dp"
                 android:drawableLeft="@drawable/red_circle"
                 android:drawablePadding="6dp"
-                android:text="分销商品"
+                android:text="专区商品"
                 android:textColor="#ff999999"
                 android:textSize="12sp" />
         </LinearLayout>
@@ -165,7 +165,7 @@
                 android:layout_marginTop="11dp"
                 android:drawableLeft="@drawable/blue_circle"
                 android:drawablePadding="6dp"
-                android:text="普通商品"
+                android:text="分销商品"
                 android:textColor="#ff999999"
                 android:textSize="12sp" />
         </LinearLayout>
