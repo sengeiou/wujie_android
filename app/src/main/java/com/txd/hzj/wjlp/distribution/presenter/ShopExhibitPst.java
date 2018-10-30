@@ -113,4 +113,12 @@ public class ShopExhibitPst extends BasePresenter {
         baseView.showDialog();
         mModel.postSetOrderTicket(order_id, ticket_status, ticket_price, baseView);
     }
+
+    /**
+     *审核黄券明细接口
+     */
+    public void shopVouchersLog(int p) {
+        baseView.showDialog();
+        mModel.postVouchersLog(p, baseView);
+    }
 }

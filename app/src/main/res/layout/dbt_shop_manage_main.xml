@@ -376,6 +376,10 @@
                             android:textSize="13sp" />
                     </LinearLayout>
                 </android.support.v7.widget.GridLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:background="@color/white" />
             </LinearLayout>
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>

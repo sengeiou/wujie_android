@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ants.theantsgo.util.JSONUtils;
@@ -87,8 +88,11 @@ public class TradingStampAty extends BaseAty {
                             substring2=result.substring(0,lineEnd);
                             tips_tv2.setVisibility(View.VISIBLE);
                             tips_tv2.setText(substring);
+                            tips_tv.setText(substring2);
+                        }else {
+                            tips_tv.setText(result);
                         }
-                        tips_tv.setText(substring2);
+
                         tips_tv.getViewTreeObserver().removeOnPreDrawListener(
                                 this);
                         return false;
@@ -161,6 +165,22 @@ public class TradingStampAty extends BaseAty {
             holder.face_tv.setText("赠品券面值￥"+(map.containsKey("money")?map.get("money"):""));
             holder.get_way_tv.setText("获取途径："+(map.containsKey("source_status")?map.get("source_status"):""));
             holder.get_time_tv.setText("获取时间："+(map.containsKey("create_time")?map.get("create_time"):""));
+
+            if (map.containsKey("type")){
+                int type = Integer.parseInt(map.get("type"));
+                switch (type){
+                    case 0:
+                        holder.state_img.setImageResource(R.drawable.fx_icon_chuji);
+                        break;
+                    case 1:
+                        holder.state_img.setImageResource(R.drawable.fx_icon_zhongji);
+                        break;
+                    case 2:
+                        holder.state_img.setImageResource(R.drawable.fx_icon_gaoji);
+                        break;
+                }
+
+            }
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -186,6 +206,8 @@ public class TradingStampAty extends BaseAty {
             private TextView get_way_tv;
             @ViewInject(R.id.get_time_tv)
             private TextView get_time_tv;
+            @ViewInject(R.id.state_img)
+            private ImageView state_img;
             public MyViewHolder(View itemView) {
                 super(itemView);
             }

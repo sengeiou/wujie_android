@@ -21,6 +21,7 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.bean.TricketDetailks;
+import com.txd.hzj.wjlp.distribution.presenter.ShopExhibitPst;
 import com.txd.hzj.wjlp.http.balance.BalancePst;
 import com.txd.hzj.wjlp.http.user.UserPst;
 import com.txd.hzj.wjlp.minetoaty.adapter.StickyExampleAdapter;
@@ -58,14 +59,17 @@ public class ParticularsUsedByTricketAty extends BaseAty {
      * 3.余额明细
      * 4.线下充值明细
      * 5.成长值明细
-     * 6.线上充值明细
+     * 6 线上充值明细
      * 7.代金券赠送明细
+     * 9.分销黄券发放明细
      */
     private int from = 1;
 
     private UserPst userPst;
 
     private BalancePst balancePst;
+
+    private ShopExhibitPst mShopExhibitPst;
 
     @ViewInject(R.id.part_swipe_refresh)
     private SuperSwipeRefreshLayout swipe_refresh;
@@ -113,11 +117,15 @@ public class ParticularsUsedByTricketAty extends BaseAty {
             titlt_conter_tv.setText("线下充值明细");
         } else if (5 == from) {
             titlt_conter_tv.setText("成长值明细");
-        } else if (6 == from) {
-            titlt_conter_tv.setText("线上充值明细");
         } else if (7 == from) {
             titlt_conter_tv.setText("赠送明细");
+        }else if (9 == from) {
+            titlt_conter_tv.setText("黄券发放明细");
         }
+
+//        else if (6 == from) {
+//            titlt_conter_tv.setText("线上充值明细");
+//        }
 
         tricket_rv.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
 
@@ -237,6 +245,7 @@ public class ParticularsUsedByTricketAty extends BaseAty {
         list = new ArrayList<>();
         userPst = new UserPst(this);
         balancePst = new BalancePst(this);
+        mShopExhibitPst=new ShopExhibitPst(this);
     }
 
     @Override
@@ -270,6 +279,10 @@ public class ParticularsUsedByTricketAty extends BaseAty {
             case 7:
                 userPst.couponDetails(p);
                 break;
+            case 9: {
+                mShopExhibitPst.shopVouchersLog(p);
+                break;
+            }
 
         }
     }

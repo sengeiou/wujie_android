@@ -230,5 +230,16 @@ public class ExhibitModel {
         apiTool2.postApi(Config.DISTRIBUTION_URL + "setOrderTicket", params, baseView);
     }
 
+    /**
+     *审核黄券明细接口
+     * @param p
+     */
+    public void postVouchersLog(int p, BaseView baseView) {
+        RequestParams params = new RequestParams();
+        ApiTool2 apiTool2 = new ApiTool2();
+        params.addBodyParameter("p", String.valueOf(p));
+        apiTool2.postApi(Config.DISTRIBUTION_URL + "vouchersLog", params, baseView);
+    }
+
 
 }

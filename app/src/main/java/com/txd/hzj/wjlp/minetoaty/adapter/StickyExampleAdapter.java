@@ -44,6 +44,7 @@ public class StickyExampleAdapter extends RecyclerView.Adapter<RecyclerView.View
      * 5.成长值明细
      * 7.蓝色代金券赠送明细
      * 8.蓝色代金券使用明细
+     * 9.分销黄券发放明细
      */
     private int type = 1;
 
@@ -185,6 +186,14 @@ public class StickyExampleAdapter extends RecyclerView.Adapter<RecyclerView.View
                         bundle.putString("id", stickyExampleModel.log_id);
                         intent.putExtras(bundle);
                         context.startActivity(intent);
+                    } else if (type == 9 && stickyExampleModel.act_type.equals("2")) {
+                        // 普通商品订单
+                        Intent intent = new Intent(context, OrderDetailsAty.class);
+                        Bundle bundle = new Bundle();
+                        bundle.putString("id", stickyExampleModel.getOrderId());
+                        bundle.putString("type", "0");
+                        intent.putExtras(bundle);
+                        context.startActivity(intent);
                     }
                 }
             });
@@ -192,7 +201,7 @@ public class StickyExampleAdapter extends RecyclerView.Adapter<RecyclerView.View
             //            recyclerViewHolder.check_details_for_balance_tv.setVisibility(View.VISIBLE);
             recyclerViewHolder.t_details_price_tv.setText("+" + stickyExampleModel.profession);
 
-            if (1 == type) { // 购物券明细
+            if (1 == type || 9 == type) { // 购物券明细
                 // 获得，消费积分(转出，消费) add_sub: 0加 1减
                 if (stickyExampleModel.getAdd_sub().equals("0")) {
                     recyclerViewHolder.t_details_price_tv.setText("+" + stickyExampleModel.profession);
@@ -214,10 +223,10 @@ public class StickyExampleAdapter extends RecyclerView.Adapter<RecyclerView.View
                 Glide.with(context).load(stickyExampleModel.imgStr).into(recyclerViewHolder.t_details_logo_tv);
             } else if (3 == type) { // 余额明细
                 // 获得，消费积分(转出，消费) add_sub：1加 2减
-                if (stickyExampleModel.getAdd_sub()!=null && stickyExampleModel.getAdd_sub().equals("1")) {
+                if (stickyExampleModel.getAdd_sub() != null && stickyExampleModel.getAdd_sub().equals("1")) {
                     recyclerViewHolder.t_details_price_tv.setText("+" + stickyExampleModel.profession);
                     //                    recyclerViewHolder.check_details_for_balance_tv.setVisibility(View.GONE);
-                } else if (stickyExampleModel.getAdd_sub()!=null && stickyExampleModel.getAdd_sub().equals("2")){
+                } else if (stickyExampleModel.getAdd_sub() != null && stickyExampleModel.getAdd_sub().equals("2")) {
                     recyclerViewHolder.t_details_price_tv.setText("-" + stickyExampleModel.profession);
                 }
                 Glide.with(context).load(stickyExampleModel.imgStr).into(recyclerViewHolder.t_details_logo_tv);

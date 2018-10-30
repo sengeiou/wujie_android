@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     app:cardCornerRadius="5dp"
     app:cardElevation="3dp"
     app:cardBackgroundColor="@color/white"
@@ -15,11 +16,22 @@
     android:padding="10dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
-
-    <ImageView
-        android:src="@drawable/icon_trading_stamp"
+    <FrameLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content">
+        <ImageView
+            android:src="@drawable/icon_trading_stamp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <ImageView
+            android:id="@+id/state_img"
+            tools:src="@drawable/fx_icon_chuji"
+            android:layout_width="30dp"
+            android:layout_height="30dp" />
+    </FrameLayout>
+
+
 
     <LinearLayout
         android:orientation="vertical"

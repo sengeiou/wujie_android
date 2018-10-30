@@ -2,6 +2,8 @@ package com.txd.hzj.wjlp.distribution.shopaty;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -16,11 +18,13 @@ import com.alibaba.fastjson.JSONObject;
 import com.ants.theantsgo.util.PreferencesUtils;
 import com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout;
 import com.lidroid.xutils.view.annotation.ViewInject;
+import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.distribution.adapter.ShopOrderManageAdapter;
 import com.txd.hzj.wjlp.distribution.bean.ShopOrderBean;
 import com.txd.hzj.wjlp.distribution.presenter.ShopExhibitPst;
+import com.txd.hzj.wjlp.minetoaty.tricket.ParticularsUsedByTricketAty;
 
 import java.util.List;
 import java.util.Map;
@@ -34,6 +38,8 @@ public class ShopGiveYellowVoucher extends BaseAty {
 
     @ViewInject(R.id.titlt_conter_tv)
     private TextView titleName;
+    @ViewInject(R.id.titlt_right_tv)
+    public TextView titlt_right_tv;
     private Context mContext;
     private ShopExhibitPst mExhibitPst;
     private String mShop_id;
@@ -71,9 +77,26 @@ public class ShopGiveYellowVoucher extends BaseAty {
     }
 
     @Override
+    @OnClick({R.id.titlt_right_tv})
+    public void onClick(View v) {
+        super.onClick(v);
+        switch (v.getId()) {
+            case R.id.titlt_right_tv:
+                Bundle bundle = new Bundle();
+                bundle.putInt("from", 9);
+                startActivity(ParticularsUsedByTricketAty.class, bundle);
+                break;
+        }
+    }
+
+    @Override
     protected void initialized() {
         mContext = this;
         titleName.setText("黄券审核");
+        titlt_right_tv.setText("明细");
+        titlt_right_tv.setVisibility(View.VISIBLE);
+        titlt_right_tv.setTextColor(ContextCompat.getColor(this, R.color.colorAccent));
+
         mExhibitPst = new ShopExhibitPst(this);
         if (PreferencesUtils.containKey(mContext, "shop_id")) {
             mShop_id = PreferencesUtils.getString(mContext, "shop_id");
