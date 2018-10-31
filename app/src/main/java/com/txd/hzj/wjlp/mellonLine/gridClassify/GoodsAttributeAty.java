@@ -196,7 +196,10 @@ public class GoodsAttributeAty extends BaseAty {
                         } else if (type.equals(WJConfig.TYPE_JFSD)) {//积分商店
                             intent.putExtra("use_integral", val.getUse_integral());
                             intent.putExtra("integral_buy_id", val.getIntegral_buy_id());
-                        } else {
+                        } else if (type.equals(WJConfig.TYPE_ZPZQ)) {//赠品专区
+                            intent.putExtra("use_voucher", val.getUse_voucher());
+                            intent.putExtra("gift_goods_id", val.getGift_goods_id());
+                        }else {
                             intent.putExtra("red_return_integral", val.getRed_return_integral());
 
                         }
