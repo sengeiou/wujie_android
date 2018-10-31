@@ -151,8 +151,12 @@ public class GiveAwayAreaAty extends BaseAty {
                mGift_goods_list.clear();
             }
             mGift_goods_list.addAll(gift_goods_list);
-            mGiveAwayAdapter = new GiveAwayAdapter(mGift_goods_list);
-            mRecyclerView.setAdapter(mGiveAwayAdapter);
+            if (null == mGiveAwayAdapter) {
+                mGiveAwayAdapter = new GiveAwayAdapter(mGift_goods_list);
+                mRecyclerView.setAdapter(mGiveAwayAdapter);
+            }else {
+                mGiveAwayAdapter.notifyDataSetChanged();
+            }
             mGiveAwayAdapter.setOnItemClickListener(new GiveAwayAdapter.OnItemClickListener() {
                 @Override
                 public void onClick(int position) {

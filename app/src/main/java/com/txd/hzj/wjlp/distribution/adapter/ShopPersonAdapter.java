@@ -56,7 +56,7 @@ public class ShopPersonAdapter extends RecyclerView.Adapter {
             }else if (null!=shopBean.getIs_balance() && "1".equals(shopBean.getIs_balance())){
                 state="余额";
             }
-            ((MyViewHolder) holder).shop_priceTv.setText(shopBean.getProfit_num()+state);
+            ((MyViewHolder) holder).shop_priceTv.setText("贡献"+shopBean.getProfit_num()+state);
             ((MyViewHolder) holder).shop_set_nameTv.setText(shopBean.getSet_name() + "店主");
             ((MyViewHolder) holder).deal_timeT.setText(shopBean.getDeal_time());
 
@@ -69,7 +69,7 @@ public class ShopPersonAdapter extends RecyclerView.Adapter {
             }else if (null!=consumerBean.getIs_balance() && "1".equals(consumerBean.getIs_balance())){
                 state="余额";
             }
-            ((MyViewHolder) holder).shop_priceTv.setText(consumerBean.getProfit_num()+state);
+            ((MyViewHolder) holder).shop_priceTv.setText("贡献"+consumerBean.getProfit_num()+state);
             ((MyViewHolder) holder).shop_set_nameTv.setText(consumerBean.getMember_coding_html());
             ((MyViewHolder) holder).deal_timeT.setText(consumerBean.getDeal_time());
         }

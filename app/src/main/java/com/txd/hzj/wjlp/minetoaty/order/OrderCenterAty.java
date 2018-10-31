@@ -46,7 +46,7 @@ public class OrderCenterAty extends BaseAty {
             "积分商店", "拼单购", "无界预购",
             "比价购", "积分抽奖", "汽车购",
             "房产购", "会员卡", "线上充值","399专区",
-            "赠品券商店"};
+            "赠品专区"};
 
     @Override
     protected int getLayoutResId() {
@@ -165,7 +165,7 @@ public class OrderCenterAty extends BaseAty {
                 list.add(new ShowItem(R.mipmap.icon_order_vipcard, itemShowNames[10])); // 会员卡
                 list.add(new ShowItem(R.drawable.icon_chong, itemShowNames[11])); // 线上充值
                 list.add(new ShowItem(R.drawable.icon_399_area, itemShowNames[12])); // 399专区
-                list.add(new ShowItem(R.drawable.icon_giveaway_area, itemShowNames[13])); // 赠品券商店
+                list.add(new ShowItem(R.drawable.icon_giveaway_area, itemShowNames[13])); // 赠品专区
             } else { // 不开启活动，只添加相应的功能
                 list.removeAll(list);
                 list.add(new ShowItem(R.drawable.icon_order_center_01, itemShowNames[0])); // 线上商城

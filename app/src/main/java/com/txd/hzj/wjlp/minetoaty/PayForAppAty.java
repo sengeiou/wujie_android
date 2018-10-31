@@ -748,7 +748,7 @@ public class PayForAppAty extends BaseAty {
             if (map.get("code").equals("200")) {
                 showToast(map.get("message"));
                 Bundle bundle=new Bundle();
-                bundle.putString("title", "赠品券商店");
+                bundle.putString("title", "赠品专区");
                 bundle.putString("type", WJConfig.TYPE_ZPZQ);
                 startActivity(OnlineShopAty.class, bundle);
                 finish();

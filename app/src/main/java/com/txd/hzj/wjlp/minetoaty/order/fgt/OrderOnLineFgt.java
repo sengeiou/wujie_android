@@ -78,7 +78,7 @@ public class OrderOnLineFgt extends BaseFgt {
      * 6：拍品订单列表
      * 8：充值订单列表
      * 10：积分商店订单列表
-     * 15：赠品券商店
+     * 15：赠品专区
      */
     private String from = "";
     /**

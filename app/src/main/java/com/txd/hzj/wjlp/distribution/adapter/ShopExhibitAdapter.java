@@ -58,6 +58,7 @@ public class ShopExhibitAdapter extends RecyclerView.Adapter<ShopExhibitAdapter.
 
         holder.tv_jifen.setText(Html.fromHtml("<font color=\"#FD8315\">" + listBean.getIntegral() + "</font>积分"));
         holder.sell_num_tv.setText("销量："+listBean.getSell_num()+"件");
+        holder.kucun_tv.setText("库存："+listBean.getAll_goods_num()+"件");
         holder.img_shangjia.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -91,6 +92,7 @@ public class ShopExhibitAdapter extends RecyclerView.Adapter<ShopExhibitAdapter.
         private TextView tv_price;
         private TextView tv_jifen;
         private TextView sell_num_tv;
+        private TextView kucun_tv;
         private ImageView img_shangjia;
         public ViewHolder(View itemView) {
             super(itemView);
@@ -100,6 +102,7 @@ public class ShopExhibitAdapter extends RecyclerView.Adapter<ShopExhibitAdapter.
             tv_price=itemView.findViewById(R.id.tv_price);
             tv_jifen=itemView.findViewById(R.id.tv_jifen);
             sell_num_tv=itemView.findViewById(R.id.sell_num_tv);
+            kucun_tv=itemView.findViewById(R.id.kucun_tv);
             img_shangjia=itemView.findViewById(R.id.img_shangjia);
         }
     }
