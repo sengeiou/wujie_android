@@ -388,9 +388,6 @@ public class CartFgt extends BaseFgt {
                             if (cartGoods.isCheck()) {
                                 stringBuffer.append(cartGoods.getCart_id()); // 购物车ID
                                 stringBuffer.append(","); // 此处上传值字符串最后会多加一个逗号，后台已处理
-                                //                                if (!ListUtils.isEmpty(json_list)) {
-                                //                                    break;
-                                //                                }
                             }
                         }
                         if (!TextUtils.isEmpty(stringBuffer.toString())) {

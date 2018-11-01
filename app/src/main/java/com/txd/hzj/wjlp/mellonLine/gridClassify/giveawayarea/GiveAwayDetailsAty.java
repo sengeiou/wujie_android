@@ -738,7 +738,7 @@ public class GiveAwayDetailsAty extends BaseAty implements ObservableScrollView.
 
     @Override
     protected void initialized() {
-        limit_buy_id = getIntent().getStringExtra("limit_buy_id");
+        limit_buy_id = getIntent().getStringExtra("gift_goods_id");
         type = getIntent().getIntExtra("type", WJConfig.ZPZQ);
         collectPst = new UserCollectPst(this);
         image = new ArrayList<>();
