@@ -896,7 +896,7 @@ public class OrderDetailsAty extends BaseAty {
             } else {
                 tgvh.tyIv.setVisibility(View.GONE);
             }
-            if (map.containsKey("auto_time") && !TextUtils.isEmpty(map.get("auto_time"))) {
+            if (!WJConfig.TYPE_ZPZQ.equals(type) &&map.containsKey("auto_time") && !TextUtils.isEmpty(map.get("auto_time"))) {
                 tgvh.textview.setVisibility(View.VISIBLE);
                 tgvh.textview.setText(map.get("auto_time")); // 设置文字为系统自动收货的时间
             } else {
