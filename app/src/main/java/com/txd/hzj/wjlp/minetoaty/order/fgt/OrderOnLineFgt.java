@@ -1273,7 +1273,11 @@ public class OrderOnLineFgt extends BaseFgt {
                     goVh.tv_price.setVisibility(View.GONE);
                 } else {
                     goVh.tv_price.setVisibility(View.VISIBLE);
-                    goVh.tv_price.setText("¥" + getItem(i).get("shop_price"));
+                    if (WJConfig.TYPE_ZPZQ.equals(from)){
+                        goVh.tv_price.setText(getItem(i).get("shop_price")+"赠品券");
+                    }else {
+                        goVh.tv_price.setText("¥" + getItem(i).get("shop_price"));
+                    }
                 }
             }
             return view;
