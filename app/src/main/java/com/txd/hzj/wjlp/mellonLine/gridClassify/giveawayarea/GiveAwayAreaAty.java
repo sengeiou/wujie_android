@@ -164,7 +164,7 @@ public class GiveAwayAreaAty extends BaseAty {
                     String gift_goods_id = map.containsKey("gift_goods_id")?map.get("gift_goods_id"):"";
                     if (!gift_goods_id.isEmpty()){
                         Bundle bundle=new Bundle();
-                        bundle.putString("limit_buy_id", gift_goods_id);
+                        bundle.putString("gift_goods_id", gift_goods_id);
                         bundle.putInt("type", WJConfig.ZPZQ);
                         startActivity(GiveAwayDetailsAty.class, bundle);
                     }

@@ -454,7 +454,7 @@ public class OrderDetailsAty extends BaseAty {
             if (data.containsKey("freight")) {
                 order_freight_tv.setText(Double.parseDouble(data.get("freight")) > 0 ? data.get("freight") + "元" : "包邮");
             }
-            list = JSONUtils.parseKeyAndValueToMapList(data.get("list"));
+                list = JSONUtils.parseKeyAndValueToMapList(data.get("list"));
 
             double total_price = 0.00f;//总价格
             BigDecimal bd = null;
@@ -849,8 +849,8 @@ public class OrderDetailsAty extends BaseAty {
                             startActivity(LimitGoodsAty.class, bundle);
                         }
                     } else if (WJConfig.TYPE_ZPZQ.equals(type)) {
-                        if (getItem(i).containsKey("goods_id")) {
-                            bundle.putString("ticket_buy_id", getItem(i).get("goods_id"));
+                        if (getItem(i).containsKey("gift_goods_id")) {
+                            bundle.putString("gift_goods_id", getItem(i).get("gift_goods_id"));
                             bundle.putInt("from", WJConfig.ZPZQ);
                             startActivity(GiveAwayDetailsAty.class, bundle);
                         }
