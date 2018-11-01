@@ -579,10 +579,10 @@ public class PayForAppAty extends BaseAty {
                     layout_yue.setVisibility(View.GONE);
                 }
             } else if (mType.equals(WJConfig.TYPE_ZPZQ)) {
-                tv_shopname.setText(data.containsKey("merchant_name")?data.get("merchant_name"):"");
-                tv_price.setText(data.get("order_price")+"赠品券");
+                tv_shopname.setText(data.containsKey("merchant_name") ? data.get("merchant_name") : "");
+                tv_price.setText(data.get("order_price") + "赠品券");
                 pay_by_balance_cb.setText("赠品券支付（剩余" + data.get("integral") + "赠品券)");
-                order_id=data.containsKey("order_id")?data.get("order_id"):"";
+                order_id = data.containsKey("order_id") ? data.get("order_id") : "";
                 layout_ali.setVisibility(View.GONE);
                 layout_wx.setVisibility(View.GONE);
                 cb_jfzf.setVisibility(View.GONE);
@@ -681,8 +681,8 @@ public class PayForAppAty extends BaseAty {
                         BalancePay.BalancePay(order_id, "13", getType(), "", this);
                     } else if (mType.equals(WJConfig.TYPE_XXDP)) {
                         BalancePay.BalancePay(order_id, "9", getType(), "", this);
-                    }else if (mType.equals(WJConfig.TYPE_ZPZQ)) {
-                        GiveAwayModel.postGiftGoodsPay(order_id,num,this);
+                    } else if (mType.equals(WJConfig.TYPE_ZPZQ)) {
+                        GiveAwayModel.postGiftGoodsPay(order_id, num, this);
                     }
                     showProgressDialog();
                 }
@@ -743,11 +743,11 @@ public class PayForAppAty extends BaseAty {
         }
 
         //赠品券支付接口
-        if (requestUrl.endsWith("Api/GiftGoodsPay/giftGoodsPay")){
+        if (requestUrl.endsWith("Api/GiftGoodsPay/giftGoodsPay")) {
             map = JSONUtils.parseKeyAndValueToMap(jsonStr);
             if (map.get("code").equals("200")) {
                 showToast(map.get("message"));
-                Bundle bundle=new Bundle();
+                Bundle bundle = new Bundle();
                 bundle.putString("title", "赠品专区");
                 bundle.putString("type", WJConfig.TYPE_ZPZQ);
                 startActivity(OnlineShopAty.class, bundle);
@@ -987,7 +987,7 @@ public class PayForAppAty extends BaseAty {
                             public void onClick(View v) {
                                 setCheck(1);
                                 setImage(type, r.isChecked(), y.isChecked(), b.isChecked());
-                                if (order.containsKey("red_return_integral") && Integer.parseInt(order.get("red_return_integral")) > 0) {
+                                if (order.containsKey("red_return_integral") && Double.parseDouble(order.get("red_return_integral")) > 0.0) {
                                     integral_money.setVisibility(View.VISIBLE);
                                     mIn = order.get("red_return_integral");
                                     integralMoneyStr = "<font color=#FFB226>（赠送积分：" + mIn + "个）<font/>";
@@ -1003,7 +1003,7 @@ public class PayForAppAty extends BaseAty {
                             public void onClick(View v) {
                                 setCheck(2);
                                 setImage(type, r.isChecked(), y.isChecked(), b.isChecked());
-                                if (order.containsKey("yellow_return_integral") && Integer.parseInt(order.get("yellow_return_integral")) > 0) {
+                                if (order.containsKey("yellow_return_integral") && Double.parseDouble(order.get("yellow_return_integral")) > 0.0) {
                                     integral_money.setVisibility(View.VISIBLE);
                                     mIn = order.get("yellow_return_integral");
                                     integralMoneyStr = "<font color=#FFB226>（赠送积分：" + mIn + "个）<font/>";
@@ -1019,7 +1019,7 @@ public class PayForAppAty extends BaseAty {
                             public void onClick(View v) {
                                 setCheck(3);
                                 setImage(type, r.isChecked(), y.isChecked(), b.isChecked());
-                                if (order.containsKey("blue_return_integral") && Integer.parseInt(order.get("blue_return_integral")) > 0) {
+                                if (order.containsKey("blue_return_integral") && Double.parseDouble(order.get("blue_return_integral")) > 0.0) {
                                     integral_money.setVisibility(View.VISIBLE);
                                     mIn = order.get("blue_return_integral");
                                     integralMoneyStr = "<font color=#FFB226>（赠送积分：" + mIn + "个）<font/>";
