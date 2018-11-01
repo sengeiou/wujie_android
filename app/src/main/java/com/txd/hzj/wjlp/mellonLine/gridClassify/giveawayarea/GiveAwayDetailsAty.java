@@ -762,34 +762,6 @@ public class GiveAwayDetailsAty extends BaseAty implements ObservableScrollView.
                 GiveAwayModel.postGiftGoodsInfo(limit_buy_id, this);
                 break;
         }
-
-        ticket_gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Bundle bundle = new Bundle();
-                bundle.putString("ticket_buy_id", ticket.get(position).getGoods_id());
-                bundle.putInt("from", 1);
-                startActivity(TicketGoodsDetialsAty.class, bundle);
-            }
-        });
-        tv_ljgm.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (is_C) {
-                    Intent intent = new Intent();
-                    intent.putExtra("mid", mell_id);
-                    intent.putExtra("type", WJConfig.TYPE_ZPZQ);
-                    intent.putExtra("goods_id", goods_id);
-                    intent.putExtra("group_buy_id", limit_buy_id);
-                    intent.putExtra("num", String.valueOf(goods_number));
-                    intent.putExtra("product_id", product_id);
-                    intent.setClass(GiveAwayDetailsAty.this, BuildOrderAty.class);
-                    startActivity(intent);
-                } else {
-                    toAttrs(v, 0, WJConfig.TYPE_ZPZQ, goods_id + "-" + mell_id, goodsInfo.getGoods_img(), goodsInfo.getUse_voucher(), limit_buy_id, goods_attr_first, first_val, is_attr);
-                }
-            }
-        });
         commodityPranster.goodsMsg(toastView);
     }
 
@@ -1656,8 +1628,8 @@ public class GiveAwayDetailsAty extends BaseAty implements ObservableScrollView.
             goods_number = data.getIntExtra("num", 0);
             product_id = data.getStringExtra("product_id");
             if (WJConfig.TYPE_ZPZQ.equals(data.getStringExtra("type"))) {//赠品专区
-                limit_buy_id = data.getStringExtra("integral_buy_id");
                 String use_voucher = data.getStringExtra("use_voucher");
+                goods_id=data.getStringExtra("gift_goods_id");
                 old_price_tv.setText("￥" + data.getStringExtra("shop_price"));
                 now_price_tv.setText("此物品兑换，需要" + use_voucher + "赠品券");
                 tv_kucun.setText("库存" + data.getStringExtra("goods_num"));
