@@ -27,6 +27,9 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.ants.theantsgo.imageLoader.GlideImageLoader;
+import com.ants.theantsgo.util.CompressionUtil;
+import com.ants.theantsgo.util.L;
 import com.hyphenate.EMValueCallBack;
 import com.hyphenate.chat.EMChatRoom;
 import com.hyphenate.chat.EMClient;
@@ -59,9 +62,15 @@ import com.hyphenate.easeui.widget.EaseVoiceRecorderView.EaseVoiceRecorderCallba
 import com.hyphenate.easeui.widget.chatrow.EaseCustomChatRowProvider;
 import com.hyphenate.util.EMLog;
 import com.hyphenate.util.PathUtil;
+import com.lzy.imagepicker.ImagePicker;
+import com.lzy.imagepicker.bean.ImageItem;
+import com.lzy.imagepicker.ui.ImageGridActivity;
 import com.txd.hzj.wjlp.DemoApplication;
+import com.txd.hzj.wjlp.http.index.IndexPst;
+import com.txd.hzj.wjlp.webviewH5.WebViewAty;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -406,28 +415,41 @@ public class EaseChatFragment extends EaseBaseFragment implements ChatListener {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == REQUEST_CODE_CAMERA) { // capture new image
-                if (cameraFile != null && cameraFile.exists()) {
-                    sendImageMessage(cameraFile.getAbsolutePath());
-                }
-            } else if (requestCode == REQUEST_CODE_LOCAL) { // send local image
-                if (data != null) {
-                    Uri selectedImage = data.getData();
-                    if (selectedImage != null) {
-                        sendPicByUri(selectedImage);
+        if (resultCode == Activity.RESULT_OK || resultCode == ImagePicker.RESULT_CODE_ITEMS) {
+            switch (requestCode) {
+                case REQUEST_CODE_CAMERA: // 捕获图片（拍照）
+                    if (data != null) {
+                        ArrayList<ImageItem> images = (ArrayList<ImageItem>) data.getSerializableExtra(ImagePicker.EXTRA_RESULT_ITEMS);
+                        if (images != null && images.size() > 0) {
+                            String pic_path = CompressionUtil.compressionBitmap(images.get(0).path);
+                            try {
+                                File file = new File(pic_path);
+                                sendImageMessage(file.getAbsolutePath());
+                            } catch (Exception e) {
+                                L.e("File Exception:" + e.toString());
+                                Toast.makeText(getActivity(), "未找到图片文件，请重新选择。", Toast.LENGTH_SHORT).show();
+                            }
+                        }
                     }
-                }
-            } else if (requestCode == REQUEST_CODE_MAP) { // location
-                double latitude = data.getDoubleExtra("latitude", 0);
-                double longitude = data.getDoubleExtra("longitude", 0);
-                String locationAddress = data.getStringExtra("address");
-                if (locationAddress != null && !locationAddress.equals("")) {
-                    sendLocationMessage(latitude, longitude, locationAddress);
-                } else {
-                    Toast.makeText(getActivity(), R.string.unable_to_get_loaction, Toast.LENGTH_SHORT).show();
-                }
-
+                    break;
+                case REQUEST_CODE_LOCAL: // 发送本地图片
+                    if (data != null) {
+                        Uri selectedImage = data.getData();
+                        if (selectedImage != null) {
+                            sendPicByUri(selectedImage);
+                        }
+                    }
+                    break;
+                case REQUEST_CODE_MAP: // 发送地理位置
+                    double latitude = data.getDoubleExtra("latitude", 0);
+                    double longitude = data.getDoubleExtra("longitude", 0);
+                    String locationAddress = data.getStringExtra("address");
+                    if (locationAddress != null && !locationAddress.equals("")) {
+                        sendLocationMessage(latitude, longitude, locationAddress);
+                    } else {
+                        Toast.makeText(getActivity(), R.string.unable_to_get_loaction, Toast.LENGTH_SHORT).show();
+                    }
+                    break;
             }
         }
     }
@@ -770,7 +792,8 @@ public class EaseChatFragment extends EaseBaseFragment implements ChatListener {
     }
 
     //发送位置消息
-    protected void sendLocationMessage(double latitude, double longitude, String locationAddress) {
+    protected void sendLocationMessage(double latitude, double longitude, String
+            locationAddress) {
         EMMessage message = EMMessage.createLocationSendMessage(latitude, longitude, locationAddress, toChatUsername);
         sendMessage(message);
     }
@@ -906,37 +929,16 @@ public class EaseChatFragment extends EaseBaseFragment implements ChatListener {
             Toast.makeText(getActivity(), R.string.sd_card_does_not_exist, Toast.LENGTH_SHORT).show();
             return;
         }
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
-            cameraFile = new File(PathUtil.getInstance().getImagePath(), EMClient.getInstance().getCurrentUser() + System.currentTimeMillis() + ".jpg");
-            cameraFile.getParentFile().mkdirs();
 
-            if (Build.VERSION.SDK_INT >= 24) {
-                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                //24以上使用FileProvider
-                intent.putExtra(MediaStore.EXTRA_OUTPUT, FileProvider.getUriForFile(getContext(), "com.txd.hzj.wjlp.fileProvider", cameraFile));
-            } else {
-                //24以下
-                intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(cameraFile));
-            }
-            try {
-                startActivityForResult(intent, REQUEST_CODE_CAMERA);
-            } catch (ActivityNotFoundException a) {
-                a.getMessage();
-            }
-        }
+        ImagePicker imagePicker = ImagePicker.getInstance();
+        imagePicker.setImageLoader(new GlideImageLoader());// 图片加载
+        imagePicker.setCrop(false);// 不裁剪
+        imagePicker.setMultiMode(false);// 多选模式
+        imagePicker.setShowCamera(false);// 不显示拍照按钮
+        Intent intent = new Intent(getActivity(), ImageGridActivity.class);
+        intent.putExtra(ImageGridActivity.EXTRAS_TAKE_PICKERS, true); // 直接调取相机
+        startActivityForResult(intent, REQUEST_CODE_CAMERA);
 
-
-        //        cameraFile = new File(PathUtil.getInstance().getImagePath(), EMClient.getInstance().getCurrentUser()
-        //                + System.currentTimeMillis() + ".jpg");
-        //        // noinspection ResultOfMethodCallIgnored
-        //        cameraFile.getParentFile().mkdirs();
-        //        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        //        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(cameraFile));
-        //        startActivityForResult(intent, REQUEST_CODE_CAMERA);
-        //        startActivityForResult(
-        //                new Intent(MediaStore.ACTION_IMAGE_CAPTURE).putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(cameraFile)),
-        //                REQUEST_CODE_CAMERA);
     }
 
     /**

@@ -4,14 +4,18 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Bitmap;
+import android.graphics.Rect;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -33,8 +37,9 @@ import com.txd.hzj.wjlp.Constant;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.http.Pay;
+import com.txd.hzj.wjlp.http.index.IndexPst;
 import com.txd.hzj.wjlp.login.LoginAty;
-import com.txd.hzj.wjlp.mellonLine.NoticeDetailsAty;
+import com.txd.hzj.wjlp.tool.BitmapUtils;
 import com.txd.hzj.wjlp.wxapi.GetPrepayIdTask;
 
 import org.json.JSONException;
@@ -44,6 +49,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 /**
  * 创建者：voodoo_jie
@@ -67,6 +73,7 @@ public class WebViewAty extends BaseAty {
     private String type; // 返回Type
     private String order_id; // 订单id
     private String discount_type; // 折扣类型
+    IndexPst indexPst;
 
     @Override
     protected int getLayoutResId() {
@@ -98,6 +105,46 @@ public class WebViewAty extends BaseAty {
 
         initWebView();
 
+        final View rootView = getWindow().getDecorView().findViewById(android.R.id.content);
+        rootView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+
+                Rect r = new Rect();
+                // 获取当前界面可视部分
+                WebViewAty.this.getWindow().getDecorView().getWindowVisibleDisplayFrame(r);
+                // 获取屏幕的高度
+                int screenHeight = WebViewAty.this.getWindow().getDecorView().getRootView().getHeight();
+                // 此处就是用来获取键盘的高度的， 在键盘没有弹出的时候 此高度为0 键盘弹出的时候为一个正数
+                int heightDifference = screenHeight - r.bottom;
+
+                boolean mKeyboardUp = isKeyboardShown(rootView);
+                if (mKeyboardUp) {
+                    // 参数说明：第一个为是否弹出键盘，第二个为屏幕高度，第三个为软键盘高度
+                    webView_show_webv.loadUrl("JavaScript:focuser('1','" + screenHeight + "','" + r.bottom + "')");
+                    L.e("JavaScript:focuser('1','" + screenHeight + "','" + r.bottom + "')");
+                } else {
+                    webView_show_webv.loadUrl("JavaScript:focuser('0','" + screenHeight + "','0')");
+                    L.e("JavaScript:focuser('0','" + screenHeight + "','0')");
+                }
+            }
+        });
+
+    }
+
+    /**
+     * 判断软键盘是否弹出
+     *
+     * @param rootView
+     * @return
+     */
+    private boolean isKeyboardShown(View rootView) {
+        final int softKeyboardHeight = 100;
+        Rect r = new Rect();
+        rootView.getWindowVisibleDisplayFrame(r);
+        DisplayMetrics dm = rootView.getResources().getDisplayMetrics();
+        int heightDiff = rootView.getBottom() - r.bottom;
+        return heightDiff > softKeyboardHeight * dm.density;
     }
 
     private void initWebView() {
@@ -153,16 +200,14 @@ public class WebViewAty extends BaseAty {
         try {
             JSONObject jsonObject = new JSONObject(jsonStr);
             JSONObject data = jsonObject.getJSONObject("data");
-
-            // 微信支付
+            // ===================== 微信支付 ======================================================================
             if (requestUrl.contains("getJsTine")) {
                 GetPrepayIdTask wxPay = new GetPrepayIdTask(WebViewAty.this, data.getString("sign"), data.getString("appid"),
                         data.getString("nonce_str"), data.getString("package"), data.getString("time_stamp"), data.getString("prepay_id"),
                         data.getString("mch_id"), "");
                 wxPay.execute();
             }
-
-            // 支付宝支付
+            // ===================== 支付宝支付 ======================================================================
             if (requestUrl.contains("getAlipayParam")) {
                 AliPay aliPay = new AliPay(data.getString("pay_string"), new AliPayCallBack() {
                     @Override
@@ -183,9 +228,15 @@ public class WebViewAty extends BaseAty {
                 });
                 aliPay.pay();
             }
-
+            // ===================== 返回支付结果 ======================================================================
             if (requestUrl.contains("findPayResult")) {
                 paySuccess(jsonObject);
+            }
+            // ===================== 图片上传结果 ======================================================================
+            if (requestUrl.contains("/Index/upload")) {
+                if ("1".equals(jsonObject.getString("code"))) {
+                    webView_show_webv.loadUrl("JavaScript:TakePhoto('" + jsonStr + "')");
+                }
             }
         } catch (JSONException e) {
         }
@@ -238,13 +289,24 @@ public class WebViewAty extends BaseAty {
     }
 
     /**
-     * 初始化ImagePicker
+     * 初始化单选、拍照ImagePicker
      */
-    private void initImagePicker() {
+    private void initImageOnePicker() {
         ImagePicker imagePicker = ImagePicker.getInstance();
         imagePicker.setImageLoader(new GlideImageLoader());// 图片加载
         imagePicker.setCrop(false);// 不裁剪
-        imagePicker.setMultiMode(false);// 单选
+        imagePicker.setMultiMode(false);// 多选模式
+        imagePicker.setShowCamera(false);// 不显示拍照按钮
+    }
+
+    /**
+     * 初始化多选ImagePicker
+     */
+    private void initImageMorePicker() {
+        ImagePicker imagePicker = ImagePicker.getInstance();
+        imagePicker.setImageLoader(new GlideImageLoader());// 图片加载
+        imagePicker.setCrop(false);// 不裁剪
+        imagePicker.setMultiMode(true);// 多选模式
         imagePicker.setShowCamera(false);// 不显示拍照按钮
     }
 
@@ -337,24 +399,95 @@ public class WebViewAty extends BaseAty {
          */
         @JavascriptInterface
         public void openCamera() {
-            initImagePicker();
+            initImageOnePicker();
             Intent intent = new Intent(WebViewAty.this, ImageGridActivity.class);
             intent.putExtra(ImageGridActivity.EXTRAS_TAKE_PICKERS, true); // 直接调取相机
-            startActivityForResult(intent, 121);
-//            showToast("调取相机，直接拍照");
-//            openPhotoFolder();
+            startActivityForResult(intent, 111);
         }
 
         /**
-         * 打开相册选择照片
+         * 打开相册选择图片
+         *
+         * @param selectMode 选择类型 0单选 1多选
          */
         @JavascriptInterface
-        public void openPhotoFolder() {
-            initImagePicker();
-            Intent i = new Intent(WebViewAty.this, ImageGridActivity.class);
-            startActivityForResult(i, 121);
+        public void openPhotoFolder(int selectMode) {
+            switch (selectMode) {
+                case 0: // 单选
+                    initImageOnePicker();
+                    Intent i = new Intent(WebViewAty.this, ImageGridActivity.class);
+                    startActivityForResult(i, 111);
+                    break;
+                case 1: // 多选
+                    initImageMorePicker();
+                    Intent intent = new Intent(WebViewAty.this, ImageGridActivity.class);
+                    startActivityForResult(intent, 222);
+                    break;
+            }
         }
 
+        /**
+         * 去到聊天界面
+         *
+         * @param parameter
+         */
+        @JavascriptInterface
+        public void toChat(String parameter) {
+            try {
+                JSONObject jsonObject = new JSONObject(parameter);
+                String easemob_account = jsonObject.has("userId") ? jsonObject.getString("userId") : "";
+                String head_pic = jsonObject.has("userHead") ? jsonObject.getString("userHead") : "";
+                String nickname = jsonObject.has("userName") ? jsonObject.getString("userName") : "";
+//                String myName = jsonObject.has("myName") ? jsonObject.getString("myName") : "";
+//                String myHead = jsonObject.has("myHead") ? jsonObject.getString("myHead") : "";
+                toChatFriend(easemob_account, head_pic, nickname);
+            } catch (JSONException e) {
+                L.e("回传Json字符串格式异常");
+                showToast("回传数据异常");
+            }
+        }
+
+        /**
+         * 下载保存图片
+         *
+         * @param imagePath 图片路径
+         */
+        @JavascriptInterface
+        public void downImageToPhone(String imagePath) {
+            Bitmap recordBitmap = null;
+            try {
+                recordBitmap = Glide.with(WebViewAty.this)
+                        .load(imagePath)
+                        .asBitmap().into(500, 500).get();
+            } catch (InterruptedException e) {
+                L.e("WebView.H5WebViewJsInterface.downImageToPhone is error:" + e.toString());
+            } catch (ExecutionException e) {
+                L.e("WebView.H5WebViewJsInterface.downImageToPhone is error:" + e.toString());
+            } finally {
+                if (null != recordBitmap) {
+                    BitmapUtils.gainInstance().saveBmp2Gallery(WebViewAty.this, recordBitmap, "zhucema", new BitmapUtils.Listener() {
+                        @Override
+                        public void saveSuccess() {
+                            showToast("已成功保存到相册！");
+                        }
+                    });
+                } else {
+                    showToast("图片保存异常，请重试");
+                }
+            }
+        }
+
+    }
+
+    /**
+     * 跳转到聊天界面
+     *
+     * @param easemob_account 对方环信账号
+     * @param head_pic        对方头像
+     * @param nickname        对方昵称
+     */
+    public void toChatFriend(String easemob_account, String head_pic, String nickname) {
+        toChat(easemob_account, head_pic, nickname);
     }
 
     @Override
@@ -372,17 +505,29 @@ public class WebViewAty extends BaseAty {
             if (data != null) {
                 ArrayList<ImageItem> images = (ArrayList<ImageItem>) data.getSerializableExtra(ImagePicker.EXTRA_RESULT_ITEMS);
                 if (images != null && images.size() > 0) {
-                    String pic_path = CompressionUtil.compressionBitmap(images.get(0).path);
                     switch (requestCode) {
-                        case 121:
+                        case 111: // 图片单选
+                            String pic_path = CompressionUtil.compressionBitmap(images.get(0).path);
                             try {
                                 File file = new File(pic_path);
-                                webView_show_webv.loadUrl("JavaScript:TakePhoto(" + file + ")");
-//                                L.e("File:" + file.getPath());
-//                                L.e("File:" + file);
+                                indexPst = (indexPst == null) ? new IndexPst(WebViewAty.this) : indexPst;
+                                indexPst.uploadImg("", file);
                             } catch (Exception e) {
                                 L.e("File Exception:" + e.toString());
                                 showToast("未找到图片文件，请重新选择。");
+                            }
+                            break;
+                        case 222: // 图片多选
+                            File[] imageFiles = new File[images.size()];
+                            try {
+                                for (int i = 0; i < images.size(); i++) {
+                                    imageFiles[i] = new File(images.get(i).path);
+                                }
+                                indexPst = (indexPst == null) ? new IndexPst(WebViewAty.this) : indexPst;
+                                indexPst.uploadImg("", imageFiles);
+                            } catch (Exception e) {
+                                L.e("File Exception:" + e.toString());
+                                showToast("未找到图片文件，多选无效。");
                             }
                             break;
                     }
@@ -392,4 +537,14 @@ public class WebViewAty extends BaseAty {
             }
         }
     }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && webView_show_webv.canGoBack()) {
+            webView_show_webv.goBack();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
 }
