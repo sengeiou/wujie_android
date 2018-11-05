@@ -166,7 +166,7 @@ public class ShopMain extends BaseAty implements OnClickListener {
                     level_tv.setText("高级店主");
                 }else if ("4".equals(set_id)){
                     level_tv.setBackgroundResource(R.drawable.icon_shop_v);
-                    level_tv.setText("高级店主+V");
+                    level_tv.setText("高级店主+");
                 }
 
                 money_tv.setText(mFormat.format(Double.parseDouble(pay_money)));

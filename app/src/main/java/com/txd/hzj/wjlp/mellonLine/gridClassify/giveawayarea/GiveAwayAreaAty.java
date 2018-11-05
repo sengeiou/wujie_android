@@ -488,10 +488,9 @@ public class GiveAwayAreaAty extends BaseAty {
             if (!country_logo.isEmpty()) {
                 Glide.with(mContext).load(country_logo).into(holder.goods_icon);
             }
-
             holder.goods_name_tv.setText(goods_name);
-            holder.goods_price_info_tv.setText("原价￥" + shop_price + "|已售" + exchange_num + "件");
-            holder.goods_price_tv.setText("赠品券价 ￥" + use_voucher);
+            holder.goods_price_info_tv.setText("原价¥" + shop_price + "|已售" + exchange_num + "件");
+            holder.goods_price_tv.setText("赠品券价 ¥" + use_voucher);
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -561,7 +560,7 @@ public class GiveAwayAreaAty extends BaseAty {
             Glide.with(mContext).load(openShopGoods.getGoods_img()).into(holder.itemGaveAwayOpenShop_goodsLogo_imgv);
             holder.itemGaveAwayOpenShop_name_tv.setText(openShopGoods.getGoods_name());
             holder.itemGaveAwayOpenShop_dengji_imgv.setImageResource(openShopGoods.getActive_type().equals("0") ? R.drawable.fx_icon_chuji : openShopGoods.getActive_type().equals("1") ? R.drawable.fx_icon_zhongji : R.drawable.fx_icon_gaoji);
-            holder.itemGaveAwayOpenShop_gaveGiftCoupon_tv.setText("赠送品券" + openShopGoods.getGoods_gift());
+            holder.itemGaveAwayOpenShop_gaveGiftCoupon_tv.setText("送赠品券" + openShopGoods.getGoods_gift());
             holder.itemGaveAwayOpenShop_money_tv.setText(openShopGoods.getShop_price());
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

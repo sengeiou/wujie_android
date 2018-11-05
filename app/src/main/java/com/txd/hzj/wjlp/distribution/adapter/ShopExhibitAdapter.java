@@ -53,7 +53,7 @@ public class ShopExhibitAdapter extends RecyclerView.Adapter<ShopExhibitAdapter.
                 .load(listBean.getGoods_img())
                 .into(holder.img_product);
         holder.tv_title.setText(listBean.getGoods_name());
-        holder.tv_daijinquan.setText("最多可使用"+listBean.getDiscount()+"%代金券");
+        holder.tv_daijinquan.setText("最多可用"+listBean.getDiscount()+"%代金券");
         holder.tv_price.setText("¥"+listBean.getShop_price());
 
         holder.tv_jifen.setText(Html.fromHtml("<font color=\"#FD8315\">" + listBean.getIntegral() + "</font>积分"));
