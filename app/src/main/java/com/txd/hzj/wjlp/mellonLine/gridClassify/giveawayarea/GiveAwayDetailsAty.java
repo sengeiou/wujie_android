@@ -918,7 +918,7 @@ public class GiveAwayDetailsAty extends BaseAty implements ObservableScrollView.
             old_price_tv.setText("￥" + goodsInfo.getMarket_price());
             old_price_tv.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
             now_price_tv.setText("此物品兑换，需要" + goodsInfo.getUse_voucher() + "赠品券");
-            now_price_tv.setTextSize(16f);
+            now_price_tv.setTextSize(15);
             goods_residue_tv.setVisibility(View.GONE);
             tv_ljgm.setText("立即兑换");
 

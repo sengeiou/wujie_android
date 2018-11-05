@@ -589,7 +589,12 @@ public class PayForAppAty extends BaseAty {
                 tv_submit.setText("确认兑换");
             } else {
                 if (!mType.equals("10")) {
-                    String format = decimalFormat.format(total_price);
+                    double d=0;
+                    if (data.containsKey("ticket_price")){
+                        d=Double.parseDouble(data.get("ticket_price"));
+                    }
+                    String format = decimalFormat.format((total_price-d));
+                    tv_desc.setText(data.containsKey("ticket_info")?data.get("ticket_info"):"");
                     tv_price.setText("¥" + format);
                 } else {
                     tv_price.setText(data.get("order_price") + "积分");
