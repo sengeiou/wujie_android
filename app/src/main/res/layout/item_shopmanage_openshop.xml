@@ -7,14 +7,23 @@
     android:background="@color/white"
     android:orientation="vertical"
     android:padding="12dp">
-
-    <ImageView
-        android:id="@+id/itemShopManageOpen_image_imgv"
-        android:layout_width="wrap_content"
-        android:layout_height="150dp"
+    <FrameLayout
         android:layout_gravity="center"
-        android:scaleType="fitCenter"
-        android:src="@drawable/img_tricket_right_weishixiao" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/itemShopManageOpen_image_imgv"
+            android:layout_width="wrap_content"
+            android:layout_height="120dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/img_tricket_right_weishixiao" />
+        <ImageView
+            android:id="@+id/state_img"
+            tools:src="@drawable/fx_icon_chuji"
+            android:layout_width="30dp"
+            android:layout_height="30dp" />
+    </FrameLayout>
+
 
     <TextView
         android:id="@+id/itemShopManageOpen_name_tv"

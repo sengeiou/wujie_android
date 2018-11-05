@@ -56,6 +56,7 @@ public class ShopManageOpenAdapter extends BaseAdapter {
             holder.itemShopManageOpen_name_tv = convertView.findViewById(R.id.itemShopManageOpen_name_tv);
             holder.itemShopManageOpen_meny_tv = convertView.findViewById(R.id.itemShopManageOpen_meny_tv);
             holder.itemShopManageOpen_share_imgv = convertView.findViewById(R.id.itemShopManageOpen_share_imgv);
+            holder.state_img=convertView.findViewById(R.id.state_img);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
@@ -65,6 +66,18 @@ public class ShopManageOpenAdapter extends BaseAdapter {
         holder.itemShopManageOpen_giftCoupon_tv.setText("赠送品券" + list.get(position).getGoods_gift());
         holder.itemShopManageOpen_name_tv.setText(list.get(position).getGoods_name());
         holder.itemShopManageOpen_meny_tv.setText(list.get(position).getShop_price());
+        String active_type = list.get(position).getActive_type();
+        switch (Integer.parseInt(active_type)){
+            case 0:
+                holder.state_img.setImageResource(R.drawable.fx_icon_chuji);
+                break;
+            case 1:
+                holder.state_img.setImageResource(R.drawable.fx_icon_zhongji);
+                break;
+            case 2:
+                holder.state_img.setImageResource(R.drawable.fx_icon_gaoji);
+                break;
+        }
         holder.itemShopManageOpen_share_imgv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -81,6 +94,7 @@ public class ShopManageOpenAdapter extends BaseAdapter {
         private TextView itemShopManageOpen_name_tv;
         private TextView itemShopManageOpen_meny_tv;
         private ImageView itemShopManageOpen_share_imgv;
+        private ImageView state_img;
     }
 
     public void setOnImageClickListener(ImageClick imageClick) {

@@ -70,6 +70,7 @@ public class DistributionGoodsBean {
          * shop_price : 121.40
          * market_price : 150.00
          * sell_num : 0
+         * active_type
          * ticket_buy_discount : 30
          */
 
@@ -88,9 +89,18 @@ public class DistributionGoodsBean {
         private String market_price;
         private String sell_num;
         private String goods_gift;
+        private String active_type;
         private int ticket_buy_discount;
         private boolean mChecked = false;
 
+
+        public String getActive_type() {
+            return active_type;
+        }
+
+        public void setActive_type(String active_type) {
+            this.active_type = active_type;
+        }
 
         public String getGoods_brief() {
             return goods_brief;

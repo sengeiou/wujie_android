@@ -1,6 +1,7 @@
 package com.txd.hzj.wjlp.mellonLine.gridClassify.giveawayarea;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.os.Bundle;
@@ -9,19 +10,15 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.ants.theantsgo.config.Config;
-import com.ants.theantsgo.tool.glide.GlideUtils;
 import com.ants.theantsgo.util.JSONUtils;
-import com.ants.theantsgo.util.L;
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.lidroid.xutils.ViewUtils;
@@ -40,8 +37,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Timer;
-import java.util.TimerTask;
 
 
 /**
@@ -54,8 +49,8 @@ public class GiveAwayAreaAty extends BaseAty {
 
     @ViewInject(R.id.titlt_conter_tv)
     public TextView titlt_conter_tv;
-    @ViewInject(R.id.giveawayArea_horizontal_rv)
-    public RecyclerView giveawayArea_horizontal_rv;
+    //    @ViewInject(R.id.giveawayArea_horizontal_rv)
+    //    public RecyclerView giveawayArea_horizontal_rv;
     @ViewInject(R.id.giveaway_refreshLayout)
     private SuperSwipeRefreshLayout mSuperSwipeRefreshLayout;
     @ViewInject(R.id.giveaway_recyclerView)
@@ -71,8 +66,10 @@ public class GiveAwayAreaAty extends BaseAty {
     private TextView footerTextView;
     private ImageView footerImageView;
 
-    private GiveAwayAdapter mGiveAwayAdapter;
-    private OpenShopGoodsAdapter mOpenShopGoodsAdapter;
+    //    private GiveAwayAdapter mGiveAwayAdapter;
+    //    private OpenShopGoodsAdapter mOpenShopGoodsAdapter;
+
+    private MyAdapter mMyAdapter;
 
     private ArrayList<Map<String, String>> mGift_goods_list;
     private List<OpenShopGoods> mOpenShop_goods_list; // 开店商品列表
@@ -93,19 +90,44 @@ public class GiveAwayAreaAty extends BaseAty {
         mGift_goods_list = new ArrayList<>();
         mOpenShop_goods_list = new ArrayList<>();
 
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2);
-        mRecyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
-            @Override
-            public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
-                super.getItemOffsets(outRect, view, parent, state);
-                if (parent.getChildLayoutPosition(view) % 2 == 0) {
-                    outRect.set(0, 0, 10, 0);
-                } else {
-                    outRect.set(10, 0, 0, 0);
-                }
-            }
-        });
-        mRecyclerView.setLayoutManager(gridLayoutManager);
+
+        LinearLayoutManager manager = new LinearLayoutManager(this);
+        manager.setOrientation(LinearLayoutManager.VERTICAL);
+        mRecyclerView.setLayoutManager(manager);
+
+
+        //        final GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2);
+        //        mRecyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
+        //            @Override
+        //            public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+        //                super.getItemOffsets(outRect, view, parent, state);
+        //                if (parent.getChildLayoutPosition(view) % 2 == 0) {
+        //                    outRect.set(0, 0, 10, 0);
+        //                } else {
+        //                    outRect.set(10, 0, 0, 0);
+        //                }
+        //            }
+        //        });
+        //        mRecyclerView.setLayoutManager(gridLayoutManager);
+        //        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        //            @Override
+        //            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+        //                super.onScrollStateChanged(recyclerView, newState);
+        //                if (!mRecyclerView.canScrollVertically(-1)){
+        //                    mSuperSwipeRefreshLayout.setEnabled(false);
+        //                    mSuperSwipeRefreshLayout.setRefreshing(false);
+        //                }
+        //                if (!mRecyclerView.canScrollVertically(1)){
+        //                    mSuperSwipeRefreshLayout.setRefreshing(false);
+        //                }
+        //            }
+        //
+        //            @Override
+        //            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+        //                super.onScrolled(recyclerView, dx, dy);
+        //                Log.e("TAG", "onScrolled: "+dy);
+        //            }
+        //        });
 
 
         mSuperSwipeRefreshLayout.setOnPullRefreshListener(new SuperSwipeRefreshLayout.OnPullRefreshListener() {
@@ -181,27 +203,6 @@ public class GiveAwayAreaAty extends BaseAty {
                     mOpenShop_goods_list.add(openShopGoods);
                 }
 
-                if (mOpenShopGoodsAdapter == null) { // 设置Adapter
-                    LinearLayoutManager manager = new LinearLayoutManager(this);
-                    manager.setOrientation(LinearLayoutManager.HORIZONTAL);
-                    giveawayArea_horizontal_rv.setLayoutManager(manager); // 给RecyClerView 添加设置好的布局样式
-                    OpenShopGoodsAdapter.OnItemClickListener listener = new OpenShopGoodsAdapter.OnItemClickListener() {
-                        @Override
-                        public void onClick(int position) {
-                            String goods_id = mOpenShop_goods_list.get(position).getGoods_id();
-                            // 拼接字符串跳转至wap界面 ==> http://test3.wujiemall.com/Distribution/DistributionShop/shop/g_id/672/shop_id/0
-                            String urlStr = Config.SHARE_URL + "Distribution/DistributionShop/shop/g_id/" + goods_id + "/shop_id/" + shop_id;
-                            Bundle bundle = new Bundle();
-                            bundle.putString("url", urlStr);
-                            startActivity(WebViewAty.class, bundle);
-                        }
-                    };
-                    mOpenShopGoodsAdapter = new OpenShopGoodsAdapter(mOpenShop_goods_list, listener);
-                    giveawayArea_horizontal_rv.setAdapter(mOpenShopGoodsAdapter);
-                } else {
-                    mOpenShopGoodsAdapter.notifyDataSetChanged(); // 刷新Adapter
-                }
-
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -211,26 +212,13 @@ public class GiveAwayAreaAty extends BaseAty {
                 mGift_goods_list.clear();
             }
             mGift_goods_list.addAll(gift_goods_list);
-            if (null == mGiveAwayAdapter) {
-                mGiveAwayAdapter = new GiveAwayAdapter(mGift_goods_list);
-                mRecyclerView.setAdapter(mGiveAwayAdapter);
-            } else {
-                mGiveAwayAdapter.notifyDataSetChanged();
+            if (mMyAdapter==null){
+                mMyAdapter = new MyAdapter(mGift_goods_list,mOpenShop_goods_list,shop_id);
+                mRecyclerView.setAdapter(mMyAdapter);
+            }else {
+                mMyAdapter.notifyDataSetChanged();
             }
-            mGiveAwayAdapter.setOnItemClickListener(new GiveAwayAdapter.OnItemClickListener() {
-                @Override
-                public void onClick(int position) {
-                    Map<String, String> map = mGift_goods_list.get(position);
-                    String gift_goods_id = map.containsKey("gift_goods_id") ? map.get("gift_goods_id") : "";
-                    if (!gift_goods_id.isEmpty()) {
-                        Bundle bundle = new Bundle();
-                        bundle.putString("gift_goods_id", gift_goods_id);
-                        bundle.putInt("type", WJConfig.ZPZQ);
-                        startActivity(GiveAwayDetailsAty.class, bundle);
-                    }
 
-                }
-            });
         }
         refreshVisibleState();
     }
@@ -280,8 +268,171 @@ public class GiveAwayAreaAty extends BaseAty {
         return headerView;
     }
 
+    private static class MyAdapter extends RecyclerView.Adapter {
+
+        private Context mContext;
+        private static final int TYPE_ZERO = 0;
+        private static final int TYPE_FIRST = 1;
+        private static final int TYPE_SECOND = 2;
+        private static final int TYPE_THREE = 3;
+        private GiveAwayAdapter mGiveAwayAdapter;
+        private OpenShopGoodsAdapter mOpenShopGoodsAdapter;
+        private ArrayList<Map<String, String>> mGift_goods_list;
+        private List<OpenShopGoods> mOpenShop_goods_list;
+        private String shop_id;
+
+        public MyAdapter(ArrayList<Map<String, String>> gift_goods_list, List<OpenShopGoods> openShop_goods_list, String shop_id) {
+            mGift_goods_list = gift_goods_list;
+            mOpenShop_goods_list = openShop_goods_list;
+            this.shop_id = shop_id;
+        }
+
+
+        @NonNull
+        @Override
+        public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            if (mContext == null) {
+                mContext = parent.getContext();
+            }
+            if (viewType == TYPE_ZERO) {
+                View view = LayoutInflater.from(mContext).inflate(R.layout.give_away_item1, parent, false);
+                MyViewHolder holder = new MyViewHolder(view);
+                return holder;
+            } else if (viewType == TYPE_FIRST) {
+                View view = LayoutInflater.from(mContext).inflate(R.layout.give_away_item2, parent, false);
+                FirstViewHolder holder = new FirstViewHolder(view);
+                ViewUtils.inject(holder, view);
+                return holder;
+            } else if (viewType == TYPE_SECOND) {
+                View view = LayoutInflater.from(mContext).inflate(R.layout.give_away_item3, parent, false);
+                MyViewHolder holder = new MyViewHolder(view);
+                return holder;
+            } else {
+                View view = LayoutInflater.from(mContext).inflate(R.layout.give_away_item4, parent, false);
+                ThreeViewHolder holder = new ThreeViewHolder(view);
+                ViewUtils.inject(holder, view);
+                return holder;
+            }
+        }
+
+        @Override
+        public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+            if (holder instanceof FirstViewHolder) {
+                FirstViewHolder firstViewHolder = (FirstViewHolder) holder;
+                LinearLayoutManager manager = new LinearLayoutManager(mContext);
+                manager.setOrientation(LinearLayoutManager.HORIZONTAL);
+                firstViewHolder.kaidian_rv.setLayoutManager(manager); // 给RecyClerView 添加设置好的布局样式
+
+                if (mOpenShopGoodsAdapter == null) { // 设置Adapter
+                    mOpenShopGoodsAdapter = new OpenShopGoodsAdapter(mOpenShop_goods_list);
+                    firstViewHolder.kaidian_rv.setAdapter(mOpenShopGoodsAdapter);
+                } else {
+                    mOpenShopGoodsAdapter.notifyDataSetChanged(); // 刷新Adapter
+                }
+                mOpenShopGoodsAdapter.setOnItemClickListener(new OpenShopGoodsAdapter.OnItemClickListener() {
+                    @Override
+                    public void onClick(int position) {
+                        String goods_id = mOpenShop_goods_list.get(position).getGoods_id();
+                        // 拼接字符串跳转至wap界面 ==> http://test3.wujiemall.com/Distribution/DistributionShop/shop/g_id/672/shop_id/0
+                        String urlStr = Config.SHARE_URL + "Distribution/DistributionShop/shop/g_id/" + goods_id + "/shop_id/" + shop_id;
+                        Bundle bundle = new Bundle();
+                        bundle.putString("url", urlStr);
+                        Intent intent = new Intent();
+                        intent.setClass(mContext, WebViewAty.class);
+                        intent.putExtras(bundle);
+                        mContext.startActivity(intent);
+                    }
+                });
+            }
+            if (holder instanceof ThreeViewHolder) {
+                ThreeViewHolder threeViewHolder = (ThreeViewHolder) holder;
+                final GridLayoutManager gridLayoutManager = new GridLayoutManager(mContext, 2);
+                threeViewHolder.zengpin_rv.addItemDecoration(new RecyclerView.ItemDecoration() {
+                    @Override
+                    public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+                        super.getItemOffsets(outRect, view, parent, state);
+                        if (parent.getChildLayoutPosition(view) % 2 == 0) {
+                            outRect.set(0, 0, 10, 0);
+                        } else {
+                            outRect.set(10, 0, 0, 0);
+                        }
+                    }
+                });
+                threeViewHolder.zengpin_rv.setLayoutManager(gridLayoutManager);
+                if (null == mGiveAwayAdapter) {
+                    mGiveAwayAdapter = new GiveAwayAdapter(mGift_goods_list);
+                    threeViewHolder.zengpin_rv.setAdapter(mGiveAwayAdapter);
+                } else {
+                    mGiveAwayAdapter.notifyDataSetChanged();
+                }
+
+                mGiveAwayAdapter.setOnItemClickListener(new GiveAwayAdapter.OnItemClickListener() {
+                    @Override
+                    public void onClick(int position) {
+                        Map<String, String> map = mGift_goods_list.get(position);
+                        String gift_goods_id = map.containsKey("gift_goods_id") ? map.get("gift_goods_id") : "";
+                        if (!gift_goods_id.isEmpty()) {
+                            Bundle bundle = new Bundle();
+                            bundle.putString("gift_goods_id", gift_goods_id);
+                            bundle.putInt("type", WJConfig.ZPZQ);
+                            Intent intent = new Intent();
+                            intent.setClass(mContext, GiveAwayDetailsAty.class);
+                            intent.putExtras(bundle);
+                            mContext.startActivity(intent);
+                        }
+
+                    }
+                });
+            }
+        }
+
+        @Override
+        public int getItemViewType(int position) {
+            if (position == 0) {
+                return TYPE_ZERO;
+            } else if (position == 1) {
+                return TYPE_FIRST;
+            } else if (position == 2) {
+                return TYPE_SECOND;
+            } else {
+                return TYPE_THREE;
+            }
+        }
+
+        @Override
+        public int getItemCount() {
+            return 4;
+        }
+
+        class MyViewHolder extends RecyclerView.ViewHolder {
+            public MyViewHolder(View itemView) {
+                super(itemView);
+            }
+        }
+
+        class FirstViewHolder extends RecyclerView.ViewHolder {
+            @ViewInject(R.id.kaidian_rv)
+            private RecyclerView kaidian_rv;
+
+            public FirstViewHolder(View itemView) {
+                super(itemView);
+            }
+        }
+
+        class ThreeViewHolder extends RecyclerView.ViewHolder {
+            @ViewInject(R.id.zengpin_rv)
+            private RecyclerView zengpin_rv;
+
+            public ThreeViewHolder(View itemView) {
+                super(itemView);
+            }
+        }
+
+    }
+
 
     private static class GiveAwayAdapter extends RecyclerView.Adapter<GiveAwayAdapter.MyViewHolder> {
+
         private Context mContext;
         private ArrayList<Map<String, String>> gift_goods_list;
         private OnItemClickListener mOnItemClickListener;
@@ -302,6 +453,11 @@ public class GiveAwayAreaAty extends BaseAty {
             MyViewHolder holder = new MyViewHolder(view);
             ViewUtils.inject(holder, view);
             return holder;
+        }
+
+        @Override
+        public int getItemViewType(int position) {
+            return super.getItemViewType(position);
         }
 
         @Override
@@ -380,9 +536,12 @@ public class GiveAwayAreaAty extends BaseAty {
         private List<OpenShopGoods> list;
         private OnItemClickListener mOnItemClickListener;
 
-        public OpenShopGoodsAdapter(List<OpenShopGoods> list, OnItemClickListener onItemClickListener) {
+        public OpenShopGoodsAdapter(List<OpenShopGoods> list) {
             this.list = list;
-            this.mOnItemClickListener = onItemClickListener;
+        }
+
+        public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+            mOnItemClickListener = onItemClickListener;
         }
 
         @NonNull
