@@ -45,7 +45,7 @@ public class OrderCenterAty extends BaseAty {
             "线上商城", "线下店铺", "堂食点餐",
             "积分商店", "拼单购", "无界预购",
             "比价购", "积分抽奖", "汽车购",
-            "房产购", "会员卡", "线上充值","399专区",
+            "房产购", "会员卡", "线上充值", "399专区",
             "赠品专区"};
 
     @Override
@@ -123,11 +123,11 @@ public class OrderCenterAty extends BaseAty {
                     mBundle.putString("title", "线上充值");
                     mBundle.putString("type", "8");
                     startActivity(OnlineShopAty.class, mBundle);
-                }else if (showItem.getShowName().equals(itemShowNames[12])) {
+                } else if (showItem.getShowName().equals(itemShowNames[12])) {
                     mBundle.putString("title", itemShowNames[12]);
                     mBundle.putString("type", WJConfig.TYPE_SJJZQ);
                     startActivity(OnlineShopAty.class, mBundle);
-                }else if (showItem.getShowName().equals(itemShowNames[13])) {
+                } else if (showItem.getShowName().equals(itemShowNames[13])) {
                     mBundle.putString("title", itemShowNames[13]);
                     mBundle.putString("type", WJConfig.TYPE_ZPZQ);
                     startActivity(OnlineShopAty.class, mBundle);

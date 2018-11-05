@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/itemGaveAwayOpenShop_llayout"
+    android:layout_width="180dp"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="8dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/itemGaveAwayOpenShop_goodsLogo_imgv"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:scaleType="fitXY"
+            tools:src="@mipmap/ic_launcher" />
+
+        <ImageView
+            android:id="@+id/itemGaveAwayOpenShop_dengji_imgv"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:scaleType="fitCenter"
+            tools:src="@drawable/fx_icon_chuji" />
+
+    </RelativeLayout>
+
+
+    <TextView
+        android:id="@+id/itemGaveAwayOpenShop_name_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:maxLines="2"
+        android:minLines="2"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:textColor="@color/black"
+        tools:text="产品名称产品名称产品名称产品名称产品名称产品名称" />
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/itemGaveAwayOpenShop_gaveGiftCoupon_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:background="@drawable/zp_bg1"
+            android:paddingBottom="3dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:paddingTop="3dp"
+            android:textColor="@color/white"
+            tools:text="送赠品券 100" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingLeft="5dp">
+
+        <TextView
+            android:id="@+id/itemGaveAwayOpenShop_renminbi_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="¥"
+            android:textColor="@color/colorAccent" />
+
+        <TextView
+            android:id="@+id/itemGaveAwayOpenShop_money_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorAccent"
+            android:textSize="18sp"
+            tools:text="99.99" />
+    </LinearLayout>
+</LinearLayout>

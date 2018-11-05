@@ -36,6 +36,7 @@ public class OrderTitleUtils {
     private String[] title4 = {"全部", "进行中", "未中奖", "已中奖"};
     private String[] title5 = {"全部", "待付款", "办理手续中", "待评价"};
     private String[] title6 = {"全部", "待支付", "已支付"};
+    private String[] title7 = {"全部", "待付款", "待发货", "待收货"};
 
     public List<Map<String, String>> orderTitle1() {
         List<Map<String, String>> list = new ArrayList<>();
@@ -98,6 +99,17 @@ public class OrderTitleUtils {
             Map<String, String> map = new HashMap<>();
             map.put("title", title6[i]);
             map.put("type", String.valueOf(i + 1));
+            list.add(map);
+        }
+        return list;
+    }
+
+    public List<Map<String, String>> orderTitle7() {
+        List<Map<String, String>> list = new ArrayList<>();
+        for (int i = 0; i < title7.length; i++) {
+            Map<String, String> map = new HashMap<>();
+            map.put("title", title7[i]);
+            map.put("type", String.valueOf(i));
             list.add(map);
         }
         return list;

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_margin="1dp"
     android:background="@color/white"
     android:orientation="vertical"
@@ -25,8 +25,20 @@
         android:ellipsize="end"
         android:maxLines="2"
         android:minLines="2"
-        tools:text="安静多了房间里大力开发和拉肯定会福利卡上的福利卡上代理反馈哈劳动法考核阿里单号福利卡好的福利卡好的福利卡回来的看法回来的鸿福路口sad风火轮开始"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        tools:text="安静多了房间里大力开发和拉肯定会福利卡上的福利卡上代理反馈哈劳动法考核阿里单号福利卡好的福利卡好的福利卡回来的看法回来的鸿福路口sad风火轮开始" />
+
+    <TextView
+        android:id="@+id/itemShopManageOpen_giftCoupon_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/zp_bg1"
+        android:paddingBottom="3dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="3dp"
+        android:text="赠送"
+        android:textColor="@color/white" />
 
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -50,9 +62,9 @@
                 android:id="@+id/itemShopManageOpen_meny_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="499.00"
                 android:textColor="#E71F19"
-                android:textSize="15sp" />
+                android:textSize="15sp"
+                tools:text="499.00" />
         </LinearLayout>
 
         <ImageView

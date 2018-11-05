@@ -1,22 +1,122 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
 
     <include layout="@layout/aty_title" />
 
-    <com.txd.hzj.wjlp.view.SuperSwipeRefreshLayout
-        android:id="@+id/giveaway_refreshLayout"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/giveaway_recyclerView"
+        <com.txd.hzj.wjlp.view.SuperSwipeRefreshLayout
+            android:id="@+id/giveaway_refreshLayout"
             android:layout_width="match_parent"
-            tools:listitems="@layout/giveaway_item"
-            android:layout_height="wrap_content" />
-    </com.txd.hzj.wjlp.view.SuperSwipeRefreshLayout>
+            android:layout_height="match_parent">
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:padding="8dp">
+
+                        <View
+                            android:layout_width="30dp"
+                            android:layout_height="2dp"
+                            android:layout_marginRight="15dp"
+                            android:background="@color/colorAccent" />
+
+                        <ImageView
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:layout_marginRight="8dp"
+                            android:scaleType="fitXY"
+                            android:src="@mipmap/kaidianshangpin" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="开店商品"
+                            android:textColor="@color/black"
+                            android:textSize="16sp" />
+
+                        <View
+                            android:layout_width="30dp"
+                            android:layout_height="2dp"
+                            android:layout_marginLeft="15dp"
+                            android:background="@color/colorAccent" />
+                    </LinearLayout>
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/giveawayArea_horizontal_rv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="4dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:padding="8dp">
+
+                    <View
+                        android:layout_width="30dp"
+                        android:layout_height="2dp"
+                        android:layout_marginRight="15dp"
+                        android:background="@color/colorAccent" />
+
+                    <ImageView
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_marginRight="8dp"
+                        android:scaleType="fitXY"
+                        android:src="@mipmap/fuli" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="赠品商品"
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
+
+                    <View
+                        android:layout_width="30dp"
+                        android:layout_height="2dp"
+                        android:layout_marginLeft="15dp"
+                        android:background="@color/colorAccent" />
+                </LinearLayout>
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/giveaway_recyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:listitems="@layout/giveaway_item" />
+            </LinearLayout>
+            <!--<android.support.v7.widget.RecyclerView-->
+            <!--android:id="@+id/giveaway_recyclerView"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--tools:listitems="@layout/giveaway_item" />-->
+        </com.txd.hzj.wjlp.view.SuperSwipeRefreshLayout>
+    </FrameLayout>
 </LinearLayout>

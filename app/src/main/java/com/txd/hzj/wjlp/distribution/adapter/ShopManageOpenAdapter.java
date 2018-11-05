@@ -52,6 +52,7 @@ public class ShopManageOpenAdapter extends BaseAdapter {
             holder = new ViewHolder();
             convertView = LayoutInflater.from(context).inflate(R.layout.item_shopmanage_openshop, null);
             holder.itemShopManageOpen_image_imgv = convertView.findViewById(R.id.itemShopManageOpen_image_imgv);
+            holder.itemShopManageOpen_giftCoupon_tv = convertView.findViewById(R.id.itemShopManageOpen_giftCoupon_tv);
             holder.itemShopManageOpen_name_tv = convertView.findViewById(R.id.itemShopManageOpen_name_tv);
             holder.itemShopManageOpen_meny_tv = convertView.findViewById(R.id.itemShopManageOpen_meny_tv);
             holder.itemShopManageOpen_share_imgv = convertView.findViewById(R.id.itemShopManageOpen_share_imgv);
@@ -61,12 +62,13 @@ public class ShopManageOpenAdapter extends BaseAdapter {
         }
 
         Glide.with(context).load(list.get(position).getGoods_img()).asBitmap().into(holder.itemShopManageOpen_image_imgv);
+        holder.itemShopManageOpen_giftCoupon_tv.setText("赠送品券" + list.get(position).getGoods_gift());
         holder.itemShopManageOpen_name_tv.setText(list.get(position).getGoods_name());
         holder.itemShopManageOpen_meny_tv.setText(list.get(position).getShop_price());
         holder.itemShopManageOpen_share_imgv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                imageClick.onImageClick(v,position);
+                imageClick.onImageClick(v, position);
             }
         });
 
@@ -75,14 +77,17 @@ public class ShopManageOpenAdapter extends BaseAdapter {
 
     public class ViewHolder {
         private ImageView itemShopManageOpen_image_imgv;
+        private TextView itemShopManageOpen_giftCoupon_tv;
         private TextView itemShopManageOpen_name_tv;
         private TextView itemShopManageOpen_meny_tv;
         private ImageView itemShopManageOpen_share_imgv;
     }
-    public void setOnImageClickListener(ImageClick imageClick){
-        this.imageClick=imageClick;
+
+    public void setOnImageClickListener(ImageClick imageClick) {
+        this.imageClick = imageClick;
     }
-    public interface  ImageClick{
-        void onImageClick(View view,int position);
+
+    public interface ImageClick {
+        void onImageClick(View view, int position);
     }
 }

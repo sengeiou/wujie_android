@@ -595,13 +595,13 @@ public class OrderOnLineFgt extends BaseFgt {
                 }
             });
             is_pay_password = getItem(position).get("is_pay_password");
-            L.e("wang", "getItem(position):" + getItem(position));
+
             // TODO ======================================设置商品显示适配器=======================================================
             holder.goods_for_order_lv.setAdapter(new GoodsForOrderAdapter(list_data, position, mOrderType));
             holder.goods_for_order_lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int i, long id) {
-                    if (from.equals("0") || from.equals(WJConfig.TYPE_SJJZQ)) {
+                    if (from.equals("0") || from.equals(WJConfig.TYPE_SJJZQ)) { // 399专区
                         Bundle bundle = new Bundle();
                         bundle.putString("id", goods_list.get(position).get("order_id"));
                         bundle.putString("type", from);
@@ -832,7 +832,6 @@ public class OrderOnLineFgt extends BaseFgt {
                     GiveAwayModel.postGiftGoodsOrderReceiving(getItem(position).get("order_id"), "", OrderOnLineFgt.this);
                 } else {
                     IntegralBuyOrder.Receiving(getItem(position).get("order_id"), "", OrderOnLineFgt.this);
-
                 }
                 showProgressDialog();
             } else if (getItem(position).get("order_status").equals("4") || getItem(position).get("order_status").equals("5")) {

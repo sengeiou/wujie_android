@@ -191,9 +191,9 @@ public class OrderDetailsAty extends BaseAty {
         if (TextUtils.isEmpty(order_id)) {
             order_id = getIntent().getStringExtra("id");
             type = getIntent().getStringExtra("type");
-            if (WJConfig.TYPE_ZPZQ.equals(type)){
+            if (WJConfig.TYPE_ZPZQ.equals(type)) {
                 yunfei_layout.setVisibility(View.GONE);
-            }else {
+            } else {
                 yunfei_layout.setVisibility(View.VISIBLE);
             }
         }
@@ -457,7 +457,8 @@ public class OrderDetailsAty extends BaseAty {
             tv_logistics.setText(data.get("logistics"));
             tv_logistics_time.setText(data.get("logistics_time"));
             leave_message.setText(data.get("leave_message"));
-            tv_merchant_name.setText(data.get("merchant_name"));
+            String merchant_name = data.get("shop_name").isEmpty() ? data.get("merchant_name") : data.get("shop_name");
+            tv_merchant_name.setText(merchant_name);
             if (data.containsKey("freight")) {
                 order_freight_tv.setText(Double.parseDouble(data.get("freight")) > 0 ? data.get("freight") + "元" : "包邮");
             }
@@ -482,9 +483,9 @@ public class OrderDetailsAty extends BaseAty {
                         ticket_color = "蓝券";
                         break;
                 }
-                if (WJConfig.TYPE_ZPZQ.equals(type)){
+                if (WJConfig.TYPE_ZPZQ.equals(type)) {
                     order_price_info_tv.setText(Html.fromHtml("共" + calcGoodsNum() + "件商品 合计： <font color='#DF3031'>" + data.get("order_price") + "赠品券</font>"));
-                }else {
+                } else {
                     order_price_info_tv.setText(Html.fromHtml("共" + calcGoodsNum() + "件商品 合计： <font color='#DF3031'>¥" + (data.get("ticket_color").equals("0") ? data.get("order_price") :
                             (bd.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue() + "(已抵" + data.get("pay_tickets") + ticket_color + ")")) + "</font>"));
                 }
@@ -904,6 +905,9 @@ public class OrderDetailsAty extends BaseAty {
                     tgvh.tv_2980.setText("2980");
                 } else if (WJConfig.TYPE_SJJZQ.equals(type)) {
                     tgvh.tv_2980.setText("399");
+                    if (!"2".equals(map.get("is_active"))) {
+                        tgvh.tv_2980.setVisibility(View.GONE);
+                    }
                 }
             } else {
                 tgvh.tv_2980.setVisibility(View.GONE);

@@ -87,8 +87,9 @@ public class DistributionGoodsBean {
         private String shop_price;
         private String market_price;
         private String sell_num;
+        private String goods_gift;
         private int ticket_buy_discount;
-        private boolean mChecked=false;
+        private boolean mChecked = false;
 
 
         public String getGoods_brief() {
@@ -209,6 +210,14 @@ public class DistributionGoodsBean {
 
         public void setTicket_buy_discount(int ticket_buy_discount) {
             this.ticket_buy_discount = ticket_buy_discount;
+        }
+
+        public String getGoods_gift() {
+            return goods_gift;
+        }
+
+        public void setGoods_gift(String goods_gift) {
+            this.goods_gift = goods_gift;
         }
 
         public void setChecked(boolean checked) {
