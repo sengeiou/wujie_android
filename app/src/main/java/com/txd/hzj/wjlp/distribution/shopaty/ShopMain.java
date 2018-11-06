@@ -224,6 +224,9 @@ public class ShopMain extends BaseAty implements OnClickListener {
                 bundle.putString("pic", shopUrl);
                 String shop_id_jiami = PreferencesUtils.getString(AppManager.getInstance().getTopActivity(), "shop_id_jiami");
                 bundle.putString("url", Config.SHARE_URL + "Distribution/DistributionShop/shop/shop_id/" + shop_id_jiami + ".html");
+                if (shopDesc==null || shopDesc.isEmpty() || shopDesc.equals("null")){
+                    shopDesc="终于等到你，还好我没放弃。欢迎光临本小店~";
+                }
                 bundle.putString("context", shopDesc);
                 bundle.putString("id", user_id);
                 bundle.putString("Shapetype", "6");
