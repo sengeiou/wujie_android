@@ -165,11 +165,19 @@ public class ShopRevenue extends BaseAty implements View.OnClickListener {
                 }
                 JSONObject normal = data.getJSONObject("normal");
                 String count = normal.getString("count");
-                normal_goods_tv.setText(mFormat.format(Double.parseDouble(count)));
+                if (c_type.equals("0")) {
+                    normal_goods_tv.setText(mFormat.format(Double.parseDouble(count))+"积分");
+                }else if (c_type.equals("1")){
+                    normal_goods_tv.setText(mFormat.format(Double.parseDouble(count))+"元");
+                }
                 JSONObject normalData = normal.getJSONObject("data");
                 JSONObject dis = data.getJSONObject("dis");
                 String disString = dis.getString("count");
-                fenxiao_goods_tv.setText(mFormat.format(Double.parseDouble(disString)));
+                if (c_type.equals("0")) {
+                    fenxiao_goods_tv.setText(mFormat.format(Double.parseDouble(disString))+"余额");
+                }else if (c_type.equals("1")){
+                    fenxiao_goods_tv.setText(mFormat.format(Double.parseDouble(disString))+"元");
+                }
                 JSONObject disData = dis.getJSONObject("data");
                 normaList = new ArrayList<>();
                 disList = new ArrayList<>();
