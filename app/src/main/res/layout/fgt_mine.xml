@@ -523,7 +523,7 @@
                         android:drawableStart="@drawable/dianpuguanli"
                         android:gravity="center_vertical"
                         android:padding="12dp"
-                        android:text="我的店铺"
+                        android:text="链客网店"
                         android:textColor="@color/app_text_color" />
 
                     <View

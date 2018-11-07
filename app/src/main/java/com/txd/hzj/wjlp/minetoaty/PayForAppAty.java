@@ -593,7 +593,8 @@ public class PayForAppAty extends BaseAty {
                     if (data.containsKey("ticket_price")){
                         d=Double.parseDouble(data.get("ticket_price"));
                     }
-                    String format = decimalFormat.format((total_price-d));
+                    total_price-=d;
+                    String format = decimalFormat.format(total_price);
                     tv_desc.setText(data.containsKey("ticket_info")?data.get("ticket_info"):"");
                     tv_price.setText("¥" + format);
                 } else {
@@ -1043,6 +1044,7 @@ public class PayForAppAty extends BaseAty {
                                 setImage(type, r.isChecked(), y.isChecked(), b.isChecked());
                                 setCheck(4);
                                 String num = decimalFormat.format(total_price);
+                                tv_desc.setText(order.containsKey("ticket_info")?order.get("ticket_info"):"");
                                 tv_price.setText("¥" + num);
                                 if (order.containsKey("red_return_integral") && Integer.parseInt(order.get("red_return_integral")) > 0) {
                                     mIn = order.get("red_return_integral");

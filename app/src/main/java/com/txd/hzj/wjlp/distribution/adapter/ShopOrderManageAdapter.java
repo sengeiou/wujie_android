@@ -101,9 +101,9 @@ public class ShopOrderManageAdapter extends RecyclerView.Adapter {
         holders.time_tv.setVisibility(View.VISIBLE);
         holders.time_tv.setText(dataBean.getOrder_time());
 
-        if (!TextUtils.isEmpty(dataBean.getIs_open()) || "0".equals(dataBean.getIs_open())) {
+        if (!TextUtils.isEmpty(dataBean.getIs_open()) && "0".equals(dataBean.getIs_open())) {
             holders.kaidian_pic.setVisibility(View.GONE);
-        } else if (!TextUtils.isEmpty(dataBean.getIs_open()) || "1".equals(dataBean.getIs_open())) {
+        } else if (!TextUtils.isEmpty(dataBean.getIs_open()) && "1".equals(dataBean.getIs_open())) {
             holders.kaidian_pic.setVisibility(View.VISIBLE);
         }
 
