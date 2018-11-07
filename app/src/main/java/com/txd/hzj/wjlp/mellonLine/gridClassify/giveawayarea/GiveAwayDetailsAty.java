@@ -996,11 +996,12 @@ public class GiveAwayDetailsAty extends BaseAty implements ObservableScrollView.
                 get_a_coupon_lin_layout.setVisibility(View.GONE);
             }
             // 评论
-            Map<String, String> commentMap = JSONUtils.parseKeyAndValueToMap(JSONUtils.getMapValue(data, "comment"));
-            CommentBean comment = new CommentBean();
-            BodyBean bean = (BodyBean) JSONUtils.parseKeyAndValueToMap(JSONUtils.getMapValue(commentMap, "body"));
-            comment.setBody(bean);
-            comment.setTotal(JSONUtils.getMapValue(commentMap, "total"));
+//            Map<String, String> commentMap = JSONUtils.parseKeyAndValueToMap(JSONUtils.getMapValue(data, "comment"));
+            CommentBean comment = JSONObject.parseObject(JSONUtils.getMapValue(data, "comment"), CommentBean.class);
+//            CommentBean comment = new CommentBean();
+//            BodyBean bean = (BodyBean) JSONUtils.parseKeyAndValueToMap(JSONUtils.getMapValue(commentMap, "body"));
+//            comment.setBody(bean);
+//            comment.setTotal(JSONUtils.getMapValue(commentMap, "total"));
             if (null != comment) {
                 try {
                     all_comment_num_tv.setText("商品评价(" + comment.getTotal() + ")");
@@ -1158,14 +1159,11 @@ public class GiveAwayDetailsAty extends BaseAty implements ObservableScrollView.
                 //                bundle.putInt("from", 2);
                 bundle.putInt("from", 0);//0商品
                 bundle.putString("mid", mell_id);
-                bundle.putString("goods_id", goods_id);
+                bundle.putString("goods_id", goodsInfo.getGoods_id());
                 startActivity(GoodsEvaluateAty.class, bundle);
                 break;
             }
             case R.id.tv_chose_ads:
-                //                if (isLoaded) {
-                //                    ShowPickerView();
-                //                }
                 ProUrbAreaUtil.gainInstance().showPickerView(tv_chose_ads, goods_id, String.valueOf(goods_number), product_id, GiveAwayDetailsAty.this, GiveAwayDetailsAty.this);
                 break;
             case R.id.tv_showClassify:
