@@ -17,7 +17,6 @@
     <ImageView
         android:id="@+id/img"
         tools:src="@mipmap/ic_launcher"
-        android:scaleType="fitXY"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/sure_tv"/>
