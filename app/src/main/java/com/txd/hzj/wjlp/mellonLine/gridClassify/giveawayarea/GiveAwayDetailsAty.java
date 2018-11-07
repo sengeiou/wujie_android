@@ -887,7 +887,7 @@ public class GiveAwayDetailsAty extends BaseAty implements ObservableScrollView.
             String tx = DemoApplication.getInstance().getLocInfo().get("province")
                     + "," + DemoApplication.getInstance().getLocInfo().get("city") + "," + DemoApplication.getInstance().getLocInfo().get("district");
             tv_chose_ads.setText(tx);
-            commodityPranster.freight(goods_id, tx, String.valueOf(goods_number), product_id);
+            commodityPranster.freight(goodsInfo.getGoods_id(), tx, String.valueOf(goods_number), product_id);
 
             if (goodsInfo.getIs_new_goods().equals("0") && goodsInfo.getIs_end().equals("1")) {
                 tv_expirationdate.setText(goodsInfo.getIs_new_goods_desc() + "\n" + goodsInfo.getIs_end_desc());
