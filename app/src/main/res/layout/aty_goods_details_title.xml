@@ -44,7 +44,7 @@
                 <TextView
                     android:id="@+id/now_price_tv"
                     tools:text="150"
-                    android:maxWidth="150dp"
+                    android:maxWidth="160dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/theme_color"

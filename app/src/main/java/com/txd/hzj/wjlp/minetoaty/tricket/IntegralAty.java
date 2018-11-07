@@ -179,6 +179,11 @@ public class IntegralAty extends BaseAty {
                             JSONObject data = jsonObject.getJSONObject("data");
                             int complete_status = Integer.parseInt(data.isNull("complete_status") ? "0" : data.getString("complete_status"));
                             int user_card_type = Integer.parseInt(data.isNull("user_card_type") ? "0" : data.getString("user_card_type"));
+                            String uct_status = data.isNull("uct_status") ? "" : data.getString("uct_status");
+                            if (uct_status.equals("1")){
+                                complete_status = 2;
+                                user_card_type = 2;
+                            }
 
                             if (complete_status != 0) { // 如果字段存在，执行if中的语句
                                 if (complete_status == 1 || user_card_type == 3) {

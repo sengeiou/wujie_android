@@ -807,7 +807,7 @@ public class GoodsAttributeAty extends BaseAty {
                         if (WJConfig.TYPE_JFSD.equals(type)) {
                             ChangeTextViewStyle.getInstance().forGoodsPrice24(GoodsAttributeAty.this, goods_price_tv, "积分" + val.getUse_integral());
                         } else if (WJConfig.TYPE_ZPZQ.equals(type)) {
-                            ChangeTextViewStyle.getInstance().forGoodsPrice24(GoodsAttributeAty.this, goods_price_tv, "赠品券" + val.getShop_price());
+                            ChangeTextViewStyle.getInstance().forGoodsPrice24(GoodsAttributeAty.this, goods_price_tv, val.getUse_voucher()+"赠品券" );
                         }else {
                             ChangeTextViewStyle.getInstance().forGoodsPrice24(GoodsAttributeAty.this, goods_price_tv, "￥" + val.getShop_price());
                         }

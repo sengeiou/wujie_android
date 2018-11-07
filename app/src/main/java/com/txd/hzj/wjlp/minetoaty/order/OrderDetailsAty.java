@@ -889,7 +889,7 @@ public class OrderDetailsAty extends BaseAty {
             tgvh.name.setText(map.get("goods_name")); // 设置商品名称显示
             tgvh.num.setText("x" + map.get("goods_num")); // 设置商品数量显示
             tgvh.title.setText(map.get("attr")); // 设置商品属性
-            if (WJConfig.TYPE_JFSD.equals(type) || WJConfig.TYPE_SJJZQ.equals(type) || WJConfig.TYPE_ZPZQ.equals(type) || WJConfig.TYPE_EJBL.equals(mOrder_type)) {
+            if (WJConfig.TYPE_JFSD.equals(type) || (WJConfig.TYPE_SJJZQ.equals(type) && "2".equals(map.get("is_active"))) || WJConfig.TYPE_ZPZQ.equals(type) || WJConfig.TYPE_EJBL.equals(mOrder_type)) {
                 tgvh.jifenTv.setVisibility(View.GONE);
             } else {
                 tgvh.jifenTv.setVisibility(View.VISIBLE);
@@ -1275,6 +1275,9 @@ public class OrderDetailsAty extends BaseAty {
                                         GiveAwayModel.postGiftGoodsOrderReceiving(order_id, "2", OrderDetailsAty.this);
                                         break;
                                     }
+                                    case WJConfig.TYPE_SJJZQ: {
+                                        Order.receiving(order_id, list.get(clickIndex).get("order_goods_id"), "2", OrderDetailsAty.this);
+                                    }
 
                                 }
                                 L.e("wang", "===============>>>>>>>>>>>>>>> tv1 click status = 1");
@@ -1304,7 +1307,10 @@ public class OrderDetailsAty extends BaseAty {
                                         GiveAwayModel.postGiftGoodsOrderReceiving(order_id, "1", OrderDetailsAty.this);
                                         break;
                                     }
-
+                                    case WJConfig.TYPE_SJJZQ: {
+                                        Order.receiving(order_id, list.get(clickIndex).get("order_goods_id"), "1", OrderDetailsAty.this);
+                                        break;
+                                    }
                                 }
                                 showProgressDialog();
                                 commonPopupWindow.dismiss();

@@ -96,38 +96,6 @@ public class GiveAwayAreaAty extends BaseAty {
         mRecyclerView.setLayoutManager(manager);
 
 
-        //        final GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2);
-        //        mRecyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
-        //            @Override
-        //            public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
-        //                super.getItemOffsets(outRect, view, parent, state);
-        //                if (parent.getChildLayoutPosition(view) % 2 == 0) {
-        //                    outRect.set(0, 0, 10, 0);
-        //                } else {
-        //                    outRect.set(10, 0, 0, 0);
-        //                }
-        //            }
-        //        });
-        //        mRecyclerView.setLayoutManager(gridLayoutManager);
-        //        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-        //            @Override
-        //            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-        //                super.onScrollStateChanged(recyclerView, newState);
-        //                if (!mRecyclerView.canScrollVertically(-1)){
-        //                    mSuperSwipeRefreshLayout.setEnabled(false);
-        //                    mSuperSwipeRefreshLayout.setRefreshing(false);
-        //                }
-        //                if (!mRecyclerView.canScrollVertically(1)){
-        //                    mSuperSwipeRefreshLayout.setRefreshing(false);
-        //                }
-        //            }
-        //
-        //            @Override
-        //            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-        //                super.onScrolled(recyclerView, dx, dy);
-        //                Log.e("TAG", "onScrolled: "+dy);
-        //            }
-        //        });
 
 
         mSuperSwipeRefreshLayout.setOnPullRefreshListener(new SuperSwipeRefreshLayout.OnPullRefreshListener() {
@@ -294,25 +262,29 @@ public class GiveAwayAreaAty extends BaseAty {
             if (mContext == null) {
                 mContext = parent.getContext();
             }
-            if (viewType == TYPE_ZERO) {
-                View view = LayoutInflater.from(mContext).inflate(R.layout.give_away_item1, parent, false);
-                MyViewHolder holder = new MyViewHolder(view);
-                return holder;
-            } else if (viewType == TYPE_FIRST) {
-                View view = LayoutInflater.from(mContext).inflate(R.layout.give_away_item2, parent, false);
-                FirstViewHolder holder = new FirstViewHolder(view);
-                ViewUtils.inject(holder, view);
-                return holder;
-            } else if (viewType == TYPE_SECOND) {
-                View view = LayoutInflater.from(mContext).inflate(R.layout.give_away_item3, parent, false);
-                MyViewHolder holder = new MyViewHolder(view);
-                return holder;
-            } else {
-                View view = LayoutInflater.from(mContext).inflate(R.layout.give_away_item4, parent, false);
-                ThreeViewHolder holder = new ThreeViewHolder(view);
-                ViewUtils.inject(holder, view);
-                return holder;
-            }
+//            if (viewType == TYPE_ZERO) {
+//                View view = LayoutInflater.from(mContext).inflate(R.layout.give_away_item1, parent, false);
+//                MyViewHolder holder = new MyViewHolder(view);
+//                return holder;
+//            } else if (viewType == TYPE_FIRST) {
+//                View view = LayoutInflater.from(mContext).inflate(R.layout.give_away_item2, parent, false);
+//                FirstViewHolder holder = new FirstViewHolder(view);
+//                ViewUtils.inject(holder, view);
+//                return holder;
+//            } else if (viewType == TYPE_SECOND) {
+//                View view = LayoutInflater.from(mContext).inflate(R.layout.give_away_item3, parent, false);
+//                MyViewHolder holder = new MyViewHolder(view);
+//                return holder;
+//            } else {
+//                View view = LayoutInflater.from(mContext).inflate(R.layout.give_away_item4, parent, false);
+//                ThreeViewHolder holder = new ThreeViewHolder(view);
+//                ViewUtils.inject(holder, view);
+//                return holder;
+//            }
+            View view = LayoutInflater.from(mContext).inflate(R.layout.give_away_item4, parent, false);
+            ThreeViewHolder holder = new ThreeViewHolder(view);
+            ViewUtils.inject(holder, view);
+            return holder;
         }
 
         @Override
@@ -387,20 +359,21 @@ public class GiveAwayAreaAty extends BaseAty {
 
         @Override
         public int getItemViewType(int position) {
-            if (position == 0) {
-                return TYPE_ZERO;
-            } else if (position == 1) {
-                return TYPE_FIRST;
-            } else if (position == 2) {
-                return TYPE_SECOND;
-            } else {
-                return TYPE_THREE;
-            }
+//            if (position == 0) {
+//                return TYPE_ZERO;
+//            } else if (position == 1) {
+//                return TYPE_FIRST;
+//            } else if (position == 2) {
+//                return TYPE_SECOND;
+//            } else {
+//                return TYPE_THREE;
+//            }
+            return TYPE_THREE;
         }
 
         @Override
         public int getItemCount() {
-            return 4;
+            return 1;
         }
 
         class MyViewHolder extends RecyclerView.ViewHolder {
