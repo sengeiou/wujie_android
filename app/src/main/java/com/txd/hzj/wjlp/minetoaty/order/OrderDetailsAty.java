@@ -1275,6 +1275,9 @@ public class OrderDetailsAty extends BaseAty {
                                         GiveAwayModel.postGiftGoodsOrderReceiving(order_id, "2", OrderDetailsAty.this);
                                         break;
                                     }
+                                    case WJConfig.TYPE_SJJZQ: {
+                                        Order.receiving(order_id, list.get(clickIndex).get("order_goods_id"), "2", OrderDetailsAty.this);
+                                    }
 
                                 }
                                 L.e("wang", "===============>>>>>>>>>>>>>>> tv1 click status = 1");
@@ -1304,7 +1307,10 @@ public class OrderDetailsAty extends BaseAty {
                                         GiveAwayModel.postGiftGoodsOrderReceiving(order_id, "1", OrderDetailsAty.this);
                                         break;
                                     }
-
+                                    case WJConfig.TYPE_SJJZQ: {
+                                        Order.receiving(order_id, list.get(clickIndex).get("order_goods_id"), "1", OrderDetailsAty.this);
+                                        break;
+                                    }
                                 }
                                 showProgressDialog();
                                 commonPopupWindow.dismiss();

@@ -56,6 +56,7 @@ public class ShopOrderFragment extends BaseFgt {
     private String mTitle;
     private String mStatus="";
     private String mShop_id;
+    private int p=1;
 
     public static ShopOrderFragment newInstance(String string) {
         ShopOrderFragment fragment = new ShopOrderFragment();
@@ -105,7 +106,7 @@ public class ShopOrderFragment extends BaseFgt {
             }
         }
         if (null != mExhibitPst && !TextUtils.isEmpty(mShop_id)) {
-            mExhibitPst.shopOrderList(mShop_id, "2", mStatus);
+            mExhibitPst.shopOrderList(mShop_id, "2",p, mStatus);
         }
     }
 
@@ -117,7 +118,7 @@ public class ShopOrderFragment extends BaseFgt {
     @Override
     protected void immersionInit() {
         refreshLayout.setHeaderView(createHeaderView());// add headerView
-//        refreshLayout.setFooterView(createFooterView());
+        refreshLayout.setFooterView(createFooterView());
         refreshLayout.setHeaderViewBackgroundColor(Color.WHITE);
         refreshLayout.setTargetScrollWithLayout(true);
         refreshLayout.setOnPullRefreshListener(new SuperSwipeRefreshLayout.OnPullRefreshListener() {
@@ -126,6 +127,7 @@ public class ShopOrderFragment extends BaseFgt {
                 textView.setText("正在刷新");
                 imageView.setVisibility(View.GONE);
                 progressBar.setVisibility(View.VISIBLE);
+                p=1;
                 getData();
             }
 
@@ -141,26 +143,28 @@ public class ShopOrderFragment extends BaseFgt {
                 imageView.setRotation(enable ? 180 : 0);
             }
         });
-//        refreshLayout.setOnPushLoadMoreListener(new SuperSwipeRefreshLayout.OnPushLoadMoreListener() {
-//            @Override
-//            public void onLoadMore() {
-//                footerTextView.setText("正在加载...");
-//                footerImageView.setVisibility(View.GONE);
-//                footerProgressBar.setVisibility(View.VISIBLE);
-//            }
-//
-//            @Override
-//            public void onPushDistance(int i) {
-//
-//            }
-//
-//            @Override
-//            public void onPushEnable(boolean enable) {
-//                footerTextView.setText(enable ? "松开加载" : "上拉加载");
-//                footerImageView.setVisibility(View.VISIBLE);
-//                footerImageView.setRotation(enable ? 0 : 180);
-//            }
-//        });
+        refreshLayout.setOnPushLoadMoreListener(new SuperSwipeRefreshLayout.OnPushLoadMoreListener() {
+            @Override
+            public void onLoadMore() {
+                footerTextView.setText("正在加载...");
+                footerImageView.setVisibility(View.GONE);
+                footerProgressBar.setVisibility(View.VISIBLE);
+                p++;
+                getData();
+            }
+
+            @Override
+            public void onPushDistance(int i) {
+
+            }
+
+            @Override
+            public void onPushEnable(boolean enable) {
+                footerTextView.setText(enable ? "松开加载" : "上拉加载");
+                footerImageView.setVisibility(View.VISIBLE);
+                footerImageView.setRotation(enable ? 0 : 180);
+            }
+        });
     }
 
     private View createHeaderView() {
@@ -230,10 +234,10 @@ public class ShopOrderFragment extends BaseFgt {
             refreshLayout.setRefreshing(false);
             progressBar.setVisibility(View.GONE);
         }
-//        if (footerProgressBar.getVisibility()==View.VISIBLE){
-//            refreshLayout.setLoadMore(false);
-//            progressBar.setVisibility(View.GONE);
-//        }
+        if (footerProgressBar.getVisibility()==View.VISIBLE){
+            refreshLayout.setLoadMore(false);
+            progressBar.setVisibility(View.GONE);
+        }
 
     }
 }

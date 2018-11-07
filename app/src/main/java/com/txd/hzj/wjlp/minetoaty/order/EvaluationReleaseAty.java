@@ -37,6 +37,7 @@ import com.txd.hzj.wjlp.minetoaty.order.adapter.GridImageAdapter;
 import com.txd.hzj.wjlp.minetoaty.order.utils.FullyGridLayoutManager;
 import com.txd.hzj.wjlp.new_wjyp.CommentindexBean;
 import com.txd.hzj.wjlp.new_wjyp.Commentindex_aty;
+import com.txd.hzj.wjlp.tool.WJConfig;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -124,6 +125,9 @@ public class EvaluationReleaseAty extends BaseAty {
         }
         if (TextUtils.isEmpty(type)) {
             type = getIntent().getStringExtra("type");
+            if (WJConfig.TYPE_SJJZQ.equals(type)){
+                type="0";
+            }
         }
         Order.Commentindex(order_id,type, this);
         showProgressDialog();

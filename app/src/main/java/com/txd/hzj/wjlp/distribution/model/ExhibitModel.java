@@ -124,7 +124,7 @@ public class ExhibitModel {
      * @param type   2：暂定查询本店订单列表
      * @param status ‘0’: ‘待支付‘ ； ‘1’: ‘待发货’ ； ‘2’: ‘待收货’ ；’3’: ‘待评价’；’4’: ‘已完成）5已取消 9删除 不传默认显示全部
      */
-    public void getShopOrderList(String id, String type, String status, BaseView baseView) {
+    public void getShopOrderList(String id, String type, String status,int p, BaseView baseView) {
         RequestParams params = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
         params.addQueryStringParameter("id", id);
@@ -132,6 +132,7 @@ public class ExhibitModel {
         if (!status.isEmpty()) {
             params.addQueryStringParameter("status", status);
         }
+        params.addQueryStringParameter("p", String.valueOf(p));
         apiTool2.getApi(Config.DISTRIBUTION_URL + "orders", params, baseView);
     }
 

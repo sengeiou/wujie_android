@@ -76,9 +76,9 @@ public class ShopExhibitPst extends BasePresenter {
     /**
      * 小店订单列表
      */
-    public void shopOrderList(String id, String type, String status) {
+    public void shopOrderList(String id, String type, int p,String status) {
         baseView.showDialog();
-        mModel.getShopOrderList(id, type, status, baseView);
+        mModel.getShopOrderList(id, type, status,p, baseView);
     }
 
     /**
