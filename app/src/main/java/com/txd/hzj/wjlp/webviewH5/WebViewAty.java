@@ -132,21 +132,6 @@ public class WebViewAty extends BaseAty {
 
     }
 
-    /**
-     * 判断软键盘是否弹出
-     *
-     * @param rootView
-     * @return
-     */
-    private boolean isKeyboardShown(View rootView) {
-        final int softKeyboardHeight = 100;
-        Rect r = new Rect();
-        rootView.getWindowVisibleDisplayFrame(r);
-        DisplayMetrics dm = rootView.getResources().getDisplayMetrics();
-        int heightDiff = rootView.getBottom() - r.bottom;
-        return heightDiff > softKeyboardHeight * dm.density;
-    }
-
     private void initWebView() {
         WebSettings webSettings = webView_show_webv.getSettings();
         webSettings.setJavaScriptEnabled(true); // JS支持
@@ -194,20 +179,22 @@ public class WebViewAty extends BaseAty {
         }
     }
 
+
+    // ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓ 接口请求返回 STA ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
         try {
             JSONObject jsonObject = new JSONObject(jsonStr);
             JSONObject data = jsonObject.getJSONObject("data");
-            // ===================== 微信支付 ======================================================================
+            // ===================== 微信支付 ==================
             if (requestUrl.contains("getJsTine")) {
                 GetPrepayIdTask wxPay = new GetPrepayIdTask(WebViewAty.this, data.getString("sign"), data.getString("appid"),
                         data.getString("nonce_str"), data.getString("package"), data.getString("time_stamp"), data.getString("prepay_id"),
                         data.getString("mch_id"), "");
                 wxPay.execute();
             }
-            // ===================== 支付宝支付 ======================================================================
+            // ===================== 支付宝支付 =================
             if (requestUrl.contains("getAlipayParam")) {
                 AliPay aliPay = new AliPay(data.getString("pay_string"), new AliPayCallBack() {
                     @Override
@@ -228,11 +215,11 @@ public class WebViewAty extends BaseAty {
                 });
                 aliPay.pay();
             }
-            // ===================== 返回支付结果 ======================================================================
+            // ===================== 返回支付结果 =================
             if (requestUrl.contains("findPayResult")) {
                 paySuccess(jsonObject);
             }
-            // ===================== 图片上传结果 ======================================================================
+            // ===================== 图片上传结果 =================
             if (requestUrl.contains("/Index/upload")) {
                 if ("1".equals(jsonObject.getString("code"))) {
                     webView_show_webv.loadUrl("JavaScript:TakePhoto('" + jsonStr + "')");
@@ -241,6 +228,7 @@ public class WebViewAty extends BaseAty {
         } catch (JSONException e) {
         }
     }
+    // ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑ 接口请求返回 END ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
 
     /**
      * 微信支付以及回调
@@ -310,7 +298,7 @@ public class WebViewAty extends BaseAty {
         imagePicker.setShowCamera(false);// 不显示拍照按钮
     }
 
-    // ======================================== H5交互接口 ========================================
+    // ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓ H5交互接口 STA ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
     class H5WebViewJsInterface {
 
         /**
@@ -476,8 +464,8 @@ public class WebViewAty extends BaseAty {
                 }
             }
         }
-
     }
+    // ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑ H5交互接口 END ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
 
     /**
      * 跳转到聊天界面
@@ -488,6 +476,22 @@ public class WebViewAty extends BaseAty {
      */
     public void toChatFriend(String easemob_account, String head_pic, String nickname) {
         toChat(easemob_account, head_pic, nickname);
+    }
+
+
+    /**
+     * 判断软键盘是否弹出
+     *
+     * @param rootView
+     * @return
+     */
+    private boolean isKeyboardShown(View rootView) {
+        final int softKeyboardHeight = 100;
+        Rect r = new Rect();
+        rootView.getWindowVisibleDisplayFrame(r);
+        DisplayMetrics dm = rootView.getResources().getDisplayMetrics();
+        int heightDiff = rootView.getBottom() - r.bottom;
+        return heightDiff > softKeyboardHeight * dm.density;
     }
 
     @Override
