@@ -277,10 +277,10 @@
                                 </LinearLayout>
                             </LinearLayout>
 
-                            <View
+                           <!-- <View
                                 android:layout_width="match_parent"
                                 android:layout_height="1dp"
-                                android:background="#dddddd" />
+                                android:background="#dddddd" />-->
 
                             <TextView
                                 android:id="@+id/tv_brief"
@@ -289,7 +289,7 @@
                                 android:background="@android:color/white"
                                 android:padding="10dp"
                                 android:textColor="#999999"
-                                android:textSize="16sp" />
+                                android:textSize="13sp" />
 
                             <Space
                                 android:layout_width="match_parent"
@@ -437,9 +437,6 @@
 
                             <include layout="@layout/aty_goods_details_attribute" />
 
-                            <!--<Space-->
-                                <!--android:layout_width="match_parent"-->
-                                <!--android:layout_height="8dp" />-->
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -501,44 +498,6 @@
                                 android:layout_height="8dp" />
 
                             <include layout="@layout/aty_goods_details_sales_promotion" />
-
-                            <Space
-                                android:layout_width="match_parent"
-                                android:layout_height="8dp" />
-
-                            <LinearLayout
-                                android:id="@+id/layout_service"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:background="@android:color/white"
-                                android:gravity="center_vertical"
-                                android:orientation="horizontal">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:padding="10dp"
-                                    android:text="服务说明"
-                                    android:textColor="@android:color/black"
-                                    android:textSize="14sp" />
-
-                                <android.support.v7.widget.RecyclerView
-                                    android:id="@+id/rv_service"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:scrollbars="none" />
-
-                                <ImageView
-                                    android:id="@+id/im_service_more"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:padding="10dp"
-                                    android:src="@mipmap/icon_more" />
-
-
-                            </LinearLayout>
-
                             <Space
                                 android:layout_width="match_parent"
                                 android:layout_height="8dp" />
@@ -548,6 +507,42 @@
                                 android:visibility="gone" />
                             <!--服务-->
                             <include layout="@layout/aty_goods_details_serve" />
+
+                        </LinearLayout>
+
+                        <Space
+                            android:layout_width="match_parent"
+                            android:layout_height="8dp" />
+
+                        <LinearLayout
+                            android:id="@+id/layout_service"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@android:color/white"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:padding="10dp"
+                                android:text="服务说明"
+                                android:textColor="@android:color/black"
+                                android:textSize="14sp" />
+
+                            <android.support.v7.widget.RecyclerView
+                                android:id="@+id/rv_service"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:scrollbars="none" />
+
+                            <ImageView
+                                android:id="@+id/im_service_more"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:padding="10dp"
+                                android:src="@mipmap/icon_more" />
                         </LinearLayout>
                         <!--开始评价-->
                         <Space
