@@ -23,6 +23,7 @@ import com.txd.hzj.wjlp.MainAty;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.bean.UpdataApp;
+import com.txd.hzj.wjlp.view.AppUpgradeDialog;
 
 import io.reactivex.annotations.NonNull;
 
@@ -105,40 +106,27 @@ public class AppUpdate {
      * @param activity
      */
     private void showUpdate(final UpdataApp updataApp, final Activity activity) {
+
         String exitBtnStr = updataApp.getData().getUpdate().equals("0") ? "退出" : "稍后更新";
 
-        // 设置显示的内容View并添加进Dialog
-        View view = LayoutInflater.from(activity).inflate(R.layout.dialog_update_content_view, null);
-        TextView appVersionTv = view.findViewById(R.id.updateContent_appVersion_tv);
-        TextView updateListTv = view.findViewById(R.id.updateContent_updateList_tv);
-        appVersionTv.setText("检测到新版本：v" + updataApp.getData().getName());
-        if (updataApp.getData().getDesc().isEmpty()) {
-            updateListTv.setVisibility(View.GONE);
-        } else {
-            updateListTv.setText(updataApp.getData().getDesc());
-        }
-
-        MikyouCommonDialog mikyouCommonDialog = new MikyouCommonDialog(activity, null, "APP更新", "立即更新", exitBtnStr, !updataApp.getData().getUpdate().equals("0"))
-                .setOnDiaLogListener(new MikyouCommonDialog.OnDialogListener() {
-
+        new AppUpgradeDialog.Builder(activity)
+                .setContent(updataApp.getData().getMessage())
+                .setVersionName(updataApp.getData().getName())
+                .setCancelable(!updataApp.getData().getUpdate().equals("0"))
+                .setOnLeftClickListener(exitBtnStr, new DialogInterface.OnClickListener() {
                     @Override
-                    public void dialogListener(int btnType, View customView, DialogInterface dialogInterface, int which) {
-                        switch (btnType) {
-                            case MikyouCommonDialog.OK: { // 立即更新
-                                showDownloadDialog(updataApp, activity);
-                            }
-                            break;
-                            case MikyouCommonDialog.NO: { // 稍后更新或退出
-                                if (updataApp.getData().getUpdate().equals("0")) {//强制更新
-                                    System.exit(0);
-                                }
-                            }
-                            break;
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (updataApp.getData().getUpdate().equals("0")) { // 强制更新
+                            System.exit(0);
                         }
                     }
-                });
-        mikyouCommonDialog.setDialogView(view);
-        mikyouCommonDialog.showDialog();
+                })
+                .setOnRightClickListener("", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        showDownloadDialog(updataApp, activity);
+                    }
+                }).create().show();
     }
 
     /**

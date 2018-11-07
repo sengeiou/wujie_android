@@ -305,7 +305,6 @@ public class GiveAwayAreaAty extends BaseAty {
                     @Override
                     public void onClick(int position) {
                         String goods_id = mOpenShop_goods_list.get(position).getGoods_id();
-                        // 拼接字符串跳转至wap界面 ==> http://test3.wujiemall.com/Distribution/DistributionShop/shop/g_id/672/shop_id/0
                         String urlStr = Config.SHARE_URL + "Distribution/DistributionShop/shop/g_id/" + goods_id + "/shop_id/" + shop_id;
                         Bundle bundle = new Bundle();
                         bundle.putString("url", urlStr);
