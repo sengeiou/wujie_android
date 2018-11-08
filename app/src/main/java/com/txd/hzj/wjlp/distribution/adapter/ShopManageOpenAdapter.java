@@ -62,7 +62,7 @@ public class ShopManageOpenAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        Glide.with(context).load(list.get(position).getGoods_img()).asBitmap().into(holder.itemShopManageOpen_image_imgv);
+        Glide.with(context).load(list.get(position).getGoods_img()).asBitmap().fitCenter().into(holder.itemShopManageOpen_image_imgv);
         holder.itemShopManageOpen_giftCoupon_tv.setText("赠送品券" + list.get(position).getGoods_gift());
         holder.itemShopManageOpen_name_tv.setText(list.get(position).getGoods_name());
         holder.itemShopManageOpen_meny_tv.setText(list.get(position).getShop_price());

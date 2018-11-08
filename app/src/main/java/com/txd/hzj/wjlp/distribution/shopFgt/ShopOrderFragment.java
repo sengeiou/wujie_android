@@ -22,6 +22,7 @@ import com.txd.hzj.wjlp.distribution.adapter.ShopOrderManageAdapter;
 import com.txd.hzj.wjlp.distribution.bean.ShopOrderBean;
 import com.txd.hzj.wjlp.distribution.presenter.ShopExhibitPst;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -57,6 +58,7 @@ public class ShopOrderFragment extends BaseFgt {
     private String mStatus="";
     private String mShop_id;
     private int p=1;
+    private List<ShopOrderBean.DataBean> mList=new ArrayList<>();
 
     public static ShopOrderFragment newInstance(String string) {
         ShopOrderFragment fragment = new ShopOrderFragment();
@@ -78,6 +80,7 @@ public class ShopOrderFragment extends BaseFgt {
         if (PreferencesUtils.containKey(getActivity(),"shop_id")){
             mShop_id = PreferencesUtils.getString(getActivity(), "shop_id");
         }
+
     }
 
     @Override
@@ -112,6 +115,7 @@ public class ShopOrderFragment extends BaseFgt {
 
     @Override
     protected void requestData() {
+        shop_order_re_list.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
 
 
@@ -204,12 +208,19 @@ public class ShopOrderFragment extends BaseFgt {
                         data.remove(dataBean);
                     }
                 }
-                if (null != data && data.size()>0){
+                if (1==p){
+                    mList.clear();
+                }
+                mList.addAll(data);
+                if (mList.size()>0){
                     empty_layout.setVisibility(View.GONE);
                     refreshLayout.setVisibility(View.VISIBLE);
-                    shop_order_re_list.setLayoutManager(new LinearLayoutManager(getActivity()));
-                    adapter = new ShopOrderManageAdapter(data, getActivity(), mTitle);
-                    shop_order_re_list.setAdapter(adapter);
+                    if (adapter==null){
+                        adapter = new ShopOrderManageAdapter(mList, getActivity(), mTitle);
+                        shop_order_re_list.setAdapter(adapter);
+                    }else {
+                        adapter.notifyDataSetChanged();
+                    }
                 }else {
                     empty_layout.setVisibility(View.VISIBLE);
                     refreshLayout.setVisibility(View.GONE);
