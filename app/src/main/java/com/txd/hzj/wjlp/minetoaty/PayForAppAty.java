@@ -593,8 +593,7 @@ public class PayForAppAty extends BaseAty {
                     if (data.containsKey("ticket_price")){
                         d=Double.parseDouble(data.get("ticket_price"));
                     }
-                    total_price-=d;
-                    String format = decimalFormat.format(total_price);
+                    String format = decimalFormat.format(total_price-d);
                     tv_desc.setText(data.containsKey("ticket_info")?data.get("ticket_info"):"");
                     tv_price.setText("¥" + format);
                 } else {
