@@ -75,6 +75,7 @@ public class GiveAwayAreaAty extends BaseAty {
     private List<OpenShopGoods> mOpenShop_goods_list; // 开店商品列表
     private String shop_id; // 店铺id
 
+
     @Override
     protected int getLayoutResId() {
         return R.layout.activity_giveaway_area;
@@ -248,6 +249,7 @@ public class GiveAwayAreaAty extends BaseAty {
         private ArrayList<Map<String, String>> mGift_goods_list;
         private List<OpenShopGoods> mOpenShop_goods_list;
         private String shop_id;
+        private boolean isSet=false;
 
         public MyAdapter(ArrayList<Map<String, String>> gift_goods_list, List<OpenShopGoods> openShop_goods_list, String shop_id) {
             mGift_goods_list = gift_goods_list;
@@ -318,17 +320,21 @@ public class GiveAwayAreaAty extends BaseAty {
             if (holder instanceof ThreeViewHolder) {
                 ThreeViewHolder threeViewHolder = (ThreeViewHolder) holder;
                 final GridLayoutManager gridLayoutManager = new GridLayoutManager(mContext, 2);
-                threeViewHolder.zengpin_rv.addItemDecoration(new RecyclerView.ItemDecoration() {
-                    @Override
-                    public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
-                        super.getItemOffsets(outRect, view, parent, state);
-                        if (parent.getChildLayoutPosition(view) % 2 == 0) {
-                            outRect.set(0, 0, 10, 0);
-                        } else {
-                            outRect.set(10, 0, 0, 0);
+                if (!isSet){
+                    threeViewHolder.zengpin_rv.addItemDecoration(new RecyclerView.ItemDecoration() {
+                        @Override
+                        public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+                            super.getItemOffsets(outRect, view, parent, state);
+                            if (parent.getChildLayoutPosition(view) % 2 == 0) {
+                                outRect.set(0, 0, 10, 0);
+                            } else {
+                                outRect.set(10, 0, 0, 0);
+                            }
                         }
-                    }
-                });
+                    });
+                    isSet=true;
+                }
+
                 threeViewHolder.zengpin_rv.setLayoutManager(gridLayoutManager);
                 if (null == mGiveAwayAdapter) {
                     mGiveAwayAdapter = new GiveAwayAdapter(mGift_goods_list);

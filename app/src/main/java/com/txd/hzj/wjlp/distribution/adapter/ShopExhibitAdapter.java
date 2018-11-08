@@ -1,6 +1,8 @@
 package com.txd.hzj.wjlp.distribution.adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.view.LayoutInflater;
@@ -12,6 +14,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.distribution.bean.ExhibitGoodsBean;
+import com.txd.hzj.wjlp.mellonLine.gridClassify.TicketGoodsDetialsAty;
 
 import java.util.List;
 
@@ -48,7 +51,7 @@ public class ShopExhibitAdapter extends RecyclerView.Adapter<ShopExhibitAdapter.
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-        ExhibitGoodsBean.DataBean.ListBean listBean = datas.get(position);
+        final ExhibitGoodsBean.DataBean.ListBean listBean = datas.get(position);
                 Glide.with(mContext)
                 .load(listBean.getGoods_img())
                 .into(holder.img_product);
@@ -65,6 +68,19 @@ public class ShopExhibitAdapter extends RecyclerView.Adapter<ShopExhibitAdapter.
                 if (mButtonClickListener!=null){
                     mButtonClickListener.buttonClick(holder.getLayoutPosition());
                 }
+            }
+        });
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle bundle = new Bundle();
+                bundle.putString("ticket_buy_id", listBean.getGoods_id());
+                bundle.putInt("from", 1);
+                Intent intent=new Intent();
+                intent.setClass(mContext,TicketGoodsDetialsAty.class);
+                intent.putExtras(bundle);
+                mContext.startActivity(intent);
             }
         });
     }
