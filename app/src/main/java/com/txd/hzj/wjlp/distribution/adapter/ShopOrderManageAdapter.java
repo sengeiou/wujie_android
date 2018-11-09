@@ -307,6 +307,7 @@ public class ShopOrderManageAdapter extends RecyclerView.Adapter {
                 holder.title_tv = view.findViewById(R.id.shop_order_content);
                 holder.price_tv = view.findViewById(R.id.price_tv);
                 holder.nums_tv = view.findViewById(R.id.nums_tv);
+                holder.tv_399 = view.findViewById(R.id.tv_399);
                 view.setTag(holder);
             } else {
                 holder = (ViewHolder) view.getTag();
@@ -316,6 +317,13 @@ public class ShopOrderManageAdapter extends RecyclerView.Adapter {
             holder.title_tv.setText(orderGoodsBean.getGoods_name());
             holder.price_tv.setText("￥" + orderGoodsBean.getShop_price());
             holder.nums_tv.setText("x" + orderGoodsBean.getGoods_num());
+            int is_special = orderGoodsBean.getIs_special();
+            if (is_special==1){
+                holder.tv_399.setVisibility(View.VISIBLE);
+            }else {
+                holder.tv_399.setVisibility(View.GONE);
+            }
+
             return view;
         }
 
@@ -324,6 +332,7 @@ public class ShopOrderManageAdapter extends RecyclerView.Adapter {
             private TextView title_tv;
             private TextView price_tv;
             private TextView nums_tv;
+            private TextView tv_399;
         }
     }
 }

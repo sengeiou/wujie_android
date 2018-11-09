@@ -475,6 +475,7 @@ public class ShopOrderBean {
              * create_time : 1535617603
              * pic : http://test.wujiemall.com/Uploads/GoodsAttr/2018-08-29/5b85f51e65b91.jpg
              * return_integral : 0.00
+             * is_special:1
              */
 
             private String order_goods_id;
@@ -491,6 +492,15 @@ public class ShopOrderBean {
             private String create_time;
             private String pic;
             private String return_integral;
+            private int is_special;
+
+            public int getIs_special() {
+                return is_special;
+            }
+
+            public void setIs_special(int is_special) {
+                this.is_special = is_special;
+            }
 
             public String getOrder_goods_id() {
                 return order_goods_id;

@@ -1042,7 +1042,11 @@ public class PayForAppAty extends BaseAty {
                                 commonPopupWindow.dismiss();
                                 setImage(type, r.isChecked(), y.isChecked(), b.isChecked());
                                 setCheck(4);
-                                String num = decimalFormat.format(total_price);
+                                double d=0;
+                                if (order.containsKey("ticket_price")){
+                                    d=Double.parseDouble(order.get("ticket_price"));
+                                }
+                                String num = decimalFormat.format(total_price-d);
                                 tv_desc.setText(order.containsKey("ticket_info")?order.get("ticket_info"):"");
                                 tv_price.setText("¥" + num);
                                 if (order.containsKey("red_return_integral") && Integer.parseInt(order.get("red_return_integral")) > 0) {

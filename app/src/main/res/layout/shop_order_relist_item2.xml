@@ -3,19 +3,37 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:tools="http://schemas.android.com/tools">
-    <ImageView
-        android:id="@+id/shop_order_ima"
-        android:layout_width="55dp"
-        android:layout_height="55dp"
-        android:layout_marginBottom="9dp"
-        android:layout_marginStart="14dp"
-        android:layout_marginTop="9dp"
-        tools:src="@drawable/icon_temp_mine_head_hzj" />
+    <FrameLayout
+        android:id="@+id/shop_order_ly"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/shop_order_ima"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginBottom="9dp"
+            android:layout_marginStart="14dp"
+            android:layout_marginTop="9dp"
+            tools:src="@drawable/icon_temp_mine_head_hzj" />
+        <TextView
+            android:id="@+id/tv_399"
+            android:text="399"
+            android:textSize="10sp"
+            android:paddingStart="5dp"
+            android:layout_marginTop="3dp"
+            android:visibility="gone"
+            android:textColor="@color/white"
+            android:background="@drawable/kaidian2980"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </FrameLayout>
+
     <LinearLayout
         android:id="@+id/ll_shop"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/shop_order_ima"
+        android:layout_toRightOf="@+id/shop_order_ly"
         android:orientation="horizontal">
 
         <TextView
