@@ -9,8 +9,8 @@
         android:layout_height="wrap_content">
         <ImageView
             android:id="@+id/shop_order_ima"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
             android:layout_marginBottom="9dp"
             android:layout_marginStart="14dp"
             android:layout_marginTop="9dp"
@@ -20,8 +20,9 @@
             android:text="399"
             android:textSize="10sp"
             android:paddingStart="5dp"
-            android:layout_marginTop="3dp"
-            android:visibility="gone"
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="14dp"
+            android:visibility="visible"
             android:textColor="@color/white"
             android:background="@drawable/kaidian2980"
             android:layout_width="wrap_content"
