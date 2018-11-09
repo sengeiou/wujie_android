@@ -1,5 +1,6 @@
 package com.txd.hzj.wjlp.minetoaty.tricket;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,9 +11,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.ants.theantsgo.util.JSONUtils;
+import com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
@@ -39,8 +42,22 @@ public class TradingStampAty extends BaseAty {
     public TextView tips_tv2;
     @ViewInject(R.id.recyclerView)
     private RecyclerView recyclerView;
+    //刷新
+    @ViewInject(R.id.super_refresh)
+    private SuperSwipeRefreshLayout refreshLayout;
     private int p = 1;
     private MyAdpter mAdpter;
+
+    //刷新头
+    private ProgressBar progressBar;
+    private TextView textView;
+    private ImageView imageView;
+    //加载
+    private ProgressBar footerProgressBar;
+    private TextView footerTextView;
+    private ImageView footerImageView;
+
+    private ArrayList<Map<String, String>> list=new ArrayList<>();
 
     @Override
     protected int getLayoutResId() {
@@ -50,8 +67,80 @@ public class TradingStampAty extends BaseAty {
     @Override
     protected void initialized() {
         titlt_conter_tv.setText("我的赠品券");
+        refreshLayout.setHeaderView(createHeaderView());// add headerView
+        refreshLayout.setFooterView(createFooterView());
+        refreshLayout.setHeaderViewBackgroundColor(Color.WHITE);
+        refreshLayout.setTargetScrollWithLayout(true);
+        refreshLayout.setOnPullRefreshListener(new SuperSwipeRefreshLayout.OnPullRefreshListener() {
+            @Override
+            public void onRefresh() {
+                textView.setText("正在刷新");
+                imageView.setVisibility(View.GONE);
+                progressBar.setVisibility(View.VISIBLE);
+                p=1;
+                requestData();
+            }
+
+            @Override
+            public void onPullDistance(int i) {
+
+            }
+
+            @Override
+            public void onPullEnable(boolean enable) {
+                textView.setText(enable ? "松开刷新" : "下拉刷新");
+                imageView.setVisibility(View.VISIBLE);
+                imageView.setRotation(enable ? 180 : 0);
+            }
+        });
+        refreshLayout.setOnPushLoadMoreListener(new SuperSwipeRefreshLayout.OnPushLoadMoreListener() {
+            @Override
+            public void onLoadMore() {
+                footerTextView.setText("正在加载...");
+                footerImageView.setVisibility(View.GONE);
+                footerProgressBar.setVisibility(View.VISIBLE);
+                p++;
+                requestData();
+            }
+
+            @Override
+            public void onPushDistance(int i) {
+
+            }
+
+            @Override
+            public void onPushEnable(boolean enable) {
+                footerTextView.setText(enable ? "松开加载" : "上拉加载");
+                footerImageView.setVisibility(View.VISIBLE);
+                footerImageView.setRotation(enable ? 0 : 180);
+            }
+        });
         LinearLayoutManager linearLayoutManager=new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
+    }
+
+    private View createHeaderView() {
+        View headerView = LayoutInflater.from(refreshLayout.getContext()).inflate(R.layout.layout_head, null);
+        progressBar = headerView.findViewById(R.id.pb_view);
+        textView = headerView.findViewById(R.id.text_view);
+        textView.setText("下拉刷新");
+        imageView = headerView.findViewById(R.id.image_view);
+        imageView.setVisibility(View.VISIBLE);
+        imageView.setImageResource(R.drawable.down_arrow);
+        progressBar.setVisibility(View.GONE);
+        return headerView;
+    }
+
+    private View createFooterView() {
+        View footerView = LayoutInflater.from(refreshLayout.getContext()).inflate(R.layout.layout_footer, null);
+        footerProgressBar = footerView.findViewById(R.id.footer_pb_view);
+        footerImageView = footerView.findViewById(R.id.footer_image_view);
+        footerTextView = footerView.findViewById(R.id.footer_text_view);
+        footerProgressBar.setVisibility(View.GONE);
+        footerImageView.setVisibility(View.VISIBLE);
+        footerImageView.setImageResource(R.drawable.down_arrow);
+        footerTextView.setText("上拉加载更多...");
+        return footerView;
     }
 
     @Override
@@ -62,6 +151,7 @@ public class TradingStampAty extends BaseAty {
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
+        refreshComplete();
         Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
         Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
         if (requestUrl.endsWith("Api/GiftGoodsVouchers/giftVoucherIndex")) {
@@ -101,17 +191,26 @@ public class TradingStampAty extends BaseAty {
             }
             if (data.containsKey("giftlist")) {
                 final ArrayList<Map<String, String>> giftlist = JSONUtils.parseKeyAndValueToMapList(data.get("giftlist"));
+                if (p==1){
+                    list.clear();
+                }
                 if (null!=giftlist) {
-                    mAdpter = new MyAdpter(giftlist);
-                    recyclerView.setAdapter(mAdpter);
-                    mAdpter.setOnItemClickListener(new MyAdpter.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(int position) {
-                            Bundle bundle=new Bundle();
-                            bundle.putString("TradingStampAtyId",giftlist.get(position).get("id"));
-                            startActivity(TradingStampDetailsAty.class,bundle);
-                        }
-                    });
+                    list.addAll(giftlist);
+                    if (mAdpter==null){
+                        mAdpter = new MyAdpter(list);
+                        recyclerView.setAdapter(mAdpter);
+                        mAdpter.setOnItemClickListener(new MyAdpter.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(int position) {
+                                Bundle bundle=new Bundle();
+                                bundle.putString("TradingStampAtyId",list.get(position).get("id"));
+                                startActivity(TradingStampDetailsAty.class,bundle);
+                            }
+                        });
+                    }else {
+                        mAdpter.notifyDataSetChanged();
+                    }
+
                 }
             }
 
@@ -125,6 +224,24 @@ public class TradingStampAty extends BaseAty {
             }
             return;
         }
+    }
+
+    @Override
+    public void onError(String requestUrl, Map<String, String> error) {
+        super.onError(requestUrl, error);
+        refreshComplete();
+    }
+
+    private void refreshComplete(){
+        if (progressBar.getVisibility()==View.VISIBLE){
+            refreshLayout.setRefreshing(false);
+            progressBar.setVisibility(View.GONE);
+        }
+        if (footerProgressBar.getVisibility()==View.VISIBLE){
+            refreshLayout.setLoadMore(false);
+            progressBar.setVisibility(View.GONE);
+        }
+
     }
 
     /**

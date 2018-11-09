@@ -73,6 +73,10 @@
             android:visibility="gone" />
     </LinearLayout>
 
+    <com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout
+        android:id="@+id/super_refresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
@@ -80,5 +84,6 @@
         android:overScrollMode="never"
         tools:listitem="@layout/trading_stamp_item"
         tools:itemCount="2" />
+    </com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout>
 
 </LinearLayout>
