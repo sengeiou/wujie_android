@@ -3,6 +3,7 @@ package com.txd.hzj.wjlp.minetoaty.tricket;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Layout;
@@ -166,12 +167,16 @@ public class TradingStampAty extends BaseAty {
                 String sum_money = giftData.containsKey("sum_money") ? giftData.get("sum_money") : "";
                 String exchange_money = giftData.containsKey("exchange_money") ? giftData.get("exchange_money") : "";
                 String exchange_voucher = giftData.containsKey("exchange_voucher") ? giftData.get("exchange_voucher") : "";
-                if (Double.parseDouble(exchange_money) == 0 && Double.parseDouble(exchange_voucher) == 0) {
-                    change_tv.setTextColor(Color.GRAY);
+                // "exchanged": 0    //0:未兑换 1：已兑换
+                String exchanged = giftData.containsKey("exchanged") ? giftData.get("exchanged") : "";
+                if (Double.parseDouble(exchanged) > 0) {
+                    change_tv.setTextColor(ContextCompat.getColor(TradingStampAty.this,R.color.bg_color));
                     change_tv.setClickable(false);
                     change_tv.setOnClickListener(null);
+                    change_tv.setBackgroundResource(R.drawable.icon_gift_zhuanhuan_grey);
                 } else {
                     change_tv.setTextColor(Color.WHITE);
+                    change_tv.setBackgroundResource(R.drawable.icon_gift_zhuanhuan);
                     change_tv.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {

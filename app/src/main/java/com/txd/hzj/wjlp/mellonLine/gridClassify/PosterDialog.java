@@ -93,7 +93,7 @@ public class PosterDialog extends Dialog{
             return;
         }
         WindowManager.LayoutParams layoutParams = window.getAttributes();
-        layoutParams.width = WindowManager.LayoutParams.MATCH_PARENT;
+        layoutParams.width = (int) (Settings.displayWidth*0.95);
         layoutParams.height= (int) (Settings.displayHeight*0.8);
         layoutParams.gravity = Gravity.CENTER;
         window.setAttributes(layoutParams);
