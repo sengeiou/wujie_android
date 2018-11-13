@@ -39,6 +39,7 @@ import com.txd.hzj.wjlp.http.Freight;
 import com.txd.hzj.wjlp.http.Goods;
 import com.txd.hzj.wjlp.mellonLine.adapter.PromotionAdapter;
 import com.txd.hzj.wjlp.mellonLine.adapter.TheTrickAdapter;
+import com.txd.hzj.wjlp.mellonLine.gridClassify.giveawayarea.GiveAwayDetailsAty;
 import com.txd.hzj.wjlp.tool.CommonPopupWindow;
 import com.txd.hzj.wjlp.tool.TextUtils;
 import com.txd.hzj.wjlp.view.ObservableScrollView;
@@ -158,8 +159,11 @@ public class CommodityDetailsPranster implements CommodityDetailsInter.Commodity
                 break;
                 case R.id.title_details_layout: {
                     clickType = 2;
-//                    limit_goods_details_sc.smoothScrollTo(0, secondHeight);
-                    PosterAty.getInstance(activity,mType,mGoods_id,mImageUrls,mGoods_name,mIntegral,mTicket_buy_discount,mShop_price,mMarket_price,mShop_id,mGoods_brief,mSell_num);
+                    if (activity instanceof GiveAwayDetailsAty){
+                        limit_goods_details_sc.smoothScrollTo(0, secondHeight);
+                    }else {
+                        PosterAty.getInstance(activity,mType,mGoods_id,mImageUrls,mGoods_name,mIntegral,mTicket_buy_discount,mShop_price,mMarket_price,mShop_id,mGoods_brief,mSell_num);
+                    }
                 }
                 break;
                 case R.id.title_evaluate_layout: {
@@ -178,16 +182,18 @@ public class CommodityDetailsPranster implements CommodityDetailsInter.Commodity
     public void getHeight(final CarouselView online_carvouse_view, final LinearLayout top_lin_layout, final LinearLayout second_lin_layout, final ObservableScrollView limit_goods_details_sc, ImageView be_back_top_iv) {
 
 
-        ViewTreeObserver vto = online_carvouse_view.getViewTreeObserver();
+        final ViewTreeObserver vto = online_carvouse_view.getViewTreeObserver();
         vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @SuppressWarnings("deprecation")
             @Override
             public void onGlobalLayout() {
-                online_carvouse_view.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-                bannerHeight = online_carvouse_view.getHeight();
-                topHeight = top_lin_layout.getHeight();
-                secondHeight = second_lin_layout.getHeight();
-                //                limit_goods_details_sc.setScrollViewListener(GoodLuckDetailsAty.this);
+                if (vto.isAlive()){
+                    vto.removeOnGlobalLayoutListener(this);
+                    online_carvouse_view.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                    bannerHeight = online_carvouse_view.getHeight();
+                    topHeight = top_lin_layout.getHeight();
+                    secondHeight = second_lin_layout.getHeight();
+                }
             }
         });
         if (!init) {
@@ -209,10 +215,11 @@ public class CommodityDetailsPranster implements CommodityDetailsInter.Commodity
                 setTextViewAndViewColor(0);
             } else if (y >= topHeight && y < secondHeight) {
                 setTextViewAndViewColor(2);
+            } else {
+                if (activity instanceof  GiveAwayDetailsAty){
+                    setTextViewAndViewColor(1);
+                }
             }
-//            else {
-//                setTextViewAndViewColor(1);
-//            }
         }
         if (oldy > y) {
             clickType = 0;
