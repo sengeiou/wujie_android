@@ -42,7 +42,7 @@ public class PosterDialog extends Dialog{
     public void setUrl(final String url) {
         this.url = url;
         if (null != mImageView){
-            Glide.with(mContext).load(url).asBitmap().fitCenter().into(mImageView);
+            Glide.with(mContext).load(url).asBitmap().fitCenter().dontAnimate().into(mImageView);
             mImageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
