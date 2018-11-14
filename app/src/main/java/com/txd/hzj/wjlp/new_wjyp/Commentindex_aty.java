@@ -10,7 +10,6 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.ants.theantsgo.util.CompressionUtil;
@@ -24,6 +23,7 @@ import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.http.Order;
 import com.txd.hzj.wjlp.minetoaty.order.adapter.GridImageAdapter;
 import com.txd.hzj.wjlp.minetoaty.order.utils.FullyGridLayoutManager;
+import com.txd.hzj.wjlp.view.RatingBar;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -128,7 +128,7 @@ public class Commentindex_aty extends BaseAty {
                     return;
                 }
                 Order.CommentGoods(goods_id, evalusete_context_tv.getText().toString(),
-                        list, String.valueOf(goods_grade_rb.getRating()), order_id, type, Commentindex_aty.this);
+                        list, String.valueOf(goods_grade_rb.getStarStep()), order_id, type, Commentindex_aty.this);
                 showProgressDialog();
             }
         });

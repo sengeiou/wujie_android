@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <RelativeLayout
@@ -21,7 +22,7 @@
             android:layout_margin="6dp"
             android:layout_toRightOf="@+id/imageview" />
 
-        <RatingBar
+       <!-- <RatingBar
             android:id="@+id/goods_grade_rb"
             style="@style/foodRatingBar"
             android:layout_width="wrap_content"
@@ -33,7 +34,29 @@
             android:isIndicator="true"
             android:numStars="5"
             android:stepSize="1"
-            android:visibility="gone" />
+            android:visibility="gone" />-->
+        <com.txd.hzj.wjlp.view.RatingBar
+            android:id="@+id/goods_grade_rb"
+            style="@style/foodRatingBar"
+            android:layout_below="@+id/tv_goods_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:clickable="false"
+            android:layout_toRightOf="@+id/imageview"
+            android:gravity="center"
+            android:layout_marginEnd="8dp"
+            android:visibility="gone"
+            android:numStars="5"
+            app:starFill="@mipmap/star_ful"
+            app:starHalf="@mipmap/unstar_ful"
+            app:starImageSize="12dp"
+            app:starStep="4"
+            android:layout_marginRight="40dp"
+            app:starcount="5"
+            app:starempty="@mipmap/unstar_ful"
+            app:starpadding="5dp"
+            app:stepSize="Full"/>
 
         <TextView
             android:id="@+id/tv_btn_right"

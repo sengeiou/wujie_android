@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/white">
 
     <TextView
@@ -62,7 +63,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp">
+                    android:gravity="center_vertical">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -71,7 +72,7 @@
                         android:paddingRight="30dp"
                         android:text="宝贝描述" />
 
-                    <RatingBar
+                    <!--<RatingBar
                         android:id="@+id/goods_grade_rb"
                         style="@style/foodRatingBar"
                         android:layout_width="wrap_content"
@@ -81,7 +82,25 @@
                         android:isIndicator="false"
                         android:numStars="5"
                         android:rating="5.0"
-                        android:stepSize="1" />
+                        android:stepSize="1" />-->
+                    <com.txd.hzj.wjlp.view.RatingBar
+                        android:id="@+id/goods_grade_rb"
+                        style="@style/foodRatingBar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:clickable="false"
+                        android:gravity="center"
+                        android:numStars="5"
+                        app:starFill="@mipmap/star_ful"
+                        app:starHalf="@mipmap/unstar_ful"
+                        app:starImageSize="12dp"
+                        app:starStep="4"
+                        android:layout_marginRight="40dp"
+                        app:starcount="5"
+                        app:starempty="@mipmap/unstar_ful"
+                        app:starpadding="5dp"
+                        app:stepSize="Full"/>
                 </LinearLayout>
 
                 <View

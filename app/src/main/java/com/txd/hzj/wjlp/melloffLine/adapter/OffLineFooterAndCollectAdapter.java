@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.ants.theantsgo.tool.ToolKit;
@@ -17,6 +16,7 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.bean.footPoint.OffLineCollectBean;
 import com.txd.hzj.wjlp.bean.footPoint.OfflineFootBean;
+import com.txd.hzj.wjlp.view.RatingBar;
 
 import java.util.List;
 
@@ -140,7 +140,7 @@ public class OffLineFooterAndCollectAdapter extends BaseAdapter {
             viewHolder.mell_name_tv.setText(dataBean.getMerchant_name());
             viewHolder.textView7.setText(dataBean.getMerchant_desc());
             String star = dataBean.getScore();
-            viewHolder.shop_evaluate_star_level.setRating(android.text.TextUtils.isEmpty(star) ? 4 : Float.valueOf(star));
+            viewHolder.shop_evaluate_star_level.setStar(android.text.TextUtils.isEmpty(star) ? 4 : Float.valueOf(star));
             viewHolder.achievement_tv.setText("|月售" + dataBean.getMonths_order() + "单");
         }else if (1==dataType) {
             final OffLineCollectBean.DataBean dataBean = collectList.get(position);
@@ -153,7 +153,7 @@ public class OffLineFooterAndCollectAdapter extends BaseAdapter {
             viewHolder.mell_name_tv.setText(dataBean.getMerchant_name());
             viewHolder.textView7.setText(dataBean.getMerchant_desc());
             String star = dataBean.getScore();
-            viewHolder.shop_evaluate_star_level.setRating(android.text.TextUtils.isEmpty(star) ? 4 : Float.valueOf(star));
+            viewHolder.shop_evaluate_star_level.setStar(android.text.TextUtils.isEmpty(star) ? 4 : Float.valueOf(star));
             viewHolder.achievement_tv.setText("|月售" + dataBean.getMonths_order() + "单");
         }
 

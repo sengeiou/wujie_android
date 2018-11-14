@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <include layout="@layout/aty_title" />
@@ -94,7 +95,7 @@
                     android:textColor="@android:color/black"
                     android:textSize="14sp" />
 
-                <RatingBar
+                <!--<RatingBar
                     android:id="@+id/rb1"
                     style="@style/foodRatingBar"
                     android:layout_width="wrap_content"
@@ -104,7 +105,25 @@
                     android:isIndicator="false"
                     android:numStars="5"
                     android:rating="4.0"
-                    android:stepSize="1" />
+                    android:stepSize="1" />-->
+                <com.txd.hzj.wjlp.view.RatingBar
+                    android:id="@+id/rb1"
+                    style="@style/foodRatingBar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:clickable="false"
+                    android:layout_marginRight="10dp"
+                    android:gravity="center"
+                    android:numStars="5"
+                    app:starFill="@mipmap/star_ful"
+                    app:starHalf="@mipmap/unstar_ful"
+                    app:starImageSize="12dp"
+                    app:starStep="4"
+                    app:starcount="5"
+                    app:starempty="@mipmap/unstar_ful"
+                    app:starpadding="5dp"
+                    app:stepSize="Full"/>
             </LinearLayout>
 
             <LinearLayout
@@ -124,7 +143,7 @@
                     android:textColor="@android:color/black"
                     android:textSize="14sp" />
 
-                <RatingBar
+               <!-- <RatingBar
                     android:id="@+id/rb2"
                     style="@style/foodRatingBar"
                     android:layout_width="wrap_content"
@@ -134,7 +153,25 @@
                     android:isIndicator="false"
                     android:numStars="5"
                     android:rating="4.0"
-                    android:stepSize="1" />
+                    android:stepSize="1" />-->
+                <com.txd.hzj.wjlp.view.RatingBar
+                    android:id="@+id/rb2"
+                    style="@style/foodRatingBar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:clickable="false"
+                    android:layout_marginRight="10dp"
+                    android:gravity="center"
+                    android:numStars="5"
+                    app:starFill="@mipmap/star_ful"
+                    app:starHalf="@mipmap/unstar_ful"
+                    app:starImageSize="12dp"
+                    app:starStep="4"
+                    app:starcount="5"
+                    app:starempty="@mipmap/unstar_ful"
+                    app:starpadding="5dp"
+                    app:stepSize="Full"/>
             </LinearLayout>
 
             <LinearLayout
@@ -154,7 +191,7 @@
                     android:textColor="@android:color/black"
                     android:textSize="14sp" />
 
-                <RatingBar
+                <!--<RatingBar
                     android:id="@+id/rb3"
                     style="@style/foodRatingBar"
                     android:layout_width="wrap_content"
@@ -164,7 +201,25 @@
                     android:isIndicator="false"
                     android:numStars="5"
                     android:rating="4.0"
-                    android:stepSize="1" />
+                    android:stepSize="1" />-->
+                <com.txd.hzj.wjlp.view.RatingBar
+                    android:id="@+id/rb3"
+                    style="@style/foodRatingBar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:clickable="false"
+                    android:layout_marginRight="10dp"
+                    android:gravity="center"
+                    android:numStars="5"
+                    app:starFill="@mipmap/star_ful"
+                    app:starHalf="@mipmap/unstar_ful"
+                    app:starImageSize="12dp"
+                    app:starStep="4"
+                    app:starcount="5"
+                    app:starempty="@mipmap/unstar_ful"
+                    app:starpadding="5dp"
+                    app:stepSize="Full"/>
             </LinearLayout>
 
             <LinearLayout
@@ -184,7 +239,7 @@
                     android:textColor="@android:color/black"
                     android:textSize="14sp" />
 
-                <RatingBar
+               <!-- <RatingBar
                     android:id="@+id/rb4"
                     style="@style/foodRatingBar"
                     android:layout_width="wrap_content"
@@ -194,7 +249,25 @@
                     android:isIndicator="false"
                     android:numStars="5"
                     android:rating="4.0"
-                    android:stepSize="1" />
+                    android:stepSize="1" />-->
+                <com.txd.hzj.wjlp.view.RatingBar
+                    android:id="@+id/rb4"
+                    style="@style/foodRatingBar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:clickable="false"
+                    android:layout_marginRight="10dp"
+                    android:gravity="center"
+                    android:numStars="5"
+                    app:starFill="@mipmap/star_ful"
+                    app:starHalf="@mipmap/unstar_ful"
+                    app:starImageSize="12dp"
+                    app:starStep="4"
+                    app:starcount="5"
+                    app:starempty="@mipmap/unstar_ful"
+                    app:starpadding="5dp"
+                    app:stepSize="Full"/>
             </LinearLayout>
 
             <LinearLayout
@@ -215,7 +288,7 @@
                     android:textColor="@android:color/black"
                     android:textSize="14sp" />
 
-                <RatingBar
+                <!--<RatingBar
                     android:id="@+id/rb5"
                     style="@style/foodRatingBar"
                     android:layout_width="wrap_content"
@@ -225,7 +298,25 @@
                     android:isIndicator="false"
                     android:numStars="5"
                     android:rating="4.0"
-                    android:stepSize="1" />
+                    android:stepSize="1" />-->
+                <com.txd.hzj.wjlp.view.RatingBar
+                    android:id="@+id/rb5"
+                    style="@style/foodRatingBar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:clickable="false"
+                    android:layout_marginRight="10dp"
+                    android:gravity="center"
+                    android:numStars="5"
+                    app:starFill="@mipmap/star_ful"
+                    app:starHalf="@mipmap/unstar_ful"
+                    app:starImageSize="12dp"
+                    app:starStep="4"
+                    app:starcount="5"
+                    app:starempty="@mipmap/unstar_ful"
+                    app:starpadding="5dp"
+                    app:stepSize="Full"/>
             </LinearLayout>
 
 
