@@ -50,6 +50,8 @@ public class Commentindex_aty extends BaseAty {
     private RecyclerView updata_pic_rv;
     @ViewInject(R.id.imageview)
     private ImageView imageview;
+    @ViewInject(R.id.tv_399)
+    private TextView tv_399;
     @ViewInject(R.id.tv_submit)
     private TextView tv_submit;
     @ViewInject(R.id.tv_good_name)
@@ -63,6 +65,7 @@ public class Commentindex_aty extends BaseAty {
     String goods_id, goods_img, order_id,good_name;
     private TextView textLength;
     private String type;
+    private String mIs_active;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -82,6 +85,10 @@ public class Commentindex_aty extends BaseAty {
         order_id = getIntent().getStringExtra("order_id");
         type = getIntent().getStringExtra("type");
         good_name = getIntent().getStringExtra("good_name");
+        mIs_active = getIntent().getStringExtra("is_active");
+        if (mIs_active!=null && mIs_active.equals("2")){
+            tv_399.setVisibility(View.VISIBLE);
+        }
         Glide.with(this).load(goods_img).into(imageview);
         textLength = (TextView) findViewById(R.id.ed_text_length);
         titlt_conter_tv.setText("商品评价");

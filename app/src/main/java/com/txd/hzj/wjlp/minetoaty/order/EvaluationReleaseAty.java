@@ -222,7 +222,7 @@ public class EvaluationReleaseAty extends BaseAty {
                 viewHolder.goods_grade_rb.setVisibility(View.GONE);
             }
 
-            if (bean.getIs_active().equals("2")){
+            if (bean.getIs_active()!=null && bean.getIs_active().equals("2")){
                 viewHolder.tv_399.setVisibility(View.VISIBLE);
             }else {
                 viewHolder.tv_399.setVisibility(View.GONE);
@@ -239,6 +239,7 @@ public class EvaluationReleaseAty extends BaseAty {
                         bundle.putString("order_id", order_id);
                         bundle.putString("type", type);
                         bundle.putString("good_name",bean.getGoods_name());
+                        bundle.putString("is_active",bean.getIs_active());
                         startActivity(Commentindex_aty.class, bundle);
                     }
                 }

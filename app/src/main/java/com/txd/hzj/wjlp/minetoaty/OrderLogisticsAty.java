@@ -125,7 +125,7 @@ public class OrderLogisticsAty extends BaseAty {
                     startActivity(ExpressAtv.class, bundle);
                 }
             });
-            if (list.get(i).getIs_active().equals("2")){
+            if (list.get(i).getIs_active()!=null && list.get(i).getIs_active().equals("2")){
                 viewHolder.tv_2980.setText("399");
                 viewHolder.tv_2980.setVisibility(View.VISIBLE);
             }else {

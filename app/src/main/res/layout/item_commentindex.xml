@@ -62,7 +62,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:clickable="false"
-            android:layout_toRightOf="@+id/imageview"
+            android:layout_toRightOf="@+id/imageLy"
             android:gravity="center"
             android:layout_marginEnd="8dp"
             android:visibility="gone"
