@@ -60,6 +60,7 @@ import com.txd.hzj.wjlp.mellonLine.gridClassify.giveawayarea.GiveAwayAreaAty;
 import com.txd.hzj.wjlp.mellonLine.gridClassify.hous.HousDetailsChenAty;
 import com.txd.hzj.wjlp.mellonLine.gridClassify.snatch.SnatchGoodsDetailsAty;
 import com.txd.hzj.wjlp.minetoaty.setting.EditProfileAty;
+import com.txd.hzj.wjlp.view.ImprovePersonalInfoDialog;
 import com.txd.hzj.wjlp.view.ObservableScrollView;
 import com.txd.hzj.wjlp.view.UPMarqueeView;
 import com.txd.hzj.wjlp.view.VpSwipeRefreshLayout;
@@ -465,7 +466,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
                             break;
                         case 8://赠品专区  之前是房产购
 //                            showToast("开发中，敬请期待");
-                            startActivity(GiveAwayAreaAty.class,null);
+                            startActivity(GiveAwayAreaAty.class, null);
 //                            startActivity(HousChenAty.class, null);
                             break;
                         case 9://一元夺宝
@@ -859,31 +860,31 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
                 JSONObject jsonData = jsonObject.getJSONObject("data");
                 // 获取个人所在地址填写状态 0是未填写 1是已填写
                 if (!Config.getToken().equals("") && jsonData.getString("city_status").equals("0")) {
-                    String return_ticket = jsonData.has("return_ticket") ? jsonData.getString("return_ticket") : "0";
-                    new MikyouCommonDialog(getActivity(), "请完善个人资料，获取" + return_ticket + "代金券！", "温馨提示", "确定", "取消", true)
-                            .setOnDiaLogListener(new MikyouCommonDialog.OnDialogListener() {
+
+                    String return_ticket = jsonData.has("return_ticket") ? jsonData.getString("return_ticket") : "100";
+                    String return_ticket_desc = jsonData.has("return_ticket_desc") ? jsonData.getString("return_ticket_desc") : "完善个人资料就可以获得100代金券！";
+                    String ticket_first_desc = jsonData.has("ticket_first_desc") ? jsonData.getString("ticket_first_desc") : "无界商城可通用";
+                    String ticket_second_desc = jsonData.has("ticket_second_desc") ? jsonData.getString("ticket_second_desc") : "全场通用，可在[我的]中进行查看";
+
+                    new ImprovePersonalInfoDialog.Builder(getActivity())
+                            .setReturnTicketStr(return_ticket_desc)
+                            .setNumberStr(return_ticket)
+                            .setText1Str(ticket_first_desc)
+                            .setText2Str(ticket_second_desc)
+                            .setOnGoImproveBtnClickListener("立即完善", new DialogInterface.OnClickListener() {
                                 @Override
-                                public void dialogListener(int btnType, View customView, DialogInterface dialogInterface, int which) {
-                                    switch (btnType) {
-                                        case MikyouCommonDialog.OK: {
-                                            if (Config.getToken().equals("")) {
-                                                Intent intent = new Intent();
-                                                intent.setClass(getActivity(), LoginAty.class);
-                                                getActivity().startActivity(intent);
-                                            } else {
-                                                Intent intent = new Intent();
-                                                intent.setClass(getActivity(), EditProfileAty.class);
-                                                getActivity().startActivity(intent);
-                                            }
-                                        }
-                                        break;
-                                        case MikyouCommonDialog.NO: {
-                                            // 直接关闭该对话框
-                                        }
-                                        break;
+                                public void onClick(DialogInterface dialog, int which) {
+                                    if (Config.getToken().equals("")) {
+                                        Intent intent = new Intent();
+                                        intent.setClass(getActivity(), LoginAty.class);
+                                        getActivity().startActivity(intent);
+                                    } else {
+                                        Intent intent = new Intent();
+                                        intent.setClass(getActivity(), EditProfileAty.class);
+                                        getActivity().startActivity(intent);
                                     }
                                 }
-                            }).showDialog();
+                            }).create().show();
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -1407,7 +1408,6 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
                 .placeholder(R.mipmap.icon_200)
                 .centerCrop()
                 .into(three_image_center_iv);
-        // TODO 暂时将点击事件取消
         three_image_center_iv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -1438,7 +1438,6 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
                 .placeholder(R.mipmap.icon_200)
                 .centerCrop()
                 .into(three_image_right_iv);
-        // TODO 暂时将点击事件取消
         three_image_right_iv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
