@@ -440,11 +440,14 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
                             startActivity(ThemeStreetHzjAty.class, null);
                             break;
                         case 4:// 无界预购
-                            showToast("开发中，敬请期待");
                             //                            bundle = new Bundle();
                             //                            bundle.putInt("type", 2);
                             //                            bundle.putString("title", "无界预购");
                             //                            startActivity(TicketZoonAty.class, bundle);
+                            bundle = new Bundle();
+                            bundle.putInt("from",2);
+                            bundle.putString("href", Config.SHARE_URL+"Splicing/index/");
+                            startActivity(NoticeDetailsAty.class, bundle);
                             break;
                         case 5:// 进口馆
                             bundle = new Bundle();
@@ -466,9 +469,9 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
                             startActivity(TicketZoonAty.class, bundle);
                             break;
                         case 8://赠品专区  之前是房产购
-//                            showToast("开发中，敬请期待");
-                            startActivity(GiveAwayAreaAty.class,null);
-//                            startActivity(HousChenAty.class, null);
+                            //                            showToast("开发中，敬请期待");
+                            startActivity(GiveAwayAreaAty.class, null);
+                            //                            startActivity(HousChenAty.class, null);
                             break;
                         case 9://一元夺宝
                             showToast("开发中，敬请期待");
@@ -744,7 +747,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
         gv_classify.add("票券区");
         gv_classify.add("拼单购");
         gv_classify.add("主题街");
-        gv_classify.add("无界预购");
+        gv_classify.add("集碎片");
         gv_classify.add("进口馆");
         gv_classify.add("比价购");
         gv_classify.add("积分商店");
