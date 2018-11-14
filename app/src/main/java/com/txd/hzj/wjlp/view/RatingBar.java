@@ -217,6 +217,10 @@ public class RatingBar extends LinearLayout {
         }
     }
 
+    public float getStarStep() {
+        return starStep;
+    }
+
     /**
      * 操作星星的点击事件
      */

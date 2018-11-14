@@ -3,6 +3,7 @@ package com.txd.hzj.wjlp.minetoaty.tricket;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Layout;
@@ -36,6 +37,8 @@ public class TradingStampAty extends BaseAty {
     public TextView titlt_conter_tv;
     @ViewInject(R.id.total_price_tv)
     public TextView total_price_tv;
+    @ViewInject(R.id.change_tv)
+    public TextView change_tv;
     @ViewInject(R.id.tips_tv)
     public TextView tips_tv;
     @ViewInject(R.id.tips_tv2)
@@ -57,7 +60,8 @@ public class TradingStampAty extends BaseAty {
     private TextView footerTextView;
     private ImageView footerImageView;
 
-    private ArrayList<Map<String, String>> list=new ArrayList<>();
+    private ArrayList<Map<String, String>> list = new ArrayList<>();
+    private String mResult="";
 
     @Override
     protected int getLayoutResId() {
@@ -77,7 +81,7 @@ public class TradingStampAty extends BaseAty {
                 textView.setText("正在刷新");
                 imageView.setVisibility(View.GONE);
                 progressBar.setVisibility(View.VISIBLE);
-                p=1;
+                p = 1;
                 requestData();
             }
 
@@ -115,7 +119,7 @@ public class TradingStampAty extends BaseAty {
                 footerImageView.setRotation(enable ? 0 : 180);
             }
         });
-        LinearLayoutManager linearLayoutManager=new LinearLayoutManager(this);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
     }
 
@@ -158,56 +162,83 @@ public class TradingStampAty extends BaseAty {
             if (data.containsKey("gift")) {
                 Map<String, String> giftData = JSONUtils.parseKeyAndValueToMap(data.get("gift"));
                 String gift_num = giftData.containsKey("gift_num") ? giftData.get("gift_num") : "";
+                total_price_tv.setText(gift_num);
+
                 String sum_money = giftData.containsKey("sum_money") ? giftData.get("sum_money") : "";
                 String exchange_money = giftData.containsKey("exchange_money") ? giftData.get("exchange_money") : "";
                 String exchange_voucher = giftData.containsKey("exchange_voucher") ? giftData.get("exchange_voucher") : "";
-                total_price_tv.setText(gift_num);
-                final String result="今日福利：可将" + sum_money + "赠品券转换成" + exchange_money + "余额+" + exchange_voucher + "积分";
-                tips_tv.setText(result);
-                ViewTreeObserver viewTreeObserver = tips_tv.getViewTreeObserver();
-                viewTreeObserver.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
-                    @Override
-                    public boolean onPreDraw() {
-                        Layout layout = tips_tv.getLayout();
-                        int lineEnd = layout.getLineEnd(0);
-                        String substring="";
-                        String substring2="";
-                        if (result.length()>lineEnd){
-                             substring= result.substring(lineEnd, result.length());
-                            substring="\u3000\u3000\u3000\u3000\u3000"+substring;
-                            substring2=result.substring(0,lineEnd);
-                            tips_tv2.setVisibility(View.VISIBLE);
-                            tips_tv2.setText(substring);
-                            tips_tv.setText(substring2);
-                        }else {
-                            tips_tv.setText(result);
+                // "exchanged": 0    //0:未兑换 1：已兑换
+                String exchanged = giftData.containsKey("exchanged") ? giftData.get("exchanged") : "";
+                if (Double.parseDouble(exchanged) > 0) {
+                    change_tv.setTextColor(ContextCompat.getColor(TradingStampAty.this,R.color.bg_color));
+                    change_tv.setClickable(false);
+                    change_tv.setOnClickListener(null);
+                    change_tv.setBackgroundResource(R.drawable.icon_gift_zhuanhuan_grey);
+                } else {
+                    change_tv.setTextColor(Color.WHITE);
+                    change_tv.setBackgroundResource(R.drawable.icon_gift_zhuanhuan);
+                    change_tv.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            GiveAwayModel.postGiftGoodsVouchersChangeMoney(TradingStampAty.this);
                         }
-
-                        tips_tv.getViewTreeObserver().removeOnPreDrawListener(
-                                this);
-                        return false;
+                    });
+                    if (Double.parseDouble(exchange_money) == 0 && Double.parseDouble(exchange_voucher) != 0) {
+                        mResult = "今日福利：可将" + sum_money + "赠品券转换成" +  exchange_voucher + "积分";
+                    } else if (Double.parseDouble(exchange_money) != 0 && Double.parseDouble(exchange_voucher) == 0) {
+                        mResult = "今日福利：可将" + sum_money + "赠品券转换成" + exchange_money + "余额";
+                    } else if (Double.parseDouble(exchange_money) != 0 && Double.parseDouble(exchange_voucher) != 0) {
+                        mResult = "今日福利：可将" + sum_money + "赠品券转换成" + exchange_money + "余额+" + exchange_voucher + "积分";
                     }
-                });
+
+                    tips_tv.setText(mResult);
+                    ViewTreeObserver viewTreeObserver = tips_tv.getViewTreeObserver();
+                    viewTreeObserver.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+                        @Override
+                        public boolean onPreDraw() {
+                            Layout layout = tips_tv.getLayout();
+                            int lineEnd = layout.getLineEnd(0);
+                            String substring = "";
+                            String substring2 = "";
+                            if (mResult.length() > lineEnd) {
+                                substring = mResult.substring(lineEnd, mResult.length());
+                                substring = "\u3000\u3000\u3000\u3000\u3000" + substring;
+                                substring2 = mResult.substring(0, lineEnd);
+                                tips_tv2.setVisibility(View.VISIBLE);
+                                tips_tv2.setText(substring);
+                                tips_tv.setText(substring2);
+                            } else {
+                                tips_tv.setText(mResult);
+                            }
+
+                            tips_tv.getViewTreeObserver().removeOnPreDrawListener(
+                                    this);
+                            return false;
+                        }
+                    });
+                }
+
+
             }
             if (data.containsKey("giftlist")) {
                 final ArrayList<Map<String, String>> giftlist = JSONUtils.parseKeyAndValueToMapList(data.get("giftlist"));
-                if (p==1){
+                if (p == 1) {
                     list.clear();
                 }
-                if (null!=giftlist) {
+                if (null != giftlist) {
                     list.addAll(giftlist);
-                    if (mAdpter==null){
+                    if (mAdpter == null) {
                         mAdpter = new MyAdpter(list);
                         recyclerView.setAdapter(mAdpter);
                         mAdpter.setOnItemClickListener(new MyAdpter.OnItemClickListener() {
                             @Override
                             public void onItemClick(int position) {
-                                Bundle bundle=new Bundle();
-                                bundle.putString("TradingStampAtyId",list.get(position).get("id"));
-                                startActivity(TradingStampDetailsAty.class,bundle);
+                                Bundle bundle = new Bundle();
+                                bundle.putString("TradingStampAtyId", list.get(position).get("id"));
+                                startActivity(TradingStampDetailsAty.class, bundle);
                             }
                         });
-                    }else {
+                    } else {
                         mAdpter.notifyDataSetChanged();
                     }
 
@@ -218,7 +249,7 @@ public class TradingStampAty extends BaseAty {
         }
 
         if (requestUrl.endsWith("Api/GiftGoodsVouchers/changeMoney")) {
-            if ("200".equals(map.get("code"))){
+            if ("200".equals(map.get("code"))) {
                 showToast(map.get("message"));
                 GiveAwayModel.postGiftGoodsVouchersGiftVoucherIndex(p, this);
             }
@@ -232,60 +263,54 @@ public class TradingStampAty extends BaseAty {
         refreshComplete();
     }
 
-    private void refreshComplete(){
-        if (progressBar.getVisibility()==View.VISIBLE){
+    private void refreshComplete() {
+        if (progressBar.getVisibility() == View.VISIBLE) {
             refreshLayout.setRefreshing(false);
             progressBar.setVisibility(View.GONE);
         }
-        if (footerProgressBar.getVisibility()==View.VISIBLE){
+        if (footerProgressBar.getVisibility() == View.VISIBLE) {
             refreshLayout.setLoadMore(false);
             progressBar.setVisibility(View.GONE);
         }
 
     }
 
-    /**
-     * 转换按钮
-     */
-    public void toChange(View view) {
-        GiveAwayModel.postGiftGoodsVouchersChangeMoney(this);
-    }
 
+    public static class MyAdpter extends RecyclerView.Adapter<MyAdpter.MyViewHolder> {
+        private ArrayList<Map<String, String>> giftlist;
+        private OnItemClickListener mOnItemClickListener;
 
-   public static class MyAdpter extends RecyclerView.Adapter<MyAdpter.MyViewHolder>{
-       private ArrayList<Map<String, String>> giftlist;
-       private OnItemClickListener mOnItemClickListener;
-       public MyAdpter(ArrayList<Map<String, String>> giftlist) {
-           this.giftlist = giftlist;
-       }
+        public MyAdpter(ArrayList<Map<String, String>> giftlist) {
+            this.giftlist = giftlist;
+        }
 
-       public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
-           mOnItemClickListener = onItemClickListener;
-       }
+        public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+            mOnItemClickListener = onItemClickListener;
+        }
 
-       @NonNull
+        @NonNull
         @Override
         public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-           View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.trading_stamp_item,parent,false);
-           MyViewHolder holder=new MyViewHolder(view);
-           ViewUtils.inject(holder,view);
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.trading_stamp_item, parent, false);
+            MyViewHolder holder = new MyViewHolder(view);
+            ViewUtils.inject(holder, view);
             return holder;
         }
 
         @Override
         public void onBindViewHolder(@NonNull final MyViewHolder holder, int position) {
             final Map<String, String> map = giftlist.get(position);
-            if (map.containsKey("use_money") && map.containsKey("money")){
-               float price=Float.parseFloat(map.get("money"))-Float.parseFloat(map.get("use_money"));
-                holder.price_tv.setText("￥"+price);
+            if (map.containsKey("use_money") && map.containsKey("money")) {
+                float price = Float.parseFloat(map.get("money")) - Float.parseFloat(map.get("use_money"));
+                holder.price_tv.setText("￥" + price);
             }
-            holder.face_tv.setText("赠品券面值￥"+(map.containsKey("money")?map.get("money"):""));
-            holder.get_way_tv.setText("获取途径："+(map.containsKey("source_status")?map.get("source_status"):""));
-            holder.get_time_tv.setText("获取时间："+(map.containsKey("create_time")?map.get("create_time"):""));
+            holder.face_tv.setText("赠品券面值￥" + (map.containsKey("money") ? map.get("money") : ""));
+            holder.get_way_tv.setText("获取途径：" + (map.containsKey("source_status") ? map.get("source_status") : ""));
+            holder.get_time_tv.setText("获取时间：" + (map.containsKey("create_time") ? map.get("create_time") : ""));
 
-            if (map.containsKey("type")){
+            if (map.containsKey("type")) {
                 int type = Integer.parseInt(map.get("type"));
-                switch (type){
+                switch (type) {
                     case 0:
                         holder.state_img.setImageResource(R.drawable.fx_icon_chuji);
                         break;
@@ -301,7 +326,7 @@ public class TradingStampAty extends BaseAty {
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (mOnItemClickListener!=null){
+                    if (mOnItemClickListener != null) {
                         mOnItemClickListener.onItemClick(holder.getLayoutPosition());
                     }
                 }
@@ -311,10 +336,10 @@ public class TradingStampAty extends BaseAty {
 
         @Override
         public int getItemCount() {
-            return giftlist.size()>0?giftlist.size():0;
+            return giftlist.size() > 0 ? giftlist.size() : 0;
         }
 
-        class MyViewHolder extends RecyclerView.ViewHolder{
+        class MyViewHolder extends RecyclerView.ViewHolder {
             @ViewInject(R.id.price_tv)
             private TextView price_tv;
             @ViewInject(R.id.face_tv)
@@ -325,17 +350,16 @@ public class TradingStampAty extends BaseAty {
             private TextView get_time_tv;
             @ViewInject(R.id.state_img)
             private ImageView state_img;
+
             public MyViewHolder(View itemView) {
                 super(itemView);
             }
         }
 
-        public interface OnItemClickListener{
-           void onItemClick(int position);
+        public interface OnItemClickListener {
+            void onItemClick(int position);
         }
     }
-
-
 
 
 }

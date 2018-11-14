@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.ants.theantsgo.gson.GsonUtil;
@@ -26,10 +25,11 @@ import com.lzy.imagepicker.bean.ImageItem;
 import com.lzy.imagepicker.ui.ImageGridActivity;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
-import com.txd.hzj.wjlp.minetoaty.order.adapter.GridImageAdapter;
-import com.txd.hzj.wjlp.minetoaty.order.utils.FullyGridLayoutManager;
 import com.txd.hzj.wjlp.http.CarOrder;
 import com.txd.hzj.wjlp.http.HouseOrder;
+import com.txd.hzj.wjlp.minetoaty.order.adapter.GridImageAdapter;
+import com.txd.hzj.wjlp.minetoaty.order.utils.FullyGridLayoutManager;
+import com.txd.hzj.wjlp.view.RatingBar;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -150,19 +150,19 @@ public class Comment_aty extends BaseAty {
                 }
                 if (type.equals("1")) {
 
-                    CarOrder.addComment(order_id, String.valueOf(rb1.getRating())
-                            , String.valueOf(rb2.getRating())
-                            , String.valueOf(rb3.getRating())
-                            , String.valueOf(rb4.getRating()), str, file_list, et_context.getText().toString(), Comment_aty.this
+                    CarOrder.addComment(order_id, String.valueOf(rb1.getStarStep())
+                            , String.valueOf(rb2.getStarStep())
+                            , String.valueOf(rb3.getStarStep())
+                            , String.valueOf(rb4.getStarStep()), str, file_list, et_context.getText().toString(), Comment_aty.this
                     );
                     showProgressDialog();
                 } else {
 
 
-                    HouseOrder.addComment(order_id, String.valueOf(rb1.getRating())
-                            , String.valueOf(rb2.getRating())
-                            , String.valueOf(rb3.getRating())
-                            , String.valueOf(rb4.getRating()), String.valueOf(rb5.getRating()), str, file_list, et_context.getText().toString(), Comment_aty.this
+                    HouseOrder.addComment(order_id, String.valueOf(rb1.getStarStep())
+                            , String.valueOf(rb2.getStarStep())
+                            , String.valueOf(rb3.getStarStep())
+                            , String.valueOf(rb4.getStarStep()), String.valueOf(rb5.getStarStep()), str, file_list, et_context.getText().toString(), Comment_aty.this
                     );
                     showProgressDialog();
                 }

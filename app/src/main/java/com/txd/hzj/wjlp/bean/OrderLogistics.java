@@ -69,6 +69,7 @@ public class OrderLogistics {
          * attr : 商品属性
          * shop_price : 商品金额
          * goods_num : 商品数量
+         * "is_active": 0,//0:普通商品 2:399分销商品
          */
 
         private String id;
@@ -80,6 +81,15 @@ public class OrderLogistics {
         private String attr;
         private String shop_price;
         private String goods_num;
+        private String is_active;
+
+        public String getIs_active() {
+            return is_active;
+        }
+
+        public void setIs_active(String is_active) {
+            this.is_active = is_active;
+        }
 
         public String getId() {
             return id;

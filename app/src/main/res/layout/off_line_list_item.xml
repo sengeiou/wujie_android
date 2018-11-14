@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/white">
 
     <LinearLayout
@@ -60,17 +61,25 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center_vertical"
                 android:orientation="horizontal">
-
-                <RatingBar
+                <com.txd.hzj.wjlp.view.RatingBar
                     android:id="@+id/shop_evaluate_star_level"
                     style="@style/foodRatingBar"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:isIndicator="true"
+                    android:layout_gravity="center_vertical"
+                    android:clickable="false"
+                    android:gravity="center"
                     android:numStars="5"
-                    android:rating="4" />
-
+                    app:starFill="@mipmap/star_ful"
+                    app:starHalf="@mipmap/unstar_ful"
+                    app:starImageSize="12dp"
+                    app:starStep="4"
+                    app:starcount="5"
+                    app:starempty="@mipmap/unstar_ful"
+                    app:starpadding="5dp"
+                    app:stepSize="Full"/>
                 <TextView
                     android:id="@+id/achievement_tv"
                     android:layout_width="wrap_content"
@@ -86,7 +95,6 @@
                 android:layout_gravity="center"
                 android:layout_marginBottom="8dp"
                 tools:text="店铺描述店铺描述店铺描述店铺描述店铺描述店铺描述店铺描述店铺描述店铺描述店铺描述"
-                android:layout_marginTop="8dp"
                 android:ellipsize="end"
                 android:maxLines="2" />
 

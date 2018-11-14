@@ -113,11 +113,12 @@ public class BalanceAty extends BaseAty {
                             int user_card_type = Integer.parseInt(data.isNull("user_card_type") ? "0" : data.getString("user_card_type"));
 //                            int complete_status = Integer.parseInt(data.isNull("complete_status") ? "0" : data.getString("complete_status"));
                             int alliance_merchant = Integer.parseInt(data.isNull("alliance_merchant") ? "0" : data.getString("alliance_merchant"));
+                            int shop_id = Integer.parseInt(data.isNull("shop_id") ? "0" : data.getString("shop_id"));
                             if (alliance_merchant > 0) { // 如果存在该字段，执行if中的判断逻辑
                                 transfer_accounts_tv.setVisibility(View.VISIBLE); // 转账
                                 withdraw_tv.setVisibility(View.VISIBLE); // 提现
                             } else { // 否则的话
-                                if (user_card_type == 2){
+                                if (user_card_type == 2 || shop_id>0){
                                     transfer_accounts_tv.setVisibility(View.GONE); // 转账
                                     withdraw_tv.setVisibility(View.VISIBLE); // 提现
                                 }else if (user_card_type == 3){

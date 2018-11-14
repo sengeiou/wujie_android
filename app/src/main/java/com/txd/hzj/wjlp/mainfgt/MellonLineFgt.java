@@ -46,6 +46,7 @@ import com.txd.hzj.wjlp.mainfgt.adapter.HorizontalAdapter;
 import com.txd.hzj.wjlp.mainfgt.adapter.OnLineMenuGvAdapter;
 import com.txd.hzj.wjlp.mainfgt.adapter.ViewPagerAdapter;
 import com.txd.hzj.wjlp.mellonLine.MellOnLineClassifyAty;
+import com.txd.hzj.wjlp.mellonLine.NoticeDetailsAty;
 import com.txd.hzj.wjlp.mellonLine.WujieTopHzjAty;
 import com.txd.hzj.wjlp.mellonLine.gridClassify.AuctionGoodsDetailsAty;
 import com.txd.hzj.wjlp.mellonLine.gridClassify.CarDetailseAty;
@@ -466,7 +467,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
                             break;
                         case 8://赠品专区  之前是房产购
 //                            showToast("开发中，敬请期待");
-                            startActivity(GiveAwayAreaAty.class, null);
+                            startActivity(GiveAwayAreaAty.class,null);
 //                            startActivity(HousChenAty.class, null);
                             break;
                         case 9://一元夺宝
@@ -1408,6 +1409,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
                 .placeholder(R.mipmap.icon_200)
                 .centerCrop()
                 .into(three_image_center_iv);
+        // TODO 暂时将点击事件取消
         three_image_center_iv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -1438,6 +1440,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
                 .placeholder(R.mipmap.icon_200)
                 .centerCrop()
                 .into(three_image_right_iv);
+        // TODO 暂时将点击事件取消
         three_image_right_iv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

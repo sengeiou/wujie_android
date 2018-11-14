@@ -1003,11 +1003,11 @@ public class OrderDetailsAty extends BaseAty {
             });
 
 
-            //延迟收货
-            //如果 after_type等于0时  order_status=2（待收货） status = 2 （待收货）并且 sale_status= 0（未延迟收货）时  显示延迟收货
+            //延时收货
+            //如果 after_type等于0时  order_status=2（待收货） status = 2 （待收货）并且 sale_status= 0（未延时收货）时  显示延时收货
             if (map.containsKey("after_type") && map.containsKey("status") && map.containsKey("sale_status")) {
                 if (map.get("after_type").equals("0") && order_status.equals("2") && map.get("status").equals("2") && map.get("sale_status").equals("0")) {
-                    tgvh.delayReceiving.setText("延迟收货");
+                    tgvh.delayReceiving.setText("延时收货");
                     tgvh.delayReceiving.setVisibility(View.VISIBLE);
                 } else {
                     tgvh.delayReceiving.setVisibility(View.GONE);

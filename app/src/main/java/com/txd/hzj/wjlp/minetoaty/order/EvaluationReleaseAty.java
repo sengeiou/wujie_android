@@ -3,19 +3,13 @@ package com.txd.hzj.wjlp.minetoaty.order;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.text.Editable;
 import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.ants.theantsgo.gson.GsonUtil;
@@ -29,15 +23,13 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.lzy.imagepicker.ImagePicker;
 import com.lzy.imagepicker.bean.ImageItem;
-import com.lzy.imagepicker.ui.ImageGridActivity;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.http.Order;
-import com.txd.hzj.wjlp.minetoaty.order.adapter.GridImageAdapter;
-import com.txd.hzj.wjlp.minetoaty.order.utils.FullyGridLayoutManager;
 import com.txd.hzj.wjlp.new_wjyp.CommentindexBean;
 import com.txd.hzj.wjlp.new_wjyp.Commentindex_aty;
 import com.txd.hzj.wjlp.tool.WJConfig;
+import com.txd.hzj.wjlp.view.RatingBar;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -59,7 +51,6 @@ public class EvaluationReleaseAty extends BaseAty {
     @ViewInject(R.id.for_goods_evaluste_lv)
     private ListView for_goods_evaluste_lv;
 
-    //    private GoodsEvalustionAdapter goodsEvalustionAdapter;
     private MyAdapter Adapter;
     private CommentindexBean commentindexBean;
     private List<CommentindexBean.GoodsListBean> goodsEvaluations;
@@ -91,7 +82,7 @@ public class EvaluationReleaseAty extends BaseAty {
         switch (v.getId()) {
             case R.id.tv_submit: // 提交订单的服务评价
                 // 参数说明：订单ID， 商家评分1~5星， 配送评分， 订评论订单单类型（1普通单 2拼单购 3无界预购 4比价购 5限量购 6积分抽奖）， BaseView
-                Order.CommentOrder(order_id, String.valueOf(ratingBar1.getRating()), String.valueOf(ratingBar2.getRating()), type, this);
+                Order.CommentOrder(order_id, String.valueOf(ratingBar1.getStarStep()), String.valueOf(ratingBar2.getStarStep()), type, this);
                 showProgressDialog();
                 break;
         }
@@ -158,118 +149,20 @@ public class EvaluationReleaseAty extends BaseAty {
                 titlt_right_tv.setVisibility(View.VISIBLE);
                 titlt_right_tv.setText("评价服务");
                 titlt_right_tv.setTextColor(ContextCompat.getColor(this, R.color.colorAccent));
+                ratingBar1.setClickable(true);
+                ratingBar2.setClickable(true);
             } else { // 已评价
                 titlt_right_tv.setVisibility(View.GONE);
-                ratingBar1.setRating(map.get("merchant_star").equals("") ? 0.0f : Float.parseFloat(map.get("merchant_star"))); // 店铺评分
-                ratingBar2.setRating(map.get("delivery_star").equals("") ? 0.0f : Float.parseFloat(map.get("delivery_star"))); // 物流评分
+                ratingBar1.setStar(map.get("merchant_star").equals("") ? 0.0f : Float.parseFloat(map.get("merchant_star"))); // 店铺评分
+                ratingBar2.setStar(map.get("delivery_star").equals("") ? 0.0f : Float.parseFloat(map.get("delivery_star"))); // 物流评分
                 L.e("===============merchant_star:===============" + Float.parseFloat(map.get("merchant_star")));
                 L.e("===============delivery_star:===============" + Float.parseFloat(map.get("delivery_star")));
-                ratingBar1.setIsIndicator(true); // 卖家服务
-                ratingBar2.setIsIndicator(true); // 物流服务
+                ratingBar1.setClickable(false);// 卖家服务
+                ratingBar2.setClickable(false);// 物流服务
             }
         }
     }
 
-    private class GoodsEvalustionAdapter extends BaseAdapter {
-
-        private GEVVH gevvh;
-        private GridImageAdapter gridImageAdapter;
-        private FullyGridLayoutManager manager;
-
-        @Override
-        public int getCount() {
-            return goodsEvaluations.size();
-        }
-
-        @Override
-        public CommentindexBean.GoodsListBean getItem(int i) {
-            return goodsEvaluations.get(i);
-        }
-
-        @Override
-        public long getItemId(int i) {
-            return i;
-        }
-
-        @Override
-        public View getView(final int i, View view, ViewGroup viewGroup) {
-            final CommentindexBean.GoodsListBean ge = getItem(i);
-            if (view == null) {
-                view = LayoutInflater.from(EvaluationReleaseAty.this).inflate(R.layout.item_for_goods_evaluste_lv, null);
-                gevvh = new GEVVH();
-                ViewUtils.inject(gevvh, view);
-                view.setTag(gevvh);
-            } else {
-                gevvh = (GEVVH) view.getTag();
-            }
-            Glide.with(EvaluationReleaseAty.this).load(ge.getGoods_img()).into(gevvh.imageview);
-            manager = new FullyGridLayoutManager(EvaluationReleaseAty.this, 3, GridLayoutManager.VERTICAL, false);
-            gevvh.updata_pic_rv.setLayoutManager(manager);
-            gridImageAdapter = new GridImageAdapter(EvaluationReleaseAty.this,
-                    new GridImageAdapter.onAddPicClickListener() {
-                        @Override
-                        public void onAddPicClick(int type, int position) {
-                            goods_pos = i;
-                            if (0 == type) {
-                                startActivityForResult(ImageGridActivity.class, null, 100);
-                            } else {
-
-                            }
-                        }
-                    });
-//            gridImageAdapter.setList(ge.getFileList());
-            gridImageAdapter.setSelectMax(selectPicNum);
-            gevvh.updata_pic_rv.setAdapter(gridImageAdapter);
-            gevvh.goods_grade_rb.setRating(Float.parseFloat(ge.getAll_star()));
-            gevvh.goods_grade_rb.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
-                @Override
-                public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-                    ge.setAll_star(String.valueOf(rating));
-                }
-            });
-            gevvh.evalusete_context_tv.setText(ge.getContent());
-            // 获取到每个商品的评价内容
-            gevvh.evalusete_context_tv.addTextChangedListener(new TextWatcher() {
-                @Override
-                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-                }
-
-                @Override
-                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                }
-
-                @Override
-                public void afterTextChanged(Editable editable) {
-                    ge.setContent(editable.toString());
-                }
-            });
-
-            return view;
-        }
-
-
-        class GEVVH {
-            /**
-             * 评分条
-             */
-            @ViewInject(R.id.goods_grade_rb)
-            private RatingBar goods_grade_rb;
-            /**
-             * 评价内容
-             */
-            @ViewInject(R.id.evalusete_context_tv)
-            private EditText evalusete_context_tv;
-            /**
-             * 图片列表
-             */
-            @ViewInject(R.id.updata_pic_rv)
-            private RecyclerView updata_pic_rv;
-            @ViewInject(R.id.imageview)
-            private ImageView imageview;
-
-        }
-    }
 
 
     @Override
@@ -305,7 +198,7 @@ public class EvaluationReleaseAty extends BaseAty {
 
         @Override
         public long getItemId(int position) {
-            return 0;
+            return position;
         }
 
         @Override
@@ -322,11 +215,17 @@ public class EvaluationReleaseAty extends BaseAty {
             }
             if (bean.getStatus().equals("1")) {
                 viewHolder.tv_btn_right.setVisibility(View.GONE);
-                viewHolder.goods_grade_rb.setRating(Float.parseFloat(bean.getAll_star()));
+                viewHolder.goods_grade_rb.setStar(Float.parseFloat(bean.getAll_star()));
                 viewHolder.goods_grade_rb.setVisibility(View.VISIBLE);
             } else {
                 viewHolder.tv_btn_right.setVisibility(View.VISIBLE);
                 viewHolder.goods_grade_rb.setVisibility(View.GONE);
+            }
+
+            if (bean.getIs_active()!=null && bean.getIs_active().equals("2")){
+                viewHolder.tv_399.setVisibility(View.VISIBLE);
+            }else {
+                viewHolder.tv_399.setVisibility(View.GONE);
             }
             Glide.with(EvaluationReleaseAty.this).load(bean.getGoods_img()).into(viewHolder.imageview);
             viewHolder.tv_goods_name.setText(bean.getGoods_name());
@@ -340,6 +239,7 @@ public class EvaluationReleaseAty extends BaseAty {
                         bundle.putString("order_id", order_id);
                         bundle.putString("type", type);
                         bundle.putString("good_name",bean.getGoods_name());
+                        bundle.putString("is_active",bean.getIs_active());
                         startActivity(Commentindex_aty.class, bundle);
                     }
                 }
@@ -356,6 +256,8 @@ public class EvaluationReleaseAty extends BaseAty {
             private RatingBar goods_grade_rb;
             @ViewInject(R.id.tv_btn_right)
             private TextView tv_btn_right;
+            @ViewInject(R.id.tv_399)
+            private TextView tv_399;
         }
     }
 
