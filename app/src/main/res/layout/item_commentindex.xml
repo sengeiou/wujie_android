@@ -3,24 +3,43 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-
+    <RelativeLayout
+        android:id="@+id/imageLy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
         <ImageView
             android:id="@+id/imageview"
             android:layout_width="80dp"
             android:layout_height="80dp"
+            tools:src="@mipmap/ic_launcher"
             android:padding="8dp" />
+        <TextView
+            android:id="@+id/tv_399"
+            android:text="399"
+            android:textSize="10sp"
+            android:paddingStart="5dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:visibility="gone"
+            android:textColor="@color/white"
+            android:background="@drawable/kaidian2980"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+
 
         <TextView
             android:id="@+id/tv_goods_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="6dp"
-            android:layout_toRightOf="@+id/imageview" />
+            android:layout_toRightOf="@+id/imageLy" />
 
        <!-- <RatingBar
             android:id="@+id/goods_grade_rb"

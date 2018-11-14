@@ -198,7 +198,7 @@ public class EvaluationReleaseAty extends BaseAty {
 
         @Override
         public long getItemId(int position) {
-            return 0;
+            return position;
         }
 
         @Override
@@ -220,6 +220,12 @@ public class EvaluationReleaseAty extends BaseAty {
             } else {
                 viewHolder.tv_btn_right.setVisibility(View.VISIBLE);
                 viewHolder.goods_grade_rb.setVisibility(View.GONE);
+            }
+
+            if (bean.getIs_active().equals("2")){
+                viewHolder.tv_399.setVisibility(View.VISIBLE);
+            }else {
+                viewHolder.tv_399.setVisibility(View.GONE);
             }
             Glide.with(EvaluationReleaseAty.this).load(bean.getGoods_img()).into(viewHolder.imageview);
             viewHolder.tv_goods_name.setText(bean.getGoods_name());
@@ -249,6 +255,8 @@ public class EvaluationReleaseAty extends BaseAty {
             private RatingBar goods_grade_rb;
             @ViewInject(R.id.tv_btn_right)
             private TextView tv_btn_right;
+            @ViewInject(R.id.tv_399)
+            private TextView tv_399;
         }
     }
 
