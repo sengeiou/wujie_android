@@ -1209,6 +1209,8 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
 
     private void setCostomMsg(String msg){
         Log.e("JpushMessage", "setCostomMsg: "+msg );
+        Log.e("JpushMessage", "setCostomMsg: "+msg );
+        Log.e("JpushMessage", "setCostomMsg: "+msg );
     }
 
 }
