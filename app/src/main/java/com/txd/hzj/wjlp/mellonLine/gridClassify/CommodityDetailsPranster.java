@@ -187,13 +187,9 @@ public class CommodityDetailsPranster implements CommodityDetailsInter.Commodity
             @SuppressWarnings("deprecation")
             @Override
             public void onGlobalLayout() {
-                if (vto.isAlive()){
-                    vto.removeOnGlobalLayoutListener(this);
-                    online_carvouse_view.getViewTreeObserver().removeGlobalOnLayoutListener(this);
                     bannerHeight = online_carvouse_view.getHeight();
                     topHeight = top_lin_layout.getHeight();
                     secondHeight = second_lin_layout.getHeight();
-                }
             }
         });
         if (!init) {
