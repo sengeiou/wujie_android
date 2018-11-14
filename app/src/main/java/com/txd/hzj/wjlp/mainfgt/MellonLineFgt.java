@@ -746,7 +746,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
         gv_classify.add("票券区");
         gv_classify.add("拼单购");
         gv_classify.add("主题街");
-        gv_classify.add("拼碎片");
+        gv_classify.add("集碎片");
         gv_classify.add("进口馆");
         gv_classify.add("比价购");
         gv_classify.add("积分商店");
