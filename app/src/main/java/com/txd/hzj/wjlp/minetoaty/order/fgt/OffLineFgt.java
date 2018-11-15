@@ -174,7 +174,6 @@ public class OffLineFgt extends BaseFragment {
     }
 
     private void update() {
-        dataBeanList.clear();
         OfflineStore.offLineOrderList(mPay_status, String.valueOf(p), OffLineFgt.this);
     }
 
@@ -191,6 +190,9 @@ public class OffLineFgt extends BaseFragment {
             refreshVisibleState();
             OffLineOrderListBean offLineOrderListBean = JSON.parseObject(jsonStr, OffLineOrderListBean.class);
             if (offLineOrderListBean.getCode().equals("1")) {
+                if (p==1){
+                    dataBeanList.clear();
+                }
                 dataBeanList.addAll(offLineOrderListBean.getData());
                 mOffLineOrderAdapter = new OffLineOrderAdapter();
                 order_on_line_lv.setAdapter(mOffLineOrderAdapter);
