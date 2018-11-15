@@ -111,6 +111,7 @@ public class Commentindex_aty extends BaseAty {
         gridImageAdapter.setList(list);
         gridImageAdapter.setSelectMax(selectPicNum);
         updata_pic_rv.setAdapter(gridImageAdapter);
+        goods_grade_rb.setClickable(true);
         evalusete_context_tv.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
