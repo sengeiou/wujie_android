@@ -23,7 +23,6 @@ import android.widget.TextView;
 import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.config.Settings;
 import com.ants.theantsgo.gson.GsonUtil;
-import com.ants.theantsgo.tips.MikyouCommonDialog;
 import com.ants.theantsgo.tool.ToolKit;
 import com.ants.theantsgo.tools.ObserTool;
 import com.ants.theantsgo.util.JSONUtils;
@@ -445,7 +444,8 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
                             //                            bundle.putString("title", "无界预购");
                             //                            startActivity(TicketZoonAty.class, bundle);
                             bundle = new Bundle();
-                            bundle.putInt("from",2);
+                            bundle.putInt("from",6);
+                            bundle.putString("desc","邀请有礼");
                             bundle.putString("href", Config.SHARE_URL+"Splicing/index/");
                             startActivity(NoticeDetailsAty.class, bundle);
                             break;
