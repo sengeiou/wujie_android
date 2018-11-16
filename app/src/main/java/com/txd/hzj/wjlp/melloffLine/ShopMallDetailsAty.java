@@ -1,11 +1,9 @@
 package com.txd.hzj.wjlp.melloffLine;
 
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -22,7 +20,6 @@ import com.ants.theantsgo.tools.RegexUtils;
 import com.google.gson.Gson;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
-import com.txd.hzj.wjlp.bean.CustomoLocation;
 import com.txd.hzj.wjlp.bean.ShopOffLineBean;
 import com.txd.hzj.wjlp.bean.offline.OffLineDataBean;
 import com.txd.hzj.wjlp.http.collect.UserCollectPst;
@@ -326,46 +323,49 @@ public class ShopMallDetailsAty extends BaseAty implements View.OnClickListener,
                 break;
             case R.id.shop_Report_busines:
 
-                List<String> mapList = new ArrayList<>();
-                if (MapIntentUtil.isInstallByread(this, "com.baidu.BaiduMap")) {
-                    mapList.add("百度地图");
-                }
-                if (MapIntentUtil.isInstallByread(this, "com.autonavi.minimap")) {
-                    mapList.add("高德地图");
-                }
-                if (mapList.size() > 0) {
-                    final String[] items = new String[mapList.size()];
-                    for (int i = 0; i < mapList.size(); i++) {
-                        items[i] = mapList.get(i);
-                    }
-                    new AlertDialog.Builder(this)
-                            .setTitle("选择地图")
-                            .setItems(items, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    if ("百度地图".equals(items[which])) {
-                                        // 跳转到百度地图APP进行导航
-                                        CustomoLocation customoLocation = new CustomoLocation();
-                                        customoLocation.setLat(baiDuLat);
-                                        customoLocation.setLng(baiDuLng);
-                                        customoLocation.setName("");
-                                        MapIntentUtil.startNative_Baidu(ShopMallDetailsAty.this, null, customoLocation);
-                                    } else if ("高德地图".equals(items[which])) {
-//                                        showToast("回传的是百度地图，暂时未集成高德地图SDK");
-//                                        暂时跳转到高德地图拿百度位置标注
-                                        CustomoLocation customoLocation = new CustomoLocation();
-                                        customoLocation.setLat(gaoDeLat);
-                                        customoLocation.setLng(gaoDeLng);
-                                        customoLocation.setName("");
-                                        MapIntentUtil.startNative_Gaode(ShopMallDetailsAty.this, customoLocation);
-                                    }
-                                }
-                            })
-                            .setPositiveButton("取消", null)
-                            .create().show();
-                } else {
-                    showToast("请先安装地图导航APP");
-                }
+                MapIntentUtil mapIntentUtil = new MapIntentUtil();
+                mapIntentUtil.openMap(this, baiDuLat, baiDuLng, gaoDeLat, gaoDeLng);
+
+//                List<String> mapList = new ArrayList<>();
+//                if (MapIntentUtil.isInstallByread(this, "com.baidu.BaiduMap")) {
+//                    mapList.add("百度地图");
+//                }
+//                if (MapIntentUtil.isInstallByread(this, "com.autonavi.minimap")) {
+//                    mapList.add("高德地图");
+//                }
+//                if (mapList.size() > 0) {
+//                    final String[] items = new String[mapList.size()];
+//                    for (int i = 0; i < mapList.size(); i++) {
+//                        items[i] = mapList.get(i);
+//                    }
+//                    new AlertDialog.Builder(this)
+//                            .setTitle("选择地图")
+//                            .setItems(items, new DialogInterface.OnClickListener() {
+//                                @Override
+//                                public void onClick(DialogInterface dialog, int which) {
+//                                    if ("百度地图".equals(items[which])) {
+//                                        // 跳转到百度地图APP进行导航
+//                                        CustomoLocation customoLocation = new CustomoLocation();
+//                                        customoLocation.setLat(baiDuLat);
+//                                        customoLocation.setLng(baiDuLng);
+//                                        customoLocation.setName("");
+//                                        MapIntentUtil.startNative_Baidu(ShopMallDetailsAty.this, null, customoLocation);
+//                                    } else if ("高德地图".equals(items[which])) {
+////                                        showToast("回传的是百度地图，暂时未集成高德地图SDK");
+////                                        暂时跳转到高德地图拿百度位置标注
+//                                        CustomoLocation customoLocation = new CustomoLocation();
+//                                        customoLocation.setLat(gaoDeLat);
+//                                        customoLocation.setLng(gaoDeLng);
+//                                        customoLocation.setName("");
+//                                        MapIntentUtil.startNative_Gaode(ShopMallDetailsAty.this, customoLocation);
+//                                    }
+//                                }
+//                            })
+//                            .setPositiveButton("取消", null)
+//                            .create().show();
+//                } else {
+//                    showToast("请先安装地图导航APP");
+//                }
 
                 break;
         }

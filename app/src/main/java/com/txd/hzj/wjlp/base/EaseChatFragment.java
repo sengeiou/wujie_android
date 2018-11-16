@@ -27,9 +27,11 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.ants.theantsgo.base.BaseView;
 import com.ants.theantsgo.imageLoader.GlideImageLoader;
 import com.ants.theantsgo.util.CompressionUtil;
 import com.ants.theantsgo.util.L;
+import com.ants.theantsgo.util.PreferencesUtils;
 import com.hyphenate.EMValueCallBack;
 import com.hyphenate.chat.EMChatRoom;
 import com.hyphenate.chat.EMClient;
@@ -66,12 +68,19 @@ import com.lzy.imagepicker.ImagePicker;
 import com.lzy.imagepicker.bean.ImageItem;
 import com.lzy.imagepicker.ui.ImageGridActivity;
 import com.txd.hzj.wjlp.DemoApplication;
+import com.txd.hzj.wjlp.distribution.model.ExhibitModel;
 import com.txd.hzj.wjlp.http.index.IndexPst;
+import com.txd.hzj.wjlp.huanxin.ui.ChatActivity;
 import com.txd.hzj.wjlp.webviewH5.WebViewAty;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * you can new an EaseChatFragment to use or you can inherit it to expand.
@@ -773,40 +782,45 @@ public class EaseChatFragment extends EaseBaseFragment implements ChatListener {
 
     }
 
-    //
+    // 发送大的动态表情
     protected void sendBigExpressionMessage(String name, String identityCode) {
         EMMessage message = EaseCommonUtils.createExpressionMessage(toChatUsername, name, identityCode);
+        L.e("huanxinMEssage", "大图动态图：toChatUsername:" + toChatUsername + "\tname:" + name + "\tidentityCode:" + identityCode);
         sendMessage(message);
     }
 
     //发送一条语音消息
     protected void sendVoiceMessage(String filePath, int length) {
         EMMessage message = EMMessage.createVoiceSendMessage(filePath, length, toChatUsername);
+        L.e("huanxinMEssage", "语音消息：toChatUsername:" + toChatUsername + "\tfilePath:" + filePath + "\tlength:" + length);
         sendMessage(message);
     }
 
     //发送图片消息
     protected void sendImageMessage(String imagePath) {
         EMMessage message = EMMessage.createImageSendMessage(imagePath, false, toChatUsername);
+        L.e("huanxinMEssage", "图片消息：toChatUsername:" + toChatUsername + "\timagePath:" + imagePath);
         sendMessage(message);
     }
 
     //发送位置消息
-    protected void sendLocationMessage(double latitude, double longitude, String
-            locationAddress) {
+    protected void sendLocationMessage(double latitude, double longitude, String locationAddress) {
         EMMessage message = EMMessage.createLocationSendMessage(latitude, longitude, locationAddress, toChatUsername);
+        L.e("huanxinMEssage", "位置消息：toChatUsername:" + toChatUsername + "\tlatitude:" + latitude + "\tlongitude:" + longitude);
         sendMessage(message);
     }
 
     //发送视频消息
     protected void sendVideoMessage(String videoPath, String thumbPath, int videoLength) {
         EMMessage message = EMMessage.createVideoSendMessage(videoPath, thumbPath, videoLength, toChatUsername);
+        L.e("huanxinMEssage", "视频消息：toChatUsername:" + toChatUsername + "\tvideoPath:" + videoPath + "\tthumbPath:" + thumbPath + "\tvideoLength:" + videoLength);
         sendMessage(message);
     }
 
     //发送文件
     protected void sendFileMessage(String filePath) {
         EMMessage message = EMMessage.createFileSendMessage(filePath, toChatUsername);
+        L.e("huanxinMEssage", "文件消息：toChatUsername:" + toChatUsername + "\tfilePath:" + filePath);
         sendMessage(message);
     }
 
@@ -835,17 +849,73 @@ public class EaseChatFragment extends EaseBaseFragment implements ChatListener {
         if (isMessageListInited) {
             messageList.refreshSelectLast();
         }
-    }
 
+        String string = PreferencesUtils.getString(getActivity(), PreferencesUtils.SHARED_KEY_HUANXIN_USER_ID, "");
+        if (!string.isEmpty()) {
+            try {
+                JSONArray jsonArray = new JSONArray(string);
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    JSONObject jsonObject = jsonArray.getJSONObject(i);
+                    if (jsonObject.getString("from").equals(message.getTo())) { // 如果存储的数据里存在要发送的目标账号
+                        // 则直接调用接口进行上传 ， 否则不存在则不执行该操作
+                        ExhibitModel exhibitModel = new ExhibitModel();
+                        exhibitModel.shop_msg("1", jsonObject.getString("uid"), jsonObject.getString("bid"), new BaseView() {
+                            @Override
+                            public void showDialog() {
+                            }
+                            @Override
+                            public void showDialog(String text) {
+                            }
+                            @Override
+                            public void showContent() {
+                            }
+                            @Override
+                            public void removeDialog() {
+                            }
+                            @Override
+                            public void removeContent() {
+                            }
+                            @Override
+                            public void onStarted() {
+                            }
+
+                            @Override
+                            public void onCancelled() {
+                            }
+                            @Override
+                            public void onLoading(long total, long current, boolean isUploading) {
+                            }
+                            @Override
+                            public void onException(Exception exception) {
+                            }
+                            @Override
+                            public void onComplete(String requestUrl, String jsonStr) {
+                            }
+                            @Override
+                            public void onError(String requestUrl, Map<String, String> error) {
+                            }
+                            @Override
+                            public void onErrorTip(String tips) {
+
+                            }
+                        });
+                    }
+                }
+            } catch (JSONException e) {
+                L.e("huanxinMEssage", "获取文件的存储环信账号异常：" + e.toString());
+            }
+        }
+        L.e("huanxinMEssage", "发送的消息：sendMessage:" + message.toString());
+    }
 
     public void resendMessage(EMMessage message) {
         message.setStatus(EMMessage.Status.CREATE);
         EMClient.getInstance().chatManager().sendMessage(message);
+        L.e("huanxinMEssage", "重发消息：resendMessage:" + message.toString());
         messageList.refresh();
     }
 
     //===================================================================================
-
 
     /**
      * 发送图片

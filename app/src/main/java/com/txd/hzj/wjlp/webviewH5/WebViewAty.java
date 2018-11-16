@@ -2,11 +2,13 @@ package com.txd.hzj.wjlp.webviewH5;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.util.DisplayMetrics;
 import android.view.KeyEvent;
 import android.view.View;
@@ -36,10 +38,13 @@ import com.lzy.imagepicker.ui.ImageGridActivity;
 import com.txd.hzj.wjlp.Constant;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
+import com.txd.hzj.wjlp.bean.CustomoLocation;
 import com.txd.hzj.wjlp.http.Pay;
 import com.txd.hzj.wjlp.http.index.IndexPst;
 import com.txd.hzj.wjlp.login.LoginAty;
+import com.txd.hzj.wjlp.melloffLine.ShopMallDetailsAty;
 import com.txd.hzj.wjlp.tool.BitmapUtils;
+import com.txd.hzj.wjlp.tool.MapIntentUtil;
 import com.txd.hzj.wjlp.wxapi.GetPrepayIdTask;
 
 import org.json.JSONException;
@@ -48,6 +53,7 @@ import org.json.JSONObject;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
@@ -464,6 +470,28 @@ public class WebViewAty extends BaseAty {
                 }
             }
         }
+
+        /**
+         * 调起地图导航并规划路线
+         *
+         * @param navigationCoordinates
+         */
+        @JavascriptInterface
+        public void getNavigationLine(String navigationCoordinates) {
+            try {
+                JSONObject jsonObject = new JSONObject(navigationCoordinates);
+//                JSONObject data = jsonObject.getJSONObject("data");
+                double baiDuLat = Double.parseDouble(jsonObject.has("baiDuLat") ? jsonObject.getString("baiDuLat") : "0");
+                double baiDuLng = Double.parseDouble(jsonObject.has("baiDuLng") ? jsonObject.getString("baiDuLng") : "0");
+                double gaoDeLat = Double.parseDouble(jsonObject.has("gaoDeLat") ? jsonObject.getString("gaoDeLat") : "0");
+                double gaoDeLng = Double.parseDouble(jsonObject.has("gaoDeLng") ? jsonObject.getString("gaoDeLng") : "0");
+                MapIntentUtil mapIntentUtil = new MapIntentUtil();
+                mapIntentUtil.openMap(WebViewAty.this, baiDuLat, baiDuLng, gaoDeLat, gaoDeLng);
+            } catch (JSONException e) {
+                showToast("此处数据回传格式异常");
+            }
+        }
+
     }
     // ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑ H5交互接口 END ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
 

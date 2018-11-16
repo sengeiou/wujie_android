@@ -13,6 +13,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.ants.theantsgo.AppManager;
+import com.ants.theantsgo.util.L;
 import com.ants.theantsgo.util.PreferencesUtils;
 import com.hyphenate.EMCallBack;
 import com.hyphenate.EMConnectionListener;

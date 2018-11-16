@@ -238,7 +238,6 @@ public class DemoApplication extends WeApplication implements EMMessageListener 
     @Override
     public void onCmdMessageReceived(List<EMMessage> list) {
         if (chatListener != null) {
-
             chatListener.onMessageReceived(list);
         }
 

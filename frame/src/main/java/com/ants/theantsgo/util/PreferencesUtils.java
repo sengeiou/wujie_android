@@ -15,6 +15,9 @@ public class PreferencesUtils {
 
     private static String PREFERENCE_NAME = "Duke";
     private  static Gson gson = new Gson();
+
+    public static String SHARED_KEY_HUANXIN_USER_ID = "SHARED_KEY_HUANXIN_USER_ID"; // 店家联系需要调用接口的id
+
     /**
      * put string preferences
      *

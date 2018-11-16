@@ -8,10 +8,13 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 import com.ants.theantsgo.systemBarUtil.ImmersionBar;
+import com.ants.theantsgo.util.L;
+import com.ants.theantsgo.util.PreferencesUtils;
 import com.hyphenate.EMMessageListener;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMCmdMessageBody;
 import com.hyphenate.chat.EMMessage;
+import com.hyphenate.chat.EMMessageBody;
 import com.hyphenate.easeui.EaseUI;
 import com.hyphenate.easeui.model.EaseNotifier;
 import com.hyphenate.util.EMLog;
@@ -20,6 +23,10 @@ import com.txd.hzj.wjlp.MainAty;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.EaseChatFragment;
 import com.yanzhenjie.permission.AndPermission;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.List;
 
@@ -74,6 +81,7 @@ public class ChatActivity extends BaseActivity {
                     if (!easeUI.hasForegroundActivies()) {
                         getNotifier().onNewMsg(message);
                     }
+                    L.e("环信接收消息", "ChatActivity -- onMessageReceived:" + message.toString());
                 }
             }
 
@@ -98,6 +106,10 @@ public class ChatActivity extends BaseActivity {
                     //获取扩展属性 此处省略
                     //maybe you need get extension of your message
                     //message.getStringAttribute("");
+                    L.e("环信接收消息", "ChatActivity -- onCmdMessageReceived:" + message.toString());
+
+                    setPreferencesData(message); // 设置商家的环信账号值
+
                     EMLog.d(TAG, String.format("Command：action:%s,message:%s", action, message.toString()));
                 }
             }
@@ -128,6 +140,49 @@ public class ChatActivity extends BaseActivity {
 
         EMClient.getInstance().chatManager().addMessageListener(messageListener);
         //        showStatusBar(R.id.container);
+    }
+
+    private void setPreferencesData(EMMessage eMessage) {
+        String fromIdStr = eMessage.getFrom();
+        String uid = eMessage.getStringAttribute("uid", "");
+        String bid = eMessage.getStringAttribute("bid", "");
+        L.e("huanxinkuozhan", "获取的值：fromIdStr：" + fromIdStr + " --- uid:" + uid + " --- bid:" + bid);
+
+        try {
+            // 获取文件共享值
+            String string = PreferencesUtils.getString(ChatActivity.this, PreferencesUtils.SHARED_KEY_HUANXIN_USER_ID, "");
+            if (string.isEmpty()) { // 如果无该值，则直接创建JsonArray进行储存
+//              [{"from":"123123123","uid":"1","bid":"122"}]
+                JSONArray jsonArray = new JSONArray();
+
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put("from", fromIdStr);
+                jsonObject.put("uid", uid);
+                jsonObject.put("bid", bid);
+
+                jsonArray.put(jsonObject);
+                PreferencesUtils.putString(ChatActivity.this, PreferencesUtils.SHARED_KEY_HUANXIN_USER_ID, jsonArray.toString());
+            } else { // 否则的话是有值，将其转换成JsonArray格式的数组
+                boolean isHave = false; // 是否已存在
+                JSONArray jsonArray = new JSONArray(string);
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    JSONObject jsonObject = jsonArray.getJSONObject(i);
+                    if (fromIdStr.equals(jsonObject.getString("from"))) {
+                        isHave = true;
+                    }
+                }
+                if (!isHave) { // 如果回传的数据不存在记录中则将其添加进去并保存
+                    JSONObject jsonObject = new JSONObject();
+                    jsonObject.put("from", fromIdStr);
+                    jsonObject.put("uid", uid);
+                    jsonObject.put("bid", bid);
+                    jsonArray.put(jsonObject);
+                    PreferencesUtils.putString(ChatActivity.this, PreferencesUtils.SHARED_KEY_HUANXIN_USER_ID, jsonArray.toString());
+                }
+            }
+        } catch (JSONException e) {
+            L.e("JSONArray 格式异常");
+        }
     }
 
 

@@ -86,7 +86,7 @@ public class ExhibitModel {
         ApiTool2 apiTool2 = new ApiTool2();
         params.addBodyParameter("id", id);
         params.addBodyParameter("shop_name", shop_name);
-        if (shop_pic!=null){
+        if (shop_pic != null) {
             params.addBodyParameter("shop_pic", shop_pic);
         }
         params.addBodyParameter("shop_desc", shop_desc);
@@ -124,7 +124,7 @@ public class ExhibitModel {
      * @param type   2：暂定查询本店订单列表
      * @param status ‘0’: ‘待支付‘ ； ‘1’: ‘待发货’ ； ‘2’: ‘待收货’ ；’3’: ‘待评价’；’4’: ‘已完成）5已取消 9删除 不传默认显示全部
      */
-    public void getShopOrderList(String id, String type, String status,int p, BaseView baseView) {
+    public void getShopOrderList(String id, String type, String status, int p, BaseView baseView) {
         RequestParams params = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
         params.addQueryStringParameter("id", id);
@@ -138,9 +138,10 @@ public class ExhibitModel {
 
     /**
      * 查看自己店铺中申请黄券审核的订单列表
-     * @param id shop_id小店id
-     * @param type  	4：查看自己店铺中申请黄券审核的订单
-     * @param p  分页页数
+     *
+     * @param id   shop_id小店id
+     * @param type 4：查看自己店铺中申请黄券审核的订单
+     * @param p    分页页数
      */
     public void getShopYellowList(String id, String type, String p, BaseView baseView) {
         RequestParams params = new RequestParams();
@@ -232,7 +233,8 @@ public class ExhibitModel {
     }
 
     /**
-     *审核黄券明细接口
+     * 审核黄券明细接口
+     *
      * @param p
      */
     public void postVouchersLog(int p, BaseView baseView) {
@@ -240,6 +242,23 @@ public class ExhibitModel {
         ApiTool2 apiTool2 = new ApiTool2();
         params.addBodyParameter("p", String.valueOf(p));
         apiTool2.postApi(Config.DISTRIBUTION_URL + "vouchersLog", params, baseView);
+    }
+
+    /**
+     * 分销店铺消息
+     *
+     * @param type     APP端默认为1
+     * @param uid      获取环信命令扩展里面的uid
+     * @param bid      获取环信命令扩展里面的bid
+     * @param baseView
+     */
+    public void shop_msg(String type, String uid, String bid, BaseView baseView) {
+        RequestParams params = new RequestParams();
+        ApiTool2 apiTool2 = new ApiTool2();
+        params.addBodyParameter("type", type);
+        params.addBodyParameter("uid", uid);
+        params.addBodyParameter("bid", bid);
+        apiTool2.postApi(Config.DISTRIBUTION_URL + "shop_msg", params, baseView);
     }
 
 
