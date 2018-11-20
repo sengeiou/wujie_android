@@ -13,13 +13,25 @@
         android:layout_gravity="center"
         android:layout_marginRight="5dp"
         android:visibility="gone" />
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
 
-    <ImageView
-        android:id="@+id/itemShopManageOrd_image_imgv"
-        android:layout_width="85dp"
-        android:layout_height="85dp"
-        android:scaleType="fitXY"
-        android:src="@drawable/icon_temp_watch" />
+        <ImageView
+            android:id="@+id/itemShopManageOrd_image_imgv"
+            android:layout_width="85dp"
+            android:layout_height="85dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/icon_temp_watch" />
+        <ImageView
+            android:id="@+id/recommend_img"
+            android:visibility="gone"
+            android:src="@drawable/icon_recommend"
+            android:layout_width="20dp"
+            android:layout_height="20dp" />
+    </FrameLayout>
+
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -116,6 +128,15 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:src="@drawable/shop_share" />
+            <ImageView
+                android:id="@+id/itemShopManageOrd_recommend"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:visibility="gone"
+                android:layout_marginEnd="10dp"
+                android:layout_toLeftOf="@id/itemShopManageOrd_share_imgv"
+                android:layout_centerVertical="true"
+                android:src="@drawable/icon_fabulous" />
         </RelativeLayout>
 
     </LinearLayout>
