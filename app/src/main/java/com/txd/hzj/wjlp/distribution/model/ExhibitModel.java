@@ -194,6 +194,19 @@ public class ExhibitModel {
         apiTool2.postApis(Config.DISTRIBUTION_URL + "goods", params, baseView);
     }
 
+    /**
+     *推荐
+     * @param id
+     * @param shop_goods_rec （默认0 [0 不推荐 1 店长推荐]）
+     */
+    public void postRecommend(String id, String shop_goods_rec, BaseView baseView) {
+        RequestParams params = new RequestParams();
+        ApiTool2 apiTool2 = new ApiTool2();
+        params.addBodyParameter("id",id);
+        params.addBodyParameter("shop_goods_rec", shop_goods_rec);
+        apiTool2.postApis(Config.DISTRIBUTION_URL + "goods", params, baseView);
+    }
+
 
     /**
      * 录入商品接口(小店上货的上架接口)

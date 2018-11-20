@@ -64,6 +64,31 @@ public class ShopManageOrdinaryFgt extends BaseFgt {
         titles.add("已售罄");
     }
 
+    /**
+     *
+     * @param nomal  出售中
+     * @param down 下架
+     * @param out  售罄
+     */
+    public void  setTitles(String nomal,String down,String out){
+        if (titles == null){
+            titles=new ArrayList<>();
+            titles.add("出售中("+nomal+")");
+            titles.add("已下架("+down+")");
+            titles.add("已售罄("+out+")");
+        }else {
+            titles.clear();
+            titles.add("出售中("+nomal+")");
+            titles.add("已下架("+down+")");
+            titles.add("已售罄("+out+")");
+        }
+        if (myAdapter==null){
+            myAdapter = new MyAdapter(getChildFragmentManager());
+        }else {
+            myAdapter.notifyDataSetChanged();
+        }
+    }
+
     @Override
     protected void immersionInit() {
         shopManageOrdinary_content_vp.setOffscreenPageLimit(3); // 设置预定加载的页面个数

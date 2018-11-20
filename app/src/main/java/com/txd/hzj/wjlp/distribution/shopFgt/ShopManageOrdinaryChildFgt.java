@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -243,27 +242,45 @@ public class ShopManageOrdinaryChildFgt extends BaseFgt implements View.OnClickL
         if (!isManage) {
             DistributionGoodsBean distributionGoodsBean = JSONObject.parseObject(jsonStr, DistributionGoodsBean.class);
             if (200 == distributionGoodsBean.getCode()) {
+                DistributionGoodsBean.NumArrBean num_arr = distributionGoodsBean.getNum_arr();
+                String normal = num_arr.getNormal();
+                String down = num_arr.getDown();
+                String out = num_arr.getOut();
+                ((ShopManageOrdinaryFgt)getParentFragment()).setTitles(normal,down,out);
                 if (p == 1) {
                     list.clear();
                     list.addAll(distributionGoodsBean.getData());
-                    if (null != list && list.size() > 0) {
+                    if (list.size() > 0) {
                         emptyView.setVisibility(View.GONE);
                         shopManageOrdinaryChild_sr_layout.setVisibility(View.VISIBLE);
-                        adapter = new ShopManageOrdinaryAdapter(getActivity(), list, shopManageOrdinaryChild_selectAll_cbox);
+                        adapter=null;
+                        adapter = new ShopManageOrdinaryAdapter(getActivity(), list, shopManageOrdinaryChild_selectAll_cbox,from);
                         adapter.setOnImageClickListener(new ShopManageOrdinaryAdapter.ImageClick() {
                             @Override
                             public void onImageClick(View view, int position) {
-                                //http://test3.wujiemall.com/Distribution/DistributionShop/shop/g_id/676/shop_id/ZAAADU.html
-                                DistributionGoodsBean.DataBean goodsBean = list.get(position);
-                                Bundle bundle = new Bundle();
-                                bundle.putString("title", goodsBean.getGoods_name());
-                                bundle.putString("pic", goodsBean.getGoods_img());
-                                String shop_id_jiami = PreferencesUtils.getString(AppManager.getInstance().getTopActivity(), "shop_id_jiami");
-                                bundle.putString("url", Config.SHARE_URL + "Distribution/DistributionShop/shop/g_id/" + goodsBean.getGoods_id() + "/shop_id/" + shop_id_jiami + ".html");
-                                bundle.putString("context", goodsBean.getGoods_brief());
-                                bundle.putString("id", goodsBean.getDsg_id());
-                                bundle.putString("Shapetype", "6");
-                                startActivity(ToShareAty.class, bundle);
+                                switch (view.getId()){
+                                    case R.id.itemShopManageOrd_recommend:
+                                        DistributionGoodsBean.DataBean dataBean = list.get(position);
+                                        if (dataBean.getShop_goods_rec()!=null && dataBean.getShop_goods_rec().equals("1")){
+                                            recommendDialog("确定要取消推荐吗？", dataBean.getDsg_id(),"0");
+                                        }else if (dataBean.getShop_goods_rec()!=null && dataBean.getShop_goods_rec().equals("0")){
+                                            recommendDialog("确定要推荐该商品吗？", dataBean.getDsg_id(),"1");
+                                        }
+                                        break;
+                                    case R.id.itemShopManageOrd_share_imgv:
+                                        //http://test3.wujiemall.com/Distribution/DistributionShop/shop/g_id/676/shop_id/ZAAADU.html
+                                        DistributionGoodsBean.DataBean goodsBean = list.get(position);
+                                        Bundle bundle = new Bundle();
+                                        bundle.putString("title", goodsBean.getGoods_name());
+                                        bundle.putString("pic", goodsBean.getGoods_img());
+                                        String shop_id_jiami = PreferencesUtils.getString(AppManager.getInstance().getTopActivity(), "shop_id_jiami");
+                                        bundle.putString("url", Config.SHARE_URL + "Distribution/DistributionShop/shop/g_id/" + goodsBean.getGoods_id() + "/shop_id/" + shop_id_jiami + ".html");
+                                        bundle.putString("context", goodsBean.getGoods_brief());
+                                        bundle.putString("id", goodsBean.getDsg_id());
+                                        bundle.putString("Shapetype", "6");
+                                        startActivity(ToShareAty.class, bundle);
+                                        break;
+                                }
                             }
                         });
                         shopManageOrdinaryChild_data_lv.setAdapter(adapter);
@@ -281,7 +298,14 @@ public class ShopManageOrdinaryChildFgt extends BaseFgt implements View.OnClickL
         } else {
             JSONObject jsonObject = JSONObject.parseObject(jsonStr);
             if (jsonObject.containsKey("code") && "200".equals(jsonObject.getString("code"))) {
-                showToast("操作成功");
+                showToast(jsonObject.getString("message"));
+                getData();
+                if (shopManageOrdinaryChild_batchManagement_tv.getVisibility()==View.GONE){
+                    shopManageOrdinaryChild_batchManagement_tv.setVisibility(View.VISIBLE);
+                    shopManageOrdinaryChild_selectAll_cbox.setChecked(false);
+                    ShopGoodsManage shopGoodsManage = (ShopGoodsManage) getActivity();
+                    shopGoodsManage.setTitltRightVisibility(false);
+                }
             }
         }
         refreshComplete();
@@ -351,6 +375,22 @@ public class ShopManageOrdinaryChildFgt extends BaseFgt implements View.OnClickL
         }
     }
 
+    private void recommendDialog(String messageStr, final String id, final String shop_goods_rec){
+        new MikyouCommonDialog(getActivity(),messageStr,"提示","确认","取消",true)
+                .setOnDiaLogListener(new MikyouCommonDialog.OnDialogListener() {
+                    @Override
+                    public void dialogListener(int btnType, View customView, DialogInterface dialogInterface, int which) {
+                        switch (btnType){
+                            case MikyouCommonDialog.OK:
+                                isManage=true;
+                                mExhibitPst.goodsRecommend(id,shop_goods_rec);
+                                break;
+                                case MikyouCommonDialog.NO:
+                                    break;
+                        }
+                    }
+                }).showDialog();
+    }
 
     /**
      * 上下架产品及删除产品对话框
@@ -387,26 +427,6 @@ public class ShopManageOrdinaryChildFgt extends BaseFgt implements View.OnClickL
                                     } else if (3 == type) {
                                         // 删除商品
                                         chuliGoods(ids, "9");
-                                    }
-                                    if (list.size() > 0) {
-                                        emptyView.setVisibility(View.GONE);
-                                        shopManageOrdinaryChild_sr_layout.setVisibility(View.VISIBLE);
-                                        adapter.setCheckedCount();
-                                        adapter.notifyDataSetChanged();
-                                    } else {
-                                        new Handler().postDelayed(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                p = 1;
-                                                getData();
-                                            }
-                                        },200);
-                                        if (shopManageOrdinaryChild_batchManagement_tv.getVisibility()==View.GONE){
-                                            shopManageOrdinaryChild_batchManagement_tv.setVisibility(View.VISIBLE);
-                                            shopManageOrdinaryChild_selectAll_cbox.setChecked(false);
-                                            ShopGoodsManage shopGoodsManage = (ShopGoodsManage) getActivity();
-                                            shopGoodsManage.setTitltRightVisibility(false);
-                                        }
                                     }
 
                                 }
