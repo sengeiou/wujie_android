@@ -131,6 +131,11 @@ public class ShopMain extends BaseAty implements OnClickListener {
     @Override
     protected void requestData() {
         titleName.setText("链客网店");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         if (null != mExhibitPst && !TextUtils.isEmpty(mShop_id)) {
             mExhibitPst.shops(mShop_id);
         }
