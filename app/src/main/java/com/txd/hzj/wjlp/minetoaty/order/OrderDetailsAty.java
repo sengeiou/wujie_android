@@ -197,7 +197,7 @@ public class OrderDetailsAty extends BaseAty {
                 yunfei_layout.setVisibility(View.VISIBLE);
             }
         }
-        if (type.equals("0") || WJConfig.TYPE_SJJZQ.equals(type)) {//0 普通商品
+        if (type.equals("0") || WJConfig.TYPE_SJJZQ.equals(type) || type.equals(WJConfig.TYPE_JSP)) {//0 普通商品
             Order.details(order_id, this);
             type2WL = "0";
         } else if (type.equals("3")) {//拼单购
@@ -225,7 +225,7 @@ public class OrderDetailsAty extends BaseAty {
         tv_btn_right.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (type.equals("0") || type.equals(WJConfig.TYPE_JFSD) || type.equals(WJConfig.TYPE_SJJZQ) || type.equals(WJConfig.TYPE_ZPZQ)) {
+                if (type.equals("0") || type.equals(WJConfig.TYPE_JFSD) || type.equals(WJConfig.TYPE_SJJZQ) || type.equals(WJConfig.TYPE_ZPZQ) || type.equals(WJConfig.TYPE_JSP)) {
                     //订单状态（'0': '待付款‘ ； '1': '待发货' ； '2': '待收货' ；'3': '待评价'；'4': '已完成；‘5’：取消订单） 默认9（全部）
                     if (order_status.equals("0")) {
                         Bundle bundle = new Bundle();
@@ -254,7 +254,7 @@ public class OrderDetailsAty extends BaseAty {
                         new AlertDialog(OrderDetailsAty.this).builder().setTitle("提示").setMsg("删除订单").setPositiveButton("确定", new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                if (type.equals("0") || type.equals(WJConfig.TYPE_SJJZQ)) {
+                                if (type.equals("0") || type.equals(WJConfig.TYPE_SJJZQ) || type.equals(WJConfig.TYPE_JSP)) {
                                     Order.deleteOrder(order_id, OrderDetailsAty.this);
                                     showProgressDialog();
                                 } else if (WJConfig.TYPE_ZPZQ.equals(type)) {
@@ -380,7 +380,7 @@ public class OrderDetailsAty extends BaseAty {
                     @Override
                     public void onClick(View v) {
 
-                        if (type.equals("0") || type.equals(WJConfig.TYPE_SJJZQ)) {
+                        if (type.equals("0") || type.equals(WJConfig.TYPE_SJJZQ) || type.equals(WJConfig.TYPE_JSP)) {
                             if (order_status.equals("0")) {
 
                                 Order.cancelOrder(order_id, OrderDetailsAty.this);
@@ -442,7 +442,7 @@ public class OrderDetailsAty extends BaseAty {
                 // 如果订单状态为待付款或待发货，则隐藏订单详情查看入口
                 lin_logistics.setVisibility(View.GONE);
             }
-            if (type.equals("0") || type.equals(WJConfig.TYPE_JFSD) || type.equals(WJConfig.TYPE_SJJZQ) || type.equals(WJConfig.TYPE_ZPZQ)) {
+            if (type.equals("0") || type.equals(WJConfig.TYPE_JFSD) || type.equals(WJConfig.TYPE_SJJZQ) || type.equals(WJConfig.TYPE_ZPZQ) || type.equals(WJConfig.TYPE_JSP)) {
                 setOrderStatus();
             } else if (type.equals("3")) {
                 setGroupBuyOrderStatus();
@@ -507,7 +507,7 @@ public class OrderDetailsAty extends BaseAty {
         if (requestUrlSplit.equals("cancelOrder") ||
                 requestUrlSplit.equals("preCancelOrder") ||
                 requestUrlSplit.equals("CancelOrder")) {
-            if (type.equals("0") || type.equals(WJConfig.TYPE_SJJZQ)) {
+            if (type.equals("0") || type.equals(WJConfig.TYPE_SJJZQ) || type.equals(WJConfig.TYPE_JSP)) {
                 Order.details(order_id, this);
             } else if (type.equals("3")) {
                 GroupBuyOrder.details(order_id, this);
@@ -526,7 +526,7 @@ public class OrderDetailsAty extends BaseAty {
         if (requestUrlSplit.equals("receiving") ||
                 requestUrlSplit.equals("preReceiving") ||
                 requestUrlSplit.equals("Receiving")) {
-            if (type.equals("0") || type.equals(WJConfig.TYPE_SJJZQ)) {
+            if (type.equals("0") || type.equals(WJConfig.TYPE_SJJZQ) || type.equals(WJConfig.TYPE_JSP)) {
                 Order.details(order_id, this);
             } else if (type.equals("3")) {
                 GroupBuyOrder.details(order_id, this);
@@ -1273,11 +1273,16 @@ public class OrderDetailsAty extends BaseAty {
                                     break;
                                     case WJConfig.TYPE_ZPZQ: {
                                         GiveAwayModel.postGiftGoodsOrderReceiving(order_id, "2", OrderDetailsAty.this);
-                                        break;
                                     }
+                                    break;
                                     case WJConfig.TYPE_SJJZQ: {
                                         Order.receiving(order_id, list.get(clickIndex).get("order_goods_id"), "2", OrderDetailsAty.this);
                                     }
+                                    break;
+                                    case WJConfig.TYPE_JSP: {
+                                        Order.receiving(order_id, list.get(clickIndex).get("order_goods_id"), "2", OrderDetailsAty.this);
+                                    }
+                                    break;
 
                                 }
                                 L.e("wang", "===============>>>>>>>>>>>>>>> tv1 click status = 1");
@@ -1308,6 +1313,10 @@ public class OrderDetailsAty extends BaseAty {
                                         break;
                                     }
                                     case WJConfig.TYPE_SJJZQ: {
+                                        Order.receiving(order_id, list.get(clickIndex).get("order_goods_id"), "1", OrderDetailsAty.this);
+                                        break;
+                                    }
+                                    case WJConfig.TYPE_JSP: {
                                         Order.receiving(order_id, list.get(clickIndex).get("order_goods_id"), "1", OrderDetailsAty.this);
                                         break;
                                     }

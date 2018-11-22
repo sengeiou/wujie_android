@@ -443,11 +443,15 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
                             //                            bundle.putInt("type", 2);
                             //                            bundle.putString("title", "无界预购");
                             //                            startActivity(TicketZoonAty.class, bundle);
-                            bundle = new Bundle();
-                            bundle.putInt("from",6);
-                            bundle.putString("desc","邀请有礼");
-                            bundle.putString("href", Config.SHARE_URL+"Splicing/index/");
-                            startActivity(NoticeDetailsAty.class, bundle);
+                            if (!Config.isLogin()){
+                                startActivity(LoginAty.class,null);
+                            }else {
+                                bundle = new Bundle();
+                                bundle.putInt("from", 6);
+                                bundle.putString("desc", "邀请有礼");
+                                bundle.putString("href", Config.SHARE_URL + "Splicing/index/");
+                                startActivity(NoticeDetailsAty.class, bundle);
+                            }
                             break;
                         case 5:// 进口馆
                             bundle = new Bundle();
