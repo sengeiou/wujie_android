@@ -107,6 +107,7 @@ public class NoticeDetailsAty extends BaseAty {
      */
     @ViewInject(R.id.books_logo_iv)
     private ImageView books_logo_iv;
+    private String mDesc="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -128,7 +129,7 @@ public class NoticeDetailsAty extends BaseAty {
             articlePst.getArticle("1");
         } else if (2 == from) {
             only_for_top_layout.setVisibility(View.GONE);
-            String desc = getIntent().getStringExtra("desc");
+            mDesc = getIntent().getStringExtra("desc");
             titlt_conter_tv.setText("无界优品");
             url = getIntent().getStringExtra("href");
             initWebView(false); // 不使用noScrollWebView
@@ -142,8 +143,8 @@ public class NoticeDetailsAty extends BaseAty {
             articlePst.getArticle("2");
         } else if (6 == from) {
             only_for_top_layout.setVisibility(View.GONE);
-            String desc = getIntent().getStringExtra("desc");
-            titlt_conter_tv.setText(desc);
+            mDesc = getIntent().getStringExtra("desc");
+            titlt_conter_tv.setText(mDesc);
             url = getIntent().getStringExtra("href");
             initWebView(false); // 不使用noScrollWebView
         }
@@ -395,7 +396,13 @@ public class NoticeDetailsAty extends BaseAty {
                 JSONObject jsonObject = new JSONObject(content);
                 String goodsName = jsonObject.has("goodsName") ? jsonObject.getString("goodsName") : "";
                 String share_img = jsonObject.has("share_img") ? jsonObject.getString("share_img") : "";
-                String share_url = jsonObject.has("share_url") ? jsonObject.getString("share_url") : "";
+                String share_url;
+                if (mDesc.equals("邀请有礼")){
+                    share_url = jsonObject.has("share_url") ? jsonObject.getString("share_url")+"index" : "";
+                }else {
+                    share_url = jsonObject.has("share_url") ? jsonObject.getString("share_url") : "";
+                }
+
                 String share_content = jsonObject.has("share_content") ? jsonObject.getString("share_content") : "";
                 String id = jsonObject.has("id") ? jsonObject.getString("id") : "0";
                 NoticeDetailsAty.this.toShare(goodsName, share_img, share_url, share_content, id, "1");
