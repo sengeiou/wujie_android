@@ -131,7 +131,7 @@ public class OrderCenterAty extends BaseAty {
                     mBundle.putString("title", itemShowNames[13]);
                     mBundle.putString("type", WJConfig.TYPE_ZPZQ);
                     startActivity(OnlineShopAty.class, mBundle);
-                }else if (showItem.getShowName().equals(itemShowNames[14])) {
+                }else if (showItem.getShowName().equals(itemShowNames[14])) { // 集碎片
                     mBundle.putString("title", itemShowNames[14]);
                     mBundle.putString("type", WJConfig.TYPE_JSP);
                     startActivity(OnlineShopAty.class, mBundle);

@@ -13,14 +13,14 @@ public class BalancePay {
     private static String url = Config.BASE_URL + "BalancePay/";
 
     /**
-     * @param order_id 订单id
-     * @param order_type 订单类型
+     * @param order_id      订单id
+     * @param order_type    订单类型
      * @param discount_type
-     * @param inte_id 商品数量
+     * @param inte_id       商品数量
      * @param baseView
      */
     public static void BalancePay(String order_id, String order_type, String discount_type, String inte_id, BaseView baseView) {
-        L.e("order"+order_id+"--"+order_type+"--"+discount_type+"--"+inte_id);
+        L.e("order" + order_id + "--" + order_type + "--" + discount_type + "--" + inte_id);
         if (TextUtils.isEmpty(order_type)) {
             order_type = "1";
         }
