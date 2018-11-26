@@ -1153,7 +1153,7 @@ public class OrderOnLineFgt extends BaseFgt {
             } else {
                 goVh.title.setVisibility(View.VISIBLE);
                 String goods_attr_str = "规格" + getItem(i).get("goods_attr");
-                if (WJConfig.TYPE_EJBL.equals(order_type) || (WJConfig.TYPE_SJJZQ.equals(from) && "2".equals(getItem(i).get("is_active")))) {
+                if (WJConfig.TYPE_EJBL.equals(order_type) || (WJConfig.TYPE_SJJZQ.equals(from) && "2".equals(getItem(i).get("is_active"))) || WJConfig.TYPE_JSP.equals(from)) {
                     ChangeTextViewStyle.getInstance().forTextColor(getActivity(), goVh.title,
                             goods_attr_str, goods_attr_str.length(), Color.parseColor("#F6B87A"));
                 } else {
