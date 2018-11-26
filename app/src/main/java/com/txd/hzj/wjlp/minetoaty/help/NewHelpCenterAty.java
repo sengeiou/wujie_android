@@ -80,7 +80,7 @@ public class NewHelpCenterAty extends BaseAty {
 
         headers.put("Accept_type", "android");
         String loadUrl=Config.OFFICIAL_WEB.replace("api","www");
-        helpWebView.loadUrl(loadUrl+"Wap/Article/helpCenter/type/1.html?Accept_type=android",headers);
+        helpWebView.loadUrl(loadUrl+"Wap/Article/helpCenter/type/0.html?Accept_type=android",headers);
 //        helpWebView.loadUrl("http://www.baidu.com/");
 
         helpWebView.setWebViewClient(new WebViewClient() {
