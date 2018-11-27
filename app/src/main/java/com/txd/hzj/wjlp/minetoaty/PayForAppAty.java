@@ -249,6 +249,8 @@ public class PayForAppAty extends BaseAty {
                         Pay.getJsTine(order_id, getType(), WJConfig.TYPE_EJBL, this);
                     } else if (mType.equals(WJConfig.TYPE_XXDP)) {
                         Pay.getJsTine(order_id, getType(), "9", this);
+                    }else if (mType.equals(WJConfig.TYPE_JSP)) {
+                        Pay.getJsTine(order_id, getType(), "16", this);
                     }
                     showProgressDialog();
                     return;
@@ -278,6 +280,8 @@ public class PayForAppAty extends BaseAty {
                         Pay.getAlipayParam(order_id, getType(), WJConfig.TYPE_EJBL, this);
                     } else if (mType.equals(WJConfig.TYPE_XXDP)) {
                         Pay.getAlipayParam(order_id, getType(), "9", this);
+                    }else if (mType.equals(WJConfig.TYPE_JSP)) {
+                        Pay.getAlipayParam(order_id, getType(), "16", this);
                     }
                     showProgressDialog();
                     return;
@@ -937,6 +941,11 @@ public class PayForAppAty extends BaseAty {
             mBundle.putString("orderId", order_id);
             startActivity(PaymentResultsAty.class, mBundle);
             //            startActivity(OffLineShopAty.class, mBundle);
+        }
+        if (mType.equals("16")) {
+            mBundle.putString("title", "集碎片");
+            mBundle.putString("type", WJConfig.TYPE_JSP);
+            startActivity(OnlineShopAty.class, mBundle);
         }
 
     }

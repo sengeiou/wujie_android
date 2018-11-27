@@ -34,6 +34,8 @@ import com.txd.hzj.wjlp.http.article.ArticlePst;
 import com.txd.hzj.wjlp.http.index.IndexPst;
 import com.txd.hzj.wjlp.http.message.UserMessagePst;
 import com.txd.hzj.wjlp.login.LoginAty;
+import com.txd.hzj.wjlp.minetoaty.order.OnlineShopAty;
+import com.txd.hzj.wjlp.tool.WJConfig;
 import com.txd.hzj.wjlp.view.NoScrollWebView;
 import com.txd.hzj.wjlp.view.ScForWebView;
 import com.txd.hzj.wjlp.wxapi.GetPrepayIdTask;
@@ -107,7 +109,7 @@ public class NoticeDetailsAty extends BaseAty {
      */
     @ViewInject(R.id.books_logo_iv)
     private ImageView books_logo_iv;
-    private String mDesc="";
+    private String mDesc = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -149,10 +151,10 @@ public class NoticeDetailsAty extends BaseAty {
             initWebView(false); // 不使用noScrollWebView
         }
 
-//        wxPayReceiver = new WxPayReceiver();
-//        IntentFilter intentFilter = new IntentFilter();
-//        intentFilter.addAction("wjyp.wxPay");
-//        registerReceiver(wxPayReceiver, intentFilter);
+        //        wxPayReceiver = new WxPayReceiver();
+        //        IntentFilter intentFilter = new IntentFilter();
+        //        intentFilter.addAction("wjyp.wxPay");
+        //        registerReceiver(wxPayReceiver, intentFilter);
 
     }
 
@@ -193,11 +195,11 @@ public class NoticeDetailsAty extends BaseAty {
         webSettings.setLoadWithOverviewMode(true);
         webSettings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
 
-//        details_webview.addJavascriptInterface(new NoticeDetailsJsInterface(), Constant.H5NAME); // 原生的WebView主要是进行产品展示
+        //        details_webview.addJavascriptInterface(new NoticeDetailsJsInterface(), Constant.H5NAME); // 原生的WebView主要是进行产品展示
         // 开启DOM缓存，开启LocalStorage存储（html5的本地存储方式）
-//        details_webview.getSettings().setDomStorageEnabled(true);
-//        details_webview.getSettings().setDatabaseEnabled(true);
-//        details_webview.getSettings().setDatabasePath(NoticeDetailsAty.this.getApplicationContext().getCacheDir().getAbsolutePath());
+        //        details_webview.getSettings().setDomStorageEnabled(true);
+        //        details_webview.getSettings().setDatabaseEnabled(true);
+        //        details_webview.getSettings().setDatabasePath(NoticeDetailsAty.this.getApplicationContext().getCacheDir().getAbsolutePath());
 
         if (noScroll) { // 使用noScrollWebView
             noticeDetails_ScForWebView.setVisibility(View.VISIBLE); // 显示noScrollWebView
@@ -223,14 +225,14 @@ public class NoticeDetailsAty extends BaseAty {
             details_webview.getSettings().setDatabasePath(this.getCacheDir().getAbsolutePath()); // 设置数据缓存路径
 
             // WebView加载web资源
-//            if (6 == from) {
+            //            if (6 == from) {
             Map<String, String> map = new HashMap<>();
             map.put("token", Config.getToken());
             map.put("device", "Android");
             details_webview.loadUrl(url, map);
-//            } else {
-//                details_webview.loadUrl(url);
-//            }
+            //            } else {
+            //                details_webview.loadUrl(url);
+            //            }
 
             // 覆盖WebView默认使用第三方或系统默认浏览器打开网页的行为，使网页用WebView打开
             details_webview.setWebViewClient(new WebViewClient() {
@@ -238,7 +240,7 @@ public class NoticeDetailsAty extends BaseAty {
                 public boolean shouldOverrideUrlLoading(WebView view, String url) {
                     // 返回值是true的时候控制去WebView打开，为false调用系统浏览器或第三方浏览器
                     view.loadUrl(url);
-//                    http://test2.wujiemall.com/Wap/OfflineStore/offlineShop/merchant_id/12/invite_code/7wIv3xe4.html
+                    //                    http://test2.wujiemall.com/Wap/OfflineStore/offlineShop/merchant_id/12/invite_code/7wIv3xe4.html
                     return true;
                 }
             });
@@ -397,9 +399,9 @@ public class NoticeDetailsAty extends BaseAty {
                 String goodsName = jsonObject.has("goodsName") ? jsonObject.getString("goodsName") : "";
                 String share_img = jsonObject.has("share_img") ? jsonObject.getString("share_img") : "";
                 String share_url;
-                if (mDesc.equals("邀请有礼")){
-                    share_url = jsonObject.has("share_url") ? jsonObject.getString("share_url")+"index" : "";
-                }else {
+                if (mDesc.equals("邀请有礼")) {
+                    share_url = jsonObject.has("share_url") ? jsonObject.getString("share_url") + "index" : "";
+                } else {
                     share_url = jsonObject.has("share_url") ? jsonObject.getString("share_url") : "";
                 }
 
@@ -419,6 +421,19 @@ public class NoticeDetailsAty extends BaseAty {
             backMain(3);
             NoticeDetailsAty.this.finish();
         }
+
+        /**
+         * 跳转到拼碎片的订单中心
+         */
+        @JavascriptInterface
+        public void toSplicingOrder() {
+            Bundle mBundle = new Bundle();
+            mBundle.putString("title", "集碎片");
+            mBundle.putString("type", WJConfig.TYPE_JSP);
+            startActivity(OnlineShopAty.class, mBundle);
+        }
+
+
     }
 
     class MyBaseView implements BaseView {
@@ -496,7 +511,14 @@ public class NoticeDetailsAty extends BaseAty {
                 }
 
                 if (requestUrl.contains("findPayResult")) {
-                    paySuccess(jsonObject);
+                    if (type.equals("16")){
+                        Bundle mBundle = new Bundle();
+                        mBundle.putString("title", "集碎片");
+                        mBundle.putString("type", WJConfig.TYPE_JSP);
+                        startActivity(OnlineShopAty.class, mBundle);
+                    }else {
+                        paySuccess(jsonObject);
+                    }
                 }
             } catch (JSONException e) {
             }
@@ -517,12 +539,12 @@ public class NoticeDetailsAty extends BaseAty {
         if (null != wxPayReceiver) {
             unregisterReceiver(wxPayReceiver);
         }
-//        url = Config.OFFICIAL_WEB;
-//        if (url.contains("api")){
-//            url = url.replace("api", "www");
-//        }
-//        url = url + "Wap/Register/loginOut.html";
-//        initWebView(false);
+        //        url = Config.OFFICIAL_WEB;
+        //        if (url.contains("api")){
+        //            url = url.replace("api", "www");
+        //        }
+        //        url = url + "Wap/Register/loginOut.html";
+        //        initWebView(false);
     }
 
     /**
@@ -558,7 +580,7 @@ public class NoticeDetailsAty extends BaseAty {
             if (urlStr.contains("api")) { // 正式版的情况下将api替换为www
                 urlStr = urlStr.replace("api", "www");
             }
-//          http://www.wujiemall.com/Wap/Pay/pay_back/order/153232656966415.html
+            //          http://www.wujiemall.com/Wap/Pay/pay_back/order/153232656966415.html
             StringBuffer stringBuffer = new StringBuffer();
             stringBuffer.append(urlStr);
             stringBuffer.append("Wap/Pay/pay_back/order/");
