@@ -161,7 +161,7 @@ public class TradingStampAty extends BaseAty {
         if (requestUrl.endsWith("Api/GiftGoodsVouchers/giftVoucherIndex")) {
             if (data.containsKey("gift")) {
                 Map<String, String> giftData = JSONUtils.parseKeyAndValueToMap(data.get("gift"));
-                String gift_num = giftData.containsKey("gift_num") ? giftData.get("gift_num") : "";
+                String gift_num = giftData.containsKey("gift_num") ? giftData.get("gift_num") : "0";
                 total_price_tv.setText(gift_num);
 
                 String sum_money = giftData.containsKey("sum_money") ? giftData.get("sum_money") : "";
@@ -169,7 +169,7 @@ public class TradingStampAty extends BaseAty {
                 String exchange_voucher = giftData.containsKey("exchange_voucher") ? giftData.get("exchange_voucher") : "";
                 // "exchanged": 0    //0:未兑换 1：已兑换
                 String exchanged = giftData.containsKey("exchanged") ? giftData.get("exchanged") : "";
-                if (Double.parseDouble(exchanged) > 0) {
+                if (Double.parseDouble(exchanged) > 0 || Double.parseDouble(gift_num)==0) {
                     change_tv.setTextColor(ContextCompat.getColor(TradingStampAty.this,R.color.bg_color));
                     change_tv.setClickable(false);
                     change_tv.setOnClickListener(null);
