@@ -310,8 +310,7 @@ public class NoticeDetailsAty extends BaseAty {
 
 
             Glide.with(this).load(data.get("logo"))
-                    .error(R.drawable.ic_default)
-                    .placeholder(R.drawable.ic_default)
+                    .asBitmap()
                     .dontAnimate()
                     .into(books_logo_iv);
 

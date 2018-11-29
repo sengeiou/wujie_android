@@ -72,7 +72,8 @@
                 <ImageView
                     android:id="@+id/books_logo_iv"
                     android:layout_width="match_parent"
-                    android:layout_height="300dp"
+                    android:layout_height="wrap_content"
+                    android:minHeight="100dp"
                     android:padding="1dp"
                     android:scaleType="fitCenter" />
             </LinearLayout>
@@ -80,7 +81,7 @@
             <com.txd.hzj.wjlp.view.NoScrollWebView
                 android:id="@+id/notice_details_wv"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:background="@color/white"
                 android:scrollbars="none" />
 
