@@ -842,15 +842,15 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
                 Map<String, String> dataASD = JSONUtils.parseKeyAndValueToMap(map.get("data"));
                 if (localShowAsd || dataASD.get("activity_status").equals("1")) { // 如果活动页开启，则显示相应广告
                     under_banner_menu_vp.setVisibility(View.VISIBLE);
-                    limitBuy_llayout.setVisibility(View.VISIBLE);
+//                    limitBuy_llayout.setVisibility(View.VISIBLE);
                     groupBuy_llayout.setVisibility(View.VISIBLE);
-                    ticketBuy_llayout.setVisibility(View.VISIBLE);
-                    pre_llayout.setVisibility(View.VISIBLE);
+//                    ticketBuy_llayout.setVisibility(View.VISIBLE);
+//                    pre_llayout.setVisibility(View.VISIBLE);
                     country_llayout.setVisibility(View.VISIBLE);
-                    auction_llayout.setVisibility(View.VISIBLE);
-                    oneBuy_llayout.setVisibility(View.VISIBLE);
-                    car_llayout.setVisibility(View.VISIBLE);
-                    house_llayout.setVisibility(View.VISIBLE);
+//                    auction_llayout.setVisibility(View.VISIBLE);
+//                    oneBuy_llayout.setVisibility(View.VISIBLE);
+//                    car_llayout.setVisibility(View.VISIBLE);
+//                    house_llayout.setVisibility(View.VISIBLE);
                 } else {
                     under_banner_menu_vp.setVisibility(View.GONE);
                     limitBuy_llayout.setVisibility(View.GONE);
