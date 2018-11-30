@@ -299,6 +299,7 @@ public class ShopManageOrdinaryChildFgt extends BaseFgt implements View.OnClickL
             JSONObject jsonObject = JSONObject.parseObject(jsonStr);
             if (jsonObject.containsKey("code") && "200".equals(jsonObject.getString("code"))) {
                 showToast(jsonObject.getString("message"));
+                p=1;
                 getData();
                 if (shopManageOrdinaryChild_batchManagement_tv.getVisibility()==View.GONE){
                     shopManageOrdinaryChild_batchManagement_tv.setVisibility(View.VISIBLE);
