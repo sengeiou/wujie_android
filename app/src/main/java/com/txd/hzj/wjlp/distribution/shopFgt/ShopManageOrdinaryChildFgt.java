@@ -317,8 +317,6 @@ public class ShopManageOrdinaryChildFgt extends BaseFgt implements View.OnClickL
         super.onError(requestUrl, error);
         removeProgressDialog();
         refreshComplete();
-        emptyView.setVisibility(View.VISIBLE);
-        shopManageOrdinaryChild_sr_layout.setVisibility(View.GONE);
     }
 
     private void refreshComplete() {
