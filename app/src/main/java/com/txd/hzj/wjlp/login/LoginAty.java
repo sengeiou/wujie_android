@@ -332,8 +332,15 @@ public class LoginAty extends BaseAty implements Handler.Callback, PlatformActio
             to_login_tv.setTextColor(ContextCompat.getColor(this, R.color.white));
             to_login_tv.setBackgroundResource(R.drawable.shape_login_tv_selected);
 
-            phone_ev.setText(PreferencesUtils.getString(this, "phone"));
-            pwd_ev.setText(PreferencesUtils.getString(this, "pwd"));
+            String phone = PreferencesUtils.getString(this, "phone");
+            if (phone != null){
+                phone_ev.setText(phone);
+                phone_ev.setSelection(phone.length());
+            }else {
+                phone_ev.setText("");
+            }
+
+            pwd_ev.setText("");
         } else {
             to_register_tv.setTextColor(ContextCompat.getColor(this, R.color.white));
             to_register_tv.setBackgroundResource(R.drawable.shape_register_tv_select);
@@ -399,7 +406,6 @@ public class LoginAty extends BaseAty implements Handler.Callback, PlatformActio
                 PreferencesUtils.putString(this, "invite_code", data.get("invite_code"));
             }
             PreferencesUtils.putString(this, "phone", phone);
-            PreferencesUtils.putString(this, "pwd", password);
             PreferencesUtils.putString(this, "token", data.get("token"));
             PreferencesUtils.putBoolean(this, Config.PREF_KEY_LOGIN_STATE, true); // 将登录状态设置为未登录
             // 友盟统计
