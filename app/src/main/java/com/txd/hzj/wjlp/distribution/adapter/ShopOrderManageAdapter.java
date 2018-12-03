@@ -1,7 +1,9 @@
 package com.txd.hzj.wjlp.distribution.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -21,6 +23,7 @@ import com.ants.theantsgo.view.inScroll.ListViewForScrollView;
 import com.bumptech.glide.Glide;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.distribution.bean.ShopOrderBean;
+import com.txd.hzj.wjlp.minetoaty.OrderLogisticsAty;
 import com.txd.hzj.wjlp.tool.ChangeTextViewStyle;
 
 import java.util.List;
@@ -64,7 +67,7 @@ public class ShopOrderManageAdapter extends RecyclerView.Adapter {
         instance = ChangeTextViewStyle.getInstance();
         final MyViewHolder holders = (MyViewHolder) holder;
 
-        ShopOrderBean.DataBean dataBean = list.get(position);
+        final ShopOrderBean.DataBean dataBean = list.get(position);
         holders.shop_name_tv.setText(dataBean.getShop_name());
         instance.forTextColor(context, holders.buyer, "买家：" + dataBean.getBuyer(), 3, Color.parseColor("#777777"));
         instance.forTextColor(context, holders.supplier, "供货商：" + dataBean.getSupply_name(), 4, Color.parseColor("#777777"));
@@ -131,6 +134,24 @@ public class ShopOrderManageAdapter extends RecyclerView.Adapter {
             holders.orderType.setText("待评价");
         }else if ("4".equals(order_status)){
             holders.orderType.setText("已完成");
+        }
+
+        if (Integer.parseInt(dataBean.getIs_special())==1){
+            holders.showLogisticsTv.setVisibility(View.VISIBLE);
+            holders.showLogisticsTv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Bundle bundle = new Bundle();
+                    bundle.putString("order_id", dataBean.getOrder_id());
+                    bundle.putString("type", "0");
+                    Intent intent=new Intent();
+                    intent.setClass(context,OrderLogisticsAty.class);
+                    intent.putExtras(bundle);
+                    context.startActivity(intent);
+                }
+            });
+        }else {
+            holders.showLogisticsTv.setVisibility(View.GONE);
         }
 
         if (holders.button_layout.getVisibility() == View.VISIBLE) {
@@ -201,6 +222,7 @@ public class ShopOrderManageAdapter extends RecyclerView.Adapter {
                     }
                 }
             });
+
         }
     }
 
@@ -232,7 +254,7 @@ public class ShopOrderManageAdapter extends RecyclerView.Adapter {
         private TextView tv_btn_left;
         private TextView tv_btn_right;
         private TextView  max_tv;
-
+        private TextView showLogisticsTv;
 
         public MyViewHolder(View itemView) {
             super(itemView);
@@ -266,7 +288,7 @@ public class ShopOrderManageAdapter extends RecyclerView.Adapter {
             tv_btn_left = itemView.findViewById(R.id.tv_btn_left);
             tv_btn_right = itemView.findViewById(R.id.tv_btn_right);
             max_tv=itemView.findViewById(R.id.max_tv);
-
+            showLogisticsTv=itemView.findViewById(R.id.showLogisticsTv);
         }
     }
 
