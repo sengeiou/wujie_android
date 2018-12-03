@@ -457,8 +457,8 @@ public class GiveAwayAreaAty extends BaseAty {
             String country_logo = map.containsKey("country_logo") ? map.get("country_logo") : "";
             String goods_name = map.containsKey("goods_name") ? map.get("goods_name") : "";
             String use_voucher = map.containsKey("use_voucher") ? map.get("use_voucher") : "";
-            String exchange_num = map.containsKey("exchange_num") ? map.get("exchange_num") : "";
-            String shop_price = map.containsKey("shop_price") ? map.get("shop_price") : "";
+//            String exchange_num = map.containsKey("exchange_num") ? map.get("exchange_num") : "";
+//            String shop_price = map.containsKey("shop_price") ? map.get("shop_price") : "";
 
             if (!goods_img.isEmpty()) {
                 Glide.with(mContext).load(goods_img).into(holder.goods_img);
@@ -467,7 +467,7 @@ public class GiveAwayAreaAty extends BaseAty {
                 Glide.with(mContext).load(country_logo).into(holder.goods_icon);
             }
             holder.goods_name_tv.setText(goods_name);
-            holder.goods_price_info_tv.setText("原价¥" + shop_price + "|已售" + exchange_num + "件");
+//            holder.goods_price_info_tv.setText("原价¥" + shop_price + "|已售" + exchange_num + "件");
             holder.goods_price_tv.setText("赠品券价 ¥" + use_voucher);
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -493,8 +493,8 @@ public class GiveAwayAreaAty extends BaseAty {
             private ImageView goods_icon;
             @ViewInject(R.id.goods_name_tv)
             private TextView goods_name_tv;
-            @ViewInject(R.id.goods_price_info_tv)
-            private TextView goods_price_info_tv;
+//            @ViewInject(R.id.goods_price_info_tv)
+//            private TextView goods_price_info_tv;
             @ViewInject(R.id.goods_price_tv)
             private TextView goods_price_tv;
 
