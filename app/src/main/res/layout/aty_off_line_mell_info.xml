@@ -238,16 +238,25 @@
                                     android:textColor="@color/white" />
                             </LinearLayout>
 
-                            <RatingBar
+
+                            <com.txd.hzj.wjlp.view.RatingBar
                                 android:id="@+id/mell_score_rating_bar"
                                 style="@style/foodRatingBar"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
                                 android:layout_marginTop="12dp"
-                                android:isIndicator="true"
+                                android:clickable="false"
+                                android:gravity="center"
                                 android:numStars="5"
-                                android:rating="0" />
+                                app:starFill="@mipmap/star_ful"
+                                app:starHalf="@mipmap/unstar_ful"
+                                app:starImageSize="12dp"
+                                app:starStep="4"
+                                app:starcount="5"
+                                app:starempty="@mipmap/unstar_ful"
+                                app:starpadding="5dp"
+                                app:stepSize="Full"/>
 
                         </LinearLayout>
                     </LinearLayout>
