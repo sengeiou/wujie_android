@@ -398,15 +398,17 @@ public class NoticeDetailsAty extends BaseAty {
                 String goodsName = jsonObject.has("goodsName") ? jsonObject.getString("goodsName") : "";
                 String share_img = jsonObject.has("share_img") ? jsonObject.getString("share_img") : "";
                 String share_url;
+                String Shapetype="1";
                 if (mDesc.equals("邀请有礼")) {
                     share_url = jsonObject.has("share_url") ? jsonObject.getString("share_url") + "index" : "";
+                    Shapetype="7";
                 } else {
                     share_url = jsonObject.has("share_url") ? jsonObject.getString("share_url") : "";
                 }
 
                 String share_content = jsonObject.has("share_content") ? jsonObject.getString("share_content") : "";
                 String id = jsonObject.has("id") ? jsonObject.getString("id") : "0";
-                NoticeDetailsAty.this.toShare(goodsName, share_img, share_url, share_content, id, "1");
+                NoticeDetailsAty.this.toShare(goodsName, share_img, share_url, share_content, id, Shapetype);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
