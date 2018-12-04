@@ -31,7 +31,7 @@ import java.util.Map;
  * 创建时间：2018/10/11 17:02
  * 功能描述：
  */
-public class TradingStampAty extends BaseAty {
+public class TradingStampAty extends BaseAty implements View.OnClickListener{
 
     @ViewInject(R.id.titlt_conter_tv)
     public TextView titlt_conter_tv;
@@ -121,6 +121,7 @@ public class TradingStampAty extends BaseAty {
         });
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
+        setClickable(true);
     }
 
     private View createHeaderView() {
@@ -151,7 +152,24 @@ public class TradingStampAty extends BaseAty {
     protected void requestData() {
         GiveAwayModel.postGiftGoodsVouchersGiftVoucherIndex(p, this);
     }
+    @Override
+    public void onClick(View v) {
+        super.onClick(v);
+        switch (v.getId()) {
+            case R.id.change_tv:
+                GiveAwayModel.postGiftGoodsVouchersChangeMoney(TradingStampAty.this);
+                setClickable(false);
+                break;
+        }
+    }
 
+    private void setClickable(boolean isClick){
+        if (isClick){
+            change_tv.setOnClickListener(this);
+        }else {
+            change_tv.setOnClickListener(null);
+        }
+    }
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
@@ -172,17 +190,12 @@ public class TradingStampAty extends BaseAty {
                 if (Double.parseDouble(exchanged) > 0 || Double.parseDouble(gift_num)==0) {
                     change_tv.setTextColor(ContextCompat.getColor(TradingStampAty.this,R.color.bg_color));
                     change_tv.setClickable(false);
-                    change_tv.setOnClickListener(null);
+                    setClickable(false);
                     change_tv.setBackgroundResource(R.drawable.icon_gift_zhuanhuan_grey);
                 } else {
                     change_tv.setTextColor(Color.WHITE);
                     change_tv.setBackgroundResource(R.drawable.icon_gift_zhuanhuan);
-                    change_tv.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            GiveAwayModel.postGiftGoodsVouchersChangeMoney(TradingStampAty.this);
-                        }
-                    });
+                    setClickable(true);
                     if (Double.parseDouble(exchange_money) == 0 && Double.parseDouble(exchange_voucher) != 0) {
                         mResult = "今日福利：可将" + sum_money + "赠品券转换成" +  exchange_voucher + "积分";
                     } else if (Double.parseDouble(exchange_money) != 0 && Double.parseDouble(exchange_voucher) == 0) {
@@ -249,6 +262,7 @@ public class TradingStampAty extends BaseAty {
         }
 
         if (requestUrl.endsWith("Api/GiftGoodsVouchers/changeMoney")) {
+            setClickable(true);
             if ("200".equals(map.get("code"))) {
                 showToast(map.get("message"));
                 GiveAwayModel.postGiftGoodsVouchersGiftVoucherIndex(p, this);
@@ -261,6 +275,7 @@ public class TradingStampAty extends BaseAty {
     public void onError(String requestUrl, Map<String, String> error) {
         super.onError(requestUrl, error);
         refreshComplete();
+        setClickable(true);
     }
 
     private void refreshComplete() {
