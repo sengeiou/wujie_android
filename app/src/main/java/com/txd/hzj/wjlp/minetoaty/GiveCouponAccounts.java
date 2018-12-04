@@ -14,6 +14,8 @@ import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.bean.GiveCouponBean;
 import com.txd.hzj.wjlp.http.user.UserPst;
 
+import java.util.Map;
+
 import io.reactivex.annotations.Nullable;
 
 /**
@@ -66,7 +68,7 @@ public class GiveCouponAccounts extends BaseAty implements View.OnClickListener 
         userName =  findViewById(R.id.give_opposite_side_ev);
 
         //注册点击事件
-        moneyOk.setOnClickListener(this);
+        setClickable(true);
         titleBack.setOnClickListener(this);
     }
 
@@ -86,10 +88,19 @@ public class GiveCouponAccounts extends BaseAty implements View.OnClickListener 
                 if (money != null && user != null && pwd != null) {
                     userPst.giveCoupon(money, user, pwd,mMerchant_id);
                 }
+                setClickable(false);
                 break;
             case R.id.title_be_back_iv:
                 finish();
                 break;
+        }
+    }
+
+    private void setClickable(boolean isClick){
+        if (isClick){
+            moneyOk.setOnClickListener(this);
+        }else {
+            moneyOk.setOnClickListener(null);
         }
     }
 
@@ -112,5 +123,12 @@ public class GiveCouponAccounts extends BaseAty implements View.OnClickListener 
             setResult(RESULT_OK, intent);
             finish();
         }
+        setClickable(true);
+    }
+
+    @Override
+    public void onError(String requestUrl, Map<String, String> error) {
+        super.onError(requestUrl, error);
+        setClickable(true);
     }
 }
