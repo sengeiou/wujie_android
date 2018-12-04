@@ -70,7 +70,7 @@ import java.util.Map;
  * 时间：下午 1:39
  * 描述：余额充值(16-2-1充值)
  */
-public class RechargeAty extends BaseAty {
+public class RechargeAty extends BaseAty implements View.OnClickListener{
 
     private String auth_status = "";
     private String comp_auth_status = "";
@@ -214,6 +214,12 @@ public class RechargeAty extends BaseAty {
      * */
     @ViewInject(R.id.balance_scr)
     private NestedScrollView balance_scr;
+
+    @ViewInject(R.id.tv_submit)
+    private TextView tv_submit;
+
+    @ViewInject(R.id.off_line_recharge_tv)
+    private TextView off_line_recharge_tv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -368,26 +374,9 @@ public class RechargeAty extends BaseAty {
                 String name = off_line_recharge_name_tv.getText().toString().trim();
                 String desc = off_line_recharge_desc_ev.getText().toString().trim();
                 String pay_pwd = off_line_recharge_pwd_ev.getText().toString();
-//
-//                L.e("======时间=====", act_time);
-//                L.e("======金额=====", money);
-//                L.e("======名称=====", name);
-//                L.e("======凭证=====", pic.getAbsolutePath());
-//                L.e("======说明=====", desc);
-//                L.e("======密码=====", pay_pwd);
-                L.e("========>>>>>>>>>>" + PreferencesUtils.getString(RechargeAty.this, "band_id1"));
                 if (!act_time.isEmpty() && !money.isEmpty() && !name.isEmpty() && !desc.isEmpty() && !pay_pwd.isEmpty()) { // 如果输入数值
-//                    try {
-//                        float moneyF = Float.parseFloat(money);
-//                        if (moneyF >= 100) {
-//                download(PreferencesUtils.getString(RechargeAty.this,"band_code1"),act_time,money,name,pic,desc,pay_pwd,PreferencesUtils.getString(RechargeAty.this,"band_id1"));
                     balancePst.underMoney(PreferencesUtils.getString(RechargeAty.this, "band _code1"), act_time, money, name, pic, desc, pay_pwd, PreferencesUtils.getString(RechargeAty.this, "band_id1"));
-//                        } else {
-//                            showToast("最低转账金额100元");
-//                        }
-//                    } catch (Exception e) {
-//                        showToast("转账金额输入有误！");
-//                    }
+                    setRechargeClickable(false);
                 } else { // 否则未输入数值
                     showToast("请完善以上信息");
                 }
@@ -396,6 +385,22 @@ public class RechargeAty extends BaseAty {
 
         }
 
+    }
+
+    private void setClickable(boolean isClick){
+        if (isClick){
+            tv_submit.setOnClickListener(this);
+        }else {
+            tv_submit.setOnClickListener(null);
+        }
+    }
+
+    private void setRechargeClickable(boolean isClick){
+        if (isClick){
+            off_line_recharge_tv.setOnClickListener(this);
+        }else {
+            off_line_recharge_tv.setOnClickListener(null);
+        }
     }
 
     @Override
@@ -424,6 +429,9 @@ public class RechargeAty extends BaseAty {
             et_price.setFocusableInTouchMode(false);
         }
 
+        setClickable(true);
+        setRechargeClickable(true);
+
     }
 
     @Override
@@ -444,6 +452,7 @@ public class RechargeAty extends BaseAty {
         if (requestUrl.contains("underMoney")) {
             L.e("==========", jsonStr);
             showRightTip(map.get("message"));
+            setRechargeClickable(true);
             finish();
         }
         if (requestUrl.contains("findPayResult")) {
@@ -561,6 +570,7 @@ public class RechargeAty extends BaseAty {
         }
 
         if (requestUrl.contains("verificationPayPwd")) {
+            setClickable(true);
             if (map.get("code").equals("1")) {
                 if (pay_by_ali_cb.isChecked()) { // 支付宝支付选中
                     balancePst.upMoney(orderIn ? order_id1 : "", et_price.getText().toString(), "2", "");
@@ -571,6 +581,13 @@ public class RechargeAty extends BaseAty {
             }
         }
 
+    }
+
+    @Override
+    public void onError(String requestUrl, Map<String, String> error) {
+        super.onError(requestUrl, error);
+        setClickable(true);
+        setRechargeClickable(true);
     }
 
     private class WxPayReceiver extends BroadcastReceiver {
@@ -798,8 +815,10 @@ public class RechargeAty extends BaseAty {
                                     return;
                                 }
                                 com.txd.hzj.wjlp.http.user.User.verificationPayPwd(et_password.getText().toString(), RechargeAty.this);
+                                setClickable(false);
                                 showProgressDialog();
                                 commonPopupWindow.dismiss();
+
                             }
                         });
                     }
