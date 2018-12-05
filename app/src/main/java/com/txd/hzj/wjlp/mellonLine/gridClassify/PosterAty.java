@@ -13,10 +13,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.ants.theantsgo.AppManager;
 import com.ants.theantsgo.base.BaseView;
 import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.httpTools.ApiTool2;
 import com.ants.theantsgo.util.JSONUtils;
+import com.ants.theantsgo.util.PreferencesUtils;
 import com.bumptech.glide.Glide;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.http.RequestParams;
@@ -168,6 +170,8 @@ public class PosterAty extends BaseAty {
         requestParams.addBodyParameter("shop_price", shop_price);
         requestParams.addBodyParameter("market_price", market_price);
         requestParams.addBodyParameter("shop_id", shop_id);
+        String invite_code = PreferencesUtils.getString(AppManager.getInstance().getTopActivity(), "invite_code", "");
+        requestParams.addBodyParameter("invite_code", invite_code);
         apiTool2.postApi(Config.SHARE_URL + "index.php/Api/Index/poster", requestParams, baseView);
     }
 
