@@ -829,7 +829,7 @@ public class GiveAwayDetailsAty extends BaseAty implements  ObservableScrollView
             } else {
                 commodityPranster.isCollect(is_collect, "已收藏", goods_title_collect_tv, GiveAwayDetailsAty.this);
             }
-            share_url = Config.OFFICIAL_WEB + "Wap/IntegralBuy/integralBuyInfo/integral_buy_id/" + limit_buy_id + ".html";
+            share_url = Config.OFFICIAL_WEB + "Wap/GiftGoods/giftGoodsInfo/gift_goods_id" + limit_buy_id + ".html";
             share_img = JSONUtils.getMapValue(data, "share_img");
             share_content = JSONUtils.getMapValue(data, "share_content");
 
