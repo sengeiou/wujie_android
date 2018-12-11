@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Message;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.webkit.JavascriptInterface;
@@ -305,9 +306,11 @@ public class NoticeDetailsAty extends BaseAty {
                         @Override
                         public void run() {
                             /* * 超时后,首先判断页面加载是否小于100,就执行超时后的动作 */
+                            if (timer!=null){
                                 mHandler.sendEmptyMessage(0x101);
                                 timer.cancel();
                                 timer.purge();
+                            }
                         }
                     };
                     timer.schedule(tt, timeout, 1);
@@ -317,7 +320,6 @@ public class NoticeDetailsAty extends BaseAty {
                 public void onPageFinished(WebView view, String url) {
                     timer.cancel();
                     timer.purge();
-                    timer=null;
                 }
             });
 
@@ -481,7 +483,10 @@ public class NoticeDetailsAty extends BaseAty {
                 } else {
                     share_url = jsonObject.has("share_url") ? jsonObject.getString("share_url") : "";
                 }
-
+                String share_type = jsonObject.has("share_type") ? jsonObject.getString("share_type") : "";
+                if (!TextUtils.isEmpty(share_type)){
+                    Shapetype = share_type;
+                }
                 String share_content = jsonObject.has("share_content") ? jsonObject.getString("share_content") : "";
                 String id = jsonObject.has("id") ? jsonObject.getString("id") : "0";
                 NoticeDetailsAty.this.toShare(goodsName, share_img, share_url, share_content, id, Shapetype);

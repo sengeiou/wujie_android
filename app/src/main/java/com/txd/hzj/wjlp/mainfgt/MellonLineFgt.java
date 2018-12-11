@@ -477,9 +477,18 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
                             startActivity(GiveAwayAreaAty.class, null);
                             //                            startActivity(HousChenAty.class, null);
                             break;
-                        case 9://一元夺宝
-                            showToast("开发中，敬请期待");
+                        case 9://紫薇斗数    一元夺宝
+//                            showToast("开发中，敬请期待");
                             //                            startActivity(SnatchChenAty.class, null);
+                            if (!Config.isLogin()){
+                                startActivity(LoginAty.class,null);
+                            }else {
+                                bundle = new Bundle();
+                                bundle.putInt("from", 6);
+                                bundle.putString("desc", "紫薇斗数");
+                                bundle.putString("href", Config.SHARE_URL + "Divination/Index/index");
+                                startActivity(NoticeDetailsAty.class, bundle);
+                            }
                             break;
                     }
                 }
@@ -756,7 +765,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
         gv_classify.add("比价购");
         gv_classify.add("积分商店");
         gv_classify.add("赠品专区");
-        gv_classify.add("积分抽奖");
+        gv_classify.add("紫薇斗数");
 
         groupList = new ArrayList<>();
         limit = new ArrayList<>();
