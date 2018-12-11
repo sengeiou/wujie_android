@@ -20,7 +20,6 @@ import android.webkit.WebResourceResponse;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -45,6 +44,7 @@ import com.txd.hzj.wjlp.login.LoginAty;
 import com.txd.hzj.wjlp.minetoaty.order.OnlineShopAty;
 import com.txd.hzj.wjlp.tool.WJConfig;
 import com.txd.hzj.wjlp.view.NoScrollWebView;
+import com.txd.hzj.wjlp.view.ResizableImageView;
 import com.txd.hzj.wjlp.view.ScForWebView;
 import com.txd.hzj.wjlp.wxapi.GetPrepayIdTask;
 
@@ -118,7 +118,7 @@ public class NoticeDetailsAty extends BaseAty {
      * logo
      */
     @ViewInject(R.id.books_logo_iv)
-    private ImageView books_logo_iv;
+    private ResizableImageView books_logo_iv;
     private String mDesc = "";
 
     @Override
