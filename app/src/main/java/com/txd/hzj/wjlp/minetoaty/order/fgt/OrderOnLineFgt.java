@@ -750,8 +750,6 @@ public class OrderOnLineFgt extends BaseFgt {
                 }
                 showProgressDialog();
             } else if (getItem(position).get("order_status").equals("4") || getItem(position).get("order_status").equals("5")) {
-
-
                 new AlertDialog(getActivity()).builder().setTitle("提示").setMsg("删除订单").setPositiveButton("确定", new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -810,7 +808,12 @@ public class OrderOnLineFgt extends BaseFgt {
                     holder.state.setText("已完成");
                     holder.tv_btn_left.setVisibility(View.GONE);
                     holder.tv_btn_right.setText("删除订单");
-                    holder.tv_btn_right.setVisibility(View.GONE);
+                    if (from.equals(WJConfig.TYPE_JSP)){
+                        holder.tv_btn_right.setVisibility(View.VISIBLE);
+                    }else {
+                        holder.tv_btn_right.setVisibility(View.GONE);
+                    }
+
                     break;
                 case "5":
                     holder.state.setText("取消订单");
