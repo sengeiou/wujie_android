@@ -1,2 +1,2 @@
-include ':app', ':frame', ':pickerview', ':sideBar', ':easeui',':countdownview_lib',':imagepicker'
+include ':app', ':frame', ':pickerview', ':sideBar', ':easeui',':countdownview_lib',':imagepicker',':bluetoothLibrary'
 

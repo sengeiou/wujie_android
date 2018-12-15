@@ -39,6 +39,8 @@ import com.txd.hzj.wjlp.Constant;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.bean.CustomoLocation;
+import com.txd.hzj.wjlp.bluetoothPrint.BluetoothUtils;
+import com.txd.hzj.wjlp.bluetoothPrint.SearchBluetoothAty;
 import com.txd.hzj.wjlp.http.Pay;
 import com.txd.hzj.wjlp.http.index.IndexPst;
 import com.txd.hzj.wjlp.login.LoginAty;
@@ -489,6 +491,17 @@ public class WebViewAty extends BaseAty {
                 mapIntentUtil.openMap(WebViewAty.this, baiDuLat, baiDuLng, gaoDeLat, gaoDeLng);
             } catch (JSONException e) {
                 showToast("此处数据回传格式异常");
+            }
+        }
+
+        /**
+         * 连接蓝牙
+         */
+        @JavascriptInterface
+        public void connectBluetooth() {
+            // http://doc.wotianhui.com/web/#/10?page_id=271
+            if (!BluetoothUtils.isHasPrinter) { // 如果没有连接则直接跳转至连接界面
+                startActivity(SearchBluetoothAty.class, null);
             }
         }
 

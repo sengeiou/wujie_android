@@ -993,6 +993,9 @@
         <activity android:name=".mellonLine.gridClassify.giveawayarea.GiveAwayDetailsAty" />
         <activity android:name=".minetoaty.tricket.TradingStampDetailsAty" />
         <activity android:name=".mellonLine.gridClassify.PosterAty" />
+
+        <!-- 蓝牙搜索界面 -->
+        <activity android:name=".bluetoothPrint.SearchBluetoothAty" />
     </application>
 
 </manifest>

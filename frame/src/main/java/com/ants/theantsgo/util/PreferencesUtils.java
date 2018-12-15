@@ -14,7 +14,7 @@ import com.google.gson.Gson;
 public class PreferencesUtils {
 
     private static String PREFERENCE_NAME = "Duke";
-    private  static Gson gson = new Gson();
+    private static Gson gson = new Gson();
 
     public static String SHARED_KEY_HUANXIN_USER_ID = "SHARED_KEY_HUANXIN_USER_ID"; // 店家联系需要调用接口的id
 
@@ -117,13 +117,16 @@ public class PreferencesUtils {
         return editor.commit();
     }
 
-    public static boolean putObject(Context context,String key,Object o){
+    public static boolean putObject(Context context, String key, Object o) {
         SharedPreferences settings = context.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = settings.edit();
         String jsonStr = gson.toJson(o);
         editor.putString(key, jsonStr);
         return editor.commit();
-    };
+    }
+
+    ;
+
     /**
      * get long preferences
      *
@@ -242,12 +245,77 @@ public class PreferencesUtils {
         return editor.commit();
     }
 
-    public static boolean containKey(Context context, String key){
+    public static boolean containKey(Context context, String key) {
         SharedPreferences settings = context.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE);
-        if (settings.contains(key)){
+        if (settings.contains(key)) {
             return true;
         }
         return false;
+    }
+
+// ==============================================蓝牙公共分享属性======================================================================
+
+    private static String blueName = "blueName";
+    private static String blueAddress = "blueAddress";
+
+    private static SharedPreferences getSharedPreferences(Context context) {
+        return context.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE);
+    }
+
+    /**
+     * 保存蓝牙名称
+     *
+     * @param context     上下文
+     * @param blueNameStr 蓝牙名称字符串
+     * @return 是否保存成功
+     */
+    public static boolean saveBluetoothName(Context context, String blueNameStr) {
+        return getSharedPreferences(context).edit().putString(blueName, blueNameStr).commit();
+    }
+
+    /**
+     * 保存蓝牙地址
+     *
+     * @param context        上下文
+     * @param blueAddressStr 蓝牙地址字符串
+     * @return 是否保存成功
+     */
+    public static boolean saveBluetoothAddress(Context context, String blueAddressStr) {
+        return getSharedPreferences(context).edit().putString(blueAddress, blueAddressStr).commit();
+    }
+
+    /**
+     * 保存蓝牙地址
+     *
+     * @param context        上下文
+     * @param blueNameStr    蓝牙名称字符串
+     * @param blueAddressStr 蓝牙地址字符串
+     * @return 名称和地址是否全部保存成功
+     */
+    public static boolean saveBluetoothAddress(Context context, String blueNameStr, String blueAddressStr) {
+        boolean isNameCommit = getSharedPreferences(context).edit().putString(blueName, blueNameStr).commit();
+        boolean isAddressCommit = getSharedPreferences(context).edit().putString(blueAddress, blueAddressStr).commit();
+        return isNameCommit && isAddressCommit;
+    }
+
+    /**
+     * 获取保存的保存蓝牙名称
+     *
+     * @param context 上下文
+     * @return 保存的名称
+     */
+    public static String getBluetoothName(Context context) {
+        return getSharedPreferences(context).getString(blueName, "");
+    }
+
+    /**
+     * 获取保存的保存蓝牙名称，若未获取到则返回空字符串
+     *
+     * @param context 上下文
+     * @return 保存的地址
+     */
+    public static String getBluetoothAddress(Context context) {
+        return getSharedPreferences(context).getString(blueAddress, "");
     }
 
 }

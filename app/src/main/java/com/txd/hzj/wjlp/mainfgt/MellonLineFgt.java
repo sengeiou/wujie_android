@@ -38,6 +38,7 @@ import com.txd.hzj.wjlp.MainAty;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseFgt;
 import com.txd.hzj.wjlp.bean.commodity.AllGoodsBean;
+import com.txd.hzj.wjlp.bluetoothPrint.SearchBluetoothAty;
 import com.txd.hzj.wjlp.http.index.IndexPst;
 import com.txd.hzj.wjlp.login.LoginAty;
 import com.txd.hzj.wjlp.mainfgt.adapter.AllGvLvAdapter;
@@ -419,8 +420,9 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
                     int pos = i + curIndex * pageSize;
                     switch (pos) {
                         case 0:// 限量购
+//                            startActivity(SearchBluetoothAty.class, null); // 跳转到蓝牙连接界面
                             showToast("开发中，敬请期待");
-                            //                            startActivity(LimitShoppingAty.class, null);
+//                                                        startActivity(LimitShoppingAty.class, null);
                             break;
                         case 1:// 票券区
                             showToast("开发中，敬请期待");
@@ -443,9 +445,9 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
                             //                            bundle.putInt("type", 2);
                             //                            bundle.putString("title", "无界预购");
                             //                            startActivity(TicketZoonAty.class, bundle);
-                            if (!Config.isLogin()){
-                                startActivity(LoginAty.class,null);
-                            }else {
+                            if (!Config.isLogin()) {
+                                startActivity(LoginAty.class, null);
+                            } else {
                                 bundle = new Bundle();
                                 bundle.putInt("from", 6);
                                 bundle.putString("desc", "邀请有礼");
@@ -480,9 +482,9 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
                         case 9://紫薇斗数    一元夺宝
 //                            showToast("开发中，敬请期待");
                             //                            startActivity(SnatchChenAty.class, null);
-                            if (!Config.isLogin()){
-                                startActivity(LoginAty.class,null);
-                            }else {
+                            if (!Config.isLogin()) {
+                                startActivity(LoginAty.class, null);
+                            } else {
                                 bundle = new Bundle();
                                 bundle.putInt("from", 6);
                                 bundle.putString("desc", "紫薇斗数");

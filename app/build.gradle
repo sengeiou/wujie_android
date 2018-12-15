@@ -192,4 +192,7 @@ dependencies {
 
     // TextView，排版解决不正常换行问题的textView
     compile 'me.codeboy.android:align-text-view:2.3.2'
+    compile files('libs/AndroidPrinterSDK3.1.jar')
+    compile project(':bluetoothLibrary')
+    compile 'com.github.promeg:tinypinyin:1.0.0'
 }
