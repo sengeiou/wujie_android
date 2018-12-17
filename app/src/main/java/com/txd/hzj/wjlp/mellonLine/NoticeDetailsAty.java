@@ -4,19 +4,12 @@ import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.os.Handler;
-import android.os.Message;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebChromeClient;
-import android.webkit.WebResourceError;
-import android.webkit.WebResourceRequest;
-import android.webkit.WebResourceResponse;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -53,8 +46,6 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Timer;
-import java.util.TimerTask;
 
 /**
  * 作者：DUKE_HwangZj
@@ -266,61 +257,61 @@ public class NoticeDetailsAty extends BaseAty {
                 }
 
 
-                @Override
-                public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
-                    super.onReceivedError(view, request, error);
-                    // 断网或者网络连接超时
-                    int errorCode = error.getErrorCode();
-                    Log.e("TAG", "onReceivedError: "+errorCode);
-//                    if (errorCode == ERROR_HOST_LOOKUP || errorCode == ERROR_CONNECT || errorCode == ERROR_TIMEOUT) {
-//                        view.loadUrl("about:blank"); // 避免出现默认的错误界面
-//                        view.loadUrl(url);
-//                    }
-                }
+//                @Override
+//                public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
+//                    super.onReceivedError(view, request, error);
+//                    // 断网或者网络连接超时
+//                    int errorCode = error.getErrorCode();
+//                    Log.e("TAG", "onReceivedError: "+errorCode);
+////                    if (errorCode == ERROR_HOST_LOOKUP || errorCode == ERROR_CONNECT || errorCode == ERROR_TIMEOUT) {
+////                        view.loadUrl("about:blank"); // 避免出现默认的错误界面
+////                        view.loadUrl(url);
+////                    }
+//                }
 
-                @Override
-                public void onReceivedHttpError(WebView view, WebResourceRequest request, WebResourceResponse errorResponse) {
-                    super.onReceivedHttpError(view, request, errorResponse);
-                    int statusCode = errorResponse.getStatusCode();
-                    Log.e("TAG", "onReceivedHttpError: "+statusCode);
-//                    if (404 == statusCode || 500 == statusCode) {
-//                        view.loadUrl("about:blank");// 避免出现默认的错误界面
-//                        view.loadUrl(url);
-//                    }
-                }
+//                @Override
+//                public void onReceivedHttpError(WebView view, WebResourceRequest request, WebResourceResponse errorResponse) {
+//                    super.onReceivedHttpError(view, request, errorResponse);
+//                    int statusCode = errorResponse.getStatusCode();
+//                    Log.e("TAG", "onReceivedHttpError: "+statusCode);
+////                    if (404 == statusCode || 500 == statusCode) {
+////                        view.loadUrl("about:blank");// 避免出现默认的错误界面
+////                        view.loadUrl(url);
+////                    }
+//                }
                 //超时之后的处理Handler
-                private Handler mHandler =new Handler(){
-                    @Override
-                    public void handleMessage(Message msg) {
-                        super.handleMessage(msg);
-                        showToast("网络连接超时，请稍后重试");
-                        finish();
-                    }
-                };
-                private Timer timer;//计时器
-                private long timeout = 10000;//超时时间
-                @Override
-                public void onPageStarted(WebView view, String url, Bitmap favicon) {
-                    timer =new Timer();
-                    TimerTask tt =new TimerTask() {
-                        @Override
-                        public void run() {
-                            /* * 超时后,首先判断页面加载是否小于100,就执行超时后的动作 */
-                            if (timer!=null){
-                                mHandler.sendEmptyMessage(0x101);
-                                timer.cancel();
-                                timer.purge();
-                            }
-                        }
-                    };
-                    timer.schedule(tt, timeout, 1);
-                }
-                /*** onPageFinished指页面加载完成,完成后取消计时器   */
-                @Override
-                public void onPageFinished(WebView view, String url) {
-                    timer.cancel();
-                    timer.purge();
-                }
+//                private Handler mHandler =new Handler(){
+//                    @Override
+//                    public void handleMessage(Message msg) {
+//                        super.handleMessage(msg);
+//                        showToast("网络连接超时，请稍后重试");
+//                        finish();
+//                    }
+//                };
+//                private Timer timer;//计时器
+//                private long timeout = 10000;//超时时间
+//                @Override
+//                public void onPageStarted(WebView view, String url, Bitmap favicon) {
+//                    timer =new Timer();
+//                    TimerTask tt =new TimerTask() {
+//                        @Override
+//                        public void run() {
+//                            /* * 超时后,首先判断页面加载是否小于100,就执行超时后的动作 */
+//                            if (timer!=null){
+//                                mHandler.sendEmptyMessage(0x101);
+//                                timer.cancel();
+//                                timer.purge();
+//                            }
+//                        }
+//                    };
+//                    timer.schedule(tt, timeout, 1);
+//                }
+//                /*** onPageFinished指页面加载完成,完成后取消计时器   */
+//                @Override
+//                public void onPageFinished(WebView view, String url) {
+//                    timer.cancel();
+//                    timer.purge();
+//                }
             });
 
         }
@@ -478,7 +469,7 @@ public class NoticeDetailsAty extends BaseAty {
                 String share_url;
                 String Shapetype="1";
                 if (mDesc.equals("邀请有礼")) {
-                    share_url = jsonObject.has("share_url") ? jsonObject.getString("share_url") + "index" : "";
+                    share_url = jsonObject.has("share_url") ? jsonObject.getString("share_url"): "";
                     Shapetype="7";
                 } else {
                     share_url = jsonObject.has("share_url") ? jsonObject.getString("share_url") : "";
