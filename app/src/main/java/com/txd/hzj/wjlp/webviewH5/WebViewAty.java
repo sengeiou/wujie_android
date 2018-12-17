@@ -2,13 +2,11 @@ package com.txd.hzj.wjlp.webviewH5;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.Rect;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
 import android.util.DisplayMetrics;
 import android.view.KeyEvent;
 import android.view.View;
@@ -38,13 +36,11 @@ import com.lzy.imagepicker.ui.ImageGridActivity;
 import com.txd.hzj.wjlp.Constant;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
-import com.txd.hzj.wjlp.bean.CustomoLocation;
 import com.txd.hzj.wjlp.bluetoothPrint.BluetoothUtils;
 import com.txd.hzj.wjlp.bluetoothPrint.SearchBluetoothAty;
 import com.txd.hzj.wjlp.http.Pay;
 import com.txd.hzj.wjlp.http.index.IndexPst;
 import com.txd.hzj.wjlp.login.LoginAty;
-import com.txd.hzj.wjlp.melloffLine.ShopMallDetailsAty;
 import com.txd.hzj.wjlp.tool.BitmapUtils;
 import com.txd.hzj.wjlp.tool.MapIntentUtil;
 import com.txd.hzj.wjlp.wxapi.GetPrepayIdTask;
@@ -55,7 +51,6 @@ import org.json.JSONObject;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
@@ -503,6 +498,13 @@ public class WebViewAty extends BaseAty {
             if (!BluetoothUtils.isHasPrinter) { // 如果没有连接则直接跳转至连接界面
                 startActivity(SearchBluetoothAty.class, null);
             }
+        }
+
+        /**
+         * 拨打电话
+         */
+        public void callPhone(String phone){
+            call(phone);
         }
 
     }
