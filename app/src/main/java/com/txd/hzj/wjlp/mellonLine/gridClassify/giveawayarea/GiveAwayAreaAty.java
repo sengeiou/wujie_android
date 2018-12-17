@@ -192,12 +192,6 @@ public class GiveAwayAreaAty extends BaseAty {
         refreshVisibleState();
     }
 
-    @Override
-    public void onError(String requestUrl, Map<String, String> error) {
-        super.onError(requestUrl, error);
-        if (error.get("code").equals("-1")){finish();}
-    }
-
     private void refreshVisibleState() {
         if (progressBar.getVisibility() == View.VISIBLE) {
             mSuperSwipeRefreshLayout.setRefreshing(false);

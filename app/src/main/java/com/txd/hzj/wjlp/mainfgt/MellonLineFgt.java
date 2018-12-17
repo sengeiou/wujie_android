@@ -38,7 +38,6 @@ import com.txd.hzj.wjlp.MainAty;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseFgt;
 import com.txd.hzj.wjlp.bean.commodity.AllGoodsBean;
-import com.txd.hzj.wjlp.bluetoothPrint.SearchBluetoothAty;
 import com.txd.hzj.wjlp.http.index.IndexPst;
 import com.txd.hzj.wjlp.login.LoginAty;
 import com.txd.hzj.wjlp.mainfgt.adapter.AllGvLvAdapter;
@@ -476,7 +475,11 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
                             break;
                         case 8://赠品专区  之前是房产购
                             //                            showToast("开发中，敬请期待");
-                            startActivity(GiveAwayAreaAty.class, null);
+                            if (!Config.isLogin()) {
+                                startActivity(LoginAty.class, null);
+                            } else {
+                                startActivity(GiveAwayAreaAty.class, null);
+                            }
                             //                            startActivity(HousChenAty.class, null);
                             break;
                         case 9://紫薇斗数    一元夺宝
