@@ -831,7 +831,7 @@ public class GiveAwayDetailsAty extends BaseAty implements  ObservableScrollView
             }
             share_url = Config.OFFICIAL_WEB + "Wap/GiftGoods/giftGoodsInfo/gift_goods_id/" + limit_buy_id + ".html";
             share_img = JSONUtils.getMapValue(data, "share_img");
-            share_content = JSONUtils.getMapValue(data, "share_content");
+
 
             if (data.containsKey("goods_banner")) {
                 ArrayList<GoodsBannerBean> banners = (ArrayList<GoodsBannerBean>) JSONObject.parseArray(data.get("goods_banner"), GoodsBannerBean.class);
@@ -849,6 +849,7 @@ public class GiveAwayDetailsAty extends BaseAty implements  ObservableScrollView
             // 商品基本信息
 
             goodsInfo = JSONObject.parseObject(JSONUtils.getMapValue(data, "goodsInfo"), LimitGoodsInfo.class);
+            share_content = goodsInfo.getGoods_brief();
             /**
              *以下表示如果buy_status==0，表示当前商品已经下架
              * */
