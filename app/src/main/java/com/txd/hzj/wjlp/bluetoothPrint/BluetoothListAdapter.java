@@ -19,8 +19,8 @@ import java.util.List;
  */
 public class BluetoothListAdapter extends BaseAdapter {
 
-    private Context context;
-    private List<BluetoothDevice> list;
+    private Context context; // 上下文
+    private List<BluetoothDevice> list; // 蓝牙设备列表
 
     public BluetoothListAdapter(Context context, List<BluetoothDevice> list) {
         this.context = context;
