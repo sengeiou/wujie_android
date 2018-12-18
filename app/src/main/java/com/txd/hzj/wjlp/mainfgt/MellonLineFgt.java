@@ -49,6 +49,7 @@ import com.txd.hzj.wjlp.mellonLine.NoticeDetailsAty;
 import com.txd.hzj.wjlp.mellonLine.WujieTopHzjAty;
 import com.txd.hzj.wjlp.mellonLine.gridClassify.AuctionGoodsDetailsAty;
 import com.txd.hzj.wjlp.mellonLine.gridClassify.CarDetailseAty;
+import com.txd.hzj.wjlp.mellonLine.gridClassify.ExplosiveAreaAty;
 import com.txd.hzj.wjlp.mellonLine.gridClassify.GoodLuckDetailsAty;
 import com.txd.hzj.wjlp.mellonLine.gridClassify.GoodsInputHzjAty;
 import com.txd.hzj.wjlp.mellonLine.gridClassify.LimitGoodsAty;
@@ -460,12 +461,13 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
                             bundle.putString("title", "进口馆");
                             startActivity(GoodsInputHzjAty.class, bundle);
                             break;
-                        case 6:// 竞拍汇
-                            showToast("开发中，敬请期待");
+                        case 6:// 爆款专区
+//                            showToast("开发中，敬请期待");
                             //                            bundle = new Bundle();
                             //                            bundle.putInt("type", 3);
                             //                            bundle.putString("title", "比价购");
                             //                            startActivity(AuctionCollectAty.class, bundle);
+                            startActivity(ExplosiveAreaAty.class,null);
                             break;
                         case 7://积分商店
                             bundle = new Bundle();
@@ -767,7 +769,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
         gv_classify.add("主题街");
         gv_classify.add("集碎片");
         gv_classify.add("进口馆");
-        gv_classify.add("比价购");
+        gv_classify.add("爆款专区");
         gv_classify.add("积分商店");
         gv_classify.add("赠品专区");
         gv_classify.add("紫薇斗数");

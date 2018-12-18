@@ -96,36 +96,6 @@ public class MellOnLineClassifyAty extends BaseAty {
         forTitle();
         showStatusBar(R.id.search_title_layout);
 
-//        title_s_tab_layout.setOnTabSelectListener(new OnTabSelectListener() {
-//            @Override
-//            public void onTabSelect(int position) {
-//                if (0 == position) {
-//                    finish();
-//                }
-//            }
-//
-//            @Override
-//            public void onTabReselect(int position) {
-//            }
-//        });
-//        vp_for_title.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-//            @Override
-//            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-//
-//            }
-//
-//            @Override
-//            public void onPageSelected(int position) {
-//                if (0 == position) {
-//                    finish();
-//                }
-//            }
-//
-//            @Override
-//            public void onPageScrollStateChanged(int state) {
-//
-//            }
-//        });
     }
 
     /**
@@ -166,7 +136,7 @@ public class MellOnLineClassifyAty extends BaseAty {
 
     @Override
     protected void requestData() {
-        goodsPst.goodsList(1, cate_id, 0);
+        goodsPst.goodsList(1, cate_id, 0,"");
     }
 
     @Override

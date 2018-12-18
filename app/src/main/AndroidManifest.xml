@@ -996,6 +996,8 @@
 
         <!-- 蓝牙搜索界面 -->
         <activity android:name=".bluetoothPrint.SearchBluetoothAty" />
+        <activity android:name=".mellonLine.gridClassify.ExplosiveAreaAty" />
+        <activity android:name=".mellonLine.gridClassify.ExplosiveAreaGoodsDetialsAty" />
     </application>
 
 </manifest>

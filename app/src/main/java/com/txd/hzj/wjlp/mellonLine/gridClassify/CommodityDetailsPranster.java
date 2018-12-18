@@ -162,7 +162,7 @@ public class CommodityDetailsPranster implements CommodityDetailsInter.Commodity
                     if (activity instanceof GiveAwayDetailsAty){
                         limit_goods_details_sc.smoothScrollTo(0, secondHeight);
                     }else {
-                        PosterAty.getInstance(activity,mType,mGoods_id,mImageUrls,mGoods_name,mIntegral,mTicket_buy_discount,mShop_price,mMarket_price,mShop_id,mGoods_brief,mSell_num);
+                        PosterAty.getInstance(activity,mType,mGoods_id,mImageUrls,mGoods_name,mIntegral,mTicket_buy_discount,mShop_price,mMarket_price,mShop_id,mGoods_brief,mSell_num,"");
                     }
                 }
                 break;

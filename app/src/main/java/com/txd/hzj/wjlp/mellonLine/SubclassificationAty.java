@@ -59,6 +59,7 @@ public class SubclassificationAty extends BaseAty {
 
     private GoodsPst goodsPst;
     private int page = 0;
+    private String mIs_active;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,13 +80,14 @@ public class SubclassificationAty extends BaseAty {
         mTitles = new ArrayList<>();
         appBarTitle = getIntent().getStringExtra("appBarTitle");
         two_cate_id = getIntent().getStringExtra("two_cate_id");
+        mIs_active = getIntent().getStringExtra("is_active");
         page = getIntent().getIntExtra("page", 0);
 
     }
 
     @Override
     protected void requestData() {
-        goodsPst.threeList(two_cate_id, "", 1,"","","","","", 1);
+        goodsPst.threeList(two_cate_id, "", 1,"","","","","", 1,mIs_active);
     }
 
     @Override
@@ -97,7 +99,7 @@ public class SubclassificationAty extends BaseAty {
             if (ToolKit.isList(data, "three_cate_list")) {
                 mTitles = JSONUtils.parseKeyAndValueToMapList(data.get("three_cate_list"));
                 for (Map<String, String> title : mTitles) {
-                    mFragments.add(SubClassifyListFgt.getFgt(two_cate_id, title.get("three_cate_id")));
+                    mFragments.add(SubClassifyListFgt.getFgt(two_cate_id, title.get("three_cate_id"),mIs_active));
                 }
                 myPagerAdapter = new MyPagerAdapter(getSupportFragmentManager());
                 sub_classify_vp.setAdapter(myPagerAdapter);

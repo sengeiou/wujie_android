@@ -57,13 +57,11 @@ import com.txd.hzj.wjlp.bean.GoodsAttrs;
 import com.txd.hzj.wjlp.bean.commodity.AllGoodsBean;
 import com.txd.hzj.wjlp.bean.commodity.BodyBean;
 import com.txd.hzj.wjlp.bean.commodity.CommentBean;
-import com.txd.hzj.wjlp.bean.commodity.DjTicketBean;
 import com.txd.hzj.wjlp.bean.commodity.GoodsCommonAttrBean;
 import com.txd.hzj.wjlp.bean.commodity.PicturesBean;
 import com.txd.hzj.wjlp.bean.commodity.PromotionBean;
 import com.txd.hzj.wjlp.bean.commodity.TicketListBean;
 import com.txd.hzj.wjlp.http.Freight;
-import com.txd.hzj.wjlp.http.address.AddressPst;
 import com.txd.hzj.wjlp.http.collect.UserCollectPst;
 import com.txd.hzj.wjlp.http.goods.GoodsPst;
 import com.txd.hzj.wjlp.http.ticketbuy.TicketBuyPst;
@@ -96,12 +94,11 @@ import cn.gavinliu.android.lib.shapedimageview.ShapedImageView;
 import cn.iwgang.countdownview.CustomCountDownTimer;
 
 /**
- * 作者：DUKE_HwangZj
- * 日期：2017/7/10 0010
- * 时间：上午 10:13
- * 描述：票券区商品详情(3-2票券)
+ * 创建者：zhangyunfei
+ * 创建时间：2018/12/18 15:06
+ * 功能描述：
  */
-public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollView.ScrollViewListener, ObservableScrollView.onBottomListener, ProUrbAreaUtil.CallBack, CommodityDetailsInter.CommodityView {
+public class ExplosiveAreaGoodsDetialsAty extends BaseAty implements ObservableScrollView.ScrollViewListener, ObservableScrollView.onBottomListener, ProUrbAreaUtil.CallBack, CommodityDetailsInter.CommodityView {
     private String is_attr = "";
 
     /**
@@ -159,12 +156,6 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
      */
     @ViewInject(R.id.old_price_tv)
     private TextView old_price_tv;
-
-    /**
-     * 分红权
-     */
-    @ViewInject(R.id.goods_profit_num_tv)
-    private TextView goods_profit_num_tv;
 
 
     /**
@@ -496,16 +487,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
     private String product_id = "";
     private boolean is_C = false;
     private String goodsName = "";
-    private String cate_id;
-    private String pcate_id;
-    private AddressPst addressPst;
 
-    private String discount_desc0; // 红券描述
-    private String discount_desc1; // 黄券描述
-    private String discount_desc2; // 蓝券描述
-    private View easemobView;
-    private EasemobBean easemobBean; // 获取的客服环信账号对象
-    private String messageStr = "当前商品已下架";
     private CommodityDetailsPranster commodityDetailsPranster;
 
     @ViewInject(R.id.ticketGoodsDetials_refreshLayout_ssrl)
@@ -561,8 +543,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
             R.id.go_to_cart_layout, R.id.be_back_main_tv, R.id.details_into_mell_tv,
             R.id.tv_chose_ads, R.id.all_evaluate_tv,
             R.id.to_chat_tv, R.id.tv_tab_1, R.id.tv_tab_2, R.id.tv_tab_3, R.id.layout_layout_settings,
-            R.id.tv_gwc, R.id.tv_ljgm, R.id.btn_jgsm, R.id.im_service_more, R.id.tv_lingquan,
-            R.id.layout_djq, R.id.tv_showClassify, R.id.tv_quxiao, R.id.tv_wjsd, R.id.tv_dpg})
+            R.id.tv_gwc, R.id.tv_ljgm, R.id.btn_jgsm, R.id.im_service_more, R.id.tv_lingquan, R.id.tv_showClassify, R.id.tv_quxiao, R.id.tv_wjsd, R.id.tv_dpg})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
@@ -583,8 +564,8 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
                 break;
             case R.id.title_details_layout:// 详情
                 clickType = 2;
-//                limit_goods_details_sc.smoothScrollTo(0, secondHeight);
-                PosterAty.getInstance(TicketGoodsDetialsAty.this,"1",goods_id,imageUrls,mGoods_name,mIntegral,mTicket_buy_discount,mShop_price,mMarket_price,"",share_content,mSell_num,"");
+                //                limit_goods_details_sc.smoothScrollTo(0, secondHeight);
+                PosterAty.getInstance(ExplosiveAreaGoodsDetialsAty.this, "1", goods_id, imageUrls, mGoods_name, mIntegral, mTicket_buy_discount, mShop_price, mMarket_price, "", share_content, mSell_num,"5");
                 break;
             case R.id.title_evaluate_layout:// 评价
                 clickType = 3;
@@ -619,13 +600,6 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
                 break;
             case R.id.show_or_hide_lv_iv://展开,隐藏(无界驿站)
                 getHeight();// 重新计算高度
-                if (wujie_post_lv.getVisibility() == View.GONE) {// 隐藏状态
-                    //                    wujie_post_lv.setVisibility(View.VISIBLE);
-                    //                    show_or_hide_lv_iv.setImageResource(R.drawable.icon_show_other_layout);
-                } else {// 显示状态
-                    //                    wujie_post_lv.setVisibility(View.GONE);
-                    //                    show_or_hide_lv_iv.setImageResource(R.drawable.icon_hide_other_layout);
-                }
                 break;
             case R.id.show_or_hide_explain_iv: // 展开,隐藏(无界驿站)
                 getHeight(); // 重新计算高度
@@ -653,9 +627,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
                 startActivity(MellInfoAty.class, bundle);
                 break;
             case R.id.to_chat_tv: // 客服
-                commodityDetailsPranster.chat_merchant(mell_id, TicketGoodsDetialsAty.this, merchant_phone);
-                //                Easemob.bind(mell_id, this); // 获取商铺的环信账号
-                //                toChat(easemob_account, merchant_logo, merchant_name);
+                commodityDetailsPranster.chat_merchant(mell_id, ExplosiveAreaGoodsDetialsAty.this, merchant_phone);
 
                 break;
             case R.id.tv_tab_1:
@@ -697,7 +669,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
                         String shop_price = goodsInfo.get("shop_price");
                         toAttrs(v, 1, "1", goods_id, goods_img, shop_price, "", goods_attr_first, first_val, is_attr);
                     } catch (Exception e) {
-                        L.e("TicketGoodsDetialsAty is Exception:" + e.toString());
+                        L.e("ExplosiveAreaGoodsDetialsAty is Exception:" + e.toString());
                         showErrorTip("获取字段异常");
                         closePage();
                     }
@@ -707,11 +679,9 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
                 if (is_C) {
                     Intent intent = new Intent();
                     intent.putExtra("mid", mell_id);
-                    if (from == 13) {
-                        intent.putExtra("type", from+"");
-                    } else {
-                        intent.putExtra("type", "1");
-                    }
+
+                    intent.putExtra("type", "1");
+
                     intent.putExtra("goods_id", goods_id);
                     intent.putExtra("group_buy_id", "");
                     intent.putExtra("num", String.valueOf(goods_number));
@@ -723,11 +693,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
                     if (goodsInfo.containsKey("goods_img") && goodsInfo.containsKey("shop_price")) {
                         String goods_img = goodsInfo.get("goods_img");
                         String shop_price = goodsInfo.get("shop_price");
-                        if (13 == from) {
-                            toAttrs(v, 0, "13", goods_id + "-" + mell_id, goods_img, shop_price, "", goods_attr_first, first_val, is_attr);
-                        } else {
-                            toAttrs(v, 0, "1", goods_id + "-" + mell_id, goods_img, shop_price, "", goods_attr_first, first_val, is_attr);
-                        }
+                        toAttrs(v, 0, "1", goods_id + "-" + mell_id, goods_img, shop_price, "", goods_attr_first, first_val, is_attr);
                     } else {
                         showErrorTip("数据异常，请稍后重试");
                     }
@@ -748,11 +714,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
                 try {
                     String goods_img = goodsInfo.get("goods_img");
                     String shop_price = goodsInfo.get("shop_price");
-                    if (13 == from) {
-                        toAttrs(v, 4, "13", goods_id + "-" + mell_id, goods_img, shop_price, "", goods_attr_first, first_val, is_attr);
-                    } else {
-                        toAttrs(v, 4, "1", goods_id + "-" + mell_id, goods_img, shop_price, "", goods_attr_first, first_val, is_attr);
-                    }
+                    toAttrs(v, 4, "1", goods_id + "-" + mell_id, goods_img, shop_price, "", goods_attr_first, first_val, is_attr);
                 } catch (Exception e) {
                     L.e("layout_layout_settings throw Exception :" + e.toString());
                     showErrorTip("获取字段异常");
@@ -760,22 +722,15 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
                 }
 
                 break;
-            case R.id.layout_djq:
-                commodityDetailsPranster.showDjqPop(v, dj_ticket, TicketGoodsDetialsAty.this, vouchers_desc);
-                break;
             case R.id.tv_showClassify:
-                //                cate_id = goodsInfo.get("cate_id");
-                //                pcate_id = goodsInfo.get("pcate_id");
-                //                GoodsCategory.cateIndexs(cate_id, this);
-                //                showProgressDialog();
                 toClassify(v, goodsInfo.get("top_cate_id"));
                 break;
             case R.id.tv_quxiao://促销弹框
-                commodityDetailsPranster.showCXPop(v, TicketGoodsDetialsAty.this, promotionBeen);
+                commodityDetailsPranster.showCXPop(v, ExplosiveAreaGoodsDetialsAty.this, promotionBeen);
                 //                showCXPop(v);
                 break;
             case R.id.tv_lingquan:
-                commodityDetailsPranster.showLQPop(v, "领券", TicketGoodsDetialsAty.this, theTrickAdapter);
+                commodityDetailsPranster.showLQPop(v, "领券", ExplosiveAreaGoodsDetialsAty.this, theTrickAdapter);
                 //                showLQPop(v, "领券");
                 break;
             case R.id.tv_wjsd:
@@ -800,23 +755,9 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
     @ViewInject(R.id.tv_chose_ads)
     private TextView tv_chose_ads;
 
-    /**
-     * 省
-     */
-    private String province = "";
-    /**
-     * 市
-     */
-    private String city = "";
-    /**
-     * 区
-     */
-    private String area = "";
 
     private List<Map<String, String>> ser_list;//服务的列表
     private List<Map<String, String>> goods_price_desc;//价格的列表
-    //    ArrayList<Map<String, String>> dj_ticket;//代金券的说明
-    private List<DjTicketBean> dj_ticket;
 
     private void setTextViewAndViewColor(int next) {
         title_goods_tv.setTextColor(Color.BLACK);
@@ -868,7 +809,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
     ImageListener imageListener = new ImageListener() {
         @Override
         public void setImageForPosition(final int position, ImageView imageView) {
-            Glide.with(TicketGoodsDetialsAty.this).load(image.get(position).get("path"))
+            Glide.with(ExplosiveAreaGoodsDetialsAty.this).load(image.get(position).get("path"))
                     .centerCrop()
                     .placeholder(R.drawable.ic_default)
                     .error(R.drawable.ic_default)
@@ -881,14 +822,12 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
 
     @Override
     protected int getLayoutResId() {
-        return R.layout.aty_ticket_goods_detials;
+        return R.layout.activity_explosive_area_detials;
     }
 
     @Override
     protected void initialized() {
         ticket_buy_id = getIntent().getStringExtra("ticket_buy_id");
-        ticketBuyPst = new TicketBuyPst(this);
-        collectPst = new UserCollectPst(this);
         goodsPst = new GoodsPst(this);
         from = getIntent().getIntExtra("from", 0);
         image = new ArrayList<>();
@@ -911,18 +850,14 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
 
     @Override
     protected void requestData() {
-        if (0 == from) {
-            ticketBuyPst.ticketBuyInfo(ticket_buy_id, page);
-        } else {
-            goodsPst.goodsInfo(ticket_buy_id, page);
-        }
+        goodsPst.goodsInfo(ticket_buy_id, page);
         ticket_gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Bundle bundle = new Bundle();
                 bundle.putString("ticket_buy_id", ticket.get(position).getGoods_id());
                 bundle.putInt("from", 1);
-                startActivity(TicketGoodsDetialsAty.class, bundle);
+                startActivity(ExplosiveAreaGoodsDetialsAty.class, bundle);
             }
         });
         ticketGoodsDetials_refreshLayout_ssrl.setHeaderView(createHeaderView());// add headerView
@@ -935,11 +870,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
                 imageView.setVisibility(View.GONE);
                 progressBar.setVisibility(View.VISIBLE);
                 page = 1;
-                if (0 == from) {
-                    ticketBuyPst.ticketBuyInfo(ticket_buy_id, page);
-                } else {
-                    goodsPst.goodsInfo(ticket_buy_id, page);
-                }
+                goodsPst.goodsInfo(ticket_buy_id, page);
                 commodityDetailsPranster.goodsMsg(toastView);
             }
 
@@ -999,12 +930,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
 
         if (requestUrl.contains("addCart")) {
             showToast("添加成功！");
-            if (0 == from) {
-                ticketBuyPst.ticketBuyInfo(ticket_buy_id, page);
-            } else {
-                L.e("ticket_buy_id:" + ticket_buy_id);
-                goodsPst.goodsInfo(ticket_buy_id, page);
-            }
+            goodsPst.goodsInfo(ticket_buy_id, page);
         }
 
         //        // 获取商品的运费信息
@@ -1036,7 +962,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
             // 轮播图
             if (ToolKit.isList(data, "goods_banner")) {
                 image = JSONUtils.parseKeyAndValueToMapList(data.get("goods_banner"));
-                imageUrls=new ArrayList<>();
+                imageUrls = new ArrayList<>();
                 for (int i = 0; i < image.size(); i++) {
                     imageUrls.add(image.get(i).get("path"));
                 }
@@ -1058,12 +984,8 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
             if (goodsInfo.containsKey("is_active")) {
                 mIs_active = goodsInfo.get("is_active");
                 if ("3".equals(mIs_active)) {
-                    goods_profit_num_tv.setVisibility(View.GONE);
-                    layout_djq.setVisibility(View.GONE);
                     tv_gwc.setVisibility(View.GONE);
                 } else {
-                    goods_profit_num_tv.setVisibility(View.VISIBLE);
-                    layout_djq.setVisibility(View.VISIBLE);
                     tv_gwc.setVisibility(View.VISIBLE);
                 }
             }
@@ -1079,7 +1001,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
                 dialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        TicketGoodsDetialsAty.this.finish();
+                        ExplosiveAreaGoodsDetialsAty.this.finish();
                     }
                 });
                 dialog.setCancelable(false);
@@ -1097,11 +1019,6 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
                     allGvLvAdapter1 = new AllGvLvAdapter(this, ticket, 1);
                     ticket_gv.setAdapter(allGvLvAdapter1);
                 }
-                //                else {
-                //                    more = GsonUtil.getObjectList(data.get("guess_goods_list"), AllGoodsBean.class);
-                //                    ticket.addAll(more);
-                //                    allGvLvAdapter1.notifyDataSetChanged();
-                //                }
             } else {
                 is_f = false;
             }
@@ -1120,7 +1037,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
             }
             if (ToolKit.isList(data, "goods_server")) {
                 ser_list = JSONUtils.parseKeyAndValueToMapList(data.get("goods_server"));
-                rv_service.setAdapter(new service_adp(ser_list, 3));
+                rv_service.setAdapter(new ExplosiveAreaGoodsDetialsAty.service_adp(ser_list, 3));
             } else {
                 layout_service.setVisibility(View.GONE);
             }
@@ -1171,7 +1088,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
             // TODO==========产品属性==========
             if (ToolKit.isList(data, "goods_common_attr")) {
                 List<GoodsCommonAttrBean> gca = GsonUtil.getObjectList(data.get("goods_common_attr"), GoodsCommonAttrBean.class);
-                GoodsCommentAttrAdapter gcaAdapter = new GoodsCommentAttrAdapter(TicketGoodsDetialsAty.this, gca);
+                GoodsCommentAttrAdapter gcaAdapter = new GoodsCommentAttrAdapter(ExplosiveAreaGoodsDetialsAty.this, gca);
                 goods_common_attr_lv.setAdapter(gcaAdapter);
             }
             L.e("aaaaa" + data.get("cheap_group"));
@@ -1187,7 +1104,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
                     tv_goods_price.setText("立省¥" + df.format(price));
                     ArrayList<Map<String, String>> maps = JSONUtils.parseKeyAndValueToMapList(cheap_group.get("goods"));
                     rv_cheap_group.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-                    rv_cheap_group.setAdapter(new cg_adp(maps));
+                    rv_cheap_group.setAdapter(new ExplosiveAreaGoodsDetialsAty.cg_adp(maps));
                 } else {
                     layout_cheap_group.setVisibility(View.GONE);
 
@@ -1200,13 +1117,13 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
         if (requestUrl.contains("addCollect")) {// 添加收藏
             showRightTip("收藏成功");
             is_collect = "1";
-            commodityDetailsPranster.isCollect(is_collect, "已收藏", goods_title_collect_tv, TicketGoodsDetialsAty.this);
+            commodityDetailsPranster.isCollect(is_collect, "已收藏", goods_title_collect_tv, ExplosiveAreaGoodsDetialsAty.this);
             return;
         }
         if (requestUrl.contains("delOneCollect")) {
             showRightTip("取消成功");
             is_collect = "0";
-            commodityDetailsPranster.isCollect(is_collect, "收藏", goods_title_collect_tv, TicketGoodsDetialsAty.this);
+            commodityDetailsPranster.isCollect(is_collect, "收藏", goods_title_collect_tv, ExplosiveAreaGoodsDetialsAty.this);
         }
         if (requestUrl.contains("cateIndex")) {
             L.e("json" + jsonStr);
@@ -1214,81 +1131,14 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
             if (datas.get("code").equals("1")) {
                 datas = JSONUtils.parseKeyAndValueToMap(datas.get("data"));
                 List<Map<String, String>> mapList = JSONUtils.parseKeyAndValueToMapList(datas.get("two_cate"));
-                int mm = 0;
-                for (int m = 0; m < mapList.size(); m++) {
-                    L.e("cate_id" + mapList.get(m).get("cate_id"));
-                    if (mapList.get(m).get("cate_id").equals(pcate_id)) {
-                        mm = m + 1;
-                        break;
-                    }
-                }
-                //查看分类
-                //                Intent intent = new Intent();
-                //                intent.putExtra("appBarTitle", goodsInfo.get("two_cate_name"));
-                //                intent.putExtra("two_cate_id", goodsInfo.get("cate_id"));
-                //                intent.putExtra("page", mm);
-                //                intent.setClass(this, SubclassificationAty.class);
-                //                startActivity(intent);
             }
         }
-
-        /**
-         * 获取商家环信账号
-         */
-        //        if (requestUrl.contains("Easemob/bind")) {
-        //            L.e("Easemob/bind：" + jsonStr);
-        //            if (jsonStr == null || jsonStr.equals("")) {
-        //                showErrorTip("获取数据为空，请联系我们");
-        //                return;
-        //            }
-        //
-        //            Gson gson = new Gson();
-        //            easemobBean = gson.fromJson(jsonStr, EasemobBean.class); // 如果Json有值 bean 对象必定有值
-        //
-        //            // ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓创建Dialog弹窗显示列表项↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
-        //            AlertDialog.Builder builder = new AlertDialog.Builder(this); // 创建对话框构建器
-        //            View view2 = View.inflate(TicketGoodsDetialsAty.this, R.layout.popup_sel_chat, null); // 获取布局
-        //            builder.setView(view2); // 设置参数主要是设置获取的布局View
-        //            // 获取布局中的控件
-        //            ListView dataLv = (ListView) view2.findViewById(R.id.popSelChat_data_lv);
-        //            LinearLayout nodataLayout = (LinearLayout) view2.findViewById(R.id.popSelChat_nodata_layout);
-        //
-        //            // 以上判断Bean有值，但是以防万一还是先判空
-        //            if (easemobBean == null || easemobBean.getData().getEasemob_account_num() < 1) {
-        //                // 如果Bean为空或者获取的在线客服账号数小于1，也就是没有在线客服
-        //                dataLv.setVisibility(View.GONE); // 隐藏List列表
-        //                nodataLayout.setVisibility(View.VISIBLE); // 显示空数据提示
-        //            } else {
-        //                // 否则就是有在线客服
-        //                dataLv.setVisibility(View.VISIBLE); // 显示List列表
-        //                nodataLayout.setVisibility(View.GONE); // 隐藏空数据提示
-        //            }
-        //
-        //            final AlertDialog alertDialog = builder.create();// 创建对话框
-        //            // 设置相应的控件操作，赋值、点击事件等等
-        //
-        //            dataLv.setAdapter(new DialogAdapter(easemobBean.getData().getEasemob_account()));
-        //
-        //            dataLv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-        //                @Override
-        //                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        //                    EasemobBean.DataBean.EasemobAccountBean easemobAccountBean = easemobBean.getData().getEasemob_account().get(position);
-        //                    // 参数说明：账号、头像、昵称
-        //                    toChat(easemobAccountBean.getHx(), easemobAccountBean.getHead_pic(), easemobAccountBean.getNickname());
-        //                    alertDialog.dismiss();
-        //                }
-        //            });
-        //            alertDialog.show();
-        //
-        //            // ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑创建Dialog弹窗显示列表项↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
-        //
-        //        }
 
     }
 
     @Override
     public void freightGetEd(Map<String, String> map) {
-        L.e("TicketGoodsDetialsAty.map=" + map.toString());
+        L.e("ExplosiveAreaGoodsDetialsAty.map=" + map.toString());
         freight_tv.setText(map.get("pay"));
         freight_tv.setTextColor(Color.parseColor("#FF0000"));
         tv_freight.setText(map.get("pay"));
@@ -1332,19 +1182,19 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            MyHolder holder;
+            ExplosiveAreaGoodsDetialsAty.DialogAdapter.MyHolder holder;
             if (convertView == null) {
-                holder = new MyHolder();
-                convertView = LayoutInflater.from(TicketGoodsDetialsAty.this).inflate(R.layout.item_popup_sel_chat, null);
+                holder = new ExplosiveAreaGoodsDetialsAty.DialogAdapter.MyHolder();
+                convertView = LayoutInflater.from(ExplosiveAreaGoodsDetialsAty.this).inflate(R.layout.item_popup_sel_chat, null);
                 convertView.setTag(holder);
                 com.lidroid.xutils.ViewUtils.inject(holder, convertView);
             } else {
-                holder = (MyHolder) convertView.getTag();
+                holder = (ExplosiveAreaGoodsDetialsAty.DialogAdapter.MyHolder) convertView.getTag();
             }
 
             EasemobBean.DataBean.EasemobAccountBean easemobAccountBean = list.get(position);
 
-            Glide.with(TicketGoodsDetialsAty.this).load(list.get(position).getHead_pic())
+            Glide.with(ExplosiveAreaGoodsDetialsAty.this).load(list.get(position).getHead_pic())
                     .placeholder(R.drawable.ic_default)
                     .error(R.drawable.ic_default)
                     .diskCacheStrategy(DiskCacheStrategy.SOURCE)
@@ -1383,9 +1233,9 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
         is_collect = data.get("is_collect");
 
         if ("0".equals(is_collect)) {
-            commodityDetailsPranster.isCollect(is_collect, "收藏", goods_title_collect_tv, TicketGoodsDetialsAty.this);
+            commodityDetailsPranster.isCollect(is_collect, "收藏", goods_title_collect_tv, ExplosiveAreaGoodsDetialsAty.this);
         } else {
-            commodityDetailsPranster.isCollect(is_collect, "已收藏", goods_title_collect_tv, TicketGoodsDetialsAty.this);
+            commodityDetailsPranster.isCollect(is_collect, "已收藏", goods_title_collect_tv, ExplosiveAreaGoodsDetialsAty.this);
         }
     }
 
@@ -1407,14 +1257,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
     private TextView tv_integral;//积分
     @ViewInject(R.id.tv_brief)
     private TextView tv_brief;//商品简介
-    @ViewInject(R.id.layout_djq)
-    private LinearLayout layout_djq;//代金券布局
-    @ViewInject(R.id.layout_djq0)
-    private LinearLayout layout_djq0;
-    @ViewInject(R.id.layout_djq1)
-    private LinearLayout layout_djq1;
-    @ViewInject(R.id.layout_djq2)
-    private LinearLayout layout_djq2;
+
     @ViewInject(R.id.tv_djq_color0)
     private TextView tv_djq_color0;
     @ViewInject(R.id.tv_djq_color1)
@@ -1464,7 +1307,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
         tv_chose_ads.setText(tx);
         L.e("==========商品详情获取的定位信息===========" + tx);
         // 定位好之后获取运费信息
-        Freight.freight(goods_id, tx, String.valueOf(goods_number), product_id, TicketGoodsDetialsAty.this);
+        Freight.freight(goods_id, tx, String.valueOf(goods_number), product_id, ExplosiveAreaGoodsDetialsAty.this);
         showProgressDialog();
         // 商品价格
         // ChangeTextViewStyle.getInstance().forGoodsPrice(this, now_price_tv, "￥" + goodsInfo.get("shop_price"));
@@ -1476,7 +1319,6 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
         old_price_tv.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
         // 积分
         mIntegral = goodsInfo.get("integral");
-        ChangeTextViewStyle.getInstance().forTextColor(this, goods_profit_num_tv, "积分" + mIntegral, 2, Color.parseColor("#FF0000"));
         // 运费(待定)
         ChangeTextViewStyle.getInstance().forTextColor(this, freight_tv, "运费10元", 2, Color.parseColor("#FF0000"));
         // 文字描述
@@ -1492,7 +1334,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
             @Override
             public boolean onLongClick(View view) {
 
-                new MikyouCommonDialog(TicketGoodsDetialsAty.this, "长按将复制文字：" + goods_details_name_tv.getText().toString(), "操作提示", "复制", "取消", true)
+                new MikyouCommonDialog(ExplosiveAreaGoodsDetialsAty.this, "长按将复制文字：" + goods_details_name_tv.getText().toString(), "操作提示", "复制", "取消", true)
                         .setOnDiaLogListener(new MikyouCommonDialog.OnDialogListener() {
 
                             @Override
@@ -1534,7 +1376,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
         tv_inventory.setText("库存\t" + goodsInfo.get("goods_num"));
         is_attr = is_attr + "-" + goodsInfo.get("goods_num");
         //        tv_freight.setText(goodsInfo.get(""));
-        L.e("TicketGoodsDetialsAty:" + goodsInfo.toString());
+        L.e("ExplosiveAreaGoodsDetialsAty:" + goodsInfo.toString());
         tv_wy_price.setText("¥" + goodsInfo.get("wy_price"));
         tv_yx_price.setText("¥" + goodsInfo.get("yx_price"));
         if (JSONUtils.getMapValue(goodsInfo, "use_integral").equals("0")) {
@@ -1548,57 +1390,9 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
 
         tv_brief.setText(goodsInfo.get("goods_brief"));
 
-        if (ToolKit.isList(goodsInfo, "dj_ticket")) {
-            dj_ticket = JSONUtils.parseKeyAndValueToMapList(DjTicketBean.class, goodsInfo.get("dj_ticket"));
-
-            for (int i = 0; i < dj_ticket.size(); i++) {
-                if (i == 2) {
-                    break;
-                }
-                switch (i) {
-                    case 0: {
-                        layout_djq0.setVisibility(View.VISIBLE);
-                        discount_desc0 = dj_ticket.get(i).getDiscount_desc();
-                        tv_djq_desc0.setText(discount_desc0);
-                        break;
-                    }
-                    case 1: {
-                        layout_djq1.setVisibility(View.VISIBLE);
-                        discount_desc1 = dj_ticket.get(i).getDiscount_desc();
-                        tv_djq_desc1.setText(discount_desc1);
-                        break;
-                    }
-                    case 2: {
-                        layout_djq2.setVisibility(View.GONE);
-                        discount_desc2 = dj_ticket.get(i).getDiscount_desc();
-                        tv_djq_desc2.setText(discount_desc2);
-                        break;
-                    }
-                }
-                switch (dj_ticket.get(i).getType()) {
-                    case "0": {
-                        //  tv_djq_color0.setBackgroundColor(Color.parseColor("#FF534C"));
-                        tv_djq_color0.setBackgroundResource(R.drawable.shape_red_bg);
-                    }
-                    break;
-                    case "1": {
-                        tv_djq_color1.setBackgroundResource(R.drawable.shape_yellow_bg);
-                    }
-                    break;
-                    case "2": {
-                        tv_djq_color2.setBackgroundResource(R.drawable.shape_blue_bg);
-                    }
-
-                    break;
-                }
-
-            }
-        } else {
-            layout_djq.setVisibility(View.GONE);
-        }
         if (ToolKit.isList(goodsInfo, "goods_active")) {
             final ArrayList<Map<String, String>> qkk_list = JSONUtils.parseKeyAndValueToMapList(goodsInfo.get("goods_active"));
-            lv_qkk.setAdapter(new qkk_adapter(qkk_list));
+            lv_qkk.setAdapter(new ExplosiveAreaGoodsDetialsAty.qkk_adapter(qkk_list));
             lv_qkk.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -1641,7 +1435,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
                 }
             });
         }
-        commodityDetailsPranster.setBitmap(TicketGoodsDetialsAty.this, goodsInfo.get("country_logo"), im_country_logo);
+        commodityDetailsPranster.setBitmap(ExplosiveAreaGoodsDetialsAty.this, goodsInfo.get("country_logo"), im_country_logo);
         commodityDetailsPranster.setTextContent(goodsInfo.get("country_desc"), tv_country_desc);
         commodityDetailsPranster.setTextContent(goodsInfo.get("country_tax") + "元", tv_country_tax);
         if (Double.parseDouble(goodsInfo.get("country_tax")) <= 0) {
@@ -1736,11 +1530,11 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
                 bannerHeight = online_carvouse_view.getHeight();
                 topHeighe = top_lin_layout.getHeight();
                 secondHeight = second_lin_layout.getHeight();
-                limit_goods_details_sc.setScrollViewListener(TicketGoodsDetialsAty.this);
+                limit_goods_details_sc.setScrollViewListener(ExplosiveAreaGoodsDetialsAty.this);
 
             }
         });
-        limit_goods_details_sc.setOnBottomListener(TicketGoodsDetialsAty.this);
+        limit_goods_details_sc.setOnBottomListener(ExplosiveAreaGoodsDetialsAty.this);
     }
 
     public void showPop(View view, final String title, final List<Map<String, String>> list, final int type) {//
@@ -1756,8 +1550,8 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
                     public void getChildView(View view, int layoutResId, int position) {
                         TextView cancel = (TextView) view.findViewById(R.id.cancel);
                         RecyclerView recyclerview = (RecyclerView) view.findViewById(R.id.recyclerview);
-                        recyclerview.setLayoutManager(new LinearLayoutManager(TicketGoodsDetialsAty.this, 1, false));
-                        recyclerview.setAdapter(new service_adp(list, type));
+                        recyclerview.setLayoutManager(new LinearLayoutManager(ExplosiveAreaGoodsDetialsAty.this, 1, false));
+                        recyclerview.setAdapter(new ExplosiveAreaGoodsDetialsAty.service_adp(list, type));
                         TextView tv_title = (TextView) view.findViewById(R.id.popp_title);
                         tv_title.setText(title);
                         cancel.setOnClickListener(new View.OnClickListener() {
@@ -1775,7 +1569,6 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
     }
 
 
-
     @Override
     public void onScrollChanged(ObservableScrollView scrollView, int x, int y, int oldx, int oldy) {
         if (y <= 0) {
@@ -1788,9 +1581,9 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
             } else if (y >= topHeighe && y < secondHeight) {
                 setTextViewAndViewColor(2);
             }
-//            else {
-//                setTextViewAndViewColor(1);
-//            }
+            //            else {
+            //                setTextViewAndViewColor(1);
+            //            }
         }
 
         if (oldy > y) {
@@ -1802,11 +1595,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
     public void onBottom() {
         if (is_f) {
             page++;
-            if (0 == from) {
-                ticketBuyPst.ticketBuyInfo(ticket_buy_id, page);
-            } else {
-                goodsPst.goodsInfo(ticket_buy_id, page);
-            }
+            goodsPst.goodsInfo(ticket_buy_id, page);
         }
     }
 
@@ -1834,7 +1623,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
 
         @Override
         public View getView(int i, View view, ViewGroup viewGroup) {
-            view = View.inflate(TicketGoodsDetialsAty.this, R.layout.item_lh_qkk, null);
+            view = View.inflate(ExplosiveAreaGoodsDetialsAty.this, R.layout.item_lh_qkk, null);
             TextView act_desc = (TextView) view.findViewById(R.id.tv_qkk);
             act_desc.setText(list.get(i).get("act_desc"));
             return view;
@@ -1852,11 +1641,11 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
 
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_lh_service, null));
+            return new ExplosiveAreaGoodsDetialsAty.service_adp.ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_lh_service, null));
         }
 
         @Override
-        public void onBindViewHolder(ViewHolder holder, int position) {
+        public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
             String name = "";
             String desc = "";
             if (this.tpye == 0) {
@@ -1875,8 +1664,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
                 holder.tv_text.setText(list.get(position).get("server_name"));
                 holder.tv_text.setTextColor(Color.parseColor("#F23030"));
             }
-            Glide.with(TicketGoodsDetialsAty.this).load(list.get(position).get("icon")).into(holder.im_logo);
-
+            Glide.with(ExplosiveAreaGoodsDetialsAty.this).load(list.get(position).get("icon")).into(holder.im_logo);
         }
 
         @Override
@@ -1896,7 +1684,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
         }
     }
 
-    class cg_adp extends RecyclerView.Adapter<cg_adp.ViewHolder> {
+    class cg_adp extends RecyclerView.Adapter<ExplosiveAreaGoodsDetialsAty.cg_adp.ViewHolder> {
         ArrayList<Map<String, String>> list;
 
         public cg_adp(ArrayList<Map<String, String>> list) {
@@ -1905,13 +1693,13 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
         }
 
         @Override
-        public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_rv_dpg, null));
+        public ExplosiveAreaGoodsDetialsAty.cg_adp.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            return new ExplosiveAreaGoodsDetialsAty.cg_adp.ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_rv_dpg, null));
         }
 
         @Override
-        public void onBindViewHolder(ViewHolder holder, int position) {
-            Glide.with(TicketGoodsDetialsAty.this).load(list.get(position).get("goods_img")).into(holder.imageview);
+        public void onBindViewHolder(ExplosiveAreaGoodsDetialsAty.cg_adp.ViewHolder holder, int position) {
+            Glide.with(ExplosiveAreaGoodsDetialsAty.this).load(list.get(position).get("goods_img")).into(holder.imageview);
             holder.tv_price.setText("¥" + list.get(position).get("shop_price"));
             if (position == list.size() - 1) {
                 holder.im_jiahao.setVisibility(View.GONE);
@@ -1975,71 +1763,16 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
                 old_price_tv.setText("￥" + data.getStringExtra("market_price"));
                 old_price_tv.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
 
-                ChangeTextViewStyle.getInstance().forTextColor(this, goods_profit_num_tv,
-                        "积分" + data.getStringExtra("red_return_integral"), 2, Color.parseColor("#FF0000"));
-                //                ArrayList<Map<String, String>> dj_list = JSONUtils.parseKeyAndValueToMapList(data.getStringExtra("data"));
-                dj_ticket = (List<DjTicketBean>) data.getSerializableExtra("data");
-                if (null != dj_ticket) {
-                    for (int i = 0; i < dj_ticket.size(); i++) {
-                        if (i == 2) {
-                            break;
-                        }
-                        switch (i) {
-                            case 0: {
-                                //                                layout_djq0.setVisibility(View.VISIBLE);
-                                //                                tv_djq_desc0.setText(dj_ticket.get(i).get("discount_desc"));
-                                break;
-                            }
-                            case 1: {
-                                //                                layout_djq1.setVisibility(View.VISIBLE);
-                                //                                tv_djq_desc1.setText(dj_ticket.get(i).get("discount_desc"));
-                                break;
-                            }
-                            case 2: {
-                                //                                layout_djq2.setVisibility(View.VISIBLE);
-                                //                                tv_djq_desc2.setText(dj_ticket.get(i).get("discount_desc"));
-                                break;
-                            }
-                        }
-                        switch (dj_ticket.get(i).getType()) {
-                            case "0": {
-                                //  tv_djq_color0.setBackgroundColor(Color.parseColor("#FF534C"));
-                                tv_djq_color0.setBackgroundResource(R.drawable.shape_red_bg);
-                            }
-                            break;
-                            case "1": {
-                                tv_djq_color1.setBackgroundResource(R.drawable.shape_yellow_bg);
-                            }
-                            break;
-                            case "2": {
-                                tv_djq_color2.setBackgroundResource(R.drawable.shape_blue_bg);
-                            }
-
-                            break;
-                        }
-
-                    }
-                } else {
-                    layout_djq.setVisibility(View.GONE);
-                }
                 goods_number = data.getIntExtra("num", 0);
                 product_id = data.getStringExtra("product_id");
                 return;
             }
 
-            if (0 == from) {
-                ticketBuyPst.ticketBuyInfo(ticket_buy_id, page);
-            } else {
-                goodsPst.goodsInfo(ticket_buy_id, page);
-            }
+
+            goodsPst.goodsInfo(ticket_buy_id, page);
+
             is_C = false;
 
-            layout_djq0.setVisibility((discount_desc0 != null && discount_desc0.isEmpty()) ? View.GONE : View.VISIBLE);
-            tv_djq_desc0.setText(discount_desc0);
-            layout_djq1.setVisibility((discount_desc1 != null && discount_desc1.isEmpty()) ? View.GONE : View.VISIBLE);
-            tv_djq_desc1.setText(discount_desc1);
-            layout_djq2.setVisibility((discount_desc2 != null && discount_desc2.isEmpty()) ? View.GONE : View.GONE);
-            tv_djq_desc2.setText(discount_desc2);
 
         }
     }
@@ -2063,13 +1796,12 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
     @Override
     protected void onRestart() {
         super.onRestart();
-        //        goodsPst.goodsInfo(ticket_buy_id, page);
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         // 只需要调用这一句，其它的交给AndPermission吧，最后一个参数是PermissionListener。
-        AndPermission.onRequestPermissionsResult(requestCode, permissions, grantResults, commodityDetailsPranster.requestPhoneListener(merchant_phone, TicketGoodsDetialsAty.this));
+        AndPermission.onRequestPermissionsResult(requestCode, permissions, grantResults, commodityDetailsPranster.requestPhoneListener(merchant_phone, ExplosiveAreaGoodsDetialsAty.this));
     }
 
     @Override
@@ -2091,7 +1823,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
 
             @Override
             public void onFinish() {
-                TicketGoodsDetialsAty.this.finish();
+                ExplosiveAreaGoodsDetialsAty.this.finish();
             }
         }.start();
     }

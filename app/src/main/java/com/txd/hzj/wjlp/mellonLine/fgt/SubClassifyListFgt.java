@@ -95,6 +95,7 @@ public class SubClassifyListFgt extends BaseFgt {
 
     private String two = "";
     private String three = "";
+    private String is_active = "";
 
     @ViewInject(R.id.sup_sub_layout)
     private SuperSwipeRefreshLayout swipe_refresh;
@@ -136,10 +137,11 @@ public class SubClassifyListFgt extends BaseFgt {
     //价格区间内检索商品，格式是 开始金额_结束金额 ，两个价格中间用下划线链接
     private String price = "";
 
-    public static SubClassifyListFgt getFgt(String two, String three) {
+    public static SubClassifyListFgt getFgt(String two, String three,String is_active) {
         SubClassifyListFgt subClassifyListFgt = new SubClassifyListFgt();
         subClassifyListFgt.two = two;
         subClassifyListFgt.three = three;
+        subClassifyListFgt.is_active = is_active;
         return subClassifyListFgt;
     }
 
@@ -197,7 +199,7 @@ public class SubClassifyListFgt extends BaseFgt {
                         imageView.setVisibility(View.GONE);
                         progressBar.setVisibility(View.VISIBLE);
                         p = 1;
-                        goodsPst.threeList(two, three, p, sell, tsort, integral, psort, price,0);
+                        goodsPst.threeList(two, three, p, sell, tsort, integral, psort, price,0,is_active);
                     }
 
                     @Override
@@ -222,7 +224,7 @@ public class SubClassifyListFgt extends BaseFgt {
                         footerImageView.setVisibility(View.GONE);
                         footerProgressBar.setVisibility(View.VISIBLE);
                         p++;
-                        goodsPst.threeList(two, three, p, sell, tsort, integral, psort, price,0);
+                        goodsPst.threeList(two, three, p, sell, tsort, integral, psort, price,0,is_active);
                     }
 
                     @Override
@@ -311,7 +313,7 @@ public class SubClassifyListFgt extends BaseFgt {
 
     @Override
     protected void requestData() {
-        goodsPst.threeList(two, three, p, sell, tsort, integral, psort, price,1);
+        goodsPst.threeList(two, three, p, sell, tsort, integral, psort, price,1,is_active);
     }
 
     @Override

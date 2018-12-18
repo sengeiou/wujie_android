@@ -25,11 +25,12 @@ class Goods {
      * @param cate_id  分类id
      * @param baseView 回调
      */
-    void goodsList(int p, String cate_id, BaseView baseView) {
+    void goodsList(int p, String cate_id, String is_active,BaseView baseView) {
         RequestParams params = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
         params.addBodyParameter("p", String.valueOf(p));
         params.addBodyParameter("cate_id", cate_id);
+        params.addBodyParameter("is_active", is_active);
         apiTool2.postApi(url + "goodsList", params, baseView);
     }
 
@@ -55,7 +56,7 @@ class Goods {
      * @param p             分页
      * @param baseView      回调
      */
-    void threeList(String two_cate_id, String three_cate_id, int p,String sell, String tsort,String integral, String psort,String price, BaseView baseView) {
+    void threeList(String two_cate_id, String three_cate_id, int p,String sell, String tsort,String integral, String psort,String price, String is_active ,BaseView baseView) {
         RequestParams params = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
         params.addBodyParameter("two_cate_id", two_cate_id);
@@ -66,6 +67,7 @@ class Goods {
         params.addBodyParameter("integral", integral);
         params.addBodyParameter("psort", psort);
         params.addBodyParameter("price", price);
+        params.addBodyParameter("is_active", is_active);
         apiTool2.postApi(url + "threeList", params, baseView);
     }
 

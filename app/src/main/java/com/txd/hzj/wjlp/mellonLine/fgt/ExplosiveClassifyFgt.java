@@ -38,8 +38,8 @@ import com.txd.hzj.wjlp.mainfgt.adapter.RacycleAllAdapter;
 import com.txd.hzj.wjlp.mainfgt.adapter.TicketZoonAdapter;
 import com.txd.hzj.wjlp.mainfgt.adapter.ViewPagerAdapter;
 import com.txd.hzj.wjlp.mellonLine.SubclassificationAty;
+import com.txd.hzj.wjlp.mellonLine.gridClassify.ExplosiveAreaGoodsDetialsAty;
 import com.txd.hzj.wjlp.mellonLine.gridClassify.MellInfoAty;
-import com.txd.hzj.wjlp.mellonLine.gridClassify.TicketGoodsDetialsAty;
 import com.txd.hzj.wjlp.tool.GridDividerItemDecoration;
 import com.txd.hzj.wjlp.webviewH5.WebViewAty;
 
@@ -48,12 +48,11 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 作者：DUKE_HwangZj
- * 日期：2017/7/27 0027
- * 时间：上午 9:56
- * 描述：首页横向分类
+ * 创建者：zhangyunfei
+ * 创建时间：2018/12/18 14:45
+ * 功能描述：首页横向分类
  */
-public class ClassifyFgt extends BaseFgt {
+public class ExplosiveClassifyFgt extends BaseFgt {
     private String type;
     @ViewInject(R.id.ntsv)
     NestedScrollView ntsv;
@@ -110,8 +109,8 @@ public class ClassifyFgt extends BaseFgt {
     @ViewInject(R.id.no_data_layout)
     private LinearLayout no_data_layout;
 
-    public static ClassifyFgt newInstance(String type) {
-        ClassifyFgt fragment = new ClassifyFgt();
+    public static ExplosiveClassifyFgt newInstance(String type) {
+        ExplosiveClassifyFgt fragment = new ExplosiveClassifyFgt();
         fragment.type = type;
         return fragment;
     }
@@ -153,7 +152,7 @@ public class ClassifyFgt extends BaseFgt {
                         imageView.setVisibility(View.GONE);
                         progressBar.setVisibility(View.VISIBLE);
                         p = 1;
-                        goodsPst.goodsList(p, type, 0,"");
+                        goodsPst.goodsList(p, type, 0,"5");
                     }
 
                     @Override
@@ -179,7 +178,7 @@ public class ClassifyFgt extends BaseFgt {
                         footerProgressBar.setVisibility(View.VISIBLE);
 
                         p++;
-                        goodsPst.goodsList(p, type, 0,"");
+                        goodsPst.goodsList(p, type, 0,"5");
                     }
 
                     @Override
@@ -197,33 +196,10 @@ public class ClassifyFgt extends BaseFgt {
                 });
 
     }
-    //
-    //    @Override
-    //    @OnClick({R.id.classify_ads_iv})
-    //    public void onClick(View v) {
-    //        super.onClick(v);
-    //        switch (v.getId()) {
-    //            case R.id.classify_ads_iv:
-    //                bundle = new Bundle();
-    //                bundle.putString("desc", desc);
-    //                bundle.putString("href", href);
-    //                bundle.putInt("from", 2);
-    //                startActivity(NoticeDetailsAty.class, bundle);
-    //                break;
-    //        }
-    //    }
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        //        if (getUserVisibleHint()) {
-        //            try {
-        //                goodsPst = new GoodsPst(this);
-        //                goodsPst.goodsList(p, type, 1);
-        //            } catch (NullPointerException e) {
-        //                L.e("Classify======ERROR");
-        //            }
-        //        }
     }
 
     @Override
@@ -241,7 +217,6 @@ public class ClassifyFgt extends BaseFgt {
     @Override
     protected void initialized() {
         goodsLists = new ArrayList<>();
-        goodsPst = new GoodsPst(this);
         height = ToolKit.dip2px(getActivity(), 4);
         gv_classify = new ArrayList<>();
 
@@ -251,7 +226,7 @@ public class ClassifyFgt extends BaseFgt {
     @Override
     protected void requestData() {
         goodsPst = new GoodsPst(this);
-        goodsPst.goodsList(p, type, 0,"");
+        goodsPst.goodsList(p, type, 0,"5");
     }
 
     @Override
@@ -292,12 +267,10 @@ public class ClassifyFgt extends BaseFgt {
                                     Bundle bundle = new Bundle();
                                     bundle.putString("ticket_buy_id", ads.get("goods_id"));
                                     bundle.putInt("from", 1);
-                                    startActivity(TicketGoodsDetialsAty.class, bundle);
+                                    startActivity(ExplosiveAreaGoodsDetialsAty.class, bundle);
                                 } else {
                                     Bundle bundle = new Bundle();
-//                                    bundle.putString("desc", desc);
                                     bundle.putString("href", href);
-//                                    bundle.putInt("from", 2);
                                     startActivity(WebViewAty.class, bundle);
                                 }
                             }
@@ -331,7 +304,7 @@ public class ClassifyFgt extends BaseFgt {
                                 bundle = new Bundle();
                                 bundle.putString("ticket_buy_id", goodsLists.get(position).getGoods_id());
                                 bundle.putInt("from", 1);
-                                startActivity(TicketGoodsDetialsAty.class, bundle);
+                                startActivity(ExplosiveAreaGoodsDetialsAty.class, bundle);
                             }
                         });
                     } else {
@@ -365,7 +338,6 @@ public class ClassifyFgt extends BaseFgt {
                     swipe_refresh.setLoadMore(false);
                 }
             }
-            // TODO==========结束==========
         }
     }
 
@@ -394,7 +366,7 @@ public class ClassifyFgt extends BaseFgt {
                     bundle = new Bundle();
                     bundle.putString("appBarTitle", gv_classify.get(itemPos).getName());
                     bundle.putString("two_cate_id", gv_classify.get(itemPos).getTwo_cate_id());
-                    bundle.putString("is_active", "");
+                    bundle.putString("is_active", "5");
                     startActivity(SubclassificationAty.class, bundle);
                 }
             });
@@ -448,5 +420,4 @@ public class ClassifyFgt extends BaseFgt {
         progressBar.setVisibility(View.GONE);
         return headerView;
     }
-
 }

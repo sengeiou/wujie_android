@@ -62,6 +62,7 @@ public class PosterAty extends BaseAty {
     private String mSell_num;
 
     private MyAdpter mMyAdpter;
+    private String mIs_active;
 
     /**
      * @param activity
@@ -77,7 +78,7 @@ public class PosterAty extends BaseAty {
      * @param goods_brief  商品简介
      * @param sell_num       已售数量
      */
-    public static void getInstance(Activity activity, String type, String id, ArrayList<String> images, String goods_name, String integral, String discount, String shop_price, String market_price, String shop_id, String goods_brief, String sell_num) {
+    public static void getInstance(Activity activity, String type, String id, ArrayList<String> images, String goods_name, String integral, String discount, String shop_price, String market_price, String shop_id, String goods_brief, String sell_num,String is_active) {
         Bundle bundle = new Bundle();
         bundle.putString("type", type);
         bundle.putString("id", id);
@@ -90,6 +91,7 @@ public class PosterAty extends BaseAty {
         bundle.putString("shop_id", shop_id);
         bundle.putString("goods_brief", goods_brief);
         bundle.putString("sell_num", sell_num);
+        bundle.putString("is_active", is_active);
         Intent intent = new Intent();
         intent.putExtras(bundle);
         intent.setClass(activity, PosterAty.class);
@@ -116,6 +118,7 @@ public class PosterAty extends BaseAty {
         mShop_id = extras.getString("shop_id");
         mGoods_brief = extras.getString("goods_brief");
         mSell_num = extras.getString("sell_num");
+        mIs_active = extras.getString("is_active");
         goods_title_tv.setText(mGoods_name);
         goods_brief_tv.setText(mGoods_brief);
         goods_price_tv.setText("￥" + mShop_price);
@@ -155,10 +158,10 @@ public class PosterAty extends BaseAty {
      * 一键生成海报按钮
      */
     public void toPoster(View view) {
-        postPoster(mType, mId, mImages.get(mMyAdpter.getSelectedId()), mGoods_name, mIntegral, mDiscount, mShop_price, mMarket_price, mShop_id, this);
+        postPoster(mType, mId, mImages.get(mMyAdpter.getSelectedId()), mGoods_name, mIntegral, mDiscount, mShop_price, mMarket_price, mShop_id, mIs_active,this);
     }
 
-    private void postPoster(String type, String id, String image, String goods_name, String integral, String discount, String shop_price, String market_price, String shop_id, BaseView baseView) {
+    private void postPoster(String type, String id, String image, String goods_name, String integral, String discount, String shop_price, String market_price, String shop_id, String is_active,BaseView baseView) {
         ApiTool2 apiTool2 = new ApiTool2();
         RequestParams requestParams = new RequestParams();
         requestParams.addBodyParameter("type", type);
@@ -170,6 +173,7 @@ public class PosterAty extends BaseAty {
         requestParams.addBodyParameter("shop_price", shop_price);
         requestParams.addBodyParameter("market_price", market_price);
         requestParams.addBodyParameter("shop_id", shop_id);
+        requestParams.addBodyParameter("is_active", is_active);
         String invite_code = PreferencesUtils.getString(AppManager.getInstance().getTopActivity(), "invite_code", "");
         requestParams.addBodyParameter("invite_code", invite_code);
         apiTool2.postApi(Config.SHARE_URL + "index.php/Api/Index/poster", requestParams, baseView);
