@@ -752,7 +752,12 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                 break;
             case R.id.goods_title_share_tv://分享
                 //                toShare("无界优品", share_img, share_url, share_content, goods_id, "1");
-                toShare(goods_name, share_img, "1", share_content, group_buy_id, "1");
+                if("1".equals(groupType)){
+                    toShare(goods_name, share_img, "1", share_content, group_buy_id, "10");
+                }else if ("2".equals(groupType)){
+                    toShare(goods_name, share_img, "1", share_content, group_buy_id, "9");
+                }
+
                 break;
             case R.id.show_or_hide_iv://展开,隐藏(满折布局)
                 getHeight();// 重新计算高度
