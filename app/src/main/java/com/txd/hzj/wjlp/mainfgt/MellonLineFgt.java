@@ -50,6 +50,7 @@ import com.txd.hzj.wjlp.mellonLine.WujieTopHzjAty;
 import com.txd.hzj.wjlp.mellonLine.gridClassify.AuctionGoodsDetailsAty;
 import com.txd.hzj.wjlp.mellonLine.gridClassify.CarDetailseAty;
 import com.txd.hzj.wjlp.mellonLine.gridClassify.ExplosiveAreaAty;
+import com.txd.hzj.wjlp.mellonLine.gridClassify.ExplosiveAreaGoodsDetialsAty;
 import com.txd.hzj.wjlp.mellonLine.gridClassify.GoodLuckDetailsAty;
 import com.txd.hzj.wjlp.mellonLine.gridClassify.GoodsInputHzjAty;
 import com.txd.hzj.wjlp.mellonLine.gridClassify.LimitGoodsAty;
@@ -156,6 +157,12 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
      */
     @ViewInject(R.id.purchase_gv)
     private GridViewForScrollView purchase_gv;
+
+    /**
+     * 爆款专区
+     */
+    @ViewInject(R.id.explosiveAreaGv)
+    private GridViewForScrollView explosiveAreaGv;
     /**
      * 票券区
      */
@@ -263,6 +270,8 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
      */
     @ViewInject(R.id.ads_by_limit_buy_iv)
     private ImageView ads_by_limit_buy_iv;
+    @ViewInject(R.id.explosiveAreaImg)
+    private ImageView explosiveAreaImg;
     /**
      * 限量购href
      */
@@ -329,6 +338,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
     private String group_desc = "";
     private List<AllGoodsBean> groupList;
     private List<AllGoodsBean> limit;
+    private List<AllGoodsBean> explosiveList;
     private List<AllGoodsBean> ticket;
     private List<AllGoodsBean> per;
     private List<AllGoodsBean> countryList;
@@ -348,6 +358,8 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
      */
     @ViewInject(R.id.limitBuy_llayout)
     private LinearLayout limitBuy_llayout;
+    @ViewInject(R.id.explosiveAreaLayout)
+    private LinearLayout explosiveAreaLayout;
     @ViewInject(R.id.groupBuy_llayout)
     private LinearLayout groupBuy_llayout;
     @ViewInject(R.id.ticketBuy_llayout)
@@ -389,6 +401,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
         ads_w = Settings.displayWidth;
         LinearLayout.LayoutParams adsParam = new LinearLayout.LayoutParams(ads_w, ads_h);
         ads_by_limit_buy_iv.setLayoutParams(adsParam);
+        explosiveAreaImg.setLayoutParams(adsParam);
         ticket_buy_ads_iv.setLayoutParams(adsParam);
         pre_buy_ads_iv.setLayoutParams(adsParam);
         auction_ads_iv.setLayoutParams(adsParam);
@@ -537,6 +550,16 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
                 startActivity(LimitGoodsAty.class, bundle);
             }
         });
+        // 爆款专区
+        explosiveAreaGv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                bundle = new Bundle();
+                bundle.putString("ticket_buy_id", explosiveList.get(i).getGoods_id());
+                bundle.putInt("from", 1);
+                startActivity(ExplosiveAreaGoodsDetialsAty.class, bundle);
+            }
+        });
         // 票券区
 
         ticket_gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -667,7 +690,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
 
     @Override
     @OnClick({R.id.wujie_top_lin_layout, R.id.on_line_be_back_top_iv,
-            R.id.ads_by_limit_buy_iv, R.id.ticket_buy_ads_iv,
+            R.id.ads_by_limit_buy_iv,R.id.explosiveAreaImg, R.id.ticket_buy_ads_iv,
             R.id.pre_buy_ads_iv, R.id.country_ads_iv,
             R.id.auction_ads_iv, R.id.one_buy_ads_iv,
             R.id.car_ads_iv, R.id.house_ads_iv
@@ -691,6 +714,9 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
                 forShowAds(right_desc, right_href);
                 break;
             case R.id.ads_by_limit_buy_iv://限量购
+                forShowAds(limit_desc, limit_href);
+                break;
+            case R.id.explosiveAreaImg://爆款专区
                 forShowAds(limit_desc, limit_href);
                 break;
             case R.id.ticket_buy_ads_iv:// 票券区
@@ -776,6 +802,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
 
         groupList = new ArrayList<>();
         limit = new ArrayList<>();
+        explosiveList = new ArrayList<>();
         ticket = new ArrayList<>();
         per = new ArrayList<>();
         countryList = new ArrayList<>();
@@ -859,6 +886,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
                 if (localShowAsd || dataASD.get("activity_status").equals("1")) { // 如果活动页开启，则显示相应广告
                     under_banner_menu_vp.setVisibility(View.VISIBLE);
 //                    limitBuy_llayout.setVisibility(View.VISIBLE);
+                    explosiveAreaLayout.setVisibility(View.VISIBLE);
                     groupBuy_llayout.setVisibility(View.VISIBLE);
 //                    ticketBuy_llayout.setVisibility(View.VISIBLE);
 //                    pre_llayout.setVisibility(View.VISIBLE);
@@ -870,6 +898,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
                 } else {
                     under_banner_menu_vp.setVisibility(View.GONE);
                     limitBuy_llayout.setVisibility(View.GONE);
+                    explosiveAreaLayout.setVisibility(View.GONE);
                     groupBuy_llayout.setVisibility(View.GONE);
                     ticketBuy_llayout.setVisibility(View.GONE);
                     pre_llayout.setVisibility(View.GONE);
@@ -938,6 +967,8 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
             threeAdsInfo(data);
             // 限量购
             forLimit(data);
+            // 爆款专区
+            forExplosiveArea(data);
             // 票券区
             forTicket(data);
             // 无界预购
@@ -1321,6 +1352,50 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
                         bundle.putString("ticket_buy_id", limit_ads.get("goods_id"));
                         bundle.putInt("from", 1);
                         startActivity(TicketGoodsDetialsAty.class, bundle);
+                    } else {
+                        forShowAds(limit_desc, limit_href);
+                    }
+
+                }
+            });
+            limit_href = limit_ads.get("href");
+            limit_desc = limit_ads.get("desc");
+        }
+    }
+
+    /**
+     * 爆款专区
+     *
+     * @param data 数据
+     */
+    private void forExplosiveArea(Map<String, String> data) {
+        Map<String, String> hot_goods = JSONUtils.parseKeyAndValueToMap(data.get("hot_goods"));
+        final Map<String, String> limit_ads = JSONUtils.parseKeyAndValueToMap(hot_goods.get("ads"));
+        if (ToolKit.isList(hot_goods, "goodsList")) {
+            explosiveList = GsonUtil.getObjectList(hot_goods.get("goodsList"), AllGoodsBean.class);
+            AllGvLvAdapter allGvLvAdapter = new AllGvLvAdapter(getActivity(), explosiveList, 9);
+            explosiveAreaGv.setAdapter(allGvLvAdapter);
+        }
+        if (limit_ads != null) {
+            Glide.with(getActivity()).load(limit_ads.get("picture"))
+                    .override(ads_w, ads_h)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .error(R.mipmap.icon_200)
+                    .placeholder(R.mipmap.icon_200)
+                    .centerCrop()
+                    .into(explosiveAreaImg);
+            explosiveAreaImg.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (!TextUtils.isEmpty(limit_ads.get("merchant_id")) && !limit_ads.get("merchant_id").equals("0")) {
+                        Bundle bundle = new Bundle();
+                        bundle.putString("mell_id", limit_ads.get("merchant_id"));
+                        startActivity(MellInfoAty.class, bundle);
+                    } else if (!TextUtils.isEmpty(limit_ads.get("goods_id")) && !limit_ads.get("goods_id").equals("0")) {
+                        Bundle bundle = new Bundle();
+                        bundle.putString("ticket_buy_id", limit_ads.get("goods_id"));
+                        bundle.putInt("from", 1);
+                        startActivity(ExplosiveAreaGoodsDetialsAty.class, bundle);
                     } else {
                         forShowAds(limit_desc, limit_href);
                     }

@@ -1,6 +1,8 @@
 package com.txd.hzj.wjlp.mellonLine.fgt;
 
+import android.content.Context;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.NestedScrollView;
@@ -27,6 +29,7 @@ import com.ants.theantsgo.view.inScroll.GridViewForScrollView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout;
+import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseFgt;
@@ -34,7 +37,6 @@ import com.txd.hzj.wjlp.bean.CFGoodsList;
 import com.txd.hzj.wjlp.bean.TwoCateListBean;
 import com.txd.hzj.wjlp.http.goods.GoodsPst;
 import com.txd.hzj.wjlp.mainfgt.adapter.HorizontalAdapter;
-import com.txd.hzj.wjlp.mainfgt.adapter.RacycleAllAdapter;
 import com.txd.hzj.wjlp.mainfgt.adapter.TicketZoonAdapter;
 import com.txd.hzj.wjlp.mainfgt.adapter.ViewPagerAdapter;
 import com.txd.hzj.wjlp.mellonLine.SubclassificationAty;
@@ -59,7 +61,7 @@ public class ExplosiveClassifyFgt extends BaseFgt {
     @ViewInject(R.id.classify_goods_rv)
     private RecyclerView classify_goods_rv;
 
-    private RacycleAllAdapter racycleAllAdapter;
+    private ExplosiveAdapter mExplosiveAdapter;
 
     private List<CFGoodsList> goodsLists;
 
@@ -294,11 +296,11 @@ public class ExplosiveClassifyFgt extends BaseFgt {
 
                     if (ToolKit.isList(data, "list")) {
                         goodsLists = GsonUtil.getObjectList(data.get("list"), CFGoodsList.class);
-                        racycleAllAdapter = new RacycleAllAdapter(getActivity(), goodsLists);
+                        mExplosiveAdapter = new ExplosiveAdapter(getActivity(), goodsLists);
 
-                        classify_goods_rv.setAdapter(racycleAllAdapter);
+                        classify_goods_rv.setAdapter(mExplosiveAdapter);
                         classify_goods_rv.setLayoutManager(new GridLayoutManager(getActivity(), 2));
-                        racycleAllAdapter.setListener(new HorizontalAdapter.OnItemClickLitener() {
+                        mExplosiveAdapter.setListener(new HorizontalAdapter.OnItemClickLitener() {
                             @Override
                             public void onItemClick(View view, int position) {
                                 bundle = new Bundle();
@@ -319,7 +321,7 @@ public class ExplosiveClassifyFgt extends BaseFgt {
 
                     if (ToolKit.isList(data, "list")) {
                         goodsLists.addAll(GsonUtil.getObjectList(data.get("list"), CFGoodsList.class));
-                        racycleAllAdapter.notifyDataSetChanged();
+                        mExplosiveAdapter.notifyDataSetChanged();
                     }
 
                     footerImageView.setVisibility(View.VISIBLE);
@@ -419,5 +421,126 @@ public class ExplosiveClassifyFgt extends BaseFgt {
         imageView.setImageResource(R.drawable.down_arrow);
         progressBar.setVisibility(View.GONE);
         return headerView;
+    }
+
+    public static class ExplosiveAdapter extends RecyclerView.Adapter<ExplosiveAdapter.ItemView> {
+        private Context context;
+        private List<CFGoodsList> list;
+        private LayoutInflater inflater;
+
+        private int logo_size1 ;
+        private int logo_size2 ;
+        private int imgWidth;
+        public ExplosiveAdapter(Context context, List<CFGoodsList> list) {
+            this.context = context;
+            this.list = list;
+            this.inflater = LayoutInflater.from(context);
+            logo_size1 = ToolKit.dip2px(context, 36);
+            logo_size2 = ToolKit.dip2px(context, 23);
+            imgWidth=(ToolKit.getScreenWidth(context) - 10) / 2;
+        }
+
+
+        @Override
+        public ItemView onCreateViewHolder(ViewGroup parent, int viewType) {
+
+            View view;
+            view = inflater.inflate(R.layout.explosive_item, parent, false);
+            ExplosiveAdapter.ItemView itemView = new ExplosiveAdapter.ItemView(view);
+            ViewUtils.inject(itemView, view);
+            return itemView;
+        }
+
+        @Override
+        public void onBindViewHolder(final ExplosiveAdapter.ItemView holder, int position) {
+            final CFGoodsList cfGoodsList = list.get(position);
+            if (itemClickLitener != null) {
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        int pos = holder.getLayoutPosition();
+                        itemClickLitener.onItemClick(holder.itemView, pos);
+                    }
+                });
+            }
+
+            Glide.with(context).load(cfGoodsList.getCountry_logo())
+                    .centerCrop()
+                    .override(logo_size1, logo_size2)
+                    .placeholder(R.drawable.ic_default)
+                    .dontAnimate()
+                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                    .into(holder.goods_icon);
+
+            Glide.with(context).load(cfGoodsList.getGoods_img())
+                    .override(imgWidth,imgWidth)
+                    .centerCrop().placeholder(R.drawable.ic_default)
+                    .diskCacheStrategy(DiskCacheStrategy.RESULT)
+                    .error(R.drawable.ic_default)
+                    .into(holder.goods_img);
+
+            holder.goods_name_tv.setText(cfGoodsList.getGoods_name());
+            holder.goods_price_info_tv.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+            holder.goods_price_info_tv.setText("¥"+cfGoodsList.getMarket_price());
+            holder.num_tv.setText(" 已售"+cfGoodsList.getSell_num()+"件");
+            holder.goods_price_tv.setText("爆款价 ¥"+cfGoodsList.getShop_price());
+
+        }
+
+        @Override
+        public int getItemCount() {
+            return  list.size()>0?list.size():0;
+        }
+
+        @Override
+        public int getItemViewType(int position) {
+            return position;
+        }
+
+        class ItemView extends RecyclerView.ViewHolder {
+
+            @ViewInject(R.id.goods_name_tv)
+            private TextView goods_name_tv;
+
+            @ViewInject(R.id.goods_price_info_tv)
+            private TextView goods_price_info_tv;
+
+            @ViewInject(R.id.num_tv)
+            private TextView num_tv;
+
+            @ViewInject(R.id.goods_price_tv)
+            private TextView goods_price_tv;
+
+
+            /**
+             * 国旗
+             */
+            @ViewInject(R.id.goods_icon)
+            private ImageView goods_icon;
+
+            /**
+             * 商品图片
+             */
+            @ViewInject(R.id.goods_img)
+            private ImageView goods_img;
+
+
+            ItemView(View itemView) {
+                super(itemView);
+            }
+        }
+
+        private HorizontalAdapter.OnItemClickLitener itemClickLitener;
+
+        public void setListener(HorizontalAdapter.OnItemClickLitener itemClickLitener) {
+            this.itemClickLitener = itemClickLitener;
+        }
+
+
+        @Override
+        public void onViewRecycled(ItemView holder) {
+            super.onViewRecycled(holder);
+            Glide.clear(holder.goods_img);
+        }
     }
 }
