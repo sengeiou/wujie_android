@@ -25,6 +25,7 @@
             android:layout_height="150dp"
             android:layout_marginTop="5dp"
             android:scaleType="fitCenter"
+            android:layout_marginStart="4dp"
             tools:src="@drawable/icon_temp_goods_banner" />
     </LinearLayout>
 
