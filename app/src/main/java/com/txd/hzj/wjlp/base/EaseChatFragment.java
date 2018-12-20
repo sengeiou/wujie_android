@@ -2,7 +2,6 @@ package com.txd.hzj.wjlp.base;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.ActivityNotFoundException;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
@@ -12,7 +11,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
-import android.support.v4.content.FileProvider;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
 import android.view.Gravity;
@@ -63,15 +61,11 @@ import com.hyphenate.easeui.widget.EaseVoiceRecorderView;
 import com.hyphenate.easeui.widget.EaseVoiceRecorderView.EaseVoiceRecorderCallback;
 import com.hyphenate.easeui.widget.chatrow.EaseCustomChatRowProvider;
 import com.hyphenate.util.EMLog;
-import com.hyphenate.util.PathUtil;
 import com.lzy.imagepicker.ImagePicker;
 import com.lzy.imagepicker.bean.ImageItem;
 import com.lzy.imagepicker.ui.ImageGridActivity;
 import com.txd.hzj.wjlp.DemoApplication;
 import com.txd.hzj.wjlp.distribution.model.ExhibitModel;
-import com.txd.hzj.wjlp.http.index.IndexPst;
-import com.txd.hzj.wjlp.huanxin.ui.ChatActivity;
-import com.txd.hzj.wjlp.webviewH5.WebViewAty;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -331,9 +325,9 @@ public class EaseChatFragment extends EaseBaseFragment implements ChatListener {
 
             @Override
             public void onUserAvatarClick(String username) {
-                if (chatFragmentHelper != null) {
-                    chatFragmentHelper.onAvatarClick(username);
-                }
+//                if (chatFragmentHelper != null) {
+//                    chatFragmentHelper.onAvatarClick(username);
+//                }
             }
 
             @Override
