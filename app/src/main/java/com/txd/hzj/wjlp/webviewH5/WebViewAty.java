@@ -7,6 +7,7 @@ import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.KeyEvent;
 import android.view.View;
@@ -262,17 +263,19 @@ public class WebViewAty extends BaseAty {
             if (order_sn.isEmpty()) {
                 return;
             }
-            String urlStr = Config.OFFICIAL_WEB;
-            if (urlStr.contains("api")) { // 正式版的情况下将api替换为www
-                urlStr = urlStr.replace("api", "www");
+            String jump_url = data.has("jump_url") ? data.getString("jump_url") : "";
+            if (!TextUtils.isEmpty(jump_url) && "20".equals(type)){
+                url = Config.SHARE_URL+jump_url;
+            }else {
+                //          http://www.wujiemall.com/Wap/Pay/pay_back/order/153232656966415.html
+                StringBuffer stringBuffer = new StringBuffer();
+                stringBuffer.append(Config.SHARE_URL);
+                stringBuffer.append("Wap/Pay/pay_back/order/");
+                stringBuffer.append(order_sn);
+                stringBuffer.append(".html");
+                url = stringBuffer.toString();
             }
-//          http://www.wujiemall.com/Wap/Pay/pay_back/order/153232656966415.html
-            StringBuffer stringBuffer = new StringBuffer();
-            stringBuffer.append(urlStr);
-            stringBuffer.append("Wap/Pay/pay_back/order/");
-            stringBuffer.append(order_sn);
-            stringBuffer.append(".html");
-            url = stringBuffer.toString();
+
             initWebView();
         } catch (JSONException e) {
         }
