@@ -63,6 +63,7 @@ import com.txd.hzj.wjlp.bean.commodity.GoodsInfoBean;
 import com.txd.hzj.wjlp.bean.commodity.GoodsPriceDescBean;
 import com.txd.hzj.wjlp.bean.commodity.GoodsServerBean;
 import com.txd.hzj.wjlp.bean.commodity.GroupBean;
+import com.txd.hzj.wjlp.bean.commodity.GroupRankBean;
 import com.txd.hzj.wjlp.bean.commodity.MInfoBean;
 import com.txd.hzj.wjlp.bean.commodity.PicturesBean;
 import com.txd.hzj.wjlp.bean.commodity.PromotionBean;
@@ -72,6 +73,7 @@ import com.txd.hzj.wjlp.http.groupbuy.GroupBuyPst;
 import com.txd.hzj.wjlp.mainfgt.adapter.AllGvLvAdapter;
 import com.txd.hzj.wjlp.mellonLine.adapter.GoodLuckAdapter;
 import com.txd.hzj.wjlp.mellonLine.adapter.GoodsCommentAttrAdapter;
+import com.txd.hzj.wjlp.mellonLine.adapter.LuckAdapter;
 import com.txd.hzj.wjlp.mellonLine.adapter.PostAdapter;
 import com.txd.hzj.wjlp.mellonLine.adapter.PromotionAdapter;
 import com.txd.hzj.wjlp.mellonLine.adapter.TheTrickAdapter;
@@ -495,6 +497,14 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
     private LinearLayout layout_djq1;
     @ViewInject(R.id.layout_djq2)
     private LinearLayout layout_djq2;
+
+    @ViewInject(R.id.luckLayout) //手气排行榜
+    private LinearLayout luckLayout;
+    @ViewInject(R.id.luckMoreLayout)
+    private RelativeLayout luckMoreLayout;
+    @ViewInject(R.id.lv_ranking)
+    private ListViewForScrollView lv_ranking;
+
     @ViewInject(R.id.tv_djq_color0)
     private TextView tv_djq_color0;
     @ViewInject(R.id.tv_djq_color1)
@@ -648,6 +658,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
     private String title;//体验拼单规则
     //是否参与了拼手气活动
     private boolean isPartPinShouQi = false;
+    private String mGroupBeanId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -709,7 +720,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
             R.id.creat_group_tv, R.id.go_to_main_layouts, R.id.details_into_mell_tv, R.id.to_chat_tv,
             R.id.tv_chose_ads, R.id.all_evaluate_tv,
             R.id.im_service_more, R.id.tv_tab_1, R.id.tv_tab_2, R.id.tv_tab_3, R.id.tv_gwc, R.id.tv_ljgm, R.id.btn_jgsm,
-            R.id.tv_quxiao, R.id.tv_lingquan, R.id.tv_showClassify, R.id.layout_layout_settings, R.id.layout_djq, R.id.tv_expirationdateLayout, R.id.pdMoreLLayout
+            R.id.tv_quxiao, R.id.tv_lingquan, R.id.tv_showClassify, R.id.layout_layout_settings, R.id.layout_djq,R.id.luckMoreLayout, R.id.tv_expirationdateLayout, R.id.pdMoreLLayout
     })
     public void onClick(View v) {
         super.onClick(v);
@@ -857,6 +868,11 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
             case R.id.layout_djq:
                 commodityDetailsPranster.showDjqPop(v, dj_ticket, GoodLuckDetailsAty.this, vouchers_desc);
                 break;
+            case R.id.luckMoreLayout:
+                Bundle bundle2 = new Bundle();
+                bundle2.putString("a_id", mGroupBeanId);
+                startActivity(LuckRakingListAty.class, bundle2);
+                break;
             case R.id.tv_dpg:
                 Bundle bundle1 = new Bundle();
                 bundle1.putString("goods_id", goods_id);
@@ -909,6 +925,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
     protected void initialized() {
         groupBuyPst = new GroupBuyPst(this);
         collectPst = new UserCollectPst(this);
+        a_id = getIntent().getStringExtra("a_id");
         group_buy_id = getIntent().getStringExtra("group_buy_id");
         image = new ArrayList<>();
         posts = new ArrayList<>();
@@ -945,9 +962,6 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
 
     @Override
     protected void requestData() {
-        Intent gIntent = getIntent();
-        a_id = gIntent.getStringExtra("a_id");
-        //        groupBuyPst.groupBuyInfo(group_buy_id, page, a_id);
         ticket_gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -1104,6 +1118,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                         groupList = (List<GroupBean>) dataBean.getGroup();//设置上面的倒计时
                         if (null != groupList && groupList.size() == 1) {
                             GroupBean groupBean = groupList.get(0);
+                            mGroupBeanId = groupBean.getId();
                             if (groupBean.getDiff_num().equals("0") || !groupBean.getIs_member().equals("0")) {
                                 creat_group_tv.setBackgroundColor(Color.parseColor("#9D9D9D"));
                                 isPartPinShouQi = true;
@@ -1211,50 +1226,58 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                     if (Double.parseDouble(goodsInfo.getCountry_tax()) <= 0) {
                         layou_jinkoushui.setVisibility(View.GONE);
                     }
-                    if (null != goodsInfo.getDj_ticket() && goodsInfo.getDj_ticket().size() > 0) {
-                        dj_ticket = (ArrayList<DjTicketBean>) goodsInfo.getDj_ticket();
-                        for (int i = 0; i < dj_ticket.size(); i++) {
-                            if (i == 2) {
-                                break;
-                            }
-                            switch (i) {
-                                case 0: {
-                                    layout_djq0.setVisibility(View.VISIBLE);
-                                    tv_djq_desc0.setText(dj_ticket.get(i).getDiscount_desc());
-                                    break;
-                                }
-                                case 1: {
-                                    layout_djq1.setVisibility(View.VISIBLE);
-                                    tv_djq_desc1.setText(dj_ticket.get(i).getDiscount_desc());
-                                    break;
-                                }
-                                case 2: {
-                                    layout_djq2.setVisibility(View.GONE);
-                                    tv_djq_desc2.setText(dj_ticket.get(i).getDiscount_desc());
-                                    break;
-                                }
-                            }
-
-                            switch (dj_ticket.get(i).getType()) {
-                                case "0": {
-                                    //  tv_djq_color0.setBackgroundColor(Color.parseColor("#FF534C"));
-                                    tv_djq_color0.setBackgroundResource(R.drawable.shape_red_bg);
-                                }
-                                break;
-                                case "1": {
-                                    tv_djq_color1.setBackgroundResource(R.drawable.shape_yellow_bg);
-                                }
-                                break;
-                                case "2": {
-                                    tv_djq_color2.setBackgroundResource(R.drawable.shape_blue_bg);
-                                }
-
-                                break;
-                            }
-
-                        }
-                    } else {
+                    if ("1".equals(groupType)){
                         layout_djq.setVisibility(View.GONE);
+                        luckLayout.setVisibility(View.VISIBLE);
+                        GroupRankBean groupRankBean = dataBean.getGroup_rank();
+                        List<GroupRankBean.RankBean> rank = groupRankBean.getRank_list();
+                        lv_ranking.setAdapter(new LuckAdapter(rank,GoodLuckDetailsAty.this));
+                    }else {
+                        if (null != goodsInfo.getDj_ticket() && goodsInfo.getDj_ticket().size() > 0) {
+                            dj_ticket = (ArrayList<DjTicketBean>) goodsInfo.getDj_ticket();
+                            for (int i = 0; i < dj_ticket.size(); i++) {
+                                if (i == 2) {
+                                    break;
+                                }
+                                switch (i) {
+                                    case 0: {
+                                        layout_djq0.setVisibility(View.VISIBLE);
+                                        tv_djq_desc0.setText(dj_ticket.get(i).getDiscount_desc());
+                                        break;
+                                    }
+                                    case 1: {
+                                        layout_djq1.setVisibility(View.VISIBLE);
+                                        tv_djq_desc1.setText(dj_ticket.get(i).getDiscount_desc());
+                                        break;
+                                    }
+                                    case 2: {
+                                        layout_djq2.setVisibility(View.GONE);
+                                        tv_djq_desc2.setText(dj_ticket.get(i).getDiscount_desc());
+                                        break;
+                                    }
+                                }
+
+                                switch (dj_ticket.get(i).getType()) {
+                                    case "0": {
+                                        //  tv_djq_color0.setBackgroundColor(Color.parseColor("#FF534C"));
+                                        tv_djq_color0.setBackgroundResource(R.drawable.shape_red_bg);
+                                    }
+                                    break;
+                                    case "1": {
+                                        tv_djq_color1.setBackgroundResource(R.drawable.shape_yellow_bg);
+                                    }
+                                    break;
+                                    case "2": {
+                                        tv_djq_color2.setBackgroundResource(R.drawable.shape_blue_bg);
+                                    }
+
+                                    break;
+                                }
+
+                            }
+                        } else {
+                            layout_djq.setVisibility(View.GONE);
+                        }
                     }
                     lv_qkk.setVisibility(View.GONE);
 

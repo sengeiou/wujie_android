@@ -1,7 +1,5 @@
 package com.txd.hzj.wjlp.bean.commodity;
 
-import com.txd.hzj.wjlp.tool.proUrbArea.ProUrbAreaUtil;
-
 import java.io.Serializable;
 import java.util.List;
 
@@ -49,6 +47,17 @@ public class DataBean implements Serializable {
     private String group_type;//类型 1试用品拼单 2常规拼单",
 
     private String group_count;// //拼单中数大于10  弹窗最下面的字显示
+
+    private GroupRankBean group_rank; //手气值排行榜
+
+
+    public GroupRankBean getGroup_rank() {
+        return group_rank;
+    }
+
+    public void setGroup_rank(GroupRankBean group_rank) {
+        this.group_rank = group_rank;
+    }
 
     public String getGroup_type() {
         return group_type;

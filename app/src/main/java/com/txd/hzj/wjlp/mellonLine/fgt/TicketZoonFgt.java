@@ -209,6 +209,7 @@ public class TicketZoonFgt extends BaseFgt implements NestedScrollView.OnScrollC
                         startActivity(TicketGoodsDetialsAty.class, bundle);
                         break;
                     case WJConfig.PTG:
+                        bundle.putString("a_id",data.get(i).getA_id());
                         bundle.putString("group_buy_id", data.get(i).getGroup_buy_id());
                         startActivity(GoodLuckDetailsAty.class, bundle);
                         break;
