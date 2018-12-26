@@ -235,6 +235,7 @@ public class NoticeDetailsAty extends BaseAty {
             details_webview.getSettings().setDomStorageEnabled(true); // 开启DOM缓存
             details_webview.getSettings().setDatabaseEnabled(true); // 开启（LocalStorage）数据存储
             details_webview.getSettings().setDatabasePath(this.getCacheDir().getAbsolutePath()); // 设置数据缓存路径
+            details_webview.getSettings().setMediaPlaybackRequiresUserGesture(false);
 
             // WebView加载web资源
             //            if (6 == from) {
@@ -348,6 +349,7 @@ public class NoticeDetailsAty extends BaseAty {
             super.onBackPressed();
         }
     }
+
 
     @Override
     protected void requestData() {
@@ -607,10 +609,31 @@ public class NoticeDetailsAty extends BaseAty {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        if (details_webview != null){
+            details_webview.onResume();
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (details_webview != null){
+            details_webview.onPause();
+        }
+    }
+
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         if (null != wxPayReceiver) {
             unregisterReceiver(wxPayReceiver);
+        }
+
+        if (details_webview != null){
+            details_webview.destroy();
         }
         //        url = Config.OFFICIAL_WEB;
         //        if (url.contains("api")){
