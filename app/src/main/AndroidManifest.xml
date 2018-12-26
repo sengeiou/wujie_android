@@ -998,6 +998,7 @@
         <activity android:name=".bluetoothPrint.SearchBluetoothAty" />
         <activity android:name=".mellonLine.gridClassify.ExplosiveAreaAty" />
         <activity android:name=".mellonLine.gridClassify.ExplosiveAreaGoodsDetialsAty" />
+        <activity android:name=".mellonLine.gridClassify.LuckRakingListAty" />
     </application>
 
 </manifest>

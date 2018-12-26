@@ -14,7 +14,6 @@ import com.hyphenate.EMMessageListener;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMCmdMessageBody;
 import com.hyphenate.chat.EMMessage;
-import com.hyphenate.chat.EMMessageBody;
 import com.hyphenate.easeui.EaseUI;
 import com.hyphenate.easeui.model.EaseNotifier;
 import com.hyphenate.util.EMLog;
