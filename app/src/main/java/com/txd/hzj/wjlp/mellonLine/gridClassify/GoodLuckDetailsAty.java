@@ -764,9 +764,9 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
             case R.id.goods_title_share_tv://分享
                 //                toShare("无界优品", share_img, share_url, share_content, goods_id, "1");
                 if("1".equals(groupType)){
-                    toShare(goods_name, share_img, "1", share_content, group_buy_id, "10");
+                    toShare(goods_name, share_img, "1", share_content, goods_id, "10");
                 }else if ("2".equals(groupType)){
-                    toShare(goods_name, share_img, "1", share_content, group_buy_id, "9");
+                    toShare(goods_name, share_img, "1", share_content, goods_id, "9");
                 }
 
                 break;
