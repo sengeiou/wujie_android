@@ -596,7 +596,7 @@ public class PayForAppAty extends BaseAty {
             } else {
                 if (!mType.equals("10")) {
                     double d = 0;
-                    if (data.containsKey("ticket_price")) {
+                    if (mType.equals(WJConfig.TYPE_SJJZQ) && data.containsKey("ticket_price")) {
                         d = Double.parseDouble(data.get("ticket_price"));
                     }
                     String format = decimalFormat.format(total_price - d);
