@@ -89,6 +89,7 @@ import org.json.JSONObject;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -791,6 +792,10 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
             Map<String, Object> map = GsonUtil.GsonToMaps(jsonStr);
             userCenterCode = Integer.parseInt(String.valueOf(map.get("code")));
             Map<String, String> data = (Map<String, String>) map.get("data");
+            Map<String, String> userInfo = new HashMap<>();
+            userInfo.put("nickname",data.get("nickname"));
+            userInfo.put("head_pic",data.get("head_pic"));
+            application.setUserInfo(userInfo);
             if (data.containsKey("complete_status")) { // 如果存在指定key
                 if (data.get("complete_status").equals("1")) { // 如果可以转蓝色代金券
                     // 修改跳转过去的字段属性
