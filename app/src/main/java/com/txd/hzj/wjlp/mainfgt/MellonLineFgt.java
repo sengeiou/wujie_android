@@ -259,7 +259,6 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
     private String right_desc = ""; // 右侧图片地址
     private String right_href = ""; // 右侧连接地址
 
-
     /**
      * 广告高度
      */

@@ -30,6 +30,7 @@ import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.http.message.UserMessagePst;
 import com.txd.hzj.wjlp.mellonLine.adapter.HXAdapter;
+import com.txd.hzj.wjlp.webviewH5.WebViewAty;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -216,9 +217,10 @@ public class MessageAty extends BaseAty {
             case R.id.shop_message_layout:// 店铺消息
                 Bundle bundle=new Bundle();
                 bundle.putInt("from",6);
-                bundle.putString("href", Config.SHARE_URL+"/Wap/UserMessage/stage_message/p/1.html");
-                bundle.putString("desc","店铺消息");
-                startActivity(NoticeDetailsAty.class,bundle);
+//                bundle.putString("href", Config.SHARE_URL+"/Wap/UserMessage/stage_message/p/1.html");
+//                bundle.putString("desc","店铺消息");
+                bundle.putString("url",Config.SHARE_URL+"/Wap/UserMessage/stage_message/p/1.html");
+                startActivity(WebViewAty.class,bundle);
                 break;
             case R.id.annou_message_layout:// 公告
                 toMsgListPage(2);

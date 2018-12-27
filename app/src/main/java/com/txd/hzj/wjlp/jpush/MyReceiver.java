@@ -128,11 +128,11 @@ public class MyReceiver extends BroadcastReceiver implements BaseView {
                 JSONObject extrasJson = new JSONObject(extras);
                 String moduleStr = extrasJson.has("module") ? extrasJson.getString("module") : "";
                 if ("stage_order_hand".equals(moduleStr) || "stage_order_auto".equals(moduleStr)) {
-                    printfDataJsonobj = extrasJson.has("data") ? extrasJson.getJSONObject("data") : null;
+                    printfDataJsonobj = extrasJson.has("data_print") ? extrasJson.getJSONObject("data_print") : null;
                     if ("stage_order_hand".equals(moduleStr)) { // 手动打印 要走接口回调
-                        OfflineStore.order_print(printfDataJsonobj.getString("order_sn"), printfDataJsonobj.getString("merchant_id"), this);
-                    } else if ("stage_order_auto".equals(moduleStr)) { // 自动打印
                         printfBluetooth();
+                    } else if ("stage_order_auto".equals(moduleStr)) { // 自动打印
+                        OfflineStore.order_print(printfDataJsonobj.getString("order_sn"), printfDataJsonobj.getString("merchant_id"), this);
                     }
                 }
             } catch (JSONException e) {
@@ -212,7 +212,10 @@ public class MyReceiver extends BroadcastReceiver implements BaseView {
                 // 判断是否播放语音
                 String sound = extraJson.has("sound") ? extraJson.getString("sound") : "0";
                 if (sound.equals("1")) {
-                    BaiDuTtsSoundUtil.getInstance(context).speak(title, "4"); // 调用百度语音合成进行语音播放
+                    BaiDuTtsSoundUtil.getInstance(context).speak(title, "1"); // 普通女声
+//                    BaiDuTtsSoundUtil.getInstance(context).speak(title, "2"); // 普通男声
+//                    BaiDuTtsSoundUtil.getInstance(context).speak(title, "3"); // 情感男声<度逍遥>
+//                    BaiDuTtsSoundUtil.getInstance(context).speak(title, "4"); // 情感儿童声<度丫丫>
                 }
 
             } catch (JSONException e) {
