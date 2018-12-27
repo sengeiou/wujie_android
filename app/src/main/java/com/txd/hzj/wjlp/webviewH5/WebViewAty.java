@@ -239,7 +239,7 @@ public class WebViewAty extends BaseAty {
             } else {
                 showToast("支付失败");
             }
-            Pay.findPayResult(order_id, "11", WebViewAty.this);
+            Pay.findPayResult(order_id, type, WebViewAty.this);
         }
     }
 
@@ -251,12 +251,9 @@ public class WebViewAty extends BaseAty {
         try {
             JSONObject data = jsonObject.has("data") ? jsonObject.getJSONObject("data") : null;
             String order_sn = data.has("order_sn") ? data.getString("order_sn") : "";
-            if (order_sn.isEmpty()) {
-                return;
-            }
             String jump_url = data.has("jump_url") ? data.getString("jump_url") : "";
             if (!TextUtils.isEmpty(jump_url) && "20".equals(type)){
-                url = Config.SHARE_URL+jump_url;
+                url = jump_url;
             }else {
                 //          http://www.wujiemall.com/Wap/Pay/pay_back/order/153232656966415.html
                 StringBuffer stringBuffer = new StringBuffer();
