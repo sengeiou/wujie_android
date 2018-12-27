@@ -494,6 +494,7 @@ public class WebViewAty extends BaseAty {
         /**
          * 拨打电话
          */
+        @JavascriptInterface
         public void callPhone(String phone){
             call(phone);
         }
