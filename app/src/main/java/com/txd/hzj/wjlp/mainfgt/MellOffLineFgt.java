@@ -276,9 +276,7 @@ public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.Scro
                         }
                         stringBuffer.append(".html");
 
-                        //            bundle.putString("desc", ""); // 传过去没什么用
-                        bundle.putString("url", stringBuffer.toString()); // url
-                        //            bundle.putInt("from", 2);
+                        bundle.putString("url", stringBuffer.toString());
                         startActivity(WebViewAty.class, bundle);
                     } else {
                         bundle.putSerializable("mellInfo", offLineDataBean);
@@ -738,9 +736,8 @@ public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.Scro
             }
             stringBuffer.append(".html");
 
-//            bundle.putString("desc", ""); // 传过去没什么用
             bundle.putString("url", stringBuffer.toString()); // url
-//            bundle.putInt("from", 2);
+            bundle.putBoolean("isShowTitle",true);
             startActivity(WebViewAty.class, bundle);
         } else {
             bundle.putSerializable("mellInfo", offLineDataBean);

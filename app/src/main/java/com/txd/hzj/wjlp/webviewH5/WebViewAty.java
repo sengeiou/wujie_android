@@ -30,7 +30,6 @@ import com.ants.theantsgo.util.L;
 import com.ants.theantsgo.util.PreferencesUtils;
 import com.bumptech.glide.Glide;
 import com.lidroid.xutils.view.annotation.ViewInject;
-import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.lzy.imagepicker.ImagePicker;
 import com.lzy.imagepicker.bean.ImageItem;
 import com.lzy.imagepicker.ui.ImageGridActivity;
@@ -102,6 +101,9 @@ public class WebViewAty extends BaseAty {
             }
         }
 
+        boolean isShowTitle = intent.getBooleanExtra("isShowTitle", false);
+        webView_title_layout.setVisibility(isShowTitle?View.VISIBLE:View.GONE);
+
         wxPayReceiver = new WxPayReceiver();
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction("wjyp.wxPay");
@@ -170,17 +172,6 @@ public class WebViewAty extends BaseAty {
 
     @Override
     protected void requestData() {
-    }
-
-    @OnClick({R.id.webView_title_layout})
-    @Override
-    public void onClick(View v) {
-        super.onClick(v);
-        switch (v.getId()) {
-            case R.id.title_be_back_iv:
-                this.finish();
-                break;
-        }
     }
 
 
