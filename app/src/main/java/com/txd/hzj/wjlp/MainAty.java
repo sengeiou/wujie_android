@@ -2,7 +2,6 @@ package com.txd.hzj.wjlp;
 
 import android.Manifest;
 import android.app.AlertDialog;
-import android.app.Notification;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -86,9 +85,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import cn.jpush.android.api.BasicPushNotificationBuilder;
-import cn.jpush.android.api.DefaultPushNotificationBuilder;
-import cn.jpush.android.api.JPushInterface;
 import io.reactivex.annotations.NonNull;
 
 /**
@@ -161,6 +157,7 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
     private String auto_update_status; // 是否开启强制更新 0强制更新 1可以不更新
 
     private Bundle savedInstanceState;
+    private Toast mToast;
 
     @Override
     public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
@@ -458,9 +455,9 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
                 AppManager.getInstance().killAllActivity();
             } else {
                 firstTime = System.currentTimeMillis();
-                Toast toast = Toast.makeText(MainAty.this, "再按一次返回桌面", Toast.LENGTH_SHORT);
-                toast.setGravity(Gravity.CENTER,0,0);
-                toast.show();
+                mToast = Toast.makeText(MainAty.this, "再按一次返回桌面", Toast.LENGTH_SHORT);
+                mToast.setGravity(Gravity.CENTER,0,0);
+                mToast.show();
             }
         }
     }
@@ -903,6 +900,10 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
             isExceptionDialogShow = false;
         }
         unregisterBroadcastReceiver();
+        if (mToast != null){
+            mToast.cancel();
+            mToast = null;
+        }
 //        PreferencesUtils.putBoolean(getApplicationContext(), Config.IS_CHECK_UPDATE, false);//退出时候将是否检查过更新制成false
     }
 
