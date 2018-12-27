@@ -1543,7 +1543,7 @@ public class ExplosiveAreaGoodsDetialsAty extends BaseAty implements ObservableS
         }
         commonPopupWindow = new CommonPopupWindow.Builder(this)
                 .setView(R.layout.popup_layout)
-                .setWidthAndHeight(ViewGroup.LayoutParams.MATCH_PARENT, Settings.displayHeight / 2)
+                .setWidthAndHeight(ViewGroup.LayoutParams.MATCH_PARENT, Settings.displayHeight / 4)
                 .setBackGroundLevel(0.7f)
                 .setViewOnclickListener(new CommonPopupWindow.ViewInterface() {
                     @Override
