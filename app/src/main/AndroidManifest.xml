@@ -110,18 +110,6 @@
         <!--android:theme="@style/styleSplashImage"-->
         <!--tools:replace="icon,label,theme,allowBackup"-->
 
-        <!--阿里云热修复-->
-        <meta-data
-            android:name="com.taobao.android.hotfix.IDSECRET"
-            android:value="25088935" />
-        <meta-data
-            android:name="com.taobao.android.hotfix.APPSECRET"
-            android:value="ff0ba644745ea49ac73239e777d2049e" />
-        <meta-data
-            android:name="com.taobao.android.hotfix.RSASECRET"
-            android:value="MIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCWYlsn31V5T3VLNQokp7SXDFjC5QKhToZGmRzxSI2giEJl3mJ7GFD9BHyhrFoVoT1K/2eL0kqhOw2L5Wltwo3NvGkqSzU3MOxx7PLp/oqnT/QDEzxuHWoZNa7rZ3ZD0LZmAV+ipnEI/TueS73R1tcfcWS7fJc3adqUmBjoX/TKaq08JbbGcd+RmAVRA/C2zDnplxnUVnV85w39RoppCIdYFmbLqomWGr0Fjxye5Z2tjdfvtZucIay+P11skXEMtHZE5IHjcMa0a18aWMzJf6Ixj1uL9mkFR6gVcX92dUPtrcnpmymWt0WPRNEJbP0dnlYcKJcMAinAFyY8nm0vBDClAgMBAAECggEBAIFhnYtwWdlEw2Uw/MkMgBJ0TOlgniKprFyQ3pW4FiFHGdkKuy+sfAEzGwb9gYOadWFQ24UwJ4UPiVgSx+HmwJmAv/njOqWBMevSMCuhEylfYFBE/HjAVcfap+Nf4B/4MPURuXX2PMm/FMvb3jPq4qnqpP+o8XB7YdL2CHfkFncOfo6aQpTu7UkS5lUOgNa2uw/0onV5WNzaR4iI1Gfso6SJb/prYgk2de1zRWK8Doqbu2ANaKOcDLFiW+N3NbDjmPZY2R+vI3l5Nh1D+eNEqJ/GiL7eBNf3G4m31EhJhLpvALoq7NbRnw5LQmK+PsW9yTP2KKiwamXIeJTlJ7+50AECgYEAzM2BidAxBGwkC9Eda4JZ/JiXu6Xws0Vnfhk8Q991prZDi1pIb26tYS+puI7TAqZNGENtcPDn3LA1wRg0crc0Ts8nTnumHuteaL4hxVMIf/5fMoDfTHO0apUoN8NKTj1Wez6lS/NUhRnnw84pAhGDI8WX1PR07fbjXNnHWaeoYpECgYEAu/pMDV15gkP2hRYuMaPGt56n9yAIavE8kFBaDac1QjBLEE+NROu/Tk5MmyxAlXohVssLGwutPmnv+r3Btcw7iGU9kQF4aEE4VUcHj0aGxVcBe9VyoIl1E6dtLPdRjDDVJmGJTYDQWJOuoO1jNgRGtzKJXR7+LpvufbPG0bDCTtUCgYBiT/RzF4GwQck78vJQfY589zM/XPUi2ZpIqgyH+Gkd0jiyWHCVLWgFU0AB3G3mw7YWg6exo7Np+RyUyO3Ec7Wkb0TLJAgmp432ce78LlPSPWWtdLe8l35v+5IG0rSEwmUVXIk04GYeTsU29WwyFf4B2gR8say/3thd5h0QKK9oQQKBgQCOoh2TBppsfaVQ1sO2Zs8iBQDuQyAgBWwvFMlAEuAWmQ5cEgDfiwJeKIt4MtvOkB07/lUu8G1ELp4pZFLX32BM3oUYwkTa1qIoEv1pedpJYvt9Ozj/F03+28u7ku4NsgAKX3gPlu6AR476DSZ6lkQSPgZ84kd8llUgjIkQE09dAQKBgDpu0YPgxQsBWqvSUzsbP9XuJ4kb1kzfbzAbBR0rpGsZT8drLRxhveVQRxK03ioU9PVcDgl6agkWkXVddPaCgH7+wcFNvTZK4iG542QLbQRd2yGIKyi0wqEIEdlLDGTRS2AGQtATV1iO4oFxuCe9isOsIZWxeAyzl3N3XWNXdCM4" />
-        <!--阿里云热修复END-->
-
         <!-- Glide缓存 -->
         <meta-data
             android:name="com.ants.theantsgo.GlideCache"
