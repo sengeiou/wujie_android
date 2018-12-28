@@ -893,7 +893,11 @@ public class OrderDetailsAty extends BaseAty {
                 tgvh.jifenTv.setVisibility(View.GONE);
             } else {
                 tgvh.jifenTv.setVisibility(View.VISIBLE);
-                tgvh.jifenTv.setText("（赠送:" + map.get("return_integral") + "积分）");
+                String jifen = "";
+                if (map.containsKey("return_integral") && Double.parseDouble(map.get("return_integral"))!=0){
+                    jifen = "（赠送:" + map.get("return_integral") + "积分)";
+                }
+                tgvh.jifenTv.setText(jifen);
             }
             tgvh.textviews.setVisibility(View.VISIBLE); // 设置发票名称的控件显示或隐藏
             tgvh.textviews.setText(map.get("invoice_name") + "(发票运费:" + map.get("express_fee") + " 税金:" + map.get("tax_pay") + ")"); // 设置发票名称

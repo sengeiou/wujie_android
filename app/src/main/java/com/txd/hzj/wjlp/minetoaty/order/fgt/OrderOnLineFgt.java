@@ -1160,7 +1160,10 @@ public class OrderOnLineFgt extends BaseFgt {
                     ChangeTextViewStyle.getInstance().forTextColor(getActivity(), goVh.title,
                             goods_attr_str, goods_attr_str.length(), Color.parseColor("#F6B87A"));
                 } else {
-                    String jifen = TextUtils.isEmpty(getItem(i).get("return_integral")) ? "" : "（赠送:" + getItem(i).get("return_integral") + "积分)";
+                    String jifen = "";
+                    if (getItem(i).containsKey("return_integral") && Double.parseDouble(getItem(i).get("return_integral"))!=0){
+                        jifen = "（赠送:" + getItem(i).get("return_integral") + "积分)";
+                    }
                     ChangeTextViewStyle.getInstance().forTextColor(getActivity(), goVh.title,
                             goods_attr_str + jifen, goods_attr_str.length(), Color.parseColor("#F6B87A"));
                 }
