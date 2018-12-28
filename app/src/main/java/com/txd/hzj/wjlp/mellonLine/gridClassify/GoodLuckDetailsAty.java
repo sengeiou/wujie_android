@@ -1178,6 +1178,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                     // 售价
                     now_price_tv.setText(goodsInfo.getShop_price());
                     if ("1".equals(groupType)) {//体验拼单
+                        goods_profit_num_tv.setVisibility(View.GONE);
                         old_price_tv.setText("已参与" + dataBean.getTotal() + "人");
                     } else {
                         old_price_tv.setText("已拼" + dataBean.getTotal() + "件");
@@ -1450,7 +1451,12 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                     }
                     if ("2".equals(groupType)) {
                         // 一键开团
-                        creat_group_tv.setText("送" + goodsInfo.getIntegral() + "积分\n发起拼单");
+                        if (Double.parseDouble(goodsInfo.getIntegral())!=0){
+                            creat_group_tv.setText("发起拼单");
+                        }else {
+                            creat_group_tv.setText("送" + goodsInfo.getIntegral() + "积分\n发起拼单");
+                        }
+
                         creat_group_tv.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
@@ -1851,11 +1857,15 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                 if ("1".equals(groupType)) {
                     creat_group_tv.setText("送" + data.getStringExtra("red_return_integral") + "积分\n手气" + goodsInfo.getShop_price() + "元");
                 } else {
-                    creat_group_tv.setText("送" + data.getStringExtra("red_return_integral") + "积分\n发起拼单");
+                    if (Double.parseDouble(data.getStringExtra("red_return_integral"))!=0){
+                        creat_group_tv.setText("发起拼单");
+                    }else {
+                        creat_group_tv.setText("送" + data.getStringExtra("red_return_integral") + "积分\n发起拼单");
+                    }
+
                 }
                 ChangeTextViewStyle.getInstance().forTextColor(this, goods_profit_num_tv,
                         "积分" + data.getStringExtra("red_return_integral"), 2, getResources().getColor(R.color.red_tv_back));
-                //                ArrayList<Map<String, String>> dj_list = JSONUtils.parseKeyAndValueToMapList(data.getStringExtra("data"));
                 dj_ticket = (ArrayList<DjTicketBean>) data.getSerializableExtra("data");
                 if (dj_ticket != null) {
                     for (int i = 0; i < dj_ticket.size(); i++) {
