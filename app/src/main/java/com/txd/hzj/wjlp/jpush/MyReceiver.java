@@ -212,8 +212,9 @@ public class MyReceiver extends BroadcastReceiver implements BaseView {
                 // 判断是否播放语音
                 String sound = extraJson.has("sound") ? extraJson.getString("sound") : "0";
                 if (sound.equals("1")) {
-                    BaiDuTtsSoundUtil.getInstance(context).speak(title, "1"); // 普通女声
-//                    BaiDuTtsSoundUtil.getInstance(context).speak(title, "2"); // 普通男声
+                    BaiDuTtsSoundUtil.getInstance(context).speak(title, "0"); // 普通女声
+//                    BaiDuTtsSoundUtil.getInstance(context).speak(title, "1"); // 普通男声
+//                    BaiDuTtsSoundUtil.getInstance(context).speak(title, "2"); // 特别男声
 //                    BaiDuTtsSoundUtil.getInstance(context).speak(title, "3"); // 情感男声<度逍遥>
 //                    BaiDuTtsSoundUtil.getInstance(context).speak(title, "4"); // 情感儿童声<度丫丫>
                 }

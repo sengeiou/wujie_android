@@ -1,19 +1,23 @@
 package com.txd.hzj.wjlp.bluetoothPrint;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 
 import com.android.print.sdk.PrinterInstance;
 import com.ants.theantsgo.gson.GsonUtil;
 import com.txd.hzj.wjlp.DemoApplication;
+import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.tool.Util;
 
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
+
+import cn.bingoogolapple.qrcode.zxing.QRCodeEncoder;
+
+import static com.android.print.sdk.util.Utils.bitmap2PrinterBytes;
 
 /**
  * 创建者：voodoo_jie
@@ -25,11 +29,14 @@ public class PrintfUtils {
     private static Context context;
     public static PrinterInstance printer;
     public final static int WIDTH_PIXEL = 384; // 像素长度
+    private static int paperWidth = 48;
 
     static {
         context = DemoApplication.getApplication().getApplicationContext();
         printer = BluetoothUtils.printer;
     }
+
+    private static PrintfBean printfBean;
 
     /**
      * 打印数据
@@ -46,22 +53,22 @@ public class PrintfUtils {
 
                 // 打印时间
                 try {
-                    PrintfDemo printfDemo = GsonUtil.GsonToBean(dataJson.toString(), PrintfDemo.class);
+                    printfBean = GsonUtil.GsonToBean(dataJson.toString(), PrintfBean.class);
 
                     printfLine(); // 打印分割线 --------------------------------
-                    printfText(Util.getCurrentTime("yyyy年MM月dd日 HH:mm") + "_voodoo"); // 打印当前时间
+                    printfText(Util.getCurrentTime("yyyy年MM月dd日 HH:mm")); // 打印当前时间
                     printfLine(); // 打印分割线 --------------------------------
                     // 店铺名称还有已支付或者到付啥的
-                    for (PrintfDemo.Q1Bean q1 : printfDemo.getQ1()) {
+                    for (PrintfBean.Q1Bean q1 : printfBean.getQ1()) {
                         printCenteredAlign(q1.getDesc());
                     }
                     printfLine(); // 打印分割线 --------------------------------
                     // 下单时间以及备注了什么的
-                    for (PrintfDemo.Q2Bean q2 : printfDemo.getQ2()) {
+                    for (PrintfBean.Q2Bean q2 : printfBean.getQ2()) {
                         printfText(q2.getDesc());
                     }
                     printfLineWithContent(" 菜品 "); // 打印分割线 ----------- 菜品 ------------
-                    for (PrintfDemo.GinfoBean ginfoBean : printfDemo.getGinfo()) {
+                    for (PrintfBean.GinfoBean ginfoBean : printfBean.getGinfo()) {
 
                         printfText(ginfoBean.getGoods_name()); // 打印菜品名称
                         printfGinfoNumPrice(Integer.parseInt(ginfoBean.getGoods_num()), Float.valueOf(ginfoBean.getShop_price()));
@@ -70,19 +77,21 @@ public class PrintfUtils {
                     }
                     printfLineWithContent(" 其他费用 "); // 打印分割线 ----------- 其他费用 ------------
                     // 其他费用模块以及优惠
-                    for (PrintfDemo.Q3Bean q3 : printfDemo.getQ3()) {
+                    for (PrintfBean.Q3Bean q3 : printfBean.getQ3()) {
                         printfText(q3.getDesc());
                     }
-                    printfRightAlign(printfDemo.getTotal_price()); // 右对齐的总价格
+                    printfRightAlign(printfBean.getTotal_price()); // 右对齐的总价格
                     printfLine(); // 打印分割线 --------------------------------
 
-                    printfBoldText(printfDemo.getReceiver_address()); // 地址
-                    printfBoldText(printfDemo.getReceiver()); // 电话
-                    printfBoldText(printfDemo.getReceiver_phone()); // 联系人
+                    printfBoldText(printfBean.getReceiver_address()); // 地址
+                    printfBoldText(printfBean.getReceiver()); // 电话
+                    printfBoldText(printfBean.getReceiver_phone()); // 联系人
 
-                    printfLineWithContent(" #" + printfDemo.getNum() + "完 ");
+                    printfQrcode(printfBean.getQr_url()); // 生成和打印二维码
 
-                    printfEnter(3); // 内容打印完成换四行好将单子撕下
+                    // 异步生成二维码，生成成功之后打印二维码和以下两行内容，如果不成功则只打印以下两行的内容
+//                    printfLineWithContent(" #" + printfBean.getNum() + "完 ");
+//                    printfEnter(3); // 内容打印完成换四行好将单子撕下
 
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
@@ -268,6 +277,55 @@ public class PrintfUtils {
      */
     public static byte[] getGbk(String content) throws UnsupportedEncodingException {
         return content.getBytes("GBK");
+    }
+
+    /**
+     * 打印图片（二维码）
+     *
+     * @param bitmap 要打印的Bitmap
+     */
+    public static void printfImage(Bitmap bitmap) {
+        // 计算居中的边距
+        int width = bitmap.getWidth();
+        // 计算出图片在纸上宽度 单位为mm   8指的是1mm=8px
+        float bitmapPaperWidth = width / 8F;
+        // 计算居中的左边距
+        int left = (int) (paperWidth / 2F - bitmapPaperWidth / 2);
+        byte[] bytes = bitmap2PrinterBytes(bitmap, left);
+        printer.sendByteData(bytes);
+    }
+
+    /**
+     * 生成Bitmap图片
+     *
+     * @param contentStr 二维码内容
+     * @return 生成的Bitmap图片
+     */
+    public static void printfQrcode(String contentStr) {
+        QRCodeEncoder.encodeQRCode(contentStr, 200, new QRCodeEncoder.Delegate() {
+            @Override
+            public void onEncodeQRCodeSuccess(Bitmap bitmap) {
+                // 生成成功
+                try {
+                    printfImage(bitmap);
+                    printfLineWithContent(" #" + printfBean.getNum() + "完 .");
+                    printfEnter(3); // 内容打印完成换四行好将单子撕下
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onEncodeQRCodeFailure() {
+                // 生成失败
+                try {
+                    printfLineWithContent(" #" + printfBean.getNum() + "完 .");
+                    printfEnter(3); // 内容打印完成换四行好将单子撕下
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
 }

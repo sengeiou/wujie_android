@@ -7,7 +7,7 @@ import java.util.List;
  * <br>创建时间：2018/09/20 020上午 11:51
  * <br>功能描述：打印小票信息对象
  */
-public class PrintfDemo {
+public class PrintfBean {
 
     /**
      * ginfo : [{"attr_name":"大份","goods_id":"1","goods_name":"大份麻辣鸡块(大份)","goods_num":"1","shop_price":"17.00","specs":null}]
@@ -36,6 +36,7 @@ public class PrintfDemo {
     private String merchant_id; // 店铺id
     private String order_sn; // 订单号
     private String url; // 点击跳转的Url
+    private String qr_url; // 生成二维码字段
 
     public String getMerchant_id() {
         return merchant_id;
@@ -131,6 +132,14 @@ public class PrintfDemo {
 
     public void setQ3(List<Q3Bean> q3) {
         this.q3 = q3;
+    }
+
+    public String getQr_url() {
+        return qr_url;
+    }
+
+    public void setQr_url(String qr_url) {
+        this.qr_url = qr_url;
     }
 
     public static class GinfoBean {
