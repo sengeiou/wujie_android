@@ -49,7 +49,6 @@ import com.txd.hzj.wjlp.mellonLine.NoticeDetailsAty;
 import com.txd.hzj.wjlp.mellonLine.WujieTopHzjAty;
 import com.txd.hzj.wjlp.mellonLine.gridClassify.AuctionGoodsDetailsAty;
 import com.txd.hzj.wjlp.mellonLine.gridClassify.CarDetailseAty;
-import com.txd.hzj.wjlp.mellonLine.gridClassify.ExplosiveAreaAty;
 import com.txd.hzj.wjlp.mellonLine.gridClassify.ExplosiveAreaGoodsDetialsAty;
 import com.txd.hzj.wjlp.mellonLine.gridClassify.GoodLuckDetailsAty;
 import com.txd.hzj.wjlp.mellonLine.gridClassify.GoodsInputHzjAty;
@@ -474,12 +473,12 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
                             startActivity(GoodsInputHzjAty.class, bundle);
                             break;
                         case 6:// 爆款专区
-//                            showToast("开发中，敬请期待");
+                            showToast("开发中，敬请期待");
                             //                            bundle = new Bundle();
                             //                            bundle.putInt("type", 3);
                             //                            bundle.putString("title", "比价购");
                             //                            startActivity(AuctionCollectAty.class, bundle);
-                            startActivity(ExplosiveAreaAty.class,null);
+//                            startActivity(ExplosiveAreaAty.class,null);
                             break;
                         case 7://积分商店
                             bundle = new Bundle();
@@ -885,7 +884,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
                 if (localShowAsd || dataASD.get("activity_status").equals("1")) { // 如果活动页开启，则显示相应广告
                     under_banner_menu_vp.setVisibility(View.VISIBLE);
 //                    limitBuy_llayout.setVisibility(View.VISIBLE);
-                    explosiveAreaLayout.setVisibility(View.VISIBLE);
+//                    explosiveAreaLayout.setVisibility(View.VISIBLE);
                     groupBuy_llayout.setVisibility(View.VISIBLE);
 //                    ticketBuy_llayout.setVisibility(View.VISIBLE);
 //                    pre_llayout.setVisibility(View.VISIBLE);
@@ -967,7 +966,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
             // 限量购
             forLimit(data);
             // 爆款专区
-            forExplosiveArea(data);
+//            forExplosiveArea(data);
             // 票券区
             forTicket(data);
             // 无界预购
