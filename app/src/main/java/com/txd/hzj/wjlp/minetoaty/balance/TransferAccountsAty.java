@@ -32,7 +32,7 @@ import java.util.Map;
  * 描述：转账给用户
  *
  */
-public class TransferAccountsAty extends BaseAty {
+public class TransferAccountsAty extends BaseAty implements View.OnClickListener{
 
     @ViewInject(R.id.titlt_conter_tv)
     public TextView titlt_conter_tv;
@@ -57,6 +57,9 @@ public class TransferAccountsAty extends BaseAty {
     LinearLayout ll;
     @ViewInject(R.id.operation_type_tv21)
     TextView operation_type_tv21;
+    @ViewInject(R.id.change_money_tv)
+    TextView change_money_tv;
+
 
     private BalancePst balancePst;
 
@@ -101,7 +104,16 @@ public class TransferAccountsAty extends BaseAty {
                     break;
                 }
                 balancePst.changeMoney(code, money, real_name, pay_pwd);
+                setClickable(false);
                 break;
+        }
+    }
+
+    private void setClickable(boolean isClick){
+        if (isClick){
+            change_money_tv.setOnClickListener(this);
+        }else {
+            change_money_tv.setOnClickListener(null);
         }
     }
 
@@ -143,6 +155,7 @@ public class TransferAccountsAty extends BaseAty {
                 }
             }
         });
+        setClickable(true);
     }
 
     @Override
@@ -164,6 +177,7 @@ public class TransferAccountsAty extends BaseAty {
             return;
         }
         if (requestUrl.contains("changeMoney")) { // 转账成功
+            setClickable(true);
             showRightTip(map != null ? map.get("message") : "转账申请中，请耐心等待");
             finish();
         }
@@ -175,5 +189,6 @@ public class TransferAccountsAty extends BaseAty {
         if (requestUrl.contains("getUserName")) {
             opposite_real_name_tv.setText("");
         }
+        setClickable(true);
     }
 }

@@ -11,12 +11,15 @@ import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
-import android.widget.Toast;
 
+import com.ants.theantsgo.base.BaseView;
 import com.ants.theantsgo.util.L;
 import com.txd.hzj.wjlp.DemoApplication;
 import com.txd.hzj.wjlp.MainAty;
 import com.txd.hzj.wjlp.R;
+import com.txd.hzj.wjlp.bluetoothPrint.BluetoothUtils;
+import com.txd.hzj.wjlp.bluetoothPrint.PrintfUtils;
+import com.txd.hzj.wjlp.http.OfflineStore;
 import com.txd.hzj.wjlp.mellonLine.MessageAty;
 import com.txd.hzj.wjlp.tool.BaiDuTtsSoundUtil;
 import com.txd.hzj.wjlp.webviewH5.WebViewAty;
@@ -25,10 +28,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Iterator;
+import java.util.Map;
 
 import cn.jpush.android.api.JPushInterface;
-
-import static android.content.Context.NOTIFICATION_SERVICE;
 
 /**
  * 自定义接收器
@@ -37,9 +39,11 @@ import static android.content.Context.NOTIFICATION_SERVICE;
  * 1) 默认用户会打开主界面
  * 2) 接收不到自定义消息
  */
-public class MyReceiver extends BroadcastReceiver {
+public class MyReceiver extends BroadcastReceiver implements BaseView {
     private static final String TAG = "JIGUANG-Example";
     private static final String ACTION_CUSTOMIZE_MY_MSG = "com.txd.hzj.wjlp.jpush.CUSTOMIZE_MY_MSG";
+    private BluetoothUtils bluetoothUtils;
+    private JSONObject printfDataJsonobj;
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -62,6 +66,10 @@ public class MyReceiver extends BroadcastReceiver {
                 int notifactionId = bundle.getInt(JPushInterface.EXTRA_NOTIFICATION_ID);
                 L.e(TAG, "[MyReceiver] 接收到推送下来的通知的ID: " + notifactionId);
                 soundMessage(context, bundle); // 播放声音
+
+                // 打印
+                printfOrder(context, bundle);
+
             } else if (JPushInterface.ACTION_NOTIFICATION_OPENED.equals(intent.getAction())) {
                 L.e(TAG, "[MyReceiver] 用户点击打开了通知");
 
@@ -100,6 +108,53 @@ public class MyReceiver extends BroadcastReceiver {
             L.e(e.toString());
         }
 
+    }
+
+    /**
+     * 打印订单添加判断是否打印
+     *
+     * @param context
+     * @param bundle
+     */
+    private void printfOrder(Context context, Bundle bundle) {
+        String extras = bundle.getString(JPushInterface.EXTRA_EXTRA);
+        bluetoothUtils = new BluetoothUtils(context);
+        if (!"".equals(extras)) {
+            try {
+                JSONObject extrasJson = new JSONObject(extras);
+                String moduleStr = extrasJson.has("module") ? extrasJson.getString("module") : "";
+                if ("stage_order_hand".equals(moduleStr) || "stage_order_auto".equals(moduleStr)) {
+                    printfDataJsonobj = extrasJson.has("data_print") ? extrasJson.getJSONObject("data_print") : null;
+                    if ("stage_order_hand".equals(moduleStr)) { // 手动打印 要走接口回调
+                        printfBluetooth();
+                    } else if ("stage_order_auto".equals(moduleStr)) { // 自动打印
+                        OfflineStore.order_print(printfDataJsonobj.getString("order_sn"), printfDataJsonobj.getString("merchant_id"), this);
+                    }
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    /**
+     * 调用蓝牙打印机打印订单
+     */
+    private void printfBluetooth() {
+        if (printfDataJsonobj == null) {
+            return;
+        }
+        if (BluetoothUtils.isHasPrinter) { // 如果已经连接
+            PrintfUtils.printf_50MM(printfDataJsonobj);
+        } else { // 否则的话直接打开默认连接，连接成功之后打印
+            bluetoothUtils.setOnConnectSuccess(new BluetoothUtils.ConnectSuccess() {
+                @Override
+                public void success(String name, String address) {
+                    PrintfUtils.printf_50MM(printfDataJsonobj);
+                }
+            });
+            bluetoothUtils.defaultConnection();
+        }
     }
 
     /**
@@ -153,7 +208,11 @@ public class MyReceiver extends BroadcastReceiver {
                 // 判断是否播放语音
                 String sound = extraJson.has("sound") ? extraJson.getString("sound") : "0";
                 if (sound.equals("1")) {
-                    BaiDuTtsSoundUtil.getInstance(context).speak(title, "4"); // 调用百度语音合成进行语音播放
+                    BaiDuTtsSoundUtil.getInstance(context).speak(title); // 普通女声
+//                    BaiDuTtsSoundUtil.getInstance(context).speak(title, "1"); // 普通男声
+//                    BaiDuTtsSoundUtil.getInstance(context).speak(title, "2"); // 特别男声
+//                    BaiDuTtsSoundUtil.getInstance(context).speak(title, "3"); // 情感男声<度逍遥>
+//                    BaiDuTtsSoundUtil.getInstance(context).speak(title, "4"); // 情感儿童声<度丫丫>
                 }
 
             } catch (JSONException e) {
@@ -254,4 +313,70 @@ public class MyReceiver extends BroadcastReceiver {
             LocalBroadcastManager.getInstance(context).sendBroadcast(msgIntent);
         }
     }
+
+
+    // ================================================== 接口回调 ==================================================
+    @Override
+    public void showDialog() {
+
+    }
+
+    @Override
+    public void showDialog(String text) {
+
+    }
+
+    @Override
+    public void showContent() {
+
+    }
+
+    @Override
+    public void removeDialog() {
+
+    }
+
+    @Override
+    public void removeContent() {
+
+    }
+
+    @Override
+    public void onStarted() {
+
+    }
+
+    @Override
+    public void onCancelled() {
+
+    }
+
+    @Override
+    public void onLoading(long total, long current, boolean isUploading) {
+
+    }
+
+    @Override
+    public void onException(Exception exception) {
+
+    }
+
+    @Override
+    public void onComplete(String requestUrl, String jsonStr) {
+        if (requestUrl.contains("order_print")) { // 打印订单
+            // 打印订单
+            printfBluetooth();
+        }
+    }
+
+    @Override
+    public void onError(String requestUrl, Map<String, String> error) {
+
+    }
+
+    @Override
+    public void onErrorTip(String tips) {
+
+    }
+    // ================================================== 接口回调 ==================================================
 }

@@ -42,7 +42,7 @@ public class PosterDialog extends Dialog{
     public void setUrl(final String url) {
         this.url = url;
         if (null != mImageView){
-            Glide.with(mContext).load(url).fitCenter().into(mImageView);
+            Glide.with(mContext).load(url).asBitmap().fitCenter().dontAnimate().into(mImageView);
             mImageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -93,7 +93,7 @@ public class PosterDialog extends Dialog{
             return;
         }
         WindowManager.LayoutParams layoutParams = window.getAttributes();
-        layoutParams.width = WindowManager.LayoutParams.MATCH_PARENT;
+        layoutParams.width = (int) (Settings.displayWidth*0.9);
         layoutParams.height= (int) (Settings.displayHeight*0.8);
         layoutParams.gravity = Gravity.CENTER;
         window.setAttributes(layoutParams);

@@ -13,7 +13,7 @@
         android:layout_marginLeft="10dp"
         android:background="@drawable/shape_red_btn_01_li"
         android:gravity="center"
-        android:text="延迟收货"
+        android:text="延时收货"
         android:textColor="@color/colorRed"
         android:visibility="gone" />
 

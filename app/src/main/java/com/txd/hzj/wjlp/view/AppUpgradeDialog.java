@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
@@ -82,8 +83,8 @@ public class AppUpgradeDialog extends Dialog {
             TextView closeTv = view.findViewById(R.id.upgradeDialog_close_tv);
             TextView upgradeTv = view.findViewById(R.id.upgradeDialog_upgrade_tv);
 
-            versionNameTv.setText((versionName == null || versionName.isEmpty()) ? "1.0.0" : versionName);
-            contentTv.setText((content == null || content.isEmpty()) ? "暂无修改太大的BUG" : content);
+            versionNameTv.setText((TextUtils.isEmpty(versionName)) ? "1.0.0" : versionName);
+            contentTv.setText((TextUtils.isEmpty(content)) ? "暂无修改太大的BUG" : content);
             // 如果左侧的按钮文字不为null则显示按钮
             if (leftStr != null) {
                 // 如果字符串不为空字符串，则设置指定的字符串，否则直接显示原始字符串

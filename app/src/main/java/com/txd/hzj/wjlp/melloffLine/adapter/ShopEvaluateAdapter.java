@@ -5,13 +5,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.ants.theantsgo.util.L;
 import com.bumptech.glide.Glide;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.bean.ShopOffLineBean;
+import com.txd.hzj.wjlp.view.RatingBar;
 
 import java.util.List;
 
@@ -46,7 +46,7 @@ public class ShopEvaluateAdapter extends RecyclerView.Adapter {
         Glide.with(context).load(listBean.getHead_pic()).into(viewHolder.imaHead);
         viewHolder.shopEvaluateName.setText(listBean.getNickname());
         viewHolder.shopEvaluateTime.setText(listBean.getStart_time());
-        viewHolder.shop_evaluate_star_level.setRating(Integer.valueOf(listBean.getStar() != null ? listBean.getStar() : "0"));
+        viewHolder.shop_evaluate_star_level.setStar(Integer.valueOf(listBean.getStar() != null ? listBean.getStar() : "0"));
     }
 
     @Override

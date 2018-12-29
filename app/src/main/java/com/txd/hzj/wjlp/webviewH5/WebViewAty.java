@@ -7,6 +7,7 @@ import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.KeyEvent;
 import android.view.View;
@@ -29,17 +30,19 @@ import com.ants.theantsgo.util.L;
 import com.ants.theantsgo.util.PreferencesUtils;
 import com.bumptech.glide.Glide;
 import com.lidroid.xutils.view.annotation.ViewInject;
-import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.lzy.imagepicker.ImagePicker;
 import com.lzy.imagepicker.bean.ImageItem;
 import com.lzy.imagepicker.ui.ImageGridActivity;
 import com.txd.hzj.wjlp.Constant;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
+import com.txd.hzj.wjlp.bluetoothPrint.BluetoothUtils;
+import com.txd.hzj.wjlp.bluetoothPrint.SearchBluetoothAty;
 import com.txd.hzj.wjlp.http.Pay;
 import com.txd.hzj.wjlp.http.index.IndexPst;
 import com.txd.hzj.wjlp.login.LoginAty;
 import com.txd.hzj.wjlp.tool.BitmapUtils;
+import com.txd.hzj.wjlp.tool.MapIntentUtil;
 import com.txd.hzj.wjlp.wxapi.GetPrepayIdTask;
 
 import org.json.JSONException;
@@ -97,6 +100,9 @@ public class WebViewAty extends BaseAty {
                 url = urlTemp; // 如果存在url字段，并且字段不为空，则赋值给需要加载的url
             }
         }
+
+        boolean isShowTitle = intent.getBooleanExtra("isShowTitle", false);
+        webView_title_layout.setVisibility(isShowTitle?View.VISIBLE:View.GONE);
 
         wxPayReceiver = new WxPayReceiver();
         IntentFilter intentFilter = new IntentFilter();
@@ -168,17 +174,6 @@ public class WebViewAty extends BaseAty {
     protected void requestData() {
     }
 
-    @OnClick({R.id.webView_title_layout})
-    @Override
-    public void onClick(View v) {
-        super.onClick(v);
-        switch (v.getId()) {
-            case R.id.title_be_back_iv:
-                this.finish();
-                break;
-        }
-    }
-
 
     // ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓ 接口请求返回 STA ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
     @Override
@@ -244,7 +239,7 @@ public class WebViewAty extends BaseAty {
             } else {
                 showToast("支付失败");
             }
-            Pay.findPayResult(order_id, "11", WebViewAty.this);
+            Pay.findPayResult(order_id, type, WebViewAty.this);
         }
     }
 
@@ -256,20 +251,19 @@ public class WebViewAty extends BaseAty {
         try {
             JSONObject data = jsonObject.has("data") ? jsonObject.getJSONObject("data") : null;
             String order_sn = data.has("order_sn") ? data.getString("order_sn") : "";
-            if (order_sn.isEmpty()) {
-                return;
+            String jump_url = data.has("jump_url") ? data.getString("jump_url") : "";
+            if (!TextUtils.isEmpty(jump_url) && "20".equals(type)){
+                url = jump_url;
+            }else {
+                //          http://www.wujiemall.com/Wap/Pay/pay_back/order/153232656966415.html
+                StringBuffer stringBuffer = new StringBuffer();
+                stringBuffer.append(Config.SHARE_URL);
+                stringBuffer.append("Wap/Pay/pay_back/order/");
+                stringBuffer.append(order_sn);
+                stringBuffer.append(".html");
+                url = stringBuffer.toString();
             }
-            String urlStr = Config.OFFICIAL_WEB;
-            if (urlStr.contains("api")) { // 正式版的情况下将api替换为www
-                urlStr = urlStr.replace("api", "www");
-            }
-//          http://www.wujiemall.com/Wap/Pay/pay_back/order/153232656966415.html
-            StringBuffer stringBuffer = new StringBuffer();
-            stringBuffer.append(urlStr);
-            stringBuffer.append("Wap/Pay/pay_back/order/");
-            stringBuffer.append(order_sn);
-            stringBuffer.append(".html");
-            url = stringBuffer.toString();
+
             initWebView();
         } catch (JSONException e) {
         }
@@ -464,6 +458,47 @@ public class WebViewAty extends BaseAty {
                 }
             }
         }
+
+        /**
+         * 调起地图导航并规划路线
+         *
+         * @param navigationCoordinates
+         */
+        @JavascriptInterface
+        public void getNavigationLine(String navigationCoordinates) {
+            try {
+                JSONObject jsonObject = new JSONObject(navigationCoordinates);
+//                JSONObject data = jsonObject.getJSONObject("data");
+                double baiDuLat = Double.parseDouble(jsonObject.has("baiDuLat") ? jsonObject.getString("baiDuLat") : "0");
+                double baiDuLng = Double.parseDouble(jsonObject.has("baiDuLng") ? jsonObject.getString("baiDuLng") : "0");
+                double gaoDeLat = Double.parseDouble(jsonObject.has("gaoDeLat") ? jsonObject.getString("gaoDeLat") : "0");
+                double gaoDeLng = Double.parseDouble(jsonObject.has("gaoDeLng") ? jsonObject.getString("gaoDeLng") : "0");
+                MapIntentUtil mapIntentUtil = new MapIntentUtil();
+                mapIntentUtil.openMap(WebViewAty.this, baiDuLat, baiDuLng, gaoDeLat, gaoDeLng);
+            } catch (JSONException e) {
+                showToast("此处数据回传格式异常");
+            }
+        }
+
+        /**
+         * 连接蓝牙
+         */
+        @JavascriptInterface
+        public void connectBluetooth() {
+            // http://doc.wotianhui.com/web/#/10?page_id=271
+            if (!BluetoothUtils.isHasPrinter) { // 如果没有连接则直接跳转至连接界面
+                startActivity(SearchBluetoothAty.class, null);
+            }
+        }
+
+        /**
+         * 拨打电话
+         */
+        @JavascriptInterface
+        public void callPhone(String phone){
+            call(phone);
+        }
+
     }
     // ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑ H5交互接口 END ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
 

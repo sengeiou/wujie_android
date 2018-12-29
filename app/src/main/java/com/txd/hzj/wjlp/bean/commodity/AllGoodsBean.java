@@ -66,6 +66,7 @@ public class    AllGoodsBean implements Serializable {
      * 市场价
      */
     private String market_price;
+    private String a_id;
     // TODO==========公共部分========BEGIN
     /**
      * 积分
@@ -163,6 +164,14 @@ public class    AllGoodsBean implements Serializable {
     private String limit_num;
     //private String shop_price;
 
+
+    public String getA_id() {
+        return a_id;
+    }
+
+    public void setA_id(String a_id) {
+        this.a_id = a_id;
+    }
 
     public String getGroup_buy_id() {
         return group_buy_id;

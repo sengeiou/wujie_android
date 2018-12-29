@@ -584,7 +584,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
             case R.id.title_details_layout:// 详情
                 clickType = 2;
 //                limit_goods_details_sc.smoothScrollTo(0, secondHeight);
-                PosterAty.getInstance(TicketGoodsDetialsAty.this,"1",goods_id,imageUrls,mGoods_name,mIntegral,mTicket_buy_discount,mShop_price,mMarket_price,"",share_content,mSell_num);
+                PosterAty.getInstance(TicketGoodsDetialsAty.this,"1",goods_id,imageUrls,mGoods_name,mIntegral,mTicket_buy_discount,mShop_price,mMarket_price,"",share_content,mSell_num,"");
                 break;
             case R.id.title_evaluate_layout:// 评价
                 clickType = 3;

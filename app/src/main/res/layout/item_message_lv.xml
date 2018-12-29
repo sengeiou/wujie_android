@@ -50,7 +50,7 @@
             android:layout_width="match_parent"
             android:layout_height="12dp" />
 
-        <TextView
+        <me.codeboy.android.aligntextview.AlignTextView
             android:id="@+id/item_message_content_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

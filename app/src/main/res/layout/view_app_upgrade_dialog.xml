@@ -51,25 +51,28 @@
         android:textColor="@color/black"
         android:textSize="17sp" />
 
-    <TextView
-        android:id="@+id/upgradeDialog_content_tv"
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="10dp"
-        android:lineSpacingExtra="5dp"
-        android:maxLines="5"
-        android:minLines="3"
-        android:textSize="17sp"
-        tools:text="1、奥术大师大所大所多\n2、辣椒粉哗啦可就是地方啦地方了肯定会拉科技放大来看来看待发来看待回复\n3、按揭首付拉科技收到两份IAL肯定是发货啦快递费了" />
+        android:layout_height="150dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:overScrollMode="never"
+        android:scrollbars="none">
+
+        <TextView
+            android:id="@+id/upgradeDialog_content_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:textSize="17sp"
+            tools:text="1、奥术大师大所大所多\n2、辣椒粉哗啦可就是地方啦地方了肯定会拉科技放大来看来看待发来看待回复\n3、按揭首付拉科技收到两份IAL肯定是发货啦快递费了\n4、奥术大师大所大所多\n5、辣椒粉哗啦可就是地方啦地方了肯定会拉科技放大来看来看待发来看待回复\n6、按揭首付拉科技收到两份IAL肯定是发货啦快递费了\n7、奥术大师大所大所多\n8、辣椒粉哗啦可就是地方啦地方了肯定会拉科技放大来看来看待发来看待回复\n9、按揭首付拉科技收到两份IAL肯定是发货啦快递费了" />
+    </android.support.v4.widget.NestedScrollView>
+
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:layout_marginTop="10dp"
         android:orientation="horizontal"
         android:paddingBottom="10dp">
 

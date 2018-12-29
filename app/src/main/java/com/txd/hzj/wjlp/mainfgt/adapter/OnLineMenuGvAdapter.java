@@ -95,13 +95,13 @@ public class OnLineMenuGvAdapter extends BaseAdapter {
                 vh.all_classify_logo_iv.setImageResource(R.drawable.icon_temp_ztj);
                 break;
             case 4:
-                vh.all_classify_logo_iv.setImageResource(R.drawable.icon_temp_wjyg);
+                vh.all_classify_logo_iv.setImageResource(R.drawable.icon_fragment);
                 break;
             case 5:
                 vh.all_classify_logo_iv.setImageResource(R.drawable.icon_temp_jkg);
                 break;
             case 6:
-                vh.all_classify_logo_iv.setImageResource(R.drawable.icon_temp_jph);
+                vh.all_classify_logo_iv.setImageResource(R.drawable.icon_explosive_home);
                 break;
             case 7:
                 vh.all_classify_logo_iv.setImageResource(R.drawable.icon_order_center_03);
@@ -110,7 +110,7 @@ public class OnLineMenuGvAdapter extends BaseAdapter {
                 vh.all_classify_logo_iv.setImageResource(R.drawable.icon_giveaway_area);
                 break;
             case 9:
-                vh.all_classify_logo_iv.setImageResource(R.drawable.icon_temp_yydb);
+                vh.all_classify_logo_iv.setImageResource(R.drawable.icon_ziweidoushu);
                 break;
         }
     }

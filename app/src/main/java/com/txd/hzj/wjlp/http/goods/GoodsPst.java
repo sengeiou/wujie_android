@@ -20,11 +20,11 @@ public class GoodsPst extends BasePresenter {
     }
 
     // 商品列表
-    public void goodsList(int p, String cate_id, int type) {
+    public void goodsList(int p, String cate_id,int type, String is_active) {
         if (1 == type) {
             baseView.showDialog();
         }
-        goods.goodsList(p, cate_id, baseView);
+        goods.goodsList(p, cate_id,is_active, baseView);
     }
 
     // 商品详情
@@ -34,11 +34,11 @@ public class GoodsPst extends BasePresenter {
     }
 
     // 三级分类商品列表
-    public void threeList(String two_cate_id, String three_cate_id, int p, String sell, String tsort,String integral, String psort,String price,int type) {
+    public void threeList(String two_cate_id, String three_cate_id, int p, String sell, String tsort,String integral, String psort,String price,int type, String is_active) {
         if (1 == type) {
             baseView.showDialog();
         }
-        goods.threeList(two_cate_id, three_cate_id, p,sell,tsort,integral,psort,price, baseView);
+        goods.threeList(two_cate_id, three_cate_id, p,sell,tsort,integral,psort,price,is_active, baseView);
     }
 
     // 搜索

@@ -1,5 +1,6 @@
 package com.txd.hzj.wjlp.minetoaty.tricket;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -7,9 +8,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ants.theantsgo.util.JSONUtils;
+import com.bumptech.glide.Glide;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
@@ -71,6 +74,7 @@ public  class TradingStampDetailsAty extends BaseAty{
 
     public static class MyAdpter extends RecyclerView.Adapter<MyAdpter.MyViewHolder>{
         private ArrayList<Map<String, String>> data;
+        private Context mContext;
         public MyAdpter(ArrayList<Map<String, String>> data) {
             this.data = data;
         }
@@ -79,6 +83,7 @@ public  class TradingStampDetailsAty extends BaseAty{
         @NonNull
         @Override
         public MyAdpter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            mContext=parent.getContext();
             View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.trading_stamp_details_item,parent,false);
             MyViewHolder holder=new MyViewHolder(view);
             ViewUtils.inject(holder,view);
@@ -95,6 +100,9 @@ public  class TradingStampDetailsAty extends BaseAty{
                 holder.price_tv.setText("-"+(map.containsKey("money")?map.get("money"):""));
             }
             holder.time_tv.setText((map.containsKey("create_time")?map.get("create_time"):""));
+            if (map.containsKey("img")){
+                Glide.with(mContext).load(map.get("img")).into(holder.icon_img);
+            }
         }
 
         @Override
@@ -103,6 +111,8 @@ public  class TradingStampDetailsAty extends BaseAty{
         }
 
         class MyViewHolder extends RecyclerView.ViewHolder{
+            @ViewInject(R.id.icon_img)
+            public ImageView icon_img;
             @ViewInject(R.id.title_tv)
             public TextView title_tv;
             @ViewInject(R.id.price_tv)

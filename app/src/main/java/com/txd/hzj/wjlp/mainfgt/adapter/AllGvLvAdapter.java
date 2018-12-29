@@ -53,6 +53,7 @@ public class AllGvLvAdapter extends BaseAdapter {
      * 6.汽车购
      * 7.房产购
      * 8.拼团购
+     * 9 爆款专区
      */
     private int type = 0;
 
@@ -71,15 +72,9 @@ public class AllGvLvAdapter extends BaseAdapter {
         this.inflater = LayoutInflater.from(context);
         size1 = ToolKit.dip2px(context, 36);
         size2 = ToolKit.dip2px(context, 23);
-//        if (8 == type) {
-//            pic_size = Settings.displayWidth;
-//            pic_size2 = Settings.displayWidth / 2;
-//            group_size = ToolKit.dip2px(context, 40);
-//        } else {
         pic_size = ToolKit.dip2px(context, 180);
         pic_size2 = pic_size;
         group_size = ToolKit.dip2px(context, 40);
-//        }
     }
 
     @Override
@@ -126,6 +121,9 @@ public class AllGvLvAdapter extends BaseAdapter {
                     break;
                 case WJConfig.PTG:// 拼好货
                     view = inflater.inflate(R.layout.item_group_shopping_lv, viewGroup, false);
+                    break;
+                case 9:
+                    view = inflater.inflate(R.layout.explosive_item, viewGroup, false);
                     break;
             }
             vh = new ViewHolder();
@@ -511,10 +509,24 @@ public class AllGvLvAdapter extends BaseAdapter {
                 }
 
                 break;
+            case 9:
+                Glide.with(context).load(allGoodsBean.getCountry_logo())
+                        .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                        .into(vh.goods_icon);
+
+                Glide.with(context).load(allGoodsBean.getGoods_img())
+                        .diskCacheStrategy(DiskCacheStrategy.RESULT)
+                        .into(vh.goods_img);
+
+                vh.goods_name_tv.setText(allGoodsBean.getGoods_name());
+                vh.goods_price_info_tv.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+                vh.goods_price_info_tv.setText("¥"+allGoodsBean.getMarket_price());
+                vh.num_tv.setText(" 已售"+allGoodsBean.getSell_num()+"件");
+                vh.goods_price_tv.setText("爆款价 ¥"+allGoodsBean.getShop_price());
+                break;
         }
-        // 除掉汽车购，房产购
-        if (6 != type && 7 != type) {
-//            if (canLoadImg) {
+        // 除掉汽车购，房产购,爆款专区
+        if (6 != type && 7 != type && 9!=type) {
                 Glide.with(context).load(allGoodsBean.getGoods_img())
                         .override(pic_size, pic_size2)
                         .placeholder(R.drawable.ic_default)
@@ -522,20 +534,11 @@ public class AllGvLvAdapter extends BaseAdapter {
                         .centerCrop()
                         .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                         .into(vh.goods_pic_iv);
-//            } else {
-//                vh.goods_pic_iv.setImageResource(R.drawable.ic_default);
-//            }
         }
 
         return view;
     }
 
-//    private boolean canLoadImg = true;
-
-//    public void setCanLoadImg(boolean canLoadImg) {
-////        this.canLoadImg = canLoadImg;
-//        notifyDataSetChanged();
-//    }
 
     class ViewHolder {
         @ViewInject(R.id.older_price_tv)
@@ -720,6 +723,19 @@ public class AllGvLvAdapter extends BaseAdapter {
         private TextView tv_shop_price;
         @ViewInject(R.id.showTyImg)//体验
         private ImageView showTyImg;
+
+        @ViewInject(R.id.goods_price_info_tv)
+        private TextView goods_price_info_tv;
+
+        @ViewInject(R.id.num_tv)
+        private TextView num_tv;
+
+
+        @ViewInject(R.id.goods_icon)
+        private ImageView goods_icon;
+
+        @ViewInject(R.id.goods_img)
+        private ImageView goods_img;
     }
 
 }

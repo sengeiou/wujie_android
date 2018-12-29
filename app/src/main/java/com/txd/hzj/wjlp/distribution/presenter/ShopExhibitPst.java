@@ -107,6 +107,14 @@ public class ShopExhibitPst extends BasePresenter {
     }
 
     /**
+     * 商品推荐
+     */
+    public void goodsRecommend(String id, String shop_goods_rec) {
+        baseView.showDialog();
+        mModel.postRecommend(id, shop_goods_rec, baseView);
+    }
+
+    /**
      * 店主审核发送黄券订单的接口
      */
     public void shopSetOrderTicket(String order_id, String ticket_status, String ticket_price) {

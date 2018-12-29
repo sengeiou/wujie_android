@@ -74,7 +74,6 @@
                 android:layout_height="wrap_content"
                 android:background="@color/white"
                 android:gravity="center"
-                android:visibility="gone"
                 android:orientation="horizontal">
 
                 <View
@@ -102,7 +101,6 @@
                 android:layout_height="1dp" />
 
             <com.ants.theantsgo.view.inScroll.ListViewForScrollView
-                android:visibility="gone"
                 android:id="@+id/high_quality_business_lv"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

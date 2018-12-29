@@ -125,6 +125,12 @@ public class OrderLogisticsAty extends BaseAty {
                     startActivity(ExpressAtv.class, bundle);
                 }
             });
+            if (list.get(i).getIs_active()!=null && list.get(i).getIs_active().equals("2")){
+                viewHolder.tv_2980.setText("399");
+                viewHolder.tv_2980.setVisibility(View.VISIBLE);
+            }else {
+                viewHolder.tv_2980.setVisibility(View.GONE);
+            }
 
             viewHolder.name.setText(list.get(i).getGoods_name());
             viewHolder.num.setText("x" + list.get(i).getGoods_num());
@@ -154,6 +160,8 @@ public class OrderLogisticsAty extends BaseAty {
             private TextView tv_price;
             @ViewInject(R.id.jifenTv)
             private TextView jifenTv;
+            @ViewInject(R.id.tv_2980)
+            private TextView tv_2980;
         }
     }
 }

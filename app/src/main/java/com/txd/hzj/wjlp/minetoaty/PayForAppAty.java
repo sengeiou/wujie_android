@@ -249,6 +249,8 @@ public class PayForAppAty extends BaseAty {
                         Pay.getJsTine(order_id, getType(), WJConfig.TYPE_EJBL, this);
                     } else if (mType.equals(WJConfig.TYPE_XXDP)) {
                         Pay.getJsTine(order_id, getType(), "9", this);
+                    }else if (mType.equals(WJConfig.TYPE_JSP)) {
+                        Pay.getJsTine(order_id, getType(), "16", this);
                     }
                     showProgressDialog();
                     return;
@@ -278,6 +280,8 @@ public class PayForAppAty extends BaseAty {
                         Pay.getAlipayParam(order_id, getType(), WJConfig.TYPE_EJBL, this);
                     } else if (mType.equals(WJConfig.TYPE_XXDP)) {
                         Pay.getAlipayParam(order_id, getType(), "9", this);
+                    }else if (mType.equals(WJConfig.TYPE_JSP)) {
+                        Pay.getAlipayParam(order_id, getType(), "16", this);
                     }
                     showProgressDialog();
                     return;
@@ -435,6 +439,8 @@ public class PayForAppAty extends BaseAty {
             cb_jfzf.setVisibility(View.GONE);
         } else if (mType.equals(WJConfig.TYPE_ZPZQ)) {
             GiveAwayModel.postGiftGoodsOrderSetOrder(address_id, num, order_id, TextUtils.isEmpty(cart_id) ? getString("goodsList") : getString("goodsCartList"), getString("leave_message"), getString("invoiceList"), this);
+        } else if (mType.equals(WJConfig.TYPE_JSP)) { // 集碎片
+            Order.setOrder(address_id, WJConfig.TYPE_JSP, order_id, "", "", getString("invoiceList"), getString("leave_message"), TextUtils.isEmpty(cart_id) ? getString("goodsList") : getString("goodsCartList"), this);
         }
         showProgressDialog();
     }
@@ -589,12 +595,12 @@ public class PayForAppAty extends BaseAty {
                 tv_submit.setText("确认兑换");
             } else {
                 if (!mType.equals("10")) {
-                    double d=0;
-                    if (data.containsKey("ticket_price")){
-                        d=Double.parseDouble(data.get("ticket_price"));
+                    double d = 0;
+                    if (mType.equals(WJConfig.TYPE_SJJZQ) && data.containsKey("ticket_price")) {
+                        d = Double.parseDouble(data.get("ticket_price"));
                     }
-                    String format = decimalFormat.format(total_price-d);
-                    tv_desc.setText(data.containsKey("ticket_info")?data.get("ticket_info"):"");
+                    String format = decimalFormat.format(total_price - d);
+                    tv_desc.setText(data.containsKey("ticket_info") ? data.get("ticket_info") : "");
                     tv_price.setText("¥" + format);
                 } else {
                     tv_price.setText(data.get("order_price") + "积分");
@@ -635,12 +641,14 @@ public class PayForAppAty extends BaseAty {
             map = JSONUtils.parseKeyAndValueToMap(map.get("data"));
             if (map.get("status").equals("1")) {
                 if (pay_by_balance_cb.isChecked()) { // 余额支付选中
-                    if (mType.equals("0") || mType.equals("1") || mType.equals("5") || TextUtils.isEmpty(mType) || mType.equals(WJConfig.TYPE_SJJZQ)) {//主界面购物车  票券   限量购详情
+                    if (mType.equals("0") || mType.equals("1") || mType.equals("5") || TextUtils.isEmpty(mType) || mType.equals(WJConfig.TYPE_SJJZQ) || mType.equals("16")) {//主界面购物车  票券   限量购详情
+                        String orderTypeStr;
+                        orderTypeStr = mType.equals(WJConfig.JSP) ? "16" : "1";
                         try {
                             if (!TextUtils.isEmpty(order_id)) {
-                                BalancePay.BalancePay(order_id, "1", getType(), num, this);
+                                BalancePay.BalancePay(order_id, orderTypeStr, getType(), num, this);
                             } else {
-                                BalancePay.BalancePay(order.get("order_id"), "1", getType(), getString("num"), this);
+                                BalancePay.BalancePay(order.get("order_id"), orderTypeStr, getType(), getString("num"), this);
                             }
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -817,6 +825,8 @@ public class PayForAppAty extends BaseAty {
                         Pay.findPayResult(order_id, "8", PayForAppAty.this);
                     } else if (mType.equals(WJConfig.TYPE_XXDP)) {
                         Pay.findPayResult(order_id, "9", PayForAppAty.this);
+                    } else if (mType.equals(WJConfig.JSP)) {
+                        Pay.findPayResult(order_id, "16", PayForAppAty.this);
                     }
                 }
 
@@ -932,6 +942,11 @@ public class PayForAppAty extends BaseAty {
             startActivity(PaymentResultsAty.class, mBundle);
             //            startActivity(OffLineShopAty.class, mBundle);
         }
+        if (mType.equals("16")) {
+            mBundle.putString("title", "集碎片");
+            mBundle.putString("type", WJConfig.TYPE_JSP);
+            startActivity(OnlineShopAty.class, mBundle);
+        }
 
     }
 
@@ -1042,12 +1057,12 @@ public class PayForAppAty extends BaseAty {
                                 commonPopupWindow.dismiss();
                                 setImage(type, r.isChecked(), y.isChecked(), b.isChecked());
                                 setCheck(4);
-                                double d=0;
-                                if (order.containsKey("ticket_price")){
-                                    d=Double.parseDouble(order.get("ticket_price"));
+                                double d = 0;
+                                if (order.containsKey("ticket_price")) {
+                                    d = Double.parseDouble(order.get("ticket_price"));
                                 }
-                                String num = decimalFormat.format(total_price-d);
-                                tv_desc.setText(order.containsKey("ticket_info")?order.get("ticket_info"):"");
+                                String num = decimalFormat.format(total_price - d);
+                                tv_desc.setText(order.containsKey("ticket_info") ? order.get("ticket_info") : "");
                                 tv_price.setText("¥" + num);
                                 if (order.containsKey("red_return_integral") && Integer.parseInt(order.get("red_return_integral")) > 0) {
                                     mIn = order.get("red_return_integral");

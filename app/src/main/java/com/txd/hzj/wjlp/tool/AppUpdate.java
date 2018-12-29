@@ -8,9 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.support.v4.app.ActivityCompat;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
@@ -21,7 +19,6 @@ import com.maning.updatelibrary.InstallUtils;
 import com.txd.hzj.wjlp.BuildConfig;
 import com.txd.hzj.wjlp.MainAty;
 import com.txd.hzj.wjlp.R;
-import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.bean.UpdataApp;
 import com.txd.hzj.wjlp.view.AppUpgradeDialog;
 
@@ -110,7 +107,7 @@ public class AppUpdate {
         String exitBtnStr = updataApp.getData().getUpdate().equals("0") ? "退出" : "稍后更新";
 
         new AppUpgradeDialog.Builder(activity)
-                .setContent(updataApp.getData().getMessage())
+                .setContent(updataApp.getData().getDesc())
                 .setVersionName(updataApp.getData().getName())
                 .setCancelable(!updataApp.getData().getUpdate().equals("0"))
                 .setOnLeftClickListener(exitBtnStr, new DialogInterface.OnClickListener() {

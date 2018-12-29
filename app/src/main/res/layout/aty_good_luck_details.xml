@@ -279,6 +279,51 @@
                                             android:textSize="14sp" />
                                     </LinearLayout>
                                 </LinearLayout>
+                                <LinearLayout
+                                    android:id="@+id/luckLayout"
+                                    android:orientation="vertical"
+                                    android:background="@color/white"
+                                    android:visibility="gone"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content">
+                                    <RelativeLayout
+                                        android:id="@+id/luckMoreLayout"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content">
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:padding="10dp"
+                                            android:text="手气值排行榜"
+                                            android:gravity="center_vertical"
+                                            android:drawablePadding="5dp"
+                                            android:drawableStart="@drawable/icon_ranking_list"
+                                            android:textColor="@color/app_text_color" />
+                                        <ImageView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:paddingEnd="8dp"
+                                            android:layout_centerVertical="true"
+                                            android:layout_alignParentEnd="true"
+                                            android:paddingStart="8dp"
+                                            android:src="@mipmap/icon_more" />
+                                    </RelativeLayout>
+                                    <View
+                                        android:layout_width="match_parent"
+                                        android:layout_height="1dp"
+                                        android:layout_marginLeft="10dp"
+                                        android:background="#F6F6F6" />
+                                    <com.ants.theantsgo.view.inScroll.ListViewForScrollView
+                                        android:id="@+id/lv_ranking"
+                                        android:layout_marginStart="10dp"
+                                        android:layout_marginEnd="10dp"
+                                        android:dividerHeight="1dp"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:scrollbars="none" />
+                                </LinearLayout>
+
+
 
                                 <Space
                                     android:layout_width="match_parent"

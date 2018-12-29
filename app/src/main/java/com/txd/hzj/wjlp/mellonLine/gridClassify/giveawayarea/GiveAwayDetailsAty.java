@@ -6,7 +6,6 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableString;
@@ -41,7 +40,6 @@ import com.ants.theantsgo.view.taobaoprogressbar.CustomProgressBar;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout;
-import com.google.gson.JsonSyntaxException;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.synnapps.carouselview.CarouselView;
@@ -102,7 +100,7 @@ import cn.iwgang.countdownview.CountdownView;
  * 创建时间：2018/10/23 9:43
  * 功能描述：
  */
-public class GiveAwayDetailsAty extends BaseAty implements ObservableScrollView.ScrollViewListener, ObservableScrollView.onBottomListener, CommodityDetailsInter.CommodityView, ProUrbAreaUtil.CallBack {
+public class GiveAwayDetailsAty extends BaseAty implements  ObservableScrollView.onBottomListener, CommodityDetailsInter.CommodityView, ProUrbAreaUtil.CallBack {
 
     /**
      * 商品TextView
@@ -302,14 +300,6 @@ public class GiveAwayDetailsAty extends BaseAty implements ObservableScrollView.
      */
     private int bannerHeight = 0;
 
-    /**
-     * 对应top_lin_layout
-     */
-    private int topHeighe = 0;
-    /**
-     * 对应 second_lin_layout
-     */
-    private int secondHeight = 0;
 
     /**
      * 除去图文详情和店铺信息，评论外的所有空间布局
@@ -322,7 +312,7 @@ public class GiveAwayDetailsAty extends BaseAty implements ObservableScrollView.
      */
     @ViewInject(R.id.second_lin_layout)
     private LinearLayout second_lin_layout;
-    private int clickType = 0;
+//    private int clickType = 0;
 
     /**
      * 购物优惠券
@@ -678,7 +668,7 @@ public class GiveAwayDetailsAty extends BaseAty implements ObservableScrollView.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         showStatusBar(R.id.goods_details_title);
-        setTextViewAndViewColor(0);
+        title_details_tv.setText("详情");
         // 隐藏商品布局
         goods_for_my_evaluste_layout.setVisibility(View.GONE);
         // 设置轮播图高度
@@ -839,9 +829,9 @@ public class GiveAwayDetailsAty extends BaseAty implements ObservableScrollView.
             } else {
                 commodityPranster.isCollect(is_collect, "已收藏", goods_title_collect_tv, GiveAwayDetailsAty.this);
             }
-            share_url = Config.OFFICIAL_WEB + "Wap/IntegralBuy/integralBuyInfo/integral_buy_id/" + limit_buy_id + ".html";
+            share_url = Config.OFFICIAL_WEB + "Wap/GiftGoods/giftGoodsInfo/gift_goods_id/" + limit_buy_id + ".html";
             share_img = JSONUtils.getMapValue(data, "share_img");
-            share_content = JSONUtils.getMapValue(data, "share_content");
+
 
             if (data.containsKey("goods_banner")) {
                 ArrayList<GoodsBannerBean> banners = (ArrayList<GoodsBannerBean>) JSONObject.parseArray(data.get("goods_banner"), GoodsBannerBean.class);
@@ -859,6 +849,7 @@ public class GiveAwayDetailsAty extends BaseAty implements ObservableScrollView.
             // 商品基本信息
 
             goodsInfo = JSONObject.parseObject(JSONUtils.getMapValue(data, "goodsInfo"), LimitGoodsInfo.class);
+            share_content = goodsInfo.getGoods_brief();
             /**
              *以下表示如果buy_status==0，表示当前商品已经下架
              * */
@@ -996,43 +987,33 @@ public class GiveAwayDetailsAty extends BaseAty implements ObservableScrollView.
                 get_a_coupon_lin_layout.setVisibility(View.GONE);
             }
             // 评论
-//            Map<String, String> commentMap = JSONUtils.parseKeyAndValueToMap(JSONUtils.getMapValue(data, "comment"));
             CommentBean comment = JSONObject.parseObject(JSONUtils.getMapValue(data, "comment"), CommentBean.class);
-//            CommentBean comment = new CommentBean();
-//            BodyBean bean = (BodyBean) JSONUtils.parseKeyAndValueToMap(JSONUtils.getMapValue(commentMap, "body"));
-//            comment.setBody(bean);
-//            comment.setTotal(JSONUtils.getMapValue(commentMap, "total"));
             if (null != comment) {
-                try {
-                    all_comment_num_tv.setText("商品评价(" + comment.getTotal() + ")");
-                    BodyBean bodyBean = comment.getBody();
-                    if (bodyBean != null) {
-                        Glide.with(GiveAwayDetailsAty.this).load(bodyBean.getUser_head_pic())
-                                .override(head_size, head_size)
-                                .placeholder(R.drawable.ic_default)
-                                .error(R.drawable.ic_default)
-                                .centerCrop()
-                                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                                .into(comm_user_head_iv);
-                        comm_user_name_tv.setText(bodyBean.getNickname());
-                        comm_content_tv.setText(bodyBean.getContent());
-                        if (!android.text.TextUtils.isEmpty(bodyBean.getCreate_time())) {
-                            tv_date.setText(bodyBean.getCreate_time());
-                        }
-                        List<PicturesBean> pictures = bodyBean.getPictures();
-                        if (!ListUtils.isEmpty(pictures)) {
-                            CommentPicAdapter picadapter = new CommentPicAdapter(GiveAwayDetailsAty.this, pictures);
-                            estimate_pic.setAdapter(picadapter);
-                        }
-                    } else {
-                        layout_comment.setVisibility(View.GONE);
+                all_comment_num_tv.setText("商品评价(" + comment.getTotal() + ")");
+                BodyBean bodyBean = comment.getBody();
+                if (bodyBean != null) {
+                    Glide.with(GiveAwayDetailsAty.this).load(bodyBean.getUser_head_pic())
+                            .override(head_size, head_size)
+                            .placeholder(R.drawable.ic_default)
+                            .error(R.drawable.ic_default)
+                            .centerCrop()
+                            .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                            .into(comm_user_head_iv);
+                    comm_user_name_tv.setText(bodyBean.getNickname());
+                    comm_content_tv.setText(bodyBean.getContent());
+                    if (!android.text.TextUtils.isEmpty(bodyBean.getCreate_time())) {
+                        tv_date.setText(bodyBean.getCreate_time());
                     }
-                } catch (JsonSyntaxException e) {
-                    layout_comment.setVisibility(View.GONE);
+                    List<PicturesBean> pictures = bodyBean.getPictures();
+                    if (!ListUtils.isEmpty(pictures)) {
+                        CommentPicAdapter picadapter = new CommentPicAdapter(GiveAwayDetailsAty.this, pictures);
+                        estimate_pic.setAdapter(picadapter);
+                    }
+                } else {
+                    comment_layout.setVisibility(View.GONE);
                 }
-
             } else {
-                layout_comment.setVisibility(View.GONE);
+                comment_layout.setVisibility(View.GONE);
             }
             List<GoodsPriceDescBean> goodsPriceDescBeans = JSONObject.parseArray(JSONUtils.getMapValue(data, "goods_price_desc"), GoodsPriceDescBean.class);
             if (null != goodsPriceDescBeans && goodsPriceDescBeans.size() > 0) {
@@ -1169,20 +1150,6 @@ public class GiveAwayDetailsAty extends BaseAty implements ObservableScrollView.
             case R.id.tv_showClassify:
                 toClassify(v, goodsInfo.getTop_cate_id());
                 break;
-            case R.id.title_goods_layout://商品
-                clickType = 1;
-                limit_goods_details_sc.smoothScrollTo(0, 0);
-                break;
-            case R.id.title_details_layout://详情
-                clickType = 2;
-                setTextViewAndViewColor(1);
-                limit_goods_details_sc.smoothScrollTo(0, secondHeight);
-                break;
-            case R.id.title_evaluate_layout://评价
-                clickType = 3;
-                setTextViewAndViewColor(2);
-                limit_goods_details_sc.smoothScrollTo(0, topHeighe);
-                break;
             case R.id.goods_title_collect_layout://收藏,取消收藏
                 if (!Config.isLogin()) {
                     toLogin();
@@ -1226,10 +1193,6 @@ public class GiveAwayDetailsAty extends BaseAty implements ObservableScrollView.
                     goods_other_info_layout.setVisibility(View.GONE);
                     show_or_hide_explain_iv.setImageResource(R.drawable.icon_hide_other_layout);
                 }
-                break;
-            case R.id.be_back_top_iv://回到顶部
-                limit_goods_details_sc.smoothScrollTo(0, 0);
-                setTextViewAndViewColor(0);
                 break;
             case R.id.go_to_cart_layout:// 购物车
                 backMain(2);
@@ -1366,42 +1329,6 @@ public class GiveAwayDetailsAty extends BaseAty implements ObservableScrollView.
     }
 
 
-    private void setTextViewAndViewColor(int next) {
-        title_goods_tv.setTextColor(Color.BLACK);
-        title_details_tv.setTextColor(Color.BLACK);
-        title_evaluate_tv.setTextColor(Color.BLACK);
-
-        title_goods_view.setBackgroundColor(Color.WHITE);
-        title_details_view.setBackgroundColor(Color.WHITE);
-        title_evaluate_view.setBackgroundColor(Color.WHITE);
-
-        if (1 == clickType) {
-            title_goods_tv.setTextColor(ContextCompat.getColor(this, R.color.theme_color));
-            title_goods_view.setBackgroundColor(ContextCompat.getColor(this, R.color.theme_color));
-            return;
-        }
-        if (2 == clickType) {
-            title_details_tv.setTextColor(ContextCompat.getColor(this, R.color.theme_color));
-            title_details_view.setBackgroundColor(ContextCompat.getColor(this, R.color.theme_color));
-            return;
-        }
-        if (3 == clickType) {
-            title_evaluate_tv.setTextColor(ContextCompat.getColor(this, R.color.theme_color));
-            title_evaluate_view.setBackgroundColor(ContextCompat.getColor(this, R.color.theme_color));
-            return;
-        }
-        if (0 == next) {
-            title_goods_tv.setTextColor(ContextCompat.getColor(this, R.color.theme_color));
-            title_goods_view.setBackgroundColor(ContextCompat.getColor(this, R.color.theme_color));
-        } else if (1 == next) {
-            title_details_tv.setTextColor(ContextCompat.getColor(this, R.color.theme_color));
-            title_details_view.setBackgroundColor(ContextCompat.getColor(this, R.color.theme_color));
-        } else {
-            title_evaluate_tv.setTextColor(ContextCompat.getColor(this, R.color.theme_color));
-            title_evaluate_view.setBackgroundColor(ContextCompat.getColor(this, R.color.theme_color));
-        }
-    }
-
     /**
      * 轮播图
      */
@@ -1430,25 +1357,6 @@ public class GiveAwayDetailsAty extends BaseAty implements ObservableScrollView.
     };
 
 
-    @Override
-    public void onScrollChanged(ObservableScrollView scrollView, int x, int y, int oldx, int oldy) {
-        if (y <= 0) {
-            be_back_top_iv.setVisibility(View.GONE);
-            setTextViewAndViewColor(0);
-        } else if (y > bannerHeight) {
-            be_back_top_iv.setVisibility(View.VISIBLE);
-            if (y < topHeighe) {
-                setTextViewAndViewColor(0);
-            } else if (y >= topHeighe && y < secondHeight) {
-                setTextViewAndViewColor(2);
-            } else {
-                setTextViewAndViewColor(1);
-            }
-        }
-        if (oldy > y) {
-            clickType = 0;
-        }
-    }
 
     @Override
     public void onBottom() {
@@ -1690,18 +1598,6 @@ public class GiveAwayDetailsAty extends BaseAty implements ObservableScrollView.
             } else {
                 layout_djq.setVisibility(View.GONE);
             }
-
-            //            L.e("product_id=" + data.getStringExtra("product_id") + "\n" +
-            //                    "pro_value=" + data.getStringExtra("pro_value") + "\n" +
-            //                    "num=" + data.getIntExtra("num", 0) + "\n" +
-            //                    "shop_price=" + data.getStringExtra("shop_price") + "\n" +
-            //                    "market_price=" + data.getStringExtra("market_price") + "\n" +
-            //                    "red_return_integral=" + data.getStringExtra("red_return_integral") + "\n" +
-            //                    "discount=" + data.getStringExtra("discount") + "\n" +
-            //                    "yellow_discount=" + data.getStringExtra("yellow_discount") + "\n" +
-            //                    "blue_discount=" + data.getStringExtra("blue_discount") + "\n" +
-            //                    "wy_price=" + data.getStringExtra("wy_price") + "\n" +
-            //                    "wy_price=" + data.getStringExtra("wy_price") + "\n");
 
         } else if (requestCode == 1000 && resultCode == 0x0001 && null != data) {
             L.e("返回商品详情");

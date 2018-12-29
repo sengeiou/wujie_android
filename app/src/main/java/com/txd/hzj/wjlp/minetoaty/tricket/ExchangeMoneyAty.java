@@ -159,7 +159,7 @@ public class ExchangeMoneyAty extends BaseAty {
     }
 
     @Override
-    @OnClick({R.id.select_bank_card_layout, R.id.my_bal_tv2, R.id.submit_op_tv, R.id.submit_op_tv})
+    @OnClick({R.id.select_bank_card_layout, R.id.my_bal_tv2, R.id.submit_op_tv})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {

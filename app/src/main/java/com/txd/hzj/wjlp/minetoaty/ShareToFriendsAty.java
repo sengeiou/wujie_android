@@ -16,7 +16,6 @@ import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.http.user.UserPst;
-import com.txd.hzj.wjlp.mellonLine.NoticeDetailsAty;
 import com.txd.hzj.wjlp.mellonLine.gridClassify.MellInfoAty;
 import com.txd.hzj.wjlp.mellonLine.gridClassify.TicketGoodsDetialsAty;
 import com.txd.hzj.wjlp.webviewH5.WebViewAty;
@@ -66,6 +65,10 @@ public class ShareToFriendsAty extends BaseAty {
         switch (v.getId()) {
             case R.id.to_share_friends_tv:// 分享
                 String context = share_context_ev.getText().toString().trim();
+                if (TextUtils.isEmpty(context)){
+                    showToast("请输入文字");
+                    return;
+                }
                 toShare(share_title, share_img, share_url, context, share_id, "1");
 //                toShare(share_title, share_img, share_url, context, share_id, "5");
                 break;

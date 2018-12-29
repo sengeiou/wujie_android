@@ -4,7 +4,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.ants.theantsgo.config.Config;
@@ -21,6 +20,7 @@ import com.txd.hzj.wjlp.http.collect.UserCollectPst;
 import com.txd.hzj.wjlp.http.merchant.MerchantPst;
 import com.txd.hzj.wjlp.mellonLine.gridClassify.GoodsEvaluateAty;
 import com.txd.hzj.wjlp.tool.TextUtils;
+import com.txd.hzj.wjlp.view.RatingBar;
 
 import java.util.Map;
 
@@ -216,7 +216,7 @@ public class OffLineMellInfoAty extends BaseAty {
                 } catch (NumberFormatException e) {
                     rat = 0f;
                 }
-                mell_score_rating_bar.setRating(rat);
+                mell_score_rating_bar.setStar(rat);
 
                 nick_name_tv.setText(one_comment.get("nickname"));
 

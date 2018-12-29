@@ -11,7 +11,6 @@ import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.TextView;
 
-import com.ants.theantsgo.util.L;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
@@ -87,7 +86,7 @@ public class OnlineShopAty extends BaseAty implements View.OnClickListener {
         //mTabLayout.setTabGravity(TabLayout.);
 
         //添加页卡标题
-        if (title.equals("线上商城") || title.equals("线下商城") || title.equals("积分商店") || title.equals("399专区")) {
+        if (title.equals("线上商城") || title.equals("线下商城") || title.equals("积分商店") || title.equals("399专区") || title.equals("集碎片")) {
             mTitleList = OrderTitleUtils.getInstance().orderTitle1();
         } else if (title.equals("线上充值")) {
             mTitleList = OrderTitleUtils.getInstance().orderTitle6();

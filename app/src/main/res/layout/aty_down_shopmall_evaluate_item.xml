@@ -54,7 +54,7 @@
                 android:textSize="10sp" />
         </LinearLayout>
 
-        <RatingBar
+        <!--<RatingBar
             android:id="@+id/shop_evaluate_star_level"
             style="@style/foodRatingBar"
             android:layout_width="wrap_content"
@@ -64,7 +64,28 @@
             android:layout_toRightOf="@+id/shopmall_item_img_head"
             android:isIndicator="true"
             android:numStars="5"
-            android:rating="4" />
+            android:rating="4" />-->
+
+        <com.txd.hzj.wjlp.view.RatingBar
+            android:id="@+id/shop_evaluate_star_level"
+            style="@style/foodRatingBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="20dp"
+            android:layout_toRightOf="@+id/shopmall_item_img_head"
+            android:clickable="false"
+            android:gravity="center"
+            android:numStars="5"
+            app:starFill="@mipmap/star_ful"
+            app:starHalf="@mipmap/unstar_ful"
+            app:starImageSize="12dp"
+            app:starStep="4"
+            app:starcount="5"
+            app:starempty="@mipmap/unstar_ful"
+            app:starpadding="5dp"
+            app:stepSize="Full"/>
 
     </RelativeLayout>
 

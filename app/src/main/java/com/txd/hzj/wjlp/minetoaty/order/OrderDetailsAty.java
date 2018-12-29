@@ -1,5 +1,6 @@
 package com.txd.hzj.wjlp.minetoaty.order;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.text.Html;
@@ -40,6 +41,7 @@ import com.txd.hzj.wjlp.mellonLine.gridClassify.giveawayarea.GiveAwayModel;
 import com.txd.hzj.wjlp.minetoaty.OrderLogisticsAty;
 import com.txd.hzj.wjlp.minetoaty.PayForAppAty;
 import com.txd.hzj.wjlp.new_wjyp.After_aty;
+import com.txd.hzj.wjlp.tool.ChangeTextViewStyle;
 import com.txd.hzj.wjlp.tool.CommonPopupWindow;
 import com.txd.hzj.wjlp.tool.WJConfig;
 
@@ -197,7 +199,7 @@ public class OrderDetailsAty extends BaseAty {
                 yunfei_layout.setVisibility(View.VISIBLE);
             }
         }
-        if (type.equals("0") || WJConfig.TYPE_SJJZQ.equals(type)) {//0 普通商品
+        if (type.equals("0") || WJConfig.TYPE_SJJZQ.equals(type) || type.equals(WJConfig.TYPE_JSP)) {//0 普通商品
             Order.details(order_id, this);
             type2WL = "0";
         } else if (type.equals("3")) {//拼单购
@@ -225,7 +227,7 @@ public class OrderDetailsAty extends BaseAty {
         tv_btn_right.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (type.equals("0") || type.equals(WJConfig.TYPE_JFSD) || type.equals(WJConfig.TYPE_SJJZQ) || type.equals(WJConfig.TYPE_ZPZQ)) {
+                if (type.equals("0") || type.equals(WJConfig.TYPE_JFSD) || type.equals(WJConfig.TYPE_SJJZQ) || type.equals(WJConfig.TYPE_ZPZQ) || type.equals(WJConfig.TYPE_JSP)) {
                     //订单状态（'0': '待付款‘ ； '1': '待发货' ； '2': '待收货' ；'3': '待评价'；'4': '已完成；‘5’：取消订单） 默认9（全部）
                     if (order_status.equals("0")) {
                         Bundle bundle = new Bundle();
@@ -254,7 +256,7 @@ public class OrderDetailsAty extends BaseAty {
                         new AlertDialog(OrderDetailsAty.this).builder().setTitle("提示").setMsg("删除订单").setPositiveButton("确定", new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                if (type.equals("0") || type.equals(WJConfig.TYPE_SJJZQ)) {
+                                if (type.equals("0") || type.equals(WJConfig.TYPE_SJJZQ) || type.equals(WJConfig.TYPE_JSP)) {
                                     Order.deleteOrder(order_id, OrderDetailsAty.this);
                                     showProgressDialog();
                                 } else if (WJConfig.TYPE_ZPZQ.equals(type)) {
@@ -380,7 +382,7 @@ public class OrderDetailsAty extends BaseAty {
                     @Override
                     public void onClick(View v) {
 
-                        if (type.equals("0") || type.equals(WJConfig.TYPE_SJJZQ)) {
+                        if (type.equals("0") || type.equals(WJConfig.TYPE_SJJZQ) || type.equals(WJConfig.TYPE_JSP)) {
                             if (order_status.equals("0")) {
 
                                 Order.cancelOrder(order_id, OrderDetailsAty.this);
@@ -442,7 +444,7 @@ public class OrderDetailsAty extends BaseAty {
                 // 如果订单状态为待付款或待发货，则隐藏订单详情查看入口
                 lin_logistics.setVisibility(View.GONE);
             }
-            if (type.equals("0") || type.equals(WJConfig.TYPE_JFSD) || type.equals(WJConfig.TYPE_SJJZQ) || type.equals(WJConfig.TYPE_ZPZQ)) {
+            if (type.equals("0") || type.equals(WJConfig.TYPE_JFSD) || type.equals(WJConfig.TYPE_SJJZQ) || type.equals(WJConfig.TYPE_ZPZQ) || type.equals(WJConfig.TYPE_JSP)) {
                 setOrderStatus();
             } else if (type.equals("3")) {
                 setGroupBuyOrderStatus();
@@ -507,7 +509,7 @@ public class OrderDetailsAty extends BaseAty {
         if (requestUrlSplit.equals("cancelOrder") ||
                 requestUrlSplit.equals("preCancelOrder") ||
                 requestUrlSplit.equals("CancelOrder")) {
-            if (type.equals("0") || type.equals(WJConfig.TYPE_SJJZQ)) {
+            if (type.equals("0") || type.equals(WJConfig.TYPE_SJJZQ) || type.equals(WJConfig.TYPE_JSP)) {
                 Order.details(order_id, this);
             } else if (type.equals("3")) {
                 GroupBuyOrder.details(order_id, this);
@@ -526,7 +528,7 @@ public class OrderDetailsAty extends BaseAty {
         if (requestUrlSplit.equals("receiving") ||
                 requestUrlSplit.equals("preReceiving") ||
                 requestUrlSplit.equals("Receiving")) {
-            if (type.equals("0") || type.equals(WJConfig.TYPE_SJJZQ)) {
+            if (type.equals("0") || type.equals(WJConfig.TYPE_SJJZQ) || type.equals(WJConfig.TYPE_JSP)) {
                 Order.details(order_id, this);
             } else if (type.equals("3")) {
                 GroupBuyOrder.details(order_id, this);
@@ -885,16 +887,21 @@ public class OrderDetailsAty extends BaseAty {
                     }
                 }
             });
-            Glide.with(OrderDetailsAty.this).load(map.get("goods_img")).placeholder(R.drawable.ic_default).into(tgvh.image);
+            Glide.with(OrderDetailsAty.this).load(map.get("goods_img")).into(tgvh.image);
             tgvh.name.setText(map.get("goods_name")); // 设置商品名称显示
             tgvh.num.setText("x" + map.get("goods_num")); // 设置商品数量显示
-            tgvh.title.setText(map.get("attr")); // 设置商品属性
-            if (WJConfig.TYPE_JFSD.equals(type) || (WJConfig.TYPE_SJJZQ.equals(type) && "2".equals(map.get("is_active"))) || WJConfig.TYPE_ZPZQ.equals(type) || WJConfig.TYPE_EJBL.equals(mOrder_type)) {
-                tgvh.jifenTv.setVisibility(View.GONE);
+//            tgvh.title.setText(map.get("attr")); // 设置商品属性
+            String goods_attr_str = map.get("attr");
+            String jifen = "";
+            if (WJConfig.TYPE_JFSD.equals(type) || (WJConfig.TYPE_SJJZQ.equals(type) && "2".equals(map.get("is_active"))) || WJConfig.TYPE_ZPZQ.equals(type) || WJConfig.TYPE_EJBL.equals(mOrder_type) || WJConfig.TYPE_JSP.equals(type)) {
+                jifen = "";
             } else {
-                tgvh.jifenTv.setVisibility(View.VISIBLE);
-                tgvh.jifenTv.setText("（赠送:" + map.get("return_integral") + "积分）");
+                if (map.containsKey("return_integral") && Double.parseDouble(map.get("return_integral"))!=0){
+                    jifen = "（赠送:" + map.get("return_integral") + "积分)";
+                }
             }
+            ChangeTextViewStyle.getInstance().forTextColor(OrderDetailsAty.this, tgvh.title,
+                    goods_attr_str + jifen, goods_attr_str.length(), Color.parseColor("#F6B87A"));
             tgvh.textviews.setVisibility(View.VISIBLE); // 设置发票名称的控件显示或隐藏
             tgvh.textviews.setText(map.get("invoice_name") + "(发票运费:" + map.get("express_fee") + " 税金:" + map.get("tax_pay") + ")"); // 设置发票名称
             L.e("time" + map.get("sure_delivery_time"));
@@ -912,7 +919,12 @@ public class OrderDetailsAty extends BaseAty {
             } else {
                 tgvh.tv_2980.setVisibility(View.GONE);
             }
-            if (isTy) {
+            if (isTy || (map.containsKey("is_active")&& map.get("is_active").equals("5"))) {
+                if (isTy){
+                    tgvh.tyIv.setImageResource(R.drawable.ty);
+                }else {
+                    tgvh.tyIv.setImageResource(R.drawable.icon_explosive_order);
+                }
                 tgvh.tyIv.setVisibility(View.VISIBLE);
             } else {
                 tgvh.tyIv.setVisibility(View.GONE);
@@ -1003,11 +1015,11 @@ public class OrderDetailsAty extends BaseAty {
             });
 
 
-            //延迟收货
-            //如果 after_type等于0时  order_status=2（待收货） status = 2 （待收货）并且 sale_status= 0（未延迟收货）时  显示延迟收货
+            //延时收货
+            //如果 after_type等于0时  order_status=2（待收货） status = 2 （待收货）并且 sale_status= 0（未延时收货）时  显示延时收货
             if (map.containsKey("after_type") && map.containsKey("status") && map.containsKey("sale_status")) {
                 if (map.get("after_type").equals("0") && order_status.equals("2") && map.get("status").equals("2") && map.get("sale_status").equals("0")) {
-                    tgvh.delayReceiving.setText("延迟收货");
+                    tgvh.delayReceiving.setText("延时收货");
                     tgvh.delayReceiving.setVisibility(View.VISIBLE);
                 } else {
                     tgvh.delayReceiving.setVisibility(View.GONE);
@@ -1273,11 +1285,16 @@ public class OrderDetailsAty extends BaseAty {
                                     break;
                                     case WJConfig.TYPE_ZPZQ: {
                                         GiveAwayModel.postGiftGoodsOrderReceiving(order_id, "2", OrderDetailsAty.this);
-                                        break;
                                     }
+                                    break;
                                     case WJConfig.TYPE_SJJZQ: {
                                         Order.receiving(order_id, list.get(clickIndex).get("order_goods_id"), "2", OrderDetailsAty.this);
                                     }
+                                    break;
+                                    case WJConfig.TYPE_JSP: {
+                                        Order.receiving(order_id, list.get(clickIndex).get("order_goods_id"), "2", OrderDetailsAty.this);
+                                    }
+                                    break;
 
                                 }
                                 L.e("wang", "===============>>>>>>>>>>>>>>> tv1 click status = 1");
@@ -1308,6 +1325,10 @@ public class OrderDetailsAty extends BaseAty {
                                         break;
                                     }
                                     case WJConfig.TYPE_SJJZQ: {
+                                        Order.receiving(order_id, list.get(clickIndex).get("order_goods_id"), "1", OrderDetailsAty.this);
+                                        break;
+                                    }
+                                    case WJConfig.TYPE_JSP: {
                                         Order.receiving(order_id, list.get(clickIndex).get("order_goods_id"), "1", OrderDetailsAty.this);
                                         break;
                                     }

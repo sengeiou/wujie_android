@@ -351,6 +351,7 @@ public class AllClassifyAty extends BaseAty {
                         Intent intent = new Intent();
                         intent.putExtra("appBarTitle", childCateBean.getName());
                         intent.putExtra("two_cate_id", getItem(i).getCate_id());
+                        intent.putExtra("is_active", "");
                         intent.putExtra("page", position + 1);
                         intent.setClass(AllClassifyAty.this, SubclassificationAty.class);
                         startActivity(intent);

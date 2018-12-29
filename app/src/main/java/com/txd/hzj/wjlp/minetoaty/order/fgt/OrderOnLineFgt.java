@@ -79,6 +79,7 @@ public class OrderOnLineFgt extends BaseFgt {
      * 8：充值订单列表
      * 10：积分商店订单列表
      * 15：赠品专区
+     * 16：集碎片
      */
     private String from = "";
     /**
@@ -164,7 +165,7 @@ public class OrderOnLineFgt extends BaseFgt {
     }
 
     private void getData() {
-        if (from.equals("0") || from.equals(WJConfig.TYPE_SJJZQ)) {
+        if (from.equals("0") || from.equals(WJConfig.TYPE_SJJZQ) || from.equals(WJConfig.TYPE_JSP)) {
             com.txd.hzj.wjlp.http.Order.orderList(type, from, p, this);
         } else if (from.equals("1")) {
             CarOrder.orderList(type, p, OrderOnLineFgt.this);
@@ -186,6 +187,10 @@ public class OrderOnLineFgt extends BaseFgt {
             GiveAwayModel.postGiftOrderList(type, p, this);
         }
 
+    }
+
+    @Override
+    protected void requestData() {
         swipe_refresh.setHeaderView(createHeaderView());// add headerView
         swipe_refresh.setFooterView(createFooterView());
         swipe_refresh.setHeaderViewBackgroundColor(Color.WHITE);
@@ -200,27 +205,7 @@ public class OrderOnLineFgt extends BaseFgt {
                         imageView.setVisibility(View.GONE);
                         progressBar.setVisibility(View.VISIBLE);
                         p = 1;
-                        if (from.equals("0") || from.equals(WJConfig.TYPE_SJJZQ)) {
-                            com.txd.hzj.wjlp.http.Order.orderList(type, from, p, OrderOnLineFgt.this);
-                        } else if (from.equals("1")) {
-                            CarOrder.orderList(type, p, OrderOnLineFgt.this);
-                        } else if (from.equals("2")) {
-                            HouseOrder.orderList(type, p, OrderOnLineFgt.this);
-                        } else if (from.equals("3")) {
-                            GroupBuyOrder.orderList(type, p, OrderOnLineFgt.this);
-                        } else if (from.equals("4")) {
-                            PreOrder.preOrderList(type, p, OrderOnLineFgt.this);
-                        } else if (from.equals("5")) {
-                            IntegralOrder.orderList(type, p, OrderOnLineFgt.this);
-                        } else if (from.equals("6")) {
-                            AuctionOrder.OrderList(type, p, OrderOnLineFgt.this);
-                        } else if (from.equals(WJConfig.TYPE_JFSD)) {
-                            IntegralBuyOrder.OrderList(type, p, OrderOnLineFgt.this);
-                        } else if (from.equals("8")) {
-                            UserBalance.userBalanceHjs(type.equals("2") ? "0" : type.equals("3") ? "1" : "", OrderOnLineFgt.this);
-                        }else if (from.equals(WJConfig.TYPE_ZPZQ)) {
-                            GiveAwayModel.postGiftOrderList(type, p, OrderOnLineFgt.this);
-                        }
+                        getData();
                     }
 
                     @Override
@@ -244,27 +229,7 @@ public class OrderOnLineFgt extends BaseFgt {
                         footerImageView.setVisibility(View.GONE);
                         footerProgressBar.setVisibility(View.VISIBLE);
                         p++;
-                        if (from.equals("0") || from.equals(WJConfig.TYPE_SJJZQ)) {
-                            com.txd.hzj.wjlp.http.Order.orderList(type, from, p, OrderOnLineFgt.this);
-                        } else if (from.equals("1")) {
-                            CarOrder.orderList(type, p, OrderOnLineFgt.this);
-                        } else if (from.equals("2")) {
-                            HouseOrder.orderList(type, p, OrderOnLineFgt.this);
-                        } else if (from.equals("3")) {
-                            GroupBuyOrder.orderList(type, p, OrderOnLineFgt.this);
-                        } else if (from.equals("4")) {
-                            PreOrder.preOrderList(type, p, OrderOnLineFgt.this);
-                        } else if (from.equals("5")) {
-                            IntegralOrder.orderList(type, p, OrderOnLineFgt.this);
-                        } else if (from.equals("6")) {
-                            AuctionOrder.OrderList(type, p, OrderOnLineFgt.this);
-                        } else if (from.equals(WJConfig.TYPE_JFSD)) {
-                            IntegralBuyOrder.OrderList(type, p, OrderOnLineFgt.this);
-                        } else if (from.equals("8")) {
-                            UserBalance.userBalanceHjs(type.equals("2") ? "0" : type.equals("3") ? "1" : "", OrderOnLineFgt.this);
-                        } else if (from.equals(WJConfig.TYPE_ZPZQ)) {
-                            GiveAwayModel.postGiftOrderList(type, p, OrderOnLineFgt.this);
-                        }
+                        getData();
                     }
 
                     @Override
@@ -280,13 +245,6 @@ public class OrderOnLineFgt extends BaseFgt {
                     }
 
                 });
-
-
-    }
-
-    @Override
-    protected void requestData() {
-
     }
 
     private Map<String, String> data;
@@ -298,7 +256,7 @@ public class OrderOnLineFgt extends BaseFgt {
         super.onComplete(requestUrl, jsonStr);
         data = JSONUtils.parseKeyAndValueToMap(jsonStr);
         if (requestUrl.contains("orderList") || requestUrl.contains("OrderList") || requestUrl.contains("preOrderList")) {
-            if (from.equals("0") || from.equals("3") || from.equals("4") || from.equals("6") || from.equals(WJConfig.TYPE_JFSD) || from.equals(WJConfig.TYPE_SJJZQ)|| from.equals(WJConfig.TYPE_ZPZQ)) {
+            if (from.equals("0") || from.equals("3") || from.equals("4") || from.equals("6") || from.equals(WJConfig.TYPE_JFSD) || from.equals(WJConfig.TYPE_SJJZQ)|| from.equals(WJConfig.TYPE_ZPZQ) || from.equals(WJConfig.TYPE_JSP)) {
                 if (p == 1) {
                     goods_list = JSONUtils.parseKeyAndValueToMapList(data.get("data"));
                     goodsAdapter = new GoodsAdapter();
@@ -396,58 +354,15 @@ public class OrderOnLineFgt extends BaseFgt {
 
         if (requestUrl.contains("cancelOrder") || requestUrl.contains("preCancelOrder") || requestUrl.contains("CancelOrder")) {
             showToast("取消成功");
-            if (from.equals("0") || from.equals(WJConfig.TYPE_SJJZQ)) {
-                com.txd.hzj.wjlp.http.Order.orderList(type, from, p, this);
-            } else if (from.equals("3")) {
-                GroupBuyOrder.orderList(type, p, OrderOnLineFgt.this);
-            } else if (from.equals("4")) {
-                PreOrder.preOrderList(type, p, OrderOnLineFgt.this);
-            } else if (from.equals("6")) {
-                AuctionOrder.OrderList(type, p, OrderOnLineFgt.this);
-            } else if (from.equals(WJConfig.TYPE_JFSD)) {
-                IntegralBuyOrder.OrderList(type, p, OrderOnLineFgt.this);
-            } else if (from.equals("8")) {
-                UserBalance.userBalanceHjs(type.equals("2") ? "0" : type.equals("3") ? "1" : "", OrderOnLineFgt.this);
-            } else if (from.equals(WJConfig.TYPE_ZPZQ)) {
-                GiveAwayModel.postGiftOrderList(type, p, OrderOnLineFgt.this);
-            }
+            getData();
         }
         if (requestUrl.contains("deleteOrder") || requestUrl.contains("preDeleteOrder") || requestUrl.endsWith("DeleteOrder")) {
             showToast("删除成功");
-            if (from.equals("0") || from.equals(WJConfig.TYPE_SJJZQ)) {
-                com.txd.hzj.wjlp.http.Order.orderList(type, from, p, this);
-            } else if (from.equals("3")) {
-                GroupBuyOrder.orderList(type, p, OrderOnLineFgt.this);
-            } else if (from.equals("4")) {
-                PreOrder.preOrderList(type, p, OrderOnLineFgt.this);
-            } else if (from.equals("6")) {
-                AuctionOrder.OrderList(type, p, OrderOnLineFgt.this);
-            } else if (from.equals(WJConfig.TYPE_JFSD)) {
-                IntegralBuyOrder.OrderList(type, p, OrderOnLineFgt.this);
-            } else if (from.equals("8")) {
-                UserBalance.userBalanceHjs(type.equals("2") ? "0" : type.equals("3") ? "1" : "", OrderOnLineFgt.this);
-            }
-            if (from.equals(WJConfig.TYPE_ZPZQ)) {
-                GiveAwayModel.postGiftOrderList(type, p, OrderOnLineFgt.this);
-            }
+            getData();
         }
 
         if (requestUrl.contains("receiving") || requestUrl.contains("preReceiving") || requestUrl.endsWith("Receiving")) {
-            if (from.equals("0") || from.equals(WJConfig.TYPE_SJJZQ)) {
-                com.txd.hzj.wjlp.http.Order.orderList(type, from, p, this);
-            } else if (from.equals("3")) {
-                GroupBuyOrder.orderList(type, p, OrderOnLineFgt.this);
-            } else if (from.equals("4")) {
-                PreOrder.preOrderList(type, p, OrderOnLineFgt.this);
-            } else if (from.equals("6")) {
-                AuctionOrder.OrderList(type, p, OrderOnLineFgt.this);
-            } else if (from.equals(WJConfig.TYPE_JFSD)) {
-                IntegralBuyOrder.OrderList(type, p, OrderOnLineFgt.this);
-            } else if (from.equals("8")) {
-                UserBalance.userBalanceHjs(type.equals("2") ? "0" : type.equals("3") ? "1" : "", OrderOnLineFgt.this);
-            } else if (from.equals(WJConfig.TYPE_ZPZQ)) {
-                GiveAwayModel.postGiftOrderList(type, p, OrderOnLineFgt.this);
-            }
+            getData();
         }
     }
 
@@ -569,7 +484,7 @@ public class OrderOnLineFgt extends BaseFgt {
             holder.tv_btn_right.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (from.equals("0") || from.equals(WJConfig.TYPE_SJJZQ) || from.equals(WJConfig.TYPE_JFSD) || from.equals(WJConfig.TYPE_ZPZQ)) {
+                    if (from.equals("0") || from.equals(WJConfig.TYPE_SJJZQ) || from.equals(WJConfig.TYPE_JFSD) || from.equals(WJConfig.TYPE_ZPZQ) || from.equals(WJConfig.TYPE_JSP)) {
                         setOrderClickright(position);
                     } else if (from.equals("3")) {
                         setGroupBuyOrderClickright(position);
@@ -583,7 +498,7 @@ public class OrderOnLineFgt extends BaseFgt {
             holder.tv_btn_left.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (from.equals("0") || from.equals(WJConfig.TYPE_SJJZQ) || from.equals(WJConfig.TYPE_JFSD) || from.equals(WJConfig.TYPE_ZPZQ)) {
+                    if (from.equals("0") || from.equals(WJConfig.TYPE_SJJZQ) || from.equals(WJConfig.TYPE_JFSD) || from.equals(WJConfig.TYPE_ZPZQ) || from.equals(WJConfig.TYPE_JSP)) {
                         setOrderClickleft(position);
                     } else if (from.equals("3")) {
                         setGroupBuyOrderClickleft(position);
@@ -601,7 +516,7 @@ public class OrderOnLineFgt extends BaseFgt {
             holder.goods_for_order_lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int i, long id) {
-                    if (from.equals("0") || from.equals(WJConfig.TYPE_SJJZQ)) { // 399专区
+                    if (from.equals("0") || from.equals(WJConfig.TYPE_SJJZQ) || from.equals(WJConfig.TYPE_JSP)) { // 399专区
                         Bundle bundle = new Bundle();
                         bundle.putString("id", goods_list.get(position).get("order_id"));
                         bundle.putString("type", from);
@@ -658,7 +573,7 @@ public class OrderOnLineFgt extends BaseFgt {
 
                 }
             });
-            if (from.equals("0") || from.equals(WJConfig.TYPE_SJJZQ) || from.equals(WJConfig.TYPE_JFSD) || from.equals(WJConfig.TYPE_ZPZQ)) {
+            if (from.equals("0") || from.equals(WJConfig.TYPE_SJJZQ) || from.equals(WJConfig.TYPE_JFSD) || from.equals(WJConfig.TYPE_ZPZQ) || from.equals(WJConfig.TYPE_JSP)) {
                 setOrderStatus(position);
             } else if (from.equals("3")) {
                 setGroupBuyStatus(position);
@@ -792,7 +707,7 @@ public class OrderOnLineFgt extends BaseFgt {
                 new AlertDialog(getActivity()).builder().setTitle("提示").setMsg("取消订单").setPositiveButton("确定", new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (from.equals("0") || from.equals(WJConfig.TYPE_SJJZQ)) {
+                        if (from.equals("0") || from.equals(WJConfig.TYPE_SJJZQ) || from.equals(WJConfig.TYPE_JSP)) {
                             com.txd.hzj.wjlp.http.Order.cancelOrder(getItem(position).get("order_id"), OrderOnLineFgt.this);
                         } else if (from.equals(WJConfig.TYPE_ZPZQ)) {
                             GiveAwayModel.postGiftGoodsOrderCancelOrder(getItem(position).get("order_id"), OrderOnLineFgt.this);
@@ -827,7 +742,7 @@ public class OrderOnLineFgt extends BaseFgt {
                 bundle.putString("type", from);
                 startActivity(EvaluationReleaseAty.class, bundle);
             } else if (getItem(position).get("order_status").equals("2")) {
-                if (from.equals("0") || from.equals(WJConfig.TYPE_SJJZQ)) {
+                if (from.equals("0") || from.equals(WJConfig.TYPE_SJJZQ) || from.equals(WJConfig.TYPE_JSP)) {
                 } else if (from.equals(WJConfig.TYPE_ZPZQ)) {
                     GiveAwayModel.postGiftGoodsOrderReceiving(getItem(position).get("order_id"), "", OrderOnLineFgt.this);
                 } else {
@@ -835,12 +750,10 @@ public class OrderOnLineFgt extends BaseFgt {
                 }
                 showProgressDialog();
             } else if (getItem(position).get("order_status").equals("4") || getItem(position).get("order_status").equals("5")) {
-
-
                 new AlertDialog(getActivity()).builder().setTitle("提示").setMsg("删除订单").setPositiveButton("确定", new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (from.equals("0") || from.equals(WJConfig.TYPE_SJJZQ)) {
+                        if (from.equals("0") || from.equals(WJConfig.TYPE_SJJZQ) || from.equals(WJConfig.TYPE_JSP)) {
                             com.txd.hzj.wjlp.http.Order.deleteOrder(getItem(position).get("order_id"), OrderOnLineFgt.this);
                         } else if (from.equals(WJConfig.TYPE_ZPZQ)) {
                             GiveAwayModel.postGiftGoodsOrderDeleteOrder(getItem(position).get("order_id"), OrderOnLineFgt.this);
@@ -895,7 +808,12 @@ public class OrderOnLineFgt extends BaseFgt {
                     holder.state.setText("已完成");
                     holder.tv_btn_left.setVisibility(View.GONE);
                     holder.tv_btn_right.setText("删除订单");
-                    holder.tv_btn_right.setVisibility(View.GONE);
+                    if (from.equals(WJConfig.TYPE_JSP)){
+                        holder.tv_btn_right.setVisibility(View.VISIBLE);
+                    }else {
+                        holder.tv_btn_right.setVisibility(View.GONE);
+                    }
+
                     break;
                 case "5":
                     holder.state.setText("取消订单");
@@ -1220,12 +1138,17 @@ public class OrderOnLineFgt extends BaseFgt {
             } else {
                 goVh = (GOVH) view.getTag();
             }
-            if ("3".equals(from) && map_Type.get(pPosition)) {
+            if (("3".equals(from) && map_Type.get(pPosition))||("0".equals(from) && list_data.get(i).containsKey("is_active") && list_data.get(i).get("is_active").equals("5"))) {
+                if (from.equals("3")){
+                    goVh.tyIv.setImageResource(R.drawable.ty);
+                }else if (from.equals("0")){
+                    goVh.tyIv.setImageResource(R.drawable.icon_explosive_order);
+                }
                 goVh.tyIv.setVisibility(View.VISIBLE);
             } else {
                 goVh.tyIv.setVisibility(View.GONE);
             }
-            Glide.with(getActivity()).load(getItem(i).get("pic")).into(goVh.image);
+            Glide.with(getActivity()).load(getItem(i).get("pic")).centerCrop().into(goVh.image);
             goVh.name.setText(getItem(i).get("goods_name"));
             goVh.num.setText("x" + getItem(i).get("goods_num"));
             L.e("wang", "===============>>>>>>>>>>>>.minetoAty.order.fgt.getItem(i)" + getItem(i));
@@ -1238,11 +1161,14 @@ public class OrderOnLineFgt extends BaseFgt {
             } else {
                 goVh.title.setVisibility(View.VISIBLE);
                 String goods_attr_str = "规格" + getItem(i).get("goods_attr");
-                if (WJConfig.TYPE_EJBL.equals(order_type) || (WJConfig.TYPE_SJJZQ.equals(from) && "2".equals(getItem(i).get("is_active")))) {
+                if (WJConfig.TYPE_EJBL.equals(order_type) || (WJConfig.TYPE_SJJZQ.equals(from) && "2".equals(getItem(i).get("is_active"))) || WJConfig.TYPE_JSP.equals(from)) {
                     ChangeTextViewStyle.getInstance().forTextColor(getActivity(), goVh.title,
                             goods_attr_str, goods_attr_str.length(), Color.parseColor("#F6B87A"));
                 } else {
-                    String jifen = TextUtils.isEmpty(getItem(i).get("return_integral")) ? "" : "（赠送:" + getItem(i).get("return_integral") + "积分)";
+                    String jifen = "";
+                    if (getItem(i).containsKey("return_integral") && Double.parseDouble(getItem(i).get("return_integral"))!=0){
+                        jifen = "（赠送:" + getItem(i).get("return_integral") + "积分)";
+                    }
                     ChangeTextViewStyle.getInstance().forTextColor(getActivity(), goVh.title,
                             goods_attr_str + jifen, goods_attr_str.length(), Color.parseColor("#F6B87A"));
                 }

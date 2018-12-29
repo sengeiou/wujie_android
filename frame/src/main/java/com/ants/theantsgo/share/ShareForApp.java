@@ -127,10 +127,13 @@ public class ShareForApp implements PlatformActionListener {
         }
 
         sp.setTitle(title);
-        sp.setText(text);// 分享文本
+        if (platFormName.equals(SinaWeibo.NAME)){
+            sp.setText(text+titleUrl);
+        }else {
+            sp.setText(text);// 分享文本
+        }
 
-        if (platFormName.equals(WechatMoments.NAME) || platFormName.equals(Wechat.NAME) ||
-                platFormName.equals(SinaWeibo.NAME)) {
+        if (platFormName.equals(WechatMoments.NAME) || platFormName.equals(Wechat.NAME)) {
             sp.setUrl(titleUrl);
         } else if (platFormName.equals(QQ.NAME) || platFormName.equals(QZone.NAME)) {
             sp.setTitleUrl(titleUrl);

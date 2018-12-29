@@ -174,8 +174,8 @@ public class ScanAty extends BaseAty implements QRCodeView.Delegate {
         Bundle bundle = new Bundle();
         bundle.putInt("from", from);
         herf = herf.contains("User/mentorship/invite_code") ? herf + "/token/" + token : herf; // 如果是拜师码，则添加当前登录人的Token
-        bundle.putString("href", herf);
-        startActivity(NoticeDetailsAty.class, bundle);
+        bundle.putString("url", herf);
+        startActivity(WebViewAty.class, bundle);
     }
 
     @Override

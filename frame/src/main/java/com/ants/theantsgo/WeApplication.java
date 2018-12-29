@@ -1,6 +1,9 @@
 package com.ants.theantsgo;
 
 import android.app.Application;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.Handler;
 import android.text.TextUtils;
 
 import com.ants.theantsgo.config.Settings;
@@ -15,6 +18,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * 作者：DUKE_HwangZj
@@ -25,13 +30,16 @@ import java.util.Map;
 public class WeApplication extends Application {
 
     private final String PREF_USERINFO = "user_info";
-    private final String PREF_CITY_PROVINCE="city_province";
+    private final String PREF_CITY_PROVINCE = "city_province";
     // APP管理类
     private AppManager appManager;
     // 用户信息
     private Map<String, String> userInfo;
 
     private static WeApplication application = null;
+
+    private Handler handler = new Handler();
+    private ExecutorService cachedThreadPool;
 
     public static WeApplication getInstance() {
         return application;
@@ -41,6 +49,15 @@ public class WeApplication extends Application {
     public void onCreate() {
         super.onCreate();
         application = this;
+
+        cachedThreadPool = Executors.newCachedThreadPool();
+        cachedThreadPool.execute(new Runnable() {
+            @Override
+            public void run() {
+                Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher);
+            }
+        });
+
         appManager = AppManager.getInstance();
         start();
         initUserInfo();
@@ -126,11 +143,20 @@ public class WeApplication extends Application {
         return application;
     }
 
-    public void setCityProvience(String stringJson){
-        PreferencesUtils.putString(this,PREF_CITY_PROVINCE,stringJson);
+    public void setCityProvience(String stringJson) {
+        PreferencesUtils.putString(this, PREF_CITY_PROVINCE, stringJson);
     }
-    public String getCityProvienceJson(){
-        return PreferencesUtils.getString(this,PREF_CITY_PROVINCE);
+
+    public String getCityProvienceJson() {
+        return PreferencesUtils.getString(this, PREF_CITY_PROVINCE);
+    }
+
+    public Handler getHandler() {
+        return handler;
+    }
+
+    public ExecutorService getCachedThreadPool() {
+        return cachedThreadPool;
     }
 
 }

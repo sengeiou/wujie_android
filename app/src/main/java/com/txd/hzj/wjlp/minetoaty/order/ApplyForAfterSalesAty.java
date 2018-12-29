@@ -182,6 +182,10 @@ public class ApplyForAfterSalesAty extends BaseAty {
                     return;
                 }
                 priceStr = money_be_back_ev.getText().toString();
+                if (priceStr.isEmpty() || priceStr.equals("")){
+                    showToast("请输入退款金额");
+                    return;
+                }
                 if (moneyStatus == 1 && !priceStr.equals("")) { // 如果显示退款金额
                     double parseDouble = Double.parseDouble(priceStr.equals("") ? "0.0" : priceStr);
 
@@ -192,7 +196,6 @@ public class ApplyForAfterSalesAty extends BaseAty {
 
                 }
 
-                //                L.e("wang", df.format(money_be_back_ev.getText().toString()) + "=====================");
                 if ("3".equals(type)) {
                     AfterSale.backApply(typeTypeId, priceStr, edittext.getText().toString(), pic, causeTypeId, statusTypeId, order_id, "2", order_goods_id, this);
                 } else {

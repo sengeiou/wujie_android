@@ -37,7 +37,6 @@ import com.txd.hzj.wjlp.mainfgt.adapter.HorizontalAdapter;
 import com.txd.hzj.wjlp.mainfgt.adapter.RacycleAllAdapter;
 import com.txd.hzj.wjlp.mainfgt.adapter.TicketZoonAdapter;
 import com.txd.hzj.wjlp.mainfgt.adapter.ViewPagerAdapter;
-import com.txd.hzj.wjlp.mellonLine.NoticeDetailsAty;
 import com.txd.hzj.wjlp.mellonLine.SubclassificationAty;
 import com.txd.hzj.wjlp.mellonLine.gridClassify.MellInfoAty;
 import com.txd.hzj.wjlp.mellonLine.gridClassify.TicketGoodsDetialsAty;
@@ -154,7 +153,7 @@ public class ClassifyFgt extends BaseFgt {
                         imageView.setVisibility(View.GONE);
                         progressBar.setVisibility(View.VISIBLE);
                         p = 1;
-                        goodsPst.goodsList(p, type, 0);
+                        goodsPst.goodsList(p, type, 0,"");
                     }
 
                     @Override
@@ -180,7 +179,7 @@ public class ClassifyFgt extends BaseFgt {
                         footerProgressBar.setVisibility(View.VISIBLE);
 
                         p++;
-                        goodsPst.goodsList(p, type, 0);
+                        goodsPst.goodsList(p, type, 0,"");
                     }
 
                     @Override
@@ -252,7 +251,7 @@ public class ClassifyFgt extends BaseFgt {
     @Override
     protected void requestData() {
         goodsPst = new GoodsPst(this);
-        goodsPst.goodsList(p, type, 0);
+        goodsPst.goodsList(p, type, 0,"");
     }
 
     @Override
@@ -395,6 +394,7 @@ public class ClassifyFgt extends BaseFgt {
                     bundle = new Bundle();
                     bundle.putString("appBarTitle", gv_classify.get(itemPos).getName());
                     bundle.putString("two_cate_id", gv_classify.get(itemPos).getTwo_cate_id());
+                    bundle.putString("is_active", "");
                     startActivity(SubclassificationAty.class, bundle);
                 }
             });

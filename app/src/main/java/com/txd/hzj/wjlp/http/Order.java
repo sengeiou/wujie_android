@@ -208,6 +208,8 @@ public class Order {
             requestParams.addBodyParameter("order_type", "4");
         } else if ("10".equals(type)) {
             requestParams.addBodyParameter("order_type", "5");
+        }else if ("16".equals(type)) {
+            requestParams.addBodyParameter("order_type", "16");
         }
 
         apiTool2.postApi(url + "Commentindex", requestParams, baseView);
@@ -246,6 +248,8 @@ public class Order {
             requestParams.addBodyParameter("order_type", "6");
         } else if ("10".equals(order_type)) {
             requestParams.addBodyParameter("order_type", "5");
+        }else if ("16".equals(order_type)) {
+            requestParams.addBodyParameter("order_type", "16");
         }
         //todo 限量购的类型需要确定
         //        else if("5".equals(order_type)){
@@ -286,6 +290,8 @@ public class Order {
             requestParams.addBodyParameter("order_type", "6");
         } else if ("10".equals(order_type)) {
             requestParams.addBodyParameter("order_type", "5");
+        }else if ("16".equals(order_type)) {
+            requestParams.addBodyParameter("order_type", "16");
         }
         //todo 限量购的类型需要确定
         //        else if("5".equals(order_type)){

@@ -62,6 +62,7 @@ public class CommentindexBean implements Parcelable {
          * status : 0
          * all_star :
          * content :
+         * "is_active": 0,//0:普通商品 2:399分销商品
          */
         private String order_goods_id;
         private String goods_id;
@@ -71,7 +72,15 @@ public class CommentindexBean implements Parcelable {
         private String status;
         private String all_star;
         private String content;
+        private String is_active;
 
+        public String getIs_active() {
+            return is_active;
+        }
+
+        public void setIs_active(String is_active) {
+            this.is_active = is_active;
+        }
 
         public String getOrder_goods_id() {
             return order_goods_id;

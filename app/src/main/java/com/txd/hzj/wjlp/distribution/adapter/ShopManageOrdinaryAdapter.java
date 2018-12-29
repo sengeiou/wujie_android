@@ -28,11 +28,19 @@ public class ShopManageOrdinaryAdapter extends BaseAdapter {
     private boolean isShowCbox = false; // 是否显示复选框
     private int checkedCount = 0; // 选中记录的数量
     private ImageClick imageClick;
+    /**
+     * Fragment标示
+     * 0 为出售中
+     * 1 为已下架
+     * 2 是已售罄
+     */
+    private int from;
 
-    public ShopManageOrdinaryAdapter(Context context, List<DistributionGoodsBean.DataBean> list, CheckBox checkBox) {
+    public ShopManageOrdinaryAdapter(Context context, List<DistributionGoodsBean.DataBean> list, CheckBox checkBox,int from) {
         this.context = context;
         this.list = list;
         this.checkBox = checkBox;
+        this.from=from;
     }
 
 
@@ -67,33 +75,56 @@ public class ShopManageOrdinaryAdapter extends BaseAdapter {
             convertView = LayoutInflater.from(context).inflate(R.layout.item_shopmanage_ordinary_child, null);
             holder.itemShopManageOrd_select_cbox = convertView.findViewById(R.id.itemShopManageOrd_select_cbox);
             holder.itemShopManageOrd_image_imgv = convertView.findViewById(R.id.itemShopManageOrd_image_imgv);
+            holder.recommend_img = convertView.findViewById(R.id.recommend_img);
             holder.itemShopManageOrd_title_tv = convertView.findViewById(R.id.itemShopManageOrd_title_tv);
             holder.itemShopManageOrd_daiJinQuan_tv = convertView.findViewById(R.id.itemShopManageOrd_daiJinQuan_tv);
             holder.itemShopManageOrd_meny_tv = convertView.findViewById(R.id.itemShopManageOrd_meny_tv);
             holder.itemShopManageOrd_jifen_tv = convertView.findViewById(R.id.itemShopManageOrd_jifen_tv);
             holder.itemShopManageOrd_share_imgv = convertView.findViewById(R.id.itemShopManageOrd_share_imgv);
+            holder.itemShopManageOrd_recommend = convertView.findViewById(R.id.itemShopManageOrd_recommend);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        Glide.with(context).load(list.get(position).getGoods_img()).asBitmap().into(holder.itemShopManageOrd_image_imgv);
-        holder.itemShopManageOrd_title_tv.setText(list.get(position).getGoods_name());
-        holder.itemShopManageOrd_daiJinQuan_tv.setText("最多可用"+list.get(position).getTicket_buy_discount()+"%代金券");
-        holder.itemShopManageOrd_meny_tv.setText(list.get(position).getShop_price());
-        holder.itemShopManageOrd_jifen_tv.setText(list.get(position).getIntegral());
+        final DistributionGoodsBean.DataBean dataBean = list.get(position);
+        Glide.with(context).load(dataBean.getGoods_img()).asBitmap().into(holder.itemShopManageOrd_image_imgv);
+        if (dataBean.getShop_goods_rec()!=null && dataBean.getShop_goods_rec().equals("1")){
+            holder.recommend_img.setVisibility(View.VISIBLE);
+        }else {
+            holder.recommend_img.setVisibility(View.GONE);
+        }
+        holder.itemShopManageOrd_title_tv.setText(dataBean.getGoods_name());
+        holder.itemShopManageOrd_daiJinQuan_tv.setText("最多可用"+ dataBean.getTicket_buy_discount()+"%代金券");
+        holder.itemShopManageOrd_meny_tv.setText(dataBean.getShop_price());
+        holder.itemShopManageOrd_jifen_tv.setText(dataBean.getIntegral());
         holder.itemShopManageOrd_share_imgv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                imageClick.onImageClick(v,position);
+                if (null !=imageClick){
+                    imageClick.onImageClick(v,position);
+                }
             }
         });
+        if (from==0){
+            holder.itemShopManageOrd_recommend.setVisibility(View.VISIBLE);
+            holder.itemShopManageOrd_recommend.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (null !=imageClick){
+                        imageClick.onImageClick(v,position);
+                    }
+                }
+            });
+        }else {
+            holder.itemShopManageOrd_recommend.setVisibility(View.GONE);
+        }
         holder.itemShopManageOrd_select_cbox.setVisibility(isShowCbox ? View.VISIBLE : View.GONE);
-        holder.itemShopManageOrd_select_cbox.setChecked(list.get(position).isChecked());
+        holder.itemShopManageOrd_select_cbox.setChecked(dataBean.isChecked());
         holder.itemShopManageOrd_select_cbox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                list.get(position).setChecked(holder.itemShopManageOrd_select_cbox.isChecked());
+                dataBean.setChecked(holder.itemShopManageOrd_select_cbox.isChecked());
                 if (holder.itemShopManageOrd_select_cbox.isChecked()) {
                     checkedCount++;
                     checkBox.setChecked(checkedCount == list.size());
@@ -109,11 +140,13 @@ public class ShopManageOrdinaryAdapter extends BaseAdapter {
     public class ViewHolder {
         public CheckBox itemShopManageOrd_select_cbox;
         private ImageView itemShopManageOrd_image_imgv;
+        private ImageView recommend_img;
         private TextView itemShopManageOrd_title_tv;
         private TextView itemShopManageOrd_daiJinQuan_tv;
         private TextView itemShopManageOrd_meny_tv;
         private TextView itemShopManageOrd_jifen_tv;
         private ImageView itemShopManageOrd_share_imgv;
+        private ImageView itemShopManageOrd_recommend;
     }
 
     public void setOnImageClickListener(ImageClick imageClick){

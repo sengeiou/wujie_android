@@ -10,8 +10,8 @@ android {
         applicationId "com.txd.hzj.wjlp"
         minSdkVersion 21
         targetSdkVersion 27
-        versionCode 20181109
-        versionName "1.1.6"
+        versionCode 20181217
+        versionName "1.1.8"
         multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         manifestPlaceholders = [
@@ -184,9 +184,12 @@ dependencies {
     compile files('libs/jcore-android-1.2.3.jar')
     compile files('libs/jpush-android-3.1.5.jar')
 
-    // 阿里云热修复
-    compile 'com.aliyun.ams:alicloud-android-hotfix:3.2.6'
-
     // 百度语音合成
     compile files('libs/com.baidu.tts_2.3.2.20180713_6101c2a.jar')
+
+    // TextView，排版解决不正常换行问题的textView
+    compile 'me.codeboy.android:align-text-view:2.3.2'
+    compile files('libs/AndroidPrinterSDK3.1.jar')
+    compile project(':bluetoothLibrary')
+    compile 'com.github.promeg:tinypinyin:1.0.0'
 }

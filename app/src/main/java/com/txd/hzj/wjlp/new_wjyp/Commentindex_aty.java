@@ -10,7 +10,6 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.ants.theantsgo.util.CompressionUtil;
@@ -24,6 +23,7 @@ import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.http.Order;
 import com.txd.hzj.wjlp.minetoaty.order.adapter.GridImageAdapter;
 import com.txd.hzj.wjlp.minetoaty.order.utils.FullyGridLayoutManager;
+import com.txd.hzj.wjlp.view.RatingBar;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -50,6 +50,8 @@ public class Commentindex_aty extends BaseAty {
     private RecyclerView updata_pic_rv;
     @ViewInject(R.id.imageview)
     private ImageView imageview;
+    @ViewInject(R.id.tv_399)
+    private TextView tv_399;
     @ViewInject(R.id.tv_submit)
     private TextView tv_submit;
     @ViewInject(R.id.tv_good_name)
@@ -63,6 +65,7 @@ public class Commentindex_aty extends BaseAty {
     String goods_id, goods_img, order_id,good_name;
     private TextView textLength;
     private String type;
+    private String mIs_active;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -82,6 +85,10 @@ public class Commentindex_aty extends BaseAty {
         order_id = getIntent().getStringExtra("order_id");
         type = getIntent().getStringExtra("type");
         good_name = getIntent().getStringExtra("good_name");
+        mIs_active = getIntent().getStringExtra("is_active");
+        if (mIs_active!=null && mIs_active.equals("2")){
+            tv_399.setVisibility(View.VISIBLE);
+        }
         Glide.with(this).load(goods_img).into(imageview);
         textLength = (TextView) findViewById(R.id.ed_text_length);
         titlt_conter_tv.setText("商品评价");
@@ -104,6 +111,7 @@ public class Commentindex_aty extends BaseAty {
         gridImageAdapter.setList(list);
         gridImageAdapter.setSelectMax(selectPicNum);
         updata_pic_rv.setAdapter(gridImageAdapter);
+        goods_grade_rb.setClickable(true);
         evalusete_context_tv.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -128,7 +136,7 @@ public class Commentindex_aty extends BaseAty {
                     return;
                 }
                 Order.CommentGoods(goods_id, evalusete_context_tv.getText().toString(),
-                        list, String.valueOf(goods_grade_rb.getRating()), order_id, type, Commentindex_aty.this);
+                        list, String.valueOf(goods_grade_rb.getStarStep()), order_id, type, Commentindex_aty.this);
                 showProgressDialog();
             }
         });
