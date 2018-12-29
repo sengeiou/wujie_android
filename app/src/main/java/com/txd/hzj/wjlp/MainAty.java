@@ -2,7 +2,6 @@ package com.txd.hzj.wjlp;
 
 import android.Manifest;
 import android.app.AlertDialog;
-import android.app.Notification;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -86,9 +85,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import cn.jpush.android.api.BasicPushNotificationBuilder;
-import cn.jpush.android.api.DefaultPushNotificationBuilder;
-import cn.jpush.android.api.JPushInterface;
 import io.reactivex.annotations.NonNull;
 
 /**
