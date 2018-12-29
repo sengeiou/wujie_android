@@ -1138,12 +1138,17 @@ public class OrderOnLineFgt extends BaseFgt {
             } else {
                 goVh = (GOVH) view.getTag();
             }
-            if ("3".equals(from) && map_Type.get(pPosition)) {
+            if (("3".equals(from) && map_Type.get(pPosition))||("0".equals(from) && list_data.get(i).containsKey("is_active") && list_data.get(i).get("is_active").equals("5"))) {
+                if (from.equals("3")){
+                    goVh.tyIv.setImageResource(R.drawable.ty);
+                }else if (from.equals("0")){
+                    goVh.tyIv.setImageResource(R.drawable.icon_explosive_order);
+                }
                 goVh.tyIv.setVisibility(View.VISIBLE);
             } else {
                 goVh.tyIv.setVisibility(View.GONE);
             }
-            Glide.with(getActivity()).load(getItem(i).get("pic")).into(goVh.image);
+            Glide.with(getActivity()).load(getItem(i).get("pic")).centerCrop().into(goVh.image);
             goVh.name.setText(getItem(i).get("goods_name"));
             goVh.num.setText("x" + getItem(i).get("goods_num"));
             L.e("wang", "===============>>>>>>>>>>>>.minetoAty.order.fgt.getItem(i)" + getItem(i));

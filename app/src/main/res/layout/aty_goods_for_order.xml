@@ -61,21 +61,22 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <RelativeLayout
+        <FrameLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="3dp">
 
             <ImageView
                 android:id="@+id/image"
+                android:layout_marginTop="5dp"
                 android:layout_width="80dp"
                 android:layout_height="80dp" />
 
             <ImageView
                 android:id="@+id/tyIv"
+                android:src="@drawable/ty"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:src="@drawable/ty"
                 android:visibility="gone" />
 
             <TextView
@@ -88,7 +89,7 @@
                 android:background="@drawable/kaidian2980"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
-        </RelativeLayout>
+        </FrameLayout>
 
         <LinearLayout
             android:layout_width="match_parent"

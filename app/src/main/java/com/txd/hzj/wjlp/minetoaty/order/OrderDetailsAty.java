@@ -1,5 +1,6 @@
 package com.txd.hzj.wjlp.minetoaty.order;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.text.Html;
@@ -40,6 +41,7 @@ import com.txd.hzj.wjlp.mellonLine.gridClassify.giveawayarea.GiveAwayModel;
 import com.txd.hzj.wjlp.minetoaty.OrderLogisticsAty;
 import com.txd.hzj.wjlp.minetoaty.PayForAppAty;
 import com.txd.hzj.wjlp.new_wjyp.After_aty;
+import com.txd.hzj.wjlp.tool.ChangeTextViewStyle;
 import com.txd.hzj.wjlp.tool.CommonPopupWindow;
 import com.txd.hzj.wjlp.tool.WJConfig;
 
@@ -885,20 +887,21 @@ public class OrderDetailsAty extends BaseAty {
                     }
                 }
             });
-            Glide.with(OrderDetailsAty.this).load(map.get("goods_img")).placeholder(R.drawable.ic_default).into(tgvh.image);
+            Glide.with(OrderDetailsAty.this).load(map.get("goods_img")).into(tgvh.image);
             tgvh.name.setText(map.get("goods_name")); // 设置商品名称显示
             tgvh.num.setText("x" + map.get("goods_num")); // 设置商品数量显示
-            tgvh.title.setText(map.get("attr")); // 设置商品属性
+//            tgvh.title.setText(map.get("attr")); // 设置商品属性
+            String goods_attr_str = map.get("attr");
+            String jifen = "";
             if (WJConfig.TYPE_JFSD.equals(type) || (WJConfig.TYPE_SJJZQ.equals(type) && "2".equals(map.get("is_active"))) || WJConfig.TYPE_ZPZQ.equals(type) || WJConfig.TYPE_EJBL.equals(mOrder_type) || WJConfig.TYPE_JSP.equals(type)) {
-                tgvh.jifenTv.setVisibility(View.GONE);
+                jifen = "";
             } else {
-                tgvh.jifenTv.setVisibility(View.VISIBLE);
-                String jifen = "";
                 if (map.containsKey("return_integral") && Double.parseDouble(map.get("return_integral"))!=0){
                     jifen = "（赠送:" + map.get("return_integral") + "积分)";
                 }
-                tgvh.jifenTv.setText(jifen);
             }
+            ChangeTextViewStyle.getInstance().forTextColor(OrderDetailsAty.this, tgvh.title,
+                    goods_attr_str + jifen, goods_attr_str.length(), Color.parseColor("#F6B87A"));
             tgvh.textviews.setVisibility(View.VISIBLE); // 设置发票名称的控件显示或隐藏
             tgvh.textviews.setText(map.get("invoice_name") + "(发票运费:" + map.get("express_fee") + " 税金:" + map.get("tax_pay") + ")"); // 设置发票名称
             L.e("time" + map.get("sure_delivery_time"));
@@ -916,7 +919,12 @@ public class OrderDetailsAty extends BaseAty {
             } else {
                 tgvh.tv_2980.setVisibility(View.GONE);
             }
-            if (isTy) {
+            if (isTy || (map.containsKey("is_active")&& map.get("is_active").equals("5"))) {
+                if (isTy){
+                    tgvh.tyIv.setImageResource(R.drawable.ty);
+                }else {
+                    tgvh.tyIv.setImageResource(R.drawable.icon_explosive_order);
+                }
                 tgvh.tyIv.setVisibility(View.VISIBLE);
             } else {
                 tgvh.tyIv.setVisibility(View.GONE);
