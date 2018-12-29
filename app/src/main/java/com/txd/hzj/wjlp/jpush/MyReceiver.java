@@ -11,7 +11,6 @@ import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
-import android.widget.Toast;
 
 import com.ants.theantsgo.base.BaseView;
 import com.ants.theantsgo.util.L;
@@ -23,7 +22,6 @@ import com.txd.hzj.wjlp.bluetoothPrint.PrintfUtils;
 import com.txd.hzj.wjlp.http.OfflineStore;
 import com.txd.hzj.wjlp.mellonLine.MessageAty;
 import com.txd.hzj.wjlp.tool.BaiDuTtsSoundUtil;
-import com.txd.hzj.wjlp.tool.Util;
 import com.txd.hzj.wjlp.webviewH5.WebViewAty;
 
 import org.json.JSONException;
@@ -33,8 +31,6 @@ import java.util.Iterator;
 import java.util.Map;
 
 import cn.jpush.android.api.JPushInterface;
-
-import static android.content.Context.NOTIFICATION_SERVICE;
 
 /**
  * 自定义接收器
@@ -212,7 +208,7 @@ public class MyReceiver extends BroadcastReceiver implements BaseView {
                 // 判断是否播放语音
                 String sound = extraJson.has("sound") ? extraJson.getString("sound") : "0";
                 if (sound.equals("1")) {
-                    BaiDuTtsSoundUtil.getInstance(context).speak(title, "0"); // 普通女声
+                    BaiDuTtsSoundUtil.getInstance(context).speak(title); // 普通女声
 //                    BaiDuTtsSoundUtil.getInstance(context).speak(title, "1"); // 普通男声
 //                    BaiDuTtsSoundUtil.getInstance(context).speak(title, "2"); // 特别男声
 //                    BaiDuTtsSoundUtil.getInstance(context).speak(title, "3"); // 情感男声<度逍遥>

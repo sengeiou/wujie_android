@@ -1,6 +1,7 @@
 package com.txd.hzj.wjlp.tool;
 
 import android.content.Context;
+import android.text.TextUtils;
 
 import com.ants.theantsgo.util.L;
 import com.baidu.tts.client.SpeechError;
@@ -59,10 +60,11 @@ public class BaiDuTtsSoundUtil implements SpeechSynthesizerListener {
         mSpeechSynthesizer.setContext(context); // 设置当前Context 是Context的之类，如Activity
         mSpeechSynthesizer.setAppId(APP_ID); // 设置 App Id和 App Key 及 App Secret
         mSpeechSynthesizer.setApiKey(APP_KEY, APP_SECRET); // 设置 App Key 及 App Secret
-        mSpeechSynthesizer.initTts(TtsMode.ONLINE);
+        mSpeechSynthesizer.auth(TtsMode.MIX);
+        mSpeechSynthesizer.initTts(TtsMode.MIX);
         mSpeechSynthesizer.setSpeechSynthesizerListener(this); //listener是SpeechSynthesizerListener 的实现类，需要实现您自己的业务逻辑。SDK合成后会对这个类的方法进行回调。
         mSpeechSynthesizer.setParam(SpeechSynthesizer.PARAM_SPEAKER, speaker); // 设置发声的人声音，在线
-        if (content != null && !content.isEmpty()) {
+        if (!TextUtils.isEmpty(content)) {
             mSpeechSynthesizer.speak(content);
         }
     }
@@ -96,12 +98,14 @@ public class BaiDuTtsSoundUtil implements SpeechSynthesizerListener {
     public void onSpeechFinish(String s) {
         // 播放结束
         mSpeechSynthesizer.release(); // 释放资源
+        mSpeechSynthesizer = null;
     }
 
     @Override
     public void onError(String s, SpeechError speechError) {
         // 合成或播放过程中出错
         mSpeechSynthesizer.release(); // 释放资源
+        mSpeechSynthesizer = null;
         L.i("speechError.code:" + getErrorStr(speechError.code));
     }
 
