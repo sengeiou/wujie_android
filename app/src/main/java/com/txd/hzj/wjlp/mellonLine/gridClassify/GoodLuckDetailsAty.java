@@ -63,7 +63,6 @@ import com.txd.hzj.wjlp.bean.commodity.GoodsInfoBean;
 import com.txd.hzj.wjlp.bean.commodity.GoodsPriceDescBean;
 import com.txd.hzj.wjlp.bean.commodity.GoodsServerBean;
 import com.txd.hzj.wjlp.bean.commodity.GroupBean;
-import com.txd.hzj.wjlp.bean.commodity.GroupRankBean;
 import com.txd.hzj.wjlp.bean.commodity.MInfoBean;
 import com.txd.hzj.wjlp.bean.commodity.PicturesBean;
 import com.txd.hzj.wjlp.bean.commodity.PromotionBean;
@@ -73,7 +72,6 @@ import com.txd.hzj.wjlp.http.groupbuy.GroupBuyPst;
 import com.txd.hzj.wjlp.mainfgt.adapter.AllGvLvAdapter;
 import com.txd.hzj.wjlp.mellonLine.adapter.GoodLuckAdapter;
 import com.txd.hzj.wjlp.mellonLine.adapter.GoodsCommentAttrAdapter;
-import com.txd.hzj.wjlp.mellonLine.adapter.LuckAdapter;
 import com.txd.hzj.wjlp.mellonLine.adapter.PostAdapter;
 import com.txd.hzj.wjlp.mellonLine.adapter.PromotionAdapter;
 import com.txd.hzj.wjlp.mellonLine.adapter.TheTrickAdapter;
@@ -1229,10 +1227,10 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                     }
                     if ("1".equals(groupType)){
                         layout_djq.setVisibility(View.GONE);
-                        luckLayout.setVisibility(View.VISIBLE);
-                        GroupRankBean groupRankBean = dataBean.getGroup_rank();
-                        List<GroupRankBean.RankBean> rank = groupRankBean.getRank_list();
-                        lv_ranking.setAdapter(new LuckAdapter(rank,GoodLuckDetailsAty.this));
+//                        luckLayout.setVisibility(View.VISIBLE);
+//                        GroupRankBean groupRankBean = dataBean.getGroup_rank();
+//                        List<GroupRankBean.RankBean> rank = groupRankBean.getRank_list();
+//                        lv_ranking.setAdapter(new LuckAdapter(rank,GoodLuckDetailsAty.this));
                     }else {
                         if (null != goodsInfo.getDj_ticket() && goodsInfo.getDj_ticket().size() > 0) {
                             dj_ticket = (ArrayList<DjTicketBean>) goodsInfo.getDj_ticket();
