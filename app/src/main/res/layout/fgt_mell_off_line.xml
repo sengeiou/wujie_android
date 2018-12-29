@@ -74,6 +74,7 @@
                 android:layout_height="wrap_content"
                 android:background="@color/white"
                 android:gravity="center"
+                android:visibility="gone"
                 android:orientation="horizontal">
 
                 <View
@@ -104,6 +105,7 @@
                 android:id="@+id/high_quality_business_lv"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:visibility="gone"
                 android:divider="@color/bg_color"
                 android:dividerHeight="1dp"
                 android:scrollbars="none" />
