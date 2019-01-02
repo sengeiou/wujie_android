@@ -1143,6 +1143,7 @@ public class OrderOnLineFgt extends BaseFgt {
                     goVh.tyIv.setImageResource(R.drawable.ty);
                 }else if (from.equals("0")){
                     goVh.tyIv.setImageResource(R.drawable.icon_explosive_order);
+                    goVh.tyIv.setRotation(-45);
                 }
                 goVh.tyIv.setVisibility(View.VISIBLE);
             } else {
