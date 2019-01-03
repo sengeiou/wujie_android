@@ -1,6 +1,7 @@
 package com.txd.hzj.wjlp.minetoaty.storemanagement;
 
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.lidroid.xutils.ViewUtils;
@@ -93,10 +95,19 @@ public class CommodityManagementAty extends BaseAty{
 
                 break;
             case R.id.guanliTv:
-
+                createPop(v);
                 break;
 
         }
+    }
+
+    private void createPop(View v) {
+        PopupWindow popupWindow = new PopupWindow(LinearLayout.LayoutParams.MATCH_PARENT, 150);
+        popupWindow.setBackgroundDrawable(new ColorDrawable());
+        View view = LayoutInflater.from(this).inflate(R.layout.pop_melloffline_manage,null);
+        popupWindow.setContentView(view);
+        popupWindow.setOutsideTouchable(true);
+        popupWindow.showAsDropDown(v, 0,30);
     }
 
     public static class LeftAdapter extends RecyclerView.Adapter<LeftAdapter.ViewHolder>{
