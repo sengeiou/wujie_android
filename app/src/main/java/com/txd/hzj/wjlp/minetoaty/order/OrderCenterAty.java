@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.util.JSONUtils;
+import com.ants.theantsgo.util.L;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
@@ -80,12 +81,16 @@ public class OrderCenterAty extends BaseAty {
                     mBundle.putString("type", "0");
                     startActivity(OnlineShopAty.class, mBundle);
                 } else if (showItem.getShowName().equals(itemShowNames[1])) {
-//                    mBundle.putString("title", "线下店铺");
-//                    startActivity(OffLineShopAty.class, mBundle);
-                    mBundle.putBoolean("isShowTitle",true);
-                    mBundle.putString("title",itemShowNames[1]);
-                    mBundle.putString("url",Config.SHARE_URL+"Wap/OfflineStore/os_orderlist/status/9/p/1.html");
-                    startActivity(WebViewAty.class,mBundle);
+                    if (L.isDebug){
+                        mBundle.putBoolean("isShowTitle",true);
+                        mBundle.putString("title",itemShowNames[1]);
+                        mBundle.putString("url",Config.SHARE_URL+"Wap/OfflineStore/os_orderlist/status/9/p/1.html");
+                        startActivity(WebViewAty.class,mBundle);
+                    }else {
+                        mBundle.putString("title", "线下店铺");
+                        startActivity(OffLineShopAty.class, mBundle);
+                    }
+
                 } else if (showItem.getShowName().equals(itemShowNames[2])) {
                     // 堂食点餐 Meal order
                     String url = Config.OFFICIAL_WEB.contains("api") ? Config.OFFICIAL_WEB.replace("api", "www") : Config.OFFICIAL_WEB;
