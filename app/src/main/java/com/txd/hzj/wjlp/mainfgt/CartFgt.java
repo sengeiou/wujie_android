@@ -686,7 +686,7 @@ public class CartFgt extends BaseFgt {
 
             String return_integral = cg.getReturn_integral();
             String jifen="";
-            if (!TextUtils.isEmpty(return_integral) &&  !return_integral.equals("0")){
+            if (!TextUtils.isEmpty(return_integral) && Double.parseDouble(return_integral)!=0){
                 jifen = "（赠送:" + return_integral+ "积分）";
             }
             cgvh.goods_attrs_tv.setText(Html.fromHtml("<font color=#333333>" + goodsAttrNameStr + "</font> " + "<font color=#FF0000>" + jifen + "</font>"));
