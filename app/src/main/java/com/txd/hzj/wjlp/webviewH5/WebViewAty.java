@@ -102,6 +102,9 @@ public class WebViewAty extends BaseAty {
         }
 
         boolean isShowTitle = intent.getBooleanExtra("isShowTitle", false);
+        if (isShowTitle){
+            titlt_conter_tv.setText(intent.getStringExtra("title"));
+        }
         webView_title_layout.setVisibility(isShowTitle?View.VISIBLE:View.GONE);
 
         wxPayReceiver = new WxPayReceiver();
