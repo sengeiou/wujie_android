@@ -98,7 +98,7 @@
     <application
         android:name=".DemoApplication"
         android:allowBackup="false"
-        android:debuggable="false"
+        android:debuggable="true"
         android:icon="@mipmap/wjyp2"
         android:label="@string/app_name"
         android:largeHeap="true"
@@ -150,10 +150,10 @@
         <activity
             android:name=".startPage.GuidanceAty"
             android:theme="@style/styleSplashImage">
-            <intent-filter>
+          <!--  <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            </intent-filter>-->
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -987,6 +987,12 @@
         <activity android:name=".mellonLine.gridClassify.ExplosiveAreaAty" />
         <activity android:name=".mellonLine.gridClassify.ExplosiveAreaGoodsDetialsAty" />
         <activity android:name=".mellonLine.gridClassify.LuckRakingListAty" />
+        <activity android:name=".minetoaty.storemanagement.CommodityManagementAty" >
+            <intent-filter>
+                <category android:name="android.intent.category.LAUNCHER"/>
+                <action android:name="android.intent.action.MAIN"/>
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
