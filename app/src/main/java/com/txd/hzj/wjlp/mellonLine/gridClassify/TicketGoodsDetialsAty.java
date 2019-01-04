@@ -891,6 +891,9 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
         collectPst = new UserCollectPst(this);
         goodsPst = new GoodsPst(this);
         from = getIntent().getIntExtra("from", 0);
+        if (from == 13){
+            priceLayout.setVisibility(View.GONE);
+        }
         image = new ArrayList<>();
         posts = new ArrayList<>();
         postAdapter = new PostAdapter(this, posts);
@@ -1397,6 +1400,8 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
     private TextView tv_freight;//运费
     @ViewInject(R.id.tv_expirationdate)
     private TextView tv_expirationdate;//保质期提示
+    @ViewInject(R.id.priceLayout)
+    private LinearLayout priceLayout;
     @ViewInject(R.id.tv_wy_price)
     private TextView tv_wy_price;//无忧价
     @ViewInject(R.id.tv_yx_price)

@@ -685,7 +685,10 @@ public class CartFgt extends BaseFgt {
             }
 
             String return_integral = cg.getReturn_integral();
-            String jifen = "（赠送:" + (return_integral == null || return_integral.equals("") ? "0" : return_integral) + "积分）";
+            String jifen="";
+            if (!TextUtils.isEmpty(return_integral) && Double.parseDouble(return_integral)!=0){
+                jifen = "（赠送:" + return_integral+ "积分）";
+            }
             cgvh.goods_attrs_tv.setText(Html.fromHtml("<font color=#333333>" + goodsAttrNameStr + "</font> " + "<font color=#FF0000>" + jifen + "</font>"));
             String goods_attr_name = cg.getGoods_attr_name(); // 获取规格字符串
             if (!goods_attr_name.isEmpty() && !goods_attr_name.equals("")) { // 如果名称不为空则查找字符串最后的加号

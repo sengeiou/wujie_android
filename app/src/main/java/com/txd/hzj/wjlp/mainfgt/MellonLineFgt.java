@@ -479,7 +479,11 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
                             //                            bundle.putInt("type", 3);
                             //                            bundle.putString("title", "比价购");
                             //                            startActivity(AuctionCollectAty.class, bundle);
-                            startActivity(ExplosiveAreaAty.class,null);
+                            if (!Config.isLogin()) {
+                                startActivity(LoginAty.class, null);
+                            } else {
+                                startActivity(ExplosiveAreaAty.class, null);
+                            }
                             break;
                         case 7://积分商店
                             bundle = new Bundle();

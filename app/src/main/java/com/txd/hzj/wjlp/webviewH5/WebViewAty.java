@@ -103,7 +103,10 @@ public class WebViewAty extends BaseAty {
         }
 
         boolean isShowTitle = intent.getBooleanExtra("isShowTitle", false);
-        webView_title_layout.setVisibility(isShowTitle ? View.VISIBLE : View.GONE);
+        if (isShowTitle){
+            titlt_conter_tv.setText(intent.getStringExtra("title"));
+        }
+        webView_title_layout.setVisibility(isShowTitle?View.VISIBLE:View.GONE);
 
         wxPayReceiver = new WxPayReceiver();
         IntentFilter intentFilter = new IntentFilter();
@@ -253,9 +256,9 @@ public class WebViewAty extends BaseAty {
             JSONObject data = jsonObject.has("data") ? jsonObject.getJSONObject("data") : null;
             String order_sn = data.has("order_sn") ? data.getString("order_sn") : "";
             String jump_url = data.has("jump_url") ? data.getString("jump_url") : "";
-            if (!TextUtils.isEmpty(jump_url) && "20".equals(type)) {
+            if (!TextUtils.isEmpty(jump_url) && "20".equals(type)){
                 url = jump_url;
-            } else {
+            }else {
                 //          http://www.wujiemall.com/Wap/Pay/pay_back/order/153232656966415.html
                 StringBuffer stringBuffer = new StringBuffer();
                 stringBuffer.append(Config.SHARE_URL);
@@ -496,7 +499,7 @@ public class WebViewAty extends BaseAty {
          * 拨打电话
          */
         @JavascriptInterface
-        public void callPhone(String phone) {
+        public void callPhone(String phone){
             call(phone);
         }
 
