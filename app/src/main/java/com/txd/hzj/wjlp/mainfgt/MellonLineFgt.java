@@ -49,6 +49,7 @@ import com.txd.hzj.wjlp.mellonLine.NoticeDetailsAty;
 import com.txd.hzj.wjlp.mellonLine.WujieTopHzjAty;
 import com.txd.hzj.wjlp.mellonLine.gridClassify.AuctionGoodsDetailsAty;
 import com.txd.hzj.wjlp.mellonLine.gridClassify.CarDetailseAty;
+import com.txd.hzj.wjlp.mellonLine.gridClassify.ExplosiveAreaAty;
 import com.txd.hzj.wjlp.mellonLine.gridClassify.ExplosiveAreaGoodsDetialsAty;
 import com.txd.hzj.wjlp.mellonLine.gridClassify.GoodLuckDetailsAty;
 import com.txd.hzj.wjlp.mellonLine.gridClassify.GoodsInputHzjAty;
