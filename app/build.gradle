@@ -10,8 +10,8 @@ android {
         applicationId "com.txd.hzj.wjlp"
         minSdkVersion 21
         targetSdkVersion 27
-        versionCode 20181217
-        versionName "1.1.8"
+        versionCode 20190104
+        versionName "1.1.9"
         multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         manifestPlaceholders = [
