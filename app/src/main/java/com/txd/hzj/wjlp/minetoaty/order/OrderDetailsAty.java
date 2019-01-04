@@ -924,6 +924,7 @@ public class OrderDetailsAty extends BaseAty {
                     tgvh.tyIv.setImageResource(R.drawable.ty);
                 }else {
                     tgvh.tyIv.setImageResource(R.drawable.icon_explosive_order);
+                    tgvh.tyIv.setRotation(-20);
                 }
                 tgvh.tyIv.setVisibility(View.VISIBLE);
             } else {

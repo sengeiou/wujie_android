@@ -61,7 +61,8 @@ import java.util.concurrent.ExecutionException;
  */
 public class WebViewAty extends BaseAty {
 
-    private String url = Config.OFFICIAL_WEB;
+    //    private String url = Config.OFFICIAL_WEB;
+    private String url = "";
 
     @ViewInject(R.id.webView_show_webv)
     private WebView webView_show_webv;
@@ -86,11 +87,11 @@ public class WebViewAty extends BaseAty {
     @Override
     protected void initialized() {
 
-        // 设置默认加载的Url
-        if (url.contains("api")) {
-            url = Config.OFFICIAL_WEB.replace("api", "www");
-        }
-        url = url + "wap";
+//        // 设置默认加载的Url
+//        if (url.contains("api")) {
+//            url = Config.OFFICIAL_WEB.replace("api", "www");
+//        }
+//        url = url + "wap";
 
         // 获取传入的Url
         Intent intent = getIntent();
@@ -102,6 +103,9 @@ public class WebViewAty extends BaseAty {
         }
 
         boolean isShowTitle = intent.getBooleanExtra("isShowTitle", false);
+        if (isShowTitle){
+            titlt_conter_tv.setText(intent.getStringExtra("title"));
+        }
         webView_title_layout.setVisibility(isShowTitle?View.VISIBLE:View.GONE);
 
         wxPayReceiver = new WxPayReceiver();

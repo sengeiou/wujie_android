@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.util.JSONUtils;
+import com.ants.theantsgo.util.L;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
@@ -80,8 +81,16 @@ public class OrderCenterAty extends BaseAty {
                     mBundle.putString("type", "0");
                     startActivity(OnlineShopAty.class, mBundle);
                 } else if (showItem.getShowName().equals(itemShowNames[1])) {
-                    mBundle.putString("title", "线下店铺");
-                    startActivity(OffLineShopAty.class, mBundle);
+                    if (L.isDebug){
+                        mBundle.putBoolean("isShowTitle",true);
+                        mBundle.putString("title",itemShowNames[1]);
+                        mBundle.putString("url",Config.SHARE_URL+"Wap/OfflineStore/os_orderlist/status/9/p/1.html");
+                        startActivity(WebViewAty.class,mBundle);
+                    }else {
+                        mBundle.putString("title", "线下店铺");
+                        startActivity(OffLineShopAty.class, mBundle);
+                    }
+
                 } else if (showItem.getShowName().equals(itemShowNames[2])) {
                     // 堂食点餐 Meal order
                     String url = Config.OFFICIAL_WEB.contains("api") ? Config.OFFICIAL_WEB.replace("api", "www") : Config.OFFICIAL_WEB;
@@ -161,11 +170,11 @@ public class OrderCenterAty extends BaseAty {
 //                list.add(new ShowItem(R.drawable.icon_order_center_02, itemShowNames[2])); // 堂食点餐
                 list.add(new ShowItem(R.drawable.icon_order_center_03, itemShowNames[3])); // 积分商店
                 list.add(new ShowItem(R.drawable.icon_order_center_04, itemShowNames[4])); // 拼单购
-                list.add(new ShowItem(R.drawable.icon_order_center_05, itemShowNames[5])); // 无界预购
-                list.add(new ShowItem(R.drawable.icon_order_center_06, itemShowNames[6])); // 比价购
-                list.add(new ShowItem(R.drawable.icon_order_center_07, itemShowNames[7])); // 积分抽奖
-                list.add(new ShowItem(R.drawable.icon_order_center_08, itemShowNames[8])); // 汽车购
-                list.add(new ShowItem(R.drawable.icon_order_center_09, itemShowNames[9])); // 房产购
+//                list.add(new ShowItem(R.drawable.icon_order_center_05, itemShowNames[5])); // 无界预购
+//                list.add(new ShowItem(R.drawable.icon_order_center_06, itemShowNames[6])); // 比价购
+//                list.add(new ShowItem(R.drawable.icon_order_center_07, itemShowNames[7])); // 积分抽奖
+//                list.add(new ShowItem(R.drawable.icon_order_center_08, itemShowNames[8])); // 汽车购
+//                list.add(new ShowItem(R.drawable.icon_order_center_09, itemShowNames[9])); // 房产购
                 list.add(new ShowItem(R.mipmap.icon_order_vipcard, itemShowNames[10])); // 会员卡
                 list.add(new ShowItem(R.drawable.icon_chong, itemShowNames[11])); // 线上充值
                 list.add(new ShowItem(R.drawable.icon_399_area, itemShowNames[12])); // 399专区

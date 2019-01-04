@@ -79,7 +79,7 @@
 
         <TextView
             android:id="@+id/tv_btn_right"
-            android:layout_width="60dp"
+            android:layout_width="80dp"
             android:visibility="gone"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
@@ -88,7 +88,7 @@
             android:layout_marginTop="30dp"
             android:background="@drawable/shape_red_btn_01_li"
             android:gravity="center"
-            android:text="评分"
+            android:text="评价商品"
             android:textColor="@color/colorRed" />
     </RelativeLayout>
 </LinearLayout>
