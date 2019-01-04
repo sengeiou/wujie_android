@@ -61,7 +61,8 @@ import java.util.concurrent.ExecutionException;
  */
 public class WebViewAty extends BaseAty {
 
-    private String url = Config.OFFICIAL_WEB;
+    //    private String url = Config.OFFICIAL_WEB;
+    private String url = "";
 
     @ViewInject(R.id.webView_show_webv)
     private WebView webView_show_webv;
@@ -86,11 +87,11 @@ public class WebViewAty extends BaseAty {
     @Override
     protected void initialized() {
 
-        // 设置默认加载的Url
-        if (url.contains("api")) {
-            url = Config.OFFICIAL_WEB.replace("api", "www");
-        }
-        url = url + "wap";
+//        // 设置默认加载的Url
+//        if (url.contains("api")) {
+//            url = Config.OFFICIAL_WEB.replace("api", "www");
+//        }
+//        url = url + "wap";
 
         // 获取传入的Url
         Intent intent = getIntent();
@@ -102,7 +103,7 @@ public class WebViewAty extends BaseAty {
         }
 
         boolean isShowTitle = intent.getBooleanExtra("isShowTitle", false);
-        webView_title_layout.setVisibility(isShowTitle?View.VISIBLE:View.GONE);
+        webView_title_layout.setVisibility(isShowTitle ? View.VISIBLE : View.GONE);
 
         wxPayReceiver = new WxPayReceiver();
         IntentFilter intentFilter = new IntentFilter();
@@ -252,9 +253,9 @@ public class WebViewAty extends BaseAty {
             JSONObject data = jsonObject.has("data") ? jsonObject.getJSONObject("data") : null;
             String order_sn = data.has("order_sn") ? data.getString("order_sn") : "";
             String jump_url = data.has("jump_url") ? data.getString("jump_url") : "";
-            if (!TextUtils.isEmpty(jump_url) && "20".equals(type)){
+            if (!TextUtils.isEmpty(jump_url) && "20".equals(type)) {
                 url = jump_url;
-            }else {
+            } else {
                 //          http://www.wujiemall.com/Wap/Pay/pay_back/order/153232656966415.html
                 StringBuffer stringBuffer = new StringBuffer();
                 stringBuffer.append(Config.SHARE_URL);
@@ -495,7 +496,7 @@ public class WebViewAty extends BaseAty {
          * 拨打电话
          */
         @JavascriptInterface
-        public void callPhone(String phone){
+        public void callPhone(String phone) {
             call(phone);
         }
 
