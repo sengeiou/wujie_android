@@ -33,6 +33,7 @@ import com.txd.hzj.wjlp.http.IntegralBuyOrder;
 import com.txd.hzj.wjlp.http.Order;
 import com.txd.hzj.wjlp.http.PreOrder;
 import com.txd.hzj.wjlp.http.user.User;
+import com.txd.hzj.wjlp.mellonLine.gridClassify.ExplosiveAreaGoodsDetialsAty;
 import com.txd.hzj.wjlp.mellonLine.gridClassify.GoodLuckDetailsAty;
 import com.txd.hzj.wjlp.mellonLine.gridClassify.LimitGoodsAty;
 import com.txd.hzj.wjlp.mellonLine.gridClassify.TicketGoodsDetialsAty;
@@ -877,12 +878,18 @@ public class OrderDetailsAty extends BaseAty {
                     } else {
                         if (getItem(i).containsKey("goods_id")) {//普通商品
                             bundle.putString("ticket_buy_id", getItem(i).get("goods_id"));
-                            if (WJConfig.TYPE_EJBL.equals(mOrder_type)) {
-                                bundle.putInt("from", 13);
-                            } else {
+                            if (getItem(i).containsKey("is_active") && "5".equals(getItem(i).get("is_active"))) {
                                 bundle.putInt("from", 1);
+                                startActivity(ExplosiveAreaGoodsDetialsAty.class, bundle);
+                            } else {
+                                if (WJConfig.TYPE_EJBL.equals(mOrder_type)) {
+                                    bundle.putInt("from", 13);
+                                } else {
+                                    bundle.putInt("from", 1);
+                                }
+                                startActivity(TicketGoodsDetialsAty.class, bundle);
                             }
-                            startActivity(TicketGoodsDetialsAty.class, bundle);
+
                         }
                     }
                 }
