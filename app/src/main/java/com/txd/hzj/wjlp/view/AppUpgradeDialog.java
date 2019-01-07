@@ -126,12 +126,10 @@ public class AppUpgradeDialog extends Dialog {
             }
 
             int screenWidth = Config.getScreenWidth((Activity) context);
-            int screenHeight = Config.getScreenHeight((Activity) context);
             Window window = appUpgradeDialog.getWindow(); // 这部分是设置dialog宽高
             window.getDecorView().setPadding(0, 0, 0, 0);
             WindowManager.LayoutParams lp = window.getAttributes();
             lp.width = screenWidth / 4 * 3;
-            lp.height = screenHeight / 3 * 2;
             window.setAttributes(lp);
 
             appUpgradeDialog.addContentView(view, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
