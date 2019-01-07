@@ -1227,7 +1227,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                     }
                     if ("1".equals(groupType)){
                         layout_djq.setVisibility(View.GONE);
-//                        luckLayout.setVisibility(View.VISIBLE);
+                        luckLayout.setVisibility(View.VISIBLE);
 //                        GroupRankBean groupRankBean = dataBean.getGroup_rank();
 //                        List<GroupRankBean.RankBean> rank = groupRankBean.getRank_list();
 //                        lv_ranking.setAdapter(new LuckAdapter(rank,GoodLuckDetailsAty.this));
