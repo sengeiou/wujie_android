@@ -89,7 +89,7 @@ public class CommodityManagementAty extends BaseAty{
         super.onClick(v);
         switch (v.getId()) {
             case R.id.fenleiTv:
-
+                startActivity(ClassifyManageAty.class,null);
                 break;
             case R.id.lucaiLayout:
 

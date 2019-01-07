@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <include layout="@layout/aty_shop_title" />
+    <TextView
+        android:id="@+id/addClassifyTv"
+        android:gravity="center"
+        android:textColor="#ffffffff"
+        android:textSize="20sp"
+        android:text="添加分类"
+        android:layout_alignParentBottom="true"
+        android:background="#fff23030"
+        android:layout_width="match_parent"
+        android:layout_height="50dp" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/title_re_layout"
+        android:layout_above="@id/addClassifyTv"/>
+</RelativeLayout>
