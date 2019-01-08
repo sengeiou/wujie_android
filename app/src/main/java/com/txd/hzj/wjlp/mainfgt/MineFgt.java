@@ -56,6 +56,7 @@ import com.txd.hzj.wjlp.minetoaty.FootprintAty;
 import com.txd.hzj.wjlp.minetoaty.GiveCouponAty;
 import com.txd.hzj.wjlp.minetoaty.GradeOfMemberAty;
 import com.txd.hzj.wjlp.minetoaty.ShareToFriendsAty;
+import com.txd.hzj.wjlp.minetoaty.SilverCoinAty;
 import com.txd.hzj.wjlp.minetoaty.ThirdPartAccountAty;
 import com.txd.hzj.wjlp.minetoaty._GradeOfMemberAty;
 import com.txd.hzj.wjlp.minetoaty.address.AddressListAty;
@@ -257,6 +258,12 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
      */
     @ViewInject(R.id.ticket_num_tv)
     private TextView ticket_num_tv;
+
+    /**
+     * 银两
+     */
+    @ViewInject(R.id.chance_num_tv)
+    private TextView chance_num_tv;
     /**
      * 赠品券
      */
@@ -348,6 +355,7 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
 
     private boolean isReadContacts = true;
     private String mHas_shop = "0";
+    private String mChance_num = "0";
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -384,7 +392,7 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
 
     @Override
     @OnClick({R.id.tv_set, R.id.rel_mine_about, R.id.tv_help_center, R.id.tv_order_center, R.id.grade_of_member_layout,
-            R.id.mine_member_type_layout, R.id.my_coupon_layout, R.id.my_gift_layout, R.id.integral_tv, R.id.registration_code_tv,
+            R.id.mine_member_type_layout, R.id.my_coupon_layout,  R.id.my_chance_layout,R.id.my_gift_layout, R.id.integral_tv, R.id.registration_code_tv,
             R.id.my_balance_layout, R.id.coupon_tv, R.id.address_tv, R.id.feedBack_tv, R.id.shre_to_friends_tv,
             R.id.share_grade_tv, R.id.collect_tv, R.id.footprint_tv, R.id.evaluate_tv, R.id.call_service_tv,
             R.id.merchant_will_move_into_tv, R.id.books_tv, R.id.stock_record_tv, R.id.sales_record_tv, R.id.personalStores,
@@ -443,6 +451,11 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
                 break;
             case R.id.my_coupon_layout: // 购物券
                 startActivity(MyCouponAty.class, null);
+                break;
+            case R.id.my_chance_layout:
+                bundle = new Bundle();
+                bundle.putString("chance_num",mChance_num);
+                startActivity(SilverCoinAty.class, bundle);
                 break;
             case R.id.my_gift_layout:
                 startActivity(TradingStampAty.class, null);
@@ -821,6 +834,7 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
                     userPst.proMoters();
                 }
             }
+
             if (data.containsKey("has_shop") && ("1".equals(data.get("has_shop")) || "2".equals(data.get("has_shop")))) {
                 personalStores.setVisibility(View.VISIBLE);
                 mHas_shop = data.get("has_shop");
@@ -939,6 +953,10 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
             balance = data.get("balance");
             balance_tv.setText(balance);
             ticket_num_tv.setText((String) data.get("ticket_num"));
+            if (data.containsKey("chance_num")){
+                mChance_num = data.get("chance_num");
+                chance_num_tv.setText(mChance_num);
+            }
             gift_num_tv.setText(data.containsKey("gift_num") ? data.get("gift_num") : "");
 
             server_line = data.get("server_line");

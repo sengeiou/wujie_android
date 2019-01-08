@@ -987,6 +987,8 @@
         <activity android:name=".mellonLine.gridClassify.ExplosiveAreaAty" />
         <activity android:name=".mellonLine.gridClassify.ExplosiveAreaGoodsDetialsAty" />
         <activity android:name=".mellonLine.gridClassify.LuckRakingListAty" />
+        <activity android:name=".minetoaty.SilverCoinAty" />
+        <activity android:name=".minetoaty.tricket.DetailsOfSilverAty" />
     </application>
 
 </manifest>

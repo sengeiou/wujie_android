@@ -244,129 +244,167 @@
 
                 </RelativeLayout>
 
-                <LinearLayout
+                <HorizontalScrollView
+                    android:scrollbars="none"
+                    android:overScrollMode="never"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:divider="@drawable/lin_layout_horizontal_line_shape"
-                    android:orientation="horizontal"
-                    android:padding="10dp"
-                    android:showDividers="middle">
-
+                    android:layout_height="wrap_content">
 
                     <LinearLayout
-                        android:id="@+id/integral_tv"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:orientation="vertical">
+                        android:divider="@drawable/lin_layout_horizontal_line_shape"
+                        android:orientation="horizontal"
+                        android:padding="10dp"
+                        android:showDividers="middle">
 
-                        <me.grantland.widget.AutofitTextView
-                            android:id="@+id/integral_tv2"
+
+                        <LinearLayout
+                            android:id="@+id/integral_tv"
                             android:layout_width="match_parent"
-                            android:layout_height="25dp"
-                            android:layout_marginBottom="6dp"
-                            android:gravity="center"
-                            android:maxLines="1"
-                            android:text="0.00"
-                            android:textColor="#000000"
-                            android:textSize="16sp"
-                            autofit:minTextSize="10sp" />
-
-                        <TextView
-                            android:id="@+id/center_tv"
-                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="积分"
-                            android:textSize="18sp" />
-                    </LinearLayout>
+                            android:minWidth="100dp"
+                            android:gravity="center"
+                            android:orientation="vertical">
 
-                    <LinearLayout
-                        android:id="@+id/my_balance_layout"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:orientation="vertical">
+                            <me.grantland.widget.AutofitTextView
+                                android:id="@+id/integral_tv2"
+                                android:layout_width="match_parent"
+                                android:layout_height="25dp"
+                                android:layout_marginBottom="6dp"
+                                android:gravity="center"
+                                android:maxLines="1"
+                                android:text="0.00"
+                                android:textColor="#000000"
+                                android:textSize="16sp"
+                                autofit:minTextSize="10sp" />
 
-                        <me.grantland.widget.AutofitTextView
-                            android:id="@+id/balance_tv"
+                            <TextView
+                                android:id="@+id/center_tv"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="积分"
+                                android:textSize="18sp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/my_balance_layout"
                             android:layout_width="match_parent"
-                            android:layout_height="25dp"
-                            android:layout_marginBottom="6dp"
-                            android:gravity="center"
-                            android:maxLines="1"
-                            android:text="0.00"
-                            android:textColor="#000000"
-                            android:textSize="16sp"
-                            autofit:minTextSize="10sp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="余额"
-                            android:textSize="18sp" />
-                    </LinearLayout>
+                            android:gravity="center"
+                            android:minWidth="100dp"
+                            android:orientation="vertical">
 
-                    <LinearLayout
-                        android:id="@+id/my_coupon_layout"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:orientation="vertical">
+                            <me.grantland.widget.AutofitTextView
+                                android:id="@+id/balance_tv"
+                                android:layout_width="match_parent"
+                                android:layout_height="25dp"
+                                android:layout_marginBottom="6dp"
+                                android:gravity="center"
+                                android:maxLines="1"
+                                android:text="0.00"
+                                android:textColor="#000000"
+                                android:textSize="16sp"
+                                autofit:minTextSize="10sp" />
 
-                        <me.grantland.widget.AutofitTextView
-                            android:id="@+id/ticket_num_tv"
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="余额"
+                                android:textSize="18sp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/my_coupon_layout"
                             android:layout_width="match_parent"
-                            android:layout_height="25dp"
-                            android:layout_marginBottom="6dp"
-                            android:gravity="center"
-                            android:maxLines="1"
-                            android:paddingLeft="3dp"
-                            android:paddingRight="3dp"
-                            android:text="0.00"
-                            android:textColor="#000000"
-                            android:textSize="16sp"
-                            autofit:minTextSize="10sp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="代金券"
-                            android:textSize="18sp" />
-                    </LinearLayout>
+                            android:gravity="center"
+                            android:minWidth="100dp"
+                            android:orientation="vertical">
 
-                    <LinearLayout
-                        android:id="@+id/my_gift_layout"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:orientation="vertical"
-                        android:visibility="visible">
+                            <me.grantland.widget.AutofitTextView
+                                android:id="@+id/ticket_num_tv"
+                                android:layout_width="match_parent"
+                                android:layout_height="25dp"
+                                android:layout_marginBottom="6dp"
+                                android:gravity="center"
+                                android:maxLines="1"
+                                android:paddingLeft="3dp"
+                                android:paddingRight="3dp"
+                                android:text="0.00"
+                                android:textColor="#000000"
+                                android:textSize="16sp"
+                                autofit:minTextSize="10sp" />
 
-                        <me.grantland.widget.AutofitTextView
-                            android:id="@+id/gift_num_tv"
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="代金券"
+                                android:textSize="18sp" />
+                        </LinearLayout>
+                        <LinearLayout
+                            android:id="@+id/my_chance_layout"
                             android:layout_width="match_parent"
-                            android:layout_height="25dp"
-                            android:layout_marginBottom="6dp"
-                            android:gravity="center"
-                            android:maxLines="1"
-                            android:paddingLeft="3dp"
-                            android:paddingRight="3dp"
-                            android:text="0.00"
-                            android:textColor="#000000"
-                            android:textSize="16sp"
-                            autofit:minTextSize="10sp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="赠品券"
-                            android:textSize="18sp" />
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:minWidth="100dp"
+                            android:orientation="vertical"
+                            android:visibility="visible">
+
+                            <me.grantland.widget.AutofitTextView
+                                android:id="@+id/chance_num_tv"
+                                android:layout_width="match_parent"
+                                android:layout_height="25dp"
+                                android:layout_marginBottom="6dp"
+                                android:gravity="center"
+                                android:maxLines="1"
+                                android:paddingLeft="3dp"
+                                android:paddingRight="3dp"
+                                android:text="0.00"
+                                android:textColor="#000000"
+                                android:textSize="16sp"
+                                autofit:minTextSize="10sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="银两"
+                                android:textSize="18sp" />
+                        </LinearLayout>
+                        <LinearLayout
+                            android:id="@+id/my_gift_layout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:minWidth="100dp"
+                            android:orientation="vertical"
+                            android:visibility="visible">
+
+                            <me.grantland.widget.AutofitTextView
+                                android:id="@+id/gift_num_tv"
+                                android:layout_width="match_parent"
+                                android:layout_height="25dp"
+                                android:layout_marginBottom="6dp"
+                                android:gravity="center"
+                                android:maxLines="1"
+                                android:paddingLeft="3dp"
+                                android:paddingRight="3dp"
+                                android:text="0.00"
+                                android:textColor="#000000"
+                                android:textSize="16sp"
+                                autofit:minTextSize="10sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="赠品券"
+                                android:textSize="18sp" />
+                        </LinearLayout>
                     </LinearLayout>
-                </LinearLayout>
+                </HorizontalScrollView>
+
+
 
                 <View
                     android:layout_width="match_parent"

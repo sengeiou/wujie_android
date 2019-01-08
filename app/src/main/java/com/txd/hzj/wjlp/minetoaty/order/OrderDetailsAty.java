@@ -897,13 +897,13 @@ public class OrderDetailsAty extends BaseAty {
             Glide.with(OrderDetailsAty.this).load(map.get("goods_img")).into(tgvh.image);
             tgvh.name.setText(map.get("goods_name")); // 设置商品名称显示
             tgvh.num.setText("x" + map.get("goods_num")); // 设置商品数量显示
-//            tgvh.title.setText(map.get("attr")); // 设置商品属性
+            //            tgvh.title.setText(map.get("attr")); // 设置商品属性
             String goods_attr_str = map.get("attr");
             String jifen = "";
             if (WJConfig.TYPE_JFSD.equals(type) || (WJConfig.TYPE_SJJZQ.equals(type) && "2".equals(map.get("is_active"))) || WJConfig.TYPE_ZPZQ.equals(type) || WJConfig.TYPE_EJBL.equals(mOrder_type) || WJConfig.TYPE_JSP.equals(type)) {
                 jifen = "";
             } else {
-                if (map.containsKey("return_integral") && Double.parseDouble(map.get("return_integral"))!=0){
+                if (map.containsKey("return_integral") && Double.parseDouble(map.get("return_integral")) != 0) {
                     jifen = "（赠送:" + map.get("return_integral") + "积分)";
                 }
             }
@@ -926,10 +926,10 @@ public class OrderDetailsAty extends BaseAty {
             } else {
                 tgvh.tv_2980.setVisibility(View.GONE);
             }
-            if (isTy || (map.containsKey("is_active")&& map.get("is_active").equals("5"))) {
-                if (isTy){
+            if (isTy || (map.containsKey("is_active") && map.get("is_active").equals("5"))) {
+                if (isTy) {
                     tgvh.tyIv.setImageResource(R.drawable.ty);
-                }else {
+                } else {
                     tgvh.tyIv.setImageResource(R.drawable.icon_explosive_order);
                     tgvh.tyIv.setRotation(-20);
                 }

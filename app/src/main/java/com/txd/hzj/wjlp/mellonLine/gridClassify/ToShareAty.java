@@ -123,6 +123,9 @@ public class ToShareAty extends BaseAty {
             shareUrl = link;
         } else {
             GroupBuyOrder.shareurl(link, id, this);
+            String[] split = type.split(":");
+            type = split[0];
+            id = split[1];
         }
     }
 

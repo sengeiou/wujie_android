@@ -762,9 +762,9 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
             case R.id.goods_title_share_tv://分享
                 //                toShare("无界优品", share_img, share_url, share_content, goods_id, "1");
                 if("1".equals(groupType)){
-                    toShare(goods_name, share_img, "1", share_content, goods_id, "10");
+                    toShare(goods_name, share_img, "1", share_content, group_buy_id, "10:"+goods_id);
                 }else if ("2".equals(groupType)){
-                    toShare(goods_name, share_img, "1", share_content, goods_id, "9");
+                    toShare(goods_name, share_img, "1", share_content, group_buy_id, "9:"+goods_id);
                 }
 
                 break;
@@ -1149,18 +1149,19 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
 
                             //设置提示信息
                             List<String> memoList = groupBean.getMemo();//设置提示信息
+
                             expStrList = new ArrayList<>();
                             StringBuffer ex_stringBuffer = new StringBuffer();
                             title = memoList.get(0);
                             for (int i = 0; i < memoList.size(); i++) {
                                 String str = memoList.get(i);
                                 ex_stringBuffer.append(str);
-                                ex_stringBuffer.append("<br>");
+                                ex_stringBuffer.append("<br />");
                                 if (i > 0) {
                                     expStrList.add(str);
                                 }
                             }
-                            tv_expirationdate.setText(Html.fromHtml(String.valueOf(ex_stringBuffer)));
+                            tv_expirationdate.setText(Html.fromHtml(ex_stringBuffer.toString()));
                         }
                         tv_expirationdateLayout.setEnabled(true);
                         seeMore.setVisibility(View.VISIBLE);
@@ -1486,7 +1487,12 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                             }
                         });
                     } else if ("1".equals(groupType)) {//1试用品拼单
-                        creat_group_tv.setText("送" + goodsInfo.getIntegral() + "积分\n手气" + goodsInfo.getShop_price() + "元");
+                        if (Double.parseDouble(goodsInfo.getIntegral()) == 0){
+                            creat_group_tv.setText("手气" + goodsInfo.getShop_price() + "元");
+                        }else {
+                            creat_group_tv.setText("送" + goodsInfo.getIntegral() + "积分\n手气" + goodsInfo.getShop_price() + "元");
+                        }
+
                         creat_group_tv.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
