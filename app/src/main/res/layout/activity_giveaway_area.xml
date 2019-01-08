@@ -15,7 +15,7 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/giveaway_recyclerView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            tools:listitems="@layout/giveaway_item" />
+            android:layout_height="match_parent"
+            tools:listitem="@layout/giveaway_item" />
     </com.txd.hzj.wjlp.view.SuperSwipeRefreshLayout>
 </LinearLayout>
