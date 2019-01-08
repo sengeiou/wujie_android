@@ -21,6 +21,9 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
+import com.txd.hzj.wjlp.tool.MessageEvent;
+
+import org.greenrobot.eventbus.EventBus;
 
 /**
  * 创建者：zhangyunfei
@@ -56,6 +59,7 @@ public class ClassifyManageAty extends BaseAty {
     private ClassifyAdpater mClassifyAdpater;
 
     private Context mContext;
+    private boolean mIsReturn;
 
     @Override
     protected int getLayoutResId() {
@@ -68,6 +72,7 @@ public class ClassifyManageAty extends BaseAty {
         titlt_conter_tv.setText("分类管理");
         time_select_img.setVisibility(View.VISIBLE);
         time_select_img.setImageResource(R.drawable.icon_trash);
+        mIsReturn = getIntent().getBooleanExtra("isReturn", false);
     }
 
     @Override
@@ -83,7 +88,13 @@ public class ClassifyManageAty extends BaseAty {
         }, new ClassifyAdpater.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                mClassifyAdpater.setSelectPosition(position);
+                if (mIsReturn){
+                    EventBus.getDefault().post(new MessageEvent("哈哈"));
+                    finish();
+                }else {
+                    mClassifyAdpater.setSelectPosition(position);
+                }
+
             }
         });
         recyclerView.setAdapter(mClassifyAdpater);

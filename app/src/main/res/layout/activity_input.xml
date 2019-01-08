@@ -46,6 +46,7 @@
                         android:text="商品类型" />
 
                     <RadioGroup
+                        android:id="@+id/radioGroup"
                         android:layout_marginStart="20dp"
                         android:orientation="horizontal"
                         android:layout_width="wrap_content"
@@ -130,8 +131,13 @@
                 android:layout_height="1dp"
                 android:background="@color/line_color" />
 
-            <RelativeLayout
+            <LinearLayout
                 android:id="@+id/takeawayLayout"
+                android:visibility="gone"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="15dp"
@@ -177,9 +183,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@color/line_color" />
-
-            <RelativeLayout
+            </LinearLayout>
+            <LinearLayout
                 android:id="@+id/dinnerLayout"
+                android:orientation="vertical"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="15dp"
@@ -225,7 +236,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@color/line_color" />
-
+            </LinearLayout>
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -289,11 +300,13 @@
                     android:layout_centerVertical="true"
                     android:text="多规格" />
 
-                <ImageView
+                <TextView
+                    android:id="@+id/multipleSpecificationsTv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
-                    android:src="@drawable/icon_right_arrow" />
+                    android:drawableEnd="@drawable/icon_right_arrow"
+                    android:drawablePadding="5dp"/>
             </RelativeLayout>
 
             <View
@@ -330,10 +343,10 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="15dp"
-                android:layout_marginTop="15dp"
                 android:paddingEnd="15dp"
-                android:paddingStart="15dp">
+                android:paddingStart="15dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -349,8 +362,8 @@
                     <ImageView
                         android:id="@+id/picImg"
                         android:src="@drawable/icon_camera"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp" />
+                        android:layout_width="35dp"
+                        android:layout_height="35dp" />
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_marginStart="5dp"
@@ -381,17 +394,25 @@
                     android:layout_centerVertical="true"
                     android:text="特色标签" />
 
-                <ImageView
+                <TextView
+                    android:id="@+id/labelTv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
-                    android:src="@drawable/icon_right_arrow" />
+                    android:drawableEnd="@drawable/icon_right_arrow"
+                    android:drawablePadding="5dp"/>
             </RelativeLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@color/line_color" />
+            <LinearLayout
+                android:id="@+id/takeawayTimeLayout"
+                android:orientation="vertical"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -420,6 +441,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@color/line_color" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/dinnerTimeLayout"
+                android:orientation="vertical"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -448,6 +477,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@color/line_color" />
+            </LinearLayout>
             <LinearLayout
                 android:paddingBottom="10dp"
                 android:paddingEnd="15dp"
@@ -457,7 +487,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <TextView
-                    android:text="简短描述"
+                    android:text="商品描述"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
@@ -472,7 +502,7 @@
                     android:padding="5dp"
                     android:hint="简单的对商品进行描述"
                     android:gravity="top"
-                    android:background="@drawable/shape_black_line_5"/>
+                    android:background="@null"/>
             </LinearLayout>
 
             <View
@@ -492,7 +522,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_alignParentBottom="true"
-            android:layout_weight="1"
+            android:layout_weight="2"
             android:background="#fff23030"
             android:gravity="center"
             android:text="保存"
@@ -504,7 +534,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_alignParentBottom="true"
-            android:layout_weight="2"
+            android:layout_weight="3"
             android:background="#ffF85708"
             android:gravity="center"
             android:text="保存并继续添加"

@@ -49,7 +49,7 @@ public class CommodityManagementAty extends BaseAty {
     private LinearLayout lucaiLayout;
 
     @ViewInject(R.id.guanliTv)
-    private LinearLayout guanliTv;
+    private TextView guanliTv;
     private LeftAdapter mLeftAdapter;
     private RightAdapter mRightAdapter;
 

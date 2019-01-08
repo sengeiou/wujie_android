@@ -13,9 +13,14 @@ package com.txd.hzj.wjlp.tool;
 
 public class MessageEvent {
     private String message;
-
+    private int code;
     public MessageEvent(String message) {
         this.message = message;
+    }
+
+    public MessageEvent(String message, int code) {
+        this.message = message;
+        this.code = code;
     }
 
     public String getMessage() {
@@ -24,5 +29,13 @@ public class MessageEvent {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public int getCode() {
+        return code;
+    }
+
+    public void setCode(int code) {
+        this.code = code;
     }
 }

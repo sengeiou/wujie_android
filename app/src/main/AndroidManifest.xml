@@ -995,6 +995,7 @@
         </activity>
         <activity android:name=".minetoaty.storemanagement.ClassifyManageAty" />
         <activity android:name=".minetoaty.storemanagement.InputAty" />
+        <activity android:name=".minetoaty.storemanagement.MultipleSpecificationsAty" />
     </application>
 
 </manifest>
