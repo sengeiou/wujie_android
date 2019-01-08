@@ -994,6 +994,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".minetoaty.storemanagement.ClassifyManageAty" />
+        <activity android:name=".minetoaty.storemanagement.InputAty" />
     </application>
 
 </manifest>

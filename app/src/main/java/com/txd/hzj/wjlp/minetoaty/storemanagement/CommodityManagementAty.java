@@ -24,7 +24,7 @@ import com.txd.hzj.wjlp.base.BaseAty;
  * 创建时间：2019/1/2 9:45
  * 功能描述：线下店铺的商品管理
  */
-public class CommodityManagementAty extends BaseAty{
+public class CommodityManagementAty extends BaseAty {
     @ViewInject(R.id.titlt_conter_tv)
     private TextView titlt_conter_tv;
 
@@ -65,7 +65,7 @@ public class CommodityManagementAty extends BaseAty{
         LinearLayoutManager leftLayoutManager = new LinearLayoutManager(this);
         LinearLayoutManager rightLayoutManager = new LinearLayoutManager(this);
         leftRecyclerView.setLayoutManager(leftLayoutManager);
-        leftRecyclerView.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.VERTICAL));
+        leftRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         rightRecyclerView.setLayoutManager(rightLayoutManager);
     }
 
@@ -89,10 +89,10 @@ public class CommodityManagementAty extends BaseAty{
         super.onClick(v);
         switch (v.getId()) {
             case R.id.fenleiTv:
-                startActivity(ClassifyManageAty.class,null);
+                startActivity(ClassifyManageAty.class, null);
                 break;
             case R.id.lucaiLayout:
-
+                startActivity(InputAty.class, null);
                 break;
             case R.id.guanliTv:
                 createPop(v);
@@ -104,13 +104,13 @@ public class CommodityManagementAty extends BaseAty{
     private void createPop(View v) {
         PopupWindow popupWindow = new PopupWindow(LinearLayout.LayoutParams.MATCH_PARENT, 150);
         popupWindow.setBackgroundDrawable(new ColorDrawable());
-        View view = LayoutInflater.from(this).inflate(R.layout.pop_melloffline_manage,null);
+        View view = LayoutInflater.from(this).inflate(R.layout.pop_melloffline_manage, null);
         popupWindow.setContentView(view);
         popupWindow.setOutsideTouchable(true);
-        popupWindow.showAsDropDown(v, 0,30);
+        popupWindow.showAsDropDown(v, 0, 30);
     }
 
-    public static class LeftAdapter extends RecyclerView.Adapter<LeftAdapter.ViewHolder>{
+    public static class LeftAdapter extends RecyclerView.Adapter<LeftAdapter.ViewHolder> {
 
         private int selectPosition = 0;
         private OnItemClickListener mOnItemClickListener;
@@ -122,24 +122,24 @@ public class CommodityManagementAty extends BaseAty{
         @NonNull
         @Override
         public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_left_text,parent,false);
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_left_text, parent, false);
             ViewHolder holder = new ViewHolder(view);
-            ViewUtils.inject(holder,view);
+            ViewUtils.inject(holder, view);
             return holder;
         }
 
         @Override
         public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
-//            holder.nameTv.setText();
-            if (position == selectPosition){
+            //            holder.nameTv.setText();
+            if (position == selectPosition) {
                 holder.itemView.setBackgroundColor(Color.parseColor("#ffffffff"));
-            }else {
+            } else {
                 holder.itemView.setBackgroundColor(Color.parseColor("#ffeeeeee"));
             }
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (mOnItemClickListener != null){
+                    if (mOnItemClickListener != null) {
                         mOnItemClickListener.onItemClick(holder.getLayoutPosition());
                     }
                 }
@@ -152,32 +152,33 @@ public class CommodityManagementAty extends BaseAty{
         }
 
 
-        public void setSelectPosition(int position){
+        public void setSelectPosition(int position) {
             this.selectPosition = position;
             notifyDataSetChanged();
         }
 
-        public static class ViewHolder extends RecyclerView.ViewHolder{
+        public static class ViewHolder extends RecyclerView.ViewHolder {
             @ViewInject(R.id.nameTv)
             private TextView nameTv;
+
             public ViewHolder(View itemView) {
                 super(itemView);
             }
         }
 
 
-        public interface OnItemClickListener{
+        public interface OnItemClickListener {
             void onItemClick(int position);
         }
     }
 
-    public static class RightAdapter extends RecyclerView.Adapter<RightAdapter.ViewHolder>{
+    public static class RightAdapter extends RecyclerView.Adapter<RightAdapter.ViewHolder> {
         @NonNull
         @Override
         public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_right_layout,parent,false);
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_right_layout, parent, false);
             ViewHolder holder = new ViewHolder(view);
-            ViewUtils.inject(holder,view);
+            ViewUtils.inject(holder, view);
             return holder;
         }
 
@@ -191,9 +192,10 @@ public class CommodityManagementAty extends BaseAty{
             return 5;
         }
 
-        public static class ViewHolder extends RecyclerView.ViewHolder{
+        public static class ViewHolder extends RecyclerView.ViewHolder {
             @ViewInject(R.id.nameTv)
             private TextView nameTv;
+
             public ViewHolder(View itemView) {
                 super(itemView);
             }
