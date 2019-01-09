@@ -1453,7 +1453,12 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                         if (Double.parseDouble(goodsInfo.getIntegral())!=0){
                             creat_group_tv.setText("发起拼单");
                         }else {
-                            creat_group_tv.setText("送" + goodsInfo.getIntegral() + "积分\n发起拼单");
+                            String integral = goodsInfo.getIntegral();
+                            if (Double.parseDouble(integral) == 0){
+                                creat_group_tv.setText("发起拼单");
+                            }else {
+                                creat_group_tv.setText("送" +integral +"积分\n发起拼单");
+                            }
                         }
 
                         creat_group_tv.setOnClickListener(new View.OnClickListener() {
@@ -1553,14 +1558,24 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                     }
 
                     // 单独购买
-                    //                    one_price_tv.setText("￥" + dataBean.getOne_price() + "\n独立购买");
 
                     if (null != goodsInfo.getP_integral()) {
+                        String p_integral = goodsInfo.getP_integral();
                         if ("1".equals(groupType)) {
                             onePrice = dataBean.getOne_price();
-                            one_price_tv.setText("送" + goodsInfo.getP_integral() + "积分\n单买" + onePrice + "元");
+                            if (Double.parseDouble(p_integral) == 0){
+                                one_price_tv.setText("单买" + onePrice + "元");
+                            }else {
+                                one_price_tv.setText("送" + goodsInfo.getP_integral() + "积分\n单买" + onePrice + "元");
+                            }
+
                         } else {
-                            one_price_tv.setText("送" + goodsInfo.getP_integral() + "积分\n独立购买");
+                            if (Double.parseDouble(p_integral) == 0){
+                                one_price_tv.setText("独立购买");
+                            }else {
+                                one_price_tv.setText("送" + p_integral + "积分\n独立购买");
+                            }
+
                         }
                     }
                     one_price_tv.setOnClickListener(new View.OnClickListener() {
@@ -1844,9 +1859,19 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                 }
                 if (!TextUtils.isEmpty(data.getStringExtra("p_integral"))) {
                     if ("1".equals(groupType)) {
-                        one_price_tv.setText("送" + goodsInfo.getP_integral() + "积分\n单买" + onePrice + "元");
+                        String p_integral = goodsInfo.getP_integral();
+                        if (Double.parseDouble(p_integral) == 0){
+                            one_price_tv.setText("单买" + onePrice + "元");
+                        }else {
+                            one_price_tv.setText("送" + p_integral + "积分\n单买" + onePrice + "元");
+                        }
                     } else {
-                        one_price_tv.setText("送" + data.getStringExtra("p_integral") + "积分\n独立购买");
+                        String p_integral = data.getStringExtra("p_integral");
+                        if (Double.parseDouble(p_integral) == 0){
+                            one_price_tv.setText("独立购买");
+                        }else {
+                            one_price_tv.setText("送" + p_integral + "积分\n独立购买");
+                        }
                     }
                 }
 
@@ -1859,9 +1884,15 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                 //                old_price_tv.setText("￥" + data.getStringExtra("market_price"));
                 //                old_price_tv.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
                 if ("1".equals(groupType)) {
-                    creat_group_tv.setText("送" + data.getStringExtra("red_return_integral") + "积分\n手气" + goodsInfo.getShop_price() + "元");
+                    String red_return_integral = data.getStringExtra("red_return_integral");
+                    if (Double.parseDouble(red_return_integral) == 0){
+                        creat_group_tv.setText("手气" + goodsInfo.getShop_price() + "元");
+                    }else {
+                        creat_group_tv.setText("送" + red_return_integral + "积分\n手气" + goodsInfo.getShop_price() + "元");
+                    }
+
                 } else {
-                    if (Double.parseDouble(data.getStringExtra("red_return_integral"))!=0){
+                    if (Double.parseDouble(data.getStringExtra("red_return_integral"))==0){
                         creat_group_tv.setText("发起拼单");
                     }else {
                         creat_group_tv.setText("送" + data.getStringExtra("red_return_integral") + "积分\n发起拼单");
