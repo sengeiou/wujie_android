@@ -69,6 +69,7 @@ public class ClassifyManageAty extends BaseAty {
     @Override
     protected void initialized() {
         mContext = this;
+        showStatusBar(R.id.title_re_layout);
         titlt_conter_tv.setText("分类管理");
         time_select_img.setVisibility(View.VISIBLE);
         time_select_img.setImageResource(R.drawable.icon_trash);

@@ -61,6 +61,7 @@ public class CommodityManagementAty extends BaseAty {
 
     @Override
     protected void initialized() {
+        showStatusBar(R.id.title_re_layout);
         titlt_conter_tv.setText("商品管理");
         LinearLayoutManager leftLayoutManager = new LinearLayoutManager(this);
         LinearLayoutManager rightLayoutManager = new LinearLayoutManager(this);

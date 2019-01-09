@@ -114,6 +114,7 @@ public class InputAty extends BaseAty {
     @Override
     protected void initialized() {
         mContext = this;
+        showStatusBar(R.id.title_re_layout);
         titlt_conter_tv.setText("录入");
         radioGroup.setOnCheckedChangeListener(mListener);
         forImagePacker();
@@ -150,10 +151,10 @@ public class InputAty extends BaseAty {
         switch (v.getId()) {
             case R.id.classifyTv:
                 bundle.putBoolean("isReturn",true);
-//                startActivityForResult(ClassifyManageAty.class,bundle,CLASSIFY_REQUESTCODE);
                 startActivity(ClassifyManageAty.class,bundle);
                 break;
             case R.id.multipleSpecificationsLayout:
+                startActivity(MultipleSpecificationsAty.class,null);
                 break;
             case R.id.attributesLayout:
                 break;
