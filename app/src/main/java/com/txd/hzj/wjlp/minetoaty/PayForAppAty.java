@@ -33,6 +33,7 @@ import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.http.AuctionOrder;
 import com.txd.hzj.wjlp.http.BalancePay;
+import com.txd.hzj.wjlp.http.CoinPay;
 import com.txd.hzj.wjlp.http.GroupBuyOrder;
 import com.txd.hzj.wjlp.http.IntegralBuyOrder;
 import com.txd.hzj.wjlp.http.IntegralOrder;
@@ -195,7 +196,7 @@ public class PayForAppAty extends BaseAty {
 
     @Override
     @OnClick({R.id.title_be_back_iv, R.id.top_lin_layout, R.id.top_cb, R.id.bottom_lin_layout, R.id.bottom_cb, R.id.pay_by_wechat_cb,
-            R.id.pay_by_ali_cb, R.id.pay_by_balance_cb, R.id.tv_submit, R.id.cb_jfzf})
+            R.id.pay_by_ali_cb, R.id.pay_by_balance_cb, R.id.tv_submit, R.id.cb_jfzf, R.id.cb_coinzf})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
@@ -224,6 +225,11 @@ public class PayForAppAty extends BaseAty {
                 break;
             case R.id.cb_jfzf: //积分
                 bottom_type = 3;
+                selectCheckBoxBottom(bottom_type);
+                tv_desc.setVisibility(View.INVISIBLE);
+                break;
+            case R.id.cb_coinzf: //银两
+                bottom_type = 4;
                 selectCheckBoxBottom(bottom_type);
                 tv_desc.setVisibility(View.INVISIBLE);
                 break;
@@ -307,7 +313,7 @@ public class PayForAppAty extends BaseAty {
                     return;
                 }
 
-                if (cb_jfzf.isChecked()) {
+                if (cb_jfzf.isChecked() || cb_coinzf.isChecked()) {
                     showPwdPop(v);
                     return;
                 }
@@ -327,6 +333,9 @@ public class PayForAppAty extends BaseAty {
         pay_by_ali_cb.setChecked(false);
         pay_by_balance_cb.setChecked(false);
         cb_jfzf.setChecked(false);
+        if (cb_coinzf.getVisibility() == View.VISIBLE){
+            cb_coinzf.setChecked(false);
+        }
         if (0 == type) {
             pay_by_wechat_cb.setChecked(true);
         } else if (1 == type) {
@@ -335,6 +344,8 @@ public class PayForAppAty extends BaseAty {
             pay_by_balance_cb.setChecked(true);
         } else if (3 == type) {
             cb_jfzf.setChecked(true);
+        }else if (4 == type){
+            cb_coinzf.setChecked(true);
         }
     }
 
@@ -617,6 +628,10 @@ public class PayForAppAty extends BaseAty {
                 } else {
                     cb_jfzf.setVisibility(View.GONE);
                 }
+                if (data.containsKey("is_coin_pay") && Double.parseDouble(data.get("is_coin_pay"))==1){
+                    cb_coinzf.setVisibility(View.VISIBLE);
+                    cb_coinzf.setText(data.containsKey("chance_num")?"银两支付("+data.get("chance_num")+")":"银两支付");
+                }
                 if (mType.equals("2") || mType.equals("3") || mType.equals("4")) {
                     if (TextUtils.isEmpty(group_buy_id)) {
                         group_buy_id = data.get("group_buy_id");
@@ -733,6 +748,11 @@ public class PayForAppAty extends BaseAty {
                     showProgressDialog();
 
                 }
+                //银两支付
+                if (cb_coinzf.isChecked()){
+                    CoinPay.coinPay(order_id,"2",this);
+                    showProgressDialog();
+                }
             } else {
                 showToast("请设置支付密码");
                 Bundle bundle = new Bundle();
@@ -800,6 +820,21 @@ public class PayForAppAty extends BaseAty {
                 showToast("支付成功！");
                 finish();
             }
+        }
+
+        if (requestUrl.contains("coinPay")) {
+            map = JSONUtils.parseKeyAndValueToMap(jsonStr);
+            if (map.get("code").equals("1")) {
+                showToast(map.get("message"));
+                if (mType.equals("4")) {
+                    AppManager.getInstance().killActivity(CreateGroupAty.class);
+                }
+                OrderList();
+                finish();
+            } else {
+                showToast(map.get("message"));
+            }
+
         }
 
         // 微信支付
