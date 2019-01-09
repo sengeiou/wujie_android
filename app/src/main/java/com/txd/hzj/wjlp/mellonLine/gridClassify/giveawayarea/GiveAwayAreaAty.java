@@ -72,6 +72,7 @@ public class GiveAwayAreaAty extends BaseAty {
     @Override
     protected void initialized() {
         mContext = this;
+        showStatusBar(R.id.title_re_layout);
         titlt_conter_tv.setText("赠品专区");
         mSuperSwipeRefreshLayout.setHeaderView(createHeaderView());// add headerView
         mSuperSwipeRefreshLayout.setFooterView(createFooterView());

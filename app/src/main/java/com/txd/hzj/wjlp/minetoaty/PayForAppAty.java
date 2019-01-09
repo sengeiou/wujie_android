@@ -149,6 +149,10 @@ public class PayForAppAty extends BaseAty {
     private CheckBox b;
     @ViewInject(R.id.cb_jfzf)
     private CheckBox cb_jfzf;
+    //银两支付
+    @ViewInject(R.id.cb_coinzf)
+    private CheckBox cb_coinzf;
+
     private Bundle mBundle;
     String goods_id, num, ordertype, product_id;
     private String mType;
