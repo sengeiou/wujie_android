@@ -1156,12 +1156,13 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                             for (int i = 0; i < memoList.size(); i++) {
                                 String str = memoList.get(i);
                                 ex_stringBuffer.append(str);
-                                ex_stringBuffer.append("<br />");
+                                ex_stringBuffer.append("<br/>");
                                 if (i > 0) {
                                     expStrList.add(str);
                                 }
                             }
-                            tv_expirationdate.setText(Html.fromHtml(ex_stringBuffer.toString()));
+                            String source = ex_stringBuffer.toString();
+                            tv_expirationdate.setText(Html.fromHtml(source));
                         }
                         tv_expirationdateLayout.setEnabled(true);
                         seeMore.setVisibility(View.VISIBLE);
