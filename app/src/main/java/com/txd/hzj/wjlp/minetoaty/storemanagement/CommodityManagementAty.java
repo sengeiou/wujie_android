@@ -1,23 +1,38 @@
 package com.txd.hzj.wjlp.minetoaty.storemanagement;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import com.ants.theantsgo.base.BaseView;
+import com.ants.theantsgo.config.Config;
+import com.ants.theantsgo.httpTools.ApiTool2;
+import com.ants.theantsgo.util.JSONUtils;
+import com.bumptech.glide.Glide;
 import com.lidroid.xutils.ViewUtils;
+import com.lidroid.xutils.http.RequestParams;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
+
+import java.util.ArrayList;
+import java.util.Map;
 
 /**
  * 创建者：zhangyunfei
@@ -53,6 +68,8 @@ public class CommodityManagementAty extends BaseAty {
     private LeftAdapter mLeftAdapter;
     private RightAdapter mRightAdapter;
 
+    private String merchantId;
+
 
     @Override
     protected int getLayoutResId() {
@@ -68,32 +85,95 @@ public class CommodityManagementAty extends BaseAty {
         leftRecyclerView.setLayoutManager(leftLayoutManager);
         leftRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         rightRecyclerView.setLayoutManager(rightLayoutManager);
+        merchantId = "1";
     }
 
     @Override
     protected void requestData() {
-        mLeftAdapter = new LeftAdapter();
-        mLeftAdapter.setOnItemClickListener(new LeftAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(int position) {
-                mLeftAdapter.setSelectPosition(position);
+        app_goods_cate("1", merchantId, this);
+
+
+
+    }
+
+    @Override
+    public void onComplete(String requestUrl, String jsonStr) {
+        super.onComplete(requestUrl, jsonStr);
+        Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
+        if (requestUrl.endsWith("app_goods_cate")) {
+            final ArrayList data = JSONUtils.parseKeyAndValueToMapList(LeftBean.class, map.get("data"));
+            if (data !=null && data.size()>0){
+                requestRightData(data,0);
+                mLeftAdapter = new LeftAdapter(data);
+                mLeftAdapter.setOnItemClickListener(new LeftAdapter.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(int position) {
+                        mLeftAdapter.setSelectPosition(position);
+                        requestRightData(data,position);
+                    }
+                });
+                leftRecyclerView.setAdapter(mLeftAdapter);
             }
-        });
-        leftRecyclerView.setAdapter(mLeftAdapter);
-        mRightAdapter = new RightAdapter();
-        rightRecyclerView.setAdapter(mRightAdapter);
+            return;
+        }
+        if (requestUrl.endsWith("app_cate_goods")){
+            Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
+            Map<String, String> cateInfo = JSONUtils.parseKeyAndValueToMap(data.get("cate_info"));
+            nameTv.setText(cateInfo.get("name"));
+            final ArrayList cate_goods_list = JSONUtils.parseKeyAndValueToMapList(CateGoodsListBean.class, data.get("cate_goods_list"));
+            if (cate_goods_list!=null) {
+                mRightAdapter = new RightAdapter(cate_goods_list);
+                rightRecyclerView.setAdapter(mRightAdapter);
+                mRightAdapter.setOnItemClickListener(new LeftAdapter.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(int position) {
+                        CateGoodsListBean bean = (CateGoodsListBean) cate_goods_list.get(position);
+                        Bundle bundle = new Bundle();
+                        bundle.putString("goods_id",bean.getGoods_id());
+                        bundle.putString("sta_mid",merchantId);
+                        startActivity(InputAty.class,bundle);
+                    }
+                });
+            }
+
+        }
+    }
+
+    private void requestRightData(ArrayList data,int position) {
+        LeftBean bean = (LeftBean) data.get(position);
+        app_cate_goods(bean.getId(),merchantId,this);
+    }
+
+    void app_goods_cate(String type, String sta_mid, BaseView baseView) {
+        RequestParams params = new RequestParams();
+        ApiTool2 apiTool2 = new ApiTool2();
+        params.addBodyParameter("type", type);
+        params.addBodyParameter("sta_mid", sta_mid);
+        apiTool2.postApi(Config.BASE_URL + "OsManager/app_goods_cate", params, baseView);
+    }
+
+    void app_cate_goods(String cate_id, String sta_mid, BaseView baseView) {
+        RequestParams params = new RequestParams();
+        ApiTool2 apiTool2 = new ApiTool2();
+        params.addBodyParameter("cate_id", cate_id);
+        params.addBodyParameter("sta_mid", sta_mid);
+        apiTool2.postApi(Config.BASE_URL + "OsManager/app_cate_goods", params, baseView);
     }
 
     @Override
     @OnClick({R.id.fenleiTv, R.id.lucaiLayout, R.id.guanliTv})
     public void onClick(View v) {
         super.onClick(v);
+        Bundle bundle = new Bundle();
         switch (v.getId()) {
             case R.id.fenleiTv:
-                startActivity(ClassifyManageAty.class, null);
+                bundle.putString("sta_mid",merchantId);
+                bundle.putBoolean("isShowDelete",true);
+                startActivity(ClassifyManageAty.class, bundle);
                 break;
             case R.id.lucaiLayout:
-                startActivity(InputAty.class, null);
+                bundle.putString("sta_mid",merchantId);
+                startActivity(InputAty.class, bundle);
                 break;
             case R.id.guanliTv:
                 createPop(v);
@@ -115,6 +195,11 @@ public class CommodityManagementAty extends BaseAty {
 
         private int selectPosition = 0;
         private OnItemClickListener mOnItemClickListener;
+        private ArrayList<LeftBean> mList;
+
+        public LeftAdapter(ArrayList<LeftBean> list) {
+            mList = list;
+        }
 
         public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
             mOnItemClickListener = onItemClickListener;
@@ -131,7 +216,7 @@ public class CommodityManagementAty extends BaseAty {
 
         @Override
         public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
-            //            holder.nameTv.setText();
+            holder.foodsNameTv.setText(mList.get(position).getName());
             if (position == selectPosition) {
                 holder.itemView.setBackgroundColor(Color.parseColor("#ffffffff"));
             } else {
@@ -149,7 +234,7 @@ public class CommodityManagementAty extends BaseAty {
 
         @Override
         public int getItemCount() {
-            return 5;
+            return mList.size();
         }
 
 
@@ -159,8 +244,8 @@ public class CommodityManagementAty extends BaseAty {
         }
 
         public static class ViewHolder extends RecyclerView.ViewHolder {
-            @ViewInject(R.id.nameTv)
-            private TextView nameTv;
+            @ViewInject(R.id.foodsNameTv)
+            private TextView foodsNameTv;
 
             public ViewHolder(View itemView) {
                 super(itemView);
@@ -174,32 +259,423 @@ public class CommodityManagementAty extends BaseAty {
     }
 
     public static class RightAdapter extends RecyclerView.Adapter<RightAdapter.ViewHolder> {
+        private ArrayList<CateGoodsListBean> mList;
+        private Context mContext;
+        private LeftAdapter.OnItemClickListener mOnItemClickListener;
+
+        public RightAdapter(ArrayList<CateGoodsListBean> list) {
+            mList = list;
+        }
+
+        public void setOnItemClickListener(LeftAdapter.OnItemClickListener onItemClickListener) {
+            mOnItemClickListener = onItemClickListener;
+        }
         @NonNull
         @Override
         public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_right_layout, parent, false);
+            mContext = parent.getContext();
+            View view = LayoutInflater.from(mContext).inflate(R.layout.item_right_layout, parent, false);
             ViewHolder holder = new ViewHolder(view);
             ViewUtils.inject(holder, view);
             return holder;
         }
 
         @Override
-        public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
+            CateGoodsListBean cateGoodsListBean = mList.get(position);
+            Glide.with(mContext).load(cateGoodsListBean.getGoods_pic()).into(holder.picIv);
+            holder.nameTv.setText(cateGoodsListBean.getName());
+            if(cateGoodsListBean.getAttr_count()==0){
+                holder.specTv.setVisibility(View.GONE);
+            }else if (cateGoodsListBean.getAttr_count()>0){
+                holder.specTv.setVisibility(View.VISIBLE);
+                holder.specTv.setText("已设置规格");
+            }
 
+            if (cateGoodsListBean.getIs_sale().equals("0")){
+                holder.statusTv.setText("已停售");
+            }else {
+                holder.statusTv.setText("已起售");
+            }
+            if (cateGoodsListBean.getSup_type().equals("1")){
+                holder.priceTv1.setText(setSpannable("¥"+cateGoodsListBean.getShop_price()+"/份"));
+                holder.priceTv1.setVisibility(View.VISIBLE);
+                holder.priceTv2.setVisibility(View.GONE);
+            }else if (cateGoodsListBean.getSup_type().equals("2")){
+                holder.priceTv2.setText(setSpannable("¥"+cateGoodsListBean.getChurch_shop_price()+"/份"));
+                holder.priceTv1.setVisibility(View.GONE);
+                holder.priceTv2.setVisibility(View.VISIBLE);
+            }
+            else if (cateGoodsListBean.getSup_type().equals("3")){
+                holder.priceTv1.setText(setSpannable("¥"+cateGoodsListBean.getShop_price()+"/份"));
+                holder.priceTv2.setText(setSpannable("¥"+cateGoodsListBean.getChurch_shop_price()+"/份"));
+                holder.priceTv1.setVisibility(View.VISIBLE);
+                holder.priceTv2.setVisibility(View.VISIBLE);
+            }
+
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (mOnItemClickListener != null){
+                        mOnItemClickListener.onItemClick(holder.getLayoutPosition());
+                    }
+                }
+            });
+
+        }
+
+        private SpannableString setSpannable(String source) {
+            SpannableString spannableString = new SpannableString(source);
+            ForegroundColorSpan span = new ForegroundColorSpan(Color.parseColor("#ffe12b2a"));
+            spannableString.setSpan(span,0,source.length()-2, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+            return spannableString;
         }
 
         @Override
         public int getItemCount() {
-            return 5;
+            return mList.size();
         }
 
         public static class ViewHolder extends RecyclerView.ViewHolder {
+            @ViewInject(R.id.picIv)
+            private ImageView picIv;
+
             @ViewInject(R.id.nameTv)
             private TextView nameTv;
+
+            @ViewInject(R.id.specTv)
+            private TextView specTv;
+
+            @ViewInject(R.id.statusTv)
+            private TextView statusTv;
+
+            @ViewInject(R.id.priceTv1)
+            private TextView priceTv1;
+
+            @ViewInject(R.id.priceTv2)
+            private TextView priceTv2;
 
             public ViewHolder(View itemView) {
                 super(itemView);
             }
+        }
+
+        public interface OnItemClickListener {
+            void onItemClick(int position);
+        }
+    }
+
+    public static class LeftBean {
+
+        /**
+         * id : 28
+         * m_id : 38
+         * name : 香糯甜粥
+         * desc : 夏日冰饮、清凉一夏
+         * sort : 123
+         */
+
+        private String id;
+        private String m_id;
+        private String name;
+        private String desc;
+        private String sort;
+
+        public String getId() {
+            return id;
+        }
+
+        public void setId(String id) {
+            this.id = id;
+        }
+
+        public String getM_id() {
+            return m_id;
+        }
+
+        public void setM_id(String m_id) {
+            this.m_id = m_id;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public String getDesc() {
+            return desc;
+        }
+
+        public void setDesc(String desc) {
+            this.desc = desc;
+        }
+
+        public String getSort() {
+            return sort;
+        }
+
+        public void setSort(String sort) {
+            this.sort = sort;
+        }
+    }
+
+
+    public static class CateGoodsListBean {
+        /**
+         * id : 98
+         * goods_id : 98
+         * cate_id : 50
+         * name : RWE
+         * shop_price : 11.00
+         * church_shop_price : 0.00
+         * orig_price : 0.00
+         * pic : 27985
+         * c_name : 精品小菜
+         * sup_type : 1
+         * desc : asdsfd
+         * label : 0
+         * bossrec : 0
+         * week_price :
+         * time_price : {"start_time":"1545868800","end_time":"1545955200","price":"13"}
+         * church_week_price :
+         * church_time_price :
+         * create_time : 2018-12-27 16:18:58
+         * is_sale : 1
+         * sale_num : 2
+         * goods_pic : http://test2.wujiemall.com/Uploads/StageMerchant/2018-12-27/5c248af248d33.jpg
+         * attr : [{"attr_id":"137","name":"\u4e8c\u7ef4","price":"0.00","jiesuan_price":"0.00"},{"attr_id":"138","name":"\u4e09\u7ef4","price":"1.00","jiesuan_price":"0.00"},{"attr_id":"139","name":"\u4e0a\u5348","price":"2.00","jiesuan_price":"0.00"}]
+         * specs : [{"p_id":"125","prop_title":"\u738b\u4f01\u9e45","taste":[{"id":"87","title":"\u5927"}],"taste_name":"\u5927"}]
+         * attr_count : 3
+         * specs_count : 1
+         */
+
+        private String id;
+        private String goods_id;
+        private String cate_id;
+        private String name;
+        private String shop_price;
+        private String church_shop_price;
+        private String orig_price;
+        private String pic;
+        private String c_name;
+        private String sup_type;
+        private String desc;
+        private String label;
+        private String bossrec;
+//        private String week_price;
+//        private String time_price;
+//        private String church_week_price;
+//        private String church_time_price;
+        private String create_time;
+        private String is_sale;
+        private String sale_num;
+        private String goods_pic;
+//        private String attr;
+//        private String specs;
+        private int attr_count;
+        private int specs_count;
+
+        public String getId() {
+            return id;
+        }
+
+        public void setId(String id) {
+            this.id = id;
+        }
+
+        public String getGoods_id() {
+            return goods_id;
+        }
+
+        public void setGoods_id(String goods_id) {
+            this.goods_id = goods_id;
+        }
+
+        public String getCate_id() {
+            return cate_id;
+        }
+
+        public void setCate_id(String cate_id) {
+            this.cate_id = cate_id;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public String getShop_price() {
+            return shop_price;
+        }
+
+        public void setShop_price(String shop_price) {
+            this.shop_price = shop_price;
+        }
+
+        public String getChurch_shop_price() {
+            return church_shop_price;
+        }
+
+        public void setChurch_shop_price(String church_shop_price) {
+            this.church_shop_price = church_shop_price;
+        }
+
+        public String getOrig_price() {
+            return orig_price;
+        }
+
+        public void setOrig_price(String orig_price) {
+            this.orig_price = orig_price;
+        }
+
+        public String getPic() {
+            return pic;
+        }
+
+        public void setPic(String pic) {
+            this.pic = pic;
+        }
+
+        public String getC_name() {
+            return c_name;
+        }
+
+        public void setC_name(String c_name) {
+            this.c_name = c_name;
+        }
+
+        public String getSup_type() {
+            return sup_type;
+        }
+
+        public void setSup_type(String sup_type) {
+            this.sup_type = sup_type;
+        }
+
+        public String getDesc() {
+            return desc;
+        }
+
+        public void setDesc(String desc) {
+            this.desc = desc;
+        }
+
+        public String getLabel() {
+            return label;
+        }
+
+        public void setLabel(String label) {
+            this.label = label;
+        }
+
+        public String getBossrec() {
+            return bossrec;
+        }
+
+        public void setBossrec(String bossrec) {
+            this.bossrec = bossrec;
+        }
+
+//        public String getWeek_price() {
+//            return week_price;
+//        }
+//
+//        public void setWeek_price(String week_price) {
+//            this.week_price = week_price;
+//        }
+//
+//        public String getTime_price() {
+//            return time_price;
+//        }
+//
+//        public void setTime_price(String time_price) {
+//            this.time_price = time_price;
+//        }
+//
+//        public String getChurch_week_price() {
+//            return church_week_price;
+//        }
+//
+//        public void setChurch_week_price(String church_week_price) {
+//            this.church_week_price = church_week_price;
+//        }
+//
+//        public String getChurch_time_price() {
+//            return church_time_price;
+//        }
+//
+//        public void setChurch_time_price(String church_time_price) {
+//            this.church_time_price = church_time_price;
+//        }
+
+        public String getCreate_time() {
+            return create_time;
+        }
+
+        public void setCreate_time(String create_time) {
+            this.create_time = create_time;
+        }
+
+        public String getIs_sale() {
+            return is_sale;
+        }
+
+        public void setIs_sale(String is_sale) {
+            this.is_sale = is_sale;
+        }
+
+        public String getSale_num() {
+            return sale_num;
+        }
+
+        public void setSale_num(String sale_num) {
+            this.sale_num = sale_num;
+        }
+
+        public String getGoods_pic() {
+            return goods_pic;
+        }
+
+        public void setGoods_pic(String goods_pic) {
+            this.goods_pic = goods_pic;
+        }
+
+//        public String getAttr() {
+//            return attr;
+//        }
+//
+//        public void setAttr(String attr) {
+//            this.attr = attr;
+//        }
+//
+//        public String getSpecs() {
+//            return specs;
+//        }
+//
+//        public void setSpecs(String specs) {
+//            this.specs = specs;
+//        }
+
+        public int getAttr_count() {
+            return attr_count;
+        }
+
+        public void setAttr_count(int attr_count) {
+            this.attr_count = attr_count;
+        }
+
+        public int getSpecs_count() {
+            return specs_count;
+        }
+
+        public void setSpecs_count(int specs_count) {
+            this.specs_count = specs_count;
         }
     }
 }

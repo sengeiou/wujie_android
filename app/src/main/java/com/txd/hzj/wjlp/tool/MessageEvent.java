@@ -13,14 +13,14 @@ package com.txd.hzj.wjlp.tool;
 
 public class MessageEvent {
     private String message;
-    private int code;
+    private String label;
     public MessageEvent(String message) {
         this.message = message;
     }
 
-    public MessageEvent(String message, int code) {
+    public MessageEvent(String message, String label) {
         this.message = message;
-        this.code = code;
+        this.label = label;
     }
 
     public String getMessage() {
@@ -31,11 +31,11 @@ public class MessageEvent {
         this.message = message;
     }
 
-    public int getCode() {
-        return code;
+    public String getLabel() {
+        return label;
     }
 
-    public void setCode(int code) {
-        this.code = code;
+    public void setLabel(String label) {
+        this.label = label;
     }
 }

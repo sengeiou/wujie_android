@@ -5,6 +5,9 @@ import android.content.DialogInterface;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,12 +15,27 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.ants.theantsgo.base.BaseView;
+import com.ants.theantsgo.config.Config;
+import com.ants.theantsgo.httpTools.ApiTool2;
+import com.ants.theantsgo.util.JSONUtils;
 import com.lidroid.xutils.ViewUtils;
+import com.lidroid.xutils.http.RequestParams;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
+import com.txd.hzj.wjlp.tool.MessageEvent;
 import com.txd.hzj.wjlp.view.CustomDialog;
+
+import org.greenrobot.eventbus.EventBus;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 创建者：zhangyunfei
@@ -33,14 +51,21 @@ public class MultipleSpecificationsAty extends BaseAty {
     @ViewInject(R.id.addTv)
     private TextView addTv;
 
+    @ViewInject(R.id.showRecyclerView)
+    private RecyclerView showRecyclerView;
+
     @ViewInject(R.id.recyclerView)
     private RecyclerView recyclerView;
 
     @ViewInject(R.id.saveTv)
     private TextView saveTv;
 
-    private int num;
     private MyAdapter mAdapter;
+    private String mGoods_id;
+    private MyShowAdapter mMyShowAdapter;
+    private String mSta_mid;
+
+    private String mGoods_attr;
 
     @Override
     protected int getLayoutResId() {
@@ -49,10 +74,21 @@ public class MultipleSpecificationsAty extends BaseAty {
 
     @Override
     protected void initialized() {
-        mContext=this;
+        mContext = this;
         showStatusBar(R.id.title_re_layout);
         titlt_conter_tv.setText("多规格");
-        LinearLayoutManager layoutManager = new LinearLayoutManager(mContext){
+        mGoods_id = getIntent().getStringExtra("goods_id");
+        mGoods_attr = getIntent().getStringExtra("goods_attr");
+        mSta_mid = getIntent().getStringExtra("sta_mid");
+        LinearLayoutManager showLayoutManager = new LinearLayoutManager(mContext) {
+            @Override
+            public boolean canScrollVertically() {
+                return false;
+            }
+        };
+        showRecyclerView.setLayoutManager(showLayoutManager);
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(mContext) {
             @Override
             public boolean canScrollVertically() {
                 return false;
@@ -64,12 +100,15 @@ public class MultipleSpecificationsAty extends BaseAty {
             public void onClick(final int pos) {
                 CustomDialog customDialog = new CustomDialog.Builder(mContext)
                         .setIsShowTitle(false)
-                        .setMessage("确定要删除此分类？")
+                        .setMessage("确定要删除此规格？")
                         .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 dialog.dismiss();
-                                mAdapter.notifyItemRemoved(pos);
+                                mAdapter.remove(pos);
+                                if (mAdapter.getItemCount() == 0) {
+                                    addTv.setVisibility(View.VISIBLE);
+                                }
                             }
                         })
                         .setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -83,74 +122,202 @@ public class MultipleSpecificationsAty extends BaseAty {
             }
         });
         recyclerView.setAdapter(mAdapter);
+        if (mGoods_attr != null){
+            mAdapter.setData(mGoods_attr);
+            addTv.setVisibility(View.GONE);
+        }
     }
 
     @Override
     protected void requestData() {
-
-    }
-
-
-    @Override
-    @OnClick({R.id.addTv ,R.id.saveTv})
-    public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.addTv:
-                num++;
-                mAdapter.setCount(num);
-                break;
-            case R.id.saveTv:
-
-                break;
+        if (mGoods_id != null) {
+            app_stage_goods_attr_list(mGoods_id, this);
         }
     }
 
 
+    void app_stage_goods_attr_list(String goods_id, BaseView baseView) {
+        RequestParams params = new RequestParams();
+        ApiTool2 apiTool2 = new ApiTool2();
+        params.addBodyParameter("goods_id", goods_id);
+        apiTool2.postApi(Config.BASE_URL + "OsManager/app_stage_goods_attr_list", params, baseView);
+    }
 
-    public static class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
-        private int count;
+    void appDeleteAttr(String sta_mid, String goods_id, String attr_id, BaseView baseView) {
+        RequestParams params = new RequestParams();
+        ApiTool2 apiTool2 = new ApiTool2();
+        params.addBodyParameter("sta_mid", sta_mid);
+        params.addBodyParameter("goods_id", goods_id);
+        params.addBodyParameter("attr_id", attr_id);
+        apiTool2.postApi(Config.BASE_URL + "OsManager/appDeleteAttr", params, baseView);
+    }
+
+    void appUpdateStageGoodsAttr(String sta_mid, String goods_id, String attr, BaseView baseView) {
+        RequestParams params = new RequestParams();
+        ApiTool2 apiTool2 = new ApiTool2();
+        params.addBodyParameter("sta_mid", sta_mid);
+        params.addBodyParameter("goods_id", goods_id);
+        params.addBodyParameter("attr",  attr);
+        apiTool2.postApi(Config.BASE_URL + "OsManager/appUpdateStageGoodsAttr", params, baseView);
+    }
+
+
+    @Override
+    public void onComplete(String requestUrl, String jsonStr) {
+        super.onComplete(requestUrl, jsonStr);
+        Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
+        if (requestUrl.endsWith("app_stage_goods_attr_list")) {
+            final ArrayList<Map<String, String>> data = JSONUtils.parseKeyAndValueToMapList(map.get("data"));
+            if (data != null && data.size() > 0) {
+                showRecyclerView.setVisibility(View.VISIBLE);
+                mMyShowAdapter = new MyShowAdapter(data);
+                showRecyclerView.setAdapter(mMyShowAdapter);
+                mMyShowAdapter.setOnViewClickLisener(new MyShowAdapter.OnViewClickLisener() {
+                    @Override
+                    public void onClick(final int pos) {
+                        CustomDialog customDialog = new CustomDialog.Builder(mContext)
+                                .setIsShowTitle(false)
+                                .setMessage("确定要删除此规格？")
+                                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                        mMyShowAdapter.remove(pos);
+                                        appDeleteAttr(mSta_mid, mGoods_id, data.get(pos).get("attr_id"), MultipleSpecificationsAty.this);
+                                    }
+                                })
+                                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                    }
+                                })
+                                .create();
+                        customDialog.show();
+                    }
+                });
+            }
+            return;
+        }
+
+        if (requestUrl.endsWith("appDeleteAttr") ) {
+            showToast(map.get("message"));
+            return;
+        }
+
+        if (requestUrl.endsWith("appUpdateStageGoodsAttr")){
+            showToast(map.get("message"));
+            if (map.get("code").equals("1")) {
+                requestData();
+                mAdapter.clearData();
+                addTv.setVisibility(View.VISIBLE);
+            }
+            return;
+        }
+    }
+
+    @Override
+    @OnClick({R.id.addTv, R.id.saveTv})
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.addTv:
+                if (mMyShowAdapter != null) {
+                    mAdapter.setCount(mMyShowAdapter.getItemCount());
+                }
+                mAdapter.addData();
+                addTv.setVisibility(View.GONE);
+                break;
+            case R.id.saveTv:
+                if (mAdapter.getItemCount()>0) {
+                    if (mGoods_id != null) {
+                        appUpdateStageGoodsAttr(mSta_mid, mGoods_id, mAdapter.getAttr(), this);
+                    }else {
+                        ArrayList<Map<String, String>> maps = JSONUtils.parseKeyAndValueToMapList(mAdapter.getMultiple());
+                        ArrayList<Map<String, String>> arrayList = new ArrayList<>();
+                        for (int i = 0; i < maps.size(); i++) {
+                            String name = maps.get(i).get("name");
+                            String price = maps.get(i).get("price");
+                            String jiesuan_price = maps.get(i).get("jiesuan_price");
+                            if (TextUtils.isEmpty(name) ||TextUtils.isEmpty(price) ||TextUtils.isEmpty(jiesuan_price)){
+                                arrayList.add(maps.get(i));
+                            }
+                        }
+                        if (arrayList.size()>0){
+                            showToast("请将信息补充完整");
+                            return;
+                        }
+                        EventBus.getDefault().post(new MessageEvent(mAdapter.getMultiple(), "MultipleSpecificationsAty"));
+                        finish();
+                    }
+
+                }else {
+                    showToast("暂无规格");
+                }
+                break;
+        }
+    }
+
+    public static class MyShowAdapter extends RecyclerView.Adapter<MyShowAdapter.ViewHolder> {
         private OnViewClickLisener mOnViewClickLisener;
+        private ArrayList<Map<String, String>> mList;
 
-        public MyAdapter(OnViewClickLisener onViewClickLisener) {
-            mOnViewClickLisener = onViewClickLisener;
+        public MyShowAdapter(ArrayList<Map<String, String>> data) {
+            mList = data;
+        }
+
+        public void setOnViewClickLisener(OnViewClickLisener onViewClickLisener) {
+            this.mOnViewClickLisener = onViewClickLisener;
         }
 
         @NonNull
         @Override
         public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_specifications,parent,false);
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_specifications, parent, false);
             ViewHolder holder = new ViewHolder(view);
-            ViewUtils.inject(holder,view);
+            ViewUtils.inject(holder, view);
             return holder;
         }
 
         @Override
         public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
-            holder.numTv.setText("规格"+(position+1));
+            Map<String, String> map = mList.get(position);
+            holder.numTv.setText("规格" + (position + 1));
             holder.deleteImg.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (mOnViewClickLisener != null){
+                    if (mOnViewClickLisener != null) {
                         mOnViewClickLisener.onClick(position);
                     }
                 }
             });
+
+            if (holder.nameEdit.getTag() instanceof TextWatcher) {
+                holder.nameEdit.removeTextChangedListener((TextWatcher) holder.nameEdit.getTag());
+            }
+            if (holder.moneyEdit.getTag() instanceof TextWatcher) {
+                holder.moneyEdit.removeTextChangedListener((TextWatcher) holder.moneyEdit.getTag());
+            }
+
+            holder.nameEdit.setText(map.get("name"));
+            holder.moneyEdit.setText(map.get("price"));
+            holder.moneyEdit2.setText(map.get("jiesuan_price"));
+            holder.nameEdit.setEnabled(false);
+            holder.moneyEdit.setEnabled(false);
+            holder.moneyEdit2.setEnabled(false);
+
         }
 
         @Override
         public int getItemCount() {
-            return count;
+            return mList.size();
         }
 
-        public void remove(int pos){
-            notifyItemRemoved(pos);
-        }
-        public void setCount(int count){
-            this.count = count;
+        public void remove(int pos) {
+            mList.remove(pos);
             notifyDataSetChanged();
         }
 
-        public static class ViewHolder extends RecyclerView.ViewHolder{
+        public static class ViewHolder extends RecyclerView.ViewHolder {
             @ViewInject(R.id.numTv)
             private TextView numTv;
             @ViewInject(R.id.deleteImg)
@@ -159,6 +326,8 @@ public class MultipleSpecificationsAty extends BaseAty {
             private EditText nameEdit;
             @ViewInject(R.id.moneyEdit)
             private EditText moneyEdit;
+            @ViewInject(R.id.moneyEdit2)
+            private EditText moneyEdit2;
 
             public ViewHolder(View itemView) {
                 super(itemView);
@@ -166,8 +335,235 @@ public class MultipleSpecificationsAty extends BaseAty {
         }
 
 
-        public interface  OnViewClickLisener{
+        public interface OnViewClickLisener {
             void onClick(int pos);
         }
     }
+
+    public static class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
+        private OnViewClickLisener mOnViewClickLisener;
+        private List<String> nameData;
+        private List<String> priceData;
+        private List<String> priceData2;
+
+        private int count = 0;
+
+        public MyAdapter(OnViewClickLisener onViewClickLisener) {
+            mOnViewClickLisener = onViewClickLisener;
+            nameData = new ArrayList<>();
+            priceData = new ArrayList<>();
+            priceData2 = new ArrayList<>();
+        }
+
+        public void setCount(int count) {
+            this.count = count;
+        }
+
+        @NonNull
+        @Override
+        public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_specifications, parent, false);
+            ViewHolder holder = new ViewHolder(view);
+            ViewUtils.inject(holder, view);
+            return holder;
+        }
+
+        @Override
+        public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
+            holder.numTv.setText("规格" + (count + position + 1));
+            holder.deleteImg.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (mOnViewClickLisener != null) {
+                        mOnViewClickLisener.onClick(position);
+                    }
+                }
+            });
+
+            if (holder.nameEdit.getTag() instanceof TextWatcher) {
+                holder.nameEdit.removeTextChangedListener((TextWatcher) holder.nameEdit.getTag());
+            }
+            if (holder.moneyEdit.getTag() instanceof TextWatcher) {
+                holder.moneyEdit.removeTextChangedListener((TextWatcher) holder.moneyEdit.getTag());
+            }
+
+            holder.nameEdit.setText(nameData.get(position));
+            holder.moneyEdit.setText(priceData.get(position));
+
+            if (position == nameData.size() - 1) {
+                holder.addTv.setVisibility(View.VISIBLE);
+            } else {
+                holder.addTv.setVisibility(View.GONE);
+            }
+
+            holder.addTv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    addData();
+                }
+            });
+            TextWatcher nameWatcher = new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    if (nameData.get(position) != null) {
+                        nameData.remove(position);
+                    }
+                    nameData.add(position, s.toString());
+                }
+            };
+            holder.nameEdit.addTextChangedListener(nameWatcher);
+            holder.nameEdit.setTag(nameWatcher);
+
+            TextWatcher moneyWatcher = new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    if (priceData.get(position) != null) {
+                        priceData.remove(position);
+                    }
+                    priceData.add(position, s.toString());
+                }
+            };
+            holder.moneyEdit.addTextChangedListener(moneyWatcher);
+            holder.moneyEdit.setTag(moneyWatcher);
+
+            TextWatcher moneyWatcher2 = new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    if (priceData2.get(position) != null) {
+                        priceData2.remove(position);
+                    }
+                    priceData2.add(position, s.toString());
+                }
+            };
+            holder.moneyEdit2.addTextChangedListener(moneyWatcher2);
+            holder.moneyEdit2.setTag(moneyWatcher2);
+
+        }
+
+        @Override
+        public int getItemCount() {
+            return nameData.size();
+        }
+
+        public void remove(int pos) {
+            nameData.remove(pos);
+            priceData.remove(pos);
+            priceData2.remove(pos);
+            notifyDataSetChanged();
+        }
+
+        public void clearData(){
+            nameData.clear();
+            priceData.clear();
+            priceData2.clear();
+            notifyDataSetChanged();
+        }
+
+        public void addData() {
+            nameData.add("");
+            priceData.add("");
+            priceData2.add("");
+            notifyDataSetChanged();
+        }
+
+        public String getAttr() {
+            JSONArray array = new JSONArray();
+            for (int i = 0; i < nameData.size(); i++) {
+                JSONObject object = new JSONObject();
+                try {
+                    object.put("attr_id", "");
+                    object.put("name", nameData.get(i));
+                    object.put("price", priceData.get(i));
+                    object.put("jiesuan_price", priceData2.get(i));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                array.put(object);
+            }
+
+            return array.toString();
+        }
+
+        public String getMultiple() {
+            JSONArray array = new JSONArray();
+            for (int i = 0; i < nameData.size(); i++) {
+                JSONObject object = new JSONObject();
+                try {
+                    object.put("name", nameData.get(i));
+                    object.put("price", priceData.get(i));
+                    object.put("jiesuan_price", priceData2.get(i));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                array.put(object);
+            }
+
+            return array.toString();
+        }
+
+        public void setData(String goods_attr) {
+            ArrayList<Map<String, String>> maps = JSONUtils.parseKeyAndValueToMapList(goods_attr);
+            for (int i = 0; i < maps.size(); i++) {
+                nameData.add(maps.get(i).get("name"));
+                priceData.add(maps.get(i).get("price"));
+                priceData2.add(maps.get(i).get("jiesuan_price"));
+            }
+            notifyDataSetChanged();
+        }
+
+        public static class ViewHolder extends RecyclerView.ViewHolder {
+            @ViewInject(R.id.numTv)
+            private TextView numTv;
+            @ViewInject(R.id.deleteImg)
+            private ImageView deleteImg;
+            @ViewInject(R.id.nameEdit)
+            private EditText nameEdit;
+            @ViewInject(R.id.moneyEdit)
+            private EditText moneyEdit;
+            @ViewInject(R.id.moneyEdit2)
+            private EditText moneyEdit2;
+            @ViewInject(R.id.addTv)
+            private TextView addTv;
+
+            public ViewHolder(View itemView) {
+                super(itemView);
+            }
+        }
+
+
+        public interface OnViewClickLisener {
+            void onClick(int pos);
+        }
+    }
+
 }

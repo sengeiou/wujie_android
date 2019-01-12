@@ -65,7 +65,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="售卖价"
+            android:text="规格售卖价"
             android:textColor="#ff333333"
             android:textSize="17sp"
             />
@@ -91,8 +91,54 @@
                 />
         </LinearLayout>
     </RelativeLayout>
+    <RelativeLayout
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginTop="17dp"
+        android:layout_marginBottom="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="规格结算价"
+            android:textColor="#ff333333"
+            android:textSize="17sp"
+            />
+        <LinearLayout
+            android:layout_alignParentEnd="true"
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <EditText
+                android:id="@+id/moneyEdit2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:hint="请输入"
+                android:textColor="#ff999999"
+                android:textSize="17sp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="元"
+                android:textColor="#ff333333"
+                android:textSize="17sp"
+                />
+        </LinearLayout>
+    </RelativeLayout>
 <View
     android:background="@color/line_color"
     android:layout_width="match_parent"
     android:layout_height="10dp"/>
+    <TextView
+        android:id="@+id/addTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:text="+添加规格"
+        android:padding="20dp"
+        android:layout_gravity="center_horizontal"
+        android:textColor="#fff85708"
+        android:textSize="17sp"/>
 </LinearLayout>
