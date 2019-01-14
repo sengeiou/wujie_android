@@ -32,16 +32,18 @@
     <!--android:textColor="#999999"-->
     <!--android:textSize="14sp" />-->
     <android.support.v7.widget.RecyclerView
+        android:overScrollMode="never"
         android:id="@+id/experRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:layout_marginStart="14dp"
         android:layout_marginTop="14dp"></android.support.v7.widget.RecyclerView>
 
     <TextView
         android:id="@+id/cancel"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:layout_marginTop="14dp"
         android:background="#F23030"
         android:gravity="center"
