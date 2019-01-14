@@ -552,6 +552,67 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/takeawayCustomLayout"
+                android:orientation="vertical"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <RelativeLayout
+                    android:id="@+id/takeawayDateLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="15dp"
+                    android:layout_marginTop="15dp"
+                    android:paddingEnd="15dp"
+                    android:paddingStart="15dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="日期范围" />
+
+                    <CheckBox
+                        android:id="@+id/takeawayDateCheckBox"
+                        style="@style/checkbox_style_14sp_w"
+                        android:layout_alignParentEnd="true"
+                        android:drawableEnd="@drawable/select_check_box_style_cart"/>
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/line_color" />
+
+                <RelativeLayout
+                    android:id="@+id/takeawayWeekLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="15dp"
+                    android:layout_marginTop="15dp"
+                    android:paddingEnd="15dp"
+                    android:paddingStart="15dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="星期范围" />
+
+                    <CheckBox
+                        android:id="@+id/takeawayWeekCheckBox"
+                        style="@style/checkbox_style_14sp_w"
+                        android:layout_alignParentEnd="true"
+                        android:drawableEnd="@drawable/select_check_box_style_cart"/>
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/line_color" />
+            </LinearLayout>
+
+            <LinearLayout
                 android:id="@+id/dinnerTimeLayout"
                 android:orientation="vertical"
                 android:visibility="gone"
@@ -585,6 +646,66 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@color/line_color" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/dinnerCustomLayout"
+                android:orientation="vertical"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <RelativeLayout
+                    android:id="@+id/dinnerDateLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="15dp"
+                    android:layout_marginTop="15dp"
+                    android:paddingEnd="15dp"
+                    android:paddingStart="15dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="日期范围" />
+
+                    <CheckBox
+                        android:id="@+id/dinnerDateCheckBox"
+                        style="@style/checkbox_style_14sp_w"
+                        android:layout_alignParentEnd="true"
+                        android:drawableEnd="@drawable/select_check_box_style_cart"/>
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/line_color" />
+
+                <RelativeLayout
+                    android:id="@+id/dinnerWeekLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="15dp"
+                    android:layout_marginTop="15dp"
+                    android:paddingEnd="15dp"
+                    android:paddingStart="15dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="星期范围" />
+
+                    <CheckBox
+                        android:id="@+id/dinnerWeekCheckBox"
+                        style="@style/checkbox_style_14sp_w"
+                        android:layout_alignParentEnd="true"
+                        android:drawableEnd="@drawable/select_check_box_style_cart"/>
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/line_color" />
             </LinearLayout>
             <LinearLayout
                 android:paddingBottom="10dp"

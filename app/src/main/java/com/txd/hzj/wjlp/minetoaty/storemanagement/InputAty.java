@@ -9,6 +9,7 @@ import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -108,6 +109,15 @@ public class InputAty extends BaseAty {
     @ViewInject(R.id.takeawayTimeTv)
     private TextView takeawayTimeTv;
 
+    @ViewInject(R.id.takeawayCustomLayout)
+    private LinearLayout takeawayCustomLayout;
+
+    @ViewInject(R.id.takeawayDateCheckBox)
+    private CheckBox takeawayDateCheckBox;
+
+    @ViewInject(R.id.takeawayWeekCheckBox)
+    private CheckBox takeawayWeekCheckBox;
+
     @ViewInject(R.id.takeawayJieSuanLayout)
     private LinearLayout takeawayJieSuanLayout;
 
@@ -125,6 +135,16 @@ public class InputAty extends BaseAty {
 
     @ViewInject(R.id.dinnerTimeTv)
     private TextView dinnerTimeTv;
+
+    @ViewInject(R.id.dinnerCustomLayout)
+    private LinearLayout dinnerCustomLayout;
+
+    @ViewInject(R.id.dinnerDateCheckBox)
+    private CheckBox dinnerDateCheckBox;
+
+    @ViewInject(R.id.dinnerWeekCheckBox)
+    private CheckBox dinnerWeekCheckBox;
+
 
     @ViewInject(R.id.briefEdit)
     private EditText briefEdit;
@@ -178,12 +198,6 @@ public class InputAty extends BaseAty {
 
     @Override
     protected void requestData() {
-
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
         if (mGoods_id != null) {
             goods_info(mGoods_id, this);
         }
@@ -207,16 +221,47 @@ public class InputAty extends BaseAty {
                 takeawayBtn.setChecked(true);
                 takeawayPriceEdit.setText(data.get("shop_price"));
                 takeawayJieSuanPriceEdit.setText(data.get("shop_jiesuan_price"));
+                mWeek_price = data.get("week_price");
+                mTime_price = data.get("time_price");
             } else if (supType == 2) {
                 dinnerBtn.setChecked(true);
                 dinnerPriceEdit.setText(data.get("church_shop_price"));
                 dinnerJieSuanPriceEdit.setText(data.get("church_jiesuan_shop_price"));
+                mChurch_week_price = data.get("church_week_price");
+                mChurch_time_price = data.get("church_time_price");
             } else if (supType == 3) {
                 allBtn.setChecked(true);
                 takeawayPriceEdit.setText(data.get("shop_price"));
                 takeawayJieSuanPriceEdit.setText(data.get("shop_jiesuan_price"));
                 dinnerPriceEdit.setText(data.get("church_shop_price"));
                 dinnerJieSuanPriceEdit.setText(data.get("church_jiesuan_shop_price"));
+                mWeek_price = data.get("week_price");
+                mTime_price = data.get("time_price");
+                mChurch_week_price = data.get("church_week_price");
+                mChurch_time_price = data.get("church_time_price");
+            }
+
+            if (!TextUtils.isEmpty(mWeek_price)) {
+                takeawayWeekCheckBox.setChecked(true);
+            }
+            if (!TextUtils.isEmpty(mTime_price)) {
+                takeawayDateCheckBox.setChecked(true);
+            }
+            if (!TextUtils.isEmpty(mWeek_price) || !TextUtils.isEmpty(mTime_price)) {
+                takeawayTimeTv.setText("自定义");
+                takeawayCustomLayout.setVisibility(View.VISIBLE);
+            }
+            if (!TextUtils.isEmpty(mChurch_week_price)) {
+                dinnerWeekCheckBox.setChecked(true);
+            }
+
+            if (!TextUtils.isEmpty(mChurch_time_price)) {
+                dinnerDateCheckBox.setChecked(true);
+            }
+
+            if (!TextUtils.isEmpty(mChurch_week_price) || !TextUtils.isEmpty(mChurch_time_price)) {
+                dinnerTimeTv.setText("自定义");
+                dinnerCustomLayout.setVisibility(View.VISIBLE);
             }
             nameEdit.setText(data.get("name"));
             classifyTv.setText(data.get("cate_name"));
@@ -255,19 +300,19 @@ public class InputAty extends BaseAty {
     }
 
     @Override
-    @OnClick({R.id.classifyTv, R.id.multipleSpecificationsLayout, R.id.attributesLayout, R.id.picImg, R.id.labelLayout, R.id.takeawayTimeTv, R.id.dinnerTimeTv, R.id.saveTv, R.id.saveAddTv})
+    @OnClick({R.id.classifyTv, R.id.multipleSpecificationsLayout, R.id.attributesLayout, R.id.picImg, R.id.labelLayout, R.id.takeawayTimeTv, R.id.dinnerTimeTv, R.id.takeawayDateLayout, R.id.takeawayWeekLayout, R.id.dinnerDateLayout, R.id.dinnerWeekLayout, R.id.saveTv, R.id.saveAddTv})
     public void onClick(View v) {
         super.onClick(v);
         Bundle bundle = new Bundle();
         switch (v.getId()) {
             case R.id.classifyTv:
-                bundle.putString("sta_mid",mSta_mid);
-                bundle.putBoolean("isShowDelete",false);
+                bundle.putString("sta_mid", mSta_mid);
+                bundle.putBoolean("isShowDelete", false);
                 startActivity(ClassifyManageAty.class, bundle);
                 break;
             case R.id.multipleSpecificationsLayout:
                 bundle.putString("goods_id", mGoods_id);
-                bundle.putString("goods_attr",mGoods_attr);
+                bundle.putString("goods_attr", mGoods_attr);
                 bundle.putString("sta_mid", mSta_mid);
                 startActivity(MultipleSpecificationsAty.class, bundle);
                 break;
@@ -287,6 +332,26 @@ public class InputAty extends BaseAty {
                 break;
             case R.id.dinnerTimeTv:
                 showTimeDialogs(2);
+                break;
+            case R.id.takeawayDateLayout:
+                bundle.putString("type","takeaway");
+                bundle.putString("DateRangeAty",mTime_price);
+                startActivity(DateRangeAty.class, bundle);
+                break;
+            case R.id.takeawayWeekLayout:
+                bundle.putString("type","takeaway");
+                bundle.putString("WeekRangeAty",mWeek_price);
+                startActivity(WeekRangeAty.class, bundle);
+                break;
+            case R.id.dinnerDateLayout:
+                bundle.putString("type","dinner");
+                bundle.putString("DateRangeAty",mChurch_time_price);
+                startActivity(DateRangeAty.class, bundle);
+                break;
+            case R.id.dinnerWeekLayout:
+                bundle.putString("type","dinner");
+                bundle.putString("WeekRangeAty",mChurch_week_price);
+                startActivity(WeekRangeAty.class, bundle);
                 break;
             case R.id.saveTv:
                 mSaveType = 1;
@@ -398,8 +463,14 @@ public class InputAty extends BaseAty {
             public void onClick(View v) {
                 if (type == 1) {
                     takeawayTimeTv.setText("不限时间");
+                    takeawayCustomLayout.setVisibility(View.GONE);
+                    mWeek_price = null;
+                    mTime_price = null;
                 } else {
                     dinnerTimeTv.setText("不限时间");
+                    dinnerCustomLayout.setVisibility(View.GONE);
+                    mChurch_time_price = null;
+                    mChurch_week_price = null;
                 }
                 mPopupWindow.dismiss();
             }
@@ -409,8 +480,10 @@ public class InputAty extends BaseAty {
             public void onClick(View v) {
                 if (type == 1) {
                     takeawayTimeTv.setText("自定义");
+                    takeawayCustomLayout.setVisibility(View.VISIBLE);
                 } else {
                     dinnerTimeTv.setText("自定义");
+                    dinnerCustomLayout.setVisibility(View.VISIBLE);
                 }
                 mPopupWindow.dismiss();
             }
@@ -612,7 +685,7 @@ public class InputAty extends BaseAty {
             StringBuilder builder = new StringBuilder();
             for (int i = 0; i < maps.size(); i++) {
                 builder.append(maps.get(i).get("name"));
-                if (i != maps.size()-1){
+                if (i != maps.size() - 1) {
                     builder.append("/");
                 }
             }
@@ -626,7 +699,7 @@ public class InputAty extends BaseAty {
                 for (int i = 0; i < jsonArray.length(); i++) {
                     JSONObject object = new JSONObject(String.valueOf(jsonArray.getJSONObject(i)));
                     builder.append(object.optString("title"));
-                    if (i != jsonArray.length()-1){
+                    if (i != jsonArray.length() - 1) {
                         builder.append("/");
                     }
                 }
