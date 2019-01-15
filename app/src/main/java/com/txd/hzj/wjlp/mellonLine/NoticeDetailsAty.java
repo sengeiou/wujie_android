@@ -35,12 +35,16 @@ import com.txd.hzj.wjlp.http.index.IndexPst;
 import com.txd.hzj.wjlp.http.message.UserMessagePst;
 import com.txd.hzj.wjlp.login.LoginAty;
 import com.txd.hzj.wjlp.minetoaty.order.OnlineShopAty;
+import com.txd.hzj.wjlp.tool.MessageEvent;
 import com.txd.hzj.wjlp.tool.WJConfig;
 import com.txd.hzj.wjlp.view.NoScrollWebView;
 import com.txd.hzj.wjlp.view.ResizableImageView;
 import com.txd.hzj.wjlp.view.ScForWebView;
 import com.txd.hzj.wjlp.wxapi.GetPrepayIdTask;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -116,6 +120,7 @@ public class NoticeDetailsAty extends BaseAty {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         showStatusBar(R.id.title_re_layout);
+        EventBus.getDefault().register(this);
         if (0 == from) {
             only_for_top_layout.setVisibility(View.GONE);
             titlt_conter_tv.setText("详情");
@@ -219,16 +224,16 @@ public class NoticeDetailsAty extends BaseAty {
         } else { // 使用原生的WebView
             noticeDetails_ScForWebView.setVisibility(View.GONE); // 隐藏noScrollWebView
             details_webview.setVisibility(View.VISIBLE); // 显示原生WebView
-            details_webview.setWebChromeClient(new WebChromeClient(){
+            details_webview.setWebChromeClient(new WebChromeClient() {
                 @Override
                 public void onReceivedTitle(WebView view, String title) {
                     super.onReceivedTitle(view, title);
-//                    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-//                        if (title.contains("404") || title.contains("500") || title.contains("Error")) {
-//                            view.loadUrl("about:blank");// 避免出现默认的错误界面
-//                            view.loadUrl(url);
-//                        }
-//                    }
+                    //                    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+                    //                        if (title.contains("404") || title.contains("500") || title.contains("Error")) {
+                    //                            view.loadUrl("about:blank");// 避免出现默认的错误界面
+                    //                            view.loadUrl(url);
+                    //                        }
+                    //                    }
                 }
             });
             details_webview.addJavascriptInterface(new NoticeDetailsJsInterface(), Constant.H5NAME);
@@ -258,61 +263,61 @@ public class NoticeDetailsAty extends BaseAty {
                 }
 
 
-//                @Override
-//                public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
-//                    super.onReceivedError(view, request, error);
-//                    // 断网或者网络连接超时
-//                    int errorCode = error.getErrorCode();
-//                    Log.e("TAG", "onReceivedError: "+errorCode);
-////                    if (errorCode == ERROR_HOST_LOOKUP || errorCode == ERROR_CONNECT || errorCode == ERROR_TIMEOUT) {
-////                        view.loadUrl("about:blank"); // 避免出现默认的错误界面
-////                        view.loadUrl(url);
-////                    }
-//                }
+                //                @Override
+                //                public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
+                //                    super.onReceivedError(view, request, error);
+                //                    // 断网或者网络连接超时
+                //                    int errorCode = error.getErrorCode();
+                //                    Log.e("TAG", "onReceivedError: "+errorCode);
+                ////                    if (errorCode == ERROR_HOST_LOOKUP || errorCode == ERROR_CONNECT || errorCode == ERROR_TIMEOUT) {
+                ////                        view.loadUrl("about:blank"); // 避免出现默认的错误界面
+                ////                        view.loadUrl(url);
+                ////                    }
+                //                }
 
-//                @Override
-//                public void onReceivedHttpError(WebView view, WebResourceRequest request, WebResourceResponse errorResponse) {
-//                    super.onReceivedHttpError(view, request, errorResponse);
-//                    int statusCode = errorResponse.getStatusCode();
-//                    Log.e("TAG", "onReceivedHttpError: "+statusCode);
-////                    if (404 == statusCode || 500 == statusCode) {
-////                        view.loadUrl("about:blank");// 避免出现默认的错误界面
-////                        view.loadUrl(url);
-////                    }
-//                }
+                //                @Override
+                //                public void onReceivedHttpError(WebView view, WebResourceRequest request, WebResourceResponse errorResponse) {
+                //                    super.onReceivedHttpError(view, request, errorResponse);
+                //                    int statusCode = errorResponse.getStatusCode();
+                //                    Log.e("TAG", "onReceivedHttpError: "+statusCode);
+                ////                    if (404 == statusCode || 500 == statusCode) {
+                ////                        view.loadUrl("about:blank");// 避免出现默认的错误界面
+                ////                        view.loadUrl(url);
+                ////                    }
+                //                }
                 //超时之后的处理Handler
-//                private Handler mHandler =new Handler(){
-//                    @Override
-//                    public void handleMessage(Message msg) {
-//                        super.handleMessage(msg);
-//                        showToast("网络连接超时，请稍后重试");
-//                        finish();
-//                    }
-//                };
-//                private Timer timer;//计时器
-//                private long timeout = 10000;//超时时间
-//                @Override
-//                public void onPageStarted(WebView view, String url, Bitmap favicon) {
-//                    timer =new Timer();
-//                    TimerTask tt =new TimerTask() {
-//                        @Override
-//                        public void run() {
-//                            /* * 超时后,首先判断页面加载是否小于100,就执行超时后的动作 */
-//                            if (timer!=null){
-//                                mHandler.sendEmptyMessage(0x101);
-//                                timer.cancel();
-//                                timer.purge();
-//                            }
-//                        }
-//                    };
-//                    timer.schedule(tt, timeout, 1);
-//                }
-//                /*** onPageFinished指页面加载完成,完成后取消计时器   */
-//                @Override
-//                public void onPageFinished(WebView view, String url) {
-//                    timer.cancel();
-//                    timer.purge();
-//                }
+                //                private Handler mHandler =new Handler(){
+                //                    @Override
+                //                    public void handleMessage(Message msg) {
+                //                        super.handleMessage(msg);
+                //                        showToast("网络连接超时，请稍后重试");
+                //                        finish();
+                //                    }
+                //                };
+                //                private Timer timer;//计时器
+                //                private long timeout = 10000;//超时时间
+                //                @Override
+                //                public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                //                    timer =new Timer();
+                //                    TimerTask tt =new TimerTask() {
+                //                        @Override
+                //                        public void run() {
+                //                            /* * 超时后,首先判断页面加载是否小于100,就执行超时后的动作 */
+                //                            if (timer!=null){
+                //                                mHandler.sendEmptyMessage(0x101);
+                //                                timer.cancel();
+                //                                timer.purge();
+                //                            }
+                //                        }
+                //                    };
+                //                    timer.schedule(tt, timeout, 1);
+                //                }
+                //                /*** onPageFinished指页面加载完成,完成后取消计时器   */
+                //                @Override
+                //                public void onPageFinished(WebView view, String url) {
+                //                    timer.cancel();
+                //                    timer.purge();
+                //                }
             });
 
         }
@@ -469,15 +474,15 @@ public class NoticeDetailsAty extends BaseAty {
                 String goodsName = jsonObject.has("goodsName") ? jsonObject.getString("goodsName") : "";
                 String share_img = jsonObject.has("share_img") ? jsonObject.getString("share_img") : "";
                 String share_url;
-                String Shapetype="1";
+                String Shapetype = "1";
                 if (mDesc.equals("集碎片")) {
-                    share_url = jsonObject.has("share_url") ? jsonObject.getString("share_url"): "";
-                    Shapetype="7";
+                    share_url = jsonObject.has("share_url") ? jsonObject.getString("share_url") : "";
+                    Shapetype = "7";
                 } else {
                     share_url = jsonObject.has("share_url") ? jsonObject.getString("share_url") : "";
                 }
                 String share_type = jsonObject.has("share_type") ? jsonObject.getString("share_type") : "";
-                if (!TextUtils.isEmpty(share_type)){
+                if (!TextUtils.isEmpty(share_type)) {
                     Shapetype = share_type;
                 }
                 String share_content = jsonObject.has("share_content") ? jsonObject.getString("share_content") : "";
@@ -586,12 +591,12 @@ public class NoticeDetailsAty extends BaseAty {
                 }
 
                 if (requestUrl.contains("findPayResult")) {
-                    if (type.equals("16")){
+                    if (type.equals("16")) {
                         Bundle mBundle = new Bundle();
                         mBundle.putString("title", "集碎片");
                         mBundle.putString("type", WJConfig.TYPE_JSP);
                         startActivity(OnlineShopAty.class, mBundle);
-                    }else {
+                    } else {
                         paySuccess(jsonObject);
                     }
                 }
@@ -611,7 +616,7 @@ public class NoticeDetailsAty extends BaseAty {
     @Override
     protected void onResume() {
         super.onResume();
-        if (details_webview != null){
+        if (details_webview != null) {
             details_webview.onResume();
         }
     }
@@ -619,11 +624,17 @@ public class NoticeDetailsAty extends BaseAty {
     @Override
     protected void onPause() {
         super.onPause();
-        if (details_webview != null){
+        if (details_webview != null) {
             details_webview.onPause();
         }
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void event(MessageEvent event) {
+        if (event.getMessage().equals("ToShareAty")) {
+            finish();
+        }
+    }
 
     @Override
     protected void onDestroy() {
@@ -632,9 +643,11 @@ public class NoticeDetailsAty extends BaseAty {
             unregisterReceiver(wxPayReceiver);
         }
 
-        if (details_webview != null){
+        if (details_webview != null) {
             details_webview.destroy();
         }
+
+        EventBus.getDefault().unregister(this);
         //        url = Config.OFFICIAL_WEB;
         //        if (url.contains("api")){
         //            url = url.replace("api", "www");

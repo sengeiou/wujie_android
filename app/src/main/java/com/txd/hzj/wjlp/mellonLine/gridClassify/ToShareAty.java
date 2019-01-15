@@ -18,6 +18,10 @@ import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.http.GroupBuyOrder;
 import com.txd.hzj.wjlp.http.user.UserPst;
+import com.txd.hzj.wjlp.mellonLine.NoticeDetailsAty;
+import com.txd.hzj.wjlp.tool.MessageEvent;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.Map;
 
@@ -103,7 +107,7 @@ public class ToShareAty extends BaseAty {
                 shareForApp(SinaWeibo.NAME);
                 break;
         }
-        finish();
+
     }
 
     @Override
@@ -180,6 +184,14 @@ public class ToShareAty extends BaseAty {
                     case Success:
                         userPst.shareBack(shareType, context, id, type, shareUrl);
                         showRightTip("分享成功");
+                        if (type.equals("7")) {
+                            EventBus.getDefault().post(new MessageEvent("ToShareAty"));
+                            Bundle bundle = new Bundle();
+                            bundle.putInt("from", 6);
+                            bundle.putString("desc", "集碎片");
+                            bundle.putString("href", Config.SHARE_URL + "Splicing/index/");
+                            startActivity(NoticeDetailsAty.class, bundle);
+                        }
                         break;
                     case Error:
                         showErrorTip("分享失败");
@@ -188,6 +200,7 @@ public class ToShareAty extends BaseAty {
                         showErrorTip("分享取消");
                         break;
                 }
+                finish();
             }
         });
         shareForApp.toShareWithPicUrl();
