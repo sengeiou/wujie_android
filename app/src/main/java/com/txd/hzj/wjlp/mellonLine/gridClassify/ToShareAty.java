@@ -139,6 +139,7 @@ public class ToShareAty extends BaseAty {
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
+        removeProgressDialog();
         if (requestUrl.contains("mkShareUrl")) {
             JSONObject jsonObject = JSONObject.parseObject(jsonStr);
             JSONObject object = jsonObject.getJSONObject("data");
@@ -150,7 +151,7 @@ public class ToShareAty extends BaseAty {
     @Override
     public void onError(String requestUrl, Map<String, String> error) {
         super.onError(requestUrl, error);
-
+        removeProgressDialog();
     }
 
     /**
@@ -187,8 +188,6 @@ public class ToShareAty extends BaseAty {
                         showErrorTip("分享取消");
                         break;
                 }
-                removeProgressDialog();
-                ToShareAty.this.finish();
             }
         });
         shareForApp.toShareWithPicUrl();
