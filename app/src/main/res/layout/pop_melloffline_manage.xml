@@ -7,6 +7,7 @@
     android:layout_height="80dp"
     android:layout_marginEnd="20dp">
     <TextView
+        android:id="@+id/oneTv"
         android:drawableTop="@drawable/icon_mol_3"
         android:drawablePadding="6dp"
         android:layout_width="wrap_content"
@@ -17,16 +18,18 @@
         android:textSize="14sp"
         />
     <TextView
+        android:id="@+id/twoTv"
         android:drawableTop="@drawable/icon_mol_7"
         android:drawablePadding="6dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="分类"
+        android:text="起售/停售"
         android:layout_marginStart="26dp"
         android:textColor="#ffffffff"
         android:textSize="14sp"
         />
     <TextView
+        android:id="@+id/threeTv"
         android:drawableTop="@drawable/icon_mol_4"
         android:drawablePadding="6dp"
         android:layout_width="wrap_content"

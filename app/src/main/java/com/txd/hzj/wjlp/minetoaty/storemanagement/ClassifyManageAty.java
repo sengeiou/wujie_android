@@ -3,6 +3,7 @@ package com.txd.hzj.wjlp.minetoaty.storemanagement;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -64,6 +65,8 @@ public class ClassifyManageAty extends BaseAty {
     @ViewInject(R.id.addClassifyTv)
     private TextView addClassifyTv;
 
+    @ViewInject(R.id.moveTv)
+    private TextView moveTv;
 
     private ClassifyAdpater mClassifyAdpater;
 
@@ -74,6 +77,7 @@ public class ClassifyManageAty extends BaseAty {
     private String mIs_del;
     private String mSort;
     private boolean mIsShowDelete;
+    private String mGoods_id;
 
     @Override
     protected int getLayoutResId() {
@@ -87,6 +91,7 @@ public class ClassifyManageAty extends BaseAty {
         titlt_conter_tv.setText("分类管理");
         mSta_mid = getIntent().getStringExtra("sta_mid");
         mIsShowDelete = getIntent().getBooleanExtra("isShowDelete", false);
+        mGoods_id = getIntent().getStringExtra("goods_id");
         if (mIsShowDelete){
             time_select_img.setVisibility(View.VISIBLE);
             time_select_img.setImageResource(R.drawable.icon_trash);
@@ -95,18 +100,32 @@ public class ClassifyManageAty extends BaseAty {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         mClassifyAdpater = new ClassifyAdpater();
+        if (mGoods_id != null){
+            addClassifyTv.setVisibility(View.GONE);
+            moveTv.setVisibility(View.VISIBLE);
+            mClassifyAdpater.isShowEdit(false);
+        }else {
+            addClassifyTv.setVisibility(View.VISIBLE);
+            moveTv.setVisibility(View.GONE);
+            mClassifyAdpater.isShowEdit(true);
+        }
         mClassifyAdpater.setOnItemClickListener(new ClassifyAdpater.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
                 ArrayList<ClassifyDataBean> data = mClassifyAdpater.getData();
                 ClassifyDataBean classifyDataBean = data.get(position);
-                if (!mIsShowDelete) {
-                    EventBus.getDefault().post(new MessageEvent(classifyDataBean.getName() + "-" + classifyDataBean.getId(), "ClassifyManageAty"));
-                    finish();
-                } else {
+                if (mIsShowDelete) {
                     mId = classifyDataBean.getId();
                     mSort = classifyDataBean.getSort();
                     mClassifyAdpater.setSelectPosition(position);
+                } else {
+                    if (mGoods_id==null) {
+                        EventBus.getDefault().post(new MessageEvent(classifyDataBean.getName() + "-" + classifyDataBean.getId(), "ClassifyManageAty"));
+                        finish();
+                    }else {
+                        mId = classifyDataBean.getId();
+                        mClassifyAdpater.setSelectPosition(position);
+                    }
                 }
             }
         });
@@ -151,6 +170,14 @@ public class ClassifyManageAty extends BaseAty {
         apiTool2.postApi(Config.BASE_URL + "OsManager/app_edit_cate", params, baseView);
     }
 
+    void appMoveGoodsToCate(String goods_id, String cate_id,BaseView baseView) {
+        RequestParams params = new RequestParams();
+        ApiTool2 apiTool2 = new ApiTool2();
+        params.addBodyParameter("goods_id", goods_id);
+        params.addBodyParameter("cate_id", cate_id);
+        apiTool2.postApi(Config.BASE_URL + "OsManager/appMoveGoodsToCate", params, baseView);
+    }
+
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
@@ -172,10 +199,21 @@ public class ClassifyManageAty extends BaseAty {
             return;
         }
 
+        if (requestUrl.endsWith("appMoveGoodsToCate")){
+            showToast(map.get("message"));
+            if ("1".equals(map.get("code"))) {
+                Bundle bundle = new Bundle();
+                bundle.putString("sta_mid",mSta_mid);
+                startActivity(CommodityManagementAty.class,bundle);
+                finish();
+            }
+            return;
+        }
+
     }
 
     @Override
-    @OnClick({R.id.time_select_img, R.id.addClassifyTv})
+    @OnClick({R.id.time_select_img, R.id.addClassifyTv,R.id.moveTv})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
@@ -209,7 +247,26 @@ public class ClassifyManageAty extends BaseAty {
                 }
                 app_edit_cate(mId, mIs_del, name, briefEdit.getText().toString(), mSort, this);
                 break;
-
+            case R.id.moveTv:
+                CustomDialog customDialog2 = new CustomDialog.Builder(mContext)
+                        .setIsShowTitle(false)
+                        .setMessage("确定移动？")
+                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                appMoveGoodsToCate(mGoods_id,mId,ClassifyManageAty.this);
+                                dialog.dismiss();
+                            }
+                        })
+                        .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        })
+                        .create();
+                customDialog2.show();
+                break;
         }
     }
 
@@ -234,6 +291,8 @@ public class ClassifyManageAty extends BaseAty {
         private OnItemClickListener mOnItemClickListener;
 
         private ArrayList<ClassifyDataBean> mList;
+
+        private boolean isShowEdit;
 
         public ClassifyAdpater() {
             mList = new ArrayList<>();
@@ -266,14 +325,20 @@ public class ClassifyManageAty extends BaseAty {
 
             ClassifyDataBean classifyDataBean = mList.get(position);
             holder.titleTv.setText(classifyDataBean.getName());
-            holder.editTv.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (mOnItemViewClickListener != null) {
-                        mOnItemViewClickListener.onClick(v, position);
+            if (isShowEdit){
+                holder.editTv.setVisibility(View.VISIBLE);
+                holder.editTv.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (mOnItemViewClickListener != null) {
+                            mOnItemViewClickListener.onClick(v, position);
+                        }
                     }
-                }
-            });
+                });
+            }else {
+                holder.editTv.setVisibility(View.GONE);
+            }
+
 
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -291,6 +356,10 @@ public class ClassifyManageAty extends BaseAty {
             notifyDataSetChanged();
         }
 
+        public void isShowEdit(boolean isShow){
+            this.isShowEdit = isShow;
+            notifyDataSetChanged();
+        }
         @Override
         public int getItemCount() {
             return mList.size();

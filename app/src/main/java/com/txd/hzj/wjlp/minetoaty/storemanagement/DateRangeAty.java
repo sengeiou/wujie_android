@@ -1,6 +1,7 @@
 package com.txd.hzj.wjlp.minetoaty.storemanagement;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -10,7 +11,9 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
+import com.txd.hzj.wjlp.tool.MessageEvent;
 
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -106,6 +109,35 @@ public class DateRangeAty extends BaseAty {
                 setDate("end");
                 break;
             case R.id.sureTv:
+                if (TextUtils.isEmpty(mStartDate)){
+                    showToast("请选择开始日期");
+                    return;
+                }
+                if (TextUtils.isEmpty(mEndDate)){
+                    showToast("请选择结束日期");
+                    return;
+                }
+                String salePrice = salePriceEdit.getText().toString();
+                if (TextUtils.isEmpty(salePrice)){
+                    showToast("请输入售卖价");
+                    return;
+                }
+                String balancePrice = balancePriceEdit.getText().toString();
+                if (TextUtils.isEmpty(balancePrice)){
+                    showToast("请输入结算价");
+                    return;
+                }
+                try {
+                    JSONObject jsonObject = new JSONObject();
+                    jsonObject.put("start_time",mStartDate);
+                    jsonObject.put("end_time",mEndDate);
+                    jsonObject.put("price",salePrice);
+                    jsonObject.put("jiesuan_price",balancePrice);
+                    EventBus.getDefault().post(new MessageEvent(mType+"="+jsonObject.toString(),"DateRangeAty"));
+                    finish();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 break;
         }
     }

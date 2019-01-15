@@ -14,24 +14,40 @@
         android:layout_height="1dp"
         android:layout_below="@id/title_re_layout"
         android:background="@color/line_color" />
-
-    <TextView
-        android:id="@+id/addClassifyTv"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
+    <FrameLayout
+        android:id="@+id/bottomLayout"
         android:layout_alignParentBottom="true"
-        android:background="#fff23030"
-        android:gravity="center"
-        android:text="添加分类"
-        android:textColor="#ffffffff"
-        android:textSize="20sp" />
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+        <TextView
+            android:id="@+id/addClassifyTv"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="#fff23030"
+            android:gravity="center"
+            android:text="添加分类"
+            android:textColor="#ffffffff"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/moveTv"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="#fff23030"
+            android:gravity="center"
+            android:text="移动"
+            android:textColor="#ffffffff"
+            android:textSize="20sp" />
+    </FrameLayout>
+
+
 
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/addClassifyTv"
+        android:layout_above="@id/bottomLayout"
         android:layout_below="@id/line"
         android:background="@color/white"
         tools:itemCount="3"
@@ -42,7 +58,7 @@
         android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/addClassifyTv"
+        android:layout_above="@id/bottomLayout"
         android:layout_below="@id/line"
         android:background="@color/white"
         android:orientation="vertical">

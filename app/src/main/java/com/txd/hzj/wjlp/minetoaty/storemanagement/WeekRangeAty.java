@@ -1,13 +1,18 @@
 package com.txd.hzj.wjlp.minetoaty.storemanagement;
 
 import android.content.Context;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.lidroid.xutils.view.annotation.ViewInject;
+import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
+import com.txd.hzj.wjlp.tool.MessageEvent;
 
+import org.greenrobot.eventbus.EventBus;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -90,35 +95,37 @@ public class WeekRangeAty extends BaseAty {
 
     private void parseData() {
         try {
-            JSONObject jsonObject = new JSONObject(mData);
-            String monday = jsonObject.optString("monday");
-            String monday_jiesuan = jsonObject.optString("monday_jiesuan");
-            salePriceEdit1.setText(monday);
-            balancePriceEdit1.setText(monday_jiesuan);
-            String tuesday = jsonObject.optString("tuesday");
-            String tuesday_jiesuan = jsonObject.optString("tuesday_jiesuan");
-            salePriceEdit2.setText(tuesday);
-            balancePriceEdit2.setText(tuesday_jiesuan);
-            String wednesday = jsonObject.optString("wednesday");
-            String wednesday_jiesuan = jsonObject.optString("wednesday_jiesuan");
-            salePriceEdit3.setText(wednesday);
-            balancePriceEdit3.setText(wednesday_jiesuan);
-            String thursday = jsonObject.optString("thursday");
-            String thursday_jiesuan = jsonObject.optString("thursday_jiesuan");
-            salePriceEdit4.setText(thursday);
-            balancePriceEdit4.setText(thursday_jiesuan);
-            String friday = jsonObject.optString("friday");
-            String friday_jiesuan = jsonObject.optString("friday_jiesuan");
-            salePriceEdit5.setText(friday);
-            balancePriceEdit5.setText(friday_jiesuan);
-            String saturday = jsonObject.optString("saturday");
-            String saturday_jiesuan = jsonObject.optString("saturday_jiesuan");
-            salePriceEdit6.setText(saturday);
-            balancePriceEdit6.setText(saturday_jiesuan);
-            String sunday = jsonObject.optString("sunday");
-            String sunday_jiesuan = jsonObject.optString("sunday_jiesuan");
-            salePriceEdit7.setText(sunday);
-            balancePriceEdit7.setText(sunday_jiesuan);
+            JSONArray array = new JSONArray(mData);
+            if (array.length() == 7){
+                for (int i = 0; i < array.length(); i++) {
+                    JSONObject jsonObject = array.getJSONObject(i);
+                    String price = jsonObject.optString("price");
+                    String jiesuan_price = jsonObject.optString("jiesuan_price");
+                    if (i == 0){
+                        salePriceEdit1.setText(price);
+                        balancePriceEdit1.setText(jiesuan_price);
+                    }else if (i==1){
+                        salePriceEdit2.setText(price);
+                        balancePriceEdit2.setText(jiesuan_price);
+                    }else if (i==2){
+                        salePriceEdit3.setText(price);
+                        balancePriceEdit3.setText(jiesuan_price);
+                    }else if (i==3){
+                        salePriceEdit4.setText(price);
+                        balancePriceEdit4.setText(jiesuan_price);
+                    }else if (i==4){
+                        salePriceEdit5.setText(price);
+                        balancePriceEdit5.setText(jiesuan_price);
+                    }else if (i==5){
+                        salePriceEdit6.setText(price);
+                        balancePriceEdit6.setText(jiesuan_price);
+                    }else if (i==6){
+                        salePriceEdit7.setText(price);
+                        balancePriceEdit7.setText(jiesuan_price);
+                    }
+                }
+            }
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -128,5 +135,47 @@ public class WeekRangeAty extends BaseAty {
     @Override
     protected void requestData() {
 
+    }
+
+    @Override
+    @OnClick({R.id.sureTv})
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.sureTv:
+                try {
+                    JSONArray jsonArray = new JSONArray();
+                    for (int i=0; i<7; i++){
+                        JSONObject jsonObject = new JSONObject();
+                        if (i == 0){
+                            jsonObject.put("price",salePriceEdit1.getText().toString());
+                            jsonObject.put("jiesuan_price",balancePriceEdit1.getText().toString());
+                        }else if (i==1){
+                            jsonObject.put("price",salePriceEdit2.getText().toString());
+                            jsonObject.put("jiesuan_price",balancePriceEdit2.getText().toString());
+                        }else if (i==2){
+                            jsonObject.put("price",salePriceEdit3.getText().toString());
+                            jsonObject.put("jiesuan_price",balancePriceEdit3.getText().toString());
+                        }else if (i==3){
+                            jsonObject.put("price",salePriceEdit4.getText().toString());
+                            jsonObject.put("jiesuan_price",balancePriceEdit4.getText().toString());
+                        }else if (i==4){
+                            jsonObject.put("price",salePriceEdit5.getText().toString());
+                            jsonObject.put("jiesuan_price",balancePriceEdit5.getText().toString());
+                        }else if (i==5){
+                            jsonObject.put("price",salePriceEdit6.getText().toString());
+                            jsonObject.put("jiesuan_price",balancePriceEdit6.getText().toString());
+                        }else if (i==6){
+                            jsonObject.put("price",salePriceEdit7.getText().toString());
+                            jsonObject.put("jiesuan_price",balancePriceEdit7.getText().toString());
+                        }
+                        jsonArray.put(jsonObject);
+                    }
+                    EventBus.getDefault().post(new MessageEvent(mType+"="+jsonArray.toString(),"WeekRangeAty"));
+                    finish();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                break;
+        }
     }
 }

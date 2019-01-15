@@ -156,12 +156,12 @@ public class InputAty extends BaseAty {
     private String mSta_mid;
     private String mSup_type;
     private String mCate_id;
-    private String mGoods_attr;
-    private String mGoods_property;
-    private String mWeek_price;
-    private String mChurch_week_price;
-    private String mTime_price;
-    private String mChurch_time_price;
+    private String mGoods_attr="";
+    private String mGoods_property="";
+    private String mWeek_price="";
+    private String mChurch_week_price="";
+    private String mTime_price="";
+    private String mChurch_time_price="";
 
     @Override
     protected int getLayoutResId() {
@@ -263,13 +263,24 @@ public class InputAty extends BaseAty {
                 dinnerTimeTv.setText("自定义");
                 dinnerCustomLayout.setVisibility(View.VISIBLE);
             }
+            mCate_id = data.get("cate_id");
             nameEdit.setText(data.get("name"));
             classifyTv.setText(data.get("cate_name"));
             lunchBoxNumEdit.setText(data.get("boxware"));
             multipleSpecificationsTv.setText(data.containsKey("attr_name") ? data.get("attr_name") : "");
             attributesTv.setText(data.containsKey("specs_name") ? data.get("specs_name") : "");
             if (data.containsKey("goods_pic")) {
-                Glide.with(mContext).load(data.get("goods_pic")).into(picImg);
+                try {
+                    JSONArray jsonArray  = new JSONArray(data.get("goods_pic"));
+                    if (jsonArray.length()>0){
+                        JSONObject jsonObject = jsonArray.getJSONObject(0);
+                        Glide.with(mContext).load(jsonObject.optString("path")).into(picImg);
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
             }
             int label = Integer.parseInt(data.get("label"));
             if (label == 0) {
@@ -398,7 +409,7 @@ public class InputAty extends BaseAty {
             }
         }
 
-        if (file1 == null) {
+        if (mGoods_id == null && file1 == null) {
             showToast("请上传商品图片");
             return;
         }
@@ -418,7 +429,9 @@ public class InputAty extends BaseAty {
         params.addBodyParameter("goods_property", goods_property);
         params.addBodyParameter("shop_price", shop_price);
         params.addBodyParameter("church_shop_price", church_shop_price);
-        params.addBodyParameter("pic", pic);
+        if (pic != null){
+            params.addBodyParameter("pic", pic);
+        }
         params.addBodyParameter("label", label);
         params.addBodyParameter("week_price", week_price);
         params.addBodyParameter("church_week_price", church_week_price);
@@ -593,6 +606,7 @@ public class InputAty extends BaseAty {
                 Intent intent = new Intent(mContext, ImageGridActivity.class);
                 intent.putExtra(ImageGridActivity.EXTRAS_TAKE_PICKERS, true); // 是否是直接打开相机
                 startActivityForResult(intent, 100);
+                mPopupWindow.dismiss();
             }
         });
         setAlbum.setOnClickListener(new View.OnClickListener() {
@@ -600,6 +614,7 @@ public class InputAty extends BaseAty {
             public void onClick(View v) {
                 Intent in = new Intent(mContext, ImageGridActivity.class);
                 startActivityForResult(in, 102);
+                mPopupWindow.dismiss();
             }
         });
         mPopupWindow = new PopupWindow(view, RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
@@ -707,7 +722,34 @@ public class InputAty extends BaseAty {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+        }
 
+        if (label.equals("DateRangeAty")){
+            String[] split = message.split("=");
+            String type = split[0];
+            if (type.equals("takeaway")){
+                mTime_price = split[1];
+                takeawayWeekCheckBox.setChecked(false);
+                takeawayDateCheckBox.setChecked(true);
+            }else if (type.equals("dinner")){
+                mChurch_time_price = split[1];
+                dinnerWeekCheckBox.setChecked(false);
+                dinnerDateCheckBox.setChecked(true);
+            }
+
+        }
+        if (label.equals("WeekRangeAty")){
+            String[] split = message.split("=");
+            String type = split[0];
+            if (type.equals("takeaway")){
+                mWeek_price = split[1];
+                takeawayWeekCheckBox.setChecked(true);
+                takeawayDateCheckBox.setChecked(false);
+            }else if (type.equals("dinner")){
+                mChurch_week_price = split[1];
+                dinnerWeekCheckBox.setChecked(true);
+                dinnerDateCheckBox.setChecked(false);
+            }
 
         }
 

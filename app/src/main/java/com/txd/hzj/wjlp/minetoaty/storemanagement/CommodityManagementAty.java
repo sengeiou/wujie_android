@@ -14,6 +14,9 @@ import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -30,6 +33,10 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -53,9 +60,14 @@ public class CommodityManagementAty extends BaseAty {
     @ViewInject(R.id.nameTv)
     private TextView nameTv;
 
+    @ViewInject(R.id.selectTv)
+    private TextView selectTv;
 
     @ViewInject(R.id.empty_layout)
     private LinearLayout empty_layout;
+
+    @ViewInject(R.id.dataLayout)
+    private LinearLayout dataLayout;
 
     @ViewInject(R.id.fenleiTv)
     private TextView fenleiTv;
@@ -65,10 +77,32 @@ public class CommodityManagementAty extends BaseAty {
 
     @ViewInject(R.id.guanliTv)
     private TextView guanliTv;
+
+    @ViewInject(R.id.frameLayout)
+    private FrameLayout mFrameLayout;
+
+    @ViewInject(R.id.deleteTv)
+    private TextView deleteTv;
+
+    @ViewInject(R.id.moveTv)
+    private TextView moveTv;
+
+    @ViewInject(R.id.submitTv)
+    private TextView submitTv;
+
+    @ViewInject(R.id.saleLayout)
+    private LinearLayout saleLayout;
+
+
+
     private LeftAdapter mLeftAdapter;
     private RightAdapter mRightAdapter;
 
+    private String mType="1";
     private String merchantId;
+    private PopupWindow mPopupWindow;
+
+    private String mSelectName;
 
 
     @Override
@@ -85,15 +119,18 @@ public class CommodityManagementAty extends BaseAty {
         leftRecyclerView.setLayoutManager(leftLayoutManager);
         leftRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         rightRecyclerView.setLayoutManager(rightLayoutManager);
-        merchantId = "1";
+        merchantId = getIntent().getStringExtra("sta_mid");
     }
 
     @Override
     protected void requestData() {
-        app_goods_cate("1", merchantId, this);
 
+    }
 
-
+    @Override
+    protected void onResume() {
+        super.onResume();
+        app_goods_cate(mType, merchantId, this);
     }
 
     @Override
@@ -102,26 +139,37 @@ public class CommodityManagementAty extends BaseAty {
         Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
         if (requestUrl.endsWith("app_goods_cate")) {
             final ArrayList data = JSONUtils.parseKeyAndValueToMapList(LeftBean.class, map.get("data"));
-            if (data !=null && data.size()>0){
-                requestRightData(data,0);
+            if (data != null && data.size() > 0) {
+                requestRightData(data, 0);
+                mSelectName = ((LeftBean) data.get(0)).getName();
                 mLeftAdapter = new LeftAdapter(data);
                 mLeftAdapter.setOnItemClickListener(new LeftAdapter.OnItemClickListener() {
                     @Override
                     public void onItemClick(int position) {
                         mLeftAdapter.setSelectPosition(position);
-                        requestRightData(data,position);
+                        requestRightData(data, position);
+                        mSelectName = ((LeftBean) data.get(position)).getName();
+                        selectTv.setVisibility(View.GONE);
                     }
                 });
                 leftRecyclerView.setAdapter(mLeftAdapter);
             }
             return;
         }
-        if (requestUrl.endsWith("app_cate_goods")){
+        if (requestUrl.endsWith("app_cate_goods")) {
             Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
             Map<String, String> cateInfo = JSONUtils.parseKeyAndValueToMap(data.get("cate_info"));
-            nameTv.setText(cateInfo.get("name"));
             final ArrayList cate_goods_list = JSONUtils.parseKeyAndValueToMapList(CateGoodsListBean.class, data.get("cate_goods_list"));
-            if (cate_goods_list!=null) {
+            if (cate_goods_list != null) {
+                if (cate_goods_list.size()>0){
+                    dataLayout.setVisibility(View.VISIBLE);
+                    empty_layout.setVisibility(View.GONE);
+                    nameTv.setText(cateInfo.get("name"));
+                }else {
+                    dataLayout.setVisibility(View.GONE);
+                    empty_layout.setVisibility(View.VISIBLE);
+                }
+
                 mRightAdapter = new RightAdapter(cate_goods_list);
                 rightRecyclerView.setAdapter(mRightAdapter);
                 mRightAdapter.setOnItemClickListener(new LeftAdapter.OnItemClickListener() {
@@ -129,19 +177,34 @@ public class CommodityManagementAty extends BaseAty {
                     public void onItemClick(int position) {
                         CateGoodsListBean bean = (CateGoodsListBean) cate_goods_list.get(position);
                         Bundle bundle = new Bundle();
-                        bundle.putString("goods_id",bean.getGoods_id());
-                        bundle.putString("sta_mid",merchantId);
-                        startActivity(InputAty.class,bundle);
+                        bundle.putString("goods_id", bean.getGoods_id());
+                        bundle.putString("sta_mid", merchantId);
+                        startActivity(InputAty.class, bundle);
                     }
                 });
+            }else {
+                dataLayout.setVisibility(View.GONE);
+                empty_layout.setVisibility(View.VISIBLE);
             }
+        }
 
+        if (requestUrl.endsWith("app_volume_delete") || requestUrl.endsWith("app_dijiao") || requestUrl.endsWith("app_mass_shut_updown")) {
+            showToast(map.get("message"));
+            mFrameLayout.setVisibility(View.VISIBLE);
+            deleteTv.setVisibility(View.GONE);
+            moveTv.setVisibility(View.GONE);
+            submitTv.setVisibility(View.GONE);
+            saleLayout.setVisibility(View.GONE);
+            if ("1".equals(map.get("code"))) {
+                app_goods_cate(mType, merchantId, this);
+            }
+            return;
         }
     }
 
-    private void requestRightData(ArrayList data,int position) {
+    private void requestRightData(ArrayList data, int position) {
         LeftBean bean = (LeftBean) data.get(position);
-        app_cate_goods(bean.getId(),merchantId,this);
+        app_cate_goods(bean.getId(), merchantId, this);
     }
 
     void app_goods_cate(String type, String sta_mid, BaseView baseView) {
@@ -160,35 +223,197 @@ public class CommodityManagementAty extends BaseAty {
         apiTool2.postApi(Config.BASE_URL + "OsManager/app_cate_goods", params, baseView);
     }
 
+    void app_volume_delete(String goods_id, BaseView baseView) {
+        RequestParams params = new RequestParams();
+        ApiTool2 apiTool2 = new ApiTool2();
+        params.addBodyParameter("goods_id", goods_id);
+        apiTool2.postApi(Config.BASE_URL + "OsManager/app_volume_delete", params, baseView);
+    }
+
+    void app_dijiao(String goods_id, BaseView baseView) {
+        RequestParams params = new RequestParams();
+        ApiTool2 apiTool2 = new ApiTool2();
+        params.addBodyParameter("goods_id", goods_id);
+        apiTool2.postApi(Config.BASE_URL + "OsManager/app_dijiao", params, baseView);
+    }
+
+    /**
+     *
+     * @param goods_id
+     * @param is_sale 0下架 1上架
+     */
+    void app_mass_shut_updown(String goods_id, String is_sale,BaseView baseView) {
+        RequestParams params = new RequestParams();
+        ApiTool2 apiTool2 = new ApiTool2();
+        params.addBodyParameter("goods_id", goods_id);
+        params.addBodyParameter("is_sale", is_sale);
+        apiTool2.postApi(Config.BASE_URL + "OsManager/app_mass_shut_updown", params, baseView);
+    }
+
+
+
     @Override
-    @OnClick({R.id.fenleiTv, R.id.lucaiLayout, R.id.guanliTv})
+    @OnClick({R.id.fenleiTv, R.id.lucaiLayout, R.id.guanliTv, R.id.selectTv,R.id.deleteTv,R.id.moveTv,R.id.stopSaleTv,R.id.startSaleTv,R.id.submitTv})
     public void onClick(View v) {
         super.onClick(v);
         Bundle bundle = new Bundle();
         switch (v.getId()) {
             case R.id.fenleiTv:
-                bundle.putString("sta_mid",merchantId);
-                bundle.putBoolean("isShowDelete",true);
+                bundle.putString("sta_mid", merchantId);
+                bundle.putBoolean("isShowDelete", true);
                 startActivity(ClassifyManageAty.class, bundle);
                 break;
             case R.id.lucaiLayout:
-                bundle.putString("sta_mid",merchantId);
+                bundle.putString("sta_mid", merchantId);
                 startActivity(InputAty.class, bundle);
                 break;
             case R.id.guanliTv:
-                createPop(v);
+                if (mSelectName.equals("待审核")) {
+                    showToast("该分组不支持批量操作");
+                } else {
+                    if (mSelectName.equals("待递交")) {
+                        if (mPopupWindow == null) {
+                            createPop(v, "递交", false);
+                        } else {
+                            if (mPopupWindow.isShowing()) {
+                                mPopupWindow.dismiss();
+                            } else {
+                                mPopupWindow.showAsDropDown(v, 0, 30);
+                            }
+                        }
+                    } else if (mSelectName.equals("审核失败")) {
+                        if (mPopupWindow == null) {
+                            createPop(v, "重新递交", false);
+                        } else {
+                            if (mPopupWindow.isShowing()) {
+                                mPopupWindow.dismiss();
+                            } else {
+                                mPopupWindow.showAsDropDown(v, 0, 30);
+                            }
+                        }
+                    } else {
+                        if (mPopupWindow == null) {
+                            createPop(v, "分类", true);
+                        } else {
+                            if (mPopupWindow.isShowing()) {
+                                mPopupWindow.dismiss();
+                            } else {
+                                mPopupWindow.showAsDropDown(v, 0, 30);
+                            }
+                        }
+                    }
+                }
+                break;
+            case R.id.selectTv:
+                mRightAdapter.selectAll();
+                break;
+            case R.id.deleteTv:
+                try {
+                    app_volume_delete(getGoodsIds(), CommodityManagementAty.this);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                break;
+            case R.id.moveTv:
+                try {
+                    bundle.putString("sta_mid", merchantId);
+                    bundle.putString("goods_id", getGoodsIds());
+                    bundle.putBoolean("isShowDelete", false);
+                    startActivity(ClassifyManageAty.class, bundle);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                break;
+            case R.id.stopSaleTv:
+                try {
+                    app_mass_shut_updown(getGoodsIds(),"0",CommodityManagementAty.this);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                break;
+            case R.id.startSaleTv:
+                try {
+                    app_mass_shut_updown(getGoodsIds(),"1",CommodityManagementAty.this);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                break;
+            case R.id.submitTv:
+                try {
+                    app_dijiao(getGoodsIds(),CommodityManagementAty.this);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 break;
 
         }
     }
 
-    private void createPop(View v) {
-        PopupWindow popupWindow = new PopupWindow(LinearLayout.LayoutParams.MATCH_PARENT, 150);
-        popupWindow.setBackgroundDrawable(new ColorDrawable());
+    private void createPop(View v, final String text, boolean isVisible) {
+        mPopupWindow = new PopupWindow(LinearLayout.LayoutParams.MATCH_PARENT, 150);
+        mPopupWindow.setBackgroundDrawable(new ColorDrawable());
         View view = LayoutInflater.from(this).inflate(R.layout.pop_melloffline_manage, null);
-        popupWindow.setContentView(view);
-        popupWindow.setOutsideTouchable(true);
-        popupWindow.showAsDropDown(v, 0, 30);
+        TextView oneTv = view.findViewById(R.id.oneTv);
+        oneTv.setText(text);
+        TextView twoTv = view.findViewById(R.id.twoTv);
+        twoTv.setVisibility(isVisible ? View.VISIBLE : View.GONE);
+        TextView threeTv = view.findViewById(R.id.threeTv);
+
+        oneTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectTv.setVisibility(View.VISIBLE);
+                mRightAdapter.showCheckBox();
+                if (text.equals("分类")) {
+                    mFrameLayout.setVisibility(View.GONE);
+                    moveTv.setVisibility(View.VISIBLE);
+                } else {
+                    mFrameLayout.setVisibility(View.GONE);
+                    submitTv.setVisibility(View.VISIBLE);
+                }
+                mPopupWindow.dismiss();
+            }
+        });
+
+        twoTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectTv.setVisibility(View.VISIBLE);
+                mRightAdapter.showCheckBox();
+                mFrameLayout.setVisibility(View.GONE);
+                saleLayout.setVisibility(View.VISIBLE);
+                mPopupWindow.dismiss();
+            }
+        });
+
+        threeTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectTv.setVisibility(View.VISIBLE);
+                mRightAdapter.showCheckBox();
+                mFrameLayout.setVisibility(View.GONE);
+                deleteTv.setVisibility(View.VISIBLE);
+                mPopupWindow.dismiss();
+            }
+        });
+
+        mPopupWindow.setContentView(view);
+        mPopupWindow.setOutsideTouchable(false);
+        mPopupWindow.showAsDropDown(v, 0, 30);
+    }
+
+
+    private String getGoodsIds() throws JSONException {
+            JSONArray jsonArray = new JSONArray();
+            ArrayList<CateGoodsListBean> list = mRightAdapter.getList();
+            for (CateGoodsListBean bean : list) {
+                if (bean.isSelect()) {
+                    JSONObject object = new JSONObject();
+                    object.put("id", bean.getGoods_id());
+                    jsonArray.put(object);
+                }
+            }
+            return jsonArray.toString();
     }
 
     public static class LeftAdapter extends RecyclerView.Adapter<LeftAdapter.ViewHolder> {
@@ -262,6 +487,7 @@ public class CommodityManagementAty extends BaseAty {
         private ArrayList<CateGoodsListBean> mList;
         private Context mContext;
         private LeftAdapter.OnItemClickListener mOnItemClickListener;
+        private boolean isShowCheckBox;
 
         public RightAdapter(ArrayList<CateGoodsListBean> list) {
             mList = list;
@@ -270,6 +496,7 @@ public class CommodityManagementAty extends BaseAty {
         public void setOnItemClickListener(LeftAdapter.OnItemClickListener onItemClickListener) {
             mOnItemClickListener = onItemClickListener;
         }
+
         @NonNull
         @Override
         public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -281,34 +508,33 @@ public class CommodityManagementAty extends BaseAty {
         }
 
         @Override
-        public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
+        public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
             CateGoodsListBean cateGoodsListBean = mList.get(position);
             Glide.with(mContext).load(cateGoodsListBean.getGoods_pic()).into(holder.picIv);
             holder.nameTv.setText(cateGoodsListBean.getName());
-            if(cateGoodsListBean.getAttr_count()==0){
+            if (cateGoodsListBean.getAttr_count() == 0) {
                 holder.specTv.setVisibility(View.GONE);
-            }else if (cateGoodsListBean.getAttr_count()>0){
+            } else if (cateGoodsListBean.getAttr_count() > 0) {
                 holder.specTv.setVisibility(View.VISIBLE);
                 holder.specTv.setText("已设置规格");
             }
 
-            if (cateGoodsListBean.getIs_sale().equals("0")){
+            if (cateGoodsListBean.getIs_sale().equals("0")) {
                 holder.statusTv.setText("已停售");
-            }else {
+            } else {
                 holder.statusTv.setText("已起售");
             }
-            if (cateGoodsListBean.getSup_type().equals("1")){
-                holder.priceTv1.setText(setSpannable("¥"+cateGoodsListBean.getShop_price()+"/份"));
+            if (cateGoodsListBean.getSup_type().equals("1")) {
+                holder.priceTv1.setText(setSpannable("¥" + cateGoodsListBean.getShop_price() + "/份"));
                 holder.priceTv1.setVisibility(View.VISIBLE);
                 holder.priceTv2.setVisibility(View.GONE);
-            }else if (cateGoodsListBean.getSup_type().equals("2")){
-                holder.priceTv2.setText(setSpannable("¥"+cateGoodsListBean.getChurch_shop_price()+"/份"));
+            } else if (cateGoodsListBean.getSup_type().equals("2")) {
+                holder.priceTv2.setText(setSpannable("¥" + cateGoodsListBean.getChurch_shop_price() + "/份"));
                 holder.priceTv1.setVisibility(View.GONE);
                 holder.priceTv2.setVisibility(View.VISIBLE);
-            }
-            else if (cateGoodsListBean.getSup_type().equals("3")){
-                holder.priceTv1.setText(setSpannable("¥"+cateGoodsListBean.getShop_price()+"/份"));
-                holder.priceTv2.setText(setSpannable("¥"+cateGoodsListBean.getChurch_shop_price()+"/份"));
+            } else if (cateGoodsListBean.getSup_type().equals("3")) {
+                holder.priceTv1.setText(setSpannable("¥" + cateGoodsListBean.getShop_price() + "/份"));
+                holder.priceTv2.setText(setSpannable("¥" + cateGoodsListBean.getChurch_shop_price() + "/份"));
                 holder.priceTv1.setVisibility(View.VISIBLE);
                 holder.priceTv2.setVisibility(View.VISIBLE);
             }
@@ -316,20 +542,53 @@ public class CommodityManagementAty extends BaseAty {
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (mOnItemClickListener != null){
+                    if (mOnItemClickListener != null) {
                         mOnItemClickListener.onItemClick(holder.getLayoutPosition());
                     }
                 }
             });
+
+            if (isShowCheckBox) {
+                holder.rightArrowImg.setVisibility(View.GONE);
+                holder.checkBox.setVisibility(View.VISIBLE);
+                holder.checkBox.setChecked(mList.get(position).isSelect());
+                holder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        mList.get(position).setSelect(isChecked);
+                    }
+                });
+            } else {
+                holder.rightArrowImg.setVisibility(View.VISIBLE);
+                holder.checkBox.setVisibility(View.GONE);
+            }
 
         }
 
         private SpannableString setSpannable(String source) {
             SpannableString spannableString = new SpannableString(source);
             ForegroundColorSpan span = new ForegroundColorSpan(Color.parseColor("#ffe12b2a"));
-            spannableString.setSpan(span,0,source.length()-2, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+            spannableString.setSpan(span, 0, source.length() - 2, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
             return spannableString;
         }
+
+        public void showCheckBox() {
+            this.isShowCheckBox = true;
+            notifyDataSetChanged();
+        }
+
+        public void selectAll() {
+            for (int i = 0; i < mList.size(); i++) {
+                mList.get(i).setSelect(true);
+            }
+            notifyDataSetChanged();
+        }
+
+
+        public ArrayList<CateGoodsListBean> getList() {
+            return mList;
+        }
+
 
         @Override
         public int getItemCount() {
@@ -354,6 +613,12 @@ public class CommodityManagementAty extends BaseAty {
 
             @ViewInject(R.id.priceTv2)
             private TextView priceTv2;
+
+            @ViewInject(R.id.rightArrowImg)
+            private ImageView rightArrowImg;
+
+            @ViewInject(R.id.checkBox)
+            private CheckBox checkBox;
 
             public ViewHolder(View itemView) {
                 super(itemView);
@@ -465,18 +730,28 @@ public class CommodityManagementAty extends BaseAty {
         private String desc;
         private String label;
         private String bossrec;
-//        private String week_price;
-//        private String time_price;
-//        private String church_week_price;
-//        private String church_time_price;
+        //        private String week_price;
+        //        private String time_price;
+        //        private String church_week_price;
+        //        private String church_time_price;
         private String create_time;
         private String is_sale;
         private String sale_num;
         private String goods_pic;
-//        private String attr;
-//        private String specs;
+        //        private String attr;
+        //        private String specs;
         private int attr_count;
         private int specs_count;
+
+        private boolean isSelect;
+
+        public boolean isSelect() {
+            return isSelect;
+        }
+
+        public void setSelect(boolean select) {
+            isSelect = select;
+        }
 
         public String getId() {
             return id;
@@ -582,37 +857,37 @@ public class CommodityManagementAty extends BaseAty {
             this.bossrec = bossrec;
         }
 
-//        public String getWeek_price() {
-//            return week_price;
-//        }
-//
-//        public void setWeek_price(String week_price) {
-//            this.week_price = week_price;
-//        }
-//
-//        public String getTime_price() {
-//            return time_price;
-//        }
-//
-//        public void setTime_price(String time_price) {
-//            this.time_price = time_price;
-//        }
-//
-//        public String getChurch_week_price() {
-//            return church_week_price;
-//        }
-//
-//        public void setChurch_week_price(String church_week_price) {
-//            this.church_week_price = church_week_price;
-//        }
-//
-//        public String getChurch_time_price() {
-//            return church_time_price;
-//        }
-//
-//        public void setChurch_time_price(String church_time_price) {
-//            this.church_time_price = church_time_price;
-//        }
+        //        public String getWeek_price() {
+        //            return week_price;
+        //        }
+        //
+        //        public void setWeek_price(String week_price) {
+        //            this.week_price = week_price;
+        //        }
+        //
+        //        public String getTime_price() {
+        //            return time_price;
+        //        }
+        //
+        //        public void setTime_price(String time_price) {
+        //            this.time_price = time_price;
+        //        }
+        //
+        //        public String getChurch_week_price() {
+        //            return church_week_price;
+        //        }
+        //
+        //        public void setChurch_week_price(String church_week_price) {
+        //            this.church_week_price = church_week_price;
+        //        }
+        //
+        //        public String getChurch_time_price() {
+        //            return church_time_price;
+        //        }
+        //
+        //        public void setChurch_time_price(String church_time_price) {
+        //            this.church_time_price = church_time_price;
+        //        }
 
         public String getCreate_time() {
             return create_time;
@@ -646,21 +921,21 @@ public class CommodityManagementAty extends BaseAty {
             this.goods_pic = goods_pic;
         }
 
-//        public String getAttr() {
-//            return attr;
-//        }
-//
-//        public void setAttr(String attr) {
-//            this.attr = attr;
-//        }
-//
-//        public String getSpecs() {
-//            return specs;
-//        }
-//
-//        public void setSpecs(String specs) {
-//            this.specs = specs;
-//        }
+        //        public String getAttr() {
+        //            return attr;
+        //        }
+        //
+        //        public void setAttr(String attr) {
+        //            this.attr = attr;
+        //        }
+        //
+        //        public String getSpecs() {
+        //            return specs;
+        //        }
+        //
+        //        public void setSpecs(String specs) {
+        //            this.specs = specs;
+        //        }
 
         public int getAttr_count() {
             return attr_count;

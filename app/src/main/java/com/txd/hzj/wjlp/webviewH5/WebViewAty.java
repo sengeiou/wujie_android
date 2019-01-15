@@ -41,6 +41,7 @@ import com.txd.hzj.wjlp.bluetoothPrint.SearchBluetoothAty;
 import com.txd.hzj.wjlp.http.Pay;
 import com.txd.hzj.wjlp.http.index.IndexPst;
 import com.txd.hzj.wjlp.login.LoginAty;
+import com.txd.hzj.wjlp.minetoaty.storemanagement.CommodityManagementAty;
 import com.txd.hzj.wjlp.tool.BitmapUtils;
 import com.txd.hzj.wjlp.tool.MapIntentUtil;
 import com.txd.hzj.wjlp.wxapi.GetPrepayIdTask;
@@ -500,6 +501,28 @@ public class WebViewAty extends BaseAty {
         @JavascriptInterface
         public void callPhone(String phone){
             call(phone);
+        }
+
+        @JavascriptInterface
+        public void getShopMerchantId(String jsonStr){
+            com.alibaba.fastjson.JSONObject jsonObject = com.alibaba.fastjson.JSONObject.parseObject(jsonStr);
+            if (jsonObject.containsKey("sta_mid")){
+                String sta_mid = jsonObject.getString("sta_mid");
+                Bundle bundle = new Bundle();
+                bundle.putString("sta_mid",sta_mid);
+                startActivity(CommodityManagementAty.class,bundle);
+            }
+        }
+
+        @JavascriptInterface
+        public void getFriendMerchantId(String jsonStr){
+//            com.alibaba.fastjson.JSONObject jsonObject = com.alibaba.fastjson.JSONObject.parseObject(jsonStr);
+//            if (jsonObject.containsKey("sta_mid")){
+//                String sta_mid = jsonObject.getString("sta_mid");
+//                Bundle bundle = new Bundle();
+//                bundle.putString("sta_mid",sta_mid);
+//                startActivity(CommodityManagementAty.class,bundle);
+//            }
         }
 
     }
