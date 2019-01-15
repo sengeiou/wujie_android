@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginTop="15dp"
     android:gravity="center"
     android:orientation="vertical">
 
@@ -11,8 +13,8 @@
         android:layout_height="wrap_content"
         android:background="@drawable/shape_message_time"
         android:padding="8dp"
-        android:text="2017年07月07日"
-        android:textColor="@color/white" />
+        android:textColor="@color/white"
+        tools:text="2017年07月07日" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -35,28 +37,28 @@
                 android:text="订单消息"
                 android:textColor="#FFBF00"
                 android:textSize="16sp" />
+
             <TextView
                 android:id="@+id/is_read_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="未读"
-                android:visibility="gone"
                 android:layout_alignParentEnd="true"
+                android:text="未读"
                 android:textColor="@color/red_tv_back"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                android:visibility="gone" />
         </RelativeLayout>
 
         <Space
             android:layout_width="match_parent"
             android:layout_height="12dp" />
 
-        <me.codeboy.android.aligntextview.AlignTextView
+        <TextView
             android:id="@+id/item_message_content_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:lineSpacingExtra="2dp"
             android:textColor="@color/gray_text_color" />
-
 
     </LinearLayout>
 

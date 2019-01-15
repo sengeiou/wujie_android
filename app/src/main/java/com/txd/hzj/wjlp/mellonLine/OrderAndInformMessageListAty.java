@@ -1,5 +1,6 @@
 package com.txd.hzj.wjlp.mellonLine;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
@@ -15,7 +16,6 @@ import android.widget.TextView;
 import com.ants.theantsgo.tool.ToolKit;
 import com.ants.theantsgo.util.JSONUtils;
 import com.ants.theantsgo.util.L;
-import com.ants.theantsgo.util.StringUtils;
 import com.ants.theantsgo.view.pulltorefresh.PullToRefreshBase;
 import com.ants.theantsgo.view.pulltorefresh.PullToRefreshListView;
 import com.lidroid.xutils.ViewUtils;
@@ -156,7 +156,8 @@ public class OrderAndInformMessageListAty extends BaseAty {
             title = "公告";
         }
         list = new ArrayList<>();
-        messageAdapter = new MessageAdapter();
+        messageAdapter = new MessageAdapter(type, this);
+        message_lv.setAdapter(messageAdapter);
         userMessagePst = new UserMessagePst(this);
     }
 
@@ -178,12 +179,13 @@ public class OrderAndInformMessageListAty extends BaseAty {
         Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
         if (ToolKit.isList(map, "data")) {
             if (1 == p) {
-                list = JSONUtils.parseKeyAndValueToMapList(map.get("data"));
-                message_lv.setAdapter(messageAdapter);
+                list.clear();
+                list.addAll(JSONUtils.parseKeyAndValueToMapList(map.get("data")));
+                messageAdapter.setData(list);
             } else {
                 List<Map<String, String>> list2 = JSONUtils.parseKeyAndValueToMapList(map.get("data"));
                 list.addAll(list2);
-                messageAdapter.notifyDataSetChanged();
+                messageAdapter.setData(list2);
             }
             message_lv.onRefreshComplete();
         }
@@ -195,9 +197,27 @@ public class OrderAndInformMessageListAty extends BaseAty {
         message_lv.onRefreshComplete();
     }
 
-    private class MessageAdapter extends BaseAdapter {
 
-        private MessageViewHolder mvh;
+    private static class MessageAdapter extends BaseAdapter {
+
+
+        private List<Map<String, String>> list;
+
+        private int type;
+        private Context mContext;
+
+        public MessageAdapter(int type, Context context) {
+            this.type = type;
+            mContext = context;
+            list = new ArrayList<>();
+        }
+
+        public void setData(List<Map<String, String>> list) {
+            this.list.clear();
+            this.list.addAll(list);
+            notifyDataSetChanged();
+        }
+
 
         @Override
         public int getCount() {
@@ -205,24 +225,23 @@ public class OrderAndInformMessageListAty extends BaseAty {
         }
 
         @Override
-        public Map<String, String> getItem(int i) {
-            return list.get(i);
+        public Object getItem(int position) {
+            return list.get(position);
         }
 
         @Override
-        public long getItemId(int i) {
-            return i;
+        public long getItemId(int position) {
+            return position;
         }
 
         @Override
         public View getView(int i, View view, ViewGroup viewGroup) {
-            Map<String, String> msg = getItem(i);
+            MessageViewHolder mvh;
             if (view == null) {
-                view = LayoutInflater.from(OrderAndInformMessageListAty.this).inflate(R.layout.item_message_lv,
-                        viewGroup, false);
+                view = LayoutInflater.from(mContext).inflate(R.layout.item_message_lv, null);
                 mvh = new MessageViewHolder();
-                ViewUtils.inject(mvh, view);
                 view.setTag(mvh);
+                ViewUtils.inject(mvh, view);
             } else {
                 mvh = (MessageViewHolder) view.getTag();
             }
@@ -236,27 +255,25 @@ public class OrderAndInformMessageListAty extends BaseAty {
                 mvh.item_message_type_tv.setText("公告");
                 mvh.item_message_type_tv.setTextColor(Color.parseColor("#F95757"));
             }
-
+            Map<String, String> msg = list.get(i);
             mvh.msg_time_tv.setText(msg.get("create_time"));
-
             if (2 == type) {
                 mvh.item_message_content_tv.setText(msg.get("title"));
                 mvh.is_read_tv.setVisibility(msg.get("is_read").equals("0") ? View.VISIBLE : View.GONE);
             } else {
-                mvh.item_message_content_tv.setText(msg.get("content"));
+                mvh.item_message_content_tv.setText(list.get(i).get("content"));
             }
-
             if (msg.get("status").equals("0")) {// 未读
-                mvh.item_message_content_tv.setTextColor(ContextCompat.getColor(OrderAndInformMessageListAty.this,
+                mvh.item_message_content_tv.setTextColor(ContextCompat.getColor(mContext,
                         R.color.app_text_color));
             } else {// 已读
-                mvh.item_message_content_tv.setTextColor(ContextCompat.getColor(OrderAndInformMessageListAty.this,
+                mvh.item_message_content_tv.setTextColor(ContextCompat.getColor(mContext,
                         R.color.gray_text_color));
             }
             return view;
         }
 
-        private class MessageViewHolder {
+        public static class MessageViewHolder {
 
             @ViewInject(R.id.msg_time_tv)
             private TextView msg_time_tv;
