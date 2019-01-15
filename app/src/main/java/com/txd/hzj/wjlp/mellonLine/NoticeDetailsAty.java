@@ -470,7 +470,7 @@ public class NoticeDetailsAty extends BaseAty {
                 String share_img = jsonObject.has("share_img") ? jsonObject.getString("share_img") : "";
                 String share_url;
                 String Shapetype="1";
-                if (mDesc.equals("邀请有礼")) {
+                if (mDesc.equals("集碎片")) {
                     share_url = jsonObject.has("share_url") ? jsonObject.getString("share_url"): "";
                     Shapetype="7";
                 } else {
