@@ -103,6 +103,7 @@ public class ToShareAty extends BaseAty {
                 shareForApp(SinaWeibo.NAME);
                 break;
         }
+        finish();
     }
 
     @Override

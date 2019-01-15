@@ -185,7 +185,7 @@ public class OrderAndInformMessageListAty extends BaseAty {
             } else {
                 List<Map<String, String>> list2 = JSONUtils.parseKeyAndValueToMapList(map.get("data"));
                 list.addAll(list2);
-                messageAdapter.setData(list2);
+                messageAdapter.setData(list);
             }
             message_lv.onRefreshComplete();
         }
