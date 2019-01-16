@@ -350,7 +350,7 @@ public class CommodityManagementAty extends BaseAty {
     }
 
     private void createPop(View v, final String text, boolean isVisible) {
-        mPopupWindow = new PopupWindow(LinearLayout.LayoutParams.MATCH_PARENT, 150);
+        mPopupWindow = new PopupWindow(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
         mPopupWindow.setBackgroundDrawable(new ColorDrawable());
         View view = LayoutInflater.from(this).inflate(R.layout.pop_melloffline_manage, null);
         TextView oneTv = view.findViewById(R.id.oneTv);
