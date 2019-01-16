@@ -51,7 +51,7 @@
                         android:padding="4dp"
                         android:text="卖家服务"
                         android:textColor="@color/app_text_color" />
-                    <!--<RatingBar
+                   <!-- <RatingBar
                         android:id="@+id/rb_1"
                         style="@style/foodRatingBar"
                         android:layout_width="wrap_content"
@@ -73,12 +73,12 @@
                         android:numStars="5"
                         app:starFill="@mipmap/star_ful"
                         app:starHalf="@mipmap/unstar_ful"
-                        app:starImageSize="12dp"
+                        app:starImageSize="15dp"
                         app:starStep="5"
                         android:layout_marginRight="40dp"
                         app:starcount="5"
                         app:starempty="@mipmap/unstar_ful"
-                        app:starpadding="5dp"
+                        app:starpadding="8dp"
                         app:stepSize="Full"/>
 
                 </LinearLayout>
@@ -118,12 +118,12 @@
                         android:numStars="5"
                         app:starFill="@mipmap/star_ful"
                         app:starHalf="@mipmap/unstar_ful"
-                        app:starImageSize="12dp"
+                        app:starImageSize="15dp"
                         app:starStep="5"
                         android:layout_marginRight="40dp"
                         app:starcount="5"
                         app:starempty="@mipmap/unstar_ful"
-                        app:starpadding="5dp"
+                        app:starpadding="8dp"
                         app:stepSize="Full"/>
                 </LinearLayout>
             </LinearLayout>

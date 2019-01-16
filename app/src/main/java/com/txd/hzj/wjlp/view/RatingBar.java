@@ -116,7 +116,7 @@ public class RatingBar extends LinearLayout {
         TypedArray mTypedArray = context.obtainStyledAttributes(attrs, R.styleable.RatingBar);
         starImageSize = mTypedArray.getDimension(R.styleable.RatingBar_starImageSize, 20);
         starPadding = mTypedArray.getDimension(R.styleable.RatingBar_starpadding, 10);
-        starStep = mTypedArray.getFloat(R.styleable.RatingBar_starStep, 1.0f);
+        starStep = mTypedArray.getFloat(R.styleable.RatingBar_starStep, 0.0f);
         stepSize = StepSize.fromStep(mTypedArray.getInt(R.styleable.RatingBar_stepSize, 1));
         starCount = mTypedArray.getInteger(R.styleable.RatingBar_starcount, 5);
         starEmptyDrawable = mTypedArray.getDrawable(R.styleable.RatingBar_starempty);
@@ -145,6 +145,9 @@ public class RatingBar extends LinearLayout {
                                 if (indexOfChild(v) > fint) {
                                     setStar(indexOfChild(v) + 1);
                                 } else if (indexOfChild(v) == fint) {
+                                    if (fint == 0){
+                                        setStar(0);
+                                    }
                                     if (stepSize == StepSize.Full) {//如果是满星 就不考虑半颗星了
                                         return;
                                     }
