@@ -28,6 +28,15 @@
             android:text="添加分类"
             android:textColor="#ffffffff"
             android:textSize="20sp" />
+        <TextView
+            android:id="@+id/saveTv"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="#fff23030"
+            android:gravity="center"
+            android:text="保存"
+            android:textColor="#ffffffff"
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/moveTv"
@@ -87,7 +96,7 @@
                 android:paddingEnd="8dp"
                 android:paddingStart="8dp"
                 android:paddingTop="4dp"
-                android:text="编辑"
+                android:hint="请输入分类名称"
                 android:textSize="12sp" />
         </RelativeLayout>
 
@@ -120,6 +129,7 @@
                 android:paddingEnd="8dp"
                 android:paddingStart="8dp"
                 android:paddingTop="4dp"
+                android:hint="越大越靠前"
                 android:text="7"
                 android:textSize="12sp" />
         </RelativeLayout>
@@ -149,6 +159,8 @@
                 android:layout_height="wrap_content"
                 android:minHeight="50dp"
                 android:maxHeight="100dp"
+                android:textSize="16sp"
+                android:hint="请输入简短分类描述"
                 android:background="@drawable/shape_black_line_5"/>
         </LinearLayout>
 

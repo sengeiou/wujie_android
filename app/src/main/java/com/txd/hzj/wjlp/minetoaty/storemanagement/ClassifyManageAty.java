@@ -65,6 +65,9 @@ public class ClassifyManageAty extends BaseAty {
     @ViewInject(R.id.addClassifyTv)
     private TextView addClassifyTv;
 
+    @ViewInject(R.id.saveTv)
+    private TextView saveTv;
+
     @ViewInject(R.id.moveTv)
     private TextView moveTv;
 
@@ -73,9 +76,9 @@ public class ClassifyManageAty extends BaseAty {
     private Context mContext;
     private String mSta_mid;
 
-    private String mId;
-    private String mIs_del;
-    private String mSort;
+    private String mId="";
+    private String mIs_del="";
+    private String mSort="";
     private boolean mIsShowDelete;
     private String mGoods_id;
 
@@ -92,7 +95,7 @@ public class ClassifyManageAty extends BaseAty {
         mSta_mid = getIntent().getStringExtra("sta_mid");
         mIsShowDelete = getIntent().getBooleanExtra("isShowDelete", false);
         mGoods_id = getIntent().getStringExtra("goods_id");
-        if (mIsShowDelete){
+        if (mIsShowDelete) {
             time_select_img.setVisibility(View.VISIBLE);
             time_select_img.setImageResource(R.drawable.icon_trash);
         }
@@ -100,12 +103,14 @@ public class ClassifyManageAty extends BaseAty {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         mClassifyAdpater = new ClassifyAdpater();
-        if (mGoods_id != null){
+        if (mGoods_id != null) {
             addClassifyTv.setVisibility(View.GONE);
+            saveTv.setVisibility(View.GONE);
             moveTv.setVisibility(View.VISIBLE);
             mClassifyAdpater.isShowEdit(false);
-        }else {
+        } else {
             addClassifyTv.setVisibility(View.VISIBLE);
+            saveTv.setVisibility(View.GONE);
             moveTv.setVisibility(View.GONE);
             mClassifyAdpater.isShowEdit(true);
         }
@@ -119,10 +124,10 @@ public class ClassifyManageAty extends BaseAty {
                     mSort = classifyDataBean.getSort();
                     mClassifyAdpater.setSelectPosition(position);
                 } else {
-                    if (mGoods_id==null) {
+                    if (mGoods_id == null) {
                         EventBus.getDefault().post(new MessageEvent(classifyDataBean.getName() + "-" + classifyDataBean.getId(), "ClassifyManageAty"));
                         finish();
-                    }else {
+                    } else {
                         mId = classifyDataBean.getId();
                         mClassifyAdpater.setSelectPosition(position);
                     }
@@ -133,7 +138,11 @@ public class ClassifyManageAty extends BaseAty {
         mClassifyAdpater.setOnItemViewClickListener(new ClassifyAdpater.OnItemViewClickListener() {
             @Override
             public void onClick(View view, int position) {
-                setType();
+                time_select_img.setVisibility(View.GONE);
+                addClassifyTv.setVisibility(View.GONE);
+                saveTv.setVisibility(View.VISIBLE);
+                recyclerView.setVisibility(View.GONE);
+                editLayout.setVisibility(View.VISIBLE);
                 ArrayList<ClassifyDataBean> data = mClassifyAdpater.getData();
                 ClassifyDataBean classifyDataBean = data.get(position);
                 titleEdit.setText(classifyDataBean.getName());
@@ -159,18 +168,25 @@ public class ClassifyManageAty extends BaseAty {
         apiTool2.postApi(Config.BASE_URL + "OsManager/app_goods_cate", params, baseView);
     }
 
-    void app_edit_cate(String id, String is_del, String name, String desc, String sort, BaseView baseView) {
+    void app_edit_cate(String id, String is_del, String name, String desc, String sort,String sta_mid, BaseView baseView) {
         RequestParams params = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
-        params.addBodyParameter("id", id);
-        params.addBodyParameter("is_del", is_del);
+        if (!TextUtils.isEmpty(id)){
+            params.addBodyParameter("id", id);
+        }
+        if (!TextUtils.isEmpty(is_del)){
+            params.addBodyParameter("is_del", is_del);
+        }
         params.addBodyParameter("name", name);
         params.addBodyParameter("desc", desc);
-        params.addBodyParameter("sort", sort);
+        if (!TextUtils.isEmpty(sort)){
+            params.addBodyParameter("sort", sort);
+        }
+        params.addBodyParameter("sta_mid",sta_mid);
         apiTool2.postApi(Config.BASE_URL + "OsManager/app_edit_cate", params, baseView);
     }
 
-    void appMoveGoodsToCate(String goods_id, String cate_id,BaseView baseView) {
+    void appMoveGoodsToCate(String goods_id, String cate_id, BaseView baseView) {
         RequestParams params = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
         params.addBodyParameter("goods_id", goods_id);
@@ -188,23 +204,27 @@ public class ClassifyManageAty extends BaseAty {
             return;
         }
 
-        if (requestUrl.endsWith("app_edit_cate")){
-                showToast(map.get("message"));
-                if (map.get("code").equals("1")) {
-                    requestData();
-                    if (TextUtils.isEmpty(mIs_del)) {
-                        setType();
-                    }
+        if (requestUrl.endsWith("app_edit_cate")) {
+            showToast(map.get("message"));
+            if (map.get("code").equals("1")) {
+                requestData();
+                if (TextUtils.isEmpty(mIs_del)) {
+                    time_select_img.setVisibility(View.VISIBLE);
+                    addClassifyTv.setVisibility(View.VISIBLE);
+                    saveTv.setVisibility(View.GONE);
+                    recyclerView.setVisibility(View.VISIBLE);
+                    editLayout.setVisibility(View.GONE);
+                }
             }
             return;
         }
 
-        if (requestUrl.endsWith("appMoveGoodsToCate")){
+        if (requestUrl.endsWith("appMoveGoodsToCate")) {
             showToast(map.get("message"));
             if ("1".equals(map.get("code"))) {
                 Bundle bundle = new Bundle();
-                bundle.putString("sta_mid",mSta_mid);
-                startActivity(CommodityManagementAty.class,bundle);
+                bundle.putString("sta_mid", mSta_mid);
+                startActivity(CommodityManagementAty.class, bundle);
                 finish();
             }
             return;
@@ -213,11 +233,15 @@ public class ClassifyManageAty extends BaseAty {
     }
 
     @Override
-    @OnClick({R.id.time_select_img, R.id.addClassifyTv,R.id.moveTv})
+    @OnClick({R.id.time_select_img, R.id.addClassifyTv, R.id.saveTv, R.id.moveTv})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
             case R.id.time_select_img:
+                if (TextUtils.isEmpty(mId)) {
+                    showToast("请选择要删除的分类");
+                    return;
+                }
                 mIs_del = "1";
                 CustomDialog customDialog = new CustomDialog.Builder(mContext)
                         .setIsShowTitle(false)
@@ -225,7 +249,7 @@ public class ClassifyManageAty extends BaseAty {
                         .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                app_edit_cate(mId, mIs_del, titleEdit.getText().toString(), briefEdit.getText().toString(), mSort, ClassifyManageAty.this);
+                                app_edit_cate(mId, mIs_del, titleEdit.getText().toString(), briefEdit.getText().toString(), mSort,mSta_mid, ClassifyManageAty.this);
                                 dialog.dismiss();
                             }
                         })
@@ -239,13 +263,23 @@ public class ClassifyManageAty extends BaseAty {
                 customDialog.show();
                 break;
             case R.id.addClassifyTv:
-                mIs_del="";
+                time_select_img.setVisibility(View.GONE);
+                addClassifyTv.setVisibility(View.GONE);
+                saveTv.setVisibility(View.VISIBLE);
+                recyclerView.setVisibility(View.GONE);
+                editLayout.setVisibility(View.VISIBLE);
+                titleEdit.getText().clear();
+                numEdit.getText().clear();
+                briefEdit.getText().clear();
+                break;
+            case R.id.saveTv:
+                mIs_del = "";
                 String name = titleEdit.getText().toString();
                 if (TextUtils.isEmpty(name)) {
                     showToast("分类名称不能为空");
                     return;
                 }
-                app_edit_cate(mId, mIs_del, name, briefEdit.getText().toString(), mSort, this);
+                app_edit_cate(mId, mIs_del, name, briefEdit.getText().toString(), mSort, mSta_mid,this);
                 break;
             case R.id.moveTv:
                 CustomDialog customDialog2 = new CustomDialog.Builder(mContext)
@@ -254,7 +288,7 @@ public class ClassifyManageAty extends BaseAty {
                         .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                appMoveGoodsToCate(mGoods_id,mId,ClassifyManageAty.this);
+                                appMoveGoodsToCate(mGoods_id, mId, ClassifyManageAty.this);
                                 dialog.dismiss();
                             }
                         })
@@ -270,17 +304,6 @@ public class ClassifyManageAty extends BaseAty {
         }
     }
 
-    private void setType() {
-        if (addClassifyTv.getText().toString().equals("添加分类")) {
-            recyclerView.setVisibility(View.GONE);
-            editLayout.setVisibility(View.VISIBLE);
-            addClassifyTv.setText("保存");
-        } else {
-            recyclerView.setVisibility(View.VISIBLE);
-            editLayout.setVisibility(View.GONE);
-            addClassifyTv.setText("添加分类");
-        }
-    }
 
 
     public static class ClassifyAdpater extends RecyclerView.Adapter<ClassifyAdpater.ViewHolder> {
@@ -325,7 +348,7 @@ public class ClassifyManageAty extends BaseAty {
 
             ClassifyDataBean classifyDataBean = mList.get(position);
             holder.titleTv.setText(classifyDataBean.getName());
-            if (isShowEdit){
+            if (isShowEdit) {
                 holder.editTv.setVisibility(View.VISIBLE);
                 holder.editTv.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -335,7 +358,7 @@ public class ClassifyManageAty extends BaseAty {
                         }
                     }
                 });
-            }else {
+            } else {
                 holder.editTv.setVisibility(View.GONE);
             }
 
@@ -356,10 +379,11 @@ public class ClassifyManageAty extends BaseAty {
             notifyDataSetChanged();
         }
 
-        public void isShowEdit(boolean isShow){
+        public void isShowEdit(boolean isShow) {
             this.isShowEdit = isShow;
             notifyDataSetChanged();
         }
+
         @Override
         public int getItemCount() {
             return mList.size();

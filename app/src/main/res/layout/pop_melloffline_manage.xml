@@ -28,7 +28,7 @@
             android:drawablePadding="6dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="起售/停售"
+            android:text="启售/停售"
             android:layout_marginStart="26dp"
             android:textColor="#ffffffff"
             android:textSize="14sp"

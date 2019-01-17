@@ -222,7 +222,7 @@
                 android:layout_weight="1"
                 android:background="#ffF85708"
                 android:gravity="center"
-                android:text="起售"
+                android:text="启售"
                 android:textColor="#ffffffff"
                 android:textSize="16sp" />
         </LinearLayout>

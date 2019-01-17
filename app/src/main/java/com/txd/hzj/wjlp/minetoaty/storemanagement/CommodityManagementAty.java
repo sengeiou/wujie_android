@@ -11,9 +11,12 @@ import android.support.v7.widget.RecyclerView;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.FrameLayout;
@@ -100,9 +103,10 @@ public class CommodityManagementAty extends BaseAty {
 
     private String mType="1";
     private String merchantId;
-    private PopupWindow mPopupWindow;
 
     private String mSelectName;
+
+    private int selectP=0;
 
 
     @Override
@@ -124,13 +128,13 @@ public class CommodityManagementAty extends BaseAty {
 
     @Override
     protected void requestData() {
-
+        app_goods_cate(mType, merchantId, this);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        app_goods_cate(mType, merchantId, this);
+//        app_goods_cate(mType, merchantId, this);
     }
 
     @Override
@@ -140,14 +144,16 @@ public class CommodityManagementAty extends BaseAty {
         if (requestUrl.endsWith("app_goods_cate")) {
             final ArrayList data = JSONUtils.parseKeyAndValueToMapList(LeftBean.class, map.get("data"));
             if (data != null && data.size() > 0) {
-                requestRightData(data, 0);
-                mSelectName = ((LeftBean) data.get(0)).getName();
                 mLeftAdapter = new LeftAdapter(data);
+                requestRightData(data, selectP);
+                mLeftAdapter.setSelectPosition(selectP);
+                mSelectName = ((LeftBean) data.get(selectP)).getName();
                 mLeftAdapter.setOnItemClickListener(new LeftAdapter.OnItemClickListener() {
                     @Override
                     public void onItemClick(int position) {
                         mLeftAdapter.setSelectPosition(position);
                         requestRightData(data, position);
+                        selectP = position;
                         mSelectName = ((LeftBean) data.get(position)).getName();
                         selectTv.setVisibility(View.GONE);
                     }
@@ -197,6 +203,9 @@ public class CommodityManagementAty extends BaseAty {
             saleLayout.setVisibility(View.GONE);
             if ("1".equals(map.get("code"))) {
                 app_goods_cate(mType, merchantId, this);
+                if (selectTv.getVisibility() == View.VISIBLE){
+                    selectTv.setVisibility(View.GONE);
+                }
             }
             return;
         }
@@ -272,35 +281,11 @@ public class CommodityManagementAty extends BaseAty {
                     showToast("该分组不支持批量操作");
                 } else {
                     if (mSelectName.equals("待递交")) {
-                        if (mPopupWindow == null) {
                             createPop(v, "递交", false);
-                        } else {
-                            if (mPopupWindow.isShowing()) {
-                                mPopupWindow.dismiss();
-                            } else {
-                                mPopupWindow.showAsDropDown(v, 0, 30);
-                            }
-                        }
                     } else if (mSelectName.equals("审核失败")) {
-                        if (mPopupWindow == null) {
                             createPop(v, "重新递交", false);
-                        } else {
-                            if (mPopupWindow.isShowing()) {
-                                mPopupWindow.dismiss();
-                            } else {
-                                mPopupWindow.showAsDropDown(v, 0, 30);
-                            }
-                        }
                     } else {
-                        if (mPopupWindow == null) {
-                            createPop(v, "分类", true);
-                        } else {
-                            if (mPopupWindow.isShowing()) {
-                                mPopupWindow.dismiss();
-                            } else {
-                                mPopupWindow.showAsDropDown(v, 0, 30);
-                            }
-                        }
+                        createPop(v, "分类", true);
                     }
                 }
                 break;
@@ -309,6 +294,11 @@ public class CommodityManagementAty extends BaseAty {
                 break;
             case R.id.deleteTv:
                 try {
+                    JSONArray jsonArray = new JSONArray(getGoodsIds());
+                    if (jsonArray.length()<=0){
+                        showToast("请选择商品");
+                        return;
+                    }
                     app_volume_delete(getGoodsIds(), CommodityManagementAty.this);
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -316,6 +306,11 @@ public class CommodityManagementAty extends BaseAty {
                 break;
             case R.id.moveTv:
                 try {
+                    JSONArray jsonArray = new JSONArray(getGoodsIds());
+                    if (jsonArray.length()<=0){
+                        showToast("请选择商品");
+                        return;
+                    }
                     bundle.putString("sta_mid", merchantId);
                     bundle.putString("goods_id", getGoodsIds());
                     bundle.putBoolean("isShowDelete", false);
@@ -326,6 +321,11 @@ public class CommodityManagementAty extends BaseAty {
                 break;
             case R.id.stopSaleTv:
                 try {
+                    JSONArray jsonArray = new JSONArray(getGoodsIds());
+                    if (jsonArray.length()<=0){
+                        showToast("请选择商品");
+                        return;
+                    }
                     app_mass_shut_updown(getGoodsIds(),"0",CommodityManagementAty.this);
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -333,6 +333,11 @@ public class CommodityManagementAty extends BaseAty {
                 break;
             case R.id.startSaleTv:
                 try {
+                    JSONArray jsonArray = new JSONArray(getGoodsIds());
+                    if (jsonArray.length()<=0){
+                        showToast("请选择商品");
+                        return;
+                    }
                     app_mass_shut_updown(getGoodsIds(),"1",CommodityManagementAty.this);
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -340,6 +345,11 @@ public class CommodityManagementAty extends BaseAty {
                 break;
             case R.id.submitTv:
                 try {
+                    JSONArray jsonArray = new JSONArray(getGoodsIds());
+                    if (jsonArray.length()<=0){
+                        showToast("请选择商品");
+                        return;
+                    }
                     app_dijiao(getGoodsIds(),CommodityManagementAty.this);
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -350,8 +360,8 @@ public class CommodityManagementAty extends BaseAty {
     }
 
     private void createPop(View v, final String text, boolean isVisible) {
-        mPopupWindow = new PopupWindow(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
-        mPopupWindow.setBackgroundDrawable(new ColorDrawable());
+        final PopupWindow   mPopupWindow = new PopupWindow(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        mPopupWindow.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         View view = LayoutInflater.from(this).inflate(R.layout.pop_melloffline_manage, null);
         TextView oneTv = view.findViewById(R.id.oneTv);
         oneTv.setText(text);
@@ -399,7 +409,26 @@ public class CommodityManagementAty extends BaseAty {
 
         mPopupWindow.setContentView(view);
         mPopupWindow.setOutsideTouchable(false);
-        mPopupWindow.showAsDropDown(v, 0, 30);
+        mPopupWindow.setFocusable(true);
+        int[]  location = new int[2];
+        v.getLocationOnScreen(location);
+        mPopupWindow.showAtLocation(v, Gravity.NO_GRAVITY, 0,location[1]-v.getHeight()*2);
+        Window window = getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+        WindowManager.LayoutParams attributes = window.getAttributes();
+        attributes.alpha = 1.0f;
+        window.setAttributes(attributes);
+
+        mPopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                Window window = getWindow();
+                window.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+                WindowManager.LayoutParams attributes = window.getAttributes();
+                attributes.alpha = 1.0f;
+                window.setAttributes(attributes);
+            }
+        });
     }
 
 
@@ -521,8 +550,10 @@ public class CommodityManagementAty extends BaseAty {
 
             if (cateGoodsListBean.getIs_sale().equals("0")) {
                 holder.statusTv.setText("已停售");
+                holder.statusTv.setBackgroundResource(R.drawable.shape_grey_radius30);
             } else {
-                holder.statusTv.setText("已起售");
+                holder.statusTv.setText("已启售");
+                holder.statusTv.setBackgroundResource(R.drawable.shape_orange_radius30);
             }
             if (cateGoodsListBean.getSup_type().equals("1")) {
                 holder.priceTv1.setText(setSpannable("¥" + cateGoodsListBean.getShop_price() + "/份"));
