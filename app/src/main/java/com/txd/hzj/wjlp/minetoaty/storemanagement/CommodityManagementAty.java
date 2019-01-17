@@ -156,6 +156,11 @@ public class CommodityManagementAty extends BaseAty {
                         selectP = position;
                         mSelectName = ((LeftBean) data.get(position)).getName();
                         selectTv.setVisibility(View.GONE);
+                        mFrameLayout.setVisibility(View.VISIBLE);
+                        deleteTv.setVisibility(View.GONE);
+                        moveTv.setVisibility(View.GONE);
+                        submitTv.setVisibility(View.GONE);
+                        saleLayout.setVisibility(View.GONE);
                     }
                 });
                 leftRecyclerView.setAdapter(mLeftAdapter);
