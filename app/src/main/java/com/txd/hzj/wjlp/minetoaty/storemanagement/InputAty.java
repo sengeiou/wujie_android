@@ -145,6 +145,9 @@ public class InputAty extends BaseAty {
     @ViewInject(R.id.dinnerWeekCheckBox)
     private CheckBox dinnerWeekCheckBox;
 
+    @ViewInject(R.id.saveLayout)
+    private LinearLayout saveLayout;
+
 
     @ViewInject(R.id.briefEdit)
     private EditText briefEdit;
@@ -152,7 +155,7 @@ public class InputAty extends BaseAty {
     private File file1;
 
     private int mSaveType = 1;
-    private String mGoods_id;
+    private String mGoods_id="";
     private String mSta_mid;
     private String mSup_type;
     private String mCate_id;
@@ -162,6 +165,7 @@ public class InputAty extends BaseAty {
     private String mChurch_week_price="";
     private String mTime_price="";
     private String mChurch_time_price="";
+    private boolean mIsGone;
 
     @Override
     protected int getLayoutResId() {
@@ -178,6 +182,10 @@ public class InputAty extends BaseAty {
         EventBus.getDefault().register(this);
         mGoods_id = getIntent().getStringExtra("goods_id");
         mSta_mid = getIntent().getStringExtra("sta_mid");
+        mIsGone = getIntent().getBooleanExtra("isGone", false);
+        if (mIsGone){
+            saveLayout.setVisibility(View.GONE);
+        }
     }
 
     /**
@@ -438,7 +446,9 @@ public class InputAty extends BaseAty {
         params.addBodyParameter("time_price", time_price);
         params.addBodyParameter("church_time_price", church_time_price);
         params.addBodyParameter("desc", desc);
-        params.addBodyParameter("goods_id", goods_id);
+        if (!TextUtils.isEmpty(goods_id)) {
+            params.addBodyParameter("goods_id", goods_id);
+        }
         params.addBodyParameter("shop_jiesuan_price", shop_jiesuan_price);
         params.addBodyParameter("church_jiesuan_shop_price", church_jiesuan_shop_price);
         apiTool2.postApi(Config.BASE_URL + "OsManager/addAppStageGoods", params, baseView);

@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -100,7 +101,7 @@ public class AttributesFirstAty extends BaseAty {
 
             }
         });
-        if (mGoods_property != null){
+        if (!TextUtils.isEmpty(mGoods_property)){
             ArrayList<AttributesDataBean> arrayList = new ArrayList<>();
             ArrayList<Map<String, String>> mapList = JSONUtils.parseKeyAndValueToMapList(mGoods_property);
             for (int i = 0; i < mapList.size(); i++) {

@@ -85,7 +85,7 @@
                 android:drawablePadding="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="暂无任何菜品"
+                android:text="暂无任何商品"
                 android:textColor="#ff333333"
                 android:textSize="14sp"
                 />

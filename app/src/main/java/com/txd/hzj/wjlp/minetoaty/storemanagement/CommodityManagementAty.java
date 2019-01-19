@@ -190,6 +190,9 @@ public class CommodityManagementAty extends BaseAty {
                         Bundle bundle = new Bundle();
                         bundle.putString("goods_id", bean.getGoods_id());
                         bundle.putString("sta_mid", merchantId);
+                        if (mSelectName.equals("待审核")){
+                            bundle.putBoolean("isGone",true);
+                        }
                         startActivity(InputAty.class, bundle);
                     }
                 });

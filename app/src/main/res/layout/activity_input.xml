@@ -89,6 +89,7 @@
                         android:layout_alignParentEnd="true"
                         android:background="@null"
                         android:hint="请输入"
+                        android:gravity="right"
                         android:paddingBottom="4dp"
                         android:paddingEnd="8dp"
                         android:paddingStart="8dp"
@@ -165,6 +166,7 @@
                         android:layout_alignParentEnd="true"
                         android:background="@null"
                         android:hint="请输入"
+                        android:gravity="right"
                         android:inputType="number"
                         android:paddingBottom="4dp"
                         android:paddingEnd="8dp"
@@ -218,6 +220,7 @@
                             android:layout_alignParentEnd="true"
                             android:background="@null"
                             android:hint="请输入"
+                            android:gravity="right"
                             android:inputType="number"
                             android:paddingBottom="4dp"
                             android:paddingEnd="8dp"
@@ -271,6 +274,7 @@
                         android:layout_alignParentEnd="true"
                         android:background="@null"
                         android:hint="请输入"
+                        android:gravity="right"
                         android:inputType="number"
                         android:paddingBottom="4dp"
                         android:paddingEnd="8dp"
@@ -308,7 +312,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:text="堂食售卖价" />
+                        android:text="堂食结算价" />
 
 
                     <LinearLayout
@@ -324,6 +328,7 @@
                             android:layout_alignParentEnd="true"
                             android:background="@null"
                             android:hint="请输入"
+                            android:gravity="right"
                             android:inputType="number"
                             android:paddingBottom="4dp"
                             android:paddingEnd="8dp"
@@ -371,6 +376,7 @@
                         android:layout_alignParentEnd="true"
                         android:background="@null"
                         android:hint="请输入"
+                        android:gravity="right"
                         android:inputType="number"
                         android:paddingBottom="4dp"
                         android:paddingEnd="8dp"
@@ -742,6 +748,7 @@
     </android.support.v4.widget.NestedScrollView>
 
     <LinearLayout
+        android:id="@+id/saveLayout"
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:orientation="horizontal">

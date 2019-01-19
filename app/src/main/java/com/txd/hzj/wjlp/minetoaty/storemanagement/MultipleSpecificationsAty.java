@@ -122,7 +122,7 @@ public class MultipleSpecificationsAty extends BaseAty {
             }
         });
         recyclerView.setAdapter(mAdapter);
-        if (mGoods_attr != null){
+        if (!TextUtils.isEmpty(mGoods_attr)){
             mAdapter.setData(mGoods_attr);
             addTv.setVisibility(View.GONE);
         }

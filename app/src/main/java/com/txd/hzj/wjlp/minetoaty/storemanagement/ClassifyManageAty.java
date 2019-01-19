@@ -245,7 +245,7 @@ public class ClassifyManageAty extends BaseAty {
                 mIs_del = "1";
                 CustomDialog customDialog = new CustomDialog.Builder(mContext)
                         .setIsShowTitle(false)
-                        .setMessage("确定要删除此规格？")
+                        .setMessage("确定要删除此分类？")
                         .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
