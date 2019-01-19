@@ -96,6 +96,7 @@
                 android:paddingEnd="8dp"
                 android:paddingStart="8dp"
                 android:paddingTop="4dp"
+                android:gravity="right"
                 android:hint="请输入分类名称"
                 android:textSize="12sp" />
         </RelativeLayout>
@@ -131,6 +132,7 @@
                 android:paddingTop="4dp"
                 android:hint="越大越靠前"
                 android:text="7"
+                android:gravity="right"
                 android:textSize="12sp" />
         </RelativeLayout>
 
@@ -160,6 +162,7 @@
                 android:minHeight="50dp"
                 android:maxHeight="100dp"
                 android:textSize="16sp"
+                android:gravity="right"
                 android:hint="请输入简短分类描述"
                 android:background="@drawable/shape_black_line_5"/>
         </LinearLayout>

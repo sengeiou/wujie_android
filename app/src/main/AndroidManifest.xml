@@ -996,6 +996,12 @@
         <activity android:name=".minetoaty.storemanagement.AttributesFirstAty" />
         <activity android:name=".minetoaty.storemanagement.DateRangeAty" />
         <activity android:name=".minetoaty.storemanagement.WeekRangeAty" />
+        <activity android:name=".minetoaty.friendsofmerchant.MyFriendsAty" />
+        <activity android:name=".minetoaty.friendsofmerchant.ChangeMembersAty" />
+        <activity android:name=".minetoaty.friendsofmerchant.ChangeMsgDetailsAty" />
+        <activity android:name=".minetoaty.friendsofmerchant.NewFriendAty" />
+        <activity android:name=".minetoaty.friendsofmerchant.SetExchangeConditionsAty" />
+        <activity android:name=".minetoaty.friendsofmerchant.ChooseShopKeeperAty" />>
     </application>
 
 </manifest>

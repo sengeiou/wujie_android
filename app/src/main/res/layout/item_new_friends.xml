@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="12dp"
+        android:paddingStart="12dp"
+        android:paddingTop="12dp">
+
+        <cn.gavinliu.android.lib.shapedimageview.ShapedImageView
+            android:id="@+id/headImg"
+            android:layout_width="52dp"
+            android:layout_height="52dp"
+            android:src="@drawable/icon_temp_ptq_l"
+            app:shape_mode="circle" />
+
+        <TextView
+            android:id="@+id/nameTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="69dp"
+            android:text="吃不瘦的胖子"
+            android:textColor="#ff333333"
+            android:textSize="17sp" />
+        <TextView
+            android:id="@+id/hasPassTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="12dp"
+            android:text="已通过"
+            android:textColor="#ff999999"
+            android:textSize="17sp"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/notPassTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="等待通过"
+            android:paddingTop="6dp"
+            android:paddingBottom="6dp"
+            android:paddingStart="11dp"
+            android:paddingEnd="9dp"
+            android:visibility="gone"
+            android:background="@drawable/shape_red_title_left_unselect"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:textColor="#fff23030"
+            android:textSize="15sp" />
+
+        <LinearLayout
+            android:id="@+id/layout"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="12dp"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/refuseTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="13dp"
+                android:paddingEnd="13dp"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:background="@drawable/shape_orange_3"
+                android:text="拒绝"
+                android:textColor="#ffff8400"
+                android:textSize="15sp"
+                />
+            <TextView
+                android:id="@+id/agreeTv"
+                android:layout_marginStart="12dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="13dp"
+                android:paddingEnd="13dp"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:background="@drawable/shape_red_btn_bg"
+                android:text="接受"
+                android:textColor="#fff23030"
+                android:textSize="15sp"
+                />
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginStart="12dp"
+        android:background="@color/line_color" />
+</LinearLayout>
