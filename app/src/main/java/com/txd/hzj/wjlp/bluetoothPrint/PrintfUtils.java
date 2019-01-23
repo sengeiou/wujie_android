@@ -60,12 +60,16 @@ public class PrintfUtils {
                     printfLine(); // 打印分割线 --------------------------------
                     // 店铺名称还有已支付或者到付啥的
                     for (PrintfBean.Q1Bean q1 : printfBean.getQ1()) {
-                        printCenteredAlign(q1.getDesc());
+                        if (q1.getDesc() != null && !q1.getDesc().isEmpty()) {
+                            printCenteredAlign(q1.getDesc());
+                        }
                     }
                     printfLine(); // 打印分割线 --------------------------------
                     // 下单时间以及备注了什么的
                     for (PrintfBean.Q2Bean q2 : printfBean.getQ2()) {
-                        printfText(q2.getDesc());
+                        if (q2.getDesc() != null && !q2.getDesc().isEmpty()) {
+                            printfText(q2.getDesc());
+                        }
                     }
                     printfLineWithContent(" 菜品 "); // 打印分割线 ----------- 菜品 ------------
                     for (PrintfBean.GinfoBean ginfoBean : printfBean.getGinfo()) {
@@ -83,11 +87,19 @@ public class PrintfUtils {
                     printfRightAlign(printfBean.getTotal_price()); // 右对齐的总价格
                     printfLine(); // 打印分割线 --------------------------------
 
-                    printfBoldText(printfBean.getReceiver_address()); // 地址
-                    printfBoldText(printfBean.getReceiver()); // 电话
-                    printfBoldText(printfBean.getReceiver_phone()); // 联系人
+                    if (printfBean.getReceiver_address() != null && !printfBean.getReceiver_address().isEmpty()) {
+                        printfBoldText(printfBean.getReceiver_address()); // 地址
+                    }
+                    if (printfBean.getReceiver() != null && !printfBean.getReceiver().isEmpty()) {
+                        printfBoldText(printfBean.getReceiver()); // 电话
+                    }
+                    if (printfBean.getReceiver_phone() != null && !printfBean.getReceiver_phone().isEmpty()) {
+                        printfBoldText(printfBean.getReceiver_phone()); // 联系人
+                    }
 
-                    printfQrcode(printfBean.getQr_url()); // 生成和打印二维码
+                    if (printfBean.getQr_url() != null && !printfBean.getQr_url().isEmpty()) {
+                        printfQrcode(printfBean.getQr_url()); // 生成和打印二维码
+                    }
 
                     // 异步生成二维码，生成成功之后打印二维码和以下两行内容，如果不成功则只打印以下两行的内容
 //                    printfLineWithContent(" #" + printfBean.getNum() + "完 ");
@@ -302,30 +314,32 @@ public class PrintfUtils {
      * @return 生成的Bitmap图片
      */
     public static void printfQrcode(String contentStr) {
-        QRCodeEncoder.encodeQRCode(contentStr, 200, new QRCodeEncoder.Delegate() {
-            @Override
-            public void onEncodeQRCodeSuccess(Bitmap bitmap) {
-                // 生成成功
-                try {
-                    printfImage(bitmap);
-                    printfLineWithContent(" #" + printfBean.getNum() + "完 .");
-                    printfEnter(3); // 内容打印完成换四行好将单子撕下
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
+        if (contentStr != null && !contentStr.isEmpty()) {
+            QRCodeEncoder.encodeQRCode(contentStr, 300, new QRCodeEncoder.Delegate() {
+                @Override
+                public void onEncodeQRCodeSuccess(Bitmap bitmap) {
+                    // 生成成功
+                    try {
+                        printfImage(bitmap);
+                        printfLineWithContent(" #" + printfBean.getNum() + "完 .");
+                        printfEnter(3); // 内容打印完成换四行好将单子撕下
+                    } catch (UnsupportedEncodingException e) {
+                        e.printStackTrace();
+                    }
                 }
-            }
 
-            @Override
-            public void onEncodeQRCodeFailure() {
-                // 生成失败
-                try {
-                    printfLineWithContent(" #" + printfBean.getNum() + "完 .");
-                    printfEnter(3); // 内容打印完成换四行好将单子撕下
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
+                @Override
+                public void onEncodeQRCodeFailure() {
+                    // 生成失败
+                    try {
+                        printfLineWithContent(" #" + printfBean.getNum() + "完 .");
+                        printfEnter(3); // 内容打印完成换四行好将单子撕下
+                    } catch (UnsupportedEncodingException e) {
+                        e.printStackTrace();
+                    }
                 }
-            }
-        });
+            });
+        }
     }
 
 }
