@@ -1,11 +1,13 @@
 package com.txd.hzj.wjlp.minetoaty.friendsofmerchant;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -13,17 +15,27 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import com.ants.theantsgo.base.BaseView;
+import com.ants.theantsgo.config.Config;
+import com.ants.theantsgo.httpTools.ApiTool2;
+import com.ants.theantsgo.util.JSONUtils;
+import com.bumptech.glide.Glide;
 import com.lidroid.xutils.ViewUtils;
+import com.lidroid.xutils.http.RequestParams;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
+import com.txd.hzj.wjlp.huanxin.ui.ChatActivity;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Map;
 
 import cn.gavinliu.android.lib.shapedimageview.ShapedImageView;
 
@@ -32,7 +44,7 @@ import cn.gavinliu.android.lib.shapedimageview.ShapedImageView;
  * 创建时间：2019/1/17 13:42
  * 功能描述：以商会友
  */
-public class MyFriendsAty extends BaseAty implements TextView.OnEditorActionListener{
+public class MyFriendsAty extends BaseAty{
     private Context mContext;
 
     @ViewInject(R.id.titlt_conter_tv)
@@ -48,9 +60,15 @@ public class MyFriendsAty extends BaseAty implements TextView.OnEditorActionList
     @ViewInject(R.id.friendRecyclerView)
     private RecyclerView friendRecyclerView;
 
+    @ViewInject(R.id.recyclerView)
+    private RecyclerView mRecyclerView;
+
     private MyFriendsAdapter mFriendsAdapter;
 
-    private String mSta_mid="1";
+    private String mSta_mid;
+    private String mMsg_num;
+    private String mChange_num;
+    private ScreeningResultAty.ScreeningResultAdapter mScreeningResultAdapter;
 
     @Override
     protected int getLayoutResId() {
@@ -65,31 +83,95 @@ public class MyFriendsAty extends BaseAty implements TextView.OnEditorActionList
         titlt_right_tv.setVisibility(View.VISIBLE);
         titlt_right_tv.setText("+");
         titlt_right_tv.setTextSize(20);
-//        mSta_mid = getIntent().getStringExtra("sta_mid");
-        searchEdit.setOnEditorActionListener(this);
+        mSta_mid = getIntent().getStringExtra("sta_mid");
+        searchEdit.setOnKeyListener(mOnKeyListener);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         friendRecyclerView.setLayoutManager(layoutManager);
         mFriendsAdapter = new MyFriendsAdapter();
         friendRecyclerView.setAdapter(mFriendsAdapter);
+
+        LinearLayoutManager layoutManager2 = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(layoutManager2);
+        mScreeningResultAdapter = new ScreeningResultAty.ScreeningResultAdapter();
+        mRecyclerView.setAdapter(mScreeningResultAdapter);
     }
 
     @Override
     protected void requestData() {
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        bflist(mSta_mid,this);
+    }
+
+    void bflist(String sta_mid, BaseView baseView) {
+        RequestParams params = new RequestParams();
+        ApiTool2 apiTool2 = new ApiTool2();
+        params.addBodyParameter("sta_mid", sta_mid);
+        params.addBodyParameter("t", "1");
+        apiTool2.postApi(Config.BASE_URL + "OsManager/bflist", params, baseView);
+    }
+
+    void get_bfriend( String sta_mid,String phone,String type, BaseView baseView) {
+        RequestParams params = new RequestParams();
+        ApiTool2 apiTool2 = new ApiTool2();
+        params.addBodyParameter("sta_mid", sta_mid);
+        params.addBodyParameter("phone", phone);
+        params.addBodyParameter("type", type);
+        apiTool2.postApi(Config.BASE_URL + "OsManager/get_bfriend", params, baseView);
+    }
+
+    @Override
+    public void onComplete(String requestUrl, String jsonStr) {
+        super.onComplete(requestUrl, jsonStr);
+        Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
+        if (requestUrl.endsWith("bflist")){
+            friendRecyclerView.setVisibility(View.VISIBLE);
+            mRecyclerView.setVisibility(View.GONE);
+            Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
+            mMsg_num = data.get("msg_num");
+            mChange_num = data.get("change_num");
+            ArrayList<Map<String, String>> arrayList = JSONUtils.parseKeyAndValueToMapList(data.get("list"));
+            mFriendsAdapter.setList(arrayList);
+            return;
+        }
+
+        if (requestUrl.endsWith("get_bfriend")){
+            friendRecyclerView.setVisibility(View.GONE);
+            mRecyclerView.setVisibility(View.VISIBLE);
+            final ArrayList<Map<String, String>> list = JSONUtils.parseKeyAndValueToMapList(map.get("data"));
+            mScreeningResultAdapter.setItemList(list);
+            mScreeningResultAdapter.setOnItemViewClickLisener(new ScreeningResultAty.ScreeningResultAdapter.onItemViewClickLisener() {
+                @Override
+                public void onViewClick(int positon) {
+                    Map<String, String> map = list.get(positon);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("sta_mid",mSta_mid);
+                    bundle.putSerializable("map", (Serializable) map);
+                    startActivity(BusinessFriendDataAty.class,bundle);
+                }
+            });
+            return;
+        }
     }
 
     @Override
     @OnClick({R.id.titlt_right_tv,R.id.groupManagementTv,R.id.addShopKeeperTv})
     public void onClick(View view){
+        Bundle bundle = new Bundle();
+        bundle.putString("sta_mid",mSta_mid);
         switch (view.getId()){
             case R.id.titlt_right_tv:
                 showPop(view);
                 break;
             case R.id.groupManagementTv:
-
+                startActivity(GroupManagementAty.class,bundle);
                 break;
             case R.id.addShopKeeperTv:
+                startActivity(AddShopOwnerAty.class,bundle);
                 break;
         }
     }
@@ -98,6 +180,8 @@ public class MyFriendsAty extends BaseAty implements TextView.OnEditorActionList
         View contentView = LayoutInflater.from(mContext).inflate(R.layout.pop_myfriends,null);
         TextView changeMemberTv = contentView.findViewById(R.id.changeMemberTv);
         TextView newFriendTv = contentView.findViewById(R.id.newFriendsTv);
+        changeMemberTv.setText("会员互换("+mChange_num+")");
+        newFriendTv.setText("新的好友("+mMsg_num+")");
         final PopupWindow popupWindow = new PopupWindow(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         popupWindow.setContentView(contentView);
         popupWindow.setBackgroundDrawable(new ColorDrawable());
@@ -134,35 +218,47 @@ public class MyFriendsAty extends BaseAty implements TextView.OnEditorActionList
         newFriendTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(NewFriendAty.class,null);
+                Bundle bundle = new Bundle();
+                bundle.putString("sta_mid",mSta_mid);
+                startActivity(NewFriendAty.class,bundle);
                 popupWindow.dismiss();
             }
         });
     }
 
-    @Override
-    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-        if (actionId == EditorInfo.IME_ACTION_SEARCH){
-            /*隐藏软键盘*/
-            InputMethodManager imm = (InputMethodManager) v
-                    .getContext().getSystemService(
-                            Context.INPUT_METHOD_SERVICE);
-            if (imm.isActive()) {
-                imm.hideSoftInputFromWindow(
-                        v.getApplicationWindowToken(), 0);
+    View.OnKeyListener mOnKeyListener = new View.OnKeyListener() {
+        @Override
+        public boolean onKey(View v, int keyCode, KeyEvent event) {
+            if (event.getKeyCode() == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_DOWN){
+                /*隐藏软键盘*/
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                if (imm.isActive()) {
+                    imm.hideSoftInputFromWindow(MyFriendsAty.this.getCurrentFocus().getWindowToken(), 0);
+                }
+                get_bfriend(mSta_mid,searchEdit.getText().toString(),"0",MyFriendsAty.this);
+                return true;
             }
-            return true;
+            return false;
         }
-        return false;
-    }
+    };
 
 
     private static class MyFriendsAdapter extends RecyclerView.Adapter<MyFriendsAdapter.ViewHolder>{
 
         private Context mContext;
         private ItemAdapter mItemAdapter;
+        private ArrayList<Map<String, String>> mList;
+
         public MyFriendsAdapter() {
+            mList = new ArrayList<>();
         }
+
+        public void setList(ArrayList<Map<String, String>> list) {
+            mList.clear();
+            mList.addAll(list);
+            notifyDataSetChanged();
+        }
+
 
         @NonNull
         @Override
@@ -176,6 +272,10 @@ public class MyFriendsAty extends BaseAty implements TextView.OnEditorActionList
 
         @Override
         public void onBindViewHolder(@NonNull MyFriendsAdapter.ViewHolder holder, int position) {
+            Map<String, String> map = mList.get(position);
+            holder.titleTv.setText(map.get("name"));
+            ArrayList<Map<String, String>> list = JSONUtils.parseKeyAndValueToMapList(map.get("list"));
+
             LinearLayoutManager layoutManager = new LinearLayoutManager(mContext){
                 @Override
                 public boolean canScrollVertically() {
@@ -183,13 +283,15 @@ public class MyFriendsAty extends BaseAty implements TextView.OnEditorActionList
                 }
             };
             holder.itemRecyclerView.setLayoutManager(layoutManager);
-            mItemAdapter = new ItemAdapter();
-            holder.itemRecyclerView.setAdapter(mItemAdapter);
+            if (list != null) {
+                mItemAdapter = new ItemAdapter(list);
+                holder.itemRecyclerView.setAdapter(mItemAdapter);
+            }
         }
 
         @Override
         public int getItemCount() {
-            return 2;
+            return mList.size();
         }
 
         public static class ViewHolder extends RecyclerView.ViewHolder{
@@ -204,12 +306,17 @@ public class MyFriendsAty extends BaseAty implements TextView.OnEditorActionList
                 super(itemView);
             }
         }
+
     }
 
     private static class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder>{
 
         private Context mContext;
-        public ItemAdapter() {
+
+        private ArrayList<Map<String, String>> mItemList;
+
+        public ItemAdapter(ArrayList<Map<String, String>> itemList) {
+            mItemList = itemList;
         }
 
         @NonNull
@@ -224,12 +331,42 @@ public class MyFriendsAty extends BaseAty implements TextView.OnEditorActionList
 
         @Override
         public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-
+            Map<String, String> map = mItemList.get(position);
+            final Map<String, String> userInfo = JSONUtils.parseKeyAndValueToMap(map.get("user_info"));
+            Glide.with(mContext).load(userInfo.get("head_pic")).into(holder.headImg);
+            holder.nameTV.setText(userInfo.get("nickname"));
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String easemob_account =  userInfo.get("easemob_account");
+                    if (TextUtils.isEmpty(easemob_account)) {
+                        ((MyFriendsAty)mContext).showErrorTip("对方不在线");
+                        return;
+                    }
+                    String my_easemob_account = ((MyFriendsAty)mContext).application.getUserInfo().get("easemob_account");
+                    if (easemob_account.equals(my_easemob_account)) {
+                        ((MyFriendsAty)mContext).showErrorTip("自己不能和自己聊天");
+                        return;
+                    }
+                    Bundle bundle = new Bundle();
+                    bundle.putString("userId", easemob_account);// 对方环信账号
+                    String head_pic = userInfo.get("head_pic");
+                    bundle.putString("userHead", head_pic);// 对方头像
+                    String nickname = userInfo.get("nickname");
+                    bundle.putString("userName", nickname);// 对方昵称
+                    bundle.putString("myName",  ((MyFriendsAty)mContext).application.getUserInfo().get("nickname"));// 我的昵称
+                    bundle.putString("myHead",  ((MyFriendsAty)mContext).application.getUserInfo().get("head_pic"));// 我的头像
+                    Intent intent = new Intent();
+                    intent.putExtras(bundle);
+                    intent.setClass(mContext,ChatActivity.class);
+                    mContext.startActivity(intent);
+                }
+            });
         }
 
         @Override
         public int getItemCount() {
-            return 3;
+            return mItemList.size();
         }
 
         public static class ViewHolder extends RecyclerView.ViewHolder{

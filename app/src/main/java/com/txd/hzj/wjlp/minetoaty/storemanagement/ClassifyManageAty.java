@@ -3,7 +3,6 @@ package com.txd.hzj.wjlp.minetoaty.storemanagement;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -49,6 +48,9 @@ public class ClassifyManageAty extends BaseAty {
 
     @ViewInject(R.id.recyclerView)
     private RecyclerView recyclerView;
+
+    @ViewInject(R.id.empty_layout)
+    private TextView empty_layout;
 
     @ViewInject(R.id.editLayout)
     private LinearLayout editLayout;
@@ -200,7 +202,13 @@ public class ClassifyManageAty extends BaseAty {
         Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
         if (requestUrl.endsWith("app_goods_cate")) {
             ArrayList<ClassifyDataBean> arrayList = JSONUtils.parseKeyAndValueToMapList(ClassifyDataBean.class, map.get("data"));
-            mClassifyAdpater.setData(arrayList);
+            if (arrayList != null && arrayList.size()>0){
+                mClassifyAdpater.setData(arrayList);
+            }else {
+                recyclerView.setVisibility(View.GONE);
+                empty_layout.setVisibility(View.VISIBLE);
+            }
+
             return;
         }
 
@@ -209,7 +217,11 @@ public class ClassifyManageAty extends BaseAty {
             if (map.get("code").equals("1")) {
                 requestData();
                 if (TextUtils.isEmpty(mIs_del)) {
-                    time_select_img.setVisibility(View.VISIBLE);
+                    if (mIsShowDelete){
+                        time_select_img.setVisibility(View.VISIBLE);
+                        time_select_img.setImageResource(R.drawable.icon_trash);
+                    }
+
                     addClassifyTv.setVisibility(View.VISIBLE);
                     saveTv.setVisibility(View.GONE);
                     recyclerView.setVisibility(View.VISIBLE);
@@ -222,9 +234,7 @@ public class ClassifyManageAty extends BaseAty {
         if (requestUrl.endsWith("appMoveGoodsToCate")) {
             showToast(map.get("message"));
             if ("1".equals(map.get("code"))) {
-                Bundle bundle = new Bundle();
-                bundle.putString("sta_mid", mSta_mid);
-                startActivity(CommodityManagementAty.class, bundle);
+                EventBus.getDefault().post(new MessageEvent("move","ClassifyManageAty"));
                 finish();
             }
             return;

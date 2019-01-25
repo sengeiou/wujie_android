@@ -1001,7 +1001,15 @@
         <activity android:name=".minetoaty.friendsofmerchant.ChangeMsgDetailsAty" />
         <activity android:name=".minetoaty.friendsofmerchant.NewFriendAty" />
         <activity android:name=".minetoaty.friendsofmerchant.SetExchangeConditionsAty" />
-        <activity android:name=".minetoaty.friendsofmerchant.ChooseShopKeeperAty" />>
+        <activity android:name=".minetoaty.friendsofmerchant.ChooseShopKeeperAty" />
+        <activity android:name=".minetoaty.friendsofmerchant.AddShopOwnerAty" />
+        <activity android:name=".minetoaty.friendsofmerchant.BusinessFriendDataAty" />
+        <activity android:name=".minetoaty.friendsofmerchant.AddFriendAty" />
+        <activity android:name=".minetoaty.friendsofmerchant.ScreeningConditionsAty" />
+        <activity android:name=".minetoaty.friendsofmerchant.ScreeningResultAty" />
+        <activity android:name=".minetoaty.friendsofmerchant.GroupManagementAty" />
+        <activity android:name=".minetoaty.friendsofmerchant.GroupManageDetailsAty" />
+        <activity android:name=".minetoaty.friendsofmerchant.NotAddFriendAty" />>
     </application>
 
 </manifest>

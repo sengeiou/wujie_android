@@ -10,10 +10,19 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.ants.theantsgo.base.BaseView;
+import com.ants.theantsgo.config.Config;
+import com.ants.theantsgo.httpTools.ApiTool2;
+import com.ants.theantsgo.util.JSONUtils;
+import com.bumptech.glide.Glide;
 import com.lidroid.xutils.ViewUtils;
+import com.lidroid.xutils.http.RequestParams;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
+
+import java.util.ArrayList;
+import java.util.Map;
 
 import cn.gavinliu.android.lib.shapedimageview.ShapedImageView;
 
@@ -32,6 +41,7 @@ public class NewFriendAty extends BaseAty {
     private RecyclerView mRecyclerView;
 
     private NewFriendAdapter mNewFriendAdapter;
+    private String mSta_mid;
 
     @Override
     protected int getLayoutResId() {
@@ -43,6 +53,7 @@ public class NewFriendAty extends BaseAty {
         mContext = this;
         showStatusBar(R.id.title_re_layout);
         titlt_conter_tv.setText("新的好友");
+        mSta_mid = getIntent().getStringExtra("sta_mid");
         LinearLayoutManager layoutManager = new LinearLayoutManager(mContext);
         mRecyclerView.setLayoutManager(layoutManager);
         mNewFriendAdapter = new NewFriendAdapter();
@@ -51,14 +62,70 @@ public class NewFriendAty extends BaseAty {
 
     @Override
     protected void requestData() {
+            bfmsglist(mSta_mid,this);
+    }
 
+
+    void bfmsglist( String sta_mid, BaseView baseView) {
+        RequestParams params = new RequestParams();
+        ApiTool2 apiTool2 = new ApiTool2();
+        params.addBodyParameter("sta_mid", sta_mid);
+        apiTool2.postApi(Config.BASE_URL + "OsManager/bfmsglist", params, baseView);
+    }
+
+
+    void get_bfriend( String sta_mid,String id,String vinfo,String status,String type, BaseView baseView) {
+        RequestParams params = new RequestParams();
+        ApiTool2 apiTool2 = new ApiTool2();
+        params.addBodyParameter("sta_mid", sta_mid);
+        params.addBodyParameter("id", id);
+        params.addBodyParameter("vinfo", vinfo);
+        params.addBodyParameter("status", status);
+        params.addBodyParameter("type", type);
+        apiTool2.postApi(Config.BASE_URL + "OsManager/get_bfriend", params, baseView);
+    }
+
+    @Override
+    public void onComplete(String requestUrl, String jsonStr) {
+        super.onComplete(requestUrl, jsonStr);
+         Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
+        if (requestUrl.endsWith("bfmsglist")){
+            final ArrayList<Map<String, String>> arrayList = JSONUtils.parseKeyAndValueToMapList(map.get("data"));
+            mNewFriendAdapter.setList(arrayList);
+            mNewFriendAdapter.setOnItemViewClickListener(new OnItemViewClickListener() {
+                @Override
+                public void onClick(View view, int position) {
+                    if (view.getId() == R.id.agreeTv){
+                        get_bfriend(mSta_mid,arrayList.get(position).get("id"),"","1","3",NewFriendAty.this);
+                    }else if (view.getId() == R.id.refuseTv){
+                        get_bfriend(mSta_mid,arrayList.get(position).get("id"),"","2","3",NewFriendAty.this);
+                    }
+                }
+            });
+            return;
+        }
+
+        if (requestUrl.endsWith("get_bfriend")){
+            showToast(map.get("message"));
+            if (map.get("code").equals("1")){
+                bfmsglist(mSta_mid,this);
+            }
+        }
     }
 
     private static class NewFriendAdapter extends RecyclerView.Adapter<NewFriendAdapter.ViewHolder>{
 
         private Context mContext;
         private OnItemViewClickListener mOnItemViewClickListener;
+        private ArrayList<Map<String, String>> mList;
         public NewFriendAdapter() {
+            mList = new ArrayList<>();
+        }
+
+        public void setList(ArrayList<Map<String, String>> list) {
+            mList.clear();
+            mList.addAll(list);
+            notifyDataSetChanged();
         }
 
         public void setOnItemViewClickListener(OnItemViewClickListener onItemViewClickListener) {
@@ -77,6 +144,26 @@ public class NewFriendAty extends BaseAty {
 
         @Override
         public void onBindViewHolder(@NonNull NewFriendAdapter.ViewHolder holder, final int position) {
+            Map<String, String> map = mList.get(position);
+            Glide.with(mContext).load(map.get("head_pic")).into(holder.headImg);
+            holder.nameTv.setText(map.get("nickname"));
+            String sName = map.get("s_name");
+            if (sName.equals("等待通过")){
+                holder.hasPassTv.setVisibility(View.GONE);
+                holder.notPassTv.setVisibility(View.VISIBLE);
+                holder.layout.setVisibility(View.GONE);
+                holder.notPassTv.setText(sName);
+            }else if (sName.equals("接受")){
+                holder.hasPassTv.setVisibility(View.GONE);
+                holder.notPassTv.setVisibility(View.GONE);
+                holder.layout.setVisibility(View.VISIBLE);
+            }else{
+                holder.hasPassTv.setVisibility(View.VISIBLE);
+                holder.notPassTv.setVisibility(View.GONE);
+                holder.layout.setVisibility(View.GONE);
+                holder.hasPassTv.setText(sName);
+            }
+
 
             holder.agreeTv.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -98,7 +185,7 @@ public class NewFriendAty extends BaseAty {
 
         @Override
         public int getItemCount() {
-            return 5;
+            return mList.size();
         }
 
         public static class ViewHolder extends RecyclerView.ViewHolder{

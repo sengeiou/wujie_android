@@ -30,7 +30,8 @@
             android:layout_height="wrap_content"
             android:background="@null"
             android:hint="请输入"
-            android:textColor="#ff999999"
+            android:gravity="end"
+            android:textColor="#ff333333"
             android:textSize="17sp"/>
     </RelativeLayout>
     <View

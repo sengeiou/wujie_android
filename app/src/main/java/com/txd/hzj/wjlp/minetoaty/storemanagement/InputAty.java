@@ -4,7 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -19,6 +21,7 @@ import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
 import com.ants.theantsgo.base.BaseView;
 import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.httpTools.ApiTool2;
@@ -186,6 +189,42 @@ public class InputAty extends BaseAty {
         if (mIsGone){
             saveLayout.setVisibility(View.GONE);
         }
+
+        nameEdit.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//                int index = nameEdit.getSelectionStart() - 1;
+//                if (index > 0) {
+//                    if (isEmojiCharacter(s.charAt(index))) {
+//                        Editable edit = nameEdit.getText();
+//                        edit.delete(index, index + 1);
+//                    }
+//                }
+                int index = nameEdit.getSelectionStart() - 1;
+                if (index > 0) {
+                    if (isEmojiCharacter(s.charAt(index))) {
+                        Editable edit = nameEdit.getText();
+                        edit.delete(s.length() - 2, s.length());
+                        showToast("不支持输入表情符号");
+                    }
+                }
+
+            }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+    }
+
+    private static boolean isEmojiCharacter(char codePoint) {
+        return !((codePoint == 0x0) || (codePoint == 0x9) || (codePoint == 0xA) || (codePoint == 0xD) || ((codePoint >= 0x20) && codePoint <= 0xD7FF))|| ((codePoint >= 0xE000) && (codePoint <= 0xFFFD)) || ((codePoint >= 0x10000) && (codePoint <= 0x10FFFF));
     }
 
     /**
@@ -250,24 +289,30 @@ public class InputAty extends BaseAty {
             }
 
             if (!TextUtils.isEmpty(mWeek_price)) {
-                takeawayWeekCheckBox.setChecked(true);
+                com.alibaba.fastjson.JSONArray array = JSON.parseArray(mWeek_price);
+                if (array != null && array.size()>0) {
+                    takeawayWeekCheckBox.setChecked(true);
+                }
             }
             if (!TextUtils.isEmpty(mTime_price)) {
                 takeawayDateCheckBox.setChecked(true);
             }
-            if (!TextUtils.isEmpty(mWeek_price) || !TextUtils.isEmpty(mTime_price)) {
+            if (JSON.parseArray(mWeek_price)!= null && JSON.parseArray(mWeek_price).size()>0 || !TextUtils.isEmpty(mTime_price)) {
                 takeawayTimeTv.setText("自定义");
                 takeawayCustomLayout.setVisibility(View.VISIBLE);
             }
             if (!TextUtils.isEmpty(mChurch_week_price)) {
-                dinnerWeekCheckBox.setChecked(true);
+                com.alibaba.fastjson.JSONArray array = JSON.parseArray(mChurch_week_price);
+                if (array != null && array.size()>0) {
+                    dinnerWeekCheckBox.setChecked(true);
+                }
             }
 
             if (!TextUtils.isEmpty(mChurch_time_price)) {
                 dinnerDateCheckBox.setChecked(true);
             }
 
-            if (!TextUtils.isEmpty(mChurch_week_price) || !TextUtils.isEmpty(mChurch_time_price)) {
+            if (JSON.parseArray(mChurch_week_price)!=null && JSON.parseArray(mChurch_week_price).size()>0 || !TextUtils.isEmpty(mChurch_time_price)) {
                 dinnerTimeTv.setText("自定义");
                 dinnerCustomLayout.setVisibility(View.VISIBLE);
             }
@@ -311,7 +356,7 @@ public class InputAty extends BaseAty {
                     bundle.putString("sta_mid", mSta_mid);
                     startActivity(InputAty.class, bundle);
                 }
-
+                EventBus.getDefault().post(new MessageEvent("save","InputAty"));
                 finish();
             }
             return;
@@ -330,15 +375,19 @@ public class InputAty extends BaseAty {
                 startActivity(ClassifyManageAty.class, bundle);
                 break;
             case R.id.multipleSpecificationsLayout:
-                bundle.putString("goods_id", mGoods_id);
-                bundle.putString("goods_attr", mGoods_attr);
-                bundle.putString("sta_mid", mSta_mid);
-                startActivity(MultipleSpecificationsAty.class, bundle);
+                if (!mIsGone) {
+                    bundle.putString("goods_id", mGoods_id);
+                    bundle.putString("goods_attr", mGoods_attr);
+                    bundle.putString("sta_mid", mSta_mid);
+                    startActivity(MultipleSpecificationsAty.class, bundle);
+                }
                 break;
             case R.id.attributesLayout:
-                bundle.putString("goods_id", mGoods_id);
-                bundle.putString("goods_property", mGoods_property);
-                startActivity(AttributesFirstAty.class, bundle);
+                if (!mIsGone) {
+                    bundle.putString("goods_id", mGoods_id);
+                    bundle.putString("goods_property", mGoods_property);
+                    startActivity(AttributesFirstAty.class, bundle);
+                }
                 break;
             case R.id.picImg:
                 showPicDialogs();

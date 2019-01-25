@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
-
+    android:background="@color/white"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <include layout="@layout/aty_shop_title" />
@@ -18,20 +18,20 @@
             android:id="@+id/searchEdit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="10dp"
             android:layout_marginEnd="25dp"
             android:layout_marginStart="25dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="10dp"
             android:background="@drawable/shape_search_bg"
             android:drawableLeft="@drawable/icon_search"
             android:drawablePadding="8dp"
             android:gravity="center_vertical"
             android:hint="搜索店主..."
             android:singleLine="true"
-            android:imeOptions="actionSearch"
-            android:padding="8dp"
-            android:textColor="#ffb0afaf"
-            android:textSize="16sp" />
+            android:imeOptions="actionGo"
+            android:padding="6dp"
+            android:textColor="#333333"
+            android:textSize="14sp" />
     </FrameLayout>
 
 
@@ -45,6 +45,13 @@
         android:layout_height="match_parent"
         tools:listitem="@layout/item_my_friends"
         tools:itemCount="1"/>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:visibility="gone"
+            android:layout_height="match_parent"
+            tools:listitem="@layout/item_my_friends_child"
+            tools:itemCount="3"/>
     </FrameLayout>
     <RelativeLayout
         android:background="@color/white"

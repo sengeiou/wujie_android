@@ -389,7 +389,7 @@ public class MultipleSpecificationsAty extends BaseAty {
 
             holder.nameEdit.setText(nameData.get(position));
             holder.moneyEdit.setText(priceData.get(position));
-
+            holder.moneyEdit2.setText(priceData2.get(position));
             if (position == nameData.size() - 1) {
                 holder.addTv.setVisibility(View.VISIBLE);
             } else {

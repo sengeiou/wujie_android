@@ -168,17 +168,17 @@ public class SetExchangeConditionsAty extends BaseAty {
         Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
         if (requestUrl.endsWith("androidAddress")) {
             options1Items = JSONUtils.parseKeyAndValueToMapList(ProvinceForTxd.class, map.get("data"));
-            ArrayList<ArrayList<DistrictsForTxd>> mList = new ArrayList<>();
             for (int i = 0; i < options1Items.size(); i++) {
                 ProvinceForTxd provinceForTxd = options1Items.get(i);
                 ArrayList<CityForTxd> cities = (ArrayList<CityForTxd>) provinceForTxd.getCities();
                 options2Items.add(cities);
+                ArrayList<ArrayList<DistrictsForTxd>> hh = new ArrayList<>();
                 for (int i1 = 0; i1 < cities.size(); i1++) {
                     CityForTxd cityForTxd = cities.get(i1);
                     ArrayList<DistrictsForTxd> districts = (ArrayList<DistrictsForTxd>) cityForTxd.getDistricts();
-                    mList.add(districts);
+                    hh.add(districts);
                 }
-                options3Items.add(mList);
+                options3Items.add(hh);
             }
             return;
         }

@@ -46,7 +46,9 @@
             android:layout_height="wrap_content"
             android:background="@null"
             android:hint="例如：大份、小份"
-            android:textColor="#ff999999"
+            android:inputType="text"
+            android:gravity="end"
+            android:textColor="#ff333333"
             android:textSize="17sp"/>
     </RelativeLayout>
     <View
@@ -80,12 +82,15 @@
                 android:layout_height="wrap_content"
                 android:background="@null"
                 android:hint="请输入"
-                android:textColor="#ff999999"
+                android:gravity="end"
+                android:inputType="numberDecimal"
+                android:textColor="#ff333333"
                 android:textSize="17sp"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="元"
+                android:layout_marginStart="5dp"
                 android:textColor="#ff333333"
                 android:textSize="17sp"
                 />
@@ -116,12 +121,15 @@
                 android:layout_height="wrap_content"
                 android:background="@null"
                 android:hint="请输入"
-                android:textColor="#ff999999"
+                android:gravity="end"
+                android:inputType="numberDecimal"
+                android:textColor="#ff333333"
                 android:textSize="17sp"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="元"
+                android:layout_marginStart="5dp"
                 android:textColor="#ff333333"
                 android:textSize="17sp"
                 />

@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -36,7 +37,11 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
+import com.txd.hzj.wjlp.tool.MessageEvent;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -97,16 +102,17 @@ public class CommodityManagementAty extends BaseAty {
     private LinearLayout saleLayout;
 
 
-
     private LeftAdapter mLeftAdapter;
     private RightAdapter mRightAdapter;
 
-    private String mType="1";
+    private String mType = "1";
     private String merchantId;
 
     private String mSelectName;
 
-    private int selectP=0;
+    private int selectP = 0;
+
+    private ArrayList<LeftBean> mBeanArrayList = new ArrayList<>();
 
 
     @Override
@@ -131,30 +137,27 @@ public class CommodityManagementAty extends BaseAty {
         app_goods_cate(mType, merchantId, this);
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-//        app_goods_cate(mType, merchantId, this);
-    }
 
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
         Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
         if (requestUrl.endsWith("app_goods_cate")) {
-            final ArrayList data = JSONUtils.parseKeyAndValueToMapList(LeftBean.class, map.get("data"));
+            final ArrayList<LeftBean> data = JSONUtils.parseKeyAndValueToMapList(LeftBean.class, map.get("data"));
+            mBeanArrayList.clear();
+            mBeanArrayList.addAll(data);
             if (data != null && data.size() > 0) {
                 mLeftAdapter = new LeftAdapter(data);
                 requestRightData(data, selectP);
                 mLeftAdapter.setSelectPosition(selectP);
-                mSelectName = ((LeftBean) data.get(selectP)).getName();
+                mSelectName = (data.get(selectP)).getName();
                 mLeftAdapter.setOnItemClickListener(new LeftAdapter.OnItemClickListener() {
                     @Override
                     public void onItemClick(int position) {
                         mLeftAdapter.setSelectPosition(position);
                         requestRightData(data, position);
                         selectP = position;
-                        mSelectName = ((LeftBean) data.get(position)).getName();
+                        mSelectName = (data.get(position)).getName();
                         selectTv.setVisibility(View.GONE);
                         mFrameLayout.setVisibility(View.VISIBLE);
                         deleteTv.setVisibility(View.GONE);
@@ -172,16 +175,16 @@ public class CommodityManagementAty extends BaseAty {
             Map<String, String> cateInfo = JSONUtils.parseKeyAndValueToMap(data.get("cate_info"));
             final ArrayList cate_goods_list = JSONUtils.parseKeyAndValueToMapList(CateGoodsListBean.class, data.get("cate_goods_list"));
             if (cate_goods_list != null) {
-                if (cate_goods_list.size()>0){
+                if (cate_goods_list.size() > 0) {
                     dataLayout.setVisibility(View.VISIBLE);
                     empty_layout.setVisibility(View.GONE);
                     nameTv.setText(cateInfo.get("name"));
-                }else {
+                } else {
                     dataLayout.setVisibility(View.GONE);
                     empty_layout.setVisibility(View.VISIBLE);
                 }
 
-                mRightAdapter = new RightAdapter(cate_goods_list);
+                mRightAdapter = new RightAdapter(cate_goods_list, mSelectName);
                 rightRecyclerView.setAdapter(mRightAdapter);
                 mRightAdapter.setOnItemClickListener(new LeftAdapter.OnItemClickListener() {
                     @Override
@@ -190,13 +193,13 @@ public class CommodityManagementAty extends BaseAty {
                         Bundle bundle = new Bundle();
                         bundle.putString("goods_id", bean.getGoods_id());
                         bundle.putString("sta_mid", merchantId);
-                        if (mSelectName.equals("待审核")){
-                            bundle.putBoolean("isGone",true);
+                        if (mSelectName.equals("待审核")) {
+                            bundle.putBoolean("isGone", true);
                         }
                         startActivity(InputAty.class, bundle);
                     }
                 });
-            }else {
+            } else {
                 dataLayout.setVisibility(View.GONE);
                 empty_layout.setVisibility(View.VISIBLE);
             }
@@ -211,7 +214,7 @@ public class CommodityManagementAty extends BaseAty {
             saleLayout.setVisibility(View.GONE);
             if ("1".equals(map.get("code"))) {
                 app_goods_cate(mType, merchantId, this);
-                if (selectTv.getVisibility() == View.VISIBLE){
+                if (selectTv.getVisibility() == View.VISIBLE) {
                     selectTv.setVisibility(View.GONE);
                 }
             }
@@ -255,11 +258,10 @@ public class CommodityManagementAty extends BaseAty {
     }
 
     /**
-     *
      * @param goods_id
-     * @param is_sale 0下架 1上架
+     * @param is_sale  0下架 1上架
      */
-    void app_mass_shut_updown(String goods_id, String is_sale,BaseView baseView) {
+    void app_mass_shut_updown(String goods_id, String is_sale, BaseView baseView) {
         RequestParams params = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
         params.addBodyParameter("goods_id", goods_id);
@@ -267,10 +269,36 @@ public class CommodityManagementAty extends BaseAty {
         apiTool2.postApi(Config.BASE_URL + "OsManager/app_mass_shut_updown", params, baseView);
     }
 
-
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
+    }
 
     @Override
-    @OnClick({R.id.fenleiTv, R.id.lucaiLayout, R.id.guanliTv, R.id.selectTv,R.id.deleteTv,R.id.moveTv,R.id.stopSaleTv,R.id.startSaleTv,R.id.submitTv})
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(MessageEvent messageEvent) {
+        String label = messageEvent.getLabel();
+        String message = messageEvent.getMessage();
+        if (label.equals("InputAty") && message.equals("save")) {
+            if (mBeanArrayList.size() > 3) {
+                selectP = mBeanArrayList.size() - 3;
+            }
+            app_goods_cate(mType, merchantId, this);
+        }
+
+        if (label.equals("ClassifyManageAty") && message.equals("move")) {
+            app_goods_cate(mType, merchantId, this);
+        }
+    }
+
+    @Override
+    @OnClick({R.id.fenleiTv, R.id.lucaiLayout, R.id.guanliTv, R.id.selectTv, R.id.deleteTv, R.id.moveTv, R.id.stopSaleTv, R.id.startSaleTv, R.id.submitTv})
     public void onClick(View v) {
         super.onClick(v);
         Bundle bundle = new Bundle();
@@ -281,6 +309,7 @@ public class CommodityManagementAty extends BaseAty {
                 startActivity(ClassifyManageAty.class, bundle);
                 break;
             case R.id.lucaiLayout:
+                showToast("请先完善店铺信息，设置营业时间");
                 bundle.putString("sta_mid", merchantId);
                 startActivity(InputAty.class, bundle);
                 break;
@@ -289,9 +318,9 @@ public class CommodityManagementAty extends BaseAty {
                     showToast("该分组不支持批量操作");
                 } else {
                     if (mSelectName.equals("待递交")) {
-                            createPop(v, "递交", false);
+                        createPop(v, "递交", false);
                     } else if (mSelectName.equals("审核失败")) {
-                            createPop(v, "重新递交", false);
+                        createPop(v, "重新递交", false);
                     } else {
                         createPop(v, "分类", true);
                     }
@@ -303,7 +332,7 @@ public class CommodityManagementAty extends BaseAty {
             case R.id.deleteTv:
                 try {
                     JSONArray jsonArray = new JSONArray(getGoodsIds());
-                    if (jsonArray.length()<=0){
+                    if (jsonArray.length() <= 0) {
                         showToast("请选择商品");
                         return;
                     }
@@ -315,7 +344,7 @@ public class CommodityManagementAty extends BaseAty {
             case R.id.moveTv:
                 try {
                     JSONArray jsonArray = new JSONArray(getGoodsIds());
-                    if (jsonArray.length()<=0){
+                    if (jsonArray.length() <= 0) {
                         showToast("请选择商品");
                         return;
                     }
@@ -330,11 +359,11 @@ public class CommodityManagementAty extends BaseAty {
             case R.id.stopSaleTv:
                 try {
                     JSONArray jsonArray = new JSONArray(getGoodsIds());
-                    if (jsonArray.length()<=0){
+                    if (jsonArray.length() <= 0) {
                         showToast("请选择商品");
                         return;
                     }
-                    app_mass_shut_updown(getGoodsIds(),"0",CommodityManagementAty.this);
+                    app_mass_shut_updown(getGoodsIds(), "0", CommodityManagementAty.this);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -342,11 +371,11 @@ public class CommodityManagementAty extends BaseAty {
             case R.id.startSaleTv:
                 try {
                     JSONArray jsonArray = new JSONArray(getGoodsIds());
-                    if (jsonArray.length()<=0){
+                    if (jsonArray.length() <= 0) {
                         showToast("请选择商品");
                         return;
                     }
-                    app_mass_shut_updown(getGoodsIds(),"1",CommodityManagementAty.this);
+                    app_mass_shut_updown(getGoodsIds(), "1", CommodityManagementAty.this);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -354,11 +383,11 @@ public class CommodityManagementAty extends BaseAty {
             case R.id.submitTv:
                 try {
                     JSONArray jsonArray = new JSONArray(getGoodsIds());
-                    if (jsonArray.length()<=0){
+                    if (jsonArray.length() <= 0) {
                         showToast("请选择商品");
                         return;
                     }
-                    app_dijiao(getGoodsIds(),CommodityManagementAty.this);
+                    app_dijiao(getGoodsIds(), CommodityManagementAty.this);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -368,7 +397,7 @@ public class CommodityManagementAty extends BaseAty {
     }
 
     private void createPop(View v, final String text, boolean isVisible) {
-        final PopupWindow   mPopupWindow = new PopupWindow(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        final PopupWindow mPopupWindow = new PopupWindow(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         mPopupWindow.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         View view = LayoutInflater.from(this).inflate(R.layout.pop_melloffline_manage, null);
         TextView oneTv = view.findViewById(R.id.oneTv);
@@ -418,9 +447,9 @@ public class CommodityManagementAty extends BaseAty {
         mPopupWindow.setContentView(view);
         mPopupWindow.setOutsideTouchable(false);
         mPopupWindow.setFocusable(true);
-        int[]  location = new int[2];
+        int[] location = new int[2];
         v.getLocationOnScreen(location);
-        mPopupWindow.showAtLocation(v, Gravity.NO_GRAVITY, 0,location[1]-v.getHeight()*2);
+        mPopupWindow.showAtLocation(v, Gravity.NO_GRAVITY, 0, location[1] - v.getHeight() * 2);
         Window window = getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
         WindowManager.LayoutParams attributes = window.getAttributes();
@@ -441,16 +470,16 @@ public class CommodityManagementAty extends BaseAty {
 
 
     private String getGoodsIds() throws JSONException {
-            JSONArray jsonArray = new JSONArray();
-            ArrayList<CateGoodsListBean> list = mRightAdapter.getList();
-            for (CateGoodsListBean bean : list) {
-                if (bean.isSelect()) {
-                    JSONObject object = new JSONObject();
-                    object.put("id", bean.getGoods_id());
-                    jsonArray.put(object);
-                }
+        JSONArray jsonArray = new JSONArray();
+        ArrayList<CateGoodsListBean> list = mRightAdapter.getList();
+        for (CateGoodsListBean bean : list) {
+            if (bean.isSelect()) {
+                JSONObject object = new JSONObject();
+                object.put("id", bean.getGoods_id());
+                jsonArray.put(object);
             }
-            return jsonArray.toString();
+        }
+        return jsonArray.toString();
     }
 
     public static class LeftAdapter extends RecyclerView.Adapter<LeftAdapter.ViewHolder> {
@@ -525,9 +554,11 @@ public class CommodityManagementAty extends BaseAty {
         private Context mContext;
         private LeftAdapter.OnItemClickListener mOnItemClickListener;
         private boolean isShowCheckBox;
+        private String selectName;
 
-        public RightAdapter(ArrayList<CateGoodsListBean> list) {
+        public RightAdapter(ArrayList<CateGoodsListBean> list, String selectName) {
             mList = list;
+            this.selectName = selectName;
         }
 
         public void setOnItemClickListener(LeftAdapter.OnItemClickListener onItemClickListener) {
@@ -549,19 +580,28 @@ public class CommodityManagementAty extends BaseAty {
             CateGoodsListBean cateGoodsListBean = mList.get(position);
             Glide.with(mContext).load(cateGoodsListBean.getGoods_pic()).into(holder.picIv);
             holder.nameTv.setText(cateGoodsListBean.getName());
-            if (cateGoodsListBean.getAttr_count() == 0) {
+            if (selectName.equals("待递交") || selectName.equals("待审核") || selectName.equals("审核失败")) {
+                holder.typeTv.setVisibility(View.VISIBLE);
+                holder.typeTv.setText("(" + cateGoodsListBean.getC_name() + ")");
+                holder.statusTv.setVisibility(View.GONE);
                 holder.specTv.setVisibility(View.GONE);
-            } else if (cateGoodsListBean.getAttr_count() > 0) {
-                holder.specTv.setVisibility(View.VISIBLE);
-                holder.specTv.setText("已设置规格");
-            }
-
-            if (cateGoodsListBean.getIs_sale().equals("0")) {
-                holder.statusTv.setText("已停售");
-                holder.statusTv.setBackgroundResource(R.drawable.shape_grey_radius30);
             } else {
-                holder.statusTv.setText("已启售");
-                holder.statusTv.setBackgroundResource(R.drawable.shape_orange_radius30);
+                holder.typeTv.setVisibility(View.GONE);
+                holder.statusTv.setVisibility(View.VISIBLE);
+                holder.specTv.setVisibility(View.VISIBLE);
+                if (cateGoodsListBean.getAttr_count() == 0) {
+                    holder.specTv.setVisibility(View.GONE);
+                } else if (cateGoodsListBean.getAttr_count() > 0) {
+                    holder.specTv.setVisibility(View.VISIBLE);
+                    holder.specTv.setText("已设置规格");
+                }
+                if (cateGoodsListBean.getIs_sale().equals("0")) {
+                    holder.statusTv.setText("已停售");
+                    holder.statusTv.setBackgroundResource(R.drawable.shape_grey_radius30);
+                } else {
+                    holder.statusTv.setText("已启售");
+                    holder.statusTv.setBackgroundResource(R.drawable.shape_orange_radius30);
+                }
             }
             if (cateGoodsListBean.getSup_type().equals("1")) {
                 holder.priceTv1.setText(setSpannable("¥" + cateGoodsListBean.getShop_price() + "/份"));
@@ -640,6 +680,9 @@ public class CommodityManagementAty extends BaseAty {
 
             @ViewInject(R.id.nameTv)
             private TextView nameTv;
+
+            @ViewInject(R.id.typeTv)
+            private TextView typeTv;
 
             @ViewInject(R.id.specTv)
             private TextView specTv;
