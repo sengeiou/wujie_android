@@ -137,7 +137,6 @@ public class CommodityManagementAty extends BaseAty {
         app_goods_cate(mType, merchantId, this);
     }
 
-
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
@@ -190,13 +189,15 @@ public class CommodityManagementAty extends BaseAty {
                     @Override
                     public void onItemClick(int position) {
                         CateGoodsListBean bean = (CateGoodsListBean) cate_goods_list.get(position);
-                        Bundle bundle = new Bundle();
-                        bundle.putString("goods_id", bean.getGoods_id());
-                        bundle.putString("sta_mid", merchantId);
-                        if (mSelectName.equals("待审核")) {
-                            bundle.putBoolean("isGone", true);
+                        if (!mSelectName.equals("待审核")) {
+                            Bundle bundle = new Bundle();
+                            bundle.putString("goods_id", bean.getGoods_id());
+                            bundle.putString("sta_mid", merchantId);
+                            if (mSelectName.equals("待审核")) {
+                                bundle.putBoolean("isGone", true);
+                            }
+                            startActivity(InputAty.class, bundle);
                         }
-                        startActivity(InputAty.class, bundle);
                     }
                 });
             } else {
@@ -217,6 +218,18 @@ public class CommodityManagementAty extends BaseAty {
                 if (selectTv.getVisibility() == View.VISIBLE) {
                     selectTv.setVisibility(View.GONE);
                 }
+            }
+            return;
+        }
+
+        if (requestUrl.endsWith("app_after_api")){
+            Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
+            if (data.get("status").equals("0")){
+                showToast("请先完善店铺信息，设置营业时间");
+            }else if (data.get("status").equals("1")){
+                Bundle bundle = new Bundle();
+                bundle.putString("sta_mid", merchantId);
+                startActivity(InputAty.class, bundle);
             }
             return;
         }
@@ -269,6 +282,14 @@ public class CommodityManagementAty extends BaseAty {
         apiTool2.postApi(Config.BASE_URL + "OsManager/app_mass_shut_updown", params, baseView);
     }
 
+
+    void app_after_api(String sta_mid, BaseView baseView) {
+        RequestParams params = new RequestParams();
+        ApiTool2 apiTool2 = new ApiTool2();
+        params.addBodyParameter("sta_mid", sta_mid);
+        apiTool2.postApi(Config.BASE_URL + "OsManager/app_after_api", params, baseView);
+    }
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -292,7 +313,7 @@ public class CommodityManagementAty extends BaseAty {
             app_goods_cate(mType, merchantId, this);
         }
 
-        if (label.equals("ClassifyManageAty") && message.equals("move")) {
+        if (label.equals("ClassifyManageAty") && (message.equals("move") || message.equals("back"))) {
             app_goods_cate(mType, merchantId, this);
         }
     }
@@ -309,9 +330,7 @@ public class CommodityManagementAty extends BaseAty {
                 startActivity(ClassifyManageAty.class, bundle);
                 break;
             case R.id.lucaiLayout:
-                showToast("请先完善店铺信息，设置营业时间");
-                bundle.putString("sta_mid", merchantId);
-                startActivity(InputAty.class, bundle);
+                app_after_api(merchantId,CommodityManagementAty.this);
                 break;
             case R.id.guanliTv:
                 if (mSelectName.equals("待审核")) {

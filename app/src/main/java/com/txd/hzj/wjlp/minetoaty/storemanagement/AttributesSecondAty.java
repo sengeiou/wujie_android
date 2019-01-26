@@ -95,7 +95,7 @@ public class AttributesSecondAty extends BaseAty {
             public void onClick(final int pos) {
                 CustomDialog customDialog = new CustomDialog.Builder(mContext)
                         .setIsShowTitle(false)
-                        .setMessage("确定要删除此分类？")
+                        .setMessage("确定要删除此标签？")
                         .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {

@@ -93,7 +93,7 @@ public class ClassifyManageAty extends BaseAty {
     protected void initialized() {
         mContext = this;
         showStatusBar(R.id.title_re_layout);
-        titlt_conter_tv.setText("分类管理");
+        titlt_conter_tv.setText("选择分类");
         mSta_mid = getIntent().getStringExtra("sta_mid");
         mIsShowDelete = getIntent().getBooleanExtra("isShowDelete", false);
         mGoods_id = getIntent().getStringExtra("goods_id");
@@ -243,10 +243,14 @@ public class ClassifyManageAty extends BaseAty {
     }
 
     @Override
-    @OnClick({R.id.time_select_img, R.id.addClassifyTv, R.id.saveTv, R.id.moveTv})
+    @OnClick({R.id.title_be_back_iv,R.id.time_select_img, R.id.addClassifyTv, R.id.saveTv, R.id.moveTv})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
+            case R.id.title_be_back_iv:
+                EventBus.getDefault().post(new MessageEvent("back","ClassifyManageAty"));
+                finish();
+                break;
             case R.id.time_select_img:
                 if (TextUtils.isEmpty(mId)) {
                     showToast("请选择要删除的分类");

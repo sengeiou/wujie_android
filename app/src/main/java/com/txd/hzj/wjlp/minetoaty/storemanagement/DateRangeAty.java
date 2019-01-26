@@ -18,6 +18,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
@@ -127,6 +128,7 @@ public class DateRangeAty extends BaseAty {
                     showToast("请输入结算价");
                     return;
                 }
+
                 try {
                     JSONObject jsonObject = new JSONObject();
                     jsonObject.put("start_time",mStartDate);
@@ -144,6 +146,12 @@ public class DateRangeAty extends BaseAty {
 
 
     private void setDate(final String status){
+        Calendar startDate = Calendar.getInstance();
+        Calendar endDate = Calendar.getInstance();
+
+        //正确设置方式 原因：注意事项有说明
+//        startDate.set(2019,0,1);
+        endDate.set(2026,11,31);
         TimePickerView timePickerView = new TimePickerView.Builder(mContext, new TimePickerView.OnTimeSelectListener() {
             @Override
             public void onTimeSelect(Date date, View v) {
@@ -158,6 +166,8 @@ public class DateRangeAty extends BaseAty {
                 }
             }
         })
+                .setDate(Calendar.getInstance())
+                .setRangDate(startDate,endDate)
                 .setType(new boolean[]{true, true, true, false, false, false})// 默认全部显示
                 .build();
         timePickerView.show();

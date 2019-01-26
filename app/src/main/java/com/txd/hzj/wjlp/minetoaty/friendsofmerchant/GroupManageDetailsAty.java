@@ -62,7 +62,7 @@ public class GroupManageDetailsAty extends BaseAty {
     protected void initialized() {
         mContext = this;
         showStatusBar(R.id.title_re_layout);
-        titlt_conter_tv.setText("分组商友管理");
+        titlt_conter_tv.setText("分组管理");
         mSta_mid = getIntent().getStringExtra("sta_mid");
         mId = getIntent().getStringExtra("id");
 
@@ -140,6 +140,7 @@ public class GroupManageDetailsAty extends BaseAty {
                 Bundle bundle = new Bundle();
                 bundle.putString("sta_mid",mSta_mid);
                 bundle.putString("id",mId);
+                bundle.putString("name",nameTv.getText().toString());
                 startActivity(NotAddFriendAty.class,bundle);
                 break;
         }

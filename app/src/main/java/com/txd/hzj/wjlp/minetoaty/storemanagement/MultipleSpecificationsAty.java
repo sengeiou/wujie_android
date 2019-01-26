@@ -182,8 +182,8 @@ public class MultipleSpecificationsAty extends BaseAty {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
                                         dialog.dismiss();
-                                        mMyShowAdapter.remove(pos);
                                         appDeleteAttr(mSta_mid, mGoods_id, data.get(pos).get("attr_id"), MultipleSpecificationsAty.this);
+                                        mMyShowAdapter.remove(pos);
                                     }
                                 })
                                 .setNegativeButton("取消", new DialogInterface.OnClickListener() {

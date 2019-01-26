@@ -63,11 +63,9 @@ public class NotAddFriendAty extends BaseAty {
     protected void initialized() {
         mContext = this;
         showStatusBar(R.id.title_re_layout);
-        titlt_conter_tv.setText("食品");
-        titlt_right_tv.setVisibility(View.VISIBLE);
-        titlt_right_tv.setText("完成");
         mSta_mid = getIntent().getStringExtra("sta_mid");
         mId = getIntent().getStringExtra("id");
+        titlt_conter_tv.setText(getIntent().getStringExtra("name"));
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         friendRecyclerView.setLayoutManager(layoutManager);
@@ -130,8 +128,12 @@ public class NotAddFriendAty extends BaseAty {
                 Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
                 if (data.containsKey("list")) {
                     ArrayList<Map<String, String>> arrayList = JSONUtils.parseKeyAndValueToMapList(data.get("list"));
-                    if (arrayList != null) {
+                    if (arrayList != null && arrayList.size()>0) {
                         mNotAddFriendAdapter.setList(arrayList);
+                        titlt_right_tv.setVisibility(View.VISIBLE);
+                        titlt_right_tv.setText("完成");
+                    }else {
+                        titlt_right_tv.setVisibility(View.GONE);
                     }
                 }
             }else {

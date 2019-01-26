@@ -158,16 +158,16 @@ public class InputAty extends BaseAty {
     private File file1;
 
     private int mSaveType = 1;
-    private String mGoods_id="";
+    private String mGoods_id = "";
     private String mSta_mid;
     private String mSup_type;
     private String mCate_id;
-    private String mGoods_attr="";
-    private String mGoods_property="";
-    private String mWeek_price="";
-    private String mChurch_week_price="";
-    private String mTime_price="";
-    private String mChurch_time_price="";
+    private String mGoods_attr = "";
+    private String mGoods_property = "";
+    private String mWeek_price = "";
+    private String mChurch_week_price = "";
+    private String mTime_price = "";
+    private String mChurch_time_price = "";
     private boolean mIsGone;
 
     @Override
@@ -186,30 +186,31 @@ public class InputAty extends BaseAty {
         mGoods_id = getIntent().getStringExtra("goods_id");
         mSta_mid = getIntent().getStringExtra("sta_mid");
         mIsGone = getIntent().getBooleanExtra("isGone", false);
-        if (mIsGone){
+        if (mIsGone) {
             saveLayout.setVisibility(View.GONE);
         }
 
         nameEdit.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-//                int index = nameEdit.getSelectionStart() - 1;
-//                if (index > 0) {
-//                    if (isEmojiCharacter(s.charAt(index))) {
-//                        Editable edit = nameEdit.getText();
-//                        edit.delete(index, index + 1);
-//                    }
-//                }
                 int index = nameEdit.getSelectionStart() - 1;
                 if (index > 0) {
                     if (isEmojiCharacter(s.charAt(index))) {
                         Editable edit = nameEdit.getText();
-                        edit.delete(s.length() - 2, s.length());
-                        showToast("不支持输入表情符号");
+                        edit.delete(index, index + 1);
                     }
                 }
+                //                int index = nameEdit.getSelectionStart() - 1;
+                //                if (index > 0) {
+                //                    if (isEmojiCharacter(s.charAt(index))) {
+                //                        Editable edit = nameEdit.getText();
+                //                        edit.delete(s.length() - 2, s.length());
+                //                        showToast("不支持输入表情符号");
+                //                    }
+                //                }
 
             }
+
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
 
@@ -224,7 +225,7 @@ public class InputAty extends BaseAty {
     }
 
     private static boolean isEmojiCharacter(char codePoint) {
-        return !((codePoint == 0x0) || (codePoint == 0x9) || (codePoint == 0xA) || (codePoint == 0xD) || ((codePoint >= 0x20) && codePoint <= 0xD7FF))|| ((codePoint >= 0xE000) && (codePoint <= 0xFFFD)) || ((codePoint >= 0x10000) && (codePoint <= 0x10FFFF));
+        return !((codePoint == 0x0) || (codePoint == 0x9) || (codePoint == 0xA) || (codePoint == 0xD) || ((codePoint >= 0x20) && codePoint <= 0xD7FF)) || ((codePoint >= 0xE000) && (codePoint <= 0xFFFD)) || ((codePoint >= 0x10000) && (codePoint <= 0x10FFFF));
     }
 
     /**
@@ -290,20 +291,20 @@ public class InputAty extends BaseAty {
 
             if (!TextUtils.isEmpty(mWeek_price)) {
                 com.alibaba.fastjson.JSONArray array = JSON.parseArray(mWeek_price);
-                if (array != null && array.size()>0) {
+                if (array != null && array.size() > 0) {
                     takeawayWeekCheckBox.setChecked(true);
                 }
             }
             if (!TextUtils.isEmpty(mTime_price)) {
                 takeawayDateCheckBox.setChecked(true);
             }
-            if (JSON.parseArray(mWeek_price)!= null && JSON.parseArray(mWeek_price).size()>0 || !TextUtils.isEmpty(mTime_price)) {
+            if (JSON.parseArray(mWeek_price) != null && JSON.parseArray(mWeek_price).size() > 0 || !TextUtils.isEmpty(mTime_price)) {
                 takeawayTimeTv.setText("自定义");
                 takeawayCustomLayout.setVisibility(View.VISIBLE);
             }
             if (!TextUtils.isEmpty(mChurch_week_price)) {
                 com.alibaba.fastjson.JSONArray array = JSON.parseArray(mChurch_week_price);
-                if (array != null && array.size()>0) {
+                if (array != null && array.size() > 0) {
                     dinnerWeekCheckBox.setChecked(true);
                 }
             }
@@ -312,7 +313,7 @@ public class InputAty extends BaseAty {
                 dinnerDateCheckBox.setChecked(true);
             }
 
-            if (JSON.parseArray(mChurch_week_price)!=null && JSON.parseArray(mChurch_week_price).size()>0 || !TextUtils.isEmpty(mChurch_time_price)) {
+            if (JSON.parseArray(mChurch_week_price) != null && JSON.parseArray(mChurch_week_price).size() > 0 || !TextUtils.isEmpty(mChurch_time_price)) {
                 dinnerTimeTv.setText("自定义");
                 dinnerCustomLayout.setVisibility(View.VISIBLE);
             }
@@ -324,8 +325,8 @@ public class InputAty extends BaseAty {
             attributesTv.setText(data.containsKey("specs_name") ? data.get("specs_name") : "");
             if (data.containsKey("goods_pic")) {
                 try {
-                    JSONArray jsonArray  = new JSONArray(data.get("goods_pic"));
-                    if (jsonArray.length()>0){
+                    JSONArray jsonArray = new JSONArray(data.get("goods_pic"));
+                    if (jsonArray.length() > 0) {
                         JSONObject jsonObject = jsonArray.getJSONObject(0);
                         Glide.with(mContext).load(jsonObject.optString("path")).into(picImg);
                     }
@@ -356,7 +357,7 @@ public class InputAty extends BaseAty {
                     bundle.putString("sta_mid", mSta_mid);
                     startActivity(InputAty.class, bundle);
                 }
-                EventBus.getDefault().post(new MessageEvent("save","InputAty"));
+                EventBus.getDefault().post(new MessageEvent("save", "InputAty"));
                 finish();
             }
             return;
@@ -402,23 +403,23 @@ public class InputAty extends BaseAty {
                 showTimeDialogs(2);
                 break;
             case R.id.takeawayDateLayout:
-                bundle.putString("type","takeaway");
-                bundle.putString("DateRangeAty",mTime_price);
+                bundle.putString("type", "takeaway");
+                bundle.putString("DateRangeAty", mTime_price);
                 startActivity(DateRangeAty.class, bundle);
                 break;
             case R.id.takeawayWeekLayout:
-                bundle.putString("type","takeaway");
-                bundle.putString("WeekRangeAty",mWeek_price);
+                bundle.putString("type", "takeaway");
+                bundle.putString("WeekRangeAty", mWeek_price);
                 startActivity(WeekRangeAty.class, bundle);
                 break;
             case R.id.dinnerDateLayout:
-                bundle.putString("type","dinner");
-                bundle.putString("DateRangeAty",mChurch_time_price);
+                bundle.putString("type", "dinner");
+                bundle.putString("DateRangeAty", mChurch_time_price);
                 startActivity(DateRangeAty.class, bundle);
                 break;
             case R.id.dinnerWeekLayout:
-                bundle.putString("type","dinner");
-                bundle.putString("WeekRangeAty",mChurch_week_price);
+                bundle.putString("type", "dinner");
+                bundle.putString("WeekRangeAty", mChurch_week_price);
                 startActivity(WeekRangeAty.class, bundle);
                 break;
             case R.id.saveTv:
@@ -470,6 +471,14 @@ public class InputAty extends BaseAty {
             showToast("请上传商品图片");
             return;
         }
+        if (takeawayCustomLayout.getVisibility() == View.VISIBLE && takeawayTimeTv.getText().toString().equals("自定义") && TextUtils.isEmpty(mWeek_price) && TextUtils.isEmpty(mTime_price)) {
+            showToast("请选择外卖的日期或星期范围");
+            return;
+        }
+        if (dinnerCustomLayout.getVisibility() == View.VISIBLE && dinnerTimeTv.getText().toString().equals("自定义") && TextUtils.isEmpty(mChurch_week_price) && TextUtils.isEmpty(mChurch_time_price)) {
+            showToast("请选择堂食的日期或星期范围");
+            return;
+        }
         addAppStageGoods(mSta_mid, mSup_type, nameEdit.getText().toString(), mCate_id, lunchBoxNumEdit.getText().toString(), mGoods_attr, mGoods_property, takeawayPriceEdit.getText().toString()
                 , dinnerPriceEdit.getText().toString(), file1, labelTv.getText().toString(), mWeek_price, mChurch_week_price, mTime_price, mChurch_time_price, briefEdit.getText().toString(), mGoods_id, takeawayJieSuanPriceEdit.getText().toString(), dinnerJieSuanPriceEdit.getText().toString(), this);
     }
@@ -486,7 +495,7 @@ public class InputAty extends BaseAty {
         params.addBodyParameter("goods_property", goods_property);
         params.addBodyParameter("shop_price", shop_price);
         params.addBodyParameter("church_shop_price", church_shop_price);
-        if (pic != null){
+        if (pic != null) {
             params.addBodyParameter("pic", pic);
         }
         params.addBodyParameter("label", label);
@@ -721,6 +730,12 @@ public class InputAty extends BaseAty {
                     dinnerJieSuanLayout.setVisibility(View.GONE);
                     takeawayTimeLayout.setVisibility(View.VISIBLE);
                     dinnerTimeLayout.setVisibility(View.GONE);
+                    if (takeawayTimeTv.getText().toString().equals("自定义")) {
+                        takeawayCustomLayout.setVisibility(View.VISIBLE);
+                    } else {
+                        takeawayCustomLayout.setVisibility(View.GONE);
+                    }
+                    dinnerCustomLayout.setVisibility(View.GONE);
                     break;
                 case R.id.dinnerBtn:
                     mSup_type = "2";
@@ -730,6 +745,12 @@ public class InputAty extends BaseAty {
                     dinnerLayout.setVisibility(View.VISIBLE);
                     takeawayTimeLayout.setVisibility(View.GONE);
                     dinnerTimeLayout.setVisibility(View.VISIBLE);
+                    takeawayCustomLayout.setVisibility(View.GONE);
+                    if (dinnerTimeTv.getText().toString().equals("自定义")) {
+                        dinnerCustomLayout.setVisibility(View.VISIBLE);
+                    } else {
+                        dinnerCustomLayout.setVisibility(View.GONE);
+                    }
                     break;
                 case R.id.allBtn:
                     mSup_type = "3";
@@ -739,6 +760,16 @@ public class InputAty extends BaseAty {
                     dinnerLayout.setVisibility(View.VISIBLE);
                     takeawayTimeLayout.setVisibility(View.VISIBLE);
                     dinnerTimeLayout.setVisibility(View.VISIBLE);
+                    if (takeawayTimeTv.getText().toString().equals("自定义")) {
+                        takeawayCustomLayout.setVisibility(View.VISIBLE);
+                    } else {
+                        takeawayCustomLayout.setVisibility(View.GONE);
+                    }
+                    if (dinnerTimeTv.getText().toString().equals("自定义")) {
+                        dinnerCustomLayout.setVisibility(View.VISIBLE);
+                    } else {
+                        dinnerCustomLayout.setVisibility(View.GONE);
+                    }
                     break;
             }
         }
@@ -783,28 +814,28 @@ public class InputAty extends BaseAty {
             }
         }
 
-        if (label.equals("DateRangeAty")){
+        if (label.equals("DateRangeAty")) {
             String[] split = message.split("=");
             String type = split[0];
-            if (type.equals("takeaway")){
+            if (type.equals("takeaway")) {
                 mTime_price = split[1];
                 takeawayWeekCheckBox.setChecked(false);
                 takeawayDateCheckBox.setChecked(true);
-            }else if (type.equals("dinner")){
+            } else if (type.equals("dinner")) {
                 mChurch_time_price = split[1];
                 dinnerWeekCheckBox.setChecked(false);
                 dinnerDateCheckBox.setChecked(true);
             }
 
         }
-        if (label.equals("WeekRangeAty")){
+        if (label.equals("WeekRangeAty")) {
             String[] split = message.split("=");
             String type = split[0];
-            if (type.equals("takeaway")){
+            if (type.equals("takeaway")) {
                 mWeek_price = split[1];
                 takeawayWeekCheckBox.setChecked(true);
                 takeawayDateCheckBox.setChecked(false);
-            }else if (type.equals("dinner")){
+            } else if (type.equals("dinner")) {
                 mChurch_week_price = split[1];
                 dinnerWeekCheckBox.setChecked(true);
                 dinnerDateCheckBox.setChecked(false);

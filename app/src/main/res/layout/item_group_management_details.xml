@@ -22,8 +22,8 @@
 
             <cn.gavinliu.android.lib.shapedimageview.ShapedImageView
                 android:id="@+id/headImg"
-                android:layout_width="45dp"
-                android:layout_height="45dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:src="@drawable/icon_temp_ptq_l"
                 app:shape_mode="circle" />
 

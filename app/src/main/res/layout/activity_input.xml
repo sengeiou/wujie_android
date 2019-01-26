@@ -2,6 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:focusableInTouchMode="true"
+    android:focusable="true"
     android:orientation="vertical">
 
     <include layout="@layout/aty_shop_title" />
@@ -38,12 +40,23 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
-
-                    <TextView
+                    <LinearLayout
                         android:layout_gravity="center_vertical"
+                        android:orientation="horizontal"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="商品类型" />
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="*"
+                            android:textColor="#fff23030"/>
+                        <TextView
+                            android:layout_marginStart="3dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="商品类型" />
+                    </LinearLayout>
 
                     <RadioGroup
                         android:id="@+id/radioGroup"
@@ -76,11 +89,25 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="15dp">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                    <LinearLayout
                         android:layout_centerVertical="true"
-                        android:text="商品名称" />
+                        android:orientation="horizontal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="*"
+                            android:textColor="#fff23030"/>
+                        <TextView
+                            android:layout_marginStart="3dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="商品名称" />
+                    </LinearLayout>
+
+
 
                     <EditText
                         android:id="@+id/nameEdit"
@@ -111,12 +138,23 @@
                 android:layout_marginTop="15dp"
                 android:paddingEnd="15dp"
                 android:paddingStart="15dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                <LinearLayout
                     android:layout_centerVertical="true"
-                    android:text="商品分类" />
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="*"
+                        android:textColor="#fff23030"/>
+                    <TextView
+                        android:layout_marginStart="3dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="商品分类" />
+                </LinearLayout>
 
                 <TextView
                     android:id="@+id/classifyTv"
@@ -147,11 +185,23 @@
                 android:paddingEnd="15dp"
                 android:paddingStart="15dp">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                <LinearLayout
                     android:layout_centerVertical="true"
-                    android:text="外卖售卖价" />
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="*"
+                        android:textColor="#fff23030"/>
+                    <TextView
+                        android:layout_marginStart="3dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="外卖售卖价" />
+                </LinearLayout>
 
 
                 <LinearLayout
@@ -200,12 +250,23 @@
                     android:layout_marginTop="15dp"
                     android:paddingEnd="15dp"
                     android:paddingStart="15dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                    <LinearLayout
                         android:layout_centerVertical="true"
-                        android:text="外卖结算价" />
+                        android:orientation="horizontal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="*"
+                            android:textColor="#fff23030"/>
+                        <TextView
+                            android:layout_marginStart="3dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="外卖结算价" />
+                    </LinearLayout>
 
 
                     <LinearLayout
@@ -254,12 +315,23 @@
                 android:layout_marginTop="15dp"
                 android:paddingEnd="15dp"
                 android:paddingStart="15dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                <LinearLayout
                     android:layout_centerVertical="true"
-                    android:text="堂食售卖价" />
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="*"
+                        android:textColor="#fff23030"/>
+                    <TextView
+                        android:layout_marginStart="3dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="堂食售卖价" />
+                </LinearLayout>
 
 
                 <LinearLayout
@@ -308,12 +380,23 @@
                     android:layout_marginTop="15dp"
                     android:paddingEnd="15dp"
                     android:paddingStart="15dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                    <LinearLayout
                         android:layout_centerVertical="true"
-                        android:text="堂食结算价" />
+                        android:orientation="horizontal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="*"
+                            android:textColor="#fff23030"/>
+                        <TextView
+                            android:layout_marginStart="3dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="堂食结算价" />
+                    </LinearLayout>
 
 
                     <LinearLayout
@@ -463,11 +546,23 @@
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                <LinearLayout
                     android:layout_centerVertical="true"
-                    android:text="商品图片" />
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="*"
+                        android:textColor="#fff23030"/>
+                    <TextView
+                        android:layout_marginStart="3dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="商品图片" />
+                </LinearLayout>
 
                 <LinearLayout
                     android:layout_alignParentEnd="true"

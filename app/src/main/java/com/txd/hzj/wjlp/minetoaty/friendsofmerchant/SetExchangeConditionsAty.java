@@ -73,6 +73,9 @@ public class SetExchangeConditionsAty extends BaseAty {
     private String mShopkeeper_id;
     private String mCity_id;
     private String mC_id;
+    private int mSexNum;
+    private int mAgeNum;
+    private int mGradeNum;
 
     @Override
     protected int getLayoutResId() {
@@ -231,7 +234,7 @@ public class SetExchangeConditionsAty extends BaseAty {
                         showToast("请选择店主");
                         return;
                     }
-                    app_exchange_user(mSta_mid, mShopkeeper_id, sexTv.getText().toString(), ageTv.getText().toString(), gradeTv.getText().toString(), mCity_id, this);
+                    app_exchange_user(mSta_mid, mShopkeeper_id, String.valueOf(mSexNum), String.valueOf(mAgeNum), String.valueOf(mGradeNum), mCity_id, this);
                 }else {
                     exchange_log(mSta_mid,"2",mC_id,sexTv.getText().toString(), ageTv.getText().toString(), gradeTv.getText().toString(), mCity_id,this);
                 }
@@ -249,6 +252,7 @@ public class SetExchangeConditionsAty extends BaseAty {
             OptionsPickerView pvOptions = new OptionsPickerView.Builder(mContext, new OptionsPickerView.OnOptionsSelectListener() {
                 @Override
                 public void onOptionsSelect(int options1, int option2, int options3, View v) {
+                    mSexNum = options1;
                     sexTv.setText(mOptionsItems.get(options1));
                 }
             })
@@ -268,6 +272,7 @@ public class SetExchangeConditionsAty extends BaseAty {
             OptionsPickerView pvOptions = new OptionsPickerView.Builder(mContext, new OptionsPickerView.OnOptionsSelectListener() {
                 @Override
                 public void onOptionsSelect(int options1, int option2, int options3, View v) {
+                    mAgeNum = options1;
                     ageTv.setText(mOptionsItems.get(options1));
                 }
             })
@@ -285,6 +290,7 @@ public class SetExchangeConditionsAty extends BaseAty {
             OptionsPickerView pvOptions = new OptionsPickerView.Builder(mContext, new OptionsPickerView.OnOptionsSelectListener() {
                 @Override
                 public void onOptionsSelect(int options1, int option2, int options3, View v) {
+                    mGradeNum = options1;
                     gradeTv.setText(mOptionsItems.get(options1));
                 }
             })

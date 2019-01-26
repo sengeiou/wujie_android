@@ -57,7 +57,6 @@ import com.txd.hzj.wjlp.R;
  * Date: 16/04/24
  */
 public class SwipeMenuLayout extends ViewGroup {
-    private static final String TAG = "zxt/SwipeMenuLayout";
 
     private int mScaleTouchSlop;//为了处理单击事件的冲突
     private int mMaxVelocity;//计算滑动速度用
@@ -91,7 +90,6 @@ public class SwipeMenuLayout extends ViewGroup {
     private static boolean isTouching;
 
     private VelocityTracker mVelocityTracker;//滑动速度变量
-    private android.util.Log LogUtils;
 
     /**
      * 右滑删除功能的开关,默认开
