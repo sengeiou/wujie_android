@@ -59,8 +59,8 @@ public class BluetoothListAdapter extends BaseAdapter {
 
         String nameStr = bluetoothDevice.getName();
         String addressStr = bluetoothDevice.getAddress();
-        holder.item_blueName_tv.setText((nameStr == null || nameStr.isEmpty()) ? addressStr : nameStr);
-        holder.item_blueAddress_tv.setText(addressStr);
+        holder.item_blueName_tv.setText(new StringBuffer().append("名称：").append(nameStr == null || nameStr.isEmpty() ? "无" : nameStr));
+        holder.item_blueAddress_tv.setText(new StringBuffer().append("地址：").append(addressStr));
 
         return view;
     }

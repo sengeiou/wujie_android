@@ -51,14 +51,10 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="当前蓝牙设备" />
+            android:textColor="@android:color/black"
+            android:textSize="14sp"
+            android:text="已连接蓝牙设备" />
 
-        <TextView
-            android:id="@+id/connectBluetooth_change_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="8dp"
-            android:text="修改" />
     </LinearLayout>
 
     <LinearLayout
@@ -70,6 +66,9 @@
         <TextView
             android:id="@+id/connectBluetooth_name_tv"
             android:layout_width="match_parent"
+
+            android:textColor="@android:color/black"
+            android:textSize="14sp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:text="名称：" />
@@ -78,6 +77,8 @@
             android:id="@+id/connectBluetooth_address_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="@android:color/black"
+            android:textSize="14sp"
             android:text="地址：" />
     </LinearLayout>
 
@@ -110,7 +111,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
                     android:gravity="center_vertical"
-                    android:text="已配对设备" />
+                    android:textColor="@android:color/black"
+                    android:textSize="14sp"
+                    android:text="历史配对设备" />
 
             </LinearLayout>
 
@@ -140,7 +143,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
                     android:gravity="center_vertical"
-                    android:text="附近蓝牙" />
+                    android:textColor="@android:color/black"
+                    android:textSize="14sp"
+                    android:text="附近蓝牙设备" />
 
             </LinearLayout>
 

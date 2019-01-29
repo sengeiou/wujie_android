@@ -21,6 +21,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ants.theantsgo.config.Config;
+import com.ants.theantsgo.config.Settings;
 import com.ants.theantsgo.imageLoader.GlideImageLoader;
 import com.ants.theantsgo.payByThirdParty.AliPay;
 import com.ants.theantsgo.payByThirdParty.aliPay.AliPayCallBack;
@@ -79,6 +80,10 @@ public class WebViewAty extends BaseAty {
     private String discount_type; // 折扣类型
     IndexPst indexPst;
 
+    // 图片裁切的宽高
+    private static int width = 0;
+    private static int high = 0;
+
     @Override
     protected int getLayoutResId() {
         return R.layout.aty_webview;
@@ -103,10 +108,10 @@ public class WebViewAty extends BaseAty {
         }
 
         boolean isShowTitle = intent.getBooleanExtra("isShowTitle", false);
-        if (isShowTitle){
+        if (isShowTitle) {
             titlt_conter_tv.setText(intent.getStringExtra("title"));
         }
-        webView_title_layout.setVisibility(isShowTitle?View.VISIBLE:View.GONE);
+        webView_title_layout.setVisibility(isShowTitle ? View.VISIBLE : View.GONE);
 
         wxPayReceiver = new WxPayReceiver();
         IntentFilter intentFilter = new IntentFilter();
@@ -256,9 +261,9 @@ public class WebViewAty extends BaseAty {
             JSONObject data = jsonObject.has("data") ? jsonObject.getJSONObject("data") : null;
             String order_sn = data.has("order_sn") ? data.getString("order_sn") : "";
             String jump_url = data.has("jump_url") ? data.getString("jump_url") : "";
-            if (!TextUtils.isEmpty(jump_url) && "20".equals(type)){
+            if (!TextUtils.isEmpty(jump_url) && "20".equals(type)) {
                 url = jump_url;
-            }else {
+            } else {
                 //          http://www.wujiemall.com/Wap/Pay/pay_back/order/153232656966415.html
                 StringBuffer stringBuffer = new StringBuffer();
                 stringBuffer.append(Config.SHARE_URL);
@@ -280,7 +285,16 @@ public class WebViewAty extends BaseAty {
     private void initImageOnePicker() {
         ImagePicker imagePicker = ImagePicker.getInstance();
         imagePicker.setImageLoader(new GlideImageLoader());// 图片加载
-        imagePicker.setCrop(false);// 不裁剪
+        if (width <= 0 || high <= 0) {
+            imagePicker.setCrop(false);// 不裁剪
+        } else {
+            imagePicker.setCrop(true);// 裁剪
+            imagePicker.setSaveRectangle(true);// 矩形保存
+            imagePicker.setFocusWidth(Settings.displayWidth);//裁剪框宽度
+            imagePicker.setFocusHeight(Settings.displayWidth * high / width);// 裁剪框高度
+            imagePicker.setOutPutX(Settings.displayWidth);// 保存图片高度
+            imagePicker.setOutPutY(Settings.displayWidth * high / width);// 保存图片宽度
+        }
         imagePicker.setMultiMode(false);// 多选模式
         imagePicker.setShowCamera(false);// 不显示拍照按钮
     }
@@ -382,9 +396,14 @@ public class WebViewAty extends BaseAty {
 
         /**
          * 打开相机
+         * <p>
+         * * @param cut 裁剪
          */
         @JavascriptInterface
-        public void openCamera() {
+        public void openCamera(int width, int high) {
+//            WebViewAty.width = width;
+//            WebViewAty.high = high;
+            L.e("qwertyuiopzxcvbnm", "width:" + width + " high:" + high);
             initImageOnePicker();
             Intent intent = new Intent(WebViewAty.this, ImageGridActivity.class);
             intent.putExtra(ImageGridActivity.EXTRAS_TAKE_PICKERS, true); // 直接调取相机
@@ -397,7 +416,10 @@ public class WebViewAty extends BaseAty {
          * @param selectMode 选择类型 0单选 1多选
          */
         @JavascriptInterface
-        public void openPhotoFolder(int selectMode) {
+        public void openPhotoFolder(int selectMode, int width, int high) {
+            WebViewAty.width = width;
+            WebViewAty.high = high;
+            L.e("qwertyuiopzxcvbnm", "width:" + width + " high:" + high);
             switch (selectMode) {
                 case 0: // 单选
                     initImageOnePicker();
@@ -490,16 +512,14 @@ public class WebViewAty extends BaseAty {
         @JavascriptInterface
         public void connectBluetooth() {
             // http://doc.wotianhui.com/web/#/10?page_id=271
-            if (!BluetoothUtils.isHasPrinter) { // 如果没有连接则直接跳转至连接界面
-                startActivity(SearchBluetoothAty.class, null);
-            }
+            startActivity(SearchBluetoothAty.class, null);
         }
 
         /**
          * 拨打电话
          */
         @JavascriptInterface
-        public void callPhone(String phone){
+        public void callPhone(String phone) {
             call(phone);
         }
 
