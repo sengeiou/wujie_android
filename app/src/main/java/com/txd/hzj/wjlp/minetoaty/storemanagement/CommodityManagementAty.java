@@ -102,6 +102,7 @@ public class CommodityManagementAty extends BaseAty {
     private LinearLayout saleLayout;
 
 
+
     private LeftAdapter mLeftAdapter;
     private RightAdapter mRightAdapter;
 
@@ -173,15 +174,10 @@ public class CommodityManagementAty extends BaseAty {
             Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
             Map<String, String> cateInfo = JSONUtils.parseKeyAndValueToMap(data.get("cate_info"));
             final ArrayList cate_goods_list = JSONUtils.parseKeyAndValueToMapList(CateGoodsListBean.class, data.get("cate_goods_list"));
-            if (cate_goods_list != null) {
-                if (cate_goods_list.size() > 0) {
-                    dataLayout.setVisibility(View.VISIBLE);
-                    empty_layout.setVisibility(View.GONE);
-                    nameTv.setText(cateInfo.get("name"));
-                } else {
-                    dataLayout.setVisibility(View.GONE);
-                    empty_layout.setVisibility(View.VISIBLE);
-                }
+            if (cate_goods_list != null && cate_goods_list.size() > 0) {
+                dataLayout.setVisibility(View.VISIBLE);
+                empty_layout.setVisibility(View.GONE);
+                nameTv.setText(cateInfo.get("name"));
 
                 mRightAdapter = new RightAdapter(cate_goods_list, mSelectName);
                 rightRecyclerView.setAdapter(mRightAdapter);
@@ -193,7 +189,7 @@ public class CommodityManagementAty extends BaseAty {
                             Bundle bundle = new Bundle();
                             bundle.putString("goods_id", bean.getGoods_id());
                             bundle.putString("sta_mid", merchantId);
-                            if (mSelectName.equals("待审核")) {
+                            if (!bean.getIs_sale().equals("0")) {
                                 bundle.putBoolean("isGone", true);
                             }
                             startActivity(InputAty.class, bundle);
@@ -222,11 +218,11 @@ public class CommodityManagementAty extends BaseAty {
             return;
         }
 
-        if (requestUrl.endsWith("app_after_api")){
+        if (requestUrl.endsWith("app_after_api")) {
             Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
-            if (data.get("status").equals("0")){
+            if (data.get("status").equals("0")) {
                 showToast("请先完善店铺信息，设置营业时间");
-            }else if (data.get("status").equals("1")){
+            } else if (data.get("status").equals("1")) {
                 Bundle bundle = new Bundle();
                 bundle.putString("sta_mid", merchantId);
                 startActivity(InputAty.class, bundle);
@@ -330,7 +326,7 @@ public class CommodityManagementAty extends BaseAty {
                 startActivity(ClassifyManageAty.class, bundle);
                 break;
             case R.id.lucaiLayout:
-                app_after_api(merchantId,CommodityManagementAty.this);
+                app_after_api(merchantId, CommodityManagementAty.this);
                 break;
             case R.id.guanliTv:
                 if (mSelectName.equals("待审核")) {

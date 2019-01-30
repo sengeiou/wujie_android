@@ -27,7 +27,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:text="地区不限"
+            android:text="地区"
             android:textColor="#ff333333"
             android:textSize="16sp" />
         <TextView
@@ -60,7 +60,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:text="行业不限"
+            android:text="行业"
             android:textColor="#ff333333"
             android:textSize="16sp" />
         <TextView

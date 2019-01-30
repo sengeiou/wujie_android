@@ -63,6 +63,7 @@ public class AttributesSecondAty extends BaseAty {
     private String mGoods_id;
     private String mP_id="";
     private AttributesFirstAty.AttributesDataBean mDataBean;
+    private boolean mIsGone;
 
     @Override
     protected int getLayoutResId() {
@@ -75,6 +76,7 @@ public class AttributesSecondAty extends BaseAty {
         showStatusBar(R.id.title_re_layout);
         titlt_conter_tv.setText("属性");
         mGoods_id = getIntent().getStringExtra("goods_id");
+        mIsGone = getIntent().getBooleanExtra("isGone", false);
         LinearLayoutManager showLayoutManager = new LinearLayoutManager(mContext) {
             @Override
             public boolean canScrollVertically() {
@@ -99,8 +101,7 @@ public class AttributesSecondAty extends BaseAty {
                         .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                                if (mGoods_id != null) {
+                                if (mGoods_id != null && !mIsGone) {
                                     List<String> b_id = mAdapter.getB_id();
                                     app_delete_break_down(b_id.get(pos), AttributesSecondAty.this);
                                 }
@@ -108,6 +109,8 @@ public class AttributesSecondAty extends BaseAty {
                                 if (mAdapter.getItemCount() == 0) {
                                     addTv.setVisibility(View.VISIBLE);
                                 }
+
+                                dialog.dismiss();
                             }
                         })
                         .setNegativeButton("取消", new DialogInterface.OnClickListener() {

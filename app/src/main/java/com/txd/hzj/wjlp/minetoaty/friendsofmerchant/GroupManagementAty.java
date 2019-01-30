@@ -83,9 +83,13 @@ public class GroupManagementAty extends BaseAty {
 
     @Override
     protected void requestData() {
-        bfriend_cate(mSta_mid,this);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        bfriend_cate(mSta_mid,this);
+    }
 
     void bfriend_cate(String sta_mid, BaseView baseView) {
         RequestParams params = new RequestParams();

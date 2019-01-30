@@ -11,6 +11,7 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -66,6 +67,7 @@ public class MultipleSpecificationsAty extends BaseAty {
     private String mSta_mid;
 
     private String mGoods_attr;
+    private boolean mIsGone;
 
     @Override
     protected int getLayoutResId() {
@@ -74,12 +76,14 @@ public class MultipleSpecificationsAty extends BaseAty {
 
     @Override
     protected void initialized() {
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         mContext = this;
         showStatusBar(R.id.title_re_layout);
         titlt_conter_tv.setText("多规格");
         mGoods_id = getIntent().getStringExtra("goods_id");
         mGoods_attr = getIntent().getStringExtra("goods_attr");
         mSta_mid = getIntent().getStringExtra("sta_mid");
+        mIsGone = getIntent().getBooleanExtra("isGone", false);
         LinearLayoutManager showLayoutManager = new LinearLayoutManager(mContext) {
             @Override
             public boolean canScrollVertically() {
@@ -182,8 +186,10 @@ public class MultipleSpecificationsAty extends BaseAty {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
                                         dialog.dismiss();
-                                        appDeleteAttr(mSta_mid, mGoods_id, data.get(pos).get("attr_id"), MultipleSpecificationsAty.this);
-                                        mMyShowAdapter.remove(pos);
+                                        if (!mIsGone) {
+                                            appDeleteAttr(mSta_mid, mGoods_id, data.get(pos).get("attr_id"), MultipleSpecificationsAty.this);
+                                            mMyShowAdapter.remove(pos);
+                                        }
                                     }
                                 })
                                 .setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -208,9 +214,7 @@ public class MultipleSpecificationsAty extends BaseAty {
         if (requestUrl.endsWith("appUpdateStageGoodsAttr")){
             showToast(map.get("message"));
             if (map.get("code").equals("1")) {
-                requestData();
-                mAdapter.clearData();
-                addTv.setVisibility(View.VISIBLE);
+                finish();
             }
             return;
         }
@@ -221,6 +225,10 @@ public class MultipleSpecificationsAty extends BaseAty {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.addTv:
+                if (mIsGone){
+                    showToast("暂不支持修改");
+                    return;
+                }
                 if (mMyShowAdapter != null) {
                     mAdapter.setCount(mMyShowAdapter.getItemCount());
                 }
@@ -250,8 +258,6 @@ public class MultipleSpecificationsAty extends BaseAty {
                         finish();
                     }
 
-                }else {
-                    showToast("暂无规格");
                 }
                 break;
         }

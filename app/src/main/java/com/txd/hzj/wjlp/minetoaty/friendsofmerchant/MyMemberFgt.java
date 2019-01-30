@@ -137,7 +137,7 @@ public class MyMemberFgt extends BaseFgt {
             } else if (sex == 2) {
                 holder.sexTv.setVisibility(View.VISIBLE);
                 holder.sexTv.setText("女");
-            } else if (sex == 3) {
+            } else{
                 holder.sexTv.setVisibility(View.GONE);
             }
 

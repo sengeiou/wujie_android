@@ -57,6 +57,7 @@ public class AttributesFirstAty extends BaseAty {
     private String mP_id;
     private MyAdapter mAdapter;
     private String mGoods_property;
+    private boolean mIsGone;
 
 
     @Override
@@ -71,6 +72,7 @@ public class AttributesFirstAty extends BaseAty {
         titlt_conter_tv.setText("属性");
         mGoods_id = getIntent().getStringExtra("goods_id");
         mGoods_property = getIntent().getStringExtra("goods_property");
+        mIsGone = getIntent().getBooleanExtra("isGone", false);
         LinearLayoutManager layoutManager = new LinearLayoutManager(mContext) {
             @Override
             public boolean canScrollVertically() {
@@ -95,6 +97,7 @@ public class AttributesFirstAty extends BaseAty {
                     AttributesDataBean dataBean = mAdapter.getData().get(pos);
                     Bundle bundle = new Bundle();
                     bundle.putString("goods_id", mGoods_id);
+                    bundle.putBoolean("isGone",mIsGone);
                     bundle.putSerializable("AttributesDataBean", dataBean);
                     startActivity(AttributesSecondAty.class, bundle);
                 }
@@ -234,6 +237,10 @@ public class AttributesFirstAty extends BaseAty {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.addTv:
+                if (mIsGone){
+                    showToast("暂不支持修改");
+                    return;
+                }
                 Bundle bundle = new Bundle();
                 bundle.putString("goods_id", mGoods_id);
                 startActivity(AttributesSecondAty.class, bundle);

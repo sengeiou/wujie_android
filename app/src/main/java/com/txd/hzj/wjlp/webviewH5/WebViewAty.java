@@ -12,6 +12,7 @@ import android.util.DisplayMetrics;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewTreeObserver;
+import android.view.WindowManager;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
@@ -87,7 +88,8 @@ public class WebViewAty extends BaseAty {
 
     @Override
     protected void initialized() {
-
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+        showStatusBar(R.id.webView_title_layout);
         // 设置默认加载的Url
         if (url.contains("api")) {
             url = Config.OFFICIAL_WEB.replace("api", "www");
@@ -107,7 +109,7 @@ public class WebViewAty extends BaseAty {
         if (isShowTitle){
             titlt_conter_tv.setText(intent.getStringExtra("title"));
         }
-        webView_title_layout.setVisibility(isShowTitle?View.VISIBLE:View.GONE);
+        webView_title_layout.setVisibility(isShowTitle?View.VISIBLE:View.INVISIBLE);
 
         wxPayReceiver = new WxPayReceiver();
         IntentFilter intentFilter = new IntentFilter();

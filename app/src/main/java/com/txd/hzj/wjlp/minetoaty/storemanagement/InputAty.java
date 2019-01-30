@@ -12,6 +12,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -169,6 +170,7 @@ public class InputAty extends BaseAty {
     private String mTime_price = "";
     private String mChurch_time_price = "";
     private boolean mIsGone;
+    private long mFirstClickTime = 0;
 
     @Override
     protected int getLayoutResId() {
@@ -222,6 +224,55 @@ public class InputAty extends BaseAty {
             }
         });
 
+        takeawayDateCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked){
+                    if (takeawayWeekCheckBox.isChecked()){
+                        takeawayWeekCheckBox.setChecked(false);
+                        }
+                        takeawayDateCheckBox.setChecked(true);
+                }
+            }
+        });
+
+        takeawayWeekCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked){
+                    if (takeawayDateCheckBox.isChecked()){
+                        takeawayDateCheckBox.setChecked(false);
+                    }
+                    takeawayWeekCheckBox.setChecked(true);
+                }
+            }
+        });
+
+
+        dinnerDateCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked){
+                    if (dinnerWeekCheckBox.isChecked()){
+                        dinnerWeekCheckBox.setChecked(false);
+                    }
+                    dinnerDateCheckBox.setChecked(true);
+                }
+            }
+        });
+
+
+        dinnerWeekCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked){
+                    if (dinnerDateCheckBox.isChecked()){
+                        dinnerDateCheckBox.setChecked(false);
+                    }
+                    dinnerWeekCheckBox.setChecked(true);
+                }
+            }
+        });
     }
 
     private static boolean isEmojiCharacter(char codePoint) {
@@ -246,6 +297,11 @@ public class InputAty extends BaseAty {
 
     @Override
     protected void requestData() {
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         if (mGoods_id != null) {
             goods_info(mGoods_id, this);
         }
@@ -373,22 +429,21 @@ public class InputAty extends BaseAty {
             case R.id.classifyTv:
                 bundle.putString("sta_mid", mSta_mid);
                 bundle.putBoolean("isShowDelete", false);
+                bundle.putBoolean("isShowEdit", false);
                 startActivity(ClassifyManageAty.class, bundle);
                 break;
             case R.id.multipleSpecificationsLayout:
-                if (!mIsGone) {
-                    bundle.putString("goods_id", mGoods_id);
-                    bundle.putString("goods_attr", mGoods_attr);
-                    bundle.putString("sta_mid", mSta_mid);
-                    startActivity(MultipleSpecificationsAty.class, bundle);
-                }
+                bundle.putString("goods_id", mGoods_id);
+                bundle.putBoolean("isGone", mIsGone);
+                bundle.putString("goods_attr", mGoods_attr);
+                bundle.putString("sta_mid", mSta_mid);
+                startActivity(MultipleSpecificationsAty.class, bundle);
                 break;
             case R.id.attributesLayout:
-                if (!mIsGone) {
-                    bundle.putString("goods_id", mGoods_id);
-                    bundle.putString("goods_property", mGoods_property);
-                    startActivity(AttributesFirstAty.class, bundle);
-                }
+                bundle.putString("goods_id", mGoods_id);
+                bundle.putBoolean("isGone", mIsGone);
+                bundle.putString("goods_property", mGoods_property);
+                startActivity(AttributesFirstAty.class, bundle);
                 break;
             case R.id.picImg:
                 showPicDialogs();
@@ -435,6 +490,12 @@ public class InputAty extends BaseAty {
     }
 
     private void saveData() {
+        long lastClickTime = System.currentTimeMillis();
+        if (lastClickTime - mFirstClickTime < 3*1000){
+            showToast("不能连续点击");
+            return;
+        }
+        mFirstClickTime = lastClickTime;
         if (mSup_type == null) {
             showToast("请选择商品类型");
             return;
@@ -533,12 +594,27 @@ public class InputAty extends BaseAty {
 
             }
         });
-        TextView tv1 = view1.findViewById(R.id.tv1);
-        TextView tv2 = view1.findViewById(R.id.tv2);
+        final TextView tv1 = view1.findViewById(R.id.tv1);
+        final TextView tv2 = view1.findViewById(R.id.tv2);
         tv1.setText("不限时间");
-        tv1.setTextColor(Color.parseColor("#fff23030"));
         tv2.setText("自定义");
-        tv2.setTextColor(Color.parseColor("#ff333333"));
+        if (type == 1){
+            if (takeawayTimeTv.getText().toString().equals("自定义")){
+                tv1.setTextColor(Color.parseColor("#ff333333"));
+                tv2.setTextColor(Color.parseColor("#fff23030"));
+            }else {
+                tv1.setTextColor(Color.parseColor("#fff23030"));
+                tv2.setTextColor(Color.parseColor("#ff333333"));
+            }
+        }else {
+            if (dinnerTimeTv.getText().toString().equals("自定义")){
+                tv1.setTextColor(Color.parseColor("#ff333333"));
+                tv2.setTextColor(Color.parseColor("#fff23030"));
+            }else {
+                tv1.setTextColor(Color.parseColor("#fff23030"));
+                tv2.setTextColor(Color.parseColor("#ff333333"));
+            }
+        }
         tv1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
