@@ -184,14 +184,14 @@ public class ToShareAty extends BaseAty {
                     case Success:
                         userPst.shareBack(shareType, context, id, type, shareUrl);
                         showRightTip("分享成功");
-                        if (type.equals("8")){
-                            EventBus.getDefault().post(new MessageEvent("ToShareAty"));
-                            Bundle bundle = new Bundle();
-                            bundle.putInt("from", 6);
-                            bundle.putString("desc", "紫薇斗数");
-                            bundle.putString("href", Config.SHARE_URL + "Divination/Index/index");
-                            startActivity(NoticeDetailsAty.class, bundle);
-                        }
+//                        if (type.equals("8")){
+//                            EventBus.getDefault().post(new MessageEvent("ToShareAty"));
+//                            Bundle bundle = new Bundle();
+//                            bundle.putInt("from", 6);
+//                            bundle.putString("desc", "紫薇斗数");
+//                            bundle.putString("href", Config.SHARE_URL + "Divination/Index/index");
+//                            startActivity(NoticeDetailsAty.class, bundle);
+//                        }
                         if (type.equals("7")) {
                             EventBus.getDefault().post(new MessageEvent("ToShareAty"));
                             Bundle bundle = new Bundle();
