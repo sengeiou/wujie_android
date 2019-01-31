@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--<com.txd.hzj.wjlp.catchDoll.view.VScrollScreenLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+<com.txd.hzj.wjlp.catchDoll.view.VScrollScreenLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/v_scroll_screen_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:vssl_y_slide_ratio="0.45">
+
+    <!-- 视频View页面 -->
+    <include layout="@layout/view_game_room_video" />
+
+    <!-- 下方第二页列表页面 -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <include layout="@layout/view_game_room_list" />
+    </ScrollView>
+
+</com.txd.hzj.wjlp.catchDoll.view.VScrollScreenLayout>

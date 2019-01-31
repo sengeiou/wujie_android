@@ -93,6 +93,9 @@
     <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
 
+    <uses-feature android:name="android.hardware.Camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+
     <!-- 测试提交 LH -->
     <!-- 极光推送 极光推送 极光推送 极光推送 极光推送 极光推送 权限END -->
     <application
@@ -989,6 +992,45 @@
         <activity android:name=".mellonLine.gridClassify.LuckRakingListAty" />
         <activity android:name=".minetoaty.SilverCoinAty" />
         <activity android:name=".minetoaty.tricket.DetailsOfSilverAty" />
+
+        <!-- 抓娃娃界面 -->
+        <!-- 游戏币界面 -->
+        <activity android:name=".catchDoll.ui.activity.CatchDollMainActivity" />
+        <!-- 游戏币界面 -->
+        <activity android:name=".catchDoll.ui.activity.MoneyActivity" />
+        <!-- 抓中记录界面 -->
+        <activity android:name=".catchDoll.ui.activity.GrabTheRecordActivity" />
+        <!-- 银两变动记录 -->
+        <activity android:name=".catchDoll.ui.activity.MoneyRecordingActivity" />
+        <!-- 主界面导航：新品上线、高价精品、只爱娃娃、美女专场、实用专区 -->
+        <activity android:name=".catchDoll.ui.activity.NewOnlineActivity" />
+        <!-- 关注 -->
+        <activity android:name=".catchDoll.ui.activity.AttentionActivity" />
+        <!-- 我的娃娃 -->
+        <activity android:name=".catchDoll.ui.activity.MyDollActivity" />
+        <!-- 商品详情界面 -->
+        <activity android:name=".catchDoll.ui.activity.DollGoodsInfoActivity" />
+        <!-- 兑换记录 -->
+        <activity android:name=".catchDoll.ui.activity.RedemptionRecordActivity" />
+        <!-- 游戏记录 -->
+        <activity android:name=".catchDoll.ui.activity.GameRecordingActivity" />
+        <!-- 游戏记录详情界面 -->
+        <activity android:name=".catchDoll.ui.activity.GameRecordingInfoActivity" />
+        <!-- 申诉列表界面 -->
+        <activity android:name=".catchDoll.ui.activity.AppealActivity" />
+        <!-- 游戏房间 -->
+        <activity android:name=".catchDoll.ui.activity.GameRoomActivity" />
+        <!-- 好友助力界面 -->
+        <activity android:name=".catchDoll.ui.activity.FriendBoostActivity" />
+        <!-- 转盘助力抽奖界面 -->
+        <activity android:name=".catchDoll.ui.activity.LotteryActivity" />
+        <!-- 视频播放（回放）界面 -->
+        <activity android:name=".catchDoll.ui.activity.VideoPlayerActivity" />
+        <!-- 玩家列表 -->
+        <activity android:name=".catchDoll.ui.activity.PlayerPeopleListActivity" />
+        <!-- TA的娃娃 -->
+        <activity android:name=".catchDoll.ui.activity.OnePeoplesDollActivity" />
+
     </application>
 
 </manifest>

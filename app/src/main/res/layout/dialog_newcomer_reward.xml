@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="300dp"
+    android:background="@mipmap/icon_newcomer_bg"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="165dp">
+
+            <TextView
+                android:id="@+id/dialogNewcomer_moneyAfter_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:gravity="center"
+                android:text="50银两"
+                android:textColor="#FA9007"
+                android:textSize="28sp" />
+
+            <TextView
+                android:id="@+id/dialogNewcomer_moneyBefore_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="50银两"
+                android:textColor="#FFFF00"
+                android:textSize="28sp" />
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/dialogNewcomer_receive_tv"
+            android:layout_width="120dp"
+            android:layout_height="36dp"
+            android:layout_marginTop="45dp"
+            android:background="@mipmap/icon_newcomer_btn"
+            android:gravity="center"
+            android:padding="8dp"
+            android:text="立即领取"
+            android:textColor="@color/white" />
+    </LinearLayout>
+
+</RelativeLayout>

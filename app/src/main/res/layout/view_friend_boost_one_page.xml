@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FF1842">
+
+    <LinearLayout
+        android:id="@+id/friendBootsOnePage_other_llayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:background="@drawable/shape_money_item"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/friendBootsOnePage_progressIndication_tv"
+                android:layout_width="62dp"
+                android:layout_height="24dp"
+                android:background="@mipmap/icon_pop_msg"
+                android:gravity="center_horizontal"
+                android:paddingTop="4dp"
+                android:text="已助力0两"
+                android:textColor="@color/white"
+                android:textSize="10sp" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="5dp">
+
+                <ProgressBar
+                    android:id="@+id/friendBootsOnePage_progress_pb"
+                    style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="31dp"
+                    android:layout_marginRight="31dp"
+                    android:indeterminateDrawable="@android:drawable/progress_indeterminate_horizontal"
+                    android:indeterminateOnly="false"
+                    android:max="100"
+                    android:maxHeight="50dp"
+                    android:minHeight="16dp"
+                    android:progress="0"
+                    android:progressDrawable="@drawable/hor_progressbar" />
+
+                <!-- progress<=46  progress>46&&progress<=48 第一个数字变白 progress>48&&progress<=51 第二个数字变白 progress>51 全变白 -->
+                <TextView
+                    android:id="@+id/friendBootsOnePage_progressNumber_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="0%"
+                    android:textColor="#F19E41"
+                    android:textSize="12sp" />
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="15dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <cn.iwgang.countdownview.CountdownView
+                android:id="@+id/friendBootsOnePage_expired_cdv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="5dp"
+                app:isHideTimeBackground="false"
+                app:isShowHour="true"
+                app:isShowMillisecond="true"
+                app:isShowMinute="true"
+                app:isShowSecond="true"
+                app:suffixHour=":"
+                app:suffixMinute=":"
+                app:suffixSecond=":"
+                app:suffixTextColor="#F3B33E"
+                app:suffixTextSize="12sp"
+                app:timeBgColor="#F3B33E"
+                app:timeTextColor="#FFFFFF"
+                app:timeTextSize="10sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="后活动将过期，快去帮忙"
+                android:textColor="#F3B33E"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <FrameLayout
+            android:id="@+id/friendBootsOnePage_helpFriend_flayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="15dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:background="@drawable/shape_help_friend_down_btn">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_margin="8dp"
+                    android:text="帮朋友一把"
+                    android:visibility="invisible" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/shape_help_friend_up_btn">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_margin="8dp"
+                    android:text="帮朋友一把"
+                    android:textColor="@color/white" />
+            </RelativeLayout>
+        </FrameLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/friendBootsOnePage_helpFriendList_reView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="10dp"
+            android:overScrollMode="never"
+            android:scrollbars="none" />
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scaleType="fitXY"
+        android:layout_above="@id/friendBootsOnePage_other_llayout"
+        android:src="@mipmap/icon_help_friend" />
+
+    <TextView
+        android:id="@+id/friendBootsOnePage_activDetails_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/shape_left_fillet"
+        android:paddingBottom="4dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="5dp"
+        android:paddingTop="4dp"
+        android:text="活动细则"
+        android:textColor="#FE2023" />
+
+    <com.txd.hzj.wjlp.catchDoll.view.BarrageView
+        android:id="@+id/friendBootsOnePage_barrage_barrv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/friendBootsOnePage_other_llayout"
+        android:layout_below="@id/friendBootsOnePage_activDetails_tv" />
+
+</RelativeLayout>

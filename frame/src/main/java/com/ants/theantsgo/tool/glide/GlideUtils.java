@@ -1,6 +1,9 @@
 package com.ants.theantsgo.tool.glide;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.widget.ImageView;
 
 import com.ants.theantsgo.R;
@@ -8,6 +11,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.request.FutureTarget;
+import com.bumptech.glide.request.target.BitmapImageViewTarget;
 
 import java.io.File;
 
@@ -124,6 +128,25 @@ public class GlideUtils {
                 .crossFade()
                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                 .into(iv);
+    }
+
+    /**
+     * 加载圆形图片不带背景颜色的
+     *
+     * @param picUrl
+     * @param w
+     * @param h
+     * @param iv
+     */
+    public static void urlCirclePicNoBg(String picUrl, int w, int h, final ImageView iv) {
+        Glide.with(iv.getContext()).load(picUrl).asBitmap().centerCrop().into(new BitmapImageViewTarget(iv) {
+            @Override
+            protected void setResource(Bitmap resource) {
+                RoundedBitmapDrawable circularBitmapDrawable = RoundedBitmapDrawableFactory.create(iv.getContext().getResources(), resource);
+                circularBitmapDrawable.setCircular(true);
+                iv.setImageDrawable(circularBitmapDrawable);
+            }
+        });
     }
 
     /**

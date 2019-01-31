@@ -11,4 +11,11 @@
     <color name="shop_main_fontcolor_red">#fff84242</color>
     <color name="E2E2E2">#E2E2E2</color>
 
+    <color name="colorCatchDollPrimary">#f54697</color>
+    <color name="color_white">#FFFFFF</color>
+    <color name="color_money_checked_line">#fd5ca7</color>
+    <color name="color_money_checked">#fde6f8</color>
+    <color name="color_main_semicircle">#33000000</color>
+    <color name="color_transparent">#00000000</color>
+
 </resources>

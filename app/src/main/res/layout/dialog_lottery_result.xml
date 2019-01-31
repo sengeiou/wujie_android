@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="8dp">
+
+    <ImageView
+        android:id="@+id/lotteryResult_boxImg_imgv"
+        android:layout_width="wrap_content"
+        android:layout_height="295dp"
+        android:layout_centerHorizontal="true"
+        android:src="@mipmap/icon_lottery_result_box" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="75dp"
+        android:orientation="vertical">
+
+        <com.txd.hzj.wjlp.catchDoll.view.StrokeTextView
+            android:id="@+id/lotteryResult_show_stv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:text="恭喜您"
+            android:textColor="#E50012"
+            android:textSize="30sp" />
+
+        <com.txd.hzj.wjlp.catchDoll.view.StrokeTextView
+            android:id="@+id/lotteryResult_result_stv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:text="抽中了iPhoneHX"
+            android:textColor="#E50012"
+            android:textSize="20sp" />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/lotteryResult_receive_imgv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/lotteryResult_boxImg_imgv"
+        android:src="@mipmap/icon_get_now_btn" />
+
+</RelativeLayout>

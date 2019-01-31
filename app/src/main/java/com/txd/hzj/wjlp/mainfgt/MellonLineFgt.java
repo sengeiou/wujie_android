@@ -38,6 +38,7 @@ import com.txd.hzj.wjlp.MainAty;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseFgt;
 import com.txd.hzj.wjlp.bean.commodity.AllGoodsBean;
+import com.txd.hzj.wjlp.catchDoll.ui.activity.CatchDollMainActivity;
 import com.txd.hzj.wjlp.http.index.IndexPst;
 import com.txd.hzj.wjlp.login.LoginAty;
 import com.txd.hzj.wjlp.mainfgt.adapter.AllGvLvAdapter;
@@ -436,8 +437,13 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
                             showToast("开发中，敬请期待");
 //                                                        startActivity(LimitShoppingAty.class, null);
                             break;
-                        case 1:// 票券区
-                            showToast("开发中，敬请期待");
+                        case 1:// TODO 票券区 现在为抓娃娃功能入口
+//                            showToast("开发中，敬请期待");
+                            if (!Config.isLogin()) {
+                                startActivity(LoginAty.class, null);
+                            } else {
+                                startActivity(CatchDollMainActivity.class, null);
+                            }
                             //                            bundle = new Bundle();
                             //                            bundle.putInt("type", 1);
                             //                            bundle.putString("title", "票券区");
@@ -693,7 +699,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
 
     @Override
     @OnClick({R.id.wujie_top_lin_layout, R.id.on_line_be_back_top_iv,
-            R.id.ads_by_limit_buy_iv,R.id.explosiveAreaImg, R.id.ticket_buy_ads_iv,
+            R.id.ads_by_limit_buy_iv, R.id.explosiveAreaImg, R.id.ticket_buy_ads_iv,
             R.id.pre_buy_ads_iv, R.id.country_ads_iv,
             R.id.auction_ads_iv, R.id.one_buy_ads_iv,
             R.id.car_ads_iv, R.id.house_ads_iv

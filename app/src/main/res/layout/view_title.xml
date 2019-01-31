@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/titleView_bg_rlayout"
+    android:layout_width="match_parent"
+    android:layout_height="45dp"
+    android:background="@color/colorCatchDollPrimary">
+
+    <ImageView
+        android:id="@+id/titleView_goback_imgv"
+        android:layout_width="40dp"
+        android:layout_height="match_parent"
+        android:padding="8dp"
+        android:scaleType="center"
+        android:src="@mipmap/icon_be_back_w" />
+
+    <TextView
+        android:id="@+id/titleView_title_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:maxLines="20"
+        android:textColor="@color/color_white"
+        tools:text="标题显示" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/titleView_share_imgv"
+            android:layout_width="40dp"
+            android:layout_height="match_parent"
+            android:padding="8dp"
+            android:visibility="gone"
+            android:src="@mipmap/icon_share" />
+
+        <TextView
+            android:id="@+id/titleView_edit_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:padding="8dp"
+            android:textColor="@color/color_white"
+            android:visibility="gone"
+            tools:text="编辑" />
+    </LinearLayout>
+
+</RelativeLayout>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center">
+
+    <com.txd.hzj.wjlp.catchDoll.view.nineLotteryView.LuckyMonkeyPanelView
+        android:id="@+id/dialogLuckMonkey_panel_lmpv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center" />
+
+    <ImageView
+        android:id="@+id/dialogLuckMonkey_signIn_imgv"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_gravity="center"
+        android:src="@mipmap/square_marquee_click" />
+
+</FrameLayout>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scaleType="fitXY"
+            android:src="@mipmap/icon_dialog_activ_rule_up" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="抓 娃 娃 活 动 细 则"
+            android:textColor="@color/color_white"
+            android:textSize="17sp" />
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/dialogActivRule_content_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/shape_down_tow_fillet"
+                android:padding="16dp"
+                tools:text="1、首先注册成为无界优品会员，即可免费获赠贰拾银两。
+2、每日签到可获得贰银两；连续签到10天，之后每天签到均可额外获得贰银两，直至连续签到中断为止。
+3、每天分享“抓娃娃”活动给好友助力，每分享一次即可获得贰银两，在Wap端做分享每天一次封顶，在App端做分享每天五次封顶。
+4、每成功邀请一名好友助力，即可至少获得贰银两，具体奖励方式详见活动页说明。
+5、若好友注册参与抓娃娃活动，您还可额外获得贰拾银两，同时您的好友也将获得签到抓娃娃资格。
+6、如银两不足，支持在线充值购买所需银两。
+7、每抓取一次娃娃消耗贰银两起，具体所需银两数见活动详情页说明。" />
+
+            <ImageView
+                android:id="@+id/dialogActivRule_close_imgv"
+                android:layout_width="33dp"
+                android:layout_height="33dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="30dp"
+                android:src="@mipmap/icon_close_btn" />
+        </LinearLayout>
+
+    </ScrollView>
+
+
+</LinearLayout>

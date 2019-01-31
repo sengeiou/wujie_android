@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="300dp"
+    android:layout_height="300dp"
+    android:layout_gravity="center_horizontal"
+    android:background="@drawable/shape_all_back">
+
+    <ImageView
+        android:id="@+id/marquee_state_one"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@mipmap/square_marquee_state_one" />
+
+    <ImageView
+        android:id="@+id/marquee_state_two"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@mipmap/square_marquee_state_two"
+        android:visibility="gone" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="20dp"
+        android:background="@drawable/shape_content_back"
+        android:orientation="vertical"
+        android:padding="5dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <com.txd.hzj.wjlp.catchDoll.view.nineLotteryView.PanelItemView
+                android:id="@+id/item1"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:background="@mipmap/square_marquee_square" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+            <com.txd.hzj.wjlp.catchDoll.view.nineLotteryView.PanelItemView
+                android:id="@+id/item2"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:background="@mipmap/square_marquee_square" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+            <com.txd.hzj.wjlp.catchDoll.view.nineLotteryView.PanelItemView
+                android:id="@+id/item3"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:background="@mipmap/square_marquee_square" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <com.txd.hzj.wjlp.catchDoll.view.nineLotteryView.PanelItemView
+                android:id="@+id/item4"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:background="@mipmap/square_marquee_square" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+            <View
+                android:layout_width="80dp"
+                android:layout_height="80dp" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+            <com.txd.hzj.wjlp.catchDoll.view.nineLotteryView.PanelItemView
+                android:id="@+id/item6"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:background="@mipmap/square_marquee_square" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <com.txd.hzj.wjlp.catchDoll.view.nineLotteryView.PanelItemView
+                android:id="@+id/item7"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:background="@mipmap/square_marquee_square" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+            <com.txd.hzj.wjlp.catchDoll.view.nineLotteryView.PanelItemView
+                android:id="@+id/item8"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:background="@mipmap/square_marquee_square" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+            <com.txd.hzj.wjlp.catchDoll.view.nineLotteryView.PanelItemView
+                android:id="@+id/item9"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:background="@mipmap/square_marquee_square" />
+        </LinearLayout>
+
+    </LinearLayout>
+</FrameLayout>

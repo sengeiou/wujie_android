@@ -1,0 +1,357 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:kongqw="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <!-- 视频展示区 -->
+    <RelativeLayout
+        android:id="@+id/gameRoomVideo_videoView_rlatout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="#AAAAAA">
+
+        <!-- 视频播放 -->
+        <com.tencent.rtmp.ui.TXCloudVideoView
+            android:id="@+id/gameRoomVideo_video_txcvv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <!-- 头部栏 -->
+        <RelativeLayout
+            android:id="@+id/gameRoomVideo_header_llayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/gameRoomVideo_goback_imgv"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_centerVertical="true"
+                android:padding="8dp"
+                android:scaleType="center"
+                android:src="@mipmap/icon_be_back_w" />
+
+            <LinearLayout
+                android:id="@+id/gameRoomVideo_peopleInRoom_llayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/shape_main_semicircle"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:id="@+id/gameRoomVideo_gameing_llayout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+
+                    <ImageView
+                        android:id="@+id/gameRoomVideo_gameingHeader_imgv"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        tools:src="@mipmap/ic_launcher_round" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="3dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/gameRoomVideo_gameingName_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:maxLength="5"
+                            android:text="那谁谁谁谁"
+                            android:textColor="@color/white"
+                            android:textSize="10sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="游戏中"
+                            android:textColor="@color/white"
+                            android:textSize="10sp" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="3dp"
+                        android:layout_marginRight="3dp"
+                        android:background="@color/white" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/gameRoomVideo_peopleNumber_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="50人"
+                        android:textColor="@color/white"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="在房间"
+                        android:textColor="@color/white"
+                        android:textSize="10sp" />
+                </LinearLayout>
+
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="3dp">
+
+                    <ImageView
+                        android:id="@+id/gameRoomVideo_peopleNumber1_imgv"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        tools:src="@mipmap/ic_launcher_round" />
+
+                    <ImageView
+                        android:id="@+id/gameRoomVideo_peopleNumber2_imgv"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_marginLeft="17dp"
+                        tools:src="@mipmap/ic_launcher_round" />
+
+                    <ImageView
+                        android:id="@+id/gameRoomVideo_peopleNumber3_imgv"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_marginLeft="34dp"
+                        tools:src="@mipmap/ic_launcher_round" />
+                </FrameLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="15dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/gameRoomVideo_checkedRoom_imgv"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:background="@drawable/shape_main_semicircle"
+                    android:padding="6dp"
+                    android:src="@mipmap/icon_change_room" />
+
+                <ImageView
+                    android:id="@+id/gameRoomVideo_collection_imgv"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="15dp"
+                    android:background="@drawable/shape_main_semicircle"
+                    android:padding="7dp"
+                    android:src="@mipmap/icon_collection" />
+            </LinearLayout>
+        </RelativeLayout>
+
+
+        <!-- 弹幕 -->
+        <com.txd.hzj.wjlp.catchDoll.view.BarrageView
+            android:id="@+id/gameRoomVideo_barrage_barrv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/gameRoomVideo_header_llayout" />
+
+        <!-- 右侧切换摄像头和音乐开关 -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/gameRoomVideo_music_imgv"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:src="@mipmap/icon_video_music_open" />
+
+            <ImageView
+                android:id="@+id/gameRoomVideo_camera_imgv"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_marginTop="20dp"
+                android:src="@mipmap/icon_video_camera" />
+
+        </LinearLayout>
+
+        <!-- 倒计时 -->
+        <RelativeLayout
+            android:id="@+id/gameRoomVideo_countdownTime_rlayout"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_margin="10dp"
+            android:background="@drawable/shape_main_semicircle"
+            android:padding="7dp"
+            android:visibility="gone">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@mipmap/icon_clock" />
+
+            <TextView
+                android:id="@+id/gameRoomVideo_countdownTime_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="50s"
+                android:textColor="@color/white"
+                android:textSize="13sp" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <!-- 操控区 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@mipmap/icon_video_control_area_bg"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp">
+
+            <TextView
+                android:id="@+id/gameRoomVideo_roomNumber_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/shape_main_semicircle"
+                android:paddingBottom="2dp"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:paddingTop="1dp"
+                android:text="房间714"
+                android:textColor="@color/white"
+                android:textSize="11sp" />
+
+            <TextView
+                android:id="@+id/gameRoomVideo_price_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/shape_main_semicircle"
+                android:paddingBottom="2dp"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:paddingTop="1dp"
+                android:text="10两/次"
+                android:textColor="@color/white"
+                android:textSize="11sp" />
+
+            <TextView
+                android:id="@+id/gameRoomVideo_balance_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/shape_main_semicircle"
+                android:paddingBottom="2dp"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:paddingTop="1dp"
+                android:text="余额5两"
+                android:textColor="@color/white"
+                android:textSize="11sp" />
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:id="@+id/gameRoomVideo_showOne_rlayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="30dp"
+                android:paddingRight="30dp"
+                android:visibility="gone">
+
+                <com.txd.hzj.wjlp.catchDoll.view.RockerView
+                    android:id="@+id/gameRoomVideo_direction_rockview"
+                    android:layout_width="96dp"
+                    android:layout_height="96dp"
+                    kongqw:areaBackground="@mipmap/icon_rocker_area_bg"
+                    kongqw:rockerBackground="@mipmap/icon_rocker_rocker_bg"
+                    kongqw:rockerRadius="20dp" />
+
+                <ImageView
+                    android:id="@+id/gameRoomVideo_enter_imgv"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/icon_video_enter" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/gameRoomVideo_showTwo_rlayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="15dp"
+                android:paddingLeft="25dp"
+                android:paddingRight="25dp"
+                android:paddingTop="15dp">
+
+                <ImageView
+                    android:id="@+id/gameRoomVideo_share_imgv"
+                    android:layout_width="46dp"
+                    android:layout_height="46dp"
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/icon_video_share" />
+
+                <ImageView
+                    android:id="@+id/gameRoomVideo_start_imgv"
+                    android:layout_width="151dp"
+                    android:layout_height="65dp"
+                    android:layout_centerHorizontal="true"
+                    android:src="@mipmap/icon_video_start_game" />
+
+                <ImageView
+                    android:id="@+id/gameRoomVideo_recharge_imgv"
+                    android:layout_width="46dp"
+                    android:layout_height="46dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/icon_video_recharge" />
+
+            </RelativeLayout>
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/gameRoomVideo_up_imgv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="5dp"
+            android:src="@mipmap/icon_top_stroke" />
+    </LinearLayout>
+</LinearLayout>
