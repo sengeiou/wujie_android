@@ -1,6 +1,7 @@
 package com.txd.hzj.wjlp.mellonLine;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -15,6 +16,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ants.theantsgo.base.BaseView;
 import com.ants.theantsgo.config.Config;
@@ -35,6 +37,7 @@ import com.txd.hzj.wjlp.http.index.IndexPst;
 import com.txd.hzj.wjlp.http.message.UserMessagePst;
 import com.txd.hzj.wjlp.login.LoginAty;
 import com.txd.hzj.wjlp.minetoaty.order.OnlineShopAty;
+import com.txd.hzj.wjlp.tool.BitmapUtils;
 import com.txd.hzj.wjlp.tool.MessageEvent;
 import com.txd.hzj.wjlp.tool.WJConfig;
 import com.txd.hzj.wjlp.view.NoScrollWebView;
@@ -72,6 +75,9 @@ public class NoticeDetailsAty extends BaseAty {
 
     @ViewInject(R.id.details_webview)
     public WebView details_webview;
+
+
+    private Context mContext;
 
     /**
      * 0.消息详情
@@ -119,6 +125,7 @@ public class NoticeDetailsAty extends BaseAty {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mContext = this;
         showStatusBar(R.id.title_re_layout);
         EventBus.getDefault().register(this);
         if (0 == from) {
@@ -201,11 +208,6 @@ public class NoticeDetailsAty extends BaseAty {
         webSettings.setLoadWithOverviewMode(true);
         webSettings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
 
-        //        details_webview.addJavascriptInterface(new NoticeDetailsJsInterface(), Constant.H5NAME); // 原生的WebView主要是进行产品展示
-        // 开启DOM缓存，开启LocalStorage存储（html5的本地存储方式）
-        //        details_webview.getSettings().setDomStorageEnabled(true);
-        //        details_webview.getSettings().setDatabaseEnabled(true);
-        //        details_webview.getSettings().setDatabasePath(NoticeDetailsAty.this.getApplicationContext().getCacheDir().getAbsolutePath());
 
         if (noScroll) { // 使用noScrollWebView
             noticeDetails_ScForWebView.setVisibility(View.VISIBLE); // 显示noScrollWebView
@@ -241,7 +243,6 @@ public class NoticeDetailsAty extends BaseAty {
             details_webview.getSettings().setDatabaseEnabled(true); // 开启（LocalStorage）数据存储
             details_webview.getSettings().setDatabasePath(this.getCacheDir().getAbsolutePath()); // 设置数据缓存路径
             details_webview.getSettings().setMediaPlaybackRequiresUserGesture(false);
-
             // WebView加载web资源
             //            if (6 == from) {
             Map<String, String> map = new HashMap<>();
@@ -513,6 +514,22 @@ public class NoticeDetailsAty extends BaseAty {
             startActivity(OnlineShopAty.class, mBundle);
         }
 
+        @JavascriptInterface
+        public void downImageToPhone(String url){
+            BitmapUtils.gainInstance().savePic(mContext, url, "poster", new BitmapUtils.Listener() {
+                @Override
+                public void saveSuccess() {
+                    ((Activity)mContext).runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(mContext, "已成功保存到相册！", Toast.LENGTH_LONG).show();
+                        }
+                    });
+
+                }
+            });
+        }
+
 
     }
 
@@ -632,7 +649,9 @@ public class NoticeDetailsAty extends BaseAty {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void event(MessageEvent event) {
         if (event.getMessage().equals("ToShareAty")) {
-            finish();
+            getCacheDir().delete();
+            details_webview.clearCache(true);
+            details_webview.reload();
         }
     }
 
@@ -648,12 +667,6 @@ public class NoticeDetailsAty extends BaseAty {
         }
 
         EventBus.getDefault().unregister(this);
-        //        url = Config.OFFICIAL_WEB;
-        //        if (url.contains("api")){
-        //            url = url.replace("api", "www");
-        //        }
-        //        url = url + "Wap/Register/loginOut.html";
-        //        initWebView(false);
     }
 
     /**
