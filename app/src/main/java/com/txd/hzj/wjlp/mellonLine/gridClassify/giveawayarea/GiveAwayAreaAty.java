@@ -1,8 +1,10 @@
 package com.txd.hzj.wjlp.mellonLine.gridClassify.giveawayarea;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Rect;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -21,6 +23,7 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.bean.OpenShopGoods;
+import com.txd.hzj.wjlp.tool.WJConfig;
 import com.txd.hzj.wjlp.view.SuperSwipeRefreshLayout;
 
 import org.json.JSONArray;
@@ -180,6 +183,23 @@ public class GiveAwayAreaAty extends BaseAty {
             if (null == mGiveAwayAdapter) {
                 mGiveAwayAdapter = new GiveAwayAdapter(mGift_goods_list);
                 mRecyclerView.setAdapter(mGiveAwayAdapter);
+                mGiveAwayAdapter.setOnItemClickListener(new GiveAwayAdapter.OnItemClickListener() {
+                    @Override
+                    public void onClick(int position) {
+                        Map<String, String> map = mGift_goods_list.get(position);
+                        String gift_goods_id = map.containsKey("gift_goods_id") ? map.get("gift_goods_id") : "";
+                        if (!gift_goods_id.isEmpty()) {
+                            Bundle bundle = new Bundle();
+                            bundle.putString("gift_goods_id", gift_goods_id);
+                            bundle.putInt("type", WJConfig.ZPZQ);
+                            Intent intent = new Intent();
+                            intent.setClass(mContext, GiveAwayDetailsAty.class);
+                            intent.putExtras(bundle);
+                            mContext.startActivity(intent);
+                        }
+
+                    }
+                });
             } else {
                 mGiveAwayAdapter.notifyDataSetChanged();
             }
