@@ -99,10 +99,13 @@ public class ApiTool2 {
         }
         // 如果jsonObject有flag属性则返回flag对应的值，否则返回""
         String flag = jsonObject.optString("code");
-        // code的值是null或者不为1的时候，返回map,否则返回null
-        if (flag != null && (flag.equals("1") || "200".equals(flag)))
+        int flagInt = (flag == null || flag.isEmpty()) ? -100 : Integer.parseInt(flag);
+        // code值为1或者code值为200系列[200,300)的时候请求成功返回null，否则是失败，返回map
+        if (flagInt == 1 || (flagInt >= 200 && flagInt < 300)) {
+                    // code的值是null或者不为1的时候，返回map,否则返回null
+                    // if (flag != null && (flag.equals("1") || "200".equals(flag)))
             return null;
-
+        }
         return JSONUtils.parseKeyAndValueToMap(json);
     }
 
