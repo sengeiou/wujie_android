@@ -507,10 +507,10 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
                                 startActivity(LoginAty.class, null);
                             } else {
                                 bundle = new Bundle();
-                                bundle.putInt("from", 6);
-                                bundle.putString("desc", "紫薇斗数");
-                                bundle.putString("href", Config.SHARE_URL + "Divination/Index/index");
-                                startActivity(NoticeDetailsAty.class, bundle);
+                                bundle.putBoolean("isShowTitle",true);
+                                bundle.putString("title", "紫薇斗数");
+                                bundle.putString("url", Config.SHARE_URL + "Divination/Index/index");
+                                startActivity(WebViewAty.class, bundle);
                             }
                             break;
                     }

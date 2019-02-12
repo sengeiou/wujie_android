@@ -58,6 +58,24 @@ public class Pay {
     }
 
 
+    public static void getWeChat(String divination_id, String divination_type, String type, BaseView baseView) {
+        RequestParams params = new RequestParams();
+        ApiTool2 apiTool2 = new ApiTool2();
+        params.addBodyParameter("divination_id", divination_id);
+        params.addBodyParameter("divination_type", divination_type);
+        params.addBodyParameter("type", type);
+        apiTool2.postApi(url + "getJsTine", params, baseView);
+    }
+
+    public static void getAlipay(String divination_id, String divination_type, String type, BaseView baseView) {
+        RequestParams params = new RequestParams();
+        ApiTool2 apiTool2 = new ApiTool2();
+        params.addBodyParameter("divination_id", divination_id);
+        params.addBodyParameter("divination_type", divination_type);
+        params.addBodyParameter("type", type);
+        apiTool2.postApi(url + "getAlipayParam", params, baseView);
+    }
+
     /**
      * 微信充值
      * @param order_id  	订单ID再次支付时传

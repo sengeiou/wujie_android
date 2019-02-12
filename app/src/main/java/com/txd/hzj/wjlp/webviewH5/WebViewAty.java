@@ -37,7 +37,6 @@ import com.lzy.imagepicker.ui.ImageGridActivity;
 import com.txd.hzj.wjlp.Constant;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
-import com.txd.hzj.wjlp.bluetoothPrint.BluetoothUtils;
 import com.txd.hzj.wjlp.bluetoothPrint.SearchBluetoothAty;
 import com.txd.hzj.wjlp.http.Pay;
 import com.txd.hzj.wjlp.http.index.IndexPst;
@@ -78,11 +77,18 @@ public class WebViewAty extends BaseAty {
     private String type; // 返回Type
     private String order_id; // 订单id
     private String discount_type; // 折扣类型
+
+    String divination_id;
+    String divination_type;
+    String reurl;
+
     IndexPst indexPst;
 
     // 图片裁切的宽高
     private static int width = 0;
     private static int high = 0;
+    private boolean mIsShowTitle;
+    private String mTitle;
 
     @Override
     protected int getLayoutResId() {
@@ -92,11 +98,11 @@ public class WebViewAty extends BaseAty {
     @Override
     protected void initialized() {
 
-//        // 设置默认加载的Url
-//        if (url.contains("api")) {
-//            url = Config.OFFICIAL_WEB.replace("api", "www");
-//        }
-//        url = url + "wap";
+        //        // 设置默认加载的Url
+        //        if (url.contains("api")) {
+        //            url = Config.OFFICIAL_WEB.replace("api", "www");
+        //        }
+        //        url = url + "wap";
 
         // 获取传入的Url
         Intent intent = getIntent();
@@ -107,11 +113,13 @@ public class WebViewAty extends BaseAty {
             }
         }
 
-        boolean isShowTitle = intent.getBooleanExtra("isShowTitle", false);
-        if (isShowTitle) {
-            titlt_conter_tv.setText(intent.getStringExtra("title"));
+        mIsShowTitle = intent.getBooleanExtra("isShowTitle", false);
+        if (mIsShowTitle) {
+            showStatusBar(R.id.webView_title_layout);
+            mTitle = intent.getStringExtra("title");
+            titlt_conter_tv.setText(mTitle);
         }
-        webView_title_layout.setVisibility(isShowTitle ? View.VISIBLE : View.GONE);
+        webView_title_layout.setVisibility(mIsShowTitle ? View.VISIBLE : View.GONE);
 
         wxPayReceiver = new WxPayReceiver();
         IntentFilter intentFilter = new IntentFilter();
@@ -162,10 +170,13 @@ public class WebViewAty extends BaseAty {
         webView_show_webv.getSettings().setDatabasePath(this.getCacheDir().getAbsolutePath()); // 设置数据缓存路径
         webView_show_webv.setWebChromeClient(new WebChromeClient());
 
+
         // WebView加载web资源头Head
         Map<String, String> map = new HashMap<>();
         map.put("token", Config.getToken());
         map.put("device", "Android");
+        webView_show_webv.clearCache(true);
+        webView_show_webv.clearHistory();
         webView_show_webv.loadUrl(url, map);
 
         // 覆盖WebView默认使用第三方或系统默认浏览器打开网页的行为，使网页用WebView打开
@@ -176,6 +187,7 @@ public class WebViewAty extends BaseAty {
                 return true;
             }
         });
+
 
     }
 
@@ -204,13 +216,23 @@ public class WebViewAty extends BaseAty {
                     @Override
                     public void onComplete() {
                         showToast("支付成功！");
-                        Pay.findPayResult(order_id, type, WebViewAty.this);
+                        if (type.equals("17")) {
+                            url = Config.SHARE_URL + reurl;
+                            initWebView();
+                        } else {
+                            Pay.findPayResult(order_id, type, WebViewAty.this);
+                        }
                     }
 
                     @Override
                     public void onFailure() {
                         showToast("支付失败！");
-                        Pay.findPayResult(order_id, type, WebViewAty.this);
+                        if (type.equals("17")) {
+                            url = Config.SHARE_URL + reurl;
+                            initWebView();
+                        } else {
+                            Pay.findPayResult(order_id, type, WebViewAty.this);
+                        }
                     }
 
                     @Override
@@ -248,7 +270,12 @@ public class WebViewAty extends BaseAty {
             } else {
                 showToast("支付失败");
             }
-            Pay.findPayResult(order_id, type, WebViewAty.this);
+            if (type.equals("17")) {
+                url = Config.SHARE_URL + reurl;
+                initWebView();
+            } else {
+                Pay.findPayResult(order_id, type, WebViewAty.this);
+            }
         }
     }
 
@@ -261,6 +288,7 @@ public class WebViewAty extends BaseAty {
             JSONObject data = jsonObject.has("data") ? jsonObject.getJSONObject("data") : null;
             String order_sn = data.has("order_sn") ? data.getString("order_sn") : "";
             String jump_url = data.has("jump_url") ? data.getString("jump_url") : "";
+            // 20 线下店铺保证金充值
             if (!TextUtils.isEmpty(jump_url) && "20".equals(type)) {
                 url = jump_url;
             } else {
@@ -324,15 +352,26 @@ public class WebViewAty extends BaseAty {
                 JSONObject jsonObject = new JSONObject(resultJson);
                 payType = jsonObject.has("pay_type") ? jsonObject.getString("pay_type") : "";
                 type = jsonObject.has("type") ? jsonObject.getString("type") : "";
-                order_id = jsonObject.has("order_id") ? jsonObject.getString("order_id") : "";
-                discount_type = jsonObject.has("discount_type") ? jsonObject.getString("discount_type") : "";
-
-                if ("WeChat".equals(payType)) { // 微信支付
-                    Pay.getJsTine(order_id, discount_type, type, WebViewAty.this);
-                } else if ("Alipay".equals(payType)) { // 支付宝支付
-                    Pay.getAlipayParam(order_id, discount_type, type, WebViewAty.this);
+                if (type.equals("17")) {
+                    divination_id = jsonObject.has("divination_id") ? jsonObject.getString("divination_id") : "";
+                    divination_type = jsonObject.has("divination_type") ? jsonObject.getString("divination_type") : "";
+                    reurl = jsonObject.has("reurl") ? jsonObject.getString("reurl") : "";
+                    if ("WeChat".equals(payType)) { // 微信支付
+                        Pay.getWeChat(divination_id, divination_type, type, WebViewAty.this);
+                    } else if ("Alipay".equals(payType)) { // 支付宝支付
+                        Pay.getAlipay(divination_id, divination_type, type, WebViewAty.this);
+                    }
                 } else {
-                    L.e("payForApplication show: other pay type");
+                    order_id = jsonObject.has("order_id") ? jsonObject.getString("order_id") : "";
+                    discount_type = jsonObject.has("discount_type") ? jsonObject.getString("discount_type") : "";
+
+                    if ("WeChat".equals(payType)) { // 微信支付
+                        Pay.getJsTine(order_id, discount_type, type, WebViewAty.this);
+                    } else if ("Alipay".equals(payType)) { // 支付宝支付
+                        Pay.getAlipayParam(order_id, discount_type, type, WebViewAty.this);
+                    } else {
+                        L.e("payForApplication show: other pay type");
+                    }
                 }
             } catch (JSONException e) {
                 L.e("payForApplication Exception:" + e.toString());
@@ -401,8 +440,8 @@ public class WebViewAty extends BaseAty {
          */
         @JavascriptInterface
         public void openCamera(int width, int high) {
-//            WebViewAty.width = width;
-//            WebViewAty.high = high;
+            //            WebViewAty.width = width;
+            //            WebViewAty.high = high;
             L.e("qwertyuiopzxcvbnm", "width:" + width + " high:" + high);
             initImageOnePicker();
             Intent intent = new Intent(WebViewAty.this, ImageGridActivity.class);
@@ -446,8 +485,8 @@ public class WebViewAty extends BaseAty {
                 String easemob_account = jsonObject.has("userId") ? jsonObject.getString("userId") : "";
                 String head_pic = jsonObject.has("userHead") ? jsonObject.getString("userHead") : "";
                 String nickname = jsonObject.has("userName") ? jsonObject.getString("userName") : "";
-//                String myName = jsonObject.has("myName") ? jsonObject.getString("myName") : "";
-//                String myHead = jsonObject.has("myHead") ? jsonObject.getString("myHead") : "";
+                //                String myName = jsonObject.has("myName") ? jsonObject.getString("myName") : "";
+                //                String myHead = jsonObject.has("myHead") ? jsonObject.getString("myHead") : "";
                 toChatFriend(easemob_account, head_pic, nickname);
             } catch (JSONException e) {
                 L.e("回传Json字符串格式异常");
@@ -461,7 +500,7 @@ public class WebViewAty extends BaseAty {
          * @param imagePath 图片路径
          */
         @JavascriptInterface
-        public void downImageToPhone(String imagePath) {
+        public void downImageToPhone(final String imagePath) {
             Bitmap recordBitmap = null;
             try {
                 recordBitmap = Glide.with(WebViewAty.this)
@@ -483,6 +522,7 @@ public class WebViewAty extends BaseAty {
                     showToast("图片保存异常，请重试");
                 }
             }
+
         }
 
         /**
@@ -494,7 +534,7 @@ public class WebViewAty extends BaseAty {
         public void getNavigationLine(String navigationCoordinates) {
             try {
                 JSONObject jsonObject = new JSONObject(navigationCoordinates);
-//                JSONObject data = jsonObject.getJSONObject("data");
+                //                JSONObject data = jsonObject.getJSONObject("data");
                 double baiDuLat = Double.parseDouble(jsonObject.has("baiDuLat") ? jsonObject.getString("baiDuLat") : "0");
                 double baiDuLng = Double.parseDouble(jsonObject.has("baiDuLng") ? jsonObject.getString("baiDuLng") : "0");
                 double gaoDeLat = Double.parseDouble(jsonObject.has("gaoDeLat") ? jsonObject.getString("gaoDeLat") : "0");
