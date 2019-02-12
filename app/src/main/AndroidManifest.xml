@@ -211,7 +211,8 @@
         <!-- 消息列表 -->
         <activity android:name=".mellonLine.OrderAndInformMessageListAty" />
         <!-- 公告详情 -->
-        <activity android:name=".mellonLine.NoticeDetailsAty" />
+        <activity android:name=".mellonLine.NoticeDetailsAty"
+            android:windowSoftInputMode="stateHidden|adjustResize"/>
         <!-- 限量购 -->
         <activity android:name=".mellonLine.gridClassify.LimitShoppingAty" />
         <!-- 限量购详情 -->

@@ -515,19 +515,26 @@ public class NoticeDetailsAty extends BaseAty {
         }
 
         @JavascriptInterface
-        public void downImageToPhone(String url){
-            BitmapUtils.gainInstance().savePic(mContext, url, "poster", new BitmapUtils.Listener() {
+        public void downImageToPhone(final String url){
+            details_webview.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
-                public void saveSuccess() {
-                    ((Activity)mContext).runOnUiThread(new Runnable() {
+                public boolean onLongClick(View v) {
+                    BitmapUtils.gainInstance().savePic(mContext, url, "poster", new BitmapUtils.Listener() {
                         @Override
-                        public void run() {
-                            Toast.makeText(mContext, "已成功保存到相册！", Toast.LENGTH_LONG).show();
+                        public void saveSuccess() {
+                            ((Activity)mContext).runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(mContext, "已成功保存到相册！", Toast.LENGTH_LONG).show();
+                                }
+                            });
+
                         }
                     });
-
+                    return true;
                 }
             });
+
         }
 
 
