@@ -91,6 +91,7 @@ public class AttributesSecondAty extends BaseAty {
                 return false;
             }
         };
+        layoutManager.setStackFromEnd(true);
         recyclerView.setLayoutManager(layoutManager);
         mAdapter = new MyAdapter(new MyAdapter.OnViewClickLisener() {
             @Override

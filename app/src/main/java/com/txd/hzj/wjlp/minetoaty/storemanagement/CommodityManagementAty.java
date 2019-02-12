@@ -621,10 +621,10 @@ public class CommodityManagementAty extends BaseAty {
             if (cateGoodsListBean.getSup_type().equals("1")) {
                 holder.priceTv1.setText(setSpannable("¥" + cateGoodsListBean.getShop_price() + "/份"));
                 holder.priceTv1.setVisibility(View.VISIBLE);
-                holder.priceTv2.setVisibility(View.GONE);
+                holder.priceTv2.setVisibility(View.INVISIBLE);
             } else if (cateGoodsListBean.getSup_type().equals("2")) {
                 holder.priceTv2.setText(setSpannable("¥" + cateGoodsListBean.getChurch_shop_price() + "/份"));
-                holder.priceTv1.setVisibility(View.GONE);
+                holder.priceTv1.setVisibility(View.INVISIBLE);
                 holder.priceTv2.setVisibility(View.VISIBLE);
             } else if (cateGoodsListBean.getSup_type().equals("3")) {
                 holder.priceTv1.setText(setSpannable("¥" + cateGoodsListBean.getShop_price() + "/份"));

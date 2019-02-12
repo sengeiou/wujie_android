@@ -991,8 +991,10 @@
 
         <activity android:name=".minetoaty.storemanagement.ClassifyManageAty" />
         <activity android:name=".minetoaty.storemanagement.InputAty" />
-        <activity android:name=".minetoaty.storemanagement.MultipleSpecificationsAty" />
-        <activity android:name=".minetoaty.storemanagement.AttributesSecondAty" />
+        <activity android:name=".minetoaty.storemanagement.MultipleSpecificationsAty"
+            android:windowSoftInputMode="adjustResize"/>
+        <activity android:name=".minetoaty.storemanagement.AttributesSecondAty"
+            android:windowSoftInputMode="adjustResize"/>
         <activity android:name=".minetoaty.storemanagement.AttributesFirstAty" />
         <activity android:name=".minetoaty.storemanagement.DateRangeAty" />
         <activity android:name=".minetoaty.storemanagement.WeekRangeAty" />

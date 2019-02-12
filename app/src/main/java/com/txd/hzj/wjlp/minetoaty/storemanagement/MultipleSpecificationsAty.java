@@ -11,7 +11,6 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -76,7 +75,6 @@ public class MultipleSpecificationsAty extends BaseAty {
 
     @Override
     protected void initialized() {
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         mContext = this;
         showStatusBar(R.id.title_re_layout);
         titlt_conter_tv.setText("多规格");
@@ -98,6 +96,7 @@ public class MultipleSpecificationsAty extends BaseAty {
                 return false;
             }
         };
+        layoutManager.setStackFromEnd(true);
         recyclerView.setLayoutManager(layoutManager);
         mAdapter = new MyAdapter(new MyAdapter.OnViewClickLisener() {
             @Override

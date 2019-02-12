@@ -856,9 +856,11 @@ public class InputAty extends BaseAty {
         String label = messageEvent.getLabel();
         String message = messageEvent.getMessage();
         if (label.equals("ClassifyManageAty")) {
-            String[] split = message.split("-");
-            classifyTv.setText(split[0]);
-            mCate_id = split[1];
+            if (message.contains("-")){
+                String[] split = message.split("-");
+                classifyTv.setText(split[0]);
+                mCate_id = split[1];
+            }
         }
         if (label.equals("MultipleSpecificationsAty")) {
             mGoods_attr = message;
