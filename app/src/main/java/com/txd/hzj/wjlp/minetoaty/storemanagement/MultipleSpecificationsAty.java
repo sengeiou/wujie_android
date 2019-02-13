@@ -2,6 +2,7 @@ package com.txd.hzj.wjlp.minetoaty.storemanagement;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Rect;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,8 +12,10 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ants.theantsgo.base.BaseView;
@@ -44,6 +47,9 @@ import java.util.Map;
  */
 public class MultipleSpecificationsAty extends BaseAty {
     private Context mContext;
+
+    @ViewInject(R.id.rootLayout)
+    private RelativeLayout rootLayout;
 
     @ViewInject(R.id.titlt_conter_tv)
     private TextView titlt_conter_tv;
@@ -129,6 +135,21 @@ public class MultipleSpecificationsAty extends BaseAty {
             mAdapter.setData(mGoods_attr);
             addTv.setVisibility(View.GONE);
         }
+
+        rootLayout.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                Rect rect = new Rect();
+                rootLayout.getWindowVisibleDisplayFrame(rect);
+                int mainInvisibleHeight  = rootLayout.getRootView().getHeight() - rect.bottom;
+                int height = rootLayout.getRootView().getHeight();
+                if (mainInvisibleHeight> height/4){
+                    rootLayout.scrollTo(0,mainInvisibleHeight);
+                }else {
+                    rootLayout.scrollTo(0,0);
+                }
+            }
+        });
     }
 
     @Override

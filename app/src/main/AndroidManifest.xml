@@ -211,9 +211,7 @@
         <!-- 消息列表 -->
         <activity android:name=".mellonLine.OrderAndInformMessageListAty" />
         <!-- 公告详情 -->
-        <activity
-            android:name=".mellonLine.NoticeDetailsAty"
-            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity android:name=".mellonLine.NoticeDetailsAty" />
         <!-- 限量购 -->
         <activity android:name=".mellonLine.gridClassify.LimitShoppingAty" />
         <!-- 限量购详情 -->
@@ -995,12 +993,8 @@
 
         <activity android:name=".minetoaty.storemanagement.ClassifyManageAty" />
         <activity android:name=".minetoaty.storemanagement.InputAty" />
-        <activity
-            android:name=".minetoaty.storemanagement.MultipleSpecificationsAty"
-            android:windowSoftInputMode="adjustResize" />
-        <activity
-            android:name=".minetoaty.storemanagement.AttributesSecondAty"
-            android:windowSoftInputMode="adjustResize" />
+        <activity android:name=".minetoaty.storemanagement.MultipleSpecificationsAty" />
+        <activity android:name=".minetoaty.storemanagement.AttributesSecondAty" />
         <activity android:name=".minetoaty.storemanagement.AttributesFirstAty" />
         <activity android:name=".minetoaty.storemanagement.DateRangeAty" />
         <activity android:name=".minetoaty.storemanagement.WeekRangeAty" />
