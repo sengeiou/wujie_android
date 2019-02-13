@@ -12,7 +12,6 @@ import android.util.DisplayMetrics;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewTreeObserver;
-import android.view.WindowManager;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
@@ -157,7 +156,7 @@ public class WebViewAty extends BaseAty {
         });
 
 
-        if (mIsShowTitle && mTitle.equals("紫薇斗数")){
+        if (mIsShowTitle && mTitle != null && mTitle.equals("紫薇斗数")){
             webView_show_webv.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
