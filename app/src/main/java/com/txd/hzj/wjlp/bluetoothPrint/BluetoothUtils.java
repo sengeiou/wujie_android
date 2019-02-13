@@ -156,53 +156,53 @@ public class BluetoothUtils {
         }
     }
 
-    /**
-     * 修改设备名称
-     *
-     * @param printerName 设备的名称
-     */
-    public void changeBlueName(final String printerName) {
-        DemoApplication.getInstance().getCachedThreadPool().execute(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Util.showToastThread(context, "修改名称，请稍后....");
-                    // 进入空中AT指令
-                    String AT = "$OpenFscAtEngine$";
-                    printer.sendByteData(AT.getBytes());
-                    Thread.sleep(500);
-                    byte[] read = printer.read();
-                    if (read == null) {
-                        Util.showToastThread(context, "修改失败....");
-                    } else {
-                        String readString = new String(read);
-                        if (readString.contains("$OK,Opened$")) {
-                            printer.sendByteData(("AT+NAME=" + printerName + "\r\n").getBytes());
-                            Thread.sleep(500);
-                            byte[] isSuccess = printer.read();
-                            if (new String(isSuccess).contains("OK")) {
-                                Util.showToastThread(context, "修改成功....");
-                                PreferencesUtils.saveBluetoothName(context, printerName);
-                                if (bluetoothChangLister != null) {
-                                    ((Activity) context).runOnUiThread(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            bluetoothChangLister.change(printerName, PreferencesUtils.getBluetoothAddress(context));
-                                        }
-                                    });
-                                }
-                            } else {
-                                Util.showToastThread(context, "修改失败....");
-                            }
-                        }
-                    }
-                } catch (InterruptedException e) {
-//                  TODO  CatchHandler.getInstance().saveCatchInfo2File(e);
-                    Log.e(TAG, "run: Exception == >> " + e.toString());
-                }
-            }
-        });
-    }
+//    /**
+//     * 修改设备名称
+//     *
+//     * @param printerName 设备的名称
+//     */
+//    public void changeBlueName(final String printerName) {
+//        DemoApplication.getInstance().getCachedThreadPool().execute(new Runnable() {
+//            @Override
+//            public void run() {
+//                try {
+//                    Util.showToastThread(context, "修改名称，请稍后....");
+//                    // 进入空中AT指令
+//                    String AT = "$OpenFscAtEngine$";
+//                    printer.sendByteData(AT.getBytes());
+//                    Thread.sleep(500);
+//                    byte[] read = printer.read();
+//                    if (read == null) {
+//                        Util.showToastThread(context, "修改失败....");
+//                    } else {
+//                        String readString = new String(read);
+//                        if (readString.contains("$OK,Opened$")) {
+//                            printer.sendByteData(("AT+NAME=" + printerName + "\r\n").getBytes());
+//                            Thread.sleep(500);
+//                            byte[] isSuccess = printer.read();
+//                            if (new String(isSuccess).contains("OK")) {
+//                                Util.showToastThread(context, "修改成功....");
+//                                PreferencesUtils.saveBluetoothName(context, printerName);
+//                                if (bluetoothChangLister != null) {
+//                                    ((Activity) context).runOnUiThread(new Runnable() {
+//                                        @Override
+//                                        public void run() {
+//                                            bluetoothChangLister.change(printerName, PreferencesUtils.getBluetoothAddress(context));
+//                                        }
+//                                    });
+//                                }
+//                            } else {
+//                                Util.showToastThread(context, "修改失败....");
+//                            }
+//                        }
+//                    }
+//                } catch (InterruptedException e) {
+////                  TODO  CatchHandler.getInstance().saveCatchInfo2File(e);
+//                    Log.e(TAG, "run: Exception == >> " + e.toString());
+//                }
+//            }
+//        });
+//    }
 
     public Handler mHandler = new Handler() {
         @Override

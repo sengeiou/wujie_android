@@ -184,7 +184,18 @@
         android:text="积分支付"
         android:textColor="@color/app_text_color"
          />
-
+    <CheckBox
+        android:id="@+id/cb_coinzf"
+        style="@style/checkbox_style_14sp_mw"
+        android:drawableEnd="@drawable/select_check_box_style_cart"
+        android:drawablePadding="8dp"
+        android:drawableStart="@drawable/icon_yuanbao"
+        android:paddingBottom="12dp"
+        android:paddingTop="12dp"
+        android:text="银两支付"
+        android:visibility="gone"
+        android:textColor="@color/app_text_color"
+        />
 
     <TextView
         android:id="@+id/tv_submit"

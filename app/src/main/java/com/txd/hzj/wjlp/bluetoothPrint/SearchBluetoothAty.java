@@ -1,14 +1,11 @@
 package com.txd.hzj.wjlp.bluetoothPrint;
 
-import android.app.AlertDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothClass;
 import android.bluetooth.BluetoothDevice;
 import android.content.Context;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -32,7 +29,7 @@ import java.util.Set;
 /**
  * 创建者：voodoo_jie
  * <br>创建时间：2018/09/20 020上午 11:51
- * <br>功能描述：
+ * <br>功能描述：搜索蓝牙界面
  */
 public class SearchBluetoothAty extends BaseAty implements BluetoothUtils.BluetoothChangLister, BluetoothUtils.ConnectSuccess {
 
@@ -42,8 +39,6 @@ public class SearchBluetoothAty extends BaseAty implements BluetoothUtils.Blueto
     public TextView connectBluetooth_title_tv;
     @ViewInject(R.id.connectBluetooth_right_tv)
     public TextView connectBluetooth_right_tv;
-    @ViewInject(R.id.connectBluetooth_change_tv)
-    public TextView connectBluetooth_change_tv; // 修改蓝牙名称
     @ViewInject(R.id.connectBluetooth_name_tv)
     public TextView connectBluetooth_name_tv; // 蓝牙名称
     @ViewInject(R.id.connectBluetooth_address_tv)
@@ -104,8 +99,8 @@ public class SearchBluetoothAty extends BaseAty implements BluetoothUtils.Blueto
         starSearchBlue(); // 进来展示的时候直接搜索
 
         // 设置已连接的蓝牙名称以及地址
-        connectBluetooth_name_tv.setText("名称：" + (bluetoothUtils.isConnect() ? PreferencesUtils.getBluetoothName(context) : "无"));
-        connectBluetooth_address_tv.setText("地址：" + (bluetoothUtils.isConnect() ? PreferencesUtils.getBluetoothAddress(context) : "无"));
+        connectBluetooth_name_tv.setText(new StringBuffer().append("名称：").append(bluetoothUtils.isConnect() ? PreferencesUtils.getBluetoothName(context) : "无"));
+        connectBluetooth_address_tv.setText(new StringBuffer().append("地址：").append(bluetoothUtils.isConnect() ? PreferencesUtils.getBluetoothAddress(context) : "无"));
 
         // 设置已配对蓝牙列表
         Set<BluetoothDevice> bondedDevices = bluetoothAdapter.getBondedDevices();
@@ -113,6 +108,7 @@ public class SearchBluetoothAty extends BaseAty implements BluetoothUtils.Blueto
             readyBluetoothDevices.add(devices);
         }
         readyListAdapter.notifyDataSetChanged();
+        // 展示已配对的蓝牙列表
         if (readyBluetoothDevices.size() > 0 && !readyListIsOpen) {
             openList(connectBluetooth_alreadyPaired_slv, connectBluetooth_alreadyPaired_imgv);
         }
@@ -154,10 +150,9 @@ public class SearchBluetoothAty extends BaseAty implements BluetoothUtils.Blueto
 
     @Override
     protected void requestData() {
-
     }
 
-    @OnClick({R.id.connectBluetooth_goback_imgv, R.id.connectBluetooth_right_tv, R.id.connectBluetooth_change_tv, R.id.connectBluetooth_alreadyPaired_llayout, R.id.connectBluetooth_nearby_llayout})
+    @OnClick({R.id.connectBluetooth_goback_imgv, R.id.connectBluetooth_right_tv, R.id.connectBluetooth_alreadyPaired_llayout, R.id.connectBluetooth_nearby_llayout})
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -170,35 +165,6 @@ public class SearchBluetoothAty extends BaseAty implements BluetoothUtils.Blueto
                 } else {
                     starSearchBlue();
                 }
-                break;
-            case R.id.connectBluetooth_change_tv: // 修改蓝牙名称
-                final AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                View inputView = LayoutInflater.from(context).inflate(R.layout.view_change_bluetooth_name, null);
-                final EditText changeName_input_et = inputView.findViewById(R.id.changeName_input_et);
-                final TextView changeName_change_tv = inputView.findViewById(R.id.changeName_change_tv);
-                final TextView changeName_cancel_tv = inputView.findViewById(R.id.changeName_cancel_tv);
-                changeName_input_et.setText(PreferencesUtils.getBluetoothName(context));
-                builder.setView(inputView);
-                final AlertDialog alertDialog = builder.create();
-                changeName_change_tv.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        String newName = changeName_input_et.getText().toString().trim();
-                        if (newName.isEmpty()) {
-                            Util.showToast(context, "请输入名称");
-                        } else {
-                            bluetoothUtils.changeBlueName(newName);
-                        }
-                        alertDialog.dismiss();
-                    }
-                });
-                changeName_cancel_tv.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        alertDialog.dismiss();
-                    }
-                });
-                alertDialog.show();
                 break;
             case R.id.connectBluetooth_alreadyPaired_llayout: // 已配对列表标题点击
                 if (readyListIsOpen) {
@@ -216,7 +182,6 @@ public class SearchBluetoothAty extends BaseAty implements BluetoothUtils.Blueto
                 break;
         }
     }
-
 
 
     /**
@@ -244,7 +209,7 @@ public class SearchBluetoothAty extends BaseAty implements BluetoothUtils.Blueto
             isSearching = true;
             Util.showToast(context, "正在搜索附近的打印机设备....");
             nearbyBluetoothSet = new HashSet<>();
-            nearbyBluetoothDevices.clear();
+            nearbyBluetoothDevices.removeAll(nearbyBluetoothDevices); // 将所有的附近列表记录清空
             nearbyListAdapter.notifyDataSetChanged();
         }
 

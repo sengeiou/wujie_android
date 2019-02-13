@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:divider="@drawable/lin_layout_horizontal_line_shape"
     android:orientation="horizontal"
+    android:visibility="gone"
     android:showDividers="middle">
 
     <ImageView

@@ -8,9 +8,10 @@
     <LinearLayout
         android:id="@+id/webView_title_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="invisible"
+        android:layout_height="48dp"
+        android:visibility="gone"
         android:orientation="horizontal">
+
         <include layout="@layout/aty_title" />
     </LinearLayout>
 

@@ -24,6 +24,7 @@ public class PrintfBean {
      * url : http://test2.wujiemall.com/Wap/OsManager/os_to_detail/sta_mid/12/order_sn/154474896564829.html
      */
 
+    private int receipt; // 打印几份【新增字段 20190126】
     private List<Q1Bean> q1; // 第一块区域列表数据-店铺信息
     private List<Q2Bean> q2; // 第二块区域列表数据-单号及时间等
     private List<GinfoBean> ginfo; // 菜品列表
@@ -37,6 +38,14 @@ public class PrintfBean {
     private String order_sn; // 订单号
     private String url; // 点击跳转的Url
     private String qr_url; // 生成二维码字段
+
+    public int getReceipt() {
+        return receipt;
+    }
+
+    public void setReceipt(int receipt) {
+        this.receipt = receipt;
+    }
 
     public String getMerchant_id() {
         return merchant_id;

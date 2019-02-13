@@ -60,7 +60,8 @@ public class GoodLuckDetailsPranster extends CommodityDetailsPranster implements
         @Override
         public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
             ExpHolder expHolder = (ExpHolder) holder;
-            expHolder.item_expTv.setText(Html.fromHtml(strList.get(position)));
+            String source = strList.get(position);
+            expHolder.item_expTv.setText(Html.fromHtml(source));
         }
 
         @Override

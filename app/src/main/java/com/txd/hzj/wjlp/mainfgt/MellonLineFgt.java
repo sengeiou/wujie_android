@@ -462,7 +462,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
                             } else {
                                 bundle = new Bundle();
                                 bundle.putInt("from", 6);
-                                bundle.putString("desc", "邀请有礼");
+                                bundle.putString("desc", "集碎片");
                                 bundle.putString("href", Config.SHARE_URL + "Splicing/index/");
                                 startActivity(NoticeDetailsAty.class, bundle);
                             }
@@ -479,7 +479,11 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
                             //                            bundle.putInt("type", 3);
                             //                            bundle.putString("title", "比价购");
                             //                            startActivity(AuctionCollectAty.class, bundle);
-                            startActivity(ExplosiveAreaAty.class,null);
+                            if (!Config.isLogin()) {
+                                startActivity(LoginAty.class, null);
+                            } else {
+                                startActivity(ExplosiveAreaAty.class, null);
+                            }
                             break;
                         case 7://积分商店
                             bundle = new Bundle();
@@ -503,10 +507,10 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
                                 startActivity(LoginAty.class, null);
                             } else {
                                 bundle = new Bundle();
-                                bundle.putInt("from", 6);
-                                bundle.putString("desc", "紫薇斗数");
-                                bundle.putString("href", Config.SHARE_URL + "Divination/Index/index");
-                                startActivity(NoticeDetailsAty.class, bundle);
+                                bundle.putBoolean("isShowTitle",true);
+                                bundle.putString("title", "紫薇斗数");
+                                bundle.putString("url", Config.SHARE_URL + "Divination/Index/index");
+                                startActivity(WebViewAty.class, bundle);
                             }
                             break;
                     }

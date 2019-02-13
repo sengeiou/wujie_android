@@ -129,7 +129,8 @@ public class ScanAty extends BaseAty implements QRCodeView.Delegate {
                         registerPst.qr_login(sid);
                     }
                 } catch (JSONException e) {
-                    showToast("二维码异常，请刷新网站端界面。");
+//                    showToast("二维码异常，请刷新网站端界面。");
+                    showDialog(e.toString());
                     L.e("扫码Json字符串异常：" + e.toString());
                 }
             }

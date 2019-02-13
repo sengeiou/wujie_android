@@ -125,9 +125,9 @@ public class MyReceiver extends BroadcastReceiver implements BaseView {
                 String moduleStr = extrasJson.has("module") ? extrasJson.getString("module") : "";
                 if ("stage_order_hand".equals(moduleStr) || "stage_order_auto".equals(moduleStr)) {
                     printfDataJsonobj = extrasJson.has("data_print") ? extrasJson.getJSONObject("data_print") : null;
-                    if ("stage_order_hand".equals(moduleStr)) { // 手动打印 要走接口回调
+                    if ("stage_order_hand".equals(moduleStr)) { // 手动打印 直接打印
                         printfBluetooth();
-                    } else if ("stage_order_auto".equals(moduleStr)) { // 自动打印
+                    } else if ("stage_order_auto".equals(moduleStr)) { // 自动打印 需要掉接口
                         OfflineStore.order_print(printfDataJsonobj.getString("order_sn"), printfDataJsonobj.getString("merchant_id"), this);
                     }
                 }

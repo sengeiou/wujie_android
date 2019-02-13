@@ -56,6 +56,7 @@ import com.txd.hzj.wjlp.minetoaty.FootprintAty;
 import com.txd.hzj.wjlp.minetoaty.GiveCouponAty;
 import com.txd.hzj.wjlp.minetoaty.GradeOfMemberAty;
 import com.txd.hzj.wjlp.minetoaty.ShareToFriendsAty;
+import com.txd.hzj.wjlp.minetoaty.SilverCoinAty;
 import com.txd.hzj.wjlp.minetoaty.ThirdPartAccountAty;
 import com.txd.hzj.wjlp.minetoaty._GradeOfMemberAty;
 import com.txd.hzj.wjlp.minetoaty.address.AddressListAty;
@@ -118,8 +119,8 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
     private TextView bandOtherAccount_tv; // 绑定第三方账户
     @ViewInject(R.id.bandOtherAccount_line)
     private View bandOtherAccount_line; // 绑定第三方账户
-    //    @ViewInject(R.id.business_code_tv)
-    //    private TextView business_code_tv; // 商家码
+        @ViewInject(R.id.business_code_tv)
+        private TextView business_code_tv; // 商家码
     @ViewInject(R.id.shop_manager_tv)
     private TextView shop_manager_tv; // 店铺管理
     @ViewInject(R.id.business_line)
@@ -257,6 +258,12 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
      */
     @ViewInject(R.id.ticket_num_tv)
     private TextView ticket_num_tv;
+
+    /**
+     * 银两
+     */
+    @ViewInject(R.id.chance_num_tv)
+    private TextView chance_num_tv;
     /**
      * 赠品券
      */
@@ -348,6 +355,7 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
 
     private boolean isReadContacts = true;
     private String mHas_shop = "0";
+    private String mChance_num = "0";
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -384,12 +392,12 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
 
     @Override
     @OnClick({R.id.tv_set, R.id.rel_mine_about, R.id.tv_help_center, R.id.tv_order_center, R.id.grade_of_member_layout,
-            R.id.mine_member_type_layout, R.id.my_coupon_layout, R.id.my_gift_layout, R.id.integral_tv, R.id.registration_code_tv,
+            R.id.mine_member_type_layout, R.id.my_coupon_layout,  R.id.my_chance_layout,R.id.my_gift_layout, R.id.integral_tv, R.id.registration_code_tv,
             R.id.my_balance_layout, R.id.coupon_tv, R.id.address_tv, R.id.feedBack_tv, R.id.shre_to_friends_tv,
             R.id.share_grade_tv, R.id.collect_tv, R.id.footprint_tv, R.id.evaluate_tv, R.id.call_service_tv,
             R.id.merchant_will_move_into_tv, R.id.books_tv, R.id.stock_record_tv, R.id.sales_record_tv, R.id.personalStores,
             R.id.mell_goods_list_tv, R.id.grade_for_app_tv, R.id.tv_dljm, R.id.tv_lmsj, R.id.give_coupon_tv, R.id.apprentice_code_tv,
-            R.id.bandOtherAccount_tv, R.id.shop_manager_tv})
+            R.id.bandOtherAccount_tv, R.id.business_code_tv, R.id.shop_manager_tv})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
@@ -443,6 +451,11 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
                 break;
             case R.id.my_coupon_layout: // 购物券
                 startActivity(MyCouponAty.class, null);
+                break;
+            case R.id.my_chance_layout:
+                bundle = new Bundle();
+                bundle.putString("chance_num",mChance_num);
+                startActivity(SilverCoinAty.class, bundle);
                 break;
             case R.id.my_gift_layout:
                 startActivity(TradingStampAty.class, null);
@@ -550,6 +563,13 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
                     showToast("暂无绑定账户");
                 }
                 break;
+            case R.id.business_code_tv:// 商家码
+                if (shangjiamaList != null && shangjiamaList.size() > 0) {
+                    showTanchuang("商家码");
+                } else {
+                    showToast("暂无商家码");
+                }
+                break;
             //线下店铺店铺管理
             case R.id.shop_manager_tv: {
                 if (shangjiamaList != null && shangjiamaList.size() > 0) {
@@ -573,6 +593,9 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
         if ("店铺选择".equals(name)) {
             close_tv.setText("线下店铺：店铺选择");
             infoAdapter = new MineInfoAdapter(getActivity(), shangjiamaList);
+        }else if ("商家码".equals(name)) {
+            close_tv.setText("商家二维码：店铺选择");
+            infoAdapter = new MineInfoAdapter(getActivity(), shangjiamaList);
         } else {
             close_tv.setText("收款账户绑定：店铺选择");
             infoAdapter = new MineInfoAdapter(getActivity(), sanfangList);
@@ -583,12 +606,13 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 bundle = new Bundle();
                 if ("店铺选择".equals(name)) {
-                    //                    bundle.putString("head_pic", shangjiamaList.get(position).getLogo());
-                    //                    bundle.putString("invite_code", business_invite_code_code);
-                    //                    bundle.putString("stage_merchant_id", shangjiamaList.get(position).getStage_merchant_id());
-                    //                    startActivity(RegistrationCodeAty.class, bundle);
                     bundle.putString("url", Config.SHARE_URL + "Wap/OsManager/index/sta_mid/"+shangjiamaList.get(position).getStage_merchant_id()+".html");
                     startActivity(WebViewAty.class, bundle);
+                } else if ("商家码".equals(name)) {
+                    bundle.putString("head_pic", shangjiamaList.get(position).getLogo());
+                    bundle.putString("invite_code", business_invite_code_code);
+                    bundle.putString("stage_merchant_id", shangjiamaList.get(position).getStage_merchant_id());
+                    startActivity(RegistrationCodeAty.class, bundle);
                 } else {
                     Double aDouble = Double.valueOf(balance);
                     bundle.putDouble("balance", aDouble);
@@ -768,6 +792,7 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
                 bandOtherAccount_tv.setVisibility(View.GONE); // 三方账户绑定
                 give_coupon_tv.setVisibility(View.GONE); // 赠送蓝色代金券
                 shop_manager_tv.setVisibility(View.GONE); // 线下店铺店铺管理
+                business_code_tv.setVisibility(View.GONE);
                 String alliance_merchant = jsonData.has("alliance_merchant") ? jsonData.getString("alliance_merchant") : "";
                 String member_coding = jsonData.has("member_coding") ? jsonData.getString("member_coding") : "";
 
@@ -781,6 +806,7 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
                 }
                 if (shangjiamaList.size() > 0) { // 商家显示类型不为0
                     shop_manager_tv.setVisibility(View.VISIBLE); // 显示线下店铺店铺管理
+                    business_code_tv.setVisibility(View.VISIBLE);
                     business_line.setVisibility(View.VISIBLE);
                 }
 
@@ -808,6 +834,7 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
                     userPst.proMoters();
                 }
             }
+
             if (data.containsKey("has_shop") && ("1".equals(data.get("has_shop")) || "2".equals(data.get("has_shop")))) {
                 personalStores.setVisibility(View.VISIBLE);
                 mHas_shop = data.get("has_shop");
@@ -926,6 +953,10 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
             balance = data.get("balance");
             balance_tv.setText(balance);
             ticket_num_tv.setText((String) data.get("ticket_num"));
+            if (data.containsKey("chance_num")){
+                mChance_num = data.get("chance_num");
+                chance_num_tv.setText(mChance_num);
+            }
             gift_num_tv.setText(data.containsKey("gift_num") ? data.get("gift_num") : "");
 
             server_line = data.get("server_line");

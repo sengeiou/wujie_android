@@ -18,6 +18,9 @@ import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.http.GroupBuyOrder;
 import com.txd.hzj.wjlp.http.user.UserPst;
+import com.txd.hzj.wjlp.tool.MessageEvent;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.Map;
 
@@ -103,6 +106,7 @@ public class ToShareAty extends BaseAty {
                 shareForApp(SinaWeibo.NAME);
                 break;
         }
+
     }
 
     @Override
@@ -123,6 +127,9 @@ public class ToShareAty extends BaseAty {
             shareUrl = link;
         } else {
             GroupBuyOrder.shareurl(link, id, this);
+            String[] split = type.split(":");
+            type = split[0];
+            id = split[1];
         }
     }
 
@@ -135,6 +142,7 @@ public class ToShareAty extends BaseAty {
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
+        removeProgressDialog();
         if (requestUrl.contains("mkShareUrl")) {
             JSONObject jsonObject = JSONObject.parseObject(jsonStr);
             JSONObject object = jsonObject.getJSONObject("data");
@@ -146,7 +154,7 @@ public class ToShareAty extends BaseAty {
     @Override
     public void onError(String requestUrl, Map<String, String> error) {
         super.onError(requestUrl, error);
-
+        removeProgressDialog();
     }
 
     /**
@@ -175,6 +183,8 @@ public class ToShareAty extends BaseAty {
                     case Success:
                         userPst.shareBack(shareType, context, id, type, shareUrl);
                         showRightTip("分享成功");
+                        EventBus.getDefault().post(new MessageEvent("ToShareAty"));
+                        finish();
                         break;
                     case Error:
                         showErrorTip("分享失败");
@@ -183,8 +193,7 @@ public class ToShareAty extends BaseAty {
                         showErrorTip("分享取消");
                         break;
                 }
-                removeProgressDialog();
-                ToShareAty.this.finish();
+                finish();
             }
         });
         shareForApp.toShareWithPicUrl();

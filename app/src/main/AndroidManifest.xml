@@ -98,7 +98,7 @@
     <application
         android:name=".DemoApplication"
         android:allowBackup="false"
-        android:debuggable="true"
+        android:debuggable="false"
         android:icon="@mipmap/wjyp2"
         android:label="@string/app_name"
         android:largeHeap="true"
@@ -211,7 +211,8 @@
         <!-- 消息列表 -->
         <activity android:name=".mellonLine.OrderAndInformMessageListAty" />
         <!-- 公告详情 -->
-        <activity android:name=".mellonLine.NoticeDetailsAty" />
+        <activity android:name=".mellonLine.NoticeDetailsAty"
+            android:windowSoftInputMode="stateHidden|adjustResize"/>
         <!-- 限量购 -->
         <activity android:name=".mellonLine.gridClassify.LimitShoppingAty" />
         <!-- 限量购详情 -->
@@ -987,6 +988,8 @@
         <activity android:name=".mellonLine.gridClassify.ExplosiveAreaAty" />
         <activity android:name=".mellonLine.gridClassify.ExplosiveAreaGoodsDetialsAty" />
         <activity android:name=".mellonLine.gridClassify.LuckRakingListAty" />
+        <activity android:name=".minetoaty.SilverCoinAty" />
+        <activity android:name=".minetoaty.tricket.DetailsOfSilverAty" />
         <activity android:name=".minetoaty.storemanagement.CommodityManagementAty" />
 
         <activity android:name=".minetoaty.storemanagement.ClassifyManageAty" />

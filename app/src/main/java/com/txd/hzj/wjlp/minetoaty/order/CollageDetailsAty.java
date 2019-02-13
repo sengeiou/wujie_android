@@ -602,10 +602,8 @@ public class CollageDetailsAty extends BaseAty {
                 tgvh.name.setText(map.get("goods_name")); // 设置商品名称显示
                 tgvh.tv_price.setText("¥" + map.get("shop_price")); // 设置订单中商品价格
                 tgvh.tv_price.setVisibility(View.VISIBLE); // 显示订单中商品价格
-                //                tgvh.title.setText(map.get("attr")); // 设置商品属性
-                //                tgvh.jifenTv.setText("（赠送:" + map.get("return_integral") + "积分）");
-                ChangeTextViewStyle.getInstance().forTextColor(CollageDetailsAty.this, tgvh.title,
-                        map.get("attr") + "（赠送:" + map.get("return_integral") + "积分）", map.get("attr").length(), Color.parseColor("#F6B87A"));
+//                ChangeTextViewStyle.getInstance().forTextColor(CollageDetailsAty.this, tgvh.title,
+//                        map.get("attr") + "（赠送:" + map.get("return_integral") + "积分）", map.get("attr").length(), Color.parseColor("#F6B87A"));
 
 
                 if (map.containsKey("is_invoice") && Integer.parseInt(map.get("is_invoice")) == 1) {
@@ -763,12 +761,16 @@ public class CollageDetailsAty extends BaseAty {
                 Glide.with(CollageDetailsAty.this).load(map.get("goods_img")).into(tgvh.image);
                 tgvh.name.setText(map.get("goods_name")); // 设置商品名称显示
                 tgvh.num.setText("x" + map.get("goods_num")); // 设置商品数量显示
-                //                tgvh.title.setText(map.get("attr")); // 设置商品属性
-                //                tgvh.jifenTv.setText("（赠送:" + map.get("return_integral") + "积分）");
 
-                ChangeTextViewStyle.getInstance().forTextColor(CollageDetailsAty.this, tgvh.title,
-                        map.get("attr") + "（赠送:" + map.get("return_integral") + "积分）", map.get("attr").length(), Color.parseColor("#F6B87A"));
 
+                String return_integral = map.get("return_integral");
+                if (Double.parseDouble(return_integral) == 0){
+                    ChangeTextViewStyle.getInstance().forTextColor(CollageDetailsAty.this, tgvh.title,
+                            map.get("attr"), map.get("attr").length(), Color.parseColor("#F6B87A"));
+                }else {
+                    ChangeTextViewStyle.getInstance().forTextColor(CollageDetailsAty.this, tgvh.title,
+                            map.get("attr") + "（赠送:" + return_integral + "积分）", map.get("attr").length(), Color.parseColor("#F6B87A"));
+                }
 
                 L.e("time" + map.get("sure_delivery_time"));
                 if (map.containsKey("is_invoice") && Integer.parseInt(map.get("is_invoice")) == 1) {

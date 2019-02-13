@@ -112,12 +112,12 @@
                         android:numStars="5"
                         app:starFill="@mipmap/star_ful"
                         app:starHalf="@mipmap/unstar_ful"
-                        app:starImageSize="12dp"
+                        app:starImageSize="15dp"
                         app:starStep="5"
                         android:layout_marginRight="40dp"
                         app:starcount="5"
                         app:starempty="@mipmap/unstar_ful"
-                        app:starpadding="5dp"
+                        app:starpadding="8dp"
                         app:stepSize="Full"/>
                 </LinearLayout>
 

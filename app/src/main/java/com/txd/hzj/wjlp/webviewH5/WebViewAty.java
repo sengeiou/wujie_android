@@ -20,8 +20,10 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ants.theantsgo.config.Config;
+import com.ants.theantsgo.config.Settings;
 import com.ants.theantsgo.imageLoader.GlideImageLoader;
 import com.ants.theantsgo.payByThirdParty.AliPay;
 import com.ants.theantsgo.payByThirdParty.aliPay.AliPayCallBack;
@@ -37,7 +39,6 @@ import com.lzy.imagepicker.ui.ImageGridActivity;
 import com.txd.hzj.wjlp.Constant;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
-import com.txd.hzj.wjlp.bluetoothPrint.BluetoothUtils;
 import com.txd.hzj.wjlp.bluetoothPrint.SearchBluetoothAty;
 import com.txd.hzj.wjlp.http.Pay;
 import com.txd.hzj.wjlp.http.index.IndexPst;
@@ -79,7 +80,18 @@ public class WebViewAty extends BaseAty {
     private String type; // 返回Type
     private String order_id; // 订单id
     private String discount_type; // 折扣类型
+
+    String divination_id;
+    String divination_type;
+    String reurl;
+
     IndexPst indexPst;
+
+    // 图片裁切的宽高
+    private static int width = 0;
+    private static int high = 0;
+    private boolean mIsShowTitle;
+    private String mTitle;
 
     @Override
     protected int getLayoutResId() {
@@ -88,8 +100,7 @@ public class WebViewAty extends BaseAty {
 
     @Override
     protected void initialized() {
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
-        showStatusBar(R.id.webView_title_layout);
+
         // 设置默认加载的Url
         if (url.contains("api")) {
             url = Config.OFFICIAL_WEB.replace("api", "www");
@@ -105,11 +116,13 @@ public class WebViewAty extends BaseAty {
             }
         }
 
-        boolean isShowTitle = intent.getBooleanExtra("isShowTitle", false);
-        if (isShowTitle){
-            titlt_conter_tv.setText(intent.getStringExtra("title"));
+        mIsShowTitle = intent.getBooleanExtra("isShowTitle", false);
+        if (mIsShowTitle) {
+            showStatusBar(R.id.webView_title_layout);
+            mTitle = intent.getStringExtra("title");
+            titlt_conter_tv.setText(mTitle);
         }
-        webView_title_layout.setVisibility(isShowTitle?View.VISIBLE:View.INVISIBLE);
+        webView_title_layout.setVisibility(mIsShowTitle ? View.VISIBLE : View.GONE);
 
         wxPayReceiver = new WxPayReceiver();
         IntentFilter intentFilter = new IntentFilter();
@@ -143,6 +156,34 @@ public class WebViewAty extends BaseAty {
             }
         });
 
+
+        if (mIsShowTitle && mTitle.equals("紫薇斗数")){
+            webView_show_webv.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    final WebView.HitTestResult hitTestResult = webView_show_webv.getHitTestResult();
+                    // 如果是图片类型或者是带有图片链接的类型
+                    if (hitTestResult.getType() == WebView.HitTestResult.IMAGE_TYPE ||
+                            hitTestResult.getType() == WebView.HitTestResult.SRC_IMAGE_ANCHOR_TYPE) {
+                        String resultExtra = hitTestResult.getExtra();
+                        BitmapUtils.gainInstance().savePic(WebViewAty.this, resultExtra, "ziweidoushu", new BitmapUtils.Listener() {
+                            @Override
+                            public void saveSuccess() {
+                                WebViewAty.this.runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Toast.makeText(WebViewAty.this, "已成功保存到相册！", Toast.LENGTH_LONG).show();
+                                    }
+                                });
+                            }
+                        });
+                        return true;
+                    }
+                    return false;
+                }
+            });
+        }
+
     }
 
     private void initWebView() {
@@ -160,10 +201,13 @@ public class WebViewAty extends BaseAty {
         webView_show_webv.getSettings().setDatabasePath(this.getCacheDir().getAbsolutePath()); // 设置数据缓存路径
         webView_show_webv.setWebChromeClient(new WebChromeClient());
 
+
         // WebView加载web资源头Head
         Map<String, String> map = new HashMap<>();
         map.put("token", Config.getToken());
         map.put("device", "Android");
+        webView_show_webv.clearCache(true);
+        webView_show_webv.clearHistory();
         webView_show_webv.loadUrl(url, map);
 
         // 覆盖WebView默认使用第三方或系统默认浏览器打开网页的行为，使网页用WebView打开
@@ -174,6 +218,7 @@ public class WebViewAty extends BaseAty {
                 return true;
             }
         });
+
 
     }
 
@@ -202,13 +247,23 @@ public class WebViewAty extends BaseAty {
                     @Override
                     public void onComplete() {
                         showToast("支付成功！");
-                        Pay.findPayResult(order_id, type, WebViewAty.this);
+                        if (type.equals("17")) {
+                            url = Config.SHARE_URL + reurl;
+                            initWebView();
+                        } else {
+                            Pay.findPayResult(order_id, type, WebViewAty.this);
+                        }
                     }
 
                     @Override
                     public void onFailure() {
                         showToast("支付失败！");
-                        Pay.findPayResult(order_id, type, WebViewAty.this);
+                        if (type.equals("17")) {
+                            url = Config.SHARE_URL + reurl;
+                            initWebView();
+                        } else {
+                            Pay.findPayResult(order_id, type, WebViewAty.this);
+                        }
                     }
 
                     @Override
@@ -246,7 +301,12 @@ public class WebViewAty extends BaseAty {
             } else {
                 showToast("支付失败");
             }
-            Pay.findPayResult(order_id, type, WebViewAty.this);
+            if (type.equals("17")) {
+                url = Config.SHARE_URL + reurl;
+                initWebView();
+            } else {
+                Pay.findPayResult(order_id, type, WebViewAty.this);
+            }
         }
     }
 
@@ -259,9 +319,10 @@ public class WebViewAty extends BaseAty {
             JSONObject data = jsonObject.has("data") ? jsonObject.getJSONObject("data") : null;
             String order_sn = data.has("order_sn") ? data.getString("order_sn") : "";
             String jump_url = data.has("jump_url") ? data.getString("jump_url") : "";
-            if (!TextUtils.isEmpty(jump_url) && "20".equals(type)){
+            // 20 线下店铺保证金充值
+            if (!TextUtils.isEmpty(jump_url) && "20".equals(type)) {
                 url = jump_url;
-            }else {
+            } else {
                 //          http://www.wujiemall.com/Wap/Pay/pay_back/order/153232656966415.html
                 StringBuffer stringBuffer = new StringBuffer();
                 stringBuffer.append(Config.SHARE_URL);
@@ -283,7 +344,16 @@ public class WebViewAty extends BaseAty {
     private void initImageOnePicker() {
         ImagePicker imagePicker = ImagePicker.getInstance();
         imagePicker.setImageLoader(new GlideImageLoader());// 图片加载
-        imagePicker.setCrop(false);// 不裁剪
+        if (width <= 0 || high <= 0) {
+            imagePicker.setCrop(false);// 不裁剪
+        } else {
+            imagePicker.setCrop(true);// 裁剪
+            imagePicker.setSaveRectangle(true);// 矩形保存
+            imagePicker.setFocusWidth(Settings.displayWidth);//裁剪框宽度
+            imagePicker.setFocusHeight(Settings.displayWidth * high / width);// 裁剪框高度
+            imagePicker.setOutPutX(Settings.displayWidth);// 保存图片高度
+            imagePicker.setOutPutY(Settings.displayWidth * high / width);// 保存图片宽度
+        }
         imagePicker.setMultiMode(false);// 多选模式
         imagePicker.setShowCamera(false);// 不显示拍照按钮
     }
@@ -313,15 +383,26 @@ public class WebViewAty extends BaseAty {
                 JSONObject jsonObject = new JSONObject(resultJson);
                 payType = jsonObject.has("pay_type") ? jsonObject.getString("pay_type") : "";
                 type = jsonObject.has("type") ? jsonObject.getString("type") : "";
-                order_id = jsonObject.has("order_id") ? jsonObject.getString("order_id") : "";
-                discount_type = jsonObject.has("discount_type") ? jsonObject.getString("discount_type") : "";
-
-                if ("WeChat".equals(payType)) { // 微信支付
-                    Pay.getJsTine(order_id, discount_type, type, WebViewAty.this);
-                } else if ("Alipay".equals(payType)) { // 支付宝支付
-                    Pay.getAlipayParam(order_id, discount_type, type, WebViewAty.this);
+                if (type.equals("17")) {
+                    divination_id = jsonObject.has("divination_id") ? jsonObject.getString("divination_id") : "";
+                    divination_type = jsonObject.has("divination_type") ? jsonObject.getString("divination_type") : "";
+                    reurl = jsonObject.has("reurl") ? jsonObject.getString("reurl") : "";
+                    if ("WeChat".equals(payType)) { // 微信支付
+                        Pay.getWeChat(divination_id, divination_type, type, WebViewAty.this);
+                    } else if ("Alipay".equals(payType)) { // 支付宝支付
+                        Pay.getAlipay(divination_id, divination_type, type, WebViewAty.this);
+                    }
                 } else {
-                    L.e("payForApplication show: other pay type");
+                    order_id = jsonObject.has("order_id") ? jsonObject.getString("order_id") : "";
+                    discount_type = jsonObject.has("discount_type") ? jsonObject.getString("discount_type") : "";
+
+                    if ("WeChat".equals(payType)) { // 微信支付
+                        Pay.getJsTine(order_id, discount_type, type, WebViewAty.this);
+                    } else if ("Alipay".equals(payType)) { // 支付宝支付
+                        Pay.getAlipayParam(order_id, discount_type, type, WebViewAty.this);
+                    } else {
+                        L.e("payForApplication show: other pay type");
+                    }
                 }
             } catch (JSONException e) {
                 L.e("payForApplication Exception:" + e.toString());
@@ -385,9 +466,14 @@ public class WebViewAty extends BaseAty {
 
         /**
          * 打开相机
+         * <p>
+         * * @param cut 裁剪
          */
         @JavascriptInterface
-        public void openCamera() {
+        public void openCamera(int width, int high) {
+            //            WebViewAty.width = width;
+            //            WebViewAty.high = high;
+            L.e("qwertyuiopzxcvbnm", "width:" + width + " high:" + high);
             initImageOnePicker();
             Intent intent = new Intent(WebViewAty.this, ImageGridActivity.class);
             intent.putExtra(ImageGridActivity.EXTRAS_TAKE_PICKERS, true); // 直接调取相机
@@ -400,7 +486,10 @@ public class WebViewAty extends BaseAty {
          * @param selectMode 选择类型 0单选 1多选
          */
         @JavascriptInterface
-        public void openPhotoFolder(int selectMode) {
+        public void openPhotoFolder(int selectMode, int width, int high) {
+            WebViewAty.width = width;
+            WebViewAty.high = high;
+            L.e("qwertyuiopzxcvbnm", "width:" + width + " high:" + high);
             switch (selectMode) {
                 case 0: // 单选
                     initImageOnePicker();
@@ -427,8 +516,8 @@ public class WebViewAty extends BaseAty {
                 String easemob_account = jsonObject.has("userId") ? jsonObject.getString("userId") : "";
                 String head_pic = jsonObject.has("userHead") ? jsonObject.getString("userHead") : "";
                 String nickname = jsonObject.has("userName") ? jsonObject.getString("userName") : "";
-//                String myName = jsonObject.has("myName") ? jsonObject.getString("myName") : "";
-//                String myHead = jsonObject.has("myHead") ? jsonObject.getString("myHead") : "";
+                //                String myName = jsonObject.has("myName") ? jsonObject.getString("myName") : "";
+                //                String myHead = jsonObject.has("myHead") ? jsonObject.getString("myHead") : "";
                 toChatFriend(easemob_account, head_pic, nickname);
             } catch (JSONException e) {
                 L.e("回传Json字符串格式异常");
@@ -442,7 +531,7 @@ public class WebViewAty extends BaseAty {
          * @param imagePath 图片路径
          */
         @JavascriptInterface
-        public void downImageToPhone(String imagePath) {
+        public void downImageToPhone(final String imagePath) {
             Bitmap recordBitmap = null;
             try {
                 recordBitmap = Glide.with(WebViewAty.this)
@@ -454,16 +543,18 @@ public class WebViewAty extends BaseAty {
                 L.e("WebView.H5WebViewJsInterface.downImageToPhone is error:" + e.toString());
             } finally {
                 if (null != recordBitmap) {
-                    BitmapUtils.gainInstance().saveBmp2Gallery(WebViewAty.this, recordBitmap, "zhucema", new BitmapUtils.Listener() {
-                        @Override
-                        public void saveSuccess() {
-                            showToast("已成功保存到相册！");
-                        }
-                    });
+                        BitmapUtils.gainInstance().saveBmp2Gallery(WebViewAty.this, recordBitmap, "zhucema", new BitmapUtils.Listener() {
+                            @Override
+                            public void saveSuccess() {
+                                showToast("已成功保存到相册！");
+                            }
+                        });
+
                 } else {
                     showToast("图片保存异常，请重试");
                 }
             }
+
         }
 
         /**
@@ -475,7 +566,7 @@ public class WebViewAty extends BaseAty {
         public void getNavigationLine(String navigationCoordinates) {
             try {
                 JSONObject jsonObject = new JSONObject(navigationCoordinates);
-//                JSONObject data = jsonObject.getJSONObject("data");
+                //                JSONObject data = jsonObject.getJSONObject("data");
                 double baiDuLat = Double.parseDouble(jsonObject.has("baiDuLat") ? jsonObject.getString("baiDuLat") : "0");
                 double baiDuLng = Double.parseDouble(jsonObject.has("baiDuLng") ? jsonObject.getString("baiDuLng") : "0");
                 double gaoDeLat = Double.parseDouble(jsonObject.has("gaoDeLat") ? jsonObject.getString("gaoDeLat") : "0");
@@ -493,16 +584,14 @@ public class WebViewAty extends BaseAty {
         @JavascriptInterface
         public void connectBluetooth() {
             // http://doc.wotianhui.com/web/#/10?page_id=271
-            if (!BluetoothUtils.isHasPrinter) { // 如果没有连接则直接跳转至连接界面
-                startActivity(SearchBluetoothAty.class, null);
-            }
+            startActivity(SearchBluetoothAty.class, null);
         }
 
         /**
          * 拨打电话
          */
         @JavascriptInterface
-        public void callPhone(String phone){
+        public void callPhone(String phone) {
             call(phone);
         }
 

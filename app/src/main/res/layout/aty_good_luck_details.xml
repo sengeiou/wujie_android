@@ -108,6 +108,16 @@
                                     <include layout="@layout/aty_goods_details_title" />
                                     <!--android:progressDrawable="@drawable/hor_progressbar"-->
                                     <!--android:secondaryProgress="50"-->
+                                    <TextView
+                                        android:id="@+id/tv_brief"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:background="@android:color/white"
+                                        android:ellipsize="end"
+                                        android:maxLines="2"
+                                        android:padding="10dp"
+                                        android:textColor="#999999"
+                                        android:textSize="13sp" />
                                     <!--体验拼单进度条-->
                                     <TextView
                                         android:id="@+id/progress_tv"
@@ -129,16 +139,7 @@
                                         android:visibility="gone" />
                                 </LinearLayout>
 
-                                <TextView
-                                    android:id="@+id/tv_brief"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:background="@android:color/white"
-                                    android:ellipsize="end"
-                                    android:maxLines="2"
-                                    android:padding="10dp"
-                                    android:textColor="#999999"
-                                    android:textSize="13sp" />
+
 
                                 <LinearLayout
                                     android:id="@+id/layout_djq"

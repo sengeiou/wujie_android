@@ -105,6 +105,7 @@ public class PosterAty extends BaseAty {
 
     @Override
     protected void initialized() {
+        showStatusBar(R.id.title_re_layout);
         titlt_conter_tv.setText("推广素材制作");
         Bundle extras = getIntent().getExtras();
         mType = extras.getString("type");
