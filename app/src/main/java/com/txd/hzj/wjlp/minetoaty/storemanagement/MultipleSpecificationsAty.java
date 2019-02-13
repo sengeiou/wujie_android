@@ -213,6 +213,7 @@ public class MultipleSpecificationsAty extends BaseAty {
         if (requestUrl.endsWith("appUpdateStageGoodsAttr")){
             showToast(map.get("message"));
             if (map.get("code").equals("1")) {
+                EventBus.getDefault().post(new MessageEvent("", "MultipleSpecificationsAty"));
                 finish();
             }
             return;
@@ -257,6 +258,9 @@ public class MultipleSpecificationsAty extends BaseAty {
                         finish();
                     }
 
+                }else {
+                    EventBus.getDefault().post(new MessageEvent("", "MultipleSpecificationsAty"));
+                    finish();
                 }
                 break;
         }

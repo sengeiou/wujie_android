@@ -92,6 +92,9 @@ public class InputAty extends BaseAty {
     @ViewInject(R.id.dinnerPriceEdit)
     private EditText dinnerPriceEdit;
 
+    @ViewInject(R.id.lunchBoxNumLayout)
+    private LinearLayout lunchBoxNumLayout;
+
     @ViewInject(R.id.lunchBoxNumEdit)
     private EditText lunchBoxNumEdit;
 
@@ -227,11 +230,11 @@ public class InputAty extends BaseAty {
         takeawayDateCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked){
-                    if (takeawayWeekCheckBox.isChecked()){
+                if (isChecked) {
+                    if (takeawayWeekCheckBox.isChecked()) {
                         takeawayWeekCheckBox.setChecked(false);
-                        }
-                        takeawayDateCheckBox.setChecked(true);
+                    }
+                    takeawayDateCheckBox.setChecked(true);
                 }
             }
         });
@@ -239,8 +242,8 @@ public class InputAty extends BaseAty {
         takeawayWeekCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked){
-                    if (takeawayDateCheckBox.isChecked()){
+                if (isChecked) {
+                    if (takeawayDateCheckBox.isChecked()) {
                         takeawayDateCheckBox.setChecked(false);
                     }
                     takeawayWeekCheckBox.setChecked(true);
@@ -252,8 +255,8 @@ public class InputAty extends BaseAty {
         dinnerDateCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked){
-                    if (dinnerWeekCheckBox.isChecked()){
+                if (isChecked) {
+                    if (dinnerWeekCheckBox.isChecked()) {
                         dinnerWeekCheckBox.setChecked(false);
                     }
                     dinnerDateCheckBox.setChecked(true);
@@ -265,8 +268,8 @@ public class InputAty extends BaseAty {
         dinnerWeekCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked){
-                    if (dinnerDateCheckBox.isChecked()){
+                if (isChecked) {
+                    if (dinnerDateCheckBox.isChecked()) {
                         dinnerDateCheckBox.setChecked(false);
                     }
                     dinnerWeekCheckBox.setChecked(true);
@@ -276,7 +279,7 @@ public class InputAty extends BaseAty {
     }
 
     private static boolean isEmojiCharacter(char codePoint) {
-        return !((codePoint == 0x0) || (codePoint == 0x9) || (codePoint == 0xA) || (codePoint == 0xD) || ((codePoint >= 0x20) && codePoint <= 0xD7FF)) || ((codePoint >= 0xE000) && (codePoint <= 0xFFFD)) || ((codePoint >= 0x10000) && (codePoint <= 0x10FFFF));
+        return !(codePoint == 0x0 || codePoint == 0x9 || codePoint == 0xA || codePoint == 0xD || codePoint >= 0x20 && codePoint <= 0xD7FF) || codePoint >= 0x10000 && codePoint <= 0x10FFFF;
     }
 
     /**
@@ -297,11 +300,6 @@ public class InputAty extends BaseAty {
 
     @Override
     protected void requestData() {
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
         if (mGoods_id != null) {
             goods_info(mGoods_id, this);
         }
@@ -319,7 +317,10 @@ public class InputAty extends BaseAty {
         super.onComplete(requestUrl, jsonStr);
         Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
         if (requestUrl.endsWith("goods_info")) {
-            Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
+            Map<String, String> data = null;
+            if (map != null) {
+                data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
+            }
             int supType = Integer.parseInt(data.get("sup_type"));
             if (supType == 1) {
                 takeawayBtn.setChecked(true);
@@ -406,8 +407,10 @@ public class InputAty extends BaseAty {
         }
 
         if (requestUrl.endsWith("addAppStageGoods")) {
-            showToast(map.get("message"));
-            if ("1".equals(map.get("code"))) {
+            if (map != null) {
+                showToast(map.get("message"));
+            }
+            if (map != null && "1".equals(map.get("code"))) {
                 if (mSaveType > 1) {
                     Bundle bundle = new Bundle();
                     bundle.putString("sta_mid", mSta_mid);
@@ -416,7 +419,6 @@ public class InputAty extends BaseAty {
                 EventBus.getDefault().post(new MessageEvent("save", "InputAty"));
                 finish();
             }
-            return;
         }
     }
 
@@ -485,13 +487,15 @@ public class InputAty extends BaseAty {
                 mSaveType = 2;
                 saveData();
                 break;
+            default:
+                break;
 
         }
     }
 
     private void saveData() {
         long lastClickTime = System.currentTimeMillis();
-        if (lastClickTime - mFirstClickTime < 3*1000){
+        if (lastClickTime - mFirstClickTime < 3 * 1000) {
             showToast("不能连续点击");
             return;
         }
@@ -598,19 +602,19 @@ public class InputAty extends BaseAty {
         final TextView tv2 = view1.findViewById(R.id.tv2);
         tv1.setText("不限时间");
         tv2.setText("自定义");
-        if (type == 1){
-            if (takeawayTimeTv.getText().toString().equals("自定义")){
+        if (type == 1) {
+            if (takeawayTimeTv.getText().toString().equals("自定义")) {
                 tv1.setTextColor(Color.parseColor("#ff333333"));
                 tv2.setTextColor(Color.parseColor("#fff23030"));
-            }else {
+            } else {
                 tv1.setTextColor(Color.parseColor("#fff23030"));
                 tv2.setTextColor(Color.parseColor("#ff333333"));
             }
-        }else {
-            if (dinnerTimeTv.getText().toString().equals("自定义")){
+        } else {
+            if (dinnerTimeTv.getText().toString().equals("自定义")) {
                 tv1.setTextColor(Color.parseColor("#ff333333"));
                 tv2.setTextColor(Color.parseColor("#fff23030"));
-            }else {
+            } else {
                 tv1.setTextColor(Color.parseColor("#fff23030"));
                 tv2.setTextColor(Color.parseColor("#ff333333"));
             }
@@ -811,6 +815,7 @@ public class InputAty extends BaseAty {
                     } else {
                         takeawayCustomLayout.setVisibility(View.GONE);
                     }
+                    lunchBoxNumLayout.setVisibility(View.VISIBLE);
                     dinnerCustomLayout.setVisibility(View.GONE);
                     break;
                 case R.id.dinnerBtn:
@@ -822,6 +827,7 @@ public class InputAty extends BaseAty {
                     takeawayTimeLayout.setVisibility(View.GONE);
                     dinnerTimeLayout.setVisibility(View.VISIBLE);
                     takeawayCustomLayout.setVisibility(View.GONE);
+                    lunchBoxNumLayout.setVisibility(View.GONE);
                     if (dinnerTimeTv.getText().toString().equals("自定义")) {
                         dinnerCustomLayout.setVisibility(View.VISIBLE);
                     } else {
@@ -836,6 +842,7 @@ public class InputAty extends BaseAty {
                     dinnerLayout.setVisibility(View.VISIBLE);
                     takeawayTimeLayout.setVisibility(View.VISIBLE);
                     dinnerTimeLayout.setVisibility(View.VISIBLE);
+                    lunchBoxNumLayout.setVisibility(View.VISIBLE);
                     if (takeawayTimeTv.getText().toString().equals("自定义")) {
                         takeawayCustomLayout.setVisibility(View.VISIBLE);
                     } else {
@@ -856,23 +863,28 @@ public class InputAty extends BaseAty {
         String label = messageEvent.getLabel();
         String message = messageEvent.getMessage();
         if (label.equals("ClassifyManageAty")) {
-            if (message.contains("-")){
+            if (message.contains("-")) {
                 String[] split = message.split("-");
                 classifyTv.setText(split[0]);
                 mCate_id = split[1];
             }
         }
         if (label.equals("MultipleSpecificationsAty")) {
-            mGoods_attr = message;
-            ArrayList<Map<String, String>> maps = JSONUtils.parseKeyAndValueToMapList(message);
-            StringBuilder builder = new StringBuilder();
-            for (int i = 0; i < maps.size(); i++) {
-                builder.append(maps.get(i).get("name"));
-                if (i != maps.size() - 1) {
-                    builder.append("/");
+            if (!TextUtils.isEmpty(message)) {
+                mGoods_attr = message;
+                ArrayList<Map<String, String>> maps = JSONUtils.parseKeyAndValueToMapList(message);
+                StringBuilder builder = new StringBuilder();
+                if (maps != null) {
+                    for (int i = 0; i < maps.size(); i++) {
+                        builder.append(maps.get(i).get("name"));
+                        if (i != maps.size() - 1) {
+                            builder.append("/");
+                        }
+                    }
                 }
+                multipleSpecificationsTv.setText(builder);
             }
-            multipleSpecificationsTv.setText(builder);
+            requestData();
         }
         if (label.equals("AttributesFirstAty")) {
             mGoods_property = message;
@@ -932,10 +944,10 @@ public class InputAty extends BaseAty {
                 String pic_path = CompressionUtil.compressionBitmap(images.get(0).path);
 
                 // 设置照片
-                if (!pic_path.equals("")) {
+                if (pic_path != null && !pic_path.equals("")) {
                     //图片路径
                     file1 = new File(pic_path);
-                    if (file1 != null && file1.isFile()) {
+                    if (file1.isFile()) {
                         Glide.with(mContext).load(file1).centerCrop().into(picImg);
                     }
 

@@ -432,6 +432,13 @@
                     android:layout_height="1dp"
                     android:background="@color/line_color" />
             </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/lunchBoxNumLayout"
+                android:orientation="vertical"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -444,7 +451,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:text="所需餐盒个数" />
+                    android:text="外卖餐盒个数" />
 
 
                 <LinearLayout
@@ -480,7 +487,7 @@
                 android:layout_height="1dp"
                 android:background="@color/line_color" />
 
-
+            </LinearLayout>
             <RelativeLayout
                 android:id="@+id/multipleSpecificationsLayout"
                 android:layout_width="match_parent"
