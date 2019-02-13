@@ -99,6 +99,7 @@ public class WebViewAty extends BaseAty {
 
     @Override
     protected void initialized() {
+        AndroidBug5497Workaround.assistActivity(this);
 
         // 设置默认加载的Url
         if (url.contains("api")) {
