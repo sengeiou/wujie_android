@@ -738,6 +738,7 @@ public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.Scro
 
             bundle.putString("url", stringBuffer.toString()); // url
             bundle.putBoolean("isShowTitle",true);
+            bundle.putString("title", "线下店铺"); // url
             startActivity(WebViewAty.class, bundle);
         } else {
             bundle.putSerializable("mellInfo", offLineDataBean);

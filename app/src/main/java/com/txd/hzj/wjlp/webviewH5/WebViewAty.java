@@ -155,7 +155,7 @@ public class WebViewAty extends BaseAty {
         });
 
 
-        if (mIsShowTitle && mTitle.equals("紫薇斗数")){
+        if (mIsShowTitle && mTitle != null && mTitle.equals("紫薇斗数")){
             webView_show_webv.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
@@ -204,8 +204,6 @@ public class WebViewAty extends BaseAty {
         Map<String, String> map = new HashMap<>();
         map.put("token", Config.getToken());
         map.put("device", "Android");
-        webView_show_webv.clearCache(true);
-        webView_show_webv.clearHistory();
         webView_show_webv.loadUrl(url, map);
 
         // 覆盖WebView默认使用第三方或系统默认浏览器打开网页的行为，使网页用WebView打开
