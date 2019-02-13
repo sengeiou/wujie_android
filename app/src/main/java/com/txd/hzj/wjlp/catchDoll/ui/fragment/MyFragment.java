@@ -10,6 +10,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import com.ants.theantsgo.tool.glide.GlideUtils;
+import com.ants.theantsgo.util.L;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
@@ -21,6 +22,11 @@ import com.txd.hzj.wjlp.catchDoll.ui.activity.MoneyActivity;
 import com.txd.hzj.wjlp.catchDoll.ui.activity.MyDollActivity;
 import com.txd.hzj.wjlp.catchDoll.ui.activity.RedemptionRecordActivity;
 import com.txd.hzj.wjlp.catchDoll.util.SharedPreferencesUtils;
+import com.txd.hzj.wjlp.http.catchDoll.Catcher;
+import com.txd.hzj.wjlp.minetoaty.address.AddressListAty;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * 创建者：voodoo_jie
@@ -71,10 +77,9 @@ public class MyFragment extends BaseFgt implements CompoundButton.OnCheckedChang
 
     @Override
     protected void requestData() {
-        GlideUtils.urlCirclePicNoBg("http://s1.sinaimg.cn/bmiddle/970b3da2xb221409472d0&690", 60, 60, my_header_imgv);
-        my_name_tv.setText("null");
-        my_myMoney_tv.setText("200");
-        my_myDoll_tv.setText("8");
+
+        Catcher.userCenter(MyFragment.this);
+
         my_bgMusic_swich.setChecked(SharedPreferencesUtils.getBoolean(getActivity(), "bgMusic"));
         my_operatingSound_swich.setChecked(SharedPreferencesUtils.getBoolean(getActivity(), "soundEffect"));
         my_bgMusic_swich.setOnCheckedChangeListener(this);
@@ -97,15 +102,17 @@ public class MyFragment extends BaseFgt implements CompoundButton.OnCheckedChang
             case R.id.my_myDoll_llayout: // 我的娃娃
                 startActivity(MyDollActivity.class, null);
                 break;
-            case R.id.my_myCollection_rlayout:
-                Bundle bundle = new Bundle();
-                bundle.putInt("type", 2); // 收藏
-                startActivity(AttentionActivity.class, bundle);
+            case R.id.my_myCollection_rlayout: // 我的收藏
+                Bundle collectionBundle = new Bundle();
+                collectionBundle.putInt("type", 2); // 收藏
+                startActivity(AttentionActivity.class, collectionBundle);
                 break;
-            case R.id.my_myAddress_rlayout:
-                showToast("收货地址");
+            case R.id.my_myAddress_rlayout: // 收货地址
+                Bundle addressBundle = new Bundle();
+                addressBundle.putInt("type", 1);
+                startActivity(AddressListAty.class, addressBundle);
                 break;
-            case R.id.my_gameRecord_rlayout:
+            case R.id.my_gameRecord_rlayout: // 游戏记录 getCatchersLogs
                 startActivity(GameRecordingActivity.class, null);
                 break;
             case R.id.my_exchangeRecord_rlayout:
@@ -132,6 +139,29 @@ public class MyFragment extends BaseFgt implements CompoundButton.OnCheckedChang
             case R.id.my_operatingSound_swich:
                 SharedPreferencesUtils.putBoolean(getActivity(), "soundEffect", isChecked);
                 break;
+        }
+    }
+
+    @Override
+    public void onComplete(String requestUrl, String jsonStr) {
+        super.onComplete(requestUrl, jsonStr);
+        if (requestUrl.contains("userCenter")) { // 个人中心
+            try {
+                JSONObject userCenterJson = new JSONObject(jsonStr);
+                JSONObject data = userCenterJson.getJSONObject("data");
+                data.getString("id");
+                String nickname = data.getString("nickname");// 昵称
+                String head_pic = data.getString("head_pic");// 头像
+                String chance_num = data.getString("chance_num");// 我的银两
+                String my_catcher_num = data.getString("my_catcher_num");// 我的娃娃
+
+                GlideUtils.urlCirclePicNoBg(head_pic, 60, 60, my_header_imgv);
+                my_name_tv.setText(nickname);
+                my_myMoney_tv.setText(chance_num);
+                my_myDoll_tv.setText(my_catcher_num);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
     }
 }

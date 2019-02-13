@@ -17,8 +17,8 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
+import com.ants.theantsgo.util.L;
 import com.txd.hzj.wjlp.R;
-import com.txd.hzj.wjlp.catchDoll.util.L;
 
 /**
  * 创建者：voodoo_jie

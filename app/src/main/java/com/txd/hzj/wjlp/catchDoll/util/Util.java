@@ -67,44 +67,6 @@ public class Util {
     }
 
     /**
-     * 判断当天是否是首次启动
-     *
-     * @return true:当天首次启动APP false:当天已启动过
-     */
-    public static boolean isTodayFastStart(Context context) {
-        String keyStr = "startTime";
-
-        String lastDate = SharedPreferencesUtils.getString(context, keyStr); // 获取上次启动日期
-        String currentDate = millis2String(System.currentTimeMillis(), "yyyyMMdd"); // 获取当天日期
-
-        if (lastDate == null || lastDate.isEmpty()) { // 上次启动日期为空，则返回是当天首次启动
-            SharedPreferencesUtils.putString(context, keyStr, currentDate);
-            return true;
-        }
-        if (!lastDate.equals(currentDate)) { // 如果上次启动日期和本次启动日期不一致，则返回是当天首次启动
-            SharedPreferencesUtils.putString(context, keyStr, currentDate);
-            return true;
-        }
-
-        return false; // 否则直接返回false
-    }
-
-    /**
-     * 判断当天是否是首次启动
-     *
-     * @return true:首次启动APP false:已经启动过
-     */
-    public static boolean isFastStart(Context context) {
-        String keyStr = "fastStart";
-        // 设置默认值为true,如果未启动过则没有此key，返回为默认值
-        boolean fastStart = SharedPreferencesUtils.getBoolean(context, keyStr, true);
-        if (fastStart) { // 如果是首次启动，则将首选项的值改为false
-            SharedPreferencesUtils.putBoolean(context, keyStr, false);
-        }
-        return fastStart;
-    }
-
-    /**
      * 生成0到(maxNumber-1)以内的随机数（不包括指定数字）
      *
      * @param maxNumber 最大数

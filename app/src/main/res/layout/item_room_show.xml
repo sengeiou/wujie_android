@@ -53,6 +53,7 @@
                 android:layout_marginLeft="5dp"
                 android:layout_weight="1"
                 android:textColor="#FDC72F"
+                android:textSize="10sp"
                 tools:text="@string/app_name" />
 
             <TextView

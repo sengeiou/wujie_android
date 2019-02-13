@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.ants.theantsgo.tool.glide.GlideUtils;
 import com.ants.theantsgo.tools.AlertDialog;
+import com.ants.theantsgo.util.L;
 import com.bumptech.glide.Glide;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
@@ -37,7 +38,6 @@ import com.txd.hzj.wjlp.catchDoll.socketcmd.SockAPP;
 import com.txd.hzj.wjlp.catchDoll.ui.dialog.CatchFailDialog;
 import com.txd.hzj.wjlp.catchDoll.ui.dialog.CatchSuccessDialog;
 import com.txd.hzj.wjlp.catchDoll.ui.dialog.ImageDialog;
-import com.txd.hzj.wjlp.catchDoll.util.L;
 import com.txd.hzj.wjlp.catchDoll.util.PhoneNetworkUtils;
 import com.txd.hzj.wjlp.catchDoll.util.SharedPreferencesUtils;
 import com.txd.hzj.wjlp.catchDoll.util.Util;

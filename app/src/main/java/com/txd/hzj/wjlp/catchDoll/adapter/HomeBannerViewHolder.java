@@ -7,6 +7,7 @@ import android.widget.ImageView;
 
 import com.ants.theantsgo.tool.glide.GlideUtils;
 import com.txd.hzj.wjlp.R;
+import com.txd.hzj.wjlp.catchDoll.bean.HomeBannerBean;
 import com.zhouwei.mzbanner.holder.MZViewHolder;
 
 /**
@@ -14,7 +15,7 @@ import com.zhouwei.mzbanner.holder.MZViewHolder;
  * <br>创建时间：2018/09/20 020上午 11:51
  * <br>功能描述：
  */
-public class HomeBannerViewHolder implements MZViewHolder<String> {
+public class HomeBannerViewHolder implements MZViewHolder<HomeBannerBean> {
 
     ImageView itemHomeBannerPage_show_imgv;
 
@@ -27,9 +28,9 @@ public class HomeBannerViewHolder implements MZViewHolder<String> {
     }
 
     @Override
-    public void onBind(Context context, int i, String imageUrl) {
+    public void onBind(Context context, int i, HomeBannerBean homeBannerBean) {
         // 数据绑定
-        GlideUtils.loadUrlImg(context, imageUrl, itemHomeBannerPage_show_imgv);
+        GlideUtils.loadUrlImg(context, homeBannerBean.getPicture(), itemHomeBannerPage_show_imgv);
 //        itemHomeBannerPage_show_imgv.setImageResource(data);
     }
 

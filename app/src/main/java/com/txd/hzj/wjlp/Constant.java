@@ -47,4 +47,7 @@ public class Constant extends EaseConstant {
     public static final int NETWORK_CLASS_2_G = 2; // 2G网络
     public static final int NETWORK_CLASS_3_G = 3; // 3G网络
     public static final int NETWORK_CLASS_4_G = 4; // 4G网络
+
+    public static final String SERVER_IP = "192.168.0.4"; // 娃娃机服务器地址IP
+    public static final int SERVER_PORT = 7771; // 端口号
 }

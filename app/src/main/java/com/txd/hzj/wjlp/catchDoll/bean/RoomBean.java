@@ -7,37 +7,47 @@ package com.txd.hzj.wjlp.catchDoll.bean;
  */
 public class RoomBean {
 
-    private int _id; // 房间id
-    private String photoUrl; // 房间图片
-    private String name; // 房间名称
-    private int price; // 价格 XX币一次
-    private int status; // 房间状态
+    private String id; // 记录id
+    private String pid; // 娃娃机id
+    private String status; // 机器状态（0：空闲 1：占用 9：删除）
+    private String des; // 娃娃机介绍
+    private String name; // 娃娃机名称
+    private String mac; // 房间MAC地址
+    private String price; // 价格
+    private String exchange_price; // 交换价格，我想应该是商品兑换价格
+    private String room_pic; // 房间图片
+    private String status_ming; // 状态描述（热抓中、空闲中）
 
-    public RoomBean() {
+    public String getId() {
+        return id;
     }
 
-    public RoomBean(int _id, String photoUrl, String name, int price, int status) {
-        this._id = _id;
-        this.photoUrl = photoUrl;
-        this.name = name;
-        this.price = price;
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getPid() {
+        return pid;
+    }
+
+    public void setPid(String pid) {
+        this.pid = pid;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
         this.status = status;
     }
 
-    public int get_id() {
-        return _id;
+    public String getDes() {
+        return des;
     }
 
-    public void set_id(int _id) {
-        this._id = _id;
-    }
-
-    public String getPhotoUrl() {
-        return photoUrl;
-    }
-
-    public void setPhotoUrl(String photoUrl) {
-        this.photoUrl = photoUrl;
+    public void setDes(String des) {
+        this.des = des;
     }
 
     public String getName() {
@@ -48,30 +58,59 @@ public class RoomBean {
         this.name = name;
     }
 
-    public int getPrice() {
+    public String getMac() {
+        return mac;
+    }
+
+    public void setMac(String mac) {
+        this.mac = mac;
+    }
+
+    public String getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(String price) {
         this.price = price;
     }
 
-    public int getStatus() {
-        return status;
+    public String getExchange_price() {
+        return exchange_price;
     }
 
-    public void setStatus(int status) {
-        this.status = status;
+    public void setExchange_price(String exchange_price) {
+        this.exchange_price = exchange_price;
+    }
+
+    public String getRoom_pic() {
+        return room_pic;
+    }
+
+    public void setRoom_pic(String room_pic) {
+        this.room_pic = room_pic;
+    }
+
+    public String getStatus_ming() {
+        return status_ming;
+    }
+
+    public void setStatus_ming(String status_ming) {
+        this.status_ming = status_ming;
     }
 
     @Override
     public String toString() {
         return "RoomBean{" +
-                "_id=" + _id +
-                ", photoUrl='" + photoUrl + '\'' +
+                "id='" + id + '\'' +
+                ", pid='" + pid + '\'' +
+                ", status='" + status + '\'' +
+                ", des='" + des + '\'' +
                 ", name='" + name + '\'' +
-                ", price=" + price +
-                ", status=" + status +
+                ", mac='" + mac + '\'' +
+                ", price='" + price + '\'' +
+                ", exchange_price='" + exchange_price + '\'' +
+                ", room_pic='" + room_pic + '\'' +
+                ", status_ming='" + status_ming + '\'' +
                 '}';
     }
 }

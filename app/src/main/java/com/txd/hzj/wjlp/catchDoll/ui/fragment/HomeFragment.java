@@ -15,7 +15,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.ants.theantsgo.gson.GsonUtil;
 import com.ants.theantsgo.tool.glide.GlideUtils;
+import com.ants.theantsgo.util.L;
 import com.bumptech.glide.Glide;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
@@ -27,7 +29,9 @@ import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.catchDoll.adapter.HomeBannerViewHolder;
 import com.txd.hzj.wjlp.catchDoll.adapter.RoomListAdapter;
 import com.txd.hzj.wjlp.catchDoll.base.BaseFgt;
-import com.txd.hzj.wjlp.catchDoll.bean.MessageBean;
+import com.txd.hzj.wjlp.catchDoll.bean.HomeBannerBean;
+import com.txd.hzj.wjlp.catchDoll.bean.HomeFragmentBean;
+import com.txd.hzj.wjlp.catchDoll.bean.HomeVictoryBean;
 import com.txd.hzj.wjlp.catchDoll.bean.RoomBean;
 import com.txd.hzj.wjlp.catchDoll.bean.SignInPrizeBean;
 import com.txd.hzj.wjlp.catchDoll.socketcmd.SockAPP;
@@ -38,15 +42,16 @@ import com.txd.hzj.wjlp.catchDoll.ui.activity.NewOnlineActivity;
 import com.txd.hzj.wjlp.catchDoll.ui.dialog.LuckMonkeyDialog;
 import com.txd.hzj.wjlp.catchDoll.ui.dialog.NewcomerRewardDialog;
 import com.txd.hzj.wjlp.catchDoll.ui.dialog.SingInResultDialog;
-import com.txd.hzj.wjlp.catchDoll.util.L;
 import com.txd.hzj.wjlp.catchDoll.util.Util;
 import com.txd.hzj.wjlp.catchDoll.view.MarqueeView;
 import com.txd.hzj.wjlp.catchDoll.view.NoScrollRecyclerView;
 import com.txd.hzj.wjlp.catchDoll.view.nineLotteryView.LuckyMonkeyPanelView;
+import com.txd.hzj.wjlp.http.catchDoll.Catcher;
 import com.youth.banner.loader.ImageLoader;
 import com.zhouwei.mzbanner.MZBannerView;
 import com.zhouwei.mzbanner.holder.MZHolderCreator;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -83,13 +88,19 @@ public class HomeFragment extends BaseFgt implements RoomListAdapter.OnRoomItemC
     @ViewInject(R.id.homeFgt_roomShow_gView) // 房间列表控件
     public NoScrollRecyclerView homeFgt_roomShow_gView;
 
+    private int signInPosition = -1; // 转盘签到指定位置 小于0则随机转，大于0等于0，指定位置
 
-    private List<String> list_path; // 图片网络路径列表
+    private List<HomeBannerBean> bannerList; // 轮播图列表
     private List<RoomBean> roomList; // 房间列表
+    private List<HomeVictoryBean> victoryList; // 房间列表
     private String playerUrl1, playerUrl2;
 
-    private boolean isNewcomer = true; // 是否是新人，为展示弹窗
     private SockAPP sendThread;
+
+    private int page = 1; // 当前第几页
+    private int per = 0; // 每页加载的房间数量，为0的情况下后台默认回传10个
+    private String inRoomNumber; // 点击房间的房间号
+    private String inRoomMac; // 点击房间的Mac地址
 
     @Override
     protected int getLayoutResId() {
@@ -103,100 +114,41 @@ public class HomeFragment extends BaseFgt implements RoomListAdapter.OnRoomItemC
     @Override
     protected void requestData() {
 
+        Catcher.getRoomList(page, per, this);
+
         homeFgt_smartRefresh_llayout.setEnableAutoLoadMore(false); // 是否启用列表惯性滑动到底部时自动加载更多
         homeFgt_smartRefresh_llayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
                 homeFgt_smartRefresh_llayout.finishRefresh(500);
-                L.e("onRefresh");
+                page = 1; // 下拉刷新 Page = 1
+                Catcher.getRoomList(page, per, HomeFragment.this);
             }
         });
         homeFgt_smartRefresh_llayout.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
                 homeFgt_smartRefresh_llayout.finishLoadMore(500);
-                L.e("onLoadMore");
+                page++;
+                Catcher.getRoomList(page, per, HomeFragment.this);
             }
         });
 
-        final List<SignInPrizeBean> signInPrizeBeans = new ArrayList<>();
-        signInPrizeBeans.add(new SignInPrizeBean(1, "", "https://pic.52112.com/icon/256/20180327/13670/873122.png", "+10"));
-        signInPrizeBeans.add(new SignInPrizeBean(2, "", "", "再来一次"));
-        signInPrizeBeans.add(new SignInPrizeBean(1, "", "https://pic.52112.com/icon/256/20180327/13670/873122.png", "+20"));
-        signInPrizeBeans.add(new SignInPrizeBean(3, "", "https://pic.52112.com/icon/256/20181121/25067/1200094.png", ""));
-        signInPrizeBeans.add(new SignInPrizeBean(1, "", "https://pic.52112.com/icon/256/20180327/13670/873122.png", "+30"));
-        signInPrizeBeans.add(new SignInPrizeBean(2, "", "", "再来一次"));
-        signInPrizeBeans.add(new SignInPrizeBean(1, "", "https://pic.52112.com/icon/256/20180327/13670/873122.png", "+50"));
-        signInPrizeBeans.add(new SignInPrizeBean(3, "", "https://pic.52112.com/icon/256/20181121/25067/1200094.png", ""));
-
-        if (Util.isTodayFastStart(getActivity())) { // 如果当天是首次启动则弹窗
-
-            new LuckMonkeyDialog.Builder(getActivity())
-                    .setData(signInPrizeBeans)
-                    .setOnStartClickListener(new LuckMonkeyDialog.OnStartClickListener() {
-                        @Override
-                        public void onStartClick(LuckyMonkeyPanelView luckyMonkeyPanelView) {
-                            luckyMonkeyPanelView.startGame(new Random().nextInt(8));
-                        }
-                    })
-                    .setOnPanelStateListener(new LuckyMonkeyPanelView.PanelStateListener() {
-                        @Override
-                        public void onPanelStateStart() {
-                        }
-
-                        @Override
-                        public void onPanelStateStop(final int position) {
-                            SignInPrizeBean signInPrizeBean = signInPrizeBeans.get(position);
-                            switch (signInPrizeBean.getType()) {
-                                case 1: // 抽中奖品
-                                    String content = signInPrizeBean.getContent();
-                                    new SingInResultDialog.Builder(getActivity()).setMoneyStr(content).setOnBtnClickListener("我知道了", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                        }
-                                    }).create().show();
-                                    break;
-                                default:
-                                    break;
-                            }
-                        }
-                    })
-                    .create().show();
-        }
-
-        if (isNewcomer) { // 如果是新人则显示新人奖励弹窗
-            new NewcomerRewardDialog.Builder(getActivity()).setOnClickListener("立即领取", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                }
-            }).create().show();
-        }
-
-        setMarqueeMessage(); // 设置消息横向滚动跑马灯效果
-        setBanner(); // 设置轮播图
-        setRoomList(); // 设置房间列表
     }
 
     /**
      * 设置消息横向滚动跑马灯效果
      */
-    private void setMarqueeMessage() {
-        List<MessageBean> messageBeans = new ArrayList<>();
-        MessageBean messageBean;
-        for (int i = 0; i < 8; i++) {
-            messageBean = new MessageBean();
-            messageBean.setHeadUrl("http://img4.duitang.com/uploads/item/201407/26/20140726141237_32faQ.png");
-            messageBean.setContent("测试消息模拟那个谁左边这个头像的人已经抓到了" + i);
-            messageBeans.add(messageBean);
-        }
+    private void setMarqueeMessage(List<HomeVictoryBean> list) {
+        victoryList = list;
 
-        for (int i = 0; i < messageBeans.size(); i++) {
+        for (int i = 0; i < victoryList.size(); i++) {
             View view = LayoutInflater.from(getActivity()).inflate(R.layout.item_marquee_view, null);
-            ImageView itemMarquee_show_imgv = (ImageView) view.findViewById(R.id.itemMarquee_show_imgv);
-            TextView itemMarquee_show_tv = (TextView) view.findViewById(R.id.itemMarquee_show_tv);
-            messageBean = messageBeans.get(i);
-            GlideUtils.urlCirclePicNoBg(messageBean.getHeadUrl(), 20, 20, itemMarquee_show_imgv);
-            itemMarquee_show_tv.setText(messageBean.getContent());
+            ImageView itemMarquee_show_imgv = view.findViewById(R.id.itemMarquee_show_imgv);
+            TextView itemMarquee_show_tv = view.findViewById(R.id.itemMarquee_show_tv);
+            HomeVictoryBean homeVictoryBean = victoryList.get(i);
+            GlideUtils.urlCirclePicNoBg(homeVictoryBean.getHead_pic(), 20, 20, itemMarquee_show_imgv);
+            itemMarquee_show_tv.setText(homeVictoryBean.getNickname());
             homeFgt_marqueeMessage_mView.addViewInQueue(view);
         }
         homeFgt_marqueeMessage_mView.setScrollSpeed(8);
@@ -208,28 +160,23 @@ public class HomeFragment extends BaseFgt implements RoomListAdapter.OnRoomItemC
     /**
      * 设置Banner轮播图
      */
-    private void setBanner() {
-        list_path = new ArrayList<>();
-        list_path.add("http://gss0.baidu.com/9fo3dSag_xI4khGko9WTAnF6hhy/zhidao/pic/item/503d269759ee3d6d8fb6e66a45166d224f4ade1b.jpg");
-        list_path.add("http://e.hiphotos.baidu.com/zhidao/pic/item/32fa828ba61ea8d369805b46930a304e241f58d5.jpg");
-        list_path.add("http://img1.imgtn.bdimg.com/it/u=227855470,2752218639&fm=26&gp=0.jpg");
-        list_path.add("http://img3.imgtn.bdimg.com/it/u=2524367231,3547626596&fm=26&gp=0.jpg");
-        list_path.add("http://gss0.baidu.com/-Po3dSag_xI4khGko9WTAnF6hhy/zhidao/pic/item/91529822720e0cf37475ecc80c46f21fbe09aa07.jpg");
+    private void setBanner(List<HomeBannerBean> list) {
+        bannerList = list;
 
         // 先设置点击监听事件，然后再去添加item
         homeFgt_bannerShow_banner.setBannerPageClickListener(new MZBannerView.BannerPageClickListener() {
             @Override
             public void onPageClick(View view, int i) {
-                showToast(list_path.get(i));
+                showToast(bannerList.get(i).getPicture());
             }
         });
-        homeFgt_bannerShow_banner.setPages(list_path, new MZHolderCreator<HomeBannerViewHolder>() {
+        homeFgt_bannerShow_banner.setPages(bannerList, new MZHolderCreator<HomeBannerViewHolder>() {
             @Override
             public HomeBannerViewHolder createViewHolder() {
                 return new HomeBannerViewHolder();
             }
         });
-
+        homeFgt_bannerShow_banner.start();
     }
 
     @Override
@@ -238,30 +185,20 @@ public class HomeFragment extends BaseFgt implements RoomListAdapter.OnRoomItemC
         homeFgt_bannerShow_banner.pause();
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        homeFgt_bannerShow_banner.start();
-    }
-
     /**
      * 设置房间展示列表
      */
-    private void setRoomList() {
-        roomList = new ArrayList<>();
-        roomList.add(new RoomBean(1, "http://h.hiphotos.baidu.com/zhidao/pic/item/2f738bd4b31c87018e126740237f9e2f0608fff4.jpg", "测试房间1", 10, 0));
-        roomList.add(new RoomBean(2, "http://c.hiphotos.baidu.com/zhidao/pic/item/4034970a304e251f27d9d254a586c9177f3e536b.jpg", "测试房间2", 10, 1));
-        roomList.add(new RoomBean(3, "http://b-ssl.duitang.com/uploads/blog/201404/23/20140423205758_FJ4NN.jpeg", "测试房间3", 10, 1));
-        roomList.add(new RoomBean(4, "http://c.hiphotos.baidu.com/zhidao/pic/item/cdbf6c81800a19d8265bbb793bfa828ba61e4675.jpg", "测试房间4", 10, 1));
-        roomList.add(new RoomBean(5, "http://img.zcool.cn/community/0165c75a602e0ba8012113c7d220e7.jpg@2o.jpg", "测试房间5", 10, 0));
-        roomList.add(new RoomBean(6, "http://life.southmoney.com/tuwen/UploadFiles_6871/201809/20180919114327818.jpg", "测试房间6", 10, 0));
-        roomList.add(new RoomBean(7, "http://ccstatic-1252317822.file.myqcloud.com/portraitimg/2018-02-07/5a7a8526367d2.jpg", "测试房间7", 10, 0));
-        roomList.add(new RoomBean(8, "http://img.xspic.com/img/116/194/574068_5.jpg", "测试房间8", 10, 0));
-        roomList.add(new RoomBean(9, "http://gss0.baidu.com/-vo3dSag_xI4khGko9WTAnF6hhy/zhidao/pic/item/314e251f95cad1c8fa989c4b783e6709c93d51be.jpg", "测试房间9", 10, 1));
-        roomList.add(new RoomBean(10, "http://life.southmoney.com/tuwen/UploadFiles_6871/201809/20180919114327377.jpg", "测试房间10", 10, 0));
-        roomList.add(new RoomBean(11, "http://img1.imgtn.bdimg.com/it/u=165501638,2373619033&fm=27&gp=0.jpg", "测试房间11", 10, 0));
-        roomList.add(new RoomBean(12, "http://hbimg.b0.upaiyun.com/afd558e0130d4141116a66a282a0d9267f4602721614e-kb2Tjj_fw658", "测试房间12", 10, 1));
-        roomList.add(new RoomBean(13, "http://kanimg.9ku.com/kanqq/pic/upload/2018/0530/b78eea8df704a1e831fb6c8778a618cb.jpg", "测试房间13", 10, 0));
+    private void setRoomList(List<RoomBean> list) {
+        if (list.size() <= 0) {
+            showToast("没有更多房间了！");
+            return;
+        }
+        if (page == 1) {
+            roomList = new ArrayList<>();
+            roomList = list;
+        } else {
+            roomList.addAll(list);
+        }
         RoomListAdapter adapter = new RoomListAdapter(roomList, getActivity());
         adapter.setOnRoomItemClickListener(this);
         homeFgt_roomShow_gView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
@@ -320,11 +257,26 @@ public class HomeFragment extends BaseFgt implements RoomListAdapter.OnRoomItemC
      */
     @Override
     public void onRoomItemClick(int position) {
-        // TODO 先去访问后台数据，允许进入之后再进行连接
-        showProgressDialog("正在连接房间，请稍后....");
-        sendThread = new SockAPP();
-        sendThread.StartWokring(handler, "192.168.0.4", 7771);
-        Constant.SOCK_APP = sendThread;
+        RoomBean roomBean = roomList.get(position);
+        inRoomNumber = roomBean.getId(); // 点击房间的房间号
+        inRoomMac = roomBean.getMac(); // 点击房间的Mac地址
+        if (inRoomNumber.isEmpty()) {
+            showToast("房间异常，未获取到房间号！");
+            return;
+        }
+        if (inRoomMac.isEmpty()) {
+            showToast("房间异常，未获取到房间MAC地址！");
+            return;
+        }
+        // 房间状态不为空并且方建伟空闲状态时可进入房间
+        if (roomBean.getStatus() != null && roomBean.getStatus().equals("0")) {
+            showProgressDialog("正在连接房间，请稍后....");
+            sendThread = new SockAPP();
+            sendThread.StartWokring(handler, Constant.SERVER_IP, Constant.SERVER_PORT);
+            Constant.SOCK_APP = sendThread;
+        } else {
+            showToast("房间占用中，请选择其他房间！");
+        }
     }
 
     @SuppressLint("HandlerLeak")
@@ -335,10 +287,9 @@ public class HomeFragment extends BaseFgt implements RoomListAdapter.OnRoomItemC
             switch (msg.what) {
                 case Constant.SOCKET_LINE_SUCCESS:
                     L.i("Socket连接成功....");
-                    String amac = "AA121"; // 房间号
-                    String mac = "32336AC82E68"; // 机器MAC地址
+                    String amac = inRoomNumber; // 房间号 id
+                    String mac = inRoomMac; // 机器MAC地址
                     //发送进设备命令-并切换界面
-//                    rtmp://pili-publish.aoquzhuwawa.dx1ydb.com/aoquwawaji003/AA121_1
                     JSONObject cmdJson = new JSONObject();
                     try {
 //                        cmd:{"cmd":"enter_room","mac":mac} // 进入房间
@@ -383,6 +334,129 @@ public class HomeFragment extends BaseFgt implements RoomListAdapter.OnRoomItemC
         @Override
         public void displayImage(Context context, Object path, ImageView imageView) {
             Glide.with(context).load((String) path).into(imageView); // 传入路径,因为list泛型为String格式,path为Object格式,所以强制类型转换.
+        }
+    }
+
+    /**
+     * 新人奖励
+     *
+     * @param moneyStr 奖励数据
+     */
+    private void showNewcomer(String moneyStr) {
+        new NewcomerRewardDialog.Builder(getActivity())
+                .setMoneyStr(moneyStr)
+                .setOnClickListener("立即领取", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                }).create().show();
+    }
+
+    /**
+     * 签到转盘
+     *
+     * @param signInPrizeBeans 奖品项列表
+     */
+    private void showSignInPrize(final List<SignInPrizeBean> signInPrizeBeans) {
+        new LuckMonkeyDialog.Builder(getActivity())
+                .setData(signInPrizeBeans)
+                .setOnStartClickListener(new LuckMonkeyDialog.OnStartClickListener() {
+                    @Override
+                    public void onStartClick(LuckyMonkeyPanelView luckyMonkeyPanelView) {
+                        // 如果回传的值小于0则直接随机生成停止的位置，否则的话直接设置后台指定的位置
+                        luckyMonkeyPanelView.startGame(signInPosition < 0 ? new Random().nextInt(8) : signInPosition);
+                    }
+                })
+                .setOnPanelStateListener(new LuckyMonkeyPanelView.PanelStateListener() {
+                    @Override
+                    public void onPanelStateStart() {
+                    }
+
+                    @Override
+                    public void onPanelStateStop(final int position) {
+                        SignInPrizeBean signInPrizeBean = signInPrizeBeans.get(position);
+                        switch (signInPrizeBean.getType()) {
+                            case 1: // 抽中奖品
+                                String content = signInPrizeBean.getContent();
+                                new SingInResultDialog.Builder(getActivity()).setMoneyStr(content).setOnBtnClickListener("我知道了", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                    }
+                                }).create().show();
+                                break;
+                            case 3: // 未中奖
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                })
+                .create().show();
+    }
+
+    @Override
+    public void onComplete(String requestUrl, String jsonStr) {
+        super.onComplete(requestUrl, jsonStr);
+        if (requestUrl.contains("Catcher/getRoomList")) { // 获取房间列表
+            L.e("onComplete =====> " + jsonStr);
+            try {
+                JSONObject requestJson = new JSONObject(jsonStr);
+                JSONObject dataJson = requestJson.getJSONObject("data");
+
+                // 房间列表
+                List<RoomBean> tempRoomList = new ArrayList<>();
+                JSONArray listArray = dataJson.getJSONArray("list");
+                for (int i = 0; i < listArray.length(); i++) {
+                    JSONObject roomListJson = listArray.getJSONObject(i);
+                    RoomBean roomBean = GsonUtil.GsonToBean(roomListJson.toString(), RoomBean.class);
+                    tempRoomList.add(roomBean);
+                }
+                setRoomList(tempRoomList);
+
+                // 设置抓中记录
+                List<HomeVictoryBean> tempVictoryList = new ArrayList<>();
+                JSONArray victoryArray = dataJson.getJSONArray("victory");
+                for (int i = 0; i < victoryArray.length(); i++) {
+                    JSONObject victoryListJson = victoryArray.getJSONObject(i);
+                    HomeVictoryBean victoryBean = GsonUtil.GsonToBean(victoryListJson.toString(), HomeVictoryBean.class);
+                    tempVictoryList.add(victoryBean);
+                }
+                setMarqueeMessage(tempVictoryList);
+
+                // 设置轮播图
+                List<HomeBannerBean> tempBannerList = new ArrayList<>();
+                JSONArray bannerArray = dataJson.getJSONArray("banner");
+                for (int i = 0; i < bannerArray.length(); i++) {
+                    JSONObject bannerListJson = bannerArray.getJSONObject(i);
+                    HomeBannerBean bannerBean = GsonUtil.GsonToBean(bannerListJson.toString(), HomeBannerBean.class);
+                    bannerBean.setPicture("http://www.pptbz.com/pptpic/UploadFiles_6909/201203/2012031220134655.jpg");
+                    tempBannerList.add(bannerBean);
+                }
+                setBanner(tempBannerList);
+
+                JSONObject status = dataJson.getJSONObject("status");
+                if (status.getInt("sign") == 1) { // 未签到
+
+                    List<SignInPrizeBean> signInPrizeBeans = new ArrayList<>();
+                    signInPrizeBeans.add(new SignInPrizeBean(1, "", "https://pic.52112.com/icon/256/20180327/13670/873122.png", "+10"));
+                    signInPrizeBeans.add(new SignInPrizeBean(2, "", "", "再来一次"));
+                    signInPrizeBeans.add(new SignInPrizeBean(1, "", "https://pic.52112.com/icon/256/20180327/13670/873122.png", "+20"));
+                    signInPrizeBeans.add(new SignInPrizeBean(3, "", "https://pic.52112.com/icon/256/20181121/25067/1200094.png", ""));
+                    signInPrizeBeans.add(new SignInPrizeBean(1, "", "https://pic.52112.com/icon/256/20180327/13670/873122.png", "+30"));
+                    signInPrizeBeans.add(new SignInPrizeBean(2, "", "", "再来一次"));
+                    signInPrizeBeans.add(new SignInPrizeBean(1, "", "https://pic.52112.com/icon/256/20180327/13670/873122.png", "+50"));
+                    signInPrizeBeans.add(new SignInPrizeBean(3, "", "https://pic.52112.com/icon/256/20181121/25067/1200094.png", ""));
+
+                    showSignInPrize(signInPrizeBeans);
+                }
+                if (status.getInt("new") == 0) { // 未领取新人奖励
+                    showNewcomer("100银两");
+                }
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
         }
     }
 }

@@ -9,13 +9,13 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.ants.theantsgo.util.L;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.catchDoll.adapter.RecargeAdapter;
 import com.txd.hzj.wjlp.catchDoll.base.BaseAty;
 import com.txd.hzj.wjlp.catchDoll.bean.RechargeBean;
-import com.txd.hzj.wjlp.catchDoll.util.L;
 
 import java.util.ArrayList;
 import java.util.List;

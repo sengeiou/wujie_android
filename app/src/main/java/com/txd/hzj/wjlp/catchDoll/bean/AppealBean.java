@@ -7,8 +7,17 @@ package com.txd.hzj.wjlp.catchDoll.bean;
  */
 public class AppealBean {
 
+    private int id; // 申诉编号
     private String causeStr; // 申诉原因
     private boolean isChecked; // 是否被选中
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getCauseStr() {
         return causeStr;

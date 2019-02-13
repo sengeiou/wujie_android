@@ -4,6 +4,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 import android.widget.TextView;
 
+import com.ants.theantsgo.util.L;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
@@ -11,6 +12,11 @@ import com.txd.hzj.wjlp.catchDoll.adapter.AppealAdapter;
 import com.txd.hzj.wjlp.catchDoll.bean.AppealBean;
 import com.txd.hzj.wjlp.catchDoll.base.BaseAty;
 import com.txd.hzj.wjlp.catchDoll.view.NoScrollRecyclerView;
+import com.txd.hzj.wjlp.http.catchDoll.Catcher;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +34,9 @@ public class AppealActivity extends BaseAty implements AppealAdapter.OnItemSelec
     public NoScrollRecyclerView appeal_list_nRlView;
 
     private List<AppealBean> list;
+    private AppealAdapter adapter;
+
+    private AppealBean selectAppeal = null; // 选中的原因对象
 
     @Override
     protected int getLayoutResId() {
@@ -42,18 +51,8 @@ public class AppealActivity extends BaseAty implements AppealAdapter.OnItemSelec
     @Override
     protected void requestData() {
 
-        list = new ArrayList<>();
-        AppealBean appealBean;
-        for (int i = 0; i < 7; i++) {
-            appealBean = new AppealBean();
-            appealBean.setCauseStr("申诉问题" + (i + 1));
-            appealBean.setChecked(false);
-            list.add(appealBean);
-        }
-        AppealAdapter adapter = new AppealAdapter(this, list);
-        adapter.setOnItemSelectListener(this);
-        appeal_list_nRlView.setLayoutManager(new LinearLayoutManager(this));
-        appeal_list_nRlView.setAdapter(adapter);
+        Catcher.appealApply(this);
+
     }
 
     @OnClick({R.id.titleView_goback_imgv, R.id.appeal_submit_tv})
@@ -65,13 +64,52 @@ public class AppealActivity extends BaseAty implements AppealAdapter.OnItemSelec
                 finish();
                 break;
             case R.id.appeal_submit_tv:
-                showToast("先别着急提交，后台还没开发完呢！！");
+                if (selectAppeal != null) {
+                    showToast("您选中了 " + selectAppeal.getCauseStr() + " 项");
+                } else {
+                    showToast("请选择之后再提交");
+                }
                 break;
         }
     }
 
     @Override
     public void selectItem(int position) {
-        showToast("您选择了 " + list.get(position).getCauseStr() + " 项");
+        selectAppeal = list.get(position);
+    }
+
+    private void setAppealList(List<AppealBean> list) {
+        if (list != null && list.size() > 0) {
+            this.list = list;
+            adapter = new AppealAdapter(this, list);
+            adapter.setOnItemSelectListener(this);
+            appeal_list_nRlView.setLayoutManager(new LinearLayoutManager(this));
+            appeal_list_nRlView.setAdapter(adapter);
+        }
+    }
+
+    @Override
+    public void onComplete(String requestUrl, String jsonStr) {
+        super.onComplete(requestUrl, jsonStr);
+        if (requestUrl.contains("appealApply")) { // 获取申诉原因列表
+            try {
+                JSONObject jsonObject = new JSONObject(jsonStr);
+                JSONArray listJsonArray = jsonObject.getJSONArray("data");
+                List<AppealBean> tempList = new ArrayList<>();
+                AppealBean appealBean;
+                for (int i = 0; i < listJsonArray.length(); i++) {
+                    appealBean = new AppealBean();
+                    JSONObject jsonObject1 = listJsonArray.getJSONObject(i);
+                    appealBean.setId(Integer.parseInt(jsonObject1.getString("k")));
+                    appealBean.setCauseStr(jsonObject1.getString("value"));
+                    appealBean.setChecked(false);
+                    tempList.add(appealBean);
+                }
+                setAppealList(tempList);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
     }
 }

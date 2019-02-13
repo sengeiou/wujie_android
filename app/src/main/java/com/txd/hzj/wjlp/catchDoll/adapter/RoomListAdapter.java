@@ -46,42 +46,45 @@ public class RoomListAdapter extends RecyclerView.Adapter<RoomListAdapter.ViewHo
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
         RoomBean roomBean = list.get(position);
+        int roomState = Integer.parseInt(roomBean.getStatus());
 
-        GlideUtils.loadUrlImg(context, roomBean.getPhotoUrl(), holder.itemRoomShow_roomImg_imgv);
-        holder.itemRoomShow_roomName_tv.setText(roomBean.getName()); // 房间名称
-        holder.itemRoomShow_price_tv.setText(roomBean.getPrice() + "银两/次"); // 价格
-        switch (roomBean.getStatus()) {
-            case 0: // 空闲
-                holder.itemRoomShow_status_tv.setText("有空闲"); // 状态
-                holder.itemRoomShow_status_tv.setBackgroundResource(R.drawable.shape_status_idle);
-                break;
-            case 1: // 热抓中
-                holder.itemRoomShow_status_tv.setText("热抓中"); // 状态
-                holder.itemRoomShow_status_tv.setBackgroundResource(R.drawable.shape_status_ing);
-                break;
-        }
-        if (isEdit) {
-            holder.itemRoomShow_delete_imgv.setVisibility(View.VISIBLE);
-        } else {
-            holder.itemRoomShow_delete_imgv.setVisibility(View.GONE);
-        }
-        holder.itemRoomShow_delete_imgv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (null != onDeleteClickListener) {
-                    onDeleteClickListener.delete(list, position);
-                }
+        if (roomState != 9) {
+            GlideUtils.loadUrlImg(context, roomBean.getRoom_pic(), holder.itemRoomShow_roomImg_imgv);
+            holder.itemRoomShow_roomName_tv.setText(roomBean.getName()); // 房间名称
+            holder.itemRoomShow_price_tv.setText(new StringBuffer().append(roomBean.getPrice()).append("银两/次")); // 价格
+            switch (roomState) {
+                case 0: // 空闲
+                    holder.itemRoomShow_status_tv.setText("有空闲"); // 状态
+                    holder.itemRoomShow_status_tv.setBackgroundResource(R.drawable.shape_status_idle);
+                    break;
+                case 1: // 热抓中
+                    holder.itemRoomShow_status_tv.setText("热抓中"); // 状态
+                    holder.itemRoomShow_status_tv.setBackgroundResource(R.drawable.shape_status_ing);
+                    break;
             }
-        }); // 删除
+            if (isEdit) {
+                holder.itemRoomShow_delete_imgv.setVisibility(View.VISIBLE);
+            } else {
+                holder.itemRoomShow_delete_imgv.setVisibility(View.GONE);
+            }
+            holder.itemRoomShow_delete_imgv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (null != onDeleteClickListener) {
+                        onDeleteClickListener.delete(list, position);
+                    }
+                }
+            }); // 删除
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (onRoomItemClickListener != null) {
-                    onRoomItemClickListener.onRoomItemClick(position);
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (onRoomItemClickListener != null) {
+                        onRoomItemClickListener.onRoomItemClick(position);
+                    }
                 }
-            }
-        });
+            });
+        }
 
     }
 

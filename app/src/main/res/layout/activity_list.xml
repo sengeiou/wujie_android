@@ -9,11 +9,20 @@
         android:id="@+id/activityList_show_inc"
         layout="@layout/view_title" />
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/list_show_reView"
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/list_smartRefresh_llayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scrollbars="none" />
+        android:background="@android:color/white"
+        app:srlPrimaryColor="@color/colorCatchDollPrimary">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/list_show_reView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="none" />
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
     <LinearLayout
         android:id="@+id/list_nullData_llayout"

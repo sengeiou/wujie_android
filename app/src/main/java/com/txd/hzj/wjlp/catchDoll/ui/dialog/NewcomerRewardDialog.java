@@ -34,6 +34,7 @@ public class NewcomerRewardDialog extends Dialog {
 
         private Context context;
         private String btnStr;
+        private String moneyStr;
         private OnClickListener onBtnClickListener;
         private boolean cancelable = false;
 
@@ -47,6 +48,11 @@ public class NewcomerRewardDialog extends Dialog {
             return this;
         }
 
+        public Builder setMoneyStr(String moneyStr) {
+            this.moneyStr = moneyStr;
+            return this;
+        }
+
         public NewcomerRewardDialog create() {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
@@ -56,8 +62,8 @@ public class NewcomerRewardDialog extends Dialog {
             TextView dialogNewcomer_moneyBefore_tv = view.findViewById(R.id.dialogNewcomer_moneyBefore_tv);
             TextView dialogNewcomer_receive_tv = view.findViewById(R.id.dialogNewcomer_receive_tv);
 
-            dialogNewcomer_moneyAfter_tv.setText("100银两");
-            dialogNewcomer_moneyBefore_tv.setText("100银两");
+            dialogNewcomer_moneyAfter_tv.setText(moneyStr);
+            dialogNewcomer_moneyBefore_tv.setText(moneyStr);
             // 如果左侧的按钮文字不为null则显示按钮
             if (btnStr != null) {
                 // 如果字符串不为空字符串，则设置指定的字符串，否则直接显示原始字符串
