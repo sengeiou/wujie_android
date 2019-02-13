@@ -19,6 +19,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.config.Settings;
@@ -152,6 +153,34 @@ public class WebViewAty extends BaseAty {
                 }
             }
         });
+
+
+        if (mIsShowTitle && mTitle.equals("紫薇斗数")){
+            webView_show_webv.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    final WebView.HitTestResult hitTestResult = webView_show_webv.getHitTestResult();
+                    // 如果是图片类型或者是带有图片链接的类型
+                    if (hitTestResult.getType() == WebView.HitTestResult.IMAGE_TYPE ||
+                            hitTestResult.getType() == WebView.HitTestResult.SRC_IMAGE_ANCHOR_TYPE) {
+                        String resultExtra = hitTestResult.getExtra();
+                        BitmapUtils.gainInstance().savePic(WebViewAty.this, resultExtra, "ziweidoushu", new BitmapUtils.Listener() {
+                            @Override
+                            public void saveSuccess() {
+                                WebViewAty.this.runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Toast.makeText(WebViewAty.this, "已成功保存到相册！", Toast.LENGTH_LONG).show();
+                                    }
+                                });
+                            }
+                        });
+                        return true;
+                    }
+                    return false;
+                }
+            });
+        }
 
     }
 
@@ -512,12 +541,13 @@ public class WebViewAty extends BaseAty {
                 L.e("WebView.H5WebViewJsInterface.downImageToPhone is error:" + e.toString());
             } finally {
                 if (null != recordBitmap) {
-                    BitmapUtils.gainInstance().saveBmp2Gallery(WebViewAty.this, recordBitmap, "zhucema", new BitmapUtils.Listener() {
-                        @Override
-                        public void saveSuccess() {
-                            showToast("已成功保存到相册！");
-                        }
-                    });
+                        BitmapUtils.gainInstance().saveBmp2Gallery(WebViewAty.this, recordBitmap, "zhucema", new BitmapUtils.Listener() {
+                            @Override
+                            public void saveSuccess() {
+                                showToast("已成功保存到相册！");
+                            }
+                        });
+
                 } else {
                     showToast("图片保存异常，请重试");
                 }
