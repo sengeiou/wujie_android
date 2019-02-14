@@ -887,21 +887,24 @@ public class InputAty extends BaseAty {
             requestData();
         }
         if (label.equals("AttributesFirstAty")) {
-            mGoods_property = message;
-            try {
-                StringBuilder builder = new StringBuilder();
-                JSONArray jsonArray = new JSONArray(message);
-                for (int i = 0; i < jsonArray.length(); i++) {
-                    JSONObject object = new JSONObject(String.valueOf(jsonArray.getJSONObject(i)));
-                    builder.append(object.optString("title"));
-                    if (i != jsonArray.length() - 1) {
-                        builder.append("/");
+            if (!TextUtils.isEmpty(message)) {
+                mGoods_property = message;
+                try {
+                    StringBuilder builder = new StringBuilder();
+                    JSONArray jsonArray = new JSONArray(message);
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        JSONObject object = new JSONObject(String.valueOf(jsonArray.getJSONObject(i)));
+                        builder.append(object.optString("title"));
+                        if (i != jsonArray.length() - 1) {
+                            builder.append("/");
+                        }
                     }
+                    attributesTv.setText(builder);
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
-                attributesTv.setText(builder);
-            } catch (JSONException e) {
-                e.printStackTrace();
             }
+            requestData();
         }
 
         if (label.equals("DateRangeAty")) {

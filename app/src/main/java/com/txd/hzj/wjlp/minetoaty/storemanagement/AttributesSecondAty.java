@@ -67,7 +67,7 @@ public class AttributesSecondAty extends BaseAty {
     @ViewInject(R.id.addTv)
     private TextView addTv;
     private String mGoods_id;
-    private String mP_id="";
+    private String mP_id = "";
     private AttributesFirstAty.AttributesDataBean mDataBean;
     private boolean mIsGone;
 
@@ -154,12 +154,12 @@ public class AttributesSecondAty extends BaseAty {
             public void onGlobalLayout() {
                 Rect rect = new Rect();
                 rootLayout.getWindowVisibleDisplayFrame(rect);
-                int mainInvisibleHeight  = rootLayout.getRootView().getHeight() - rect.bottom;
+                int mainInvisibleHeight = rootLayout.getRootView().getHeight() - rect.bottom;
                 int height = rootLayout.getRootView().getHeight();
-                if (mainInvisibleHeight> height/4){
-                    rootLayout.scrollTo(0,mainInvisibleHeight);
-                }else {
-                    rootLayout.scrollTo(0,0);
+                if (mainInvisibleHeight > height / 4) {
+                    rootLayout.scrollTo(0, mainInvisibleHeight);
+                } else {
+                    rootLayout.scrollTo(0, 0);
                 }
             }
         });

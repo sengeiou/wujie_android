@@ -7,6 +7,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ants.theantsgo.AppManager;
+import com.ants.theantsgo.config.Config;
+import com.ants.theantsgo.util.L;
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -17,6 +19,7 @@ import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.bean.PaymentResultBean;
 import com.txd.hzj.wjlp.http.OfflineStore;
 import com.txd.hzj.wjlp.minetoaty.order.OffLineShopAty;
+import com.txd.hzj.wjlp.webviewH5.WebViewAty;
 
 /**
  * 创建者：voodoo_jie
@@ -97,7 +100,16 @@ public class PaymentResultsAty extends BaseAty {
         super.onClick(v);
         switch (v.getId()) {
             case R.id.offlinePaymentResult_goOrder_tv:
-                startActivity(OffLineShopAty.class, new Bundle());
+                Bundle mBundle = new Bundle();
+                if (L.isDebug){
+                    mBundle.putBoolean("isShowTitle",true);
+                    mBundle.putString("title","线下店铺");
+                    mBundle.putString("url", Config.SHARE_URL+"Wap/OfflineStore/OrderList/pay_status/9/p/1.html");
+                    startActivity(WebViewAty.class,mBundle);
+                }else {
+                    mBundle.putString("title", "线下店铺");
+                    startActivity(OffLineShopAty.class, mBundle);
+                }
                 finish();
                 break;
             case R.id.offlinePaymentResult_goBack_tv:

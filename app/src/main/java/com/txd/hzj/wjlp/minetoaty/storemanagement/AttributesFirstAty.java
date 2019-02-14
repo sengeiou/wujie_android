@@ -270,8 +270,11 @@ public class AttributesFirstAty extends BaseAty {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
+                }else {
+                    EventBus.getDefault().post(new MessageEvent("", "AttributesFirstAty"));
+                    finish();
                 }
-                finish();
+
                 break;
         }
     }
