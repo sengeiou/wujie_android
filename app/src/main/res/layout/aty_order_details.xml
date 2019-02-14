@@ -174,7 +174,7 @@
                                     android:layout_marginStart="2sp"
                                     android:gravity="end"
                                     android:padding="8dp"
-                                    android:text="￥6.00" />
+                                    android:text="¥6.00" />
                             </LinearLayout>
 
                         </LinearLayout>
@@ -210,7 +210,7 @@
                                     android:layout_height="wrap_content"
                                     android:gravity="end"
                                     android:padding="8dp"
-                                    android:text="-￥0.76"
+                                    android:text="-¥0.76"
                                     android:textColor="@color/app_text_color" />
                             </LinearLayout>
 
@@ -235,7 +235,7 @@
                                     android:layout_marginStart="2sp"
                                     android:gravity="end"
                                     android:padding="8dp"
-                                    android:text="￥5.24"
+                                    android:text="¥5.24"
                                     android:textColor="@color/colorAccent" />
                             </LinearLayout>
                         </LinearLayout>
@@ -290,7 +290,7 @@
                                     android:layout_marginStart="2sp"
                                     android:gravity="end"
                                     android:padding="8dp"
-                                    android:text="￥46.86" />
+                                    android:text="¥46.86" />
                             </LinearLayout>
 
                             <LinearLayout
@@ -311,7 +311,7 @@
                                     android:layout_marginStart="2sp"
                                     android:gravity="end"
                                     android:padding="8dp"
-                                    android:text="-￥3.00" />
+                                    android:text="-¥3.00" />
                             </LinearLayout>
 
                         </LinearLayout>
@@ -337,7 +337,7 @@
                                 android:layout_marginStart="2sp"
                                 android:gravity="end"
                                 android:padding="8dp"
-                                android:text="￥43.86"
+                                android:text="¥43.86"
                                 android:textColor="@color/colorAccent" />
                         </LinearLayout>
                     </LinearLayout>

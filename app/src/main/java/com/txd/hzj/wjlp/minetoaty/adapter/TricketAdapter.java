@@ -79,7 +79,7 @@ public class TricketAdapter extends BaseAdapter {
         }
 
         Glide.with(context).load(map.get("logo")).into(mcvh.img_cover);
-        mcvh.tricket_nowMoney_tv.setText("￥" + map.get("now_money"));
+        mcvh.tricket_nowMoney_tv.setText("¥" + map.get("now_money"));
         mcvh.tricket_userticketId_tv.setText("代金券编码：" + map.get("id"));
         mcvh.tricket_money_tv.setText("代金券面值：" + map.get("money"));
         mcvh.end_sourceStatus_tv.setText("获取途径：" + map.get("source_status"));

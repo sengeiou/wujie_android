@@ -594,9 +594,9 @@ public class InputGoodsDetailsAty extends BaseAty implements ObservableScrollVie
         // 商品id
         goods_id = goodsInfo.get("goods_id");
         // 商品价格
-        ChangeTextViewStyle.getInstance().forGoodsPrice(this, now_price_tv, "￥" + goodsInfo.get("shop_price"));
+        ChangeTextViewStyle.getInstance().forGoodsPrice(this, now_price_tv, "¥" + goodsInfo.get("shop_price"));
         // 商品原价
-        old_price_tv.setText("￥" + goodsInfo.get("market_price"));
+        old_price_tv.setText("¥" + goodsInfo.get("market_price"));
         old_price_tv.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
         // 积分
         ChangeTextViewStyle.getInstance().forTextColor(this, goods_profit_num_tv,
@@ -720,7 +720,7 @@ public class InputGoodsDetailsAty extends BaseAty implements ObservableScrollVie
      */
 //    private void TextViewChange() {
 //
-//        ChangeTextViewStyle.getInstance().forGoodsPrice(this, now_price_tv, "￥14.8");
+//        ChangeTextViewStyle.getInstance().forGoodsPrice(this, now_price_tv, "¥14.8");
 //        old_price_tv.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
 //        ChangeTextViewStyle.getInstance().forTextColor(this, goods_profit_num_tv,
 //                "积分10.23", 3, Color.parseColor("#FF0000"));

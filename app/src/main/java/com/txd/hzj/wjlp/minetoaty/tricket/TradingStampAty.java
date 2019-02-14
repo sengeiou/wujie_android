@@ -317,9 +317,9 @@ public class TradingStampAty extends BaseAty implements View.OnClickListener{
             final Map<String, String> map = giftlist.get(position);
             if (map.containsKey("use_money") && map.containsKey("money")) {
                 float price = Float.parseFloat(map.get("money")) - Float.parseFloat(map.get("use_money"));
-                holder.price_tv.setText("￥" + price);
+                holder.price_tv.setText("¥" + price);
             }
-            holder.face_tv.setText("赠品券面值￥" + (map.containsKey("money") ? map.get("money") : ""));
+            holder.face_tv.setText("赠品券面值¥" + (map.containsKey("money") ? map.get("money") : ""));
             holder.get_way_tv.setText("获取途径：" + (map.containsKey("source_status") ? map.get("source_status") : ""));
             holder.get_time_tv.setText("获取时间：" + (map.containsKey("create_time") ? map.get("create_time") : ""));
 

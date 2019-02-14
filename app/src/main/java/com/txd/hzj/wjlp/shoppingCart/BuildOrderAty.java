@@ -189,8 +189,8 @@ public class BuildOrderAty extends BaseAty {
         titlt_conter_tv.setText("确认订单");
         //        point_near_by_lv.setAdapter(postAdapter);
         setStyle(order_type);
-        ChangeTextViewStyle.getInstance().forOrderPrice2(this, price_for_all_goods_tv, "共1件商品  合计￥14.80");
-        //        ChangeTextViewStyle.getInstance().forOrderPrice2(this, order_price_at_last_tv, "合计：￥14.80");
+        ChangeTextViewStyle.getInstance().forOrderPrice2(this, price_for_all_goods_tv, "共1件商品  合计¥14.80");
+        //        ChangeTextViewStyle.getInstance().forOrderPrice2(this, order_price_at_last_tv, "合计：¥14.80");
     }
 
     @Override

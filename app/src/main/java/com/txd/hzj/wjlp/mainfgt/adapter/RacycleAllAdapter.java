@@ -175,10 +175,10 @@ public class RacycleAllAdapter extends RecyclerView.Adapter<RacycleAllAdapter.It
 //        holder.goods_pic_iv.setLayoutParams(layoutParams);
 
         holder.item_goods_name_tv.setText(cfGoodsList.getGoods_name());
-        if(cfGoodsList.getShop_price().contains("￥")){
+        if(cfGoodsList.getShop_price().contains("¥")){
             holder.peice_tv.setText(cfGoodsList.getShop_price());
         }else{
-            holder.peice_tv.setText("￥"+cfGoodsList.getShop_price());
+            holder.peice_tv.setText("¥"+cfGoodsList.getShop_price());
         }
         holder.older_price_tv.setText(cfGoodsList.getMarket_price());
 

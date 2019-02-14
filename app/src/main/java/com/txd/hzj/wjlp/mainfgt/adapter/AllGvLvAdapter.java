@@ -152,9 +152,9 @@ public class AllGvLvAdapter extends BaseAdapter {
                 vh.home_count_down_view.start((end - now) * 1000);
                 if (type == WJConfig.WJYG) {
                     vh.goods_num_already_tv.setText("已抢购" + allGoodsBean.getSell_num() + "件");
-                    vh.peice_tv.setText("￥" + allGoodsBean.getDeposit());
+                    vh.peice_tv.setText("¥" + allGoodsBean.getDeposit());
                 } else {
-                    vh.peice_tv.setText("￥" + allGoodsBean.getLimit_price());
+                    vh.peice_tv.setText("¥" + allGoodsBean.getLimit_price());
                 }
 
                 int max;
@@ -193,7 +193,7 @@ public class AllGvLvAdapter extends BaseAdapter {
                         .into(vh.item_country_logo_tv);
 
                 vh.item_goods_name_tv.setText(allGoodsBean.getGoods_name());
-                vh.older_price_tv.setText("￥" + allGoodsBean.getMarket_price());
+                vh.older_price_tv.setText("¥" + allGoodsBean.getMarket_price());
                 vh.get_integral_tv.setText(allGoodsBean.getIntegral());
 
                 /*是否可以使用代金券使用多少优惠*/
@@ -213,7 +213,7 @@ public class AllGvLvAdapter extends BaseAdapter {
                 break;
             case WJConfig.PQQ:// 票券区
                 // 价格
-                vh.peice_tv.setText("￥" + allGoodsBean.getShop_price());
+                vh.peice_tv.setText("¥" + allGoodsBean.getShop_price());
                 // 商品图片
                 Glide.with(context).load(allGoodsBean.getCountry_logo())
 //                        .override(size1, size2)
@@ -225,7 +225,7 @@ public class AllGvLvAdapter extends BaseAdapter {
                         .into(vh.country_logo_iv);
                 vh.sold_num_tv.setText("已售" + allGoodsBean.getSell_num() + "件");
                 vh.item_goods_name_tv.setText(allGoodsBean.getGoods_name());
-                vh.older_price_tv.setText("￥" + allGoodsBean.getMarket_price());
+                vh.older_price_tv.setText("¥" + allGoodsBean.getMarket_price());
                 vh.get_integral_tv.setText(allGoodsBean.getIntegral());
                 /* 是否可以使用代金券* 使用多少优惠*/
                 if (allGoodsBean.getTicket_buy_discount() == null || allGoodsBean.getTicket_buy_discount().equals("0")) {
@@ -238,11 +238,11 @@ public class AllGvLvAdapter extends BaseAdapter {
                 break;
             case WJConfig.JKG:// 进口馆
                 // 价格
-                vh.peice_tv.setText("￥" + allGoodsBean.getShop_price());
+                vh.peice_tv.setText("¥" + allGoodsBean.getShop_price());
                 vh.sold_num_tv.setText("已售" + allGoodsBean.getSell_num() + "件");
 
                 vh.item_goods_name_tv.setText(allGoodsBean.getGoods_name());
-                vh.older_price_tv.setText("￥" + allGoodsBean.getMarket_price());
+                vh.older_price_tv.setText("¥" + allGoodsBean.getMarket_price());
                 vh.get_integral_tv.setText(allGoodsBean.getIntegral());
                 /*
                 * 是否可以使用代金券
@@ -296,7 +296,7 @@ public class AllGvLvAdapter extends BaseAdapter {
                 vh.sold_num_tv.setVisibility(View.GONE);
 
                 vh.item_goods_name_tv.setText(allGoodsBean.getGoods_name());
-                vh.older_price_tv.setText("￥" + allGoodsBean.getMarket_price());
+                vh.older_price_tv.setText("¥" + allGoodsBean.getMarket_price());
                 vh.get_integral_tv.setText(allGoodsBean.getIntegral());
                 /*
                 * 是否可以使用代金券

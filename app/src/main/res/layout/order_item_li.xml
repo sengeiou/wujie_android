@@ -48,7 +48,7 @@
         android:layout_height="wrap_content"
         android:gravity="center_vertical|end"
         android:padding="10dp"
-        android:text="共2件商品 合计：￥190.00(含运费￥10.00)"
+        android:text="共2件商品 合计：¥190.00(含运费¥10.00)"
         android:textColor="@color/app_text_color" />
 
     <View

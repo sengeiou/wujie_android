@@ -337,7 +337,7 @@ public class MellListAdapter extends BaseAdapter {
             } else {
                 mpvh = (MPViewHolder) view.getTag();
             }
-            ChangeTextViewStyle.getInstance().forMellProdect(context, mpvh.mell_prodect_price_tv, "￥" + getItem(i).getShop_price());
+            ChangeTextViewStyle.getInstance().forMellProdect(context, mpvh.mell_prodect_price_tv, "¥" + getItem(i).getShop_price());
             Glide.with(context).load(getItem(i).getGoods_img())
                     .into(mpvh.imageview);
 

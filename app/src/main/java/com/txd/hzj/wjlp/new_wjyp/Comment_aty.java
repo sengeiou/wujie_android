@@ -198,13 +198,13 @@ public class Comment_aty extends BaseAty {
         Glide.with(this).load(type.equals("1") ? map.get("car_img") : map.get("house_style_img")).into(imageview);
         tv_price.setText(map.get("pre_money"));
         if (requestUrl.contains("commentPage") && type.equals("1")) {
-            tv1.setText("车全款：￥" + map.get
-                    ("all_price") + "\n可    抵：￥" + map.get("true_pre_money") + "车款");
+            tv1.setText("车全款：¥" + map.get
+                    ("all_price") + "\n可    抵：¥" + map.get("true_pre_money") + "车款");
         }
         if (requestUrl.contains("commentPage") && type.equals("2")) {
             layout_rb.setVisibility(View.VISIBLE);
-            tv1.setText("房全款：￥" + map.get
-                    ("all_price") + "\n可    抵：￥" + map.get("true_pre_money") + "房款");
+            tv1.setText("房全款：¥" + map.get
+                    ("all_price") + "\n可    抵：¥" + map.get("true_pre_money") + "房款");
           //  tv2.setText(map.get("house_name") + "\t\t" + map.get("one_price") + "元/平");
             exterior.setText("价格");
             space.setText("地段");

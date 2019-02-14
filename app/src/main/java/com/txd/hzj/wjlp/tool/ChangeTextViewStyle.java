@@ -44,8 +44,8 @@ public class ChangeTextViewStyle {
         SpannableString styledText = new SpannableString(str);
         int unit_position = 0;
         int end_posion;
-        if (str.contains("￥")) {
-            unit_position = str.indexOf("￥");
+        if (str.contains("¥")) {
+            unit_position = str.indexOf("¥");
             end_posion = str.indexOf(".");
             styledText.setSpan(new TextAppearanceSpan(context, R.style.text_default_style), unit_position, unit_position + 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             styledText.setSpan(new TextAppearanceSpan(context, R.style.goods_price_style2), unit_position + 1, end_posion, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -66,8 +66,8 @@ public class ChangeTextViewStyle {
         SpannableString styledText = new SpannableString(str);
         int unit_position;
         int end_posion;
-        if (str.contains("￥")) {
-            unit_position = str.indexOf("￥");
+        if (str.contains("¥")) {
+            unit_position = str.indexOf("¥");
             end_posion = str.indexOf(".");
             if (end_posion < 0) {
                 end_posion = str.length();
@@ -88,8 +88,8 @@ public class ChangeTextViewStyle {
         SpannableString styledText = new SpannableString(str);
         int unit_position;
         int end_posion;
-        if (str.contains("￥") && str.contains(".")) {
-            unit_position = str.indexOf("￥");
+        if (str.contains("¥") && str.contains(".")) {
+            unit_position = str.indexOf("¥");
             end_posion = str.indexOf(".");
             styledText.setSpan(new TextAppearanceSpan(context, R.style.goods_price_style), unit_position + 1, end_posion + 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
@@ -243,7 +243,7 @@ public class ChangeTextViewStyle {
     public void forAuctionPrice(Context context, TextView tv, String str) {
         SpannableString styledText = new SpannableString(str);
         int unit_position = 0;
-        unit_position = str.indexOf("￥");
+        unit_position = str.indexOf("¥");
         int len = str.length();
         styledText.setSpan(new TextAppearanceSpan(context, R.style.auction_price_style_18), unit_position, unit_position + 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         styledText.setSpan(new TextAppearanceSpan(context, R.style.auction_price_style_24), unit_position + 1, len, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -260,7 +260,7 @@ public class ChangeTextViewStyle {
     public void forOrderPrice(Context context, TextView tv, String str) {
         SpannableString styledText = new SpannableString(str);
         int unit_position;
-        unit_position = str.indexOf("￥");
+        unit_position = str.indexOf("¥");
         int point_position;
         point_position = str.indexOf(".");
         styledText.setSpan(new TextAppearanceSpan(context, R.style.sign_in_tip_style), unit_position + 1, point_position, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -277,7 +277,7 @@ public class ChangeTextViewStyle {
     public void forOrderPrice2(Context context, TextView tv, String str) {
         SpannableString styledText = new SpannableString(str);
         int unit_position;
-        unit_position = str.indexOf("￥");
+        unit_position = str.indexOf("¥");
         int point_position;
         point_position = str.indexOf(".");
         int len = str.length();

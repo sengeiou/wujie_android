@@ -306,7 +306,7 @@ public class VipDetailsAty extends BaseAty {
             TwoNineEightZeroBean.DataBean.ListBean listBean = mList.get(position);
             Glide.with(mContext).load(listBean.getGoods_img()).asBitmap().into(holder.goods_img);
             holder.goods_title_tv.setText(listBean.getGoods_name());
-            holder.goods_price_tv.setText("￥" + listBean.getShop_price());
+            holder.goods_price_tv.setText("¥" + listBean.getShop_price());
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

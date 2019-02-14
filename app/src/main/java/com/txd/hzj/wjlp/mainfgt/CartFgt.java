@@ -143,7 +143,7 @@ public class CartFgt extends BaseFgt {
      * 修改商品价格
      */
     private void toChangePrice() {
-        ChangeTextViewStyle.getInstance().forCartPrice(getActivity(), all_goods_price_tv, "￥" + all_price + "\n不含配送费");
+        ChangeTextViewStyle.getInstance().forCartPrice(getActivity(), all_goods_price_tv, "¥" + all_price + "\n不含配送费");
     }
 
     @Override

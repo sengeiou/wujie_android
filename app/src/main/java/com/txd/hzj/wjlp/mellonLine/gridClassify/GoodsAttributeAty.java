@@ -375,7 +375,7 @@ public class GoodsAttributeAty extends BaseAty {
         String imageurl = intent.getStringExtra("imageurl");
         String price = getIntent().getStringExtra("price");
         Glide.with(this).load(imageurl).into(imageview);//加载默认商品图
-        ChangeTextViewStyle.getInstance().forGoodsPrice24(this, goods_price_tv, "￥" + price);
+        ChangeTextViewStyle.getInstance().forGoodsPrice24(this, goods_price_tv, "¥" + price);
 
         if (intent.hasExtra("goods_attr_Serializable")) {
             list = (List<FirstListBean>) intent.getSerializableExtra("goods_attr_Serializable");
@@ -448,7 +448,7 @@ public class GoodsAttributeAty extends BaseAty {
                         //此处为设置赠品专区属性积分view
                         ChangeTextViewStyle.getInstance().forGoodsPrice24(GoodsAttributeAty.this, goods_price_tv, goods_val.getUse_voucher() + " 赠品券");
                     }else {
-                        ChangeTextViewStyle.getInstance().forGoodsPrice24(GoodsAttributeAty.this, goods_price_tv, "￥" + goods_val.getShop_price());
+                        ChangeTextViewStyle.getInstance().forGoodsPrice24(GoodsAttributeAty.this, goods_price_tv, "¥" + goods_val.getShop_price());
                     }
                     // 设置如果库存大于0 将初始的选择数量设为1，否则设为0
                     et_num.setText(String.valueOf(Integer.parseInt(goods_val.getGoods_num()) > 0 ? 1 : 0));
@@ -809,7 +809,7 @@ public class GoodsAttributeAty extends BaseAty {
                         } else if (WJConfig.TYPE_ZPZQ.equals(type)) {
                             ChangeTextViewStyle.getInstance().forGoodsPrice24(GoodsAttributeAty.this, goods_price_tv, val.getUse_voucher()+"赠品券" );
                         }else {
-                            ChangeTextViewStyle.getInstance().forGoodsPrice24(GoodsAttributeAty.this, goods_price_tv, "￥" + val.getShop_price());
+                            ChangeTextViewStyle.getInstance().forGoodsPrice24(GoodsAttributeAty.this, goods_price_tv, "¥" + val.getShop_price());
                         }
                         if (val.getGoods_num().equals("0")) {//切换时候库存数目是0的时候，购买数量那块写成0
                             et_num.setText("0");
