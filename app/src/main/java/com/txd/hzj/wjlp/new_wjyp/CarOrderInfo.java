@@ -177,14 +177,14 @@ public class CarOrderInfo extends BaseAty {
             order_id = map.get("order_id");
             Glide.with(this).load(type.equals("1") ? map.get("car_img") : map.get("house_style_img")).into(imageview);
             tv_title.setText(type.equals("1") ? map.get("car_name") : map.get("style_name"));
-            tv_price.setText("￥"+map.get("pre_money"));
+            tv_price.setText("¥"+map.get("pre_money"));
             String s = "";
             if (type.equals("1")) {
-                s = "车全款：￥" + map.get
-                        ("all_price") + "\n可    抵：￥" + map.get("true_pre_money") + "车款";
+                s = "车全款：¥" + map.get
+                        ("all_price") + "\n可    抵：¥" + map.get("true_pre_money") + "车款";
             } else {
-                s = "房全款：￥" + map.get
-                        ("all_price") + "\n可    抵：￥" + map.get("true_pre_money") + "房款";
+                s = "房全款：¥" + map.get
+                        ("all_price") + "\n可    抵：¥" + map.get("true_pre_money") + "房款";
                 tv2.setText(map.get("house_name") + "\t\t" + map.get("one_price") + "元/平");
             }
             tv1.setText(s);

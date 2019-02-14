@@ -151,7 +151,7 @@ public class CouponAdapter extends BaseAdapter {
         }
 
         if (map.get("ticket_type").equals("1")) {
-            couVH.begin_tv.setText("￥");
+            couVH.begin_tv.setText("¥");
             couVH.begin_tv.setVisibility(View.VISIBLE);
             couVH.condition_tv.setText("满" + map.get("condition") + "减" + map.get("value"));
         } else if (map.get("ticket_type").equals("2")) {

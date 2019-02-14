@@ -1065,12 +1065,12 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
                         goods_count_down_view.start(difference);
                         // 限量购价格
                         if (WJConfig.XLG == type) {
-                            //                    ChangeTextViewStyle.getInstance().forGoodsPrice(this, now_price_tv, "￥" + goodsInfo.get
+                            //                    ChangeTextViewStyle.getInstance().forGoodsPrice(this, now_price_tv, "¥" + goodsInfo.get
                             //                            ("limit_price"));
                             now_price_tv.setText(goodsInfo.getLimit_price());
                         } else if (WJConfig.WJYG == type) {
                             now_price_tv.setText(goodsInfo.getPre_price());
-                            //                    ChangeTextViewStyle.getInstance().forGoodsPrice(this, now_price_tv, "￥" + goodsInfo.get("deposit"));
+                            //                    ChangeTextViewStyle.getInstance().forGoodsPrice(this, now_price_tv, "¥" + goodsInfo.get("deposit"));
                             tv_dingjin.setText("定金 " + goodsInfo.getDeposit());
                             tv_dingjin.setVisibility(View.VISIBLE);
                             tv_manfa.setVisibility(View.VISIBLE);
@@ -1092,7 +1092,7 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
                         }
 
                         // 市场价(原价)
-                        old_price_tv.setText("￥" + goodsInfo.getMarket_price());
+                        old_price_tv.setText("¥" + goodsInfo.getMarket_price());
                         old_price_tv.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
                         // 积分
                         ChangeTextViewStyle.getInstance().forTextColor(LimitGoodsAty.this, goods_profit_num_tv,
@@ -1155,7 +1155,7 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
                         count_down_layout.setVisibility(View.GONE);
                         goods_pro_layout.setVisibility(View.GONE);
                         goods_profit_num_tv.setVisibility(View.GONE);
-                        old_price_tv.setText("￥" + goodsInfo.getMarket_price());
+                        old_price_tv.setText("¥" + goodsInfo.getMarket_price());
                         old_price_tv.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
                         now_price_tv.setText("此物品兑换，需要" + goodsInfo.getUse_integral() + "积分");
                         now_price_tv.setTextSize(16f);
@@ -1944,7 +1944,7 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
             if (WJConfig.TYPE_JFSD.equals(data.getStringExtra("type"))) {//积分商店
                 limit_buy_id = data.getStringExtra("integral_buy_id");
                 String use_integral = data.getStringExtra("use_integral");
-                old_price_tv.setText("￥" + data.getStringExtra("shop_price"));
+                old_price_tv.setText("¥" + data.getStringExtra("shop_price"));
                 now_price_tv.setText("此物品兑换，需要" + use_integral + "积分");
                 tv_kucun.setText("库存" + data.getStringExtra("goods_num"));
             } else {
@@ -1959,7 +1959,7 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
                 pro_valStr = pro_valStr.substring(0, pro_valStr.lastIndexOf("+"));
             }
             goods_select_attr_tv.setText("已选商品配置(" + pro_valStr + ")x" + goods_number);
-            //                old_price_tv.setText("￥" + data.getStringExtra("market_price"));
+            //                old_price_tv.setText("¥" + data.getStringExtra("market_price"));
             //                old_price_tv.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
 
             dj_ticket = (List<DjTicketBean>) data.getSerializableExtra("data");

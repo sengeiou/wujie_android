@@ -459,8 +459,8 @@ public class CarDetailseAty extends BaseAty implements ObservableScrollView.Scro
             car_details_name_tv.setText(car_info.get("car_name"));
             car_d_pre_money_tv.setText(car_info.get("pre_money"));
             car_d_integral_tv.setText(car_info.get("integral"));
-            car_d_other_info_tv.setText("车全款：￥" + car_info.get
-                    ("all_price") + "\n可    抵：￥" + car_info.get("true_pre_money") + "车款");
+            car_d_other_info_tv.setText("车全款：¥" + car_info.get
+                    ("all_price") + "\n可    抵：¥" + car_info.get("true_pre_money") + "车款");
 
             tv_desc.setText(car_info.get("car_desc"));
             goods_brief_tv.setVisibility(View.GONE);

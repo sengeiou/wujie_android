@@ -337,7 +337,7 @@ public class ShopOrderManageAdapter extends RecyclerView.Adapter {
             ShopOrderBean.DataBean.OrderGoodsBean orderGoodsBean = mGoodsBeanList.get(position);
             Glide.with(mContext).load(orderGoodsBean.getPic()).into(holder.head_img);
             holder.title_tv.setText(orderGoodsBean.getGoods_name());
-            holder.price_tv.setText("￥" + orderGoodsBean.getShop_price());
+            holder.price_tv.setText("¥" + orderGoodsBean.getShop_price());
             holder.nums_tv.setText("x" + orderGoodsBean.getGoods_num());
             int is_special = orderGoodsBean.getIs_special();
             if (is_special==1){

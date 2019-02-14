@@ -35,7 +35,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="4dp"
-        android:text="￥17.00"
+        android:text="¥17.00"
         android:textColor="@color/theme_color"
         android:textSize="10sp"/>
 </LinearLayout>
