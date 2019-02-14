@@ -108,7 +108,7 @@ public class AttributesSecondAty extends BaseAty {
                         .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                if (mGoods_id != null && !mIsGone) {
+                                if (mGoods_id != null && !mIsGone && mDataBean != null) {
                                     List<String> b_id = mAdapter.getB_id();
                                     app_delete_break_down(b_id.get(pos), AttributesSecondAty.this);
                                 }
