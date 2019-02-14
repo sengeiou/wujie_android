@@ -141,7 +141,7 @@ public class GoodsEvalusteAdapter extends BaseAdapter {
 //            TextUtils.titleTipUtils(context, gevh.goods_title_for_evaluate_tv, type, commentList.getGoods_name(),
 //                    Color.parseColor("#47CEF7"), r);
 //            ChangeTextViewStyle.getInstance().forOrderPrice2(context, gevh.price_for_goods_tv,
-//                    "￥" + commentList.getShop_price());
+//                    "¥" + commentList.getShop_price());
 //        }
 
         return view;

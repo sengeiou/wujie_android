@@ -346,7 +346,7 @@ public class CreateGroupAty extends BaseAty {
                             .into(group_goods_pic_iv);
                     group_goods_name_tv.setText(data.getGoods_name());
                     group_other_info_tv.setText("已拼" + data.getAlready() + "件( " + data.getNumber() + " )");
-                    group_goods_price_tv.setText("￥" + data.getShop_price());
+                    group_goods_price_tv.setText("¥" + data.getShop_price());
                     if (data.getIs_colonel().equals("1")) {// 我是拼主
                         group_operation_tv.setText("我是拼主");
                         group_operation_tv.setEnabled(false);

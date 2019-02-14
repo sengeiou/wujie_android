@@ -64,7 +64,8 @@ import java.util.concurrent.ExecutionException;
  */
 public class WebViewAty extends BaseAty {
 
-    private String url = Config.OFFICIAL_WEB;
+    //    private String url = Config.OFFICIAL_WEB;
+    private String url = "";
 
     @ViewInject(R.id.webView_show_webv)
     private WebView webView_show_webv;
@@ -83,6 +84,7 @@ public class WebViewAty extends BaseAty {
     String divination_id;
     String divination_type;
     String reurl;
+    String faileurl;
 
     IndexPst indexPst;
 
@@ -99,13 +101,8 @@ public class WebViewAty extends BaseAty {
 
     @Override
     protected void initialized() {
-        AndroidBug5497Workaround.assistActivity(this);
 
-        // 设置默认加载的Url
-        if (url.contains("api")) {
-            url = Config.OFFICIAL_WEB.replace("api", "www");
-        }
-        url = url + "wap";
+        AndroidBug5497Workaround.assistActivity(this);
 
         // 获取传入的Url
         Intent intent = getIntent();
@@ -257,7 +254,7 @@ public class WebViewAty extends BaseAty {
                     public void onFailure() {
                         showToast("支付失败！");
                         if (type.equals("17")) {
-                            url = Config.SHARE_URL + reurl;
+                            url = Config.SHARE_URL + faileurl;
                             initWebView();
                         } else {
                             Pay.findPayResult(order_id, type, WebViewAty.this);
@@ -299,8 +296,11 @@ public class WebViewAty extends BaseAty {
             } else {
                 showToast("支付失败");
             }
-            if (type.equals("17")) {
+            if (type.equals("17") && errCode == 0) {
                 url = Config.SHARE_URL + reurl;
+                initWebView();
+            }else if (type.equals("17") && errCode != 0) {
+                url = Config.SHARE_URL + faileurl;
                 initWebView();
             } else {
                 Pay.findPayResult(order_id, type, WebViewAty.this);
@@ -385,6 +385,7 @@ public class WebViewAty extends BaseAty {
                     divination_id = jsonObject.has("divination_id") ? jsonObject.getString("divination_id") : "";
                     divination_type = jsonObject.has("divination_type") ? jsonObject.getString("divination_type") : "";
                     reurl = jsonObject.has("reurl") ? jsonObject.getString("reurl") : "";
+                    faileurl = jsonObject.has("faileurl")?jsonObject.getString("faileurl"):"";
                     if ("WeChat".equals(payType)) { // 微信支付
                         Pay.getWeChat(divination_id, divination_type, type, WebViewAty.this);
                     } else if ("Alipay".equals(payType)) { // 支付宝支付

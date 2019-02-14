@@ -256,7 +256,7 @@ public class IndianaRecordAdapter extends BaseAdapter {
                         TextView tv_submit = view.findViewById(R.id.tv_submit);
                         ShapedImageView imageview = (ShapedImageView) view.findViewById(R.id.imageview);
                         Glide.with(context).load(url).into(imageview);
-                        ChangeTextViewStyle.getInstance().forGoodsPrice24(context, goods_price_tv, "￥" + price);
+                        ChangeTextViewStyle.getInstance().forGoodsPrice24(context, goods_price_tv, "¥" + price);
                         im_jian.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {

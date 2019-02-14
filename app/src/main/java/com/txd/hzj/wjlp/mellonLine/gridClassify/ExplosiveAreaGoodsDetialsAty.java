@@ -1310,12 +1310,12 @@ public class ExplosiveAreaGoodsDetialsAty extends BaseAty implements ObservableS
         Freight.freight(goods_id, tx, String.valueOf(goods_number), product_id, ExplosiveAreaGoodsDetialsAty.this);
         showProgressDialog();
         // 商品价格
-        // ChangeTextViewStyle.getInstance().forGoodsPrice(this, now_price_tv, "￥" + goodsInfo.get("shop_price"));
+        // ChangeTextViewStyle.getInstance().forGoodsPrice(this, now_price_tv, "¥" + goodsInfo.get("shop_price"));
         mShop_price = goodsInfo.get("shop_price");
         now_price_tv.setText(mShop_price);
         // 商品原价
         mMarket_price = goodsInfo.get("market_price");
-        old_price_tv.setText("￥" + mMarket_price);
+        old_price_tv.setText("¥" + mMarket_price);
         old_price_tv.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
         // 积分
         mIntegral = goodsInfo.get("integral");
@@ -1760,7 +1760,7 @@ public class ExplosiveAreaGoodsDetialsAty extends BaseAty implements ObservableS
                 tv_yx_price.setText("¥" + data.getStringExtra("yx_price"));
                 now_price_tv.setText(data.getStringExtra("shop_price"));
                 tv_inventory.setText("库存\t" + data.getStringExtra("goods_num"));
-                old_price_tv.setText("￥" + data.getStringExtra("market_price"));
+                old_price_tv.setText("¥" + data.getStringExtra("market_price"));
                 old_price_tv.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
 
                 goods_number = data.getIntExtra("num", 0);

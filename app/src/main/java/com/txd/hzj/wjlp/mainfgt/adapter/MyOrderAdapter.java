@@ -191,7 +191,7 @@ public class MyOrderAdapter extends BaseAdapter {
 
 //        ChangeTextViewStyle.getInstance().forOrderPrice(context,
 //                holder.goods_price_info_tv,
-//                "共2件商品 合计：￥190.00(含运费￥10.00)");
+//                "共2件商品 合计：¥190.00(含运费¥10.00)");
         holder.goods_price_info_tv.setText("总计：¥" + list.get(i).getOrder_price());
         holder.goods_for_order_lv.setAdapter(new GoodsForOrderAdapter(i));
         holder.goods_for_order_lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {

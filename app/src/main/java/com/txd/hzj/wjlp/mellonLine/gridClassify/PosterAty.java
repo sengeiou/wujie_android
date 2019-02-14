@@ -122,7 +122,7 @@ public class PosterAty extends BaseAty {
         mIs_active = extras.getString("is_active");
         goods_title_tv.setText(mGoods_name);
         goods_brief_tv.setText(mGoods_brief);
-        goods_price_tv.setText("￥" + mShop_price);
+        goods_price_tv.setText("¥" + mShop_price);
         goods_num_tv.setText(mSell_num + "件");
     }
 

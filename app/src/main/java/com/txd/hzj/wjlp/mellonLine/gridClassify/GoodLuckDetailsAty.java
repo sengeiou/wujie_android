@@ -1196,12 +1196,12 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                         }
                         //                        String oldMoneyStr = dataObject.has("one_price") ? dataObject.getString("one_price") : "";
                         old_money_tv.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
-                        old_money_tv.setText(oldMoneyStr.equals("") ? "" : "￥" + oldMoneyStr);
+                        old_money_tv.setText(oldMoneyStr.equals("") ? "" : "¥" + oldMoneyStr);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                     //            // 市场价
-                    //            old_price_tv.setText("￥" + goodsInfo.getMarket_price());
+                    //            old_price_tv.setText("¥" + goodsInfo.getMarket_price());
                     //            old_price_tv.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
 
                     // 积分
@@ -1455,15 +1455,11 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                     }
                     if ("2".equals(groupType)) {
                         // 一键开团
-                        if (Double.parseDouble(goodsInfo.getIntegral())!=0){
+                        String integral = goodsInfo.getIntegral();
+                        if (Double.parseDouble(integral) == 0){
                             creat_group_tv.setText("发起拼单");
                         }else {
-                            String integral = goodsInfo.getIntegral();
-                            if (Double.parseDouble(integral) == 0){
-                                creat_group_tv.setText("发起拼单");
-                            }else {
-                                creat_group_tv.setText("送" +integral +"积分\n发起拼单");
-                            }
+                            creat_group_tv.setText("送" +integral +"积分\n发起拼单");
                         }
 
                         creat_group_tv.setOnClickListener(new View.OnClickListener() {
@@ -1886,7 +1882,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                 }
                 goods_select_attr_tv.setText(pro_valStr + "x" + data.getIntExtra("num", 0));
                 now_price_tv.setText(data.getStringExtra("shop_price"));
-                //                old_price_tv.setText("￥" + data.getStringExtra("market_price"));
+                //                old_price_tv.setText("¥" + data.getStringExtra("market_price"));
                 //                old_price_tv.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
                 if ("1".equals(groupType)) {
                     String red_return_integral = data.getStringExtra("red_return_integral");

@@ -164,7 +164,7 @@ public class MellGoodsAndAdsAdapter extends BaseAdapter {
 
                 holder.mell_goods_name_tv.setText(map.get("goods_name"));
                 // 现价
-                holder.now_price_tv.setText("￥" + map.get("shop_price"));
+                holder.now_price_tv.setText("¥" + map.get("shop_price"));
                 // 积分
                 holder.integral_tv.setText(map.get("integral"));
                 holder.sold_num_tv.setText("已售" + map.get("sell_num") + "件");
@@ -277,11 +277,11 @@ public class MellGoodsAndAdsAdapter extends BaseAdapter {
                 if (2 == type) {
                     holder.sold_num_tv.setText("已抢购" + map.get("sell_num") + "件");
                     holder.goods_num_already_tv.setText("已抢购" + map.get("sell_num") + "件");
-                    holder.peice_tv.setText("￥" + map.get("limit_price"));
+                    holder.peice_tv.setText("¥" + map.get("limit_price"));
                 } else {
                     holder.sold_num_tv.setText("已预购" + map.get("sell_num") + "件");
                     holder.goods_num_already_tv.setText("已预购" + map.get("sell_num") + "件");
-                    holder.peice_tv.setText("￥" + map.get("deposit"));
+                    holder.peice_tv.setText("¥" + map.get("deposit"));
                 }
 
                 Glide.with(context).load(map.get("country_logo"))
@@ -324,7 +324,7 @@ public class MellGoodsAndAdsAdapter extends BaseAdapter {
                         .centerCrop()
                         .into(holder.goods_pic_iv);
 
-                holder.peice_tv.setText("￥" + map.get("start_price"));
+                holder.peice_tv.setText("¥" + map.get("start_price"));
                 // 商品名称
                 holder.item_goods_name_tv.setText(map.get("goods_name"));
                 // 积分
@@ -436,7 +436,7 @@ public class MellGoodsAndAdsAdapter extends BaseAdapter {
         // 商家广告,拼团购,一元夺宝(积分夺宝)没有原价
         if (0 != type && 3 != type && 6 != type) {
             // 原价
-            holder.older_price_tv.setText("￥" + map.get("market_price"));
+            holder.older_price_tv.setText("¥" + map.get("market_price"));
             holder.older_price_tv.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
         }
 

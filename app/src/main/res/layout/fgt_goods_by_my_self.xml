@@ -74,7 +74,7 @@
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:textColor="@color/colorAccent"
-                android:text="￥4.5"/>
+                android:text="¥4.5"/>
         </LinearLayout>
 
         <TextView

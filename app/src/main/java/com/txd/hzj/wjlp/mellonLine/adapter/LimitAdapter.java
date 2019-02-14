@@ -135,14 +135,14 @@ public class LimitAdapter extends BaseAdapter {
         lvh.get_integral_tv.setText(auctionList.getIntegral());
         if (0 == source) {
             // 限量购价格
-            lvh.peice_tv.setText("￥" + auctionList.getLimit_price());
+            lvh.peice_tv.setText("¥" + auctionList.getLimit_price());
         } else {
             // 起拍价
-            lvh.peice_tv.setText("￥" + auctionList.getStart_price());
+            lvh.peice_tv.setText("¥" + auctionList.getStart_price());
         }
 
         // 原价
-        lvh.older_price_tv.setText("￥" + auctionList.getMarket_price());
+        lvh.older_price_tv.setText("¥" + auctionList.getMarket_price());
         lvh.older_price_tv.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
 
         if (auctionList.getTicket_buy_id().equals("0")) {

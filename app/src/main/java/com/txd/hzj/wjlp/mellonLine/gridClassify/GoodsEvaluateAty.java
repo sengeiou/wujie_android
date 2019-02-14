@@ -534,7 +534,7 @@ public class GoodsEvaluateAty extends BaseAty implements NestedScrollView.OnScro
             TextUtils.titleTipUtils(context, gevh.goods_title_for_evaluate_tv, type, commentList.getGoods_name(),
                     Color.parseColor("#47CEF7"), r);
             ChangeTextViewStyle.getInstance().forOrderPrice2(context, gevh.shop_priceTv,
-                    "￥" + commentList.getShop_price());
+                    "¥" + commentList.getShop_price());
             Log.i("商品内容+s", commentList.getGoods_name() + "HHHHHHHHH" + commentList.getShop_price());
             // }
 

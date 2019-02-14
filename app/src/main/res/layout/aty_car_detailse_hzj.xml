@@ -83,7 +83,7 @@
                                         android:layout_height="wrap_content"
                                         android:layout_marginLeft="12dp"
                                         android:gravity="end"
-                                        android:text="￥"
+                                        android:text="¥"
                                         android:textColor="@color/theme_color"
                                         android:textSize="13sp" />
 

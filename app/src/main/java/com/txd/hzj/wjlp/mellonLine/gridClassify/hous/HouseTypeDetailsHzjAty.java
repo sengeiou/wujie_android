@@ -218,9 +218,9 @@ public class HouseTypeDetailsHzjAty extends BaseAty implements ObservableScrollV
             if (data.get("cart_num").equals("0")) {
                 tv_car_num.setVisibility(View.GONE);
             }
-            ChangeTextViewStyle.getInstance().forTextColor(this, counteract_price_tv, "可抵:￥" +
+            ChangeTextViewStyle.getInstance().forTextColor(this, counteract_price_tv, "可抵:¥" +
                     data.get("true_pre_money") + "房款", 11, ContextCompat.getColor(this, R.color.app_text_color));
-            ChangeTextViewStyle.getInstance().forTextColor(this, toltal_payment_tv, "房全款:￥" + data.get("all_price"), 5,
+            ChangeTextViewStyle.getInstance().forTextColor(this, toltal_payment_tv, "房全款:¥" + data.get("all_price"), 5,
                     ContextCompat.getColor(this, R.color.app_text_color));
             ChangeTextViewStyle.getInstance().forTextColorSub(this, house_area_tv, "建筑面积:" + data.get("area") + "m2", 5,
                     ContextCompat.getColor(this, R.color.app_text_color));
@@ -347,9 +347,9 @@ public class HouseTypeDetailsHzjAty extends BaseAty implements ObservableScrollV
 
             holder.style_developer_tv.setText(map.get("developer"));
 
-            holder.style_pre_money_tv.setText("￥" + map.get("pre_money"));
+            holder.style_pre_money_tv.setText("¥" + map.get("pre_money"));
 
-            holder.textView2.setText("可    抵：￥" + map.get("true_pre_money") + "\n房全款：￥" + map.get("all_price"));
+            holder.textView2.setText("可    抵：¥" + map.get("true_pre_money") + "\n房全款：¥" + map.get("all_price"));
 
             holder.one_price_tv.setText(map.get("one_price") + "元/平");
 

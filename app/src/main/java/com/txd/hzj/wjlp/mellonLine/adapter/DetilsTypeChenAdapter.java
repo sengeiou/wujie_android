@@ -100,9 +100,9 @@ public class DetilsTypeChenAdapter extends RecyclerView.Adapter<DetilsTypeChenAd
 
         holder.style_developer_tv.setText(map.get("developer"));
 
-        holder.style_pre_money_tv.setText("￥" + map.get("pre_money"));
+        holder.style_pre_money_tv.setText("¥" + map.get("pre_money"));
 
-        holder.textView2.setText("可    抵：￥" + map.get("true_pre_money") + "\n房全款：￥" + map.get("all_price"));
+        holder.textView2.setText("可    抵：¥" + map.get("true_pre_money") + "\n房全款：¥" + map.get("all_price"));
 
         holder.one_price_tv.setText(map.get("one_price") + "元/平");
 

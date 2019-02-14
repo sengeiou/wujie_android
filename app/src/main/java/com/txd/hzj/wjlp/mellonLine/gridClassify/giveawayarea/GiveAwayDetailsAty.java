@@ -906,7 +906,7 @@ public class GiveAwayDetailsAty extends BaseAty implements  ObservableScrollView
             count_down_layout.setVisibility(View.GONE);
             goods_pro_layout.setVisibility(View.GONE);
             goods_profit_num_tv.setVisibility(View.GONE);
-            old_price_tv.setText("￥" + goodsInfo.getMarket_price());
+            old_price_tv.setText("¥" + goodsInfo.getMarket_price());
             old_price_tv.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
             now_price_tv.setText("此物品兑换，需要" + goodsInfo.getUse_voucher() + "赠品券");
             now_price_tv.setTextSize(13);
@@ -1536,7 +1536,7 @@ public class GiveAwayDetailsAty extends BaseAty implements  ObservableScrollView
             if (WJConfig.TYPE_ZPZQ.equals(data.getStringExtra("type"))) {//赠品专区
                 String use_voucher = data.getStringExtra("use_voucher");
                 goods_id=data.getStringExtra("gift_goods_id");
-                old_price_tv.setText("￥" + data.getStringExtra("shop_price"));
+                old_price_tv.setText("¥" + data.getStringExtra("shop_price"));
                 now_price_tv.setText("此物品兑换，需要" + use_voucher + "赠品券");
                 tv_kucun.setText("库存" + data.getStringExtra("goods_num"));
             } else {
@@ -1551,7 +1551,7 @@ public class GiveAwayDetailsAty extends BaseAty implements  ObservableScrollView
                 pro_valStr = pro_valStr.substring(0, pro_valStr.lastIndexOf("+"));
             }
             goods_select_attr_tv.setText("已选商品配置(" + pro_valStr + ")x" + goods_number);
-            //                old_price_tv.setText("￥" + data.getStringExtra("market_price"));
+            //                old_price_tv.setText("¥" + data.getStringExtra("market_price"));
             //                old_price_tv.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
 
             dj_ticket = (List<DjTicketBean>) data.getSerializableExtra("data");

@@ -628,10 +628,10 @@ public class AuctionGoodsDetailsAty extends BaseAty implements ObservableScrollV
             ChangeTextViewStyle.getInstance().forTextColor(this, auction_profit_num_tv,
                     "积分" + auctionInfo.get("integral"), 2, Color.parseColor("#FF0000"));
             // 当前价
-            ChangeTextViewStyle.getInstance().forAuctionPrice(this, auction_price_tv, "当前价 ￥" +
+            ChangeTextViewStyle.getInstance().forAuctionPrice(this, auction_price_tv, "当前价 ¥" +
                     auctionInfo.get("now_price"));
             // 去报名(保证金额)
-            //            ChangeTextViewStyle.getInstance().forSingUpWhite(this, sing_up_tv, "去报名\n(保证金金额￥" +
+            //            ChangeTextViewStyle.getInstance().forSingUpWhite(this, sing_up_tv, "去报名\n(保证金金额¥" +
             //                    auctionInfo.get("base_money") + ")");
             // 围观人数
             String on_lookers = "围观 " + auctionInfo.get("click_num") + " 次";
@@ -646,10 +646,10 @@ public class AuctionGoodsDetailsAty extends BaseAty implements ObservableScrollV
             ChangeTextViewStyle.getInstance().forTextColor(this, set_remind_tv, set_remind, 5, 8,
                     ContextCompat.getColor(this, R.color.app_text_color));
             // 起拍价
-            ChangeTextViewStyle.getInstance().forTextColor(this, left_tv_1, "起拍价        ￥" +
+            ChangeTextViewStyle.getInstance().forTextColor(this, left_tv_1, "起拍价        ¥" +
                     auctionInfo.get("start_price"), 8, ContextCompat.getColor(this, R.color.gray_text_color));
             // 加价幅度
-            ChangeTextViewStyle.getInstance().forTextColor(this, left_tv_2, "加价幅度    ￥" +
+            ChangeTextViewStyle.getInstance().forTextColor(this, left_tv_2, "加价幅度    ¥" +
                     auctionInfo.get("add_price"), 5, ContextCompat.getColor(this, R.color.gray_text_color));
 
             ChangeTextViewStyle.getInstance().forTextColor(this, left_tv_3, "开拍时间    " +
@@ -659,7 +659,7 @@ public class AuctionGoodsDetailsAty extends BaseAty implements ObservableScrollV
             ChangeTextViewStyle.getInstance().forTextColor(this, left_tv_4, "保留价        " +
                     auctionInfo.get("leave_price"), 8, ContextCompat.getColor(this, R.color.gray_text_color));
 
-            ChangeTextViewStyle.getInstance().forTextColor(this, righr_tv_1, "保证金        ￥" +
+            ChangeTextViewStyle.getInstance().forTextColor(this, righr_tv_1, "保证金        ¥" +
                     auctionInfo.get("base_money"), 8, ContextCompat.getColor(this, R.color.gray_text_color));
             ChangeTextViewStyle.getInstance().forTextColor(this, righr_tv_2, "拍卖佣金 " + auctionInfo.get("commission"), 5,
                     ContextCompat.getColor(this, R.color.gray_text_color));

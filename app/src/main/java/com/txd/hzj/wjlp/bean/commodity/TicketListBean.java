@@ -29,7 +29,7 @@ public class TicketListBean implements Serializable {
     private String start_time;//"开始时间",
     private String end_time;//"结束时间"
     private String get_receive;//
-    private String desc;//￥20元优惠券"//优惠券描述
+    private String desc;//¥20元优惠券"//优惠券描述
 
     public String getGet_receive() {
         return get_receive;
