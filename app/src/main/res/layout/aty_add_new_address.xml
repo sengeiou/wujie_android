@@ -66,7 +66,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
-                android:hint="填写电话"
+                android:hint="填写手机号"
                 android:inputType="phone"
                 android:paddingBottom="12dp"
                 android:paddingStart="12dp"

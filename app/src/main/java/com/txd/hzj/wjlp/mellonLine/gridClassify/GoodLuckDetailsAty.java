@@ -1455,15 +1455,11 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                     }
                     if ("2".equals(groupType)) {
                         // 一键开团
-                        if (Double.parseDouble(goodsInfo.getIntegral())!=0){
+                        String integral = goodsInfo.getIntegral();
+                        if (Double.parseDouble(integral) == 0){
                             creat_group_tv.setText("发起拼单");
                         }else {
-                            String integral = goodsInfo.getIntegral();
-                            if (Double.parseDouble(integral) == 0){
-                                creat_group_tv.setText("发起拼单");
-                            }else {
-                                creat_group_tv.setText("送" +integral +"积分\n发起拼单");
-                            }
+                            creat_group_tv.setText("送" +integral +"积分\n发起拼单");
                         }
 
                         creat_group_tv.setOnClickListener(new View.OnClickListener() {
