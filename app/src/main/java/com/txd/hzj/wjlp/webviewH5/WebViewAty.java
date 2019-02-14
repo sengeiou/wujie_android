@@ -294,10 +294,10 @@ public class WebViewAty extends BaseAty {
             } else {
                 showToast("支付失败");
             }
-            if (type.equals("17") && errCode == 1) {
+            if (type.equals("17") && errCode == 0) {
                 url = Config.SHARE_URL + reurl;
                 initWebView();
-            }else if (type.equals("17") && errCode == 0) {
+            }else if (type.equals("17") && errCode != 0) {
                 url = Config.SHARE_URL + faileurl;
                 initWebView();
             } else {
