@@ -17,7 +17,7 @@ import java.lang.reflect.Method;
  * Created by geyifeng on 2017/5/11.
  */
 
-class BarConfig {
+public class BarConfig {
 
     private static final String STATUS_BAR_HEIGHT_RES_NAME = "status_bar_height";
     private static final String NAV_BAR_HEIGHT_RES_NAME = "navigation_bar_height";
