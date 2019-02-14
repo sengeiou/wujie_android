@@ -27,7 +27,7 @@ import java.util.Map;
 /**
  * 创建者：zhangyunfei
  * 创建时间：2019/1/21 17:05
- * 功能描述：添加店主
+ * 功能描述：添加商友
  */
 public class AddShopOwnerAty extends BaseAty{
     private Context mContext;
@@ -55,7 +55,7 @@ public class AddShopOwnerAty extends BaseAty{
     protected void initialized() {
         mContext = this;
         showStatusBar(R.id.title_re_layout);
-        titlt_conter_tv.setText("添加店主");
+        titlt_conter_tv.setText("添加商友");
         mSta_mid = getIntent().getStringExtra("sta_mid");
         searchEdit.setOnKeyListener(mOnKeyListener);
 
