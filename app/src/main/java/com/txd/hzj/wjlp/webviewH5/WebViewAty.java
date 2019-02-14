@@ -27,6 +27,7 @@ import com.ants.theantsgo.imageLoader.GlideImageLoader;
 import com.ants.theantsgo.payByThirdParty.AliPay;
 import com.ants.theantsgo.payByThirdParty.aliPay.AliPayCallBack;
 import com.ants.theantsgo.rsa.Base64Utils;
+import com.ants.theantsgo.systemBarUtil.BarConfig;
 import com.ants.theantsgo.util.CompressionUtil;
 import com.ants.theantsgo.util.L;
 import com.ants.theantsgo.util.PreferencesUtils;
@@ -76,6 +77,11 @@ public class WebViewAty extends BaseAty {
     @ViewInject(R.id.titlt_conter_tv)
     public TextView titlt_conter_tv;
 
+    @ViewInject(R.id.viewHeight)
+    private View viewHeight;
+
+    private BarConfig mBarConfig;
+
     private String payType; // 支付类型
     private String type; // 返回Type
     private String order_id; // 订单id
@@ -101,8 +107,13 @@ public class WebViewAty extends BaseAty {
 
     @Override
     protected void initialized() {
-
         AndroidBug5497Workaround.assistActivity(this);
+        mBarConfig = new BarConfig(this);
+
+        if (mBarConfig.hasNavigtionBar()){
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,mBarConfig.getNavigationBarHeight());
+            viewHeight.setLayoutParams(layoutParams);
+        }
 
         // 获取传入的Url
         Intent intent = getIntent();
