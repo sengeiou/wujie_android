@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -141,12 +142,27 @@ public class MultipleSpecificationsAty extends BaseAty {
             public void onGlobalLayout() {
                 Rect rect = new Rect();
                 rootLayout.getWindowVisibleDisplayFrame(rect);
-                int mainInvisibleHeight  = rootLayout.getRootView().getHeight() - rect.bottom;
                 int height = rootLayout.getRootView().getHeight();
+                int mainInvisibleHeight  = height - rect.bottom;
                 if (mainInvisibleHeight> height/4){
-                    rootLayout.scrollTo(0,mainInvisibleHeight);
+                    int[] location = new int[2];
+                    saveTv.getLocationInWindow(location);
+//                    int h = recyclerView.getHeight()>height?mainInvisibleHeight:recyclerView.getHeight();
+//                    Log.e("TAG", "onGlobalLayout: "+location[1]+"=="+recyclerView.getHeight()+"==="+rect.bottom+"==="+height+"==="+h);
+                    if (recyclerView.getHeight()> rect.bottom){
+                        int scrollHeight = location[1] - rect.bottom;
+                        Log.e("TAG", "onGlobalLayout: "+recyclerView.getHeight()+"=="+scrollHeight+"==="+location[1]+"==="+rect.bottom);
+                        rootLayout.scrollBy(0,scrollHeight);
+                    }else {
+                        rootLayout.scrollTo(0,0);
+                    }
+//                    FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT,height-rect.bottom/2);
+//                    rootLayout.setLayoutParams(layoutParams);
+
                 }else {
                     rootLayout.scrollTo(0,0);
+//                    FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT,RelativeLayout.LayoutParams.MATCH_PARENT);
+//                    rootLayout.setLayoutParams(layoutParams);
                 }
             }
         });

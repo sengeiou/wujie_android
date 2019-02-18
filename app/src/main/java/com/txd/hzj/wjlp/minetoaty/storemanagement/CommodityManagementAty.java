@@ -38,6 +38,7 @@ import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.tool.MessageEvent;
+import com.txd.hzj.wjlp.webviewH5.WebViewAty;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -221,7 +222,12 @@ public class CommodityManagementAty extends BaseAty {
         if (requestUrl.endsWith("app_after_api")) {
             Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
             if (data.get("status").equals("0")) {
-                showToast("请先完善店铺信息，设置营业时间");
+                showToast("请先完善店铺信息\r\n设置营业时间");
+                Bundle bundle = new Bundle();
+                bundle.putBoolean("isShowTitle",true);
+                bundle.putString("title", "店铺设置");
+                bundle.putString("url", data.get("url"));
+                startActivity(WebViewAty.class, bundle);
             } else if (data.get("status").equals("1")) {
                 Bundle bundle = new Bundle();
                 bundle.putString("sta_mid", merchantId);

@@ -9,6 +9,7 @@ import android.graphics.Rect;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewTreeObserver;
@@ -107,9 +108,8 @@ public class WebViewAty extends BaseAty {
 
     @Override
     protected void initialized() {
-        AndroidBug5497Workaround.assistActivity(this);
         mBarConfig = new BarConfig(this);
-
+        AndroidBug5497Workaround.assistActivity(this,mBarConfig);
         if (mBarConfig.hasNavigtionBar()){
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,mBarConfig.getNavigationBarHeight());
             viewHeight.setLayoutParams(layoutParams);
@@ -155,8 +155,9 @@ public class WebViewAty extends BaseAty {
                 boolean mKeyboardUp = isKeyboardShown(rootView);
                 if (mKeyboardUp) {
                     // 参数说明：第一个为是否弹出键盘，第二个为屏幕高度，第三个为软键盘高度
-                    webView_show_webv.loadUrl("JavaScript:focuser('1','" + screenHeight + "','" + r.bottom + "')");
-                    L.e("JavaScript:focuser('1','" + screenHeight + "','" + r.bottom + "')");
+                    webView_show_webv.loadUrl("JavaScript:focuser('1','" + screenHeight + "','" + (r.bottom+mBarConfig.getNavigationBarHeight()) + "')");
+                    L.e("JavaScript:focuser('1','" + screenHeight + "','" + (r.bottom+mBarConfig.getNavigationBarHeight()) + "')");
+                    Log.e("JavaScript", "onGlobalLayout: "+mBarConfig.getNavigationBarHeight());
                 } else {
                     webView_show_webv.loadUrl("JavaScript:focuser('0','" + screenHeight + "','0')");
                     L.e("JavaScript:focuser('0','" + screenHeight + "','0')");
@@ -484,8 +485,8 @@ public class WebViewAty extends BaseAty {
             String substring = result.substring(1, result.length()-1);
             String[] split = substring.split(",");
 //            selectMode = Integer.parseInt(split[0].split(":")[1]);
-            WebViewAty.width = Integer.parseInt(split[1].split(":")[1]);
-            WebViewAty.high = Integer.parseInt(split[2].split(":")[1]);
+//            WebViewAty.width = Integer.parseInt(split[1].split(":")[1]);
+//            WebViewAty.high = Integer.parseInt(split[2].split(":")[1]);
             initImageOnePicker();
             Intent intent = new Intent(WebViewAty.this, ImageGridActivity.class);
             intent.putExtra(ImageGridActivity.EXTRAS_TAKE_PICKERS, true); // 直接调取相机
@@ -507,7 +508,7 @@ public class WebViewAty extends BaseAty {
         @JavascriptInterface
         public void openPhotoFolder(String result) {
             // 选择类型 0单选 1多选
-            int selectMode = 0;
+            int selectMode;
             if (result != null && result.contains("{")){
                 String substring = result.substring(1, result.length()-1);
                 String[] split = substring.split(",");

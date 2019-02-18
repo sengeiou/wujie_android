@@ -17,6 +17,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -79,14 +80,17 @@ public class DateRangeAty extends BaseAty {
     private void parseData() {
         try {
             JSONObject jsonObject = new JSONObject(mData);
-            String start_time = jsonObject.optString("start_time");
-            String end_time = jsonObject.optString("end_time");
+            long start_time = jsonObject.optLong("start_time");
+            long end_time = jsonObject.optLong("end_time");
             String price = jsonObject.optString("price");
             String jiesuan_price = jsonObject.optString("jiesuan_price");
-            mStartDate = start_time;
-            startDateTv.setText(start_time);
-            mEndDate = end_time;
-            endDateTv.setText(end_time);
+            Date start_date = new Date(start_time);
+            Date end_date = new Date(end_time);
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA);
+            mStartDate = format.format(start_date);
+            startDateTv.setText(mStartDate);
+            mEndDate = format.format(end_date);
+            endDateTv.setText(mEndDate);
             salePriceEdit.setText(price);
             balancePriceEdit.setText(jiesuan_price);
         } catch (JSONException e) {
@@ -130,14 +134,17 @@ public class DateRangeAty extends BaseAty {
                 }
 
                 try {
+                    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
                     JSONObject jsonObject = new JSONObject();
-                    jsonObject.put("start_time",mStartDate);
-                    jsonObject.put("end_time",mEndDate);
+                    jsonObject.put("start_time",format.parse(mStartDate).getTime()/1000);
+                    jsonObject.put("end_time",format.parse(mEndDate).getTime()/1000);
                     jsonObject.put("price",salePrice);
                     jsonObject.put("jiesuan_price",balancePrice);
                     EventBus.getDefault().post(new MessageEvent(mType+"="+jsonObject.toString(),"DateRangeAty"));
                     finish();
                 } catch (JSONException e) {
+                    e.printStackTrace();
+                } catch (ParseException e) {
                     e.printStackTrace();
                 }
                 break;

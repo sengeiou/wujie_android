@@ -175,6 +175,7 @@ public class InputAty extends BaseAty {
     private boolean mIsGone;
     private long mFirstClickTime = 0;
 
+
     @Override
     protected int getLayoutResId() {
         return R.layout.activity_input;
@@ -688,10 +689,15 @@ public class InputAty extends BaseAty {
         });
         TextView tv1 = view1.findViewById(R.id.tv1);
         TextView tv2 = view1.findViewById(R.id.tv2);
+        TextView tv3 = view1.findViewById(R.id.tv3);
+        LinearLayout thirdLayout = view1.findViewById(R.id.thirdLayout);
         tv1.setText("招牌");
         tv1.setTextColor(Color.parseColor("#ff333333"));
         tv2.setText("推荐");
         tv2.setTextColor(Color.parseColor("#ff333333"));
+        thirdLayout.setVisibility(View.VISIBLE);
+        tv3.setText("链店");
+        tv3.setTextColor(Color.parseColor("#ff333333"));
         tv1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -703,6 +709,13 @@ public class InputAty extends BaseAty {
             @Override
             public void onClick(View v) {
                 labelTv.setText("推荐");
+                mPopupWindow.dismiss();
+            }
+        });
+        tv3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                labelTv.setText("链店");
                 mPopupWindow.dismiss();
             }
         });

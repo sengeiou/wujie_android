@@ -76,8 +76,7 @@ public class GroupManagementAty extends BaseAty {
         LinearLayoutManager layoutManager = new LinearLayoutManager(mContext,RecyclerView.VERTICAL,false);
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
-        mGroupAdapter = new GroupAdapter();
-        mRecyclerView.setAdapter(mGroupAdapter);
+
 
     }
 
@@ -134,7 +133,8 @@ public class GroupManagementAty extends BaseAty {
         if (requestUrl.endsWith("bfriend_cate")){
             if (mType.equals("show")) {
                 final ArrayList<Map<String, String>> data = JSONUtils.parseKeyAndValueToMapList(map.get("data"));
-                mGroupAdapter.setList(data);
+                mGroupAdapter = new GroupAdapter(data);
+                mRecyclerView.setAdapter(mGroupAdapter);
                 mGroupAdapter.setOnItemClickListener(new OnItemClickListener() {
                     @Override
                     public void onItemClick(int position) {
@@ -218,15 +218,17 @@ public class GroupManagementAty extends BaseAty {
 
         private OnItemClickListener mOnItemClickListener;
         private onItemViewClickListener mOnItemViewClickListener;
-        public GroupAdapter() {
-            mList = new ArrayList<>();
+
+        public GroupAdapter(ArrayList<Map<String, String>> list) {
+            mList = list;
         }
 
-        public void setList(ArrayList<Map<String, String>> list) {
-            mList.clear();
-            mList.addAll(list);
-            notifyDataSetChanged();
-        }
+        //        public void setList(ArrayList<Map<String, String>> list) {
+//            mList.clear();
+//            mList.addAll(list);
+//            notifyDataSetChanged();
+//        }
+
 
         public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
             mOnItemClickListener = onItemClickListener;
