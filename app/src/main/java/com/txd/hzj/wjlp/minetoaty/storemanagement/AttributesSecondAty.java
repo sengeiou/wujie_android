@@ -7,7 +7,9 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
+import android.text.InputFilter;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +23,7 @@ import com.ants.theantsgo.base.BaseView;
 import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.httpTools.ApiTool2;
 import com.ants.theantsgo.util.JSONUtils;
+import com.ants.theantsgo.util.SoftKeyboardUtil;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.http.RequestParams;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -62,6 +65,9 @@ public class AttributesSecondAty extends BaseAty {
     @ViewInject(R.id.recyclerView)
     private RecyclerView recyclerView;
 
+    @ViewInject(R.id.saveTv)
+    private TextView saveTv;
+
     private MyAdapter mAdapter;
 
     @ViewInject(R.id.addTv)
@@ -83,6 +89,7 @@ public class AttributesSecondAty extends BaseAty {
         titlt_conter_tv.setText("属性");
         mGoods_id = getIntent().getStringExtra("goods_id");
         mIsGone = getIntent().getBooleanExtra("isGone", false);
+        nameEdit.setFilters(new InputFilter[]{SoftKeyboardUtil.getInputFilter(mContext)});
         LinearLayoutManager showLayoutManager = new LinearLayoutManager(mContext) {
             @Override
             public boolean canScrollVertically() {
@@ -156,10 +163,18 @@ public class AttributesSecondAty extends BaseAty {
                 rootLayout.getWindowVisibleDisplayFrame(rect);
                 int mainInvisibleHeight = rootLayout.getRootView().getHeight() - rect.bottom;
                 int height = rootLayout.getRootView().getHeight();
-                if (mainInvisibleHeight > height / 4) {
-                    rootLayout.scrollTo(0, mainInvisibleHeight);
-                } else {
-                    rootLayout.scrollTo(0, 0);
+                if (mainInvisibleHeight> height/4){
+                    int[] location = new int[2];
+                    saveTv.getLocationInWindow(location);
+                    if (nameEdit.getHeight()+ (int)(mContext.getResources().getDisplayMetrics().density*33+0.5)+recyclerView.getHeight()> rect.bottom){
+                        int scrollHeight = location[1] - rect.bottom;
+                        Log.e("TAG", "onGlobalLayout: "+recyclerView.getHeight()+"=="+scrollHeight+"==="+location[1]+"==="+rect.bottom);
+                        rootLayout.scrollBy(0,scrollHeight);
+                    }else {
+                        rootLayout.scrollTo(0,0);
+                    }
+                }else {
+                    rootLayout.scrollTo(0,0);
                 }
             }
         });
@@ -239,6 +254,7 @@ public class AttributesSecondAty extends BaseAty {
 
         private List<String> data;
         private List<String> b_id;
+        private Context mContext;
 
 
         public MyAdapter(OnViewClickLisener onViewClickLisener) {
@@ -250,6 +266,7 @@ public class AttributesSecondAty extends BaseAty {
         @NonNull
         @Override
         public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            mContext = parent.getContext();
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_attribute_second, parent, false);
             ViewHolder holder = new ViewHolder(view);
             ViewUtils.inject(holder, view);
@@ -278,7 +295,7 @@ public class AttributesSecondAty extends BaseAty {
                     addData();
                 }
             });
-
+            holder.nameEdit.setFilters(new InputFilter[]{SoftKeyboardUtil.getInputFilter(mContext)});
             if (holder.nameEdit.getTag() instanceof TextWatcher) {
                 holder.nameEdit.removeTextChangedListener((TextWatcher) holder.nameEdit.getTag());
             }

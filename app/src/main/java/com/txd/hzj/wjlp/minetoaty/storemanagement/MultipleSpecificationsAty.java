@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
+import android.text.InputFilter;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -23,6 +24,7 @@ import com.ants.theantsgo.base.BaseView;
 import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.httpTools.ApiTool2;
 import com.ants.theantsgo.util.JSONUtils;
+import com.ants.theantsgo.util.SoftKeyboardUtil;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.http.RequestParams;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -391,6 +393,7 @@ public class MultipleSpecificationsAty extends BaseAty {
         private List<String> nameData;
         private List<String> priceData;
         private List<String> priceData2;
+        private Context mContext;
 
         private int count = 0;
 
@@ -408,6 +411,7 @@ public class MultipleSpecificationsAty extends BaseAty {
         @NonNull
         @Override
         public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            mContext = parent.getContext();
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_specifications, parent, false);
             ViewHolder holder = new ViewHolder(view);
             ViewUtils.inject(holder, view);
@@ -426,6 +430,7 @@ public class MultipleSpecificationsAty extends BaseAty {
                 }
             });
 
+            holder.nameEdit.setFilters(new InputFilter[]{SoftKeyboardUtil.getInputFilter(mContext)});
             if (holder.nameEdit.getTag() instanceof TextWatcher) {
                 holder.nameEdit.removeTextChangedListener((TextWatcher) holder.nameEdit.getTag());
             }

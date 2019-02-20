@@ -2,16 +2,25 @@ package com.txd.hzj.wjlp.minetoaty.friendsofmerchant;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.BaseAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
+import com.ants.theantsgo.config.Config;
 import com.bumptech.glide.Glide;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
+import com.txd.hzj.wjlp.webviewH5.WebViewAty;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import cn.gavinliu.android.lib.shapedimageview.ShapedImageView;
@@ -45,8 +54,10 @@ public class BusinessFriendDataAty extends BaseAty {
     @ViewInject(R.id.addressTv)
     private TextView addressTv;
 
-    @ViewInject(R.id.shopIdTv)
-    private TextView shopIdTv;
+//    @ViewInject(R.id.shopIdTv)
+//    private TextView shopIdTv;
+    @ViewInject(R.id.listView)
+    private ListView mListView;
 
 
     private Map<String, String> map;
@@ -70,7 +81,80 @@ public class BusinessFriendDataAty extends BaseAty {
         idTv.setText(map.get("id"));
         nameTv.setText(map.get("nickname"));
         addressTv.setText(map.get("area"));
-        shopIdTv.setText(map.get("m_name"));
+        String m_name = map.get("m_name");
+        List<String> nameList = characterString(m_name);
+        final String m_id = map.get("m_id");
+        final List<String> idList = characterString(m_id);
+        mListView.setAdapter(new TitleAdapter(nameList,mContext));
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Bundle bundle = new Bundle();
+                bundle.putBoolean("isShowTitle",false);
+                bundle.putString("url", Config.SHARE_URL + "/Wap/OfflineStore/offlineShop/merchant_id/"+idList.get(position)+".html");
+                startActivity(WebViewAty.class, bundle);
+            }
+        });
+    }
+
+    public List<String> characterString(String s){
+        List<String> stringList = new ArrayList<>();
+        String substring = s.substring(1, s.length()-1);
+        if (s.contains(",")){
+            String[] split = substring.split(",");
+            for (int i = 0; i < split.length; i++) {
+                stringList.add(split[i].substring(1,split[i].length()-1));
+            }
+        }else {
+            stringList.add(substring.substring(1,substring.length()-1));
+        }
+        return  stringList;
+    }
+
+    private class TitleAdapter extends BaseAdapter{
+        private List<String> data;
+        private Context mContext;
+        private LayoutInflater mInflater;
+        public TitleAdapter(List<String> data, Context context) {
+            this.data = data;
+            this.mContext = context;
+            mInflater = LayoutInflater.from(mContext);
+        }
+
+        @Override
+        public int getCount() {
+            return data.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return data.get(position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            ViewHolder holder;
+            if (convertView == null){
+                holder = new ViewHolder();
+                convertView = mInflater.inflate(R.layout.item_title2,null);
+                holder.title = convertView.findViewById(R.id.tv_title);
+                convertView.setTag(holder);
+            }else {
+                holder = (ViewHolder) convertView.getTag();
+            }
+
+            holder.title.setText(data.get(position));
+            return convertView;
+        }
+
+        public  class ViewHolder{
+            TextView title;
+        }
     }
 
     @Override

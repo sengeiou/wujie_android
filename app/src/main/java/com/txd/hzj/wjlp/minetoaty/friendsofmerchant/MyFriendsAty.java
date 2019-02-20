@@ -331,13 +331,14 @@ public class MyFriendsAty extends BaseAty{
 
         @Override
         public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-            Map<String, String> map = mItemList.get(position);
+            final Map<String, String> map = mItemList.get(position);
             final Map<String, String> userInfo = JSONUtils.parseKeyAndValueToMap(map.get("user_info"));
             Glide.with(mContext).load(userInfo.get("head_pic")).into(holder.headImg);
             holder.nameTV.setText(userInfo.get("nickname"));
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+
                     String easemob_account =  userInfo.get("easemob_account");
                     if (TextUtils.isEmpty(easemob_account)) {
                         ((MyFriendsAty)mContext).showErrorTip("对方不在线");

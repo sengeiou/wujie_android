@@ -84,9 +84,9 @@ public class DateRangeAty extends BaseAty {
             long end_time = jsonObject.optLong("end_time");
             String price = jsonObject.optString("price");
             String jiesuan_price = jsonObject.optString("jiesuan_price");
-            Date start_date = new Date(start_time);
-            Date end_date = new Date(end_time);
-            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA);
+            Date start_date = new Date(start_time*1000);
+            Date end_date = new Date(end_time*1000);
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
             mStartDate = format.format(start_date);
             startDateTv.setText(mStartDate);
             mEndDate = format.format(end_date);

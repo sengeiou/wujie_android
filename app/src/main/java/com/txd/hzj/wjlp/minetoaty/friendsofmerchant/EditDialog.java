@@ -3,12 +3,14 @@ package com.txd.hzj.wjlp.minetoaty.friendsofmerchant;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.text.InputFilter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.ants.theantsgo.util.SoftKeyboardUtil;
 import com.txd.hzj.wjlp.R;
 
 
@@ -166,12 +168,14 @@ public class EditDialog extends Dialog {
             return this;
         }
 
+
+
         public EditDialog create() {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             final EditDialog dialog = new EditDialog(context, R.style.Dialog);
             View layout = inflater.inflate(R.layout.dialog_add_group, null);
             mEditText = layout.findViewById(R.id.message);
-
+            mEditText.setFilters(new InputFilter[]{SoftKeyboardUtil.getInputFilter(context)});
             dialog.addContentView(layout, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
             if (positiveButtonText != null) {
                 ((Button) layout.findViewById(R.id.positiveButton)).setText(positiveButtonText);

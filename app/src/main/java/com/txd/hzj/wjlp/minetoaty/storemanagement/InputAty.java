@@ -4,15 +4,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.text.Editable;
+import android.text.InputFilter;
 import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -29,6 +26,7 @@ import com.ants.theantsgo.httpTools.ApiTool2;
 import com.ants.theantsgo.imageLoader.GlideImageLoader;
 import com.ants.theantsgo.util.CompressionUtil;
 import com.ants.theantsgo.util.JSONUtils;
+import com.ants.theantsgo.util.SoftKeyboardUtil;
 import com.bumptech.glide.Glide;
 import com.lidroid.xutils.http.RequestParams;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -119,11 +117,17 @@ public class InputAty extends BaseAty {
     @ViewInject(R.id.takeawayCustomLayout)
     private LinearLayout takeawayCustomLayout;
 
-    @ViewInject(R.id.takeawayDateCheckBox)
-    private CheckBox takeawayDateCheckBox;
+//    @ViewInject(R.id.takeawayDateCheckBox)
+//    private CheckBox takeawayDateCheckBox;
+//
+//    @ViewInject(R.id.takeawayWeekCheckBox)
+//    private CheckBox takeawayWeekCheckBox;
 
-    @ViewInject(R.id.takeawayWeekCheckBox)
-    private CheckBox takeawayWeekCheckBox;
+    @ViewInject(R.id.takeawayDateLayout)
+    private RelativeLayout takeawayDateLayout;
+
+    @ViewInject(R.id.takeawayWeekLayout)
+    private RelativeLayout takeawayWeekLayout;
 
     @ViewInject(R.id.takeawayJieSuanLayout)
     private LinearLayout takeawayJieSuanLayout;
@@ -146,11 +150,17 @@ public class InputAty extends BaseAty {
     @ViewInject(R.id.dinnerCustomLayout)
     private LinearLayout dinnerCustomLayout;
 
-    @ViewInject(R.id.dinnerDateCheckBox)
-    private CheckBox dinnerDateCheckBox;
+//    @ViewInject(R.id.dinnerDateCheckBox)
+//    private CheckBox dinnerDateCheckBox;
+//
+//    @ViewInject(R.id.dinnerWeekCheckBox)
+//    private CheckBox dinnerWeekCheckBox;
 
-    @ViewInject(R.id.dinnerWeekCheckBox)
-    private CheckBox dinnerWeekCheckBox;
+    @ViewInject(R.id.dinnerDateLayout)
+    private RelativeLayout dinnerDateLayout;
+
+    @ViewInject(R.id.dinnerWeekLayout)
+    private RelativeLayout dinnerWeekLayout;
 
     @ViewInject(R.id.saveLayout)
     private LinearLayout saveLayout;
@@ -196,91 +206,57 @@ public class InputAty extends BaseAty {
             saveLayout.setVisibility(View.GONE);
         }
 
-        nameEdit.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                int index = nameEdit.getSelectionStart() - 1;
-                if (index > 0) {
-                    if (isEmojiCharacter(s.charAt(index))) {
-                        Editable edit = nameEdit.getText();
-                        edit.delete(index, index + 1);
-                    }
-                }
-                //                int index = nameEdit.getSelectionStart() - 1;
-                //                if (index > 0) {
-                //                    if (isEmojiCharacter(s.charAt(index))) {
-                //                        Editable edit = nameEdit.getText();
-                //                        edit.delete(s.length() - 2, s.length());
-                //                        showToast("不支持输入表情符号");
-                //                    }
-                //                }
+        nameEdit.setFilters(new InputFilter[]{SoftKeyboardUtil.getInputFilter(mContext)});
 
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-
-        takeawayDateCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    if (takeawayWeekCheckBox.isChecked()) {
-                        takeawayWeekCheckBox.setChecked(false);
-                    }
-                    takeawayDateCheckBox.setChecked(true);
-                }
-            }
-        });
-
-        takeawayWeekCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    if (takeawayDateCheckBox.isChecked()) {
-                        takeawayDateCheckBox.setChecked(false);
-                    }
-                    takeawayWeekCheckBox.setChecked(true);
-                }
-            }
-        });
-
-
-        dinnerDateCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    if (dinnerWeekCheckBox.isChecked()) {
-                        dinnerWeekCheckBox.setChecked(false);
-                    }
-                    dinnerDateCheckBox.setChecked(true);
-                }
-            }
-        });
-
-
-        dinnerWeekCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    if (dinnerDateCheckBox.isChecked()) {
-                        dinnerDateCheckBox.setChecked(false);
-                    }
-                    dinnerWeekCheckBox.setChecked(true);
-                }
-            }
-        });
-    }
-
-    private static boolean isEmojiCharacter(char codePoint) {
-        return !(codePoint == 0x0 || codePoint == 0x9 || codePoint == 0xA || codePoint == 0xD || codePoint >= 0x20 && codePoint <= 0xD7FF) || codePoint >= 0x10000 && codePoint <= 0x10FFFF;
+//        takeawayDateCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//                if (isChecked) {
+//                    if (takeawayWeekCheckBox.isChecked()) {
+//                        takeawayWeekCheckBox.setChecked(false);
+//                    }
+//                    takeawayDateCheckBox.setChecked(true);
+//                }
+//            }
+//        });
+//
+//        takeawayWeekCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//                if (isChecked) {
+//                    if (takeawayDateCheckBox.isChecked()) {
+//                        takeawayDateCheckBox.setChecked(false);
+//                    }
+//                    takeawayWeekCheckBox.setChecked(true);
+//                }
+//            }
+//        });
+//
+//
+//        dinnerDateCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//                if (isChecked) {
+//                    if (dinnerWeekCheckBox.isChecked()) {
+//                        dinnerWeekCheckBox.setChecked(false);
+//                    }
+//                    dinnerDateCheckBox.setChecked(true);
+//                }
+//            }
+//        });
+//
+//
+//        dinnerWeekCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//                if (isChecked) {
+//                    if (dinnerDateCheckBox.isChecked()) {
+//                        dinnerDateCheckBox.setChecked(false);
+//                    }
+//                    dinnerWeekCheckBox.setChecked(true);
+//                }
+//            }
+//        });
     }
 
     /**
@@ -350,11 +326,13 @@ public class InputAty extends BaseAty {
             if (!TextUtils.isEmpty(mWeek_price)) {
                 com.alibaba.fastjson.JSONArray array = JSON.parseArray(mWeek_price);
                 if (array != null && array.size() > 0) {
-                    takeawayWeekCheckBox.setChecked(true);
+//                    takeawayWeekCheckBox.setChecked(true);
+                    setTakeawayWeekLayout();
                 }
             }
             if (!TextUtils.isEmpty(mTime_price)) {
-                takeawayDateCheckBox.setChecked(true);
+//                takeawayDateCheckBox.setChecked(true);
+                setTakeawayDateLayout();
             }
             if (JSON.parseArray(mWeek_price) != null && JSON.parseArray(mWeek_price).size() > 0 || !TextUtils.isEmpty(mTime_price)) {
                 takeawayTimeTv.setText("自定义");
@@ -363,12 +341,14 @@ public class InputAty extends BaseAty {
             if (!TextUtils.isEmpty(mChurch_week_price)) {
                 com.alibaba.fastjson.JSONArray array = JSON.parseArray(mChurch_week_price);
                 if (array != null && array.size() > 0) {
-                    dinnerWeekCheckBox.setChecked(true);
+//                    dinnerWeekCheckBox.setChecked(true);
+                    setDinnerWeekLayout();
                 }
             }
 
             if (!TextUtils.isEmpty(mChurch_time_price)) {
-                dinnerDateCheckBox.setChecked(true);
+//                dinnerDateCheckBox.setChecked(true);
+                setDinnerDateLayout();
             }
 
             if (JSON.parseArray(mChurch_week_price) != null && JSON.parseArray(mChurch_week_price).size() > 0 || !TextUtils.isEmpty(mChurch_time_price)) {
@@ -401,6 +381,8 @@ public class InputAty extends BaseAty {
                 labelTv.setText("招牌");
             } else if (label == 2) {
                 labelTv.setText("推荐");
+            } else if (label == 3) {
+                labelTv.setText("链店");
             }
 
             briefEdit.setText(data.get("desc"));
@@ -421,6 +403,26 @@ public class InputAty extends BaseAty {
                 finish();
             }
         }
+    }
+
+    private void setTakeawayWeekLayout(){
+        takeawayWeekLayout.setBackgroundColor(Color.GRAY);
+        takeawayDateLayout.setBackgroundColor(Color.WHITE);
+    }
+
+    private void setTakeawayDateLayout(){
+        takeawayWeekLayout.setBackgroundColor(Color.WHITE);
+        takeawayDateLayout.setBackgroundColor(Color.GRAY);
+    }
+
+    private void setDinnerWeekLayout(){
+        dinnerWeekLayout.setBackgroundColor(Color.GRAY);
+        dinnerDateLayout.setBackgroundColor(Color.WHITE);
+    }
+
+    private void setDinnerDateLayout(){
+        dinnerWeekLayout.setBackgroundColor(Color.WHITE);
+        dinnerDateLayout.setBackgroundColor(Color.GRAY);
     }
 
     @Override
@@ -545,8 +547,18 @@ public class InputAty extends BaseAty {
             showToast("请选择堂食的日期或星期范围");
             return;
         }
+        int label = 0;
+        if (labelTv.getText().toString().isEmpty()) {
+            label = 0;
+        } else if (labelTv.getText().toString().equals("招牌")) {
+            label = 1;
+        } else if (labelTv.getText().toString().equals("推荐")) {
+            label = 2;
+        } else if (labelTv.getText().toString().equals("链店")) {
+            label = 3;
+        }
         addAppStageGoods(mSta_mid, mSup_type, nameEdit.getText().toString(), mCate_id, lunchBoxNumEdit.getText().toString(), mGoods_attr, mGoods_property, takeawayPriceEdit.getText().toString()
-                , dinnerPriceEdit.getText().toString(), file1, labelTv.getText().toString(), mWeek_price, mChurch_week_price, mTime_price, mChurch_time_price, briefEdit.getText().toString(), mGoods_id, takeawayJieSuanPriceEdit.getText().toString(), dinnerJieSuanPriceEdit.getText().toString(), this);
+                , dinnerPriceEdit.getText().toString(), file1, String.valueOf(label), mWeek_price, mChurch_week_price, mTime_price, mChurch_time_price, briefEdit.getText().toString(), mGoods_id, takeawayJieSuanPriceEdit.getText().toString(), dinnerJieSuanPriceEdit.getText().toString(), this);
     }
 
     void addAppStageGoods(String sta_mid, String sup_type, String name, String cate_id, String boxware, String goods_attr, String goods_property, String shop_price, String church_shop_price, File pic, String label, String week_price, String church_week_price, String time_price, String church_time_price, String desc, String goods_id, String shop_jiesuan_price, String church_jiesuan_shop_price, BaseView baseView) {
@@ -925,12 +937,14 @@ public class InputAty extends BaseAty {
             String type = split[0];
             if (type.equals("takeaway")) {
                 mTime_price = split[1];
-                takeawayWeekCheckBox.setChecked(false);
-                takeawayDateCheckBox.setChecked(true);
+//                takeawayWeekCheckBox.setChecked(false);
+//                takeawayDateCheckBox.setChecked(true);
+                setTakeawayDateLayout();
             } else if (type.equals("dinner")) {
                 mChurch_time_price = split[1];
-                dinnerWeekCheckBox.setChecked(false);
-                dinnerDateCheckBox.setChecked(true);
+//                dinnerWeekCheckBox.setChecked(false);
+//                dinnerDateCheckBox.setChecked(true);
+                setDinnerDateLayout();
             }
 
         }
@@ -939,12 +953,14 @@ public class InputAty extends BaseAty {
             String type = split[0];
             if (type.equals("takeaway")) {
                 mWeek_price = split[1];
-                takeawayWeekCheckBox.setChecked(true);
-                takeawayDateCheckBox.setChecked(false);
+//                takeawayWeekCheckBox.setChecked(true);
+//                takeawayDateCheckBox.setChecked(false);
+                setTakeawayWeekLayout();
             } else if (type.equals("dinner")) {
                 mChurch_week_price = split[1];
-                dinnerWeekCheckBox.setChecked(true);
-                dinnerDateCheckBox.setChecked(false);
+//                dinnerWeekCheckBox.setChecked(true);
+//                dinnerDateCheckBox.setChecked(false);
+                setDinnerWeekLayout();
             }
 
         }

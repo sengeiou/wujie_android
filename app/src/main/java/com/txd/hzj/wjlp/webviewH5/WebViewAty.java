@@ -143,7 +143,7 @@ public class WebViewAty extends BaseAty {
         rootView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
-
+                rootView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
                 Rect r = new Rect();
                 // 获取当前界面可视部分
                 WebViewAty.this.getWindow().getDecorView().getWindowVisibleDisplayFrame(r);

@@ -10,7 +10,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
@@ -18,6 +17,7 @@ import com.ants.theantsgo.base.BaseView;
 import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.httpTools.ApiTool2;
 import com.ants.theantsgo.util.JSONUtils;
+import com.ants.theantsgo.util.SoftKeyboardUtil;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.http.RequestParams;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -184,6 +184,8 @@ public class GroupManagementAty extends BaseAty {
         }
     }
 
+
+
     private void addNameDialog() {
         final EditDialog.Builder builder = new EditDialog.Builder(mContext);
         builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
@@ -194,16 +196,13 @@ public class GroupManagementAty extends BaseAty {
                 }else if (mType.equals("edit")){
                     editGroup(mId,builder.getEditContent(),GroupManagementAty.this);
                 }
-
-                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                if (imm.isActive()) {
-                    imm.hideSoftInputFromWindow(GroupManagementAty.this.getCurrentFocus().getWindowToken(), 0);
-                }
+                SoftKeyboardUtil.hideKeyboard(mContext);
                 dialog.dismiss();
             }
         }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                SoftKeyboardUtil.hideKeyboard(mContext);
                 dialog.dismiss();
             }
         });

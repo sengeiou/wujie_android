@@ -670,22 +670,23 @@
                     android:id="@+id/takeawayDateLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="15dp"
-                    android:layout_marginTop="15dp"
+                    android:paddingBottom="15dp"
+                    android:paddingTop="15dp"
                     android:paddingEnd="15dp"
                     android:paddingStart="15dp">
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
+                        android:drawableEnd="@drawable/icon_right_arrow"
                         android:text="日期范围" />
 
-                    <CheckBox
+                   <!-- <CheckBox
                         android:id="@+id/takeawayDateCheckBox"
                         style="@style/checkbox_style_14sp_w"
                         android:layout_alignParentEnd="true"
-                        android:drawableEnd="@drawable/select_check_box_style_cart"/>
+                        android:drawableEnd="@drawable/select_check_box_style_cart"/>-->
                 </RelativeLayout>
 
                 <View
@@ -697,22 +698,23 @@
                     android:id="@+id/takeawayWeekLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="15dp"
-                    android:layout_marginTop="15dp"
+                    android:paddingBottom="15dp"
+                    android:paddingTop="15dp"
                     android:paddingEnd="15dp"
                     android:paddingStart="15dp">
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
+                        android:drawableEnd="@drawable/icon_right_arrow"
                         android:text="星期范围" />
 
-                    <CheckBox
+                    <!--<CheckBox
                         android:id="@+id/takeawayWeekCheckBox"
                         style="@style/checkbox_style_14sp_w"
                         android:layout_alignParentEnd="true"
-                        android:drawableEnd="@drawable/select_check_box_style_cart"/>
+                        android:drawableEnd="@drawable/select_check_box_style_cart"/>-->
                 </RelativeLayout>
 
                 <View
@@ -766,22 +768,23 @@
                     android:id="@+id/dinnerDateLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="15dp"
-                    android:layout_marginTop="15dp"
+                    android:paddingBottom="15dp"
+                    android:paddingTop="15dp"
                     android:paddingEnd="15dp"
                     android:paddingStart="15dp">
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
+                        android:drawableEnd="@drawable/icon_right_arrow"
                         android:text="日期范围" />
 
-                    <CheckBox
+                   <!-- <CheckBox
                         android:id="@+id/dinnerDateCheckBox"
                         style="@style/checkbox_style_14sp_w"
                         android:layout_alignParentEnd="true"
-                        android:drawableEnd="@drawable/select_check_box_style_cart"/>
+                        android:drawableEnd="@drawable/select_check_box_style_cart"/>-->
                 </RelativeLayout>
 
                 <View
@@ -793,22 +796,23 @@
                     android:id="@+id/dinnerWeekLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="15dp"
-                    android:layout_marginTop="15dp"
+                    android:paddingBottom="15dp"
+                    android:paddingTop="15dp"
                     android:paddingEnd="15dp"
                     android:paddingStart="15dp">
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
+                        android:drawableEnd="@drawable/icon_right_arrow"
                         android:text="星期范围" />
 
-                    <CheckBox
+                    <!--<CheckBox
                         android:id="@+id/dinnerWeekCheckBox"
                         style="@style/checkbox_style_14sp_w"
                         android:layout_alignParentEnd="true"
-                        android:drawableEnd="@drawable/select_check_box_style_cart"/>
+                        android:drawableEnd="@drawable/select_check_box_style_cart"/>-->
                 </RelativeLayout>
 
                 <View

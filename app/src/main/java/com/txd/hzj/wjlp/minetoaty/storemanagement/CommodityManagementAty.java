@@ -47,6 +47,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -229,9 +231,22 @@ public class CommodityManagementAty extends BaseAty {
                 bundle.putString("url", data.get("url"));
                 startActivity(WebViewAty.class, bundle);
             } else if (data.get("status").equals("1")) {
-                Bundle bundle = new Bundle();
-                bundle.putString("sta_mid", merchantId);
-                startActivity(InputAty.class, bundle);
+                if (saleLayout.getVisibility() == View.VISIBLE){
+                    try {
+                        JSONArray jsonArray = new JSONArray(getGoodsIds());
+                        if (jsonArray.length() <= 0) {
+                            showToast("请选择商品");
+                            return;
+                        }
+                        app_mass_shut_updown(getGoodsIds(), "1", CommodityManagementAty.this);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }else {
+                    Bundle bundle = new Bundle();
+                    bundle.putString("sta_mid", merchantId);
+                    startActivity(InputAty.class, bundle);
+                }
             }
             return;
         }
@@ -390,16 +405,7 @@ public class CommodityManagementAty extends BaseAty {
                 }
                 break;
             case R.id.startSaleTv:
-                try {
-                    JSONArray jsonArray = new JSONArray(getGoodsIds());
-                    if (jsonArray.length() <= 0) {
-                        showToast("请选择商品");
-                        return;
-                    }
-                    app_mass_shut_updown(getGoodsIds(), "1", CommodityManagementAty.this);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                app_after_api(merchantId, CommodityManagementAty.this);
                 break;
             case R.id.submitTv:
                 try {
@@ -600,6 +606,33 @@ public class CommodityManagementAty extends BaseAty {
         public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
             CateGoodsListBean cateGoodsListBean = mList.get(position);
             Glide.with(mContext).load(cateGoodsListBean.getGoods_pic()).into(holder.picIv);
+            if (cateGoodsListBean.getLabel_int()!=null){
+                if (cateGoodsListBean.getLabel_int().equals("1")){
+                    holder.labelTv.setText("招牌");
+                    holder.labelTv.setBackgroundColor(Color.parseColor("#D74B42"));
+                }else if (cateGoodsListBean.getLabel_int().equals("2")){
+                    holder.labelTv.setText("推荐");
+                    holder.labelTv.setBackgroundColor(Color.parseColor("#F37930"));
+                }else if (cateGoodsListBean.getLabel_int().equals("3")){
+                    holder.labelTv.setText("链店");
+                    holder.labelTv.setBackgroundColor(Color.parseColor("#884898"));
+                }else {
+                    String create_time = cateGoodsListBean.getCreate_time();
+                    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                    try {
+                        long createTime = format.parse(create_time).getTime();
+                        long currentTimeMillis = System.currentTimeMillis();
+                        if ((currentTimeMillis-createTime)/(1000*60*60)<72){
+                            holder.labelTv.setText("新品");
+                            holder.labelTv.setBackgroundColor(Color.parseColor("#8DCA2C"));
+                        }
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+
             holder.nameTv.setText(cateGoodsListBean.getName());
             if (selectName.equals("待递交") || selectName.equals("待审核") || selectName.equals("审核失败")) {
                 holder.typeTv.setVisibility(View.VISIBLE);
@@ -698,6 +731,9 @@ public class CommodityManagementAty extends BaseAty {
         public static class ViewHolder extends RecyclerView.ViewHolder {
             @ViewInject(R.id.picIv)
             private ImageView picIv;
+
+            @ViewInject(R.id.labelTv)
+            private TextView labelTv;
 
             @ViewInject(R.id.nameTv)
             private TextView nameTv;
@@ -823,6 +859,7 @@ public class CommodityManagementAty extends BaseAty {
         private String id;
         private String goods_id;
         private String cate_id;
+        private String label_int;
         private String name;
         private String shop_price;
         private String church_shop_price;
@@ -847,6 +884,14 @@ public class CommodityManagementAty extends BaseAty {
         private int specs_count;
 
         private boolean isSelect;
+
+        public String getLabel_int() {
+            return label_int;
+        }
+
+        public void setLabel_int(String label_int) {
+            this.label_int = label_int;
+        }
 
         public boolean isSelect() {
             return isSelect;
