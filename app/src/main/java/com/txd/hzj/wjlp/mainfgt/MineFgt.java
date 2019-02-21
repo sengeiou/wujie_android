@@ -121,8 +121,8 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
     private View bandOtherAccount_line; // 绑定第三方账户
         @ViewInject(R.id.business_code_tv)
         private TextView business_code_tv; // 商家码
-    @ViewInject(R.id.shop_manager_tv)
-    private TextView shop_manager_tv; // 店铺管理
+//    @ViewInject(R.id.shop_manager_tv)
+//    private TextView shop_manager_tv; // 店铺管理
     @ViewInject(R.id.business_line)
     private View business_line;
 
@@ -791,7 +791,7 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
 
                 bandOtherAccount_tv.setVisibility(View.GONE); // 三方账户绑定
                 give_coupon_tv.setVisibility(View.GONE); // 赠送蓝色代金券
-                shop_manager_tv.setVisibility(View.GONE); // 线下店铺店铺管理
+//                shop_manager_tv.setVisibility(View.GONE); // 线下店铺店铺管理
                 business_code_tv.setVisibility(View.GONE);
                 String alliance_merchant = jsonData.has("alliance_merchant") ? jsonData.getString("alliance_merchant") : "";
                 String member_coding = jsonData.has("member_coding") ? jsonData.getString("member_coding") : "";
@@ -805,7 +805,7 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
                     give_coupon_line.setVisibility(View.VISIBLE);
                 }
                 if (shangjiamaList.size() > 0) { // 商家显示类型不为0
-                    shop_manager_tv.setVisibility(View.VISIBLE); // 显示线下店铺店铺管理
+//                    shop_manager_tv.setVisibility(View.VISIBLE); // 显示线下店铺店铺管理
                     business_code_tv.setVisibility(View.VISIBLE);
                     business_line.setVisibility(View.VISIBLE);
                 }
