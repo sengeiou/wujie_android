@@ -1,5 +1,6 @@
 package com.txd.hzj.wjlp.mellonLine;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.view.View;
@@ -102,24 +103,24 @@ public class ScanAty extends BaseAty implements QRCodeView.Delegate {
      */
     private void dataProcessing(String result) {
 
-        // 扫描商家拜师码
-        if (result.contains("User/mentorship/invite_code")) {
-            if (!Config.isLogin()) { // 如果未登录则先去登录
-                toLogin();
-            } else {
-                toDetail(4, result);
-            }
+        boolean isJsonStr = false;
+
+        try {
+            new JSONObject(result);
+            isJsonStr = true;
+        } catch (JSONException e) {
+            isJsonStr = false;
         }
 
-        // 扫网站的二维码
-        if (result.contains("type")) {// type:1登录，2邀请码注册 ，3下载
-            if (!Config.isLogin()) { // 如果未登录则先去登录
-                toLogin();
-            } else {
-                // 已登录
-                try {
-                    JSONObject jsonObject = new JSONObject(result);
-                    if (jsonObject.getInt("type") == 1) {
+        if (isJsonStr) { // 如果回传的是JSON字符串并且字符串正确
+            try {
+                JSONObject jsonObject = new JSONObject(result);
+                switch (jsonObject.getInt("type")) {
+                    case 1: // 登录
+                        if (!Config.isLogin()) {
+                            toLogin(); // 如果未登录，则去登陆
+                            return;
+                        }
                         JSONObject data = jsonObject.getJSONObject("data");
                         String sid = data.getString("sid");
 
@@ -127,56 +128,57 @@ public class ScanAty extends BaseAty implements QRCodeView.Delegate {
                         // 实例化网络请求接口并添加请求参数
                         RegisterPst registerPst = new RegisterPst(this);
                         registerPst.qr_login(sid);
-                    }
-                } catch (JSONException e) {
-//                    showToast("二维码异常，请刷新网站端界面。");
-                    showDialog(e.toString());
-                    L.e("扫码Json字符串异常：" + e.toString());
+                        break;
+                    case 2: // 邀请码注册
+                        break;
+                    case 3: // 下载
+                        break;
                 }
+            } catch (JSONException e) {
+                showToast("二维码异常，请刷新网站端界面。");
+                showDialog(e.toString());
+                L.e("扫码Json字符串异常：" + e.toString());
             }
-        }
-
-//        http://test2.wujiemall.com/Wap/OfflineStore/confirmation/stage_merchant_id/39/invite_code/GYrJovNW.html
-        // 线下扫码付款
-        if (result.contains("OfflineStore/confirmation") && result.contains("stage_merchant_id")) {
-            String stage_merchant_id = "";
-            String[] split = result.split("/");
-            for (int i = 0; i < split.length; i++) {
-                if (!StringUtils.isEmpty(split[i]) && split[i].equals("stage_merchant_id")) {
-                    stage_merchant_id = split[i + 1];
-                    break;
+        } else { // 否则的话按照正常字符串处理
+            if (result.contains("User/mentorship/invite_code")) { // 扫描商家拜师码
+                if (!Config.isLogin()) { // 如果未登录则先去登录
+                    toLogin();
+                } else {
+                    String token = PreferencesUtils.getString(AppManager.getInstance().getTopActivity(), "token", ""); // 获取当前账号的Token
+                    Bundle bundle = new Bundle();
+                    bundle.putInt("from", 4);
+                    result = result.contains("User/mentorship/invite_code") ? result + "/token/" + token : result; // 如果是拜师码，则添加当前登录人的Token
+                    bundle.putString("url", result);
+                    startActivity(WebViewAty.class, bundle);
                 }
-            }
-            if (!StringUtils.isEmpty(stage_merchant_id)) {
+            } else if (result.contains("pay_money/pm_id")) { // 线下收款码
                 Bundle bundle = new Bundle();
-                bundle.putString("stage_merchant_id", stage_merchant_id);
-                startActivity(PaymentAty.class, bundle);
-            } else {
-                showToast("二维码错误，未获取到商家编号");
+                bundle.putString("url", result);
+                startActivity(WebViewAty.class, bundle);
+            } else if (result.contains("OfflineStore/confirmation") && result.contains("stage_merchant_id")) { // 线下扫码付款
+                String stage_merchant_id = "";
+                String[] split = result.split("/");
+                for (int i = 0; i < split.length; i++) {
+                    if (!StringUtils.isEmpty(split[i]) && split[i].equals("stage_merchant_id")) {
+                        stage_merchant_id = split[i + 1];
+                        break;
+                    }
+                }
+                if (!StringUtils.isEmpty(stage_merchant_id)) {
+                    Bundle bundle = new Bundle();
+                    bundle.putString("stage_merchant_id", stage_merchant_id);
+                    startActivity(PaymentAty.class, bundle);
+                } else {
+                    showToast("二维码错误，未获取到商家编号");
+                }
+            } else { // 非以上情况的直接跳转到网页
+                Bundle bundle = new Bundle();
+                bundle.putString("url", result);
+                startActivity(WebViewAty.class, bundle);
             }
-        } else {
-            toDetail(4, result);
-        }
-
-//        http://test2.wujiemall.com/Wap/OsManager/pay_money/pm_id/i3R4SSynYfPHZjxJ/money/0.02/mid/12.html
-        if (result.contains("pay_money/pm_id")) {
-            Bundle bundle = new Bundle();
-            bundle.putString("url", result);
-            startActivity(WebViewAty.class, bundle);
         }
 
         finish();
-    }
-
-    private void toDetail(int from, String herf) {
-
-        String token = PreferencesUtils.getString(AppManager.getInstance().getTopActivity(), "token", ""); // 获取当前账号的Token
-
-        Bundle bundle = new Bundle();
-        bundle.putInt("from", from);
-        herf = herf.contains("User/mentorship/invite_code") ? herf + "/token/" + token : herf; // 如果是拜师码，则添加当前登录人的Token
-        bundle.putString("url", herf);
-        startActivity(WebViewAty.class, bundle);
     }
 
     @Override

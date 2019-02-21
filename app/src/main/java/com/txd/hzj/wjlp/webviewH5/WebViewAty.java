@@ -478,10 +478,20 @@ public class WebViewAty extends BaseAty {
          * * @param cut 裁剪
          */
         @JavascriptInterface
-        public void openCamera(int width, int high) {
-            //            WebViewAty.width = width;
-            //            WebViewAty.high = high;
-            L.e("qwertyuiopzxcvbnm", "width:" + width + " high:" + high);
+        public void openCamera(String result) {
+            String substring = result.substring(1, result.length()-1);
+            String[] split = substring.split(",");
+//            selectMode = Integer.parseInt(split[0].split(":")[1]);
+            WebViewAty.width = Integer.parseInt(split[1].split(":")[1]);
+            WebViewAty.high = Integer.parseInt(split[2].split(":")[1]);
+            initImageOnePicker();
+            Intent intent = new Intent(WebViewAty.this, ImageGridActivity.class);
+            intent.putExtra(ImageGridActivity.EXTRAS_TAKE_PICKERS, true); // 直接调取相机
+            startActivityForResult(intent, 111);
+        }
+
+        @JavascriptInterface
+        public void openCamera() {
             initImageOnePicker();
             Intent intent = new Intent(WebViewAty.this, ImageGridActivity.class);
             intent.putExtra(ImageGridActivity.EXTRAS_TAKE_PICKERS, true); // 直接调取相机
@@ -491,13 +501,20 @@ public class WebViewAty extends BaseAty {
         /**
          * 打开相册选择图片
          *
-         * @param selectMode 选择类型 0单选 1多选
          */
         @JavascriptInterface
-        public void openPhotoFolder(int selectMode, int width, int high) {
-            WebViewAty.width = width;
-            WebViewAty.high = high;
-            L.e("qwertyuiopzxcvbnm", "width:" + width + " high:" + high);
+        public void openPhotoFolder(String result) {
+            // 选择类型 0单选 1多选
+            int selectMode = 0;
+            if (result != null && result.contains("{")){
+                String substring = result.substring(1, result.length()-1);
+                String[] split = substring.split(",");
+                selectMode = Integer.parseInt(split[0].split(":")[1]);
+                WebViewAty.width = Integer.parseInt(split[1].split(":")[1]);
+                WebViewAty.high = Integer.parseInt(split[2].split(":")[1]);
+            }else {
+               selectMode = Integer.parseInt(result);
+            }
             switch (selectMode) {
                 case 0: // 单选
                     initImageOnePicker();
