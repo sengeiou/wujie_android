@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.text.InputFilter;
 import android.text.TextUtils;
 import android.view.Gravity;
@@ -406,23 +407,23 @@ public class InputAty extends BaseAty {
     }
 
     private void setTakeawayWeekLayout(){
-        takeawayWeekLayout.setBackgroundColor(Color.GRAY);
+        takeawayWeekLayout.setBackgroundColor(ContextCompat.getColor(mContext,R.color.line_color));
         takeawayDateLayout.setBackgroundColor(Color.WHITE);
     }
 
     private void setTakeawayDateLayout(){
         takeawayWeekLayout.setBackgroundColor(Color.WHITE);
-        takeawayDateLayout.setBackgroundColor(Color.GRAY);
+        takeawayDateLayout.setBackgroundColor(ContextCompat.getColor(mContext,R.color.line_color));
     }
 
     private void setDinnerWeekLayout(){
-        dinnerWeekLayout.setBackgroundColor(Color.GRAY);
+        dinnerWeekLayout.setBackgroundColor(ContextCompat.getColor(mContext,R.color.line_color));
         dinnerDateLayout.setBackgroundColor(Color.WHITE);
     }
 
     private void setDinnerDateLayout(){
         dinnerWeekLayout.setBackgroundColor(Color.WHITE);
-        dinnerDateLayout.setBackgroundColor(Color.GRAY);
+        dinnerDateLayout.setBackgroundColor(ContextCompat.getColor(mContext,R.color.line_color));
     }
 
     @Override
