@@ -187,12 +187,7 @@ public class TradingStampAty extends BaseAty implements View.OnClickListener{
                 String exchange_voucher = giftData.containsKey("exchange_voucher") ? giftData.get("exchange_voucher") : "";
                 // "exchanged": 0    //0:未兑换 1：已兑换
                 String exchanged = giftData.containsKey("exchanged") ? giftData.get("exchanged") : "";
-                if (Double.parseDouble(exchanged) > 0 || Double.parseDouble(gift_num)==0) {
-                    change_tv.setTextColor(ContextCompat.getColor(TradingStampAty.this,R.color.bg_color));
-                    change_tv.setClickable(false);
-                    setClickable(false);
-                    change_tv.setBackgroundResource(R.drawable.icon_gift_zhuanhuan_grey);
-                } else {
+                if (Double.parseDouble(exchanged) == 0 && Double.parseDouble(gift_num)!=0 && Double.parseDouble(sum_money)!=0) {
                     change_tv.setTextColor(Color.WHITE);
                     change_tv.setBackgroundResource(R.drawable.icon_gift_zhuanhuan);
                     setClickable(true);
@@ -229,6 +224,11 @@ public class TradingStampAty extends BaseAty implements View.OnClickListener{
                             return false;
                         }
                     });
+
+                } else {
+                    change_tv.setTextColor(ContextCompat.getColor(TradingStampAty.this,R.color.bg_color));
+                    setClickable(false);
+                    change_tv.setBackgroundResource(R.drawable.icon_gift_zhuanhuan_grey);
                 }
 
 
