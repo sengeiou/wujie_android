@@ -792,7 +792,7 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
                 bandOtherAccount_tv.setVisibility(View.GONE); // 三方账户绑定
                 give_coupon_tv.setVisibility(View.GONE); // 赠送蓝色代金券
                 shop_manager_tv.setVisibility(View.GONE); // 线下店铺店铺管理
-                business_code_tv.setVisibility(View.GONE);
+//                business_code_tv.setVisibility(View.GONE);
                 String alliance_merchant = jsonData.has("alliance_merchant") ? jsonData.getString("alliance_merchant") : "";
                 String member_coding = jsonData.has("member_coding") ? jsonData.getString("member_coding") : "";
 
@@ -806,7 +806,7 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
                 }
                 if (shangjiamaList.size() > 0) { // 商家显示类型不为0
                     shop_manager_tv.setVisibility(View.VISIBLE); // 显示线下店铺店铺管理
-                    business_code_tv.setVisibility(View.VISIBLE);
+//                    business_code_tv.setVisibility(View.VISIBLE);
                     business_line.setVisibility(View.VISIBLE);
                 }
 

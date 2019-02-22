@@ -262,7 +262,7 @@ public class AttributesFirstAty extends BaseAty {
                                 jsonObject.put("name", taste.get(i).getTitle());
                                 array.put(jsonObject);
                             }
-                            object.put("break_down", array.toString());
+                            object.put("break_down", array);
                             jsonArray.put(object);
                     }
                     EventBus.getDefault().post(new MessageEvent(jsonArray.toString(), "AttributesFirstAty"));

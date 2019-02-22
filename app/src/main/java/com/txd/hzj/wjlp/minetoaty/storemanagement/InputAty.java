@@ -79,6 +79,9 @@ public class InputAty extends BaseAty {
     @ViewInject(R.id.classifyTv)
     private TextView classifyTv;
 
+    @ViewInject(R.id.stockNumEdit)
+    private EditText stockNumEdit;
+
     @ViewInject(R.id.takeawayLayout)
     private LinearLayout takeawayLayout;
 
@@ -358,6 +361,7 @@ public class InputAty extends BaseAty {
             }
             mCate_id = data.get("cate_id");
             nameEdit.setText(data.get("name"));
+            stockNumEdit.setText(data.get("limit"));
             classifyTv.setText(data.get("cate_name"));
             lunchBoxNumEdit.setText(data.get("boxware"));
             multipleSpecificationsTv.setText(data.containsKey("attr_name") ? data.get("attr_name") : "");
@@ -559,10 +563,10 @@ public class InputAty extends BaseAty {
             label = 3;
         }
         addAppStageGoods(mSta_mid, mSup_type, nameEdit.getText().toString(), mCate_id, lunchBoxNumEdit.getText().toString(), mGoods_attr, mGoods_property, takeawayPriceEdit.getText().toString()
-                , dinnerPriceEdit.getText().toString(), file1, String.valueOf(label), mWeek_price, mChurch_week_price, mTime_price, mChurch_time_price, briefEdit.getText().toString(), mGoods_id, takeawayJieSuanPriceEdit.getText().toString(), dinnerJieSuanPriceEdit.getText().toString(), this);
+                , dinnerPriceEdit.getText().toString(), file1, String.valueOf(label), mWeek_price, mChurch_week_price, mTime_price, mChurch_time_price, briefEdit.getText().toString(), mGoods_id, takeawayJieSuanPriceEdit.getText().toString(), dinnerJieSuanPriceEdit.getText().toString(), stockNumEdit.getText().toString(),this);
     }
 
-    void addAppStageGoods(String sta_mid, String sup_type, String name, String cate_id, String boxware, String goods_attr, String goods_property, String shop_price, String church_shop_price, File pic, String label, String week_price, String church_week_price, String time_price, String church_time_price, String desc, String goods_id, String shop_jiesuan_price, String church_jiesuan_shop_price, BaseView baseView) {
+    void addAppStageGoods(String sta_mid, String sup_type, String name, String cate_id, String boxware, String goods_attr, String goods_property, String shop_price, String church_shop_price, File pic, String label, String week_price, String church_week_price, String time_price, String church_time_price, String desc, String goods_id, String shop_jiesuan_price, String church_jiesuan_shop_price,String limit, BaseView baseView) {
         RequestParams params = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
         params.addBodyParameter("sta_mid", sta_mid);
@@ -588,6 +592,9 @@ public class InputAty extends BaseAty {
         }
         params.addBodyParameter("shop_jiesuan_price", shop_jiesuan_price);
         params.addBodyParameter("church_jiesuan_shop_price", church_jiesuan_shop_price);
+        if (!TextUtils.isEmpty(limit)){
+            params.addBodyParameter("limit", limit);
+        }
         apiTool2.postApi(Config.BASE_URL + "OsManager/addAppStageGoods", params, baseView);
     }
 
