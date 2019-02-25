@@ -127,11 +127,11 @@ public class CatchSuccessDialog extends BaseDialog {
 
                 @Override
                 public void onFinish() {
-                    oneTimeBtnTv.setText(oneTimeStr);
-                    oneTimeBtnTv.setEnabled(true);
+//                    oneTimeBtnTv.setText(oneTimeStr);
+//                    oneTimeBtnTv.setEnabled(true);
+                    oneTimeBtnTv.setVisibility(View.GONE);
                 }
             }.start();
-            oneTimeBtnTv.setEnabled(false);
 
             // Dialog关闭监听，如果关闭了并且倒计时不为空，则清空倒计时
             catchSuccessDialog.setOnDismissListener(new OnDismissListener() {

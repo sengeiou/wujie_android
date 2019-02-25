@@ -17,6 +17,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.ants.theantsgo.gson.GsonUtil;
 import com.ants.theantsgo.tool.glide.GlideUtils;
 import com.ants.theantsgo.tools.AlertDialog;
 import com.ants.theantsgo.util.L;
@@ -29,9 +30,10 @@ import com.tencent.rtmp.TXLivePlayer;
 import com.tencent.rtmp.ui.TXCloudVideoView;
 import com.txd.hzj.wjlp.Constant;
 import com.txd.hzj.wjlp.R;
+import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.catchDoll.adapter.GameRoomGoodsAdapter;
 import com.txd.hzj.wjlp.catchDoll.adapter.GameRoomHeaderAdapter;
-import com.txd.hzj.wjlp.catchDoll.base.BaseAty;
+import com.txd.hzj.wjlp.catchDoll.bean.GameRoomAdsBean;
 import com.txd.hzj.wjlp.catchDoll.bean.GameRoomGoodsBean;
 import com.txd.hzj.wjlp.catchDoll.bean.GameRoomHeaderBean;
 import com.txd.hzj.wjlp.catchDoll.socketcmd.SockAPP;
@@ -45,12 +47,14 @@ import com.txd.hzj.wjlp.catchDoll.view.BarrageView;
 import com.txd.hzj.wjlp.catchDoll.view.NoScrollRecyclerView;
 import com.txd.hzj.wjlp.catchDoll.view.RockerView;
 import com.txd.hzj.wjlp.catchDoll.view.VScrollScreenLayout;
+import com.txd.hzj.wjlp.http.catchDoll.Catcher;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.Transformer;
 import com.youth.banner.listener.OnBannerListener;
 import com.youth.banner.loader.ImageLoader;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -89,12 +93,14 @@ public class GameRoomActivity extends BaseAty implements GameRoomGoodsAdapter.On
     public RelativeLayout gameRoomVideo_countdownTime_rlayout;
     @ViewInject(R.id.gameRoomVideo_countdownTime_tv)
     public TextView gameRoomVideo_countdownTime_tv;
-//    @ViewInject(R.id.gameRoomVideo_roomNumber_tv)
-//    public  gameRoomVideo_roomNumber_tv;
-//    @ViewInject(R.id.gameRoomVideo_price_tv)
-//    public  gameRoomVideo_price_tv;
-//    @ViewInject(R.id.gameRoomVideo_balance_tv)
-//    public  gameRoomVideo_balance_tv;
+    @ViewInject(R.id.gameRoomVideo_roomNumber_tv)
+    public TextView gameRoomVideo_roomNumber_tv;
+    @ViewInject(R.id.gameRoomVideo_price_tv)
+    public TextView gameRoomVideo_price_tv;
+    @ViewInject(R.id.gameRoomVideo_balance_tv)
+    public TextView gameRoomVideo_balance_tv;
+    @ViewInject(R.id.gameRoomVideo_collection_imgv)
+    public ImageView gameRoomVideo_collection_imgv;
     @ViewInject(R.id.gameRoomVideo_music_imgv) // 音乐开关
     public ImageView gameRoomVideo_music_imgv;
     @ViewInject(R.id.gameRoomVideo_direction_rockview)
@@ -111,7 +117,6 @@ public class GameRoomActivity extends BaseAty implements GameRoomGoodsAdapter.On
     public Banner gameRoomList_bannerShow_banner;
     @ViewInject(R.id.gameRoomList_goodsList_nrlView) // 商品列表
     public NoScrollRecyclerView gameRoomList_goodsList_nrlView;
-    private List<GameRoomGoodsBean> gameRoomGoodsBeans;
 
     private CountDownTimer gameCountDownTimer; // 游戏开始倒计时
 
@@ -126,6 +131,13 @@ public class GameRoomActivity extends BaseAty implements GameRoomGoodsAdapter.On
 
     private SockAPP sendThread;
 
+    private String inRoomNumber;
+    private int isCollection = 0; // 是否收藏（关注）
+
+    List<GameRoomHeaderBean> gameRoomHeaderBeans; // 最近抓住记录列表
+    List<GameRoomAdsBean> list_RoomAds; // 房间内轮播图对象
+    List<GameRoomGoodsBean> gameRoomGoodsBeans; // 商品对象列表
+
     @Override
     protected int getLayoutResId() {
         return R.layout.activity_game_room;
@@ -137,9 +149,12 @@ public class GameRoomActivity extends BaseAty implements GameRoomGoodsAdapter.On
         sendThread = Constant.SOCK_APP;
 
         Bundle bundle = getIntent().getExtras();
-        videoUrl1 = bundle.getString(Constant.VIDEO_LIVE_1_URL_KEY);
-        videoUrl2 = bundle.getString(Constant.VIDEO_LIVE_2_URL_KEY);
-        videoUrl = videoUrl1;
+        inRoomNumber = bundle.getString("inRoomNumber"); // 房间号
+        videoUrl1 = bundle.getString(Constant.VIDEO_LIVE_1_URL_KEY); // 直播地址1
+        videoUrl2 = bundle.getString(Constant.VIDEO_LIVE_2_URL_KEY); // 直播地址2
+        videoUrl = videoUrl1; // 初始化播放地址为直播地址1
+
+        Catcher.catcherDetails(inRoomNumber, this);
 
         // 设置屏蔽页面上下滑动事件，避免摇杆滑动与界面冲突
         gameRoomVideo_direction_rockview.setOnTouchListener(new View.OnTouchListener() {
@@ -224,7 +239,6 @@ public class GameRoomActivity extends BaseAty implements GameRoomGoodsAdapter.On
 
     }
 
-
     @Override
     protected void requestData() {
         String msg;
@@ -256,9 +270,6 @@ public class GameRoomActivity extends BaseAty implements GameRoomGoodsAdapter.On
             initPlayer();
         }
         initBarrage();
-        initHeaderList();
-        initBanner();
-        initGoods();
 
         GlideUtils.urlCirclePicNoBg("http://kanimg.9ku.com/kanqq/pic/upload/2018/0530/b78eea8df704a1e831fb6c8778a618cb.jpg", 25, 25, gameRoomVideo_peopleNumber1_imgv);
         GlideUtils.urlCirclePicNoBg("http://img1.imgtn.bdimg.com/it/u=165501638,2373619033&fm=27&gp=0.jpg", 25, 25, gameRoomVideo_peopleNumber2_imgv);
@@ -352,8 +363,8 @@ public class GameRoomActivity extends BaseAty implements GameRoomGoodsAdapter.On
     /**
      * 初始化头像列表
      */
-    private void initHeaderList() {
-        List<GameRoomHeaderBean> gameRoomHeaderBeans = new ArrayList<>();
+    private void initHeaderList(List<GameRoomHeaderBean> gameRoomHeaderBeans) {
+        this.gameRoomHeaderBeans = gameRoomHeaderBeans;
         GameRoomHeaderBean gameRoomHeaderBean;
         for (int i = 0; i < 10; i++) {
             gameRoomHeaderBean = new GameRoomHeaderBean();
@@ -371,13 +382,12 @@ public class GameRoomActivity extends BaseAty implements GameRoomGoodsAdapter.On
     /**
      * 设置Banner轮播图
      */
-    private void initBanner() {
+    private void initBanner(final List<GameRoomAdsBean> list_RoomAds) {
+        this.list_RoomAds = list_RoomAds;
         final List<String> list_path = new ArrayList<>();
-        list_path.add("http://gss0.baidu.com/9fo3dSag_xI4khGko9WTAnF6hhy/zhidao/pic/item/503d269759ee3d6d8fb6e66a45166d224f4ade1b.jpg");
-        list_path.add("http://e.hiphotos.baidu.com/zhidao/pic/item/32fa828ba61ea8d369805b46930a304e241f58d5.jpg");
-        list_path.add("http://img1.imgtn.bdimg.com/it/u=227855470,2752218639&fm=26&gp=0.jpg");
-        list_path.add("http://img3.imgtn.bdimg.com/it/u=2524367231,3547626596&fm=26&gp=0.jpg");
-        list_path.add("http://gss0.baidu.com/-Po3dSag_xI4khGko9WTAnF6hhy/zhidao/pic/item/91529822720e0cf37475ecc80c46f21fbe09aa07.jpg");
+        for (GameRoomAdsBean gameRoomAdsBean : list_RoomAds) {
+            list_path.add(gameRoomAdsBean.getPicture());
+        }
         gameRoomList_bannerShow_banner.setBannerStyle(BannerConfig.CIRCLE_INDICATOR);
         // 设置图片加载器
         gameRoomList_bannerShow_banner.setImageLoader(new MyLoader());
@@ -394,7 +404,7 @@ public class GameRoomActivity extends BaseAty implements GameRoomGoodsAdapter.On
         gameRoomList_bannerShow_banner.setOnBannerListener(new OnBannerListener() {
             @Override
             public void OnBannerClick(int position) {
-                showToast(list_path.get(position));
+                showToast(list_RoomAds.get(position).getDesc());
             }
         });
         // banner设置方法全部调用完毕时最后调用
@@ -414,16 +424,8 @@ public class GameRoomActivity extends BaseAty implements GameRoomGoodsAdapter.On
     /**
      * 初始化商品列表
      */
-    private void initGoods() {
-        gameRoomGoodsBeans = new ArrayList<>();
-        GameRoomGoodsBean gameRoomGoodsBean;
-        for (int i = 0; i < 10; i++) {
-            gameRoomGoodsBean = new GameRoomGoodsBean();
-            gameRoomGoodsBean.setImgUrl("http://gss0.baidu.com/9fo3dSag_xI4khGko9WTAnF6hhy/zhidao/pic/item/503d269759ee3d6d8fb6e66a45166d224f4ade1b.jpg");
-            gameRoomGoodsBean.setNumber(i + 5);
-            gameRoomGoodsBean.setName("巴拉巴拉一大堆");
-            gameRoomGoodsBeans.add(gameRoomGoodsBean);
-        }
+    private void initGoods(List<GameRoomGoodsBean> gameRoomGoodsBeans) {
+        this.gameRoomGoodsBeans = gameRoomGoodsBeans;
         gameRoomList_goodsList_nrlView.setLayoutManager(new LinearLayoutManager(this));
         GameRoomGoodsAdapter goodsAdapter = new GameRoomGoodsAdapter(gameRoomGoodsBeans, this);
         goodsAdapter.setOnGoodsItemClickListener(this);
@@ -458,7 +460,12 @@ public class GameRoomActivity extends BaseAty implements GameRoomGoodsAdapter.On
                 showToast("切换房间");
                 break;
             case R.id.gameRoomVideo_collection_imgv: // 收藏
-                showToast("收藏");
+                if (isCollection == 0) { // 如果未关注
+                    isCollection = 1;
+                } else { // 否则的话是已关注
+                    isCollection = 0;
+                }
+                Catcher.getCatcherAttention(Integer.parseInt(inRoomNumber), isCollection, this);
                 break;
             case R.id.gameRoomVideo_music_imgv: // 音乐
                 isMute = !isMute;
@@ -486,7 +493,8 @@ public class GameRoomActivity extends BaseAty implements GameRoomGoodsAdapter.On
                 }
                 break;
             case R.id.gameRoomVideo_share_imgv: // 分享
-                toShare("抓娃娃", "pic", "url", "content", "id", "shapetype");
+//                toShare(share_title, share_img, share_url, context, share_id, "1");
+                toShare("抓娃娃", "pic", "http://www.baidu.com", "content", "id", "shapetype");
                 break;
             case R.id.gameRoomVideo_start_imgv: // 开局
 //                    new MoneyNotEnoughDialog.Builder(this)
@@ -497,21 +505,14 @@ public class GameRoomActivity extends BaseAty implements GameRoomGoodsAdapter.On
 //                                }
 //                            })
 //                            .create().show();
-//                    tempUserMoney += 100;
 
-                String start_jsoncmd = "{\"cmd\":\"start_game\"}";
-                byte start_msg_content[] = new byte[3 + start_jsoncmd.length()];
-                start_msg_content[0] = (byte) 0xda;
-                start_msg_content[1] = (byte) (start_jsoncmd.length() / 256);
-                start_msg_content[2] = (byte) (start_jsoncmd.length() % 256);
-                System.arraycopy(start_jsoncmd.getBytes(), 0, start_msg_content, 3, start_jsoncmd.getBytes().length);
-                if (sendThread != null) {
-                    sendThread.SendOut(start_msg_content);
-                }
+                Catcher.startGame(inRoomNumber, this);
+
 //                }
                 break;
             case R.id.gameRoomVideo_recharge_imgv: // 充值
-                startActivity(MoneyActivity.class, null);
+                startActivity(MoneyActivity.class, null); // 跳转到充值界面
+                finish(); // 关闭当前界面
                 break;
         }
     }
@@ -522,15 +523,7 @@ public class GameRoomActivity extends BaseAty implements GameRoomGoodsAdapter.On
         txLivePlayer.stopPlay(true); // true 表示清除最后一帧
         gameRoomVideo_video_txcvv.onDestroy();
 
-        String jsoncmd = "{\"cmd\":\"exit_room\"}";
-        byte msg_content[] = new byte[3 + jsoncmd.length()];
-        msg_content[0] = (byte) 0xda;
-        msg_content[1] = (byte) (jsoncmd.length() / 256);
-        msg_content[2] = (byte) (jsoncmd.length() % 256);
-        System.arraycopy(jsoncmd.getBytes(), 0, msg_content, 3, jsoncmd.getBytes().length);
-        if (sendThread != null) {
-            sendThread.SendOut(msg_content);
-        }
+        Catcher.outRoom(inRoomNumber, this);
 
     }
 
@@ -574,6 +567,8 @@ public class GameRoomActivity extends BaseAty implements GameRoomGoodsAdapter.On
                             }
                         } else if (cmdStr.equals("game_ret")) { // 游戏返回
                             int game_ret = resultJson.getInt("ret");
+                            // 调用抓取结果回调的接口
+                            Catcher.postCatcherData(0, Integer.parseInt(inRoomNumber), game_ret, GameRoomActivity.this);
                             switch (game_ret) {
                                 case 0: // 抓取失败
                                     new CatchFailDialog.Builder(GameRoomActivity.this)
@@ -581,7 +576,7 @@ public class GameRoomActivity extends BaseAty implements GameRoomGoodsAdapter.On
                                             .setOnOneTimeBtnClickListener("再来一局", new DialogInterface.OnClickListener() {
                                                 @Override
                                                 public void onClick(DialogInterface dialog, int which) {
-                                                    showToast("再来一局");
+                                                    Catcher.startGame(inRoomNumber, GameRoomActivity.this);
                                                 }
                                             }).create().show();
                                     break;
@@ -592,7 +587,7 @@ public class GameRoomActivity extends BaseAty implements GameRoomGoodsAdapter.On
                                             .setOnOneTimeBtnClickListener("再来一次", new DialogInterface.OnClickListener() {
                                                 @Override
                                                 public void onClick(DialogInterface dialog, int which) {
-                                                    showToast("再来一次");
+                                                    Catcher.startGame(inRoomNumber, GameRoomActivity.this);
                                                 }
                                             })
                                             .setOnHelpFriendBtnClickListener("好友助力", new DialogInterface.OnClickListener() {
@@ -621,5 +616,111 @@ public class GameRoomActivity extends BaseAty implements GameRoomGoodsAdapter.On
             super.handleMessage(msg);
         }
     };
+
+    // =========================================== API回调 ===========================================
+
+    @Override
+    public void onComplete(String requestUrl, String jsonStr) {
+        super.onComplete(requestUrl, jsonStr);
+        try {
+            JSONObject jsonObject = new JSONObject(jsonStr);
+            JSONObject data = jsonObject.getJSONObject("data");
+
+            if (requestUrl.contains("startGame")) { // 开始游戏
+                String start_jsoncmd = "{\"cmd\":\"start_game\"}";
+                byte start_msg_content[] = new byte[3 + start_jsoncmd.length()];
+                start_msg_content[0] = (byte) 0xda;
+                start_msg_content[1] = (byte) (start_jsoncmd.length() / 256);
+                start_msg_content[2] = (byte) (start_jsoncmd.length() % 256);
+                System.arraycopy(start_jsoncmd.getBytes(), 0, start_msg_content, 3, start_jsoncmd.getBytes().length);
+                if (sendThread != null) {
+                    sendThread.SendOut(start_msg_content);
+                }
+            }
+
+            if (requestUrl.contains("postCatcherData")) { // 抓取结果回调接口返回值
+                // 应该不会做啥操作
+            }
+
+            if (requestUrl.contains("outRoom")) { // 退出房间
+                String jsoncmd = "{\"cmd\":\"exit_room\"}";
+                byte msg_content[] = new byte[3 + jsoncmd.length()];
+                msg_content[0] = (byte) 0xda;
+                msg_content[1] = (byte) (jsoncmd.length() / 256);
+                msg_content[2] = (byte) (jsoncmd.length() % 256);
+                System.arraycopy(jsoncmd.getBytes(), 0, msg_content, 3, jsoncmd.getBytes().length);
+                if (sendThread != null) {
+                    sendThread.SendOut(msg_content);
+                }
+            }
+
+            if (requestUrl.contains("getCatcherAttention")) { // 关注和取消关注房间
+                int result = data.getInt("result");
+                switch (result) {
+                    case -1:
+                        showToast(data.getString("msg"));
+                        break;
+                    case 0: // 取消关注
+                        gameRoomVideo_collection_imgv.setImageResource(R.mipmap.icon_uncollection);
+                        break;
+                    case 1: // 关注
+                        gameRoomVideo_collection_imgv.setImageResource(R.mipmap.icon_collection);
+                        break;
+                }
+            }
+
+            if (requestUrl.contains("catcherDetails")) { // 获取房间信息
+                JSONObject listA = data.getJSONObject("listA");
+                String cid = listA.getString("cid"); // 房间号
+                String price = listA.getString("price"); // 价格
+                String coin = listA.has("coin") ? listA.getString("coin") : ""; // 剩余银两
+                gameRoomVideo_roomNumber_tv.setText(new StringBuffer().append("房间").append(cid));
+                gameRoomVideo_price_tv.setText(price);
+                gameRoomVideo_balance_tv.setText(coin);
+
+                // 设置抓中记录的头像列表
+                JSONArray listB = data.getJSONArray("listB");
+                List<GameRoomHeaderBean> tempGameRoomHeaderBeans = new ArrayList<>();
+                GameRoomHeaderBean gameRoomHeaderBean;
+                for (int i = 0; i < listB.length(); i++) {
+                    JSONObject jsonObject1 = listB.getJSONObject(i);
+                    gameRoomHeaderBean = new GameRoomHeaderBean();
+                    gameRoomHeaderBean.setHeaderUrl(jsonObject1.getString("head_pic"));
+                    gameRoomHeaderBean.setNumber(jsonObject1.getInt("num"));
+                    tempGameRoomHeaderBeans.add(gameRoomHeaderBean);
+                }
+                initHeaderList(tempGameRoomHeaderBeans);
+
+                // 设置轮播图
+                JSONArray ads = data.getJSONArray("ads");
+                List<GameRoomAdsBean> tempList_RoomAds = new ArrayList<>();
+                for (int i = 0; i < ads.length(); i++) {
+                    JSONObject jsonObject1 = ads.getJSONObject(i);
+                    GameRoomAdsBean gameRoomAdsBean = GsonUtil.GsonToBean(jsonObject1.toString(), GameRoomAdsBean.class);
+                    tempList_RoomAds.add(gameRoomAdsBean);
+                }
+                initBanner(tempList_RoomAds);
+
+                // 设置下面的商品列表
+                JSONArray gDetails = data.getJSONArray("gDetails");
+                List<GameRoomGoodsBean> tempGameRoomGoodsBeans = new ArrayList<>();
+                GameRoomGoodsBean gameRoomGoodsBean;
+                for (int i = 0; i < gDetails.length(); i++) {
+                    JSONObject jsonObject1 = gDetails.getJSONObject(i);
+                    gameRoomGoodsBean = new GameRoomGoodsBean();
+                    gameRoomGoodsBean.setName(jsonObject1.getString("goods_name"));
+                    gameRoomGoodsBean.setImgUrl(jsonObject1.getString("goods_pic"));
+                    gameRoomGoodsBean.setNumber(jsonObject1.getInt("num"));
+                    tempGameRoomGoodsBeans.add(gameRoomGoodsBean);
+                }
+                initGoods(tempGameRoomGoodsBeans);
+
+            }
+
+        } catch (JSONException e) {
+            L.e(e.toString());
+        }
+    }
+
 
 }

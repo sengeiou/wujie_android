@@ -161,7 +161,7 @@
                     android:layout_marginLeft="15dp"
                     android:background="@drawable/shape_main_semicircle"
                     android:padding="7dp"
-                    android:src="@mipmap/icon_collection" />
+                    android:src="@mipmap/icon_uncollection" />
             </LinearLayout>
         </RelativeLayout>
 

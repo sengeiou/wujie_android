@@ -9,8 +9,8 @@ import android.widget.ImageView;
 
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
+import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.catchDoll.adapter.LotteryPeopleAdapter;
-import com.txd.hzj.wjlp.catchDoll.base.BaseAty;
 import com.txd.hzj.wjlp.catchDoll.bean.LotteryPeopleBean;
 import com.txd.hzj.wjlp.catchDoll.ui.dialog.LotteryResultDialog;
 import com.txd.hzj.wjlp.catchDoll.util.Util;

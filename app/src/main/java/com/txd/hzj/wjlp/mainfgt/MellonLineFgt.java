@@ -799,7 +799,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
         updata = new ArrayList<>();
         views = new ArrayList<>();
         gv_classify.add("限量购");
-        gv_classify.add("票券区");
+        gv_classify.add("抓娃娃");
         gv_classify.add("拼单购");
         gv_classify.add("主题街");
         gv_classify.add("集碎片");

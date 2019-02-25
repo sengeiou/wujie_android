@@ -7,6 +7,7 @@ package com.txd.hzj.wjlp.catchDoll.bean;
  */
 public class SignInPrizeBean {
 
+    private int _id; // 奖品id，服务器的id
     private int type;
     private String bgImg;
 
@@ -14,16 +15,27 @@ public class SignInPrizeBean {
     // type = 2; 再来一次
     // type = 3; 未中奖 使用奖品图设置哭脸
     private String prizeImg; // 奖品图
+    private String contentType; // 奖品类别：银两、红色代金券、蓝色代金券....
     private String content; // 奖品描述
 
-    public SignInPrizeBean(int type, String bgImg, String prizeImg, String content) {
+    public SignInPrizeBean(int id, int type, String bgImg, String prizeImg, String contentType, String content) {
+        this._id = id;
         this.type = type;
         this.bgImg = bgImg;
         this.prizeImg = prizeImg;
+        this.contentType = contentType;
         this.content = content;
     }
 
     public SignInPrizeBean() {
+    }
+
+    public int get_id() {
+        return _id;
+    }
+
+    public void set_id(int _id) {
+        this._id = _id;
     }
 
     public int getType() {
@@ -50,6 +62,14 @@ public class SignInPrizeBean {
         this.prizeImg = prizeImg;
     }
 
+    public String getContentType() {
+        return contentType;
+    }
+
+    public void setContentType(String contentType) {
+        this.contentType = contentType;
+    }
+
     public String getContent() {
         return content;
     }
@@ -61,9 +81,11 @@ public class SignInPrizeBean {
     @Override
     public String toString() {
         return "SignInPrizeBean{" +
-                "type=" + type +
+                "_id=" + _id +
+                ", type=" + type + '\'' +
                 ", bgImg='" + bgImg + '\'' +
                 ", prizeImg='" + prizeImg + '\'' +
+                ", contentType='" + contentType + '\'' +
                 ", content='" + content + '\'' +
                 '}';
     }

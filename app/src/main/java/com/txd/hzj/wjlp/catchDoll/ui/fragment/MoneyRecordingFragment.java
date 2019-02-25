@@ -1,6 +1,7 @@
 package com.txd.hzj.wjlp.catchDoll.ui.fragment;
 
 import android.annotation.SuppressLint;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,10 +12,18 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.lidroid.xutils.view.annotation.ViewInject;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.txd.hzj.wjlp.R;
+import com.txd.hzj.wjlp.base.BaseFgt;
 import com.txd.hzj.wjlp.catchDoll.adapter.MoneyRecordingAdapter;
-import com.txd.hzj.wjlp.catchDoll.base.BaseFgt;
 import com.txd.hzj.wjlp.catchDoll.bean.MoneyRecordingBean;
+import com.txd.hzj.wjlp.http.catchDoll.Catcher;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +36,8 @@ import java.util.List;
 @SuppressLint("ValidFragment")
 public class MoneyRecordingFragment extends BaseFgt {
 
+    @ViewInject(R.id.list_smartRefresh_llayout)
+    public SmartRefreshLayout list_smartRefresh_llayout;
     @ViewInject(R.id.activityList_show_inc)
     public RelativeLayout activityList_show_inc;
     @ViewInject(R.id.list_show_reView)
@@ -39,7 +50,10 @@ public class MoneyRecordingFragment extends BaseFgt {
     @ViewInject(R.id.list_nullDataMsg_tv)
     public TextView list_nullDataMsg_tv;
 
+    List<MoneyRecordingBean> list;
+
     private int type; // 0:获得 1:消耗
+    private int page = 1; // 当前页数
 
     @SuppressLint("ValidFragment")
     public MoneyRecordingFragment(int type) {
@@ -57,29 +71,57 @@ public class MoneyRecordingFragment extends BaseFgt {
 
     @Override
     protected void requestData() {
+        Catcher.userCoinLogInfo(type, page, this);
+
         activityList_show_inc.setVisibility(View.GONE);
-        setListData();
+
+        list_smartRefresh_llayout.setEnableAutoLoadMore(false); // 是否启用列表惯性滑动到底部时自动加载更多
+        list_smartRefresh_llayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+                list_smartRefresh_llayout.finishRefresh(500);
+                page = 1; // 下拉刷新 Page = 1
+                Catcher.userCoinLogInfo(type, page, MoneyRecordingFragment.this);
+            }
+        });
+        list_smartRefresh_llayout.setOnLoadMoreListener(new OnLoadMoreListener() {
+            @Override
+            public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
+                list_smartRefresh_llayout.finishLoadMore(500);
+                page++;
+                Catcher.userCoinLogInfo(type, page, MoneyRecordingFragment.this);
+            }
+        });
+
     }
 
     @Override
     protected void immersionInit() {
     }
 
-    private void setListData() {
-
-        List<MoneyRecordingBean> list = new ArrayList<>();
-        MoneyRecordingBean moneyRecordingBean;
-        for (int i = 0; i < 20; i++) {
-            moneyRecordingBean = new MoneyRecordingBean();
-            moneyRecordingBean.setContent(type == 0 ? "签到领银两" : "房间游戏消耗");
-            moneyRecordingBean.setTime(1545815792 * 1000L);
-            moneyRecordingBean.setPrice((i + 1) * 10);
-            list.add(moneyRecordingBean);
+    private void setListData(List<MoneyRecordingBean> list) {
+        if (list.size() <= 0) {
+            showToast("没有更多房间了！");
+            return;
         }
-        list = type == 0 ? null : list;
+        if (page <= 1) { // 第一页
+            this.list = new ArrayList<>();
+            this.list = list;
+        } else {
+            this.list.addAll(list);
+        }
+//        MoneyRecordingBean moneyRecordingBean;
+//        for (int i = 0; i < 20; i++) {
+//            moneyRecordingBean = new MoneyRecordingBean();
+//            moneyRecordingBean.setContent(type == 0 ? "签到领银两" : "房间游戏消耗");
+//            moneyRecordingBean.setTime(1545815792 * 1000L);
+//            moneyRecordingBean.setPrice((i + 1) * 10);
+//            list.add(moneyRecordingBean);
+//        }
         // 设置空数据显示的界面
-        if (list == null || list.size() <= 0) {
+        if (this.list.size() <= 0) {
             showNullData(list_show_reView, list_nullData_llayout, list_nullDataImg_imgv, list_nullDataMsg_tv, R.mipmap.icon_money_recording_null, "暂无银两记录哦~");
+            return;
         }
         MoneyRecordingAdapter adapter = new MoneyRecordingAdapter(getActivity(), list, type);
         list_show_reView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -88,4 +130,18 @@ public class MoneyRecordingFragment extends BaseFgt {
 
     }
 
+    @Override
+    public void onComplete(String requestUrl, String jsonStr) {
+        super.onComplete(requestUrl, jsonStr);
+        try {
+            JSONObject jsonObject = new JSONObject(jsonStr);
+
+//            if (requestUrl.contains("userCoinLogInfo")) {
+//                JSONObject data = jsonObject.getJSONObject("data");
+//            }
+            setListData(new ArrayList<MoneyRecordingBean>());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
 }

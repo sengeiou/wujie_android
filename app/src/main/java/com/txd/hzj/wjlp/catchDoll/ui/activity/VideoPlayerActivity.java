@@ -11,7 +11,7 @@ import com.tencent.rtmp.TXVodPlayer;
 import com.tencent.rtmp.ui.TXCloudVideoView;
 import com.txd.hzj.wjlp.Constant;
 import com.txd.hzj.wjlp.R;
-import com.txd.hzj.wjlp.catchDoll.base.BaseAty;
+import com.txd.hzj.wjlp.base.BaseAty;
 
 /**
  * 创建者：voodoo_jie

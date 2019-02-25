@@ -10,12 +10,18 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.ants.theantsgo.gson.GsonUtil;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
+import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.catchDoll.adapter.RoomListAdapter;
-import com.txd.hzj.wjlp.catchDoll.base.BaseAty;
 import com.txd.hzj.wjlp.catchDoll.bean.RoomBean;
+import com.txd.hzj.wjlp.http.catchDoll.Catcher;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -64,14 +70,15 @@ public class AttentionActivity extends BaseAty implements RoomListAdapter.OnDele
         titleView_title_tv.setText(type == 1 ? "关注" : "收藏"); // 1：关注 2：收藏
         titleView_edit_tv.setVisibility(View.VISIBLE);
         titleView_edit_tv.setText("编辑");
-        setRoomData();
+
+        Catcher.getCatcherAttentionList(1, this);
     }
 
     /**
      * 设置房间列表
      */
-    private void setRoomData() {
-        roomList = new ArrayList<>();
+    private void setRoomData(List<RoomBean> roomList) {
+        this.roomList = roomList;
 //        roomList.add(new RoomBean(1, "http://h.hiphotos.baidu.com/zhidao/pic/item/2f738bd4b31c87018e126740237f9e2f0608fff4.jpg", "测试房间1", 10, 0));
 //        roomList.add(new RoomBean(2, "http://c.hiphotos.baidu.com/zhidao/pic/item/4034970a304e251f27d9d254a586c9177f3e536b.jpg", "测试房间2", 10, 1));
 //        roomList.add(new RoomBean(3, "http://b-ssl.duitang.com/uploads/blog/201404/23/20140423205758_FJ4NN.jpeg", "测试房间3", 10, 1));
@@ -133,5 +140,24 @@ public class AttentionActivity extends BaseAty implements RoomListAdapter.OnDele
             }
         });
         builder.create().show();
+    }
+
+    @Override
+    public void onComplete(String requestUrl, String jsonStr) {
+        super.onComplete(requestUrl, jsonStr);
+        try {
+            JSONObject jsonObject = new JSONObject(jsonStr);
+
+            if (requestUrl.contains("getCatcherAttentionList")) { // 获取关注列表
+                JSONArray data = jsonObject.getJSONArray("data");
+                for (int i = 0; i < data.length(); i++) {
+                    JSONObject jsonObject1 = data.getJSONObject(i);
+                    GsonUtil.GsonToBean(jsonObject1.toString(), RoomBean.class);
+                }
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -9,7 +9,7 @@ import com.ants.theantsgo.tool.glide.GlideUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
-import com.txd.hzj.wjlp.catchDoll.base.BaseAty;
+import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.catchDoll.ui.dialog.MessageDialog;
 import com.txd.hzj.wjlp.catchDoll.ui.dialog.RedemptionResultDialog;
 

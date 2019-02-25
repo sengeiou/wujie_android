@@ -8,7 +8,7 @@ import android.webkit.WebViewClient;
 import com.ants.theantsgo.config.Config;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
-import com.txd.hzj.wjlp.catchDoll.base.BaseFgt;
+import com.txd.hzj.wjlp.base.BaseFgt;
 import com.txd.hzj.wjlp.catchDoll.ui.H5WebViewJsInterface;
 
 import java.util.HashMap;

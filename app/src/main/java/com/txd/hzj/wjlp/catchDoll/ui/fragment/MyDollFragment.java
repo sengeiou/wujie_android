@@ -8,8 +8,8 @@ import android.widget.TextView;
 
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
+import com.txd.hzj.wjlp.base.BaseFgt;
 import com.txd.hzj.wjlp.catchDoll.adapter.MyDollItemAdapter;
-import com.txd.hzj.wjlp.catchDoll.base.BaseFgt;
 import com.txd.hzj.wjlp.catchDoll.bean.MyDollBean;
 import com.txd.hzj.wjlp.catchDoll.view.NoScrollRecyclerView;
 

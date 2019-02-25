@@ -9,10 +9,14 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ants.theantsgo.base.BaseActivity;
@@ -491,5 +495,24 @@ public abstract class BaseAty extends BaseActivity implements ChatListener {
             }, 3 * 1000);
         }
         super.onException(exception);
+    }
+
+    /**
+     * 抓娃娃添加：设置列表项数据为空展示的界面数据
+     *
+     * @param listView       列表控件
+     * @param nullDataLayout 展示空信息的布局
+     * @param nullDataImgv   展示空数据的图片
+     * @param nullDataTv     展示空数据的文字展示
+     * @param imgResId       展示的图片
+     * @param showMsg        展示的文字信息
+     */
+    public void showNullData(@NonNull View listView, @NonNull LinearLayout nullDataLayout, @NonNull ImageView nullDataImgv, @NonNull TextView nullDataTv, int imgResId, String showMsg) {
+        listView.setVisibility(View.GONE);
+        nullDataLayout.setVisibility(View.VISIBLE);
+        nullDataImgv.setImageResource(imgResId);
+        nullDataImgv.setVisibility(View.VISIBLE);
+        nullDataTv.setText(showMsg);
+        nullDataTv.setVisibility(View.VISIBLE);
     }
 }

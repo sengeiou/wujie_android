@@ -8,9 +8,9 @@ import com.ants.theantsgo.util.L;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
+import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.catchDoll.adapter.AppealAdapter;
 import com.txd.hzj.wjlp.catchDoll.bean.AppealBean;
-import com.txd.hzj.wjlp.catchDoll.base.BaseAty;
 import com.txd.hzj.wjlp.catchDoll.view.NoScrollRecyclerView;
 import com.txd.hzj.wjlp.http.catchDoll.Catcher;
 
@@ -65,7 +65,7 @@ public class AppealActivity extends BaseAty implements AppealAdapter.OnItemSelec
                 break;
             case R.id.appeal_submit_tv:
                 if (selectAppeal != null) {
-                    showToast("您选中了 " + selectAppeal.getCauseStr() + " 项");
+                    Catcher.appeal(0, 0, 0, 0, 0, 0, 0, "", 0, this);
                 } else {
                     showToast("请选择之后再提交");
                 }

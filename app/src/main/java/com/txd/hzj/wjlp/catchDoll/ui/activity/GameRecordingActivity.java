@@ -17,12 +17,10 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.txd.hzj.wjlp.R;
+import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.catchDoll.adapter.GameRecordingAdapter;
-import com.txd.hzj.wjlp.catchDoll.base.BaseAty;
 import com.txd.hzj.wjlp.catchDoll.bean.GameRecordingBean;
-import com.txd.hzj.wjlp.catchDoll.ui.fragment.HomeFragment;
 import com.txd.hzj.wjlp.http.catchDoll.Catcher;
-import com.txd.hzj.wjlp.mainfgt.Constant;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -96,10 +94,7 @@ public class GameRecordingActivity extends BaseAty {
     private void setGameRecordingList(List<GameRecordingBean> list) {
         if (list.size() <= 0) {
             if (page <= 1) { // 第一页数据为空
-                list_nullData_llayout.setVisibility(View.VISIBLE);
-                list_nullDataImg_imgv.setImageResource(R.mipmap.icon_money_recording_null);
-                list_nullDataMsg_tv.setText("暂无数据");
-                list_smartRefresh_llayout.setVisibility(View.GONE);
+                showNullData(list_smartRefresh_llayout, list_nullData_llayout, list_nullDataImg_imgv, list_nullDataMsg_tv, R.mipmap.icon_money_recording_null, "暂无数据");
             } else { // 加载更多
                 showToast("没有更多数据了！");
             }
@@ -130,11 +125,11 @@ public class GameRecordingActivity extends BaseAty {
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
-        L.e("getCatchersLogs ============> " + jsonStr);
-        if (requestUrl.contains("getCatchersLogs")) {
-            try {
-                JSONObject jsonObject = new JSONObject(jsonStr);
-                JSONArray dataArray = jsonObject.getJSONArray("data");
+        try {
+            JSONObject jsonObject = new JSONObject(jsonStr);
+            JSONArray dataArray = jsonObject.getJSONArray("data");
+
+            if (requestUrl.contains("getCatchersLogs")) {
                 List<GameRecordingBean> tempRecordingList = new ArrayList<>();
                 for (int i = 0; i < dataArray.length(); i++) {
                     JSONObject gameRecordingJson = dataArray.getJSONObject(i);
@@ -142,9 +137,10 @@ public class GameRecordingActivity extends BaseAty {
                     tempRecordingList.add(gameRecordingBean);
                 }
                 setGameRecordingList(tempRecordingList);
-            } catch (JSONException e) {
-                e.printStackTrace();
             }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
     }
 }

@@ -10,11 +10,10 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import com.ants.theantsgo.tool.glide.GlideUtils;
-import com.ants.theantsgo.util.L;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
-import com.txd.hzj.wjlp.catchDoll.base.BaseFgt;
+import com.txd.hzj.wjlp.base.BaseFgt;
 import com.txd.hzj.wjlp.catchDoll.ui.activity.AttentionActivity;
 import com.txd.hzj.wjlp.catchDoll.ui.activity.FriendBoostActivity;
 import com.txd.hzj.wjlp.catchDoll.ui.activity.GameRecordingActivity;

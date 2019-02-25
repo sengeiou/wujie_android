@@ -46,7 +46,7 @@ public class RoomListAdapter extends RecyclerView.Adapter<RoomListAdapter.ViewHo
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
         RoomBean roomBean = list.get(position);
-        int roomState = Integer.parseInt(roomBean.getStatus());
+        int roomState = Integer.parseInt(roomBean.getStatus() == null ? "-1" : roomBean.getStatus());
 
         if (roomState != 9) {
             GlideUtils.loadUrlImg(context, roomBean.getRoom_pic(), holder.itemRoomShow_roomImg_imgv);

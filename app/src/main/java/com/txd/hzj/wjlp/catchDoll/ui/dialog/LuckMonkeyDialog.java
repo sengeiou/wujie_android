@@ -32,6 +32,7 @@ public class LuckMonkeyDialog extends BaseDialog {
     public static class Builder {
 
         Context context;
+        int remainingNumber; // 剩余次数
         List<SignInPrizeBean> list;
         LuckyMonkeyPanelView.PanelStateListener onPanelStateListener;
         public static OnStartClickListener onStartClickListener;
@@ -42,6 +43,11 @@ public class LuckMonkeyDialog extends BaseDialog {
 
         public Builder setData(List<SignInPrizeBean> list) {
             this.list = list;
+            return this;
+        }
+
+        public Builder setRemainingNumber(int remainingNumber) {
+            this.remainingNumber = remainingNumber;
             return this;
         }
 
@@ -87,18 +93,11 @@ public class LuckMonkeyDialog extends BaseDialog {
                         onPanelStateListener.onPanelStateStop(position);
                     }
                     // 如果结果不是再来一次，则直接关闭Dialog
-                    if (list.get(position).getType() != 2) {
+                    if (list.get(position).getType() != 2 && remainingNumber <= 0) {
                         luckMonkeyDialog.dismiss();
                     }
                 }
             });
-
-//            int screenWidth = Config.getScreenWidth((Activity) context);
-//            Window window = luckMonkeyDialog.getWindow(); // 这部分是设置dialog宽高
-//            window.getDecorView().setPadding(0, 0, 0, 0);
-//            WindowManager.LayoutParams lp = window.getAttributes();
-//            lp.width = screenWidth / 6 * 5;
-//            window.setAttributes(lp);
 
             luckMonkeyDialog.addContentView(view, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
             luckMonkeyDialog.setCancelable(true);

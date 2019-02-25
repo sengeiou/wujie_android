@@ -33,6 +33,8 @@ public class SingInResultDialog extends BaseDialog {
     public static class Builder {
 
         private Context context;
+        private String contentTypeStr;
+        private String showTitleStr;
         private String moneyStr;
         private String btnStr;
         private boolean winning; // 是否中奖
@@ -40,6 +42,16 @@ public class SingInResultDialog extends BaseDialog {
 
         public Builder(Context context) {
             this.context = context;
+        }
+
+        public Builder setContentTypeStr(String contentTypeStr) {
+            this.contentTypeStr = contentTypeStr;
+            return this;
+        }
+
+        public Builder setShowTitleStr(String showTitleStr) {
+            this.showTitleStr = showTitleStr;
+            return this;
         }
 
         public Builder setMoneyStr(String moneyStr) {
@@ -67,12 +79,14 @@ public class SingInResultDialog extends BaseDialog {
 
             TextView dialogSingIn_resultAfter_tv = view.findViewById(R.id.dialogSingIn_resultAfter_tv);
             TextView dialogSingIn_resultBefore_tv = view.findViewById(R.id.dialogSingIn_resultBefore_tv);
+            TextView dialogSingIn_contentType_tv = view.findViewById(R.id.dialogSingIn_contentType_tv);
             TextView dialogSingIn_money_tv = view.findViewById(R.id.dialogSingIn_money_tv);
             TextView dialogSingIn_iknow_tv = view.findViewById(R.id.dialogSingIn_iknow_tv);
 
-            dialogSingIn_resultAfter_tv.setText("签到成功");
-            dialogSingIn_resultBefore_tv.setText("签到成功");
-            dialogSingIn_money_tv.setText(moneyStr);
+            dialogSingIn_resultAfter_tv.setText(showTitleStr);
+            dialogSingIn_resultBefore_tv.setText(showTitleStr);
+            dialogSingIn_contentType_tv.setText(contentTypeStr);
+            dialogSingIn_money_tv.setText(new StringBuffer().append("+").append(moneyStr));
             // 如果左侧的按钮文字不为null则显示按钮
             if (btnStr != null) {
                 // 如果字符串不为空字符串，则设置指定的字符串，否则直接显示原始字符串

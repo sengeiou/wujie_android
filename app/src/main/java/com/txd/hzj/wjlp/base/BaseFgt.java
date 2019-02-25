@@ -1,7 +1,12 @@
 package com.txd.hzj.wjlp.base;
 
 import android.os.Build;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.ants.theantsgo.base.BaseFragment;
 import com.ants.theantsgo.systemBarUtil.ImmersionBar;
@@ -72,5 +77,22 @@ public abstract class BaseFgt extends BaseFragment {
         }catch (IllegalArgumentException e){
 
         }
+    }
+
+    /**
+     * 抓娃娃添加：设置列表项数据为空展示的界面数据
+     *
+     * @param listView       列表控件
+     * @param nullDataLayout 展示空信息的布局
+     * @param nullDataImgv   展示空数据的图片
+     * @param nullDataTv     展示空数据的文字展示
+     * @param imgResId       展示的图片
+     * @param showMsg        展示的文字信息
+     */
+    public void showNullData(@NonNull View listView, @NonNull LinearLayout nullDataLayout, @NonNull ImageView nullDataImgv, @NonNull TextView nullDataTv, int imgResId, String showMsg) {
+        listView.setVisibility(View.GONE);
+        nullDataLayout.setVisibility(View.VISIBLE);
+        nullDataImgv.setImageResource(imgResId);
+        nullDataTv.setText(showMsg);
     }
 }
