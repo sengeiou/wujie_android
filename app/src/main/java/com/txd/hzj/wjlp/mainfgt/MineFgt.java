@@ -119,8 +119,8 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
     private TextView bandOtherAccount_tv; // 绑定第三方账户
     @ViewInject(R.id.bandOtherAccount_line)
     private View bandOtherAccount_line; // 绑定第三方账户
-        @ViewInject(R.id.business_code_tv)
-        private TextView business_code_tv; // 商家码
+//        @ViewInject(R.id.business_code_tv)
+//        private TextView business_code_tv; // 商家码
     @ViewInject(R.id.shop_manager_tv)
     private TextView shop_manager_tv; // 店铺管理
     @ViewInject(R.id.business_line)
@@ -397,7 +397,9 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
             R.id.share_grade_tv, R.id.collect_tv, R.id.footprint_tv, R.id.evaluate_tv, R.id.call_service_tv,
             R.id.merchant_will_move_into_tv, R.id.books_tv, R.id.stock_record_tv, R.id.sales_record_tv, R.id.personalStores,
             R.id.mell_goods_list_tv, R.id.grade_for_app_tv, R.id.tv_dljm, R.id.tv_lmsj, R.id.give_coupon_tv, R.id.apprentice_code_tv,
-            R.id.bandOtherAccount_tv, R.id.business_code_tv, R.id.shop_manager_tv})
+            R.id.bandOtherAccount_tv
+//          , R.id.business_code_tv
+            , R.id.shop_manager_tv})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
@@ -563,13 +565,13 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
                     showToast("暂无绑定账户");
                 }
                 break;
-            case R.id.business_code_tv:// 商家码
-                if (shangjiamaList != null && shangjiamaList.size() > 0) {
-                    showTanchuang("商家码");
-                } else {
-                    showToast("暂无商家码");
-                }
-                break;
+//            case R.id.business_code_tv:// 商家码
+//                if (shangjiamaList != null && shangjiamaList.size() > 0) {
+//                    showTanchuang("商家码");
+//                } else {
+//                    showToast("暂无商家码");
+//                }
+//                break;
             //线下店铺店铺管理
             case R.id.shop_manager_tv: {
                 if (shangjiamaList != null && shangjiamaList.size() > 0) {
@@ -792,7 +794,7 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
                 bandOtherAccount_tv.setVisibility(View.GONE); // 三方账户绑定
                 give_coupon_tv.setVisibility(View.GONE); // 赠送蓝色代金券
                 shop_manager_tv.setVisibility(View.GONE); // 线下店铺店铺管理
-                business_code_tv.setVisibility(View.GONE);
+//                business_code_tv.setVisibility(View.GONE);
                 String alliance_merchant = jsonData.has("alliance_merchant") ? jsonData.getString("alliance_merchant") : "";
                 String member_coding = jsonData.has("member_coding") ? jsonData.getString("member_coding") : "";
 
@@ -806,7 +808,7 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
                 }
                 if (shangjiamaList.size() > 0) { // 商家显示类型不为0
                     shop_manager_tv.setVisibility(View.VISIBLE); // 显示线下店铺店铺管理
-                    business_code_tv.setVisibility(View.VISIBLE);
+//                    business_code_tv.setVisibility(View.VISIBLE);
                     business_line.setVisibility(View.VISIBLE);
                 }
 

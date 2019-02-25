@@ -1103,17 +1103,17 @@ public class PayForAppAty extends BaseAty {
                                 String num = decimalFormat.format(total_price - d);
                                 tv_desc.setText(order.containsKey("ticket_info") ? order.get("ticket_info") : "");
                                 tv_price.setText("¥" + num);
-                                if (order.containsKey("red_return_integral") && Integer.parseInt(order.get("red_return_integral")) > 0) {
+                                if (order.containsKey("red_return_integral") && Double.parseDouble(order.get("red_return_integral")) > 0) {
                                     mIn = order.get("red_return_integral");
                                     integralMoneyStr = "<font color=#FFB226>（赠送积分：" + mIn + "个）<font/>";
                                     integral_money.setText(Html.fromHtml(integralMoneyStr));
                                     integral_money.setVisibility(View.VISIBLE);
-                                } else if (order.containsKey("yellow_return_integral") && Integer.parseInt(order.get("yellow_return_integral")) > 0) {
+                                } else if (order.containsKey("yellow_return_integral") && Double.parseDouble(order.get("yellow_return_integral")) > 0) {
                                     mIn = order.get("yellow_return_integral");
                                     integralMoneyStr = "<font color=#FFB226>（赠送积分：" + mIn + "个）<font/>";
                                     integral_money.setText(Html.fromHtml(integralMoneyStr));
                                     integral_money.setVisibility(View.VISIBLE);
-                                } else if (order.containsKey("blue_return_integral") && Integer.parseInt(order.get("blue_return_integral")) > 0) {
+                                } else if (order.containsKey("blue_return_integral") && Double.parseDouble(order.get("blue_return_integral")) > 0) {
                                     mIn = order.get("blue_return_integral");
                                     integralMoneyStr = "<font color=#FFB226>（赠送积分：" + mIn + "个）<font/>";
                                     integral_money.setText(Html.fromHtml(integralMoneyStr));
