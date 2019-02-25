@@ -184,7 +184,11 @@ public class GroupManagementAty extends BaseAty {
         }
     }
 
-
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mType = "show";
+    }
 
     private void addNameDialog() {
         final EditDialog.Builder builder = new EditDialog.Builder(mContext);
@@ -196,13 +200,13 @@ public class GroupManagementAty extends BaseAty {
                 }else if (mType.equals("edit")){
                     editGroup(mId,builder.getEditContent(),GroupManagementAty.this);
                 }
-                SoftKeyboardUtil.hideKeyboard(mContext);
+                SoftKeyboardUtil.hideSoftKeyboard((GroupManagementAty)mContext);
                 dialog.dismiss();
             }
         }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                SoftKeyboardUtil.hideKeyboard(mContext);
+                SoftKeyboardUtil.hideSoftKeyboard((GroupManagementAty)mContext);
                 dialog.dismiss();
             }
         });

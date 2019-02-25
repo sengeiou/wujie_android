@@ -124,6 +124,7 @@ public class MyFriendsAty extends BaseAty{
         apiTool2.postApi(Config.BASE_URL + "OsManager/get_bfriend", params, baseView);
     }
 
+
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
@@ -335,32 +336,105 @@ public class MyFriendsAty extends BaseAty{
             final Map<String, String> userInfo = JSONUtils.parseKeyAndValueToMap(map.get("user_info"));
             Glide.with(mContext).load(userInfo.get("head_pic")).into(holder.headImg);
             holder.nameTV.setText(userInfo.get("nickname"));
+            final String phone = userInfo.get("phone");
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    RequestParams params = new RequestParams();
+                    ApiTool2 apiTool2 = new ApiTool2();
+                    params.addBodyParameter("sta_mid", ((MyFriendsAty)mContext).mSta_mid);
+                    params.addBodyParameter("phone", phone);
+                    params.addBodyParameter("type", "0");
+                    apiTool2.postApi(Config.BASE_URL + "OsManager/get_bfriend", params, new BaseView() {
+                        @Override
+                        public void showDialog() {
 
-                    String easemob_account =  userInfo.get("easemob_account");
-                    if (TextUtils.isEmpty(easemob_account)) {
-                        ((MyFriendsAty)mContext).showErrorTip("对方不在线");
-                        return;
-                    }
-                    String my_easemob_account = ((MyFriendsAty)mContext).application.getUserInfo().get("easemob_account");
-                    if (easemob_account.equals(my_easemob_account)) {
-                        ((MyFriendsAty)mContext).showErrorTip("自己不能和自己聊天");
-                        return;
-                    }
-                    Bundle bundle = new Bundle();
-                    bundle.putString("userId", easemob_account);// 对方环信账号
-                    String head_pic = userInfo.get("head_pic");
-                    bundle.putString("userHead", head_pic);// 对方头像
-                    String nickname = userInfo.get("nickname");
-                    bundle.putString("userName", nickname);// 对方昵称
-                    bundle.putString("myName",  ((MyFriendsAty)mContext).application.getUserInfo().get("nickname"));// 我的昵称
-                    bundle.putString("myHead",  ((MyFriendsAty)mContext).application.getUserInfo().get("head_pic"));// 我的头像
-                    Intent intent = new Intent();
-                    intent.putExtras(bundle);
-                    intent.setClass(mContext,ChatActivity.class);
-                    mContext.startActivity(intent);
+                        }
+
+                        @Override
+                        public void showDialog(String text) {
+
+                        }
+
+                        @Override
+                        public void showContent() {
+
+                        }
+
+                        @Override
+                        public void removeDialog() {
+
+                        }
+
+                        @Override
+                        public void removeContent() {
+
+                        }
+
+                        @Override
+                        public void onStarted() {
+
+                        }
+
+                        @Override
+                        public void onCancelled() {
+
+                        }
+
+                        @Override
+                        public void onLoading(long total, long current, boolean isUploading) {
+
+                        }
+
+                        @Override
+                        public void onException(Exception exception) {
+
+                        }
+
+                        @Override
+                        public void onComplete(String requestUrl, String jsonStr) {
+                            Map<String, String> stringMap = JSONUtils.parseKeyAndValueToMap(jsonStr);
+                            ArrayList<Map<String, String>> mapArrayList = JSONUtils.parseKeyAndValueToMapList(stringMap.get("data"));
+                            if (mapArrayList != null && mapArrayList.size()>0) {
+                                String easemob_account = userInfo.get("easemob_account");
+                                if (TextUtils.isEmpty(easemob_account)) {
+                                    ((MyFriendsAty) mContext).showErrorTip("对方不在线");
+                                    return;
+                                }
+                                String my_easemob_account = ((MyFriendsAty) mContext).application.getUserInfo().get("easemob_account");
+                                if (easemob_account.equals(my_easemob_account)) {
+                                    ((MyFriendsAty) mContext).showErrorTip("自己不能和自己聊天");
+                                    return;
+                                }
+                                Bundle bundle = new Bundle();
+                                bundle.putString("userId", easemob_account);// 对方环信账号
+                                String head_pic = userInfo.get("head_pic");
+                                bundle.putString("userHead", head_pic);// 对方头像
+                                String nickname = userInfo.get("nickname");
+                                bundle.putString("userName", nickname);// 对方昵称
+                                bundle.putString("myName", ((MyFriendsAty) mContext).application.getUserInfo().get("nickname"));// 我的昵称
+                                bundle.putString("myHead", ((MyFriendsAty) mContext).application.getUserInfo().get("head_pic"));// 我的头像
+                                bundle.putSerializable("map", (Serializable) mapArrayList.get(0));
+                                bundle.putString("sta_mid",((MyFriendsAty)mContext).mSta_mid);
+                                Intent intent = new Intent();
+                                intent.putExtras(bundle);
+                                intent.setClass(mContext, ChatActivity.class);
+                                mContext.startActivity(intent);
+
+                            }
+                        }
+
+                        @Override
+                        public void onError(String requestUrl, Map<String, String> error) {
+
+                        }
+
+                        @Override
+                        public void onErrorTip(String tips) {
+
+                        }
+                    });
+
                 }
             });
         }

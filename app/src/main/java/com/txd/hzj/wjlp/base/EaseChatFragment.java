@@ -23,6 +23,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ants.theantsgo.base.BaseView;
@@ -66,12 +67,14 @@ import com.lzy.imagepicker.bean.ImageItem;
 import com.lzy.imagepicker.ui.ImageGridActivity;
 import com.txd.hzj.wjlp.DemoApplication;
 import com.txd.hzj.wjlp.distribution.model.ExhibitModel;
+import com.txd.hzj.wjlp.minetoaty.friendsofmerchant.BusinessFriendDataAty;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -158,6 +161,23 @@ public class EaseChatFragment extends EaseBaseFragment implements ChatListener {
         // hold to record voice
         //noinspection ConstantConditions
         voiceRecorderView = (EaseVoiceRecorderView) getView().findViewById(R.id.voice_recorder);
+        TextView title = titleBar.findViewById(R.id.title);
+        final String mSta_mid = fragmentArgs.getString("sta_mid");
+        final Map<String,String> map = (Map<String, String>) fragmentArgs.getSerializable("map");
+        title.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!android.text.TextUtils.isEmpty(mSta_mid) && !android.text.TextUtils.isEmpty(map.toString())){
+                    Bundle bundle = new Bundle();
+                    bundle.putString("sta_mid",mSta_mid);
+                    bundle.putSerializable("map", (Serializable) map);
+                    Intent intent = new Intent();
+                    intent.putExtras(bundle);
+                    intent.setClass(getActivity(),BusinessFriendDataAty.class);
+                    startActivity(intent);
+                }
+            }
+        });
 
         // message list layout
         messageList = (EaseChatMessageList) getView().findViewById(R.id.message_list);
