@@ -21,6 +21,7 @@ import com.txd.hzj.wjlp.bluetoothPrint.BluetoothUtils;
 import com.txd.hzj.wjlp.bluetoothPrint.PrintfUtils;
 import com.txd.hzj.wjlp.http.OfflineStore;
 import com.txd.hzj.wjlp.mellonLine.MessageAty;
+import com.txd.hzj.wjlp.minetoaty.friendsofmerchant.MyFriendsAty;
 import com.txd.hzj.wjlp.tool.BaiDuTtsSoundUtil;
 import com.txd.hzj.wjlp.webviewH5.WebViewAty;
 
@@ -279,6 +280,13 @@ public class MyReceiver extends BroadcastReceiver implements BaseView {
                 switch (module) {
                     case "message":
                         intent.setClass(context, MessageAty.class);
+                        break;
+                    case "bfmsg":
+                        Bundle bundle = new Bundle();
+                        bundle.putString("sta_mid",extrasJson.getString("sta_mid"));
+                        bundle.putString("type",extrasJson.has("data") ?extrasJson.getString("data"):"");
+                        intent.setClass(context, MyFriendsAty.class);
+                        intent.putExtras(bundle);
                         break;
                     default:
                         intent.setClass(context, MainAty.class);

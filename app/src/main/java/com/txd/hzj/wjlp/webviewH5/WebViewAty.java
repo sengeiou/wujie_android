@@ -640,6 +640,9 @@ public class WebViewAty extends BaseAty {
                 String sta_mid = jsonObject.getString("sta_mid");
                 Bundle bundle = new Bundle();
                 bundle.putString("sta_mid",sta_mid);
+                if (jsonObject.containsKey("type")){
+                    bundle.putString("type",jsonObject.getString("type"));
+                }
                 startActivity(MyFriendsAty.class,bundle);
             }
         }

@@ -19,6 +19,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.PopupWindow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ants.theantsgo.base.BaseView;
 import com.ants.theantsgo.config.Config;
@@ -50,8 +51,8 @@ public class MyFriendsAty extends BaseAty{
     @ViewInject(R.id.titlt_conter_tv)
     private TextView titlt_conter_tv;
 
-    @ViewInject(R.id.titlt_right_tv)
-    private TextView titlt_right_tv;
+    @ViewInject(R.id.redPoint)
+    private TextView redPoint;
 
 
     @ViewInject(R.id.searchEdit)
@@ -69,6 +70,7 @@ public class MyFriendsAty extends BaseAty{
     private String mMsg_num;
     private String mChange_num;
     private ScreeningResultAty.ScreeningResultAdapter mScreeningResultAdapter;
+    private String mType;
 
     @Override
     protected int getLayoutResId() {
@@ -80,10 +82,13 @@ public class MyFriendsAty extends BaseAty{
         mContext = this;
         showStatusBar(R.id.title_re_layout);
         titlt_conter_tv.setText("以商会友");
-        titlt_right_tv.setVisibility(View.VISIBLE);
-        titlt_right_tv.setText("+");
-        titlt_right_tv.setTextSize(20);
         mSta_mid = getIntent().getStringExtra("sta_mid");
+        mType = getIntent().getStringExtra("type");
+        if (mType != null && mType.equals("1")){
+            show(mContext,"好友请求在这里");
+        }else if (mType != null && mType.equals("2")){
+            show(mContext,"会员请求在这里");
+        }
         searchEdit.setOnKeyListener(mOnKeyListener);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
@@ -95,6 +100,23 @@ public class MyFriendsAty extends BaseAty{
         mRecyclerView.setLayoutManager(layoutManager2);
         mScreeningResultAdapter = new ScreeningResultAty.ScreeningResultAdapter();
         mRecyclerView.setAdapter(mScreeningResultAdapter);
+    }
+
+    public  void show(Context context, String msg) {
+        Toast toast = new Toast(context);
+        //设置Toast显示位置，居中，向 X、Y轴偏移量均为0
+        toast.setGravity(Gravity.TOP|Gravity.RIGHT, 80, 40);
+        //获取自定义视图
+        View view = LayoutInflater.from(context).inflate(R.layout.toast_view, null);
+        TextView tvMessage =  view.findViewById(R.id.tv_message_toast);
+        //设置文本
+        tvMessage.setText(msg);
+        //设置视图
+        toast.setView(view);
+        //设置显示时长
+        toast.setDuration(Toast.LENGTH_SHORT);
+        //显示
+        toast.show();
     }
 
     @Override
@@ -137,6 +159,11 @@ public class MyFriendsAty extends BaseAty{
             mChange_num = data.get("change_num");
             ArrayList<Map<String, String>> arrayList = JSONUtils.parseKeyAndValueToMapList(data.get("list"));
             mFriendsAdapter.setList(arrayList);
+            if (Integer.parseInt(mMsg_num)>0 || Integer.parseInt(mChange_num)>0){
+                redPoint.setVisibility(View.VISIBLE);
+            }else {
+                redPoint.setVisibility(View.GONE);
+            }
             return;
         }
 
@@ -335,7 +362,7 @@ public class MyFriendsAty extends BaseAty{
             final Map<String, String> map = mItemList.get(position);
             final Map<String, String> userInfo = JSONUtils.parseKeyAndValueToMap(map.get("user_info"));
             Glide.with(mContext).load(userInfo.get("head_pic")).into(holder.headImg);
-            holder.nameTV.setText(userInfo.get("nickname"));
+            holder.nameTV.setText(map.get("nickname"));
             final String phone = userInfo.get("phone");
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
