@@ -76,6 +76,7 @@ public class AttributesSecondAty extends BaseAty {
     private String mP_id = "";
     private AttributesFirstAty.AttributesDataBean mDataBean;
     private boolean mIsGone;
+    private String mSta_mid;
 
     @Override
     protected int getLayoutResId() {
@@ -88,6 +89,7 @@ public class AttributesSecondAty extends BaseAty {
         showStatusBar(R.id.title_re_layout);
         titlt_conter_tv.setText("属性");
         mGoods_id = getIntent().getStringExtra("goods_id");
+        mSta_mid = getIntent().getStringExtra("sta_mid");
         mIsGone = getIntent().getBooleanExtra("isGone", false);
         nameEdit.setFilters(new InputFilter[]{SoftKeyboardUtil.getInputFilter(mContext)});
         LinearLayoutManager showLayoutManager = new LinearLayoutManager(mContext) {
@@ -189,6 +191,7 @@ public class AttributesSecondAty extends BaseAty {
         ApiTool2 apiTool2 = new ApiTool2();
         params.addBodyParameter("goods_id", goods_id);
         params.addBodyParameter("goods_property", goods_property);
+        params.addBodyParameter("sta_mid", mSta_mid);
         apiTool2.postApi(Config.BASE_URL + "OsManager/appAddStageGoodsProperty", params, baseView);
     }
 
@@ -196,6 +199,7 @@ public class AttributesSecondAty extends BaseAty {
         RequestParams params = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
         params.addBodyParameter("b_id", b_id);
+        params.addBodyParameter("sta_mid", mSta_mid);
         apiTool2.postApi(Config.BASE_URL + "OsManager/app_delete_break_down", params, baseView);
     }
 

@@ -195,6 +195,7 @@ public class ClassifyManageAty extends BaseAty {
         ApiTool2 apiTool2 = new ApiTool2();
         params.addBodyParameter("goods_id", goods_id);
         params.addBodyParameter("cate_id", cate_id);
+        params.addBodyParameter("sta_mid", mSta_mid);
         apiTool2.postApi(Config.BASE_URL + "OsManager/appMoveGoodsToCate", params, baseView);
     }
 

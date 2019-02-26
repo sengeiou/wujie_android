@@ -277,6 +277,7 @@ public class CommodityManagementAty extends BaseAty {
         RequestParams params = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
         params.addBodyParameter("goods_id", goods_id);
+        params.addBodyParameter("sta_mid", merchantId);
         apiTool2.postApi(Config.BASE_URL + "OsManager/app_volume_delete", params, baseView);
     }
 
@@ -284,6 +285,7 @@ public class CommodityManagementAty extends BaseAty {
         RequestParams params = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
         params.addBodyParameter("goods_id", goods_id);
+        params.addBodyParameter("sta_mid", merchantId);
         apiTool2.postApi(Config.BASE_URL + "OsManager/app_dijiao", params, baseView);
     }
 
@@ -296,6 +298,7 @@ public class CommodityManagementAty extends BaseAty {
         ApiTool2 apiTool2 = new ApiTool2();
         params.addBodyParameter("goods_id", goods_id);
         params.addBodyParameter("is_sale", is_sale);
+        params.addBodyParameter("sta_mid", merchantId);
         apiTool2.postApi(Config.BASE_URL + "OsManager/app_mass_shut_updown", params, baseView);
     }
 

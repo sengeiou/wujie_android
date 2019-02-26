@@ -182,6 +182,7 @@ public class MultipleSpecificationsAty extends BaseAty {
         RequestParams params = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
         params.addBodyParameter("goods_id", goods_id);
+        params.addBodyParameter("sta_mid", mSta_mid);
         apiTool2.postApi(Config.BASE_URL + "OsManager/app_stage_goods_attr_list", params, baseView);
     }
 

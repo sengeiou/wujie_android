@@ -58,6 +58,7 @@ public class AttributesFirstAty extends BaseAty {
     private MyAdapter mAdapter;
     private String mGoods_property;
     private boolean mIsGone;
+    private String mSta_mid;
 
 
     @Override
@@ -71,6 +72,7 @@ public class AttributesFirstAty extends BaseAty {
         showStatusBar(R.id.title_re_layout);
         titlt_conter_tv.setText("属性");
         mGoods_id = getIntent().getStringExtra("goods_id");
+        mSta_mid = getIntent().getStringExtra("sta_mid");
         mGoods_property = getIntent().getStringExtra("goods_property");
         mIsGone = getIntent().getBooleanExtra("isGone", false);
         LinearLayoutManager layoutManager = new LinearLayoutManager(mContext) {
@@ -99,6 +101,7 @@ public class AttributesFirstAty extends BaseAty {
                     bundle.putString("goods_id", mGoods_id);
                     bundle.putBoolean("isGone",mIsGone);
                     bundle.putSerializable("AttributesDataBean", dataBean);
+                    bundle.putString("sta_mid", mSta_mid);
                     startActivity(AttributesSecondAty.class, bundle);
                 }
 
@@ -201,6 +204,7 @@ public class AttributesFirstAty extends BaseAty {
         ApiTool2 apiTool2 = new ApiTool2();
         params.addBodyParameter("goods_id", goods_id);
         params.addBodyParameter("p_id", p_id);
+        params.addBodyParameter("sta_mid", mSta_mid);
         apiTool2.postApi(Config.BASE_URL + "OsManager/app_stage_goods_property_list", params, baseView);
     }
 
@@ -208,6 +212,7 @@ public class AttributesFirstAty extends BaseAty {
         RequestParams params = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
         params.addBodyParameter("p_id", p_id);
+        params.addBodyParameter("sta_mid", mSta_mid);
         apiTool2.postApi(Config.BASE_URL + "OsManager/app_delete_property", params, baseView);
     }
 
@@ -243,6 +248,7 @@ public class AttributesFirstAty extends BaseAty {
                 }
                 Bundle bundle = new Bundle();
                 bundle.putString("goods_id", mGoods_id);
+                bundle.putString("sta_mid", mSta_mid);
                 startActivity(AttributesSecondAty.class, bundle);
                 break;
             case R.id.saveTv:

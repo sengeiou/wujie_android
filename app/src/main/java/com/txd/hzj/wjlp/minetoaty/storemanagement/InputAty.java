@@ -289,6 +289,7 @@ public class InputAty extends BaseAty {
     void goods_info(String goods_id, BaseView baseView) {
         RequestParams params = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
+        params.addBodyParameter("sta_mid", mSta_mid);
         params.addBodyParameter("goods_id", goods_id);
         apiTool2.postApi(Config.BASE_URL + "OsManager/goods_info", params, baseView);
     }
@@ -453,6 +454,7 @@ public class InputAty extends BaseAty {
                 bundle.putString("goods_id", mGoods_id);
                 bundle.putBoolean("isGone", mIsGone);
                 bundle.putString("goods_property", mGoods_property);
+                bundle.putString("sta_mid", mSta_mid);
                 startActivity(AttributesFirstAty.class, bundle);
                 break;
             case R.id.picImg:

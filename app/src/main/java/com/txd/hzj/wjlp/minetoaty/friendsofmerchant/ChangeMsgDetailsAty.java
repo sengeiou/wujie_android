@@ -182,7 +182,7 @@ public class ChangeMsgDetailsAty extends BaseAty {
                 ownLayout.setVisibility(View.GONE);
             }
 
-            if (bConditionList != null) {
+            if (bConditionList != null && bConditionList.size()>0) {
                 Map<String, String> bCondition = bConditionList.get(0);
                 otherLayout.setVisibility(View.VISIBLE);
                 otherSexTv.setText(bCondition.get("sex"));
