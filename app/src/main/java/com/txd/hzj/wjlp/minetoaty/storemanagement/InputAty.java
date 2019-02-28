@@ -172,6 +172,15 @@ public class InputAty extends BaseAty {
 
     @ViewInject(R.id.briefEdit)
     private EditText briefEdit;
+
+    @ViewInject(R.id.reasonLayout)
+    private LinearLayout reasonLayout;
+
+
+    @ViewInject(R.id.reasonTv)
+    private TextView reasonTv;
+
+
     private PopupWindow mPopupWindow;
     private File file1;
 
@@ -392,6 +401,13 @@ public class InputAty extends BaseAty {
             }
 
             briefEdit.setText(data.get("desc"));
+
+            if (data.containsKey("status") && data.get("status").equals("3")){
+                reasonLayout.setVisibility(View.VISIBLE);
+                reasonTv.setText(data.get("examine_desc"));
+            }else {
+                reasonLayout.setVisibility(View.GONE);
+            }
             return;
         }
 

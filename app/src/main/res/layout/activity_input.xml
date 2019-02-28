@@ -934,6 +934,38 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@color/line_color" />
+            <LinearLayout
+                android:id="@+id/reasonLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingBottom="10dp"
+                android:visibility="gone"
+                android:paddingEnd="15dp"
+                android:paddingStart="15dp"
+                android:paddingTop="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="拒绝理由" />
+
+                <TextView
+                    android:id="@+id/reasonTv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:gravity="top"
+                    android:maxHeight="100dp"
+                    android:minHeight="50dp"
+                    android:padding="5dp"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/line_color" />
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 

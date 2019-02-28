@@ -91,7 +91,7 @@ public class BusinessFriendDataAty extends BaseAty {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Bundle bundle = new Bundle();
                 bundle.putBoolean("isShowTitle",false);
-                bundle.putString("url", Config.SHARE_URL + "/Wap/OfflineStore/offlineShop/merchant_id/"+idList.get(position)+".html");
+                bundle.putString("url", Config.SHARE_URL + "/Wap/OfflineStore/offlineShop/referer/1/merchant_id/"+idList.get(position)+".html");
                 startActivity(WebViewAty.class, bundle);
             }
         });
