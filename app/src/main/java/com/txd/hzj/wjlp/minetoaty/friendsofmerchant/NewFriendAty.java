@@ -1,9 +1,11 @@
 package com.txd.hzj.wjlp.minetoaty.friendsofmerchant;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +23,7 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -43,6 +46,7 @@ public class NewFriendAty extends BaseAty {
     private NewFriendAdapter mNewFriendAdapter;
     private String mSta_mid;
 
+    private String mType = "1";
     @Override
     protected int getLayoutResId() {
         return R.layout.activity_new_friend;
@@ -75,6 +79,7 @@ public class NewFriendAty extends BaseAty {
 
 
     void get_bfriend( String sta_mid,String id,String vinfo,String status,String type, BaseView baseView) {
+        mType = "1";
         RequestParams params = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
         params.addBodyParameter("sta_mid", sta_mid);
@@ -85,6 +90,16 @@ public class NewFriendAty extends BaseAty {
         apiTool2.postApi(Config.BASE_URL + "OsManager/get_bfriend", params, baseView);
     }
 
+    void get_bfriend(String phone,BaseView baseView) {
+        mType = "2";
+        RequestParams params = new RequestParams();
+        ApiTool2 apiTool2 = new ApiTool2();
+        params.addBodyParameter("sta_mid", mSta_mid);
+        params.addBodyParameter("phone", phone);
+        params.addBodyParameter("type", "0");
+        apiTool2.postApi(Config.BASE_URL + "OsManager/get_bfriend", params, baseView);
+    }
+
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
@@ -92,6 +107,12 @@ public class NewFriendAty extends BaseAty {
         if (requestUrl.endsWith("bfmsglist")){
             final ArrayList<Map<String, String>> arrayList = JSONUtils.parseKeyAndValueToMapList(map.get("data"));
             mNewFriendAdapter.setList(arrayList);
+            mNewFriendAdapter.setOnItemClickListener(new OnItemClickListener() {
+                @Override
+                public void onItemClick(int position) {
+                    get_bfriend(arrayList.get(position).get("phone"),NewFriendAty.this);
+                }
+            });
             mNewFriendAdapter.setOnItemViewClickListener(new OnItemViewClickListener() {
                 @Override
                 public void onClick(View view, int position) {
@@ -106,10 +127,23 @@ public class NewFriendAty extends BaseAty {
         }
 
         if (requestUrl.endsWith("get_bfriend")){
-            showToast(map.get("message"));
-            if (map.get("code").equals("1")){
-                bfmsglist(mSta_mid,this);
+            if (mType.equals("1")){
+                showToast(map.get("message"));
+                if (map.get("code").equals("1")){
+                    bfmsglist(mSta_mid,this);
+                }
+            }else {
+                Map<String, String> stringMap = JSONUtils.parseKeyAndValueToMap(jsonStr);
+                ArrayList<Map<String, String>> mapArrayList = JSONUtils.parseKeyAndValueToMapList(stringMap.get("data"));
+                if (mapArrayList != null && mapArrayList.size()>0) {
+                    Map<String, String> map1 = mapArrayList.get(0);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("sta_mid",mSta_mid);
+                    bundle.putSerializable("map", (Serializable) map1);
+                    startActivity(BusinessFriendDataAty.class,bundle);
+                }
             }
+
         }
     }
 
@@ -117,6 +151,7 @@ public class NewFriendAty extends BaseAty {
 
         private Context mContext;
         private OnItemViewClickListener mOnItemViewClickListener;
+        private OnItemClickListener mOnItemClickListener;
         private ArrayList<Map<String, String>> mList;
         public NewFriendAdapter() {
             mList = new ArrayList<>();
@@ -132,6 +167,10 @@ public class NewFriendAty extends BaseAty {
             mOnItemViewClickListener = onItemViewClickListener;
         }
 
+        public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+            mOnItemClickListener = onItemClickListener;
+        }
+
         @NonNull
         @Override
         public NewFriendAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -143,7 +182,7 @@ public class NewFriendAty extends BaseAty {
         }
 
         @Override
-        public void onBindViewHolder(@NonNull NewFriendAdapter.ViewHolder holder, final int position) {
+        public void onBindViewHolder(@NonNull final NewFriendAdapter.ViewHolder holder, final int position) {
             Map<String, String> map = mList.get(position);
             Glide.with(mContext).load(map.get("head_pic")).into(holder.headImg);
             holder.nameTv.setText(map.get("nickname"));
@@ -164,6 +203,22 @@ public class NewFriendAty extends BaseAty {
                 holder.hasPassTv.setText(sName);
             }
 
+            String info = map.get("info");
+            if (TextUtils.isEmpty(info)){
+                holder.descTv.setVisibility(View.GONE);
+            }else {
+                holder.descTv.setVisibility(View.VISIBLE);
+                holder.descTv.setText(info);
+            }
+
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (mOnItemClickListener != null){
+                        mOnItemClickListener.onItemClick(holder.getLayoutPosition());
+                    }
+                }
+            });
 
             holder.agreeTv.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -196,6 +251,9 @@ public class NewFriendAty extends BaseAty {
             @ViewInject(R.id.nameTv)
             private TextView nameTv;
 
+            @ViewInject(R.id.descTv)
+            private TextView descTv;
+
             @ViewInject(R.id.hasPassTv)
             private TextView hasPassTv;
 
@@ -220,5 +278,10 @@ public class NewFriendAty extends BaseAty {
 
     public interface  OnItemViewClickListener{
         void onClick(View view,int position);
+    }
+
+
+    public interface OnItemClickListener{
+        void onItemClick(int position);
     }
 }

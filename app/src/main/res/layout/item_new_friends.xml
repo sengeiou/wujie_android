@@ -19,15 +19,30 @@
             android:src="@drawable/icon_temp_ptq_l"
             app:shape_mode="circle" />
 
-        <TextView
-            android:id="@+id/nameTv"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginStart="69dp"
-            android:text="吃不瘦的胖子"
-            android:textColor="#ff333333"
-            android:textSize="17sp" />
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/nameTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="吃不瘦的胖子"
+                android:textColor="#ff333333"
+                android:textSize="17sp" />
+
+            <TextView
+                android:id="@+id/descTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:textColor="#ff333333" />
+
+        </LinearLayout>
+
         <TextView
             android:id="@+id/hasPassTv"
             android:layout_width="wrap_content"
@@ -44,53 +59,53 @@
             android:id="@+id/notPassTv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="等待通过"
-            android:paddingTop="6dp"
-            android:paddingBottom="6dp"
-            android:paddingStart="11dp"
-            android:paddingEnd="9dp"
-            android:visibility="gone"
-            android:background="@drawable/shape_red_title_left_unselect"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
+            android:background="@drawable/shape_red_title_left_unselect"
+            android:paddingBottom="6dp"
+            android:paddingEnd="9dp"
+            android:paddingStart="11dp"
+            android:paddingTop="6dp"
+            android:text="等待通过"
             android:textColor="#fff23030"
-            android:textSize="15sp" />
+            android:textSize="15sp"
+            android:visibility="gone" />
 
         <LinearLayout
             android:id="@+id/layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:layout_marginEnd="12dp"
-            android:visibility="gone"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:visibility="gone">
+
             <TextView
                 android:id="@+id/refuseTv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingStart="13dp"
-                android:paddingEnd="13dp"
-                android:paddingTop="5dp"
-                android:paddingBottom="5dp"
                 android:background="@drawable/shape_orange_3"
+                android:paddingBottom="5dp"
+                android:paddingEnd="13dp"
+                android:paddingStart="13dp"
+                android:paddingTop="5dp"
                 android:text="拒绝"
                 android:textColor="#ffff8400"
-                android:textSize="15sp"
-                />
+                android:textSize="15sp" />
+
             <TextView
                 android:id="@+id/agreeTv"
-                android:layout_marginStart="12dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingStart="13dp"
-                android:paddingEnd="13dp"
-                android:paddingTop="5dp"
-                android:paddingBottom="5dp"
+                android:layout_marginStart="12dp"
                 android:background="@drawable/shape_red_btn_bg"
+                android:paddingBottom="5dp"
+                android:paddingEnd="13dp"
+                android:paddingStart="13dp"
+                android:paddingTop="5dp"
                 android:text="接受"
                 android:textColor="#fff23030"
-                android:textSize="15sp"
-                />
+                android:textSize="15sp" />
         </LinearLayout>
 
     </RelativeLayout>
