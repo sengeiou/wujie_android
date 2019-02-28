@@ -7,12 +7,19 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.ants.theantsgo.gson.GsonUtil;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.catchDoll.adapter.GranTheRecordAdapter;
 import com.txd.hzj.wjlp.catchDoll.bean.GrabTheRecordBean;
+import com.txd.hzj.wjlp.catchDoll.bean.RoomBean;
+import com.txd.hzj.wjlp.http.catchDoll.Catcher;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,27 +55,16 @@ public class GrabTheRecordActivity extends BaseAty {
     @Override
     protected void requestData() {
         titleView_title_tv.setText("抓中记录");
-        setData();
+        Catcher.userCatcher(this);
     }
 
     /**
      * 设置展示数据
      */
-    private void setData() {
-        List<GrabTheRecordBean> grabTheRecordBeans = new ArrayList<>();
-        GrabTheRecordBean grabTheRecordBean;
-        for (int i = 0; i < 10; i++) {
-            grabTheRecordBean = new GrabTheRecordBean();
-            grabTheRecordBean.setHeadUrl("http://img4.duitang.com/uploads/item/201407/26/20140726141237_32faQ.png");
-            grabTheRecordBean.setUserName("谁知道叫啥名呢");
-            grabTheRecordBean.setTime(1545709088 * 1000L); // 毫秒 2018-12-25 11:38:08
-            grabTheRecordBean.setContent("那谁抓到娃娃了！！！！！！！！！！！！！！");
-            grabTheRecordBean.setRoomNumber("121");
-            grabTheRecordBean.setVideoUrl("http://img4.duitang.com/uploads/item/201407/26/20140726141237_32faQ.png");
-            grabTheRecordBeans.add(grabTheRecordBean);
-        }
+    private void setData(List<GrabTheRecordBean> list) {
+        List<GrabTheRecordBean> grabTheRecordBeans = list;
         if (grabTheRecordBeans == null || grabTheRecordBeans.size() == 0) {
-            // TODO 设置空数据展示视图
+            // 设置空数据展示视图
             showNullData(list_show_reView, list_nullData_llayout, list_nullDataImg_imgv, list_nullDataMsg_tv, R.mipmap.icon_my_select, "暂无抓中记录哦~");
         } else {
             GranTheRecordAdapter adapter = new GranTheRecordAdapter(grabTheRecordBeans, this);
@@ -85,6 +81,36 @@ public class GrabTheRecordActivity extends BaseAty {
             case R.id.titleView_goback_imgv:
                 finish();
                 break;
+        }
+    }
+
+    @Override
+    public void onComplete(String requestUrl, String jsonStr) {
+        super.onComplete(requestUrl, jsonStr);
+        try {
+            JSONObject jsonObject = new JSONObject(jsonStr);
+            if (requestUrl.contains("userCatcher")) {
+                JSONArray jsonArrayData = jsonObject.getJSONArray("data");
+                List<GrabTheRecordBean> tempGrabTheRecordBeans = new ArrayList<>();
+                GrabTheRecordBean grabTheRecordBean;
+                for (int i = 0; i < jsonArrayData.length(); i++) {
+                    JSONObject jsonObject1 = jsonArrayData.getJSONObject(i);
+
+                    grabTheRecordBean = new GrabTheRecordBean();
+                    grabTheRecordBean.setHeadUrl(jsonObject1.getString("head_pic")); // 头像
+                    grabTheRecordBean.setUserName(jsonObject1.getString("nickname")); // 用户名称
+                    grabTheRecordBean.setTime(Long.parseLong(jsonObject1.getString("create_time"))); // 时间戳
+                    grabTheRecordBean.setContent(jsonObject1.getString("details")); // 内容
+                    grabTheRecordBean.setVideoUrl(jsonObject1.getString("url")); // 视频回放地址
+                    RoomBean roomBean = GsonUtil.GsonToBean(jsonObject1.getString("roomBean"), RoomBean.class);
+                    grabTheRecordBean.setRoomBean(roomBean); // 设置房间
+
+                    tempGrabTheRecordBeans.add(grabTheRecordBean);
+                }
+                setData(tempGrabTheRecordBeans);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
     }
 }

@@ -497,6 +497,7 @@ public class GameRoomActivity extends BaseAty implements GameRoomGoodsAdapter.On
                 toShare("抓娃娃", "pic", "http://www.baidu.com", "content", "id", "shapetype");
                 break;
             case R.id.gameRoomVideo_start_imgv: // 开局
+                // TODO 设计图上设计的银两不够的情况下弹窗
 //                    new MoneyNotEnoughDialog.Builder(this)
 //                            .setOnBtnClickListener("购买银两", new DialogInterface.OnClickListener() {
 //                                @Override
@@ -508,7 +509,6 @@ public class GameRoomActivity extends BaseAty implements GameRoomGoodsAdapter.On
 
                 Catcher.startGame(inRoomNumber, this);
 
-//                }
                 break;
             case R.id.gameRoomVideo_recharge_imgv: // 充值
                 startActivity(MoneyActivity.class, null); // 跳转到充值界面

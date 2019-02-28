@@ -25,8 +25,6 @@ import java.util.List;
  */
 public class RedemptionRecordActivity extends BaseAty {
 
-//    @ViewInject(R.id.titleView_goback_imgv)
-
     @ViewInject(R.id.titleView_title_tv)
     public TextView titleView_title_tv;
     @ViewInject(R.id.list_show_reView)
@@ -54,9 +52,9 @@ public class RedemptionRecordActivity extends BaseAty {
         MoneyRecordingBean moneyRecordingBean;
         for (int i = 0; i < 20; i++) {
             moneyRecordingBean = new MoneyRecordingBean();
-            moneyRecordingBean.setContent("兑换银两");
-            moneyRecordingBean.setTime(1545815792 * 1000L);
-            moneyRecordingBean.setPrice((i + 1) * 10);
+            moneyRecordingBean.setDesc("兑换银两");
+            moneyRecordingBean.setCreate_time(1545815792 * 1000L);
+            moneyRecordingBean.setMoney((i + 1) * 10 + "");
             list.add(moneyRecordingBean);
         }
         MoneyRecordingAdapter adapter = new MoneyRecordingAdapter(this, list, 0);

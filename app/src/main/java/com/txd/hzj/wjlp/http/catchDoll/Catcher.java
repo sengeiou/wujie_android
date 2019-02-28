@@ -162,17 +162,10 @@ public class Catcher {
 
     /**
      * 我的娃娃
-     *
-     * @param page 当前分页页数
-     * @param type 查询分类
-     * @param per  每页条数
      */
-    public static void myAward(int page, int type, int per, BaseView baseView) {
+    public static void myAward(BaseView baseView) {
         ApiTool2 apiTool2 = new ApiTool2();
         RequestParams params = new RequestParams();
-        params.addBodyParameter("p", String.valueOf(page));
-        params.addBodyParameter("type", String.valueOf(type));
-        params.addBodyParameter("per", String.valueOf(per));
         apiTool2.postApi(url + "myAward", params, baseView);
     }
 
@@ -226,7 +219,7 @@ public class Catcher {
      * @param is_zhifu      是否已支付
      * @param baseView      回调
      */
-    public static void setOrder(int goods_id, int address_id, int catcher_num, String leave_message, String goods, int is_zhifu, BaseView baseView) {
+    public static void goodsOrder(int goods_id, int address_id, int catcher_num, String leave_message, String goods, int is_zhifu, BaseView baseView) {
         ApiTool2 apiTool2 = new ApiTool2();
         RequestParams params = new RequestParams();
         params.addBodyParameter("goods_id", String.valueOf(goods_id));
@@ -235,7 +228,7 @@ public class Catcher {
         params.addBodyParameter("goods", goods);
         params.addBodyParameter("leave_message", leave_message);
         params.addBodyParameter("is_zhifu", String.valueOf(is_zhifu));
-        apiTool2.postApi(url + "setOrder", params, baseView);
+        apiTool2.postApi(url + "goodsOrder", params, baseView);
     }
 
     /**
@@ -286,6 +279,44 @@ public class Catcher {
         params.addBodyParameter("type", String.valueOf(type));
         params.addBodyParameter("p", String.valueOf(page));
         apiTool2.postApi(url + "userCoinLogInfo", params, baseView);
+    }
+
+    /**
+     * 我的娃娃列表
+     *
+     * @param type     获取类型 1、2、3、4 寄存，待邮，已发货，已兑换
+     * @param baseView
+     */
+    public static void myList(int type, BaseView baseView) {
+        ApiTool2 apiTool2 = new ApiTool2();
+        RequestParams params = new RequestParams();
+        params.addBodyParameter("type", String.valueOf(type));
+        apiTool2.postApi(url + "Mylist", params, baseView);
+    }
+
+    /**
+     * 查询抓中记录页面（首页头部滚动字幕点击进来的列表）
+     *
+     * @param baseView
+     */
+    public static void userCatcher(BaseView baseView) {
+        ApiTool2 apiTool2 = new ApiTool2();
+        apiTool2.postApi(url + "userCatcher", new RequestParams(), baseView);
+    }
+
+    /**
+     * 生成充值订单
+     *
+     * @param money    实际支付金额
+     * @param pay_type 支付方式
+     * @param baseView 回调
+     */
+    public static void setOrder(String money, String pay_type, BaseView baseView) {
+        ApiTool2 apiTool2 = new ApiTool2();
+        RequestParams params = new RequestParams();
+        params.addBodyParameter("money", money);
+        params.addBodyParameter("pay_type", pay_type);
+        apiTool2.postApi(url + "setOrder", params, baseView);
     }
 
 }

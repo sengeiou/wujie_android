@@ -1,18 +1,27 @@
 package com.txd.hzj.wjlp.catchDoll.bean;
 
+import java.io.Serializable;
+
 /**
  * 创建者：voodoo_jie
  * <br>创建时间：2018/09/20 020上午 11:51
  * <br>功能描述：我的娃娃界面列表项对象
  */
-public class MyDollBean {
+public class MyDollBean implements Serializable {
 
-    private int id;
-    private String imageUrl; // 图片Url
+    private int id; // 商品id
+    private String dollImageUrl; // 娃娃图片Url
     private long maturityTime; // 倒计时时间
     private String name; // 名称
     private long time; // 抓中时间
     private int convertible; // 可兑换数目
+
+    private String userHeader; // 玩家头像
+    private String userNickName; // 玩家昵称
+    private String depositStatus; // 寄存状态
+    private int roomId; // 房间id
+    private String roomName; // 房间名称
+    private String roomNumber; // 房间编号
 
     public int getId() {
         return id;
@@ -22,12 +31,12 @@ public class MyDollBean {
         this.id = id;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
+    public String getDollImageUrl() {
+        return dollImageUrl;
     }
 
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
+    public void setDollImageUrl(String dollImageUrl) {
+        this.dollImageUrl = dollImageUrl;
     }
 
     public long getMaturityTime() {
@@ -60,5 +69,53 @@ public class MyDollBean {
 
     public void setConvertible(int convertible) {
         this.convertible = convertible;
+    }
+
+    public String getUserHeader() {
+        return userHeader;
+    }
+
+    public void setUserHeader(String userHeader) {
+        this.userHeader = userHeader;
+    }
+
+    public String getUserNickName() {
+        return userNickName;
+    }
+
+    public void setUserNickName(String userNickName) {
+        this.userNickName = userNickName;
+    }
+
+    public String getDepositStatus() {
+        return depositStatus;
+    }
+
+    public void setDepositStatus(String depositStatus) {
+        this.depositStatus = depositStatus;
+    }
+
+    public int getRoomId() {
+        return roomId;
+    }
+
+    public void setRoomId(int roomId) {
+        this.roomId = roomId;
+    }
+
+    public String getRoomName() {
+        return roomName;
+    }
+
+    public void setRoomName(String roomName) {
+        this.roomName = roomName;
+    }
+
+    public String getRoomNumber() {
+        return roomNumber;
+    }
+
+    public void setRoomNumber(String roomNumber) {
+        this.roomNumber = roomNumber;
     }
 }

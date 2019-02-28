@@ -11,8 +11,8 @@ public class GrabTheRecordBean {
     private String userName; // 用户名称
     private long time; // 时间戳
     private String content; // 内容
-    private String roomNumber; // 房间号
     private String videoUrl; // 视频回放地址
+    private RoomBean roomBean; // 房间对象
 
     public GrabTheRecordBean() {
     }
@@ -49,20 +49,20 @@ public class GrabTheRecordBean {
         this.content = content;
     }
 
-    public String getRoomNumber() {
-        return roomNumber;
-    }
-
-    public void setRoomNumber(String roomNumber) {
-        this.roomNumber = roomNumber;
-    }
-
     public String getVideoUrl() {
         return videoUrl;
     }
 
     public void setVideoUrl(String videoUrl) {
         this.videoUrl = videoUrl;
+    }
+
+    public RoomBean getRoomBean() {
+        return roomBean;
+    }
+
+    public void setRoomBean(RoomBean roomBean) {
+        this.roomBean = roomBean;
     }
 
     @Override
@@ -72,8 +72,8 @@ public class GrabTheRecordBean {
                 ", userName='" + userName + '\'' +
                 ", time=" + time +
                 ", content='" + content + '\'' +
-                ", roomNumber='" + roomNumber + '\'' +
                 ", videoUrl='" + videoUrl + '\'' +
+                ", roomBean='" + roomBean + '\'' +
                 '}';
     }
 }

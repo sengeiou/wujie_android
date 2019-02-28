@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.ants.theantsgo.gson.GsonUtil;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -22,6 +23,7 @@ import com.txd.hzj.wjlp.catchDoll.adapter.MoneyRecordingAdapter;
 import com.txd.hzj.wjlp.catchDoll.bean.MoneyRecordingBean;
 import com.txd.hzj.wjlp.http.catchDoll.Catcher;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -52,7 +54,7 @@ public class MoneyRecordingFragment extends BaseFgt {
 
     List<MoneyRecordingBean> list;
 
-    private int type; // 0:获得 1:消耗
+    private int type; // 1:获得 2:消耗
     private int page = 1; // 当前页数
 
     @SuppressLint("ValidFragment")
@@ -100,27 +102,15 @@ public class MoneyRecordingFragment extends BaseFgt {
     }
 
     private void setListData(List<MoneyRecordingBean> list) {
-        if (list.size() <= 0) {
-            showToast("没有更多房间了！");
-            return;
-        }
         if (page <= 1) { // 第一页
             this.list = new ArrayList<>();
             this.list = list;
         } else {
             this.list.addAll(list);
         }
-//        MoneyRecordingBean moneyRecordingBean;
-//        for (int i = 0; i < 20; i++) {
-//            moneyRecordingBean = new MoneyRecordingBean();
-//            moneyRecordingBean.setContent(type == 0 ? "签到领银两" : "房间游戏消耗");
-//            moneyRecordingBean.setTime(1545815792 * 1000L);
-//            moneyRecordingBean.setPrice((i + 1) * 10);
-//            list.add(moneyRecordingBean);
-//        }
         // 设置空数据显示的界面
         if (this.list.size() <= 0) {
-            showNullData(list_show_reView, list_nullData_llayout, list_nullDataImg_imgv, list_nullDataMsg_tv, R.mipmap.icon_money_recording_null, "暂无银两记录哦~");
+            showNullData(list_nullData_llayout, list_nullData_llayout, list_nullDataImg_imgv, list_nullDataMsg_tv, R.mipmap.icon_money_recording_null, "暂无银两记录哦~");
             return;
         }
         MoneyRecordingAdapter adapter = new MoneyRecordingAdapter(getActivity(), list, type);
@@ -136,9 +126,20 @@ public class MoneyRecordingFragment extends BaseFgt {
         try {
             JSONObject jsonObject = new JSONObject(jsonStr);
 
-//            if (requestUrl.contains("userCoinLogInfo")) {
-//                JSONObject data = jsonObject.getJSONObject("data");
-//            }
+            if (requestUrl.contains("userCoinLogInfo")) {
+                JSONObject data = jsonObject.getJSONObject("data");
+                JSONArray listArray = data.getJSONArray("list");
+                List<MoneyRecordingBean> tempMoneyRecordingBeans = new ArrayList<>();
+                for (int i = 0; i < listArray.length(); i++) {
+                    JSONObject jsonObject1 = listArray.getJSONObject(i);
+                    MoneyRecordingBean moneyRecordingBean = GsonUtil.GsonToBean(jsonObject1.toString(), MoneyRecordingBean.class);
+                    moneyRecordingBean.setCreate_time(moneyRecordingBean.getCreate_time() * 1000L); // 后台回传的时间戳是秒，此处要使用毫秒，所以乘1000
+                    tempMoneyRecordingBeans.add(moneyRecordingBean);
+                }
+                setListData(tempMoneyRecordingBeans);
+
+            }
+
             setListData(new ArrayList<MoneyRecordingBean>());
         } catch (JSONException e) {
             e.printStackTrace();

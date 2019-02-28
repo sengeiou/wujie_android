@@ -52,6 +52,9 @@ public class AttentionActivity extends BaseAty implements RoomListAdapter.OnDele
     boolean isEdit = false; // 是否是编辑状态
     private RoomListAdapter adapter;
 
+    private List<RoomBean> adapterList; // adapter删除回传的List
+    private int adapterPosition; // adapter删除回传的position
+
     @Override
     protected int getLayoutResId() {
         return R.layout.activity_list;
@@ -79,20 +82,6 @@ public class AttentionActivity extends BaseAty implements RoomListAdapter.OnDele
      */
     private void setRoomData(List<RoomBean> roomList) {
         this.roomList = roomList;
-//        roomList.add(new RoomBean(1, "http://h.hiphotos.baidu.com/zhidao/pic/item/2f738bd4b31c87018e126740237f9e2f0608fff4.jpg", "测试房间1", 10, 0));
-//        roomList.add(new RoomBean(2, "http://c.hiphotos.baidu.com/zhidao/pic/item/4034970a304e251f27d9d254a586c9177f3e536b.jpg", "测试房间2", 10, 1));
-//        roomList.add(new RoomBean(3, "http://b-ssl.duitang.com/uploads/blog/201404/23/20140423205758_FJ4NN.jpeg", "测试房间3", 10, 1));
-//        roomList.add(new RoomBean(4, "http://c.hiphotos.baidu.com/zhidao/pic/item/cdbf6c81800a19d8265bbb793bfa828ba61e4675.jpg", "测试房间4", 10, 1));
-//        roomList.add(new RoomBean(5, "http://img.zcool.cn/community/0165c75a602e0ba8012113c7d220e7.jpg@2o.jpg", "测试房间5", 10, 0));
-//        roomList.add(new RoomBean(6, "http://life.southmoney.com/tuwen/UploadFiles_6871/201809/20180919114327818.jpg", "测试房间6", 10, 0));
-//        roomList.add(new RoomBean(7, "http://ccstatic-1252317822.file.myqcloud.com/portraitimg/2018-02-07/5a7a8526367d2.jpg", "测试房间7", 10, 0));
-//        roomList.add(new RoomBean(8, "http://img.xspic.com/img/116/194/574068_5.jpg", "测试房间8", 10, 0));
-//        roomList.add(new RoomBean(9, "http://gss0.baidu.com/-vo3dSag_xI4khGko9WTAnF6hhy/zhidao/pic/item/314e251f95cad1c8fa989c4b783e6709c93d51be.jpg", "测试房间9", 10, 1));
-//        roomList.add(new RoomBean(10, "http://life.southmoney.com/tuwen/UploadFiles_6871/201809/20180919114327377.jpg", "测试房间10", 10, 0));
-//        roomList.add(new RoomBean(11, "http://img1.imgtn.bdimg.com/it/u=165501638,2373619033&fm=27&gp=0.jpg", "测试房间11", 10, 0));
-//        roomList.add(new RoomBean(12, "http://hbimg.b0.upaiyun.com/afd558e0130d4141116a66a282a0d9267f4602721614e-kb2Tjj_fw658", "测试房间12", 10, 1));
-//        roomList.add(new RoomBean(13, "http://kanimg.9ku.com/kanqq/pic/upload/2018/0530/b78eea8df704a1e831fb6c8778a618cb.jpg", "测试房间13", 10, 0));
-
         if (roomList == null || roomList.size() <= 0) {
             showNullData(list_show_reView, list_nullData_llayout, list_nullDataImg_imgv, list_nullDataMsg_tv, R.mipmap.icon_attention_null, "暂无关注记录哦~");
         } else {
@@ -118,20 +107,23 @@ public class AttentionActivity extends BaseAty implements RoomListAdapter.OnDele
                 } else {
                     titleView_edit_tv.setText("编辑");
                 }
-                adapter.setEdit(isEdit);
+                if (adapter != null) {
+                    adapter.setEdit(isEdit);
+                }
                 break;
         }
     }
 
     @Override
     public void delete(final List<RoomBean> list, final int position) {
+        this.adapterList = list;
+        this.adapterPosition = position;
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage("确认删除关注的房间吗？");
         builder.setPositiveButton("删除", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                list.remove(position);
-                adapter.notifyDataSetChanged();
+                Catcher.getCatcherAttention(Integer.parseInt(list.get(position).getId()), 0, AttentionActivity.this);
             }
         });
         builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -150,10 +142,18 @@ public class AttentionActivity extends BaseAty implements RoomListAdapter.OnDele
 
             if (requestUrl.contains("getCatcherAttentionList")) { // 获取关注列表
                 JSONArray data = jsonObject.getJSONArray("data");
+                List<RoomBean> tempList = new ArrayList<>();
                 for (int i = 0; i < data.length(); i++) {
                     JSONObject jsonObject1 = data.getJSONObject(i);
-                    GsonUtil.GsonToBean(jsonObject1.toString(), RoomBean.class);
+                    RoomBean roomBean = GsonUtil.GsonToBean(jsonObject1.toString(), RoomBean.class);
+                    tempList.add(roomBean);
                 }
+                setRoomData(tempList);
+            }
+
+            if (requestUrl.contains("getCatcherAttention")) {
+                adapterList.remove(adapterPosition);
+                adapter.notifyDataSetChanged();
             }
 
         } catch (JSONException e) {

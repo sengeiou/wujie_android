@@ -31,17 +31,15 @@ import com.txd.hzj.wjlp.catchDoll.bean.RechargeBean;
 import com.txd.hzj.wjlp.http.Pay;
 import com.txd.hzj.wjlp.http.catchDoll.Catcher;
 import com.txd.hzj.wjlp.http.user.User;
-import com.txd.hzj.wjlp.minetoaty.PayForAppAty;
 import com.txd.hzj.wjlp.minetoaty.setting.EditPayPasswordAty;
 import com.txd.hzj.wjlp.tool.CommonPopupWindow;
-import com.txd.hzj.wjlp.tool.WJConfig;
-import com.txd.hzj.wjlp.webviewH5.WebViewAty;
 import com.txd.hzj.wjlp.wxapi.GetPrepayIdTask;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.BreakIterator;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -87,6 +85,14 @@ public class MoneyActivity extends BaseAty implements RecargeAdapter.OnSelectCha
     private String is_pay_password = "0"; // 是否设置支付密码
     private CommonPopupWindow commonPopupWindow; // 常规弹窗
 
+    private RechargeBean selectRechargeBean; // 点击选中的充值对象
+
+    private static final int WXPAY = 1; // 微信支付
+    private static final int ALIPAT = 2; // 支付宝支付
+    private static final int BALANCE = 4; // 余额支付
+    private static final int INTEGRAL = 5; // 积分支付
+    private static int selectPayType;
+
     @Override
     protected int getLayoutResId() {
         return R.layout.activity_money;
@@ -109,12 +115,19 @@ public class MoneyActivity extends BaseAty implements RecargeAdapter.OnSelectCha
 
     @Override
     protected void requestData() {
+        requestPageData();
+    }
+
+    /**
+     * 请求界面上的数据，这么写主要是为了方便再刷新的时候调取
+     */
+    private void requestPageData() {
         User.settings(this); // 请求个人中心，主要是获取用户是否设置支付密码
         Catcher.exchangeList(this); // 获取充值金额列表
     }
 
     /**
-     * 设置充值游戏币数量
+     * 初始化充值游戏币数量列表
      */
     private void setRechargeListShow(List<RechargeBean> rechargeBeanList) {
         RecargeAdapter recargeAdapter = new RecargeAdapter(this, rechargeBeanList);
@@ -138,6 +151,11 @@ public class MoneyActivity extends BaseAty implements RecargeAdapter.OnSelectCha
             case R.id.money_submit_tv:
                 // 点击的时候如果是余额或积分需要输入密码
                 if (money_balance_cbox.isChecked() || money_integral_cbox.isChecked()) { // 余额或者积分支付
+                    if (money_balance_cbox.isChecked()) {
+                        selectPayType = BALANCE; // 如果余额支付选中，将支付方式设置为余额
+                    } else {
+                        selectPayType = INTEGRAL; // 否则的话将支付方式设置为积分支付
+                    }
                     if (is_pay_password.equals("1")) {
                         showPwdPop(v); // 如果已设置支付密码，则直接弹窗输入支付密码
                     } else {
@@ -148,12 +166,13 @@ public class MoneyActivity extends BaseAty implements RecargeAdapter.OnSelectCha
                         bundle.putString("phone", "");
                         startActivity(EditPayPasswordAty.class, bundle);
                     }
-                } else if (money_alipay_cbox.isChecked()) { // 支付宝支付
-//                    Pay.getAlipayParam();
-//                    showProgressDialog();
-                } else if (money_weChat_cbox.isChecked()) { // 微信支付
-//                    Pay.getJsTine();
-//                    showProgressDialog();
+                } else {
+                    if (money_alipay_cbox.isChecked()) { // 支付宝支付
+                        selectPayType = ALIPAT;
+                    } else if (money_weChat_cbox.isChecked()) { // 微信支付
+                        selectPayType = WXPAY;
+                    }
+                    Catcher.setOrder(String.valueOf(selectRechargeBean.getPrice()), String.valueOf(selectPayType), this);
                 }
                 break;
             case R.id.money_alipay_llayout:
@@ -204,10 +223,17 @@ public class MoneyActivity extends BaseAty implements RecargeAdapter.OnSelectCha
     @Override
     public void change(RechargeBean rechargeBean) {
         // 充值列表选择项选择改变
+        selectRechargeBean = rechargeBean;
         L.e(rechargeBean.toString());
     }
 
-    //支付弹出框
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        requestPageData();
+    }
+
+    // 支付弹出框
     public void showPwdPop(View view) {
         if (commonPopupWindow != null && commonPopupWindow.isShowing()) {
             return;
@@ -246,13 +272,13 @@ public class MoneyActivity extends BaseAty implements RecargeAdapter.OnSelectCha
             JSONObject requestJsonObject = new JSONObject(jsonStr);
             JSONObject data = requestJsonObject.getJSONObject("data");
 
-            if (requestUrl.contains("setting")) { // 获取账号下个人设置
+            if (requestUrl.contains("setting")) { // 获取账号下个人设置，主要是想获取是否设置支付密码
                 is_pay_password = data.getString("is_pay_password");
                 return;
             }
 
             if (requestUrl.contains("verificationPayPwd")) { // 验证支付密码回调
-                // 进来表示验证成功，直接去支付
+                Catcher.setOrder(String.valueOf(selectRechargeBean.getPrice()), String.valueOf(selectPayType), this); // 选中的是余额支付或积分支付
             }
 
             if (requestUrl.contains("exchangeList")) { // 获取充值金额列表
@@ -273,29 +299,50 @@ public class MoneyActivity extends BaseAty implements RecargeAdapter.OnSelectCha
                 setRechargeListShow(rechargeBeanList);
             }
 
+            if (requestUrl.contains("setOrder")) { // 支付生成订单
+                switch (selectPayType) {
+                    case BALANCE:
+                    case INTEGRAL:
+                        showRightTip(requestJsonObject.getString("message")); // 余额或者积分支付直接扣款，此处直接显示结果信息
+                        requestPageData(); // 重新请求一下界面的数据
+                        break;
+                    case ALIPAT: // 支付宝支付生成订单
+                        Pay.getJsTine(data.getString("orderId"), 0 + "", 18 + "", this);
+                        break;
+                    case WXPAY: // 微信支付生成订单
+                        Pay.getAlipayParam(data.getString("orderId"), 0 + "", 18 + "", this);
+                        break;
+                }
+            }
+
             if (requestUrl.contains("getAlipayParam")) { // 支付宝支付
-//                showProgressDialog();
-//                AliPay aliPay = new AliPay(data.get("pay_string"), new AliPayCallBack() {
-//                    @Override
-//                    public void onComplete() {
-//                        Pay.findPayResult(order_id, "16", MoneyActivity.this);
-//                    }
+//                String pay_string = data.getString("pay_string");
+//                if (pay_string != null && !pay_string.isEmpty()) {
+//                    showProgressDialog();
+//                    AliPay aliPay = new AliPay(pay_string, new AliPayCallBack() {
+//                        @Override
+//                        public void onComplete() {
+//                            showToast("支付成功返回"); // TODO 要去请求一下支付结果回调的接口再显示提示是否支付成功
+////                            requestPageData(); // TODO 请求回调接口之后再请求初始化数据接口刷新界面或者直接刷新界面
+//                        }
 //
-//                    @Override
-//                    public void onFailure() {
-//                        showToast("支付失败！");
-//                        removeProgressDialog();
-//                        finish();
-//                    }
+//                        @Override
+//                        public void onFailure() {
+//                            showToast("支付失败！");
+//                            removeProgressDialog();
+//                            finish();
+//                        }
 //
-//                    @Override
-//                    public void onProcessing() {
-//                    }
-//                });
-//                aliPay.pay();
+//                        @Override
+//                        public void onProcessing() {
+//                        }
+//                    });
+//                    aliPay.pay();
+//                }
             }
 
             if (requestUrl.contains("getJsTine")) { // 微信支付
+//                 TODO 待接口返回正确数据之后直接解注释应该就能用，参照的是PayForApp界面的微信支付调用
 //                GetPrepayIdTask wxPay = new GetPrepayIdTask(MoneyActivity.this, data.getString("sign"), data.getString("appid"),
 //                        data.getString("nonce_str"), data.getString("package"), data.getString("time_stamp"), data.getString("prepay_id"),
 //                        data.getString("mch_id"), "");
@@ -318,9 +365,11 @@ public class MoneyActivity extends BaseAty implements RecargeAdapter.OnSelectCha
             int errCode = intent.getIntExtra("errCode", 5);
             if (errCode == 0) {
                 showToast("支付成功");
+                requestPageData(); // 重新请求一下界面的数据
             } else {
                 showToast("支付失败");
             }
         }
     }
+
 }

@@ -10,11 +10,13 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ants.theantsgo.tool.glide.GlideUtils;
 import com.txd.hzj.wjlp.Constant;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.catchDoll.bean.GrabTheRecordBean;
+import com.txd.hzj.wjlp.catchDoll.bean.RoomBean;
 import com.txd.hzj.wjlp.catchDoll.ui.activity.GameRoomActivity;
 import com.txd.hzj.wjlp.catchDoll.ui.activity.VideoPlayerActivity;
 import com.txd.hzj.wjlp.catchDoll.util.Util;
@@ -45,7 +47,7 @@ public class GranTheRecordAdapter extends RecyclerView.Adapter<GranTheRecordAdap
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        GrabTheRecordBean grabTheRecordBean = list.get(position);
+        final GrabTheRecordBean grabTheRecordBean = list.get(position);
 
         GlideUtils.urlCirclePicNoBg(grabTheRecordBean.getHeadUrl(), 60, 60, holder.grabTheRecord_header_imgv);
         holder.grabTheRecord_name_tv.setText(grabTheRecordBean.getUserName());
@@ -56,8 +58,13 @@ public class GranTheRecordAdapter extends RecyclerView.Adapter<GranTheRecordAdap
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, VideoPlayerActivity.class);
-                // 网络点播资源《喜欢你》MV
-                intent.putExtra(Constant.VIDEO_VOD_URL_KEY, "http://221.228.226.23/11/t/j/v/b/tjvbwspwhqdmgouolposcsfafpedmb/sh.yinyuetai.com/691201536EE4912BF7E4F1E2C67B8119.mp4");
+                if (grabTheRecordBean.getVideoUrl() != null && !grabTheRecordBean.getVideoUrl().isEmpty()) {
+                    intent.putExtra(Constant.VIDEO_VOD_URL_KEY, grabTheRecordBean.getVideoUrl());
+                } else {
+                    // TODO 走到这就是回传的回播地址为空了，暂时添加了一个网络点播资源《喜欢你》MV
+                    intent.putExtra(Constant.VIDEO_VOD_URL_KEY, "http://221.228.226.23/11/t/j/v/b/tjvbwspwhqdmgouolposcsfafpedmb/sh.yinyuetai.com/691201536EE4912BF7E4F1E2C67B8119.mp4");
+                    Toast.makeText(context, "回传的回播地址为空，播放预置视频", Toast.LENGTH_SHORT).show();
+                }
                 context.startActivity(intent);
             }
         });
@@ -65,7 +72,14 @@ public class GranTheRecordAdapter extends RecyclerView.Adapter<GranTheRecordAdap
         holder.grabTheRecord_goInRoom_llayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                context.startActivity(new Intent(context, GameRoomActivity.class));
+                // TODO 这边点击的时候直接使用获取数据跳转到游戏房间就行
+                RoomBean roomBean = grabTheRecordBean.getRoomBean(); // TODO 这里把进房间的数据都准备好了，可按照首页那么加或者封装一个类
+                if (roomBean != null) {
+                    Toast.makeText(context, "房间号：" + roomBean.getId() + " MAC地址：" + roomBean.getMac(), Toast.LENGTH_SHORT).show();
+//                context.startActivity(new Intent(context, GameRoomActivity.class));
+                } else {
+                    Toast.makeText(context, "回传房间为null", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 

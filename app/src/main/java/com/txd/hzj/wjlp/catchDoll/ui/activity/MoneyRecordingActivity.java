@@ -51,8 +51,8 @@ public class MoneyRecordingActivity extends BaseAty {
         titleView_title_tv.setText("银两记录");
 
         fragments = new Fragment[2];
-        getFragment = new MoneyRecordingFragment(0);
-        consumptionFragment = new MoneyRecordingFragment(1);
+        getFragment = new MoneyRecordingFragment(1);
+        consumptionFragment = new MoneyRecordingFragment(2);
         fragments[0] = getFragment;
         fragments[1] = consumptionFragment;
         switchFragment(getFragment).commit();

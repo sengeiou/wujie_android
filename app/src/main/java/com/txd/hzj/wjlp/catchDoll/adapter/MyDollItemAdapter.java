@@ -3,6 +3,7 @@ package com.txd.hzj.wjlp.catchDoll.adapter;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -30,10 +31,12 @@ public class MyDollItemAdapter extends RecyclerView.Adapter<MyDollItemAdapter.Vi
 
     private List<MyDollBean> list;
     private Context context;
+    int type; // 1 寄存 2 待邮寄 3已发货  4已兑换
 
-    public MyDollItemAdapter(List<MyDollBean> list, Context context) {
+    public MyDollItemAdapter(List<MyDollBean> list, int type, Context context) {
         this.list = list;
         this.context = context;
+        this.type = type;
     }
 
     @NonNull
@@ -44,9 +47,9 @@ public class MyDollItemAdapter extends RecyclerView.Adapter<MyDollItemAdapter.Vi
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        MyDollBean myDollBean = list.get(position);
-        GlideUtils.loadUrlImg(context, myDollBean.getImageUrl(), holder.itemMyDoll_image_imgv);
+    public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
+        final MyDollBean myDollBean = list.get(position);
+        GlideUtils.loadUrlImg(context, myDollBean.getDollImageUrl(), holder.itemMyDoll_image_imgv);
         holder.itemMyDoll_maturity_cdv.start(myDollBean.getMaturityTime());
         holder.itemMyDoll_name_tv.setText(myDollBean.getName());
         holder.itemMyDoll_time_tv.setText(Util.millis2String(myDollBean.getTime(), "yyyy.MM.dd HH:mm:ss"));
@@ -55,7 +58,11 @@ public class MyDollItemAdapter extends RecyclerView.Adapter<MyDollItemAdapter.Vi
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((Activity) context).startActivity(new Intent(context, DollGoodsInfoActivity.class));
+                Intent intent = new Intent(context, DollGoodsInfoActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("MyDollBean", myDollBean);
+                intent.putExtras(bundle);
+                context.startActivity(intent);
             }
         });
     }

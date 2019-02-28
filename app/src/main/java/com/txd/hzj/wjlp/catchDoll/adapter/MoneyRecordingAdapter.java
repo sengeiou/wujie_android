@@ -24,7 +24,7 @@ public class MoneyRecordingAdapter extends RecyclerView.Adapter<MoneyRecordingAd
 
     private Context context;
     private List<MoneyRecordingBean> list;
-    private int type; // 数据加减号
+    private int type; // 1+ 2- 数据加减号
 
     public MoneyRecordingAdapter(Context context, List<MoneyRecordingBean> list, int type) {
         this.context = context;
@@ -43,9 +43,9 @@ public class MoneyRecordingAdapter extends RecyclerView.Adapter<MoneyRecordingAd
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
         MoneyRecordingBean moneyRecordingBean = list.get(position);
 
-        holder.itemMoneyRecording_content_tv.setText(moneyRecordingBean.getContent());
-        holder.itemMoneyRecording_time_tv.setText(Util.millis2String(moneyRecordingBean.getTime(), "yyyy-MM-dd HH:mm:ss"));
-        holder.itemMoneyRecording_price_tv.setText((type == 0 ? "+" : "-") + new DecimalFormat("#.00").format(moneyRecordingBean.getPrice()));
+        holder.itemMoneyRecording_content_tv.setText(moneyRecordingBean.getDesc());
+        holder.itemMoneyRecording_time_tv.setText(Util.millis2String(moneyRecordingBean.getCreate_time(), "yyyy-MM-dd HH:mm:ss"));
+        holder.itemMoneyRecording_price_tv.setText(new StringBuffer().append(type == 1 ? "+" : "-").append(moneyRecordingBean.getMoney()));
     }
 
     @Override

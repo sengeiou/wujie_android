@@ -17,7 +17,7 @@ import java.util.Map;
 /**
  * 创建者：voodoo_jie
  * <br>创建时间：2018/09/20 020上午 11:51
- * <br>功能描述：
+ * <br>功能描述：发现页面，直接调用H5网页展示
  */
 public class FindFragment extends BaseFgt {
 
@@ -75,5 +75,10 @@ public class FindFragment extends BaseFgt {
             }
         });
 
+    }
+
+    @Override
+    public void onComplete(String requestUrl, String jsonStr) {
+        super.onComplete(requestUrl, jsonStr);
     }
 }
