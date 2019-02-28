@@ -371,7 +371,14 @@ public class InputAty extends BaseAty {
             }
             mCate_id = data.get("cate_id");
             nameEdit.setText(data.get("name"));
-            stockNumEdit.setText(data.get("limit"));
+            if (data.containsKey("limit")){
+               if (TextUtils.isEmpty(data.get("limit"))){
+                   stockNumEdit.setText("不限");
+                }else{
+                    stockNumEdit.setText(data.get("limit"));
+                }
+            }
+
             classifyTv.setText(data.get("cate_name"));
             lunchBoxNumEdit.setText(data.get("boxware"));
             multipleSpecificationsTv.setText(data.containsKey("attr_name") ? data.get("attr_name") : "");

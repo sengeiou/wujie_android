@@ -204,7 +204,7 @@
                         android:layout_height="wrap_content"
                         android:background="@null"
                         android:gravity="right"
-                        android:hint="请输入"
+                        android:hint="默认不限"
                         android:inputType="number"
                         android:paddingBottom="4dp"
                         android:paddingEnd="8dp"
