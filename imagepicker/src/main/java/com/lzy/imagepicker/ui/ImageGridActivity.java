@@ -368,6 +368,8 @@ public class ImageGridActivity extends ImageBaseActivity implements ImageDataSou
                 }
             } else if (directPhoto) {
                 finish();
+            }else {
+                finish();
             }
         }
     }
