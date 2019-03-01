@@ -5,8 +5,10 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -283,6 +285,33 @@ public class InputAty extends BaseAty {
         //                }
         //            }
         //        });
+
+        stockNumEdit.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                String string = s.toString();
+                if (TextUtils.isEmpty(string) || string.contains("不")) {
+                    saleNumLayout.setVisibility(View.GONE);
+                    numLayout.setVisibility(View.GONE);
+                } else {
+                    saleNumLayout.setVisibility(View.VISIBLE);
+                    numLayout.setVisibility(View.VISIBLE);
+                    String saleString = saleNumTv.getText().toString();
+                    int number = Integer.parseInt(string) - Integer.parseInt(saleString);
+                    numTv.setText(String.valueOf(number));
+                }
+            }
+        });
     }
 
     /**
@@ -307,8 +336,6 @@ public class InputAty extends BaseAty {
         if (mGoods_id != null) {
             getGoodsSale(mGoods_id, this);
             goods_info(mGoods_id, this);
-            saleNumLayout.setVisibility(View.VISIBLE);
-            numLayout.setVisibility(View.VISIBLE);
         }
     }
 
@@ -339,8 +366,8 @@ public class InputAty extends BaseAty {
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
         Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
-        if (requestUrl.endsWith("getMerchantCate")){
-            SharedPreferencesUtils.putString(mContext,"MerchantCate",map.get("data"));
+        if (requestUrl.endsWith("getMerchantCate")) {
+            SharedPreferencesUtils.putString(mContext, "MerchantCate", map.get("data"));
         }
         if (requestUrl.endsWith("getGoodsSale")) {
             saleNumTv.setText(map.get("data"));
@@ -410,22 +437,11 @@ public class InputAty extends BaseAty {
             mCate_id = data.get("cate_id");
             nameEdit.setText(data.get("name"));
             if (data.containsKey("limit")) {
-                if (TextUtils.isEmpty(data.get("limit"))) {
+                if (Integer.parseInt(data.get("limit")) == 0) {
                     stockNumEdit.setText("不限");
                 } else {
                     stockNumEdit.setText(data.get("limit"));
                 }
-            }
-            String totalString = stockNumEdit.getText().toString();
-            String saleString = saleNumTv.getText().toString();
-            if (totalString.contains("不限")) {
-                totalString = "0";
-            }
-            int number = Integer.parseInt(totalString) - Integer.parseInt(saleString);
-            if (number <= 0) {
-                numTv.setText("不限");
-            } else {
-                numTv.setText(String.valueOf(number));
             }
 
             classifyTv.setText(data.get("cate_name"));
@@ -575,26 +591,26 @@ public class InputAty extends BaseAty {
         }
     }
 
-    public static boolean judgePrice(Context context,String s1,String s2){
-        double d1 ;
-        double d2 ;
+    public static boolean judgePrice(Context context, String s1, String s2) {
+        double d1;
+        double d2;
         boolean isHigher;
-        if (TextUtils.isEmpty(s1.toString())){
+        if (TextUtils.isEmpty(s1.toString())) {
             d1 = 0;
-        }else {
+        } else {
             d1 = Double.parseDouble(s1.toString());
         }
-        if (TextUtils.isEmpty(s2.toString())){
+        if (TextUtils.isEmpty(s2.toString())) {
             d2 = 0;
-        }else {
+        } else {
             d2 = Double.parseDouble(s2.toString());
         }
 
         double merchantCate = Double.parseDouble(SharedPreferencesUtils.getString(context, "MerchantCate"));
 
-        if (d1 * merchantCate < d2){
+        if (d1 * merchantCate < d2) {
             isHigher = true;
-        }else {
+        } else {
             isHigher = false;
         }
 
@@ -640,17 +656,16 @@ public class InputAty extends BaseAty {
             }
         }
 
-        if (takeawayJieSuanLayout.getVisibility() == View.VISIBLE && judgePrice(mContext,takeawayPriceEdit.getText().toString(),takeawayJieSuanPriceEdit.getText().toString())){
+        if (takeawayJieSuanLayout.getVisibility() == View.VISIBLE && judgePrice(mContext, takeawayPriceEdit.getText().toString(), takeawayJieSuanPriceEdit.getText().toString())) {
             showToast("外卖结算价过高");
             return;
         }
 
-        if (dinnerJieSuanLayout.getVisibility() == View.VISIBLE && judgePrice(mContext,dinnerPriceEdit.getText().toString(),dinnerJieSuanPriceEdit.getText().toString())){
+        if (dinnerJieSuanLayout.getVisibility() == View.VISIBLE && judgePrice(mContext, dinnerPriceEdit.getText().toString(), dinnerJieSuanPriceEdit.getText().toString())) {
             showToast("堂食结算价过高");
             return;
         }
-
-        if (numTv.getText().toString().equals("不限")){
+        if (numLayout.getVisibility() == View.VISIBLE && Integer.parseInt(numTv.getText().toString())<=0) {
             showToast("库存数量不足");
             return;
         }
