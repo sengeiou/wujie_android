@@ -23,6 +23,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
+import static com.txd.hzj.wjlp.minetoaty.storemanagement.InputAty.judgePrice;
+
 /**
  * 创建者：zhangyunfei
  * 创建时间：2019/1/14 8:59
@@ -71,7 +73,7 @@ public class DateRangeAty extends BaseAty {
         mType = getIntent().getStringExtra("type");
         mData = getIntent().getStringExtra("DateRangeAty");
 
-        if (mData != null){
+        if (mData != null) {
             parseData();
         }
 
@@ -84,8 +86,8 @@ public class DateRangeAty extends BaseAty {
             long end_time = jsonObject.optLong("end_time");
             String price = jsonObject.optString("price");
             String jiesuan_price = jsonObject.optString("jiesuan_price");
-            Date start_date = new Date(start_time*1000);
-            Date end_date = new Date(end_time*1000);
+            Date start_date = new Date(start_time * 1000);
+            Date end_date = new Date(end_time * 1000);
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
             mStartDate = format.format(start_date);
             startDateTv.setText(mStartDate);
@@ -104,7 +106,7 @@ public class DateRangeAty extends BaseAty {
     }
 
     @Override
-    @OnClick({R.id.startDateLayout, R.id.endDateLayout,R.id.sureTv})
+    @OnClick({R.id.startDateLayout, R.id.endDateLayout, R.id.sureTv})
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.startDateLayout:
@@ -114,33 +116,37 @@ public class DateRangeAty extends BaseAty {
                 setDate("end");
                 break;
             case R.id.sureTv:
-                if (TextUtils.isEmpty(mStartDate)){
+                if (TextUtils.isEmpty(mStartDate)) {
                     showToast("请选择开始日期");
                     return;
                 }
-                if (TextUtils.isEmpty(mEndDate)){
+                if (TextUtils.isEmpty(mEndDate)) {
                     showToast("请选择结束日期");
                     return;
                 }
                 String salePrice = salePriceEdit.getText().toString();
-                if (TextUtils.isEmpty(salePrice)){
+                if (TextUtils.isEmpty(salePrice)) {
                     showToast("请输入售卖价");
                     return;
                 }
                 String balancePrice = balancePriceEdit.getText().toString();
-                if (TextUtils.isEmpty(balancePrice)){
+                if (TextUtils.isEmpty(balancePrice)) {
                     showToast("请输入结算价");
+                    return;
+                }
+                if (judgePrice(mContext, salePriceEdit.getText().toString(), balancePriceEdit.getText().toString())) {
+                    showToast("日期范围结算价过高");
                     return;
                 }
 
                 try {
                     SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
                     JSONObject jsonObject = new JSONObject();
-                    jsonObject.put("start_time",format.parse(mStartDate).getTime()/1000);
-                    jsonObject.put("end_time",format.parse(mEndDate).getTime()/1000);
-                    jsonObject.put("price",salePrice);
-                    jsonObject.put("jiesuan_price",balancePrice);
-                    EventBus.getDefault().post(new MessageEvent(mType+"="+jsonObject.toString(),"DateRangeAty"));
+                    jsonObject.put("start_time", format.parse(mStartDate).getTime() / 1000);
+                    jsonObject.put("end_time", format.parse(mEndDate).getTime() / 1000);
+                    jsonObject.put("price", salePrice);
+                    jsonObject.put("jiesuan_price", balancePrice);
+                    EventBus.getDefault().post(new MessageEvent(mType + "=" + jsonObject.toString(), "DateRangeAty"));
                     finish();
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -152,29 +158,29 @@ public class DateRangeAty extends BaseAty {
     }
 
 
-    private void setDate(final String status){
+    private void setDate(final String status) {
         Calendar startDate = Calendar.getInstance();
         Calendar endDate = Calendar.getInstance();
 
         //正确设置方式 原因：注意事项有说明
-//        startDate.set(2019,0,1);
-        endDate.set(2026,11,31);
+        //        startDate.set(2019,0,1);
+        endDate.set(2026, 11, 31);
         TimePickerView timePickerView = new TimePickerView.Builder(mContext, new TimePickerView.OnTimeSelectListener() {
             @Override
             public void onTimeSelect(Date date, View v) {
                 SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA);
                 String format = df.format(date);
-                if (status.equals("start")){
+                if (status.equals("start")) {
                     mStartDate = format;
                     startDateTv.setText(format);
-                }else if (status.equals("end")){
+                } else if (status.equals("end")) {
                     mEndDate = format;
                     endDateTv.setText(format);
                 }
             }
         })
                 .setDate(Calendar.getInstance())
-                .setRangDate(startDate,endDate)
+                .setRangDate(startDate, endDate)
                 .setType(new boolean[]{true, true, true, false, false, false})// 默认全部显示
                 .build();
         timePickerView.show();

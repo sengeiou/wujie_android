@@ -28,6 +28,7 @@ import com.ants.theantsgo.imageLoader.GlideImageLoader;
 import com.ants.theantsgo.util.CompressionUtil;
 import com.ants.theantsgo.util.JSONUtils;
 import com.ants.theantsgo.util.SoftKeyboardUtil;
+import com.baidu.tts.tools.SharedPreferencesUtils;
 import com.bumptech.glide.Glide;
 import com.lidroid.xutils.http.RequestParams;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -82,6 +83,18 @@ public class InputAty extends BaseAty {
     @ViewInject(R.id.stockNumEdit)
     private EditText stockNumEdit;
 
+    @ViewInject(R.id.saleNumLayout)
+    private LinearLayout saleNumLayout;
+
+    @ViewInject(R.id.saleNumTv)
+    private TextView saleNumTv;
+
+    @ViewInject(R.id.numLayout)
+    private LinearLayout numLayout;
+
+    @ViewInject(R.id.numTv)
+    private TextView numTv;
+
     @ViewInject(R.id.takeawayLayout)
     private LinearLayout takeawayLayout;
 
@@ -121,11 +134,11 @@ public class InputAty extends BaseAty {
     @ViewInject(R.id.takeawayCustomLayout)
     private LinearLayout takeawayCustomLayout;
 
-//    @ViewInject(R.id.takeawayDateCheckBox)
-//    private CheckBox takeawayDateCheckBox;
-//
-//    @ViewInject(R.id.takeawayWeekCheckBox)
-//    private CheckBox takeawayWeekCheckBox;
+    //    @ViewInject(R.id.takeawayDateCheckBox)
+    //    private CheckBox takeawayDateCheckBox;
+    //
+    //    @ViewInject(R.id.takeawayWeekCheckBox)
+    //    private CheckBox takeawayWeekCheckBox;
 
     @ViewInject(R.id.takeawayDateLayout)
     private RelativeLayout takeawayDateLayout;
@@ -137,13 +150,13 @@ public class InputAty extends BaseAty {
     private LinearLayout takeawayJieSuanLayout;
 
     @ViewInject(R.id.takeawayJieSuanPriceEdit)
-    private TextView takeawayJieSuanPriceEdit;
+    private EditText takeawayJieSuanPriceEdit;
 
     @ViewInject(R.id.dinnerJieSuanLayout)
     private LinearLayout dinnerJieSuanLayout;
 
     @ViewInject(R.id.dinnerJieSuanPriceEdit)
-    private TextView dinnerJieSuanPriceEdit;
+    private EditText dinnerJieSuanPriceEdit;
 
     @ViewInject(R.id.dinnerTimeLayout)
     private LinearLayout dinnerTimeLayout;
@@ -154,11 +167,11 @@ public class InputAty extends BaseAty {
     @ViewInject(R.id.dinnerCustomLayout)
     private LinearLayout dinnerCustomLayout;
 
-//    @ViewInject(R.id.dinnerDateCheckBox)
-//    private CheckBox dinnerDateCheckBox;
-//
-//    @ViewInject(R.id.dinnerWeekCheckBox)
-//    private CheckBox dinnerWeekCheckBox;
+    //    @ViewInject(R.id.dinnerDateCheckBox)
+    //    private CheckBox dinnerDateCheckBox;
+    //
+    //    @ViewInject(R.id.dinnerWeekCheckBox)
+    //    private CheckBox dinnerWeekCheckBox;
 
     @ViewInject(R.id.dinnerDateLayout)
     private RelativeLayout dinnerDateLayout;
@@ -221,55 +234,55 @@ public class InputAty extends BaseAty {
 
         nameEdit.setFilters(new InputFilter[]{SoftKeyboardUtil.getInputFilter(mContext)});
 
-//        takeawayDateCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-//                if (isChecked) {
-//                    if (takeawayWeekCheckBox.isChecked()) {
-//                        takeawayWeekCheckBox.setChecked(false);
-//                    }
-//                    takeawayDateCheckBox.setChecked(true);
-//                }
-//            }
-//        });
-//
-//        takeawayWeekCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-//                if (isChecked) {
-//                    if (takeawayDateCheckBox.isChecked()) {
-//                        takeawayDateCheckBox.setChecked(false);
-//                    }
-//                    takeawayWeekCheckBox.setChecked(true);
-//                }
-//            }
-//        });
-//
-//
-//        dinnerDateCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-//                if (isChecked) {
-//                    if (dinnerWeekCheckBox.isChecked()) {
-//                        dinnerWeekCheckBox.setChecked(false);
-//                    }
-//                    dinnerDateCheckBox.setChecked(true);
-//                }
-//            }
-//        });
-//
-//
-//        dinnerWeekCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-//                if (isChecked) {
-//                    if (dinnerDateCheckBox.isChecked()) {
-//                        dinnerDateCheckBox.setChecked(false);
-//                    }
-//                    dinnerWeekCheckBox.setChecked(true);
-//                }
-//            }
-//        });
+        //        takeawayDateCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        //            @Override
+        //            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        //                if (isChecked) {
+        //                    if (takeawayWeekCheckBox.isChecked()) {
+        //                        takeawayWeekCheckBox.setChecked(false);
+        //                    }
+        //                    takeawayDateCheckBox.setChecked(true);
+        //                }
+        //            }
+        //        });
+        //
+        //        takeawayWeekCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        //            @Override
+        //            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        //                if (isChecked) {
+        //                    if (takeawayDateCheckBox.isChecked()) {
+        //                        takeawayDateCheckBox.setChecked(false);
+        //                    }
+        //                    takeawayWeekCheckBox.setChecked(true);
+        //                }
+        //            }
+        //        });
+        //
+        //
+        //        dinnerDateCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        //            @Override
+        //            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        //                if (isChecked) {
+        //                    if (dinnerWeekCheckBox.isChecked()) {
+        //                        dinnerWeekCheckBox.setChecked(false);
+        //                    }
+        //                    dinnerDateCheckBox.setChecked(true);
+        //                }
+        //            }
+        //        });
+        //
+        //
+        //        dinnerWeekCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        //            @Override
+        //            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        //                if (isChecked) {
+        //                    if (dinnerDateCheckBox.isChecked()) {
+        //                        dinnerDateCheckBox.setChecked(false);
+        //                    }
+        //                    dinnerWeekCheckBox.setChecked(true);
+        //                }
+        //            }
+        //        });
     }
 
     /**
@@ -290,9 +303,20 @@ public class InputAty extends BaseAty {
 
     @Override
     protected void requestData() {
+        getMerchantCate(this);
         if (mGoods_id != null) {
+            getGoodsSale(mGoods_id, this);
             goods_info(mGoods_id, this);
+            saleNumLayout.setVisibility(View.VISIBLE);
+            numLayout.setVisibility(View.VISIBLE);
         }
+    }
+
+    void getMerchantCate(BaseView baseView) {
+        RequestParams params = new RequestParams();
+        ApiTool2 apiTool2 = new ApiTool2();
+        params.addBodyParameter("sta_mid", mSta_mid);
+        apiTool2.postApi(Config.BASE_URL + "OsManager/getMerchantCate", params, baseView);
     }
 
     void goods_info(String goods_id, BaseView baseView) {
@@ -303,10 +327,24 @@ public class InputAty extends BaseAty {
         apiTool2.postApi(Config.BASE_URL + "OsManager/goods_info", params, baseView);
     }
 
+    void getGoodsSale(String goods_id, BaseView baseView) {
+        RequestParams params = new RequestParams();
+        ApiTool2 apiTool2 = new ApiTool2();
+        params.addBodyParameter("sta_mid", mSta_mid);
+        params.addBodyParameter("goods_id", goods_id);
+        apiTool2.postApi(Config.BASE_URL + "OsManager/getGoodsSale", params, baseView);
+    }
+
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
         Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
+        if (requestUrl.endsWith("getMerchantCate")){
+            SharedPreferencesUtils.putString(mContext,"MerchantCate",map.get("data"));
+        }
+        if (requestUrl.endsWith("getGoodsSale")) {
+            saleNumTv.setText(map.get("data"));
+        }
         if (requestUrl.endsWith("goods_info")) {
             Map<String, String> data = null;
             if (map != null) {
@@ -340,12 +378,12 @@ public class InputAty extends BaseAty {
             if (!TextUtils.isEmpty(mWeek_price)) {
                 com.alibaba.fastjson.JSONArray array = JSON.parseArray(mWeek_price);
                 if (array != null && array.size() > 0) {
-//                    takeawayWeekCheckBox.setChecked(true);
+                    //                    takeawayWeekCheckBox.setChecked(true);
                     setTakeawayWeekLayout();
                 }
             }
             if (!TextUtils.isEmpty(mTime_price)) {
-//                takeawayDateCheckBox.setChecked(true);
+                //                takeawayDateCheckBox.setChecked(true);
                 setTakeawayDateLayout();
             }
             if (JSON.parseArray(mWeek_price) != null && JSON.parseArray(mWeek_price).size() > 0 || !TextUtils.isEmpty(mTime_price)) {
@@ -355,13 +393,13 @@ public class InputAty extends BaseAty {
             if (!TextUtils.isEmpty(mChurch_week_price)) {
                 com.alibaba.fastjson.JSONArray array = JSON.parseArray(mChurch_week_price);
                 if (array != null && array.size() > 0) {
-//                    dinnerWeekCheckBox.setChecked(true);
+                    //                    dinnerWeekCheckBox.setChecked(true);
                     setDinnerWeekLayout();
                 }
             }
 
             if (!TextUtils.isEmpty(mChurch_time_price)) {
-//                dinnerDateCheckBox.setChecked(true);
+                //                dinnerDateCheckBox.setChecked(true);
                 setDinnerDateLayout();
             }
 
@@ -371,12 +409,23 @@ public class InputAty extends BaseAty {
             }
             mCate_id = data.get("cate_id");
             nameEdit.setText(data.get("name"));
-            if (data.containsKey("limit")){
-               if (TextUtils.isEmpty(data.get("limit"))){
-                   stockNumEdit.setText("不限");
-                }else{
+            if (data.containsKey("limit")) {
+                if (TextUtils.isEmpty(data.get("limit"))) {
+                    stockNumEdit.setText("不限");
+                } else {
                     stockNumEdit.setText(data.get("limit"));
                 }
+            }
+            String totalString = stockNumEdit.getText().toString();
+            String saleString = saleNumTv.getText().toString();
+            if (totalString.contains("不限")) {
+                totalString = "0";
+            }
+            int number = Integer.parseInt(totalString) - Integer.parseInt(saleString);
+            if (number <= 0) {
+                numTv.setText("不限");
+            } else {
+                numTv.setText(String.valueOf(number));
             }
 
             classifyTv.setText(data.get("cate_name"));
@@ -409,10 +458,10 @@ public class InputAty extends BaseAty {
 
             briefEdit.setText(data.get("desc"));
 
-            if (data.containsKey("status") && data.get("status").equals("3")){
+            if (data.containsKey("status") && data.get("status").equals("3")) {
                 reasonLayout.setVisibility(View.VISIBLE);
                 reasonTv.setText(data.get("examine_desc"));
-            }else {
+            } else {
                 reasonLayout.setVisibility(View.GONE);
             }
             return;
@@ -434,24 +483,24 @@ public class InputAty extends BaseAty {
         }
     }
 
-    private void setTakeawayWeekLayout(){
-        takeawayWeekLayout.setBackgroundColor(ContextCompat.getColor(mContext,R.color.line_color));
+    private void setTakeawayWeekLayout() {
+        takeawayWeekLayout.setBackgroundColor(ContextCompat.getColor(mContext, R.color.line_color));
         takeawayDateLayout.setBackgroundColor(Color.WHITE);
     }
 
-    private void setTakeawayDateLayout(){
+    private void setTakeawayDateLayout() {
         takeawayWeekLayout.setBackgroundColor(Color.WHITE);
-        takeawayDateLayout.setBackgroundColor(ContextCompat.getColor(mContext,R.color.line_color));
+        takeawayDateLayout.setBackgroundColor(ContextCompat.getColor(mContext, R.color.line_color));
     }
 
-    private void setDinnerWeekLayout(){
-        dinnerWeekLayout.setBackgroundColor(ContextCompat.getColor(mContext,R.color.line_color));
+    private void setDinnerWeekLayout() {
+        dinnerWeekLayout.setBackgroundColor(ContextCompat.getColor(mContext, R.color.line_color));
         dinnerDateLayout.setBackgroundColor(Color.WHITE);
     }
 
-    private void setDinnerDateLayout(){
+    private void setDinnerDateLayout() {
         dinnerWeekLayout.setBackgroundColor(Color.WHITE);
-        dinnerDateLayout.setBackgroundColor(ContextCompat.getColor(mContext,R.color.line_color));
+        dinnerDateLayout.setBackgroundColor(ContextCompat.getColor(mContext, R.color.line_color));
     }
 
     @Override
@@ -526,6 +575,32 @@ public class InputAty extends BaseAty {
         }
     }
 
+    public static boolean judgePrice(Context context,String s1,String s2){
+        double d1 ;
+        double d2 ;
+        boolean isHigher;
+        if (TextUtils.isEmpty(s1.toString())){
+            d1 = 0;
+        }else {
+            d1 = Double.parseDouble(s1.toString());
+        }
+        if (TextUtils.isEmpty(s2.toString())){
+            d2 = 0;
+        }else {
+            d2 = Double.parseDouble(s2.toString());
+        }
+
+        double merchantCate = Double.parseDouble(SharedPreferencesUtils.getString(context, "MerchantCate"));
+
+        if (d1 * merchantCate < d2){
+            isHigher = true;
+        }else {
+            isHigher = false;
+        }
+
+        return isHigher;
+    }
+
     private void saveData() {
         long lastClickTime = System.currentTimeMillis();
         if (lastClickTime - mFirstClickTime < 3 * 1000) {
@@ -565,6 +640,21 @@ public class InputAty extends BaseAty {
             }
         }
 
+        if (takeawayJieSuanLayout.getVisibility() == View.VISIBLE && judgePrice(mContext,takeawayPriceEdit.getText().toString(),takeawayJieSuanPriceEdit.getText().toString())){
+            showToast("外卖结算价过高");
+            return;
+        }
+
+        if (dinnerJieSuanLayout.getVisibility() == View.VISIBLE && judgePrice(mContext,dinnerPriceEdit.getText().toString(),dinnerJieSuanPriceEdit.getText().toString())){
+            showToast("堂食结算价过高");
+            return;
+        }
+
+        if (numTv.getText().toString().equals("不限")){
+            showToast("库存数量不足");
+            return;
+        }
+
         if (mGoods_id == null && file1 == null) {
             showToast("请上传商品图片");
             return;
@@ -588,10 +678,10 @@ public class InputAty extends BaseAty {
             label = 3;
         }
         addAppStageGoods(mSta_mid, mSup_type, nameEdit.getText().toString(), mCate_id, lunchBoxNumEdit.getText().toString(), mGoods_attr, mGoods_property, takeawayPriceEdit.getText().toString()
-                , dinnerPriceEdit.getText().toString(), file1, String.valueOf(label), mWeek_price, mChurch_week_price, mTime_price, mChurch_time_price, briefEdit.getText().toString(), mGoods_id, takeawayJieSuanPriceEdit.getText().toString(), dinnerJieSuanPriceEdit.getText().toString(), stockNumEdit.getText().toString(),this);
+                , dinnerPriceEdit.getText().toString(), file1, String.valueOf(label), mWeek_price, mChurch_week_price, mTime_price, mChurch_time_price, briefEdit.getText().toString(), mGoods_id, takeawayJieSuanPriceEdit.getText().toString(), dinnerJieSuanPriceEdit.getText().toString(), stockNumEdit.getText().toString(), this);
     }
 
-    void addAppStageGoods(String sta_mid, String sup_type, String name, String cate_id, String boxware, String goods_attr, String goods_property, String shop_price, String church_shop_price, File pic, String label, String week_price, String church_week_price, String time_price, String church_time_price, String desc, String goods_id, String shop_jiesuan_price, String church_jiesuan_shop_price,String limit, BaseView baseView) {
+    void addAppStageGoods(String sta_mid, String sup_type, String name, String cate_id, String boxware, String goods_attr, String goods_property, String shop_price, String church_shop_price, File pic, String label, String week_price, String church_week_price, String time_price, String church_time_price, String desc, String goods_id, String shop_jiesuan_price, String church_jiesuan_shop_price, String limit, BaseView baseView) {
         RequestParams params = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
         params.addBodyParameter("sta_mid", sta_mid);
@@ -617,7 +707,7 @@ public class InputAty extends BaseAty {
         }
         params.addBodyParameter("shop_jiesuan_price", shop_jiesuan_price);
         params.addBodyParameter("church_jiesuan_shop_price", church_jiesuan_shop_price);
-        if (!TextUtils.isEmpty(limit)){
+        if (!TextUtils.isEmpty(limit)) {
             params.addBodyParameter("limit", limit);
         }
         apiTool2.postApi(Config.BASE_URL + "OsManager/addAppStageGoods", params, baseView);
@@ -970,13 +1060,13 @@ public class InputAty extends BaseAty {
             String type = split[0];
             if (type.equals("takeaway")) {
                 mTime_price = split[1];
-//                takeawayWeekCheckBox.setChecked(false);
-//                takeawayDateCheckBox.setChecked(true);
+                //                takeawayWeekCheckBox.setChecked(false);
+                //                takeawayDateCheckBox.setChecked(true);
                 setTakeawayDateLayout();
             } else if (type.equals("dinner")) {
                 mChurch_time_price = split[1];
-//                dinnerWeekCheckBox.setChecked(false);
-//                dinnerDateCheckBox.setChecked(true);
+                //                dinnerWeekCheckBox.setChecked(false);
+                //                dinnerDateCheckBox.setChecked(true);
                 setDinnerDateLayout();
             }
 
@@ -986,13 +1076,13 @@ public class InputAty extends BaseAty {
             String type = split[0];
             if (type.equals("takeaway")) {
                 mWeek_price = split[1];
-//                takeawayWeekCheckBox.setChecked(true);
-//                takeawayDateCheckBox.setChecked(false);
+                //                takeawayWeekCheckBox.setChecked(true);
+                //                takeawayDateCheckBox.setChecked(false);
                 setTakeawayWeekLayout();
             } else if (type.equals("dinner")) {
                 mChurch_week_price = split[1];
-//                dinnerWeekCheckBox.setChecked(true);
-//                dinnerDateCheckBox.setChecked(false);
+                //                dinnerWeekCheckBox.setChecked(true);
+                //                dinnerDateCheckBox.setChecked(false);
                 setDinnerWeekLayout();
             }
 

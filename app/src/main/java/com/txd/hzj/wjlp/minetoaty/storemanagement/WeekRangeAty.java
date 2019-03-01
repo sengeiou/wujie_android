@@ -16,6 +16,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import static com.txd.hzj.wjlp.minetoaty.storemanagement.InputAty.judgePrice;
+
 /**
  * 创建者：zhangyunfei
  * 创建时间：2019/1/14 9:46
@@ -149,24 +151,52 @@ public class WeekRangeAty extends BaseAty {
                         if (i == 0){
                             jsonObject.put("price",salePriceEdit1.getText().toString());
                             jsonObject.put("jiesuan_price",balancePriceEdit1.getText().toString());
+                            if (judgePrice(mContext, salePriceEdit1.getText().toString(), balancePriceEdit1.getText().toString())) {
+                                showToast("星期一结算价过高");
+                                return;
+                            }
                         }else if (i==1){
                             jsonObject.put("price",salePriceEdit2.getText().toString());
                             jsonObject.put("jiesuan_price",balancePriceEdit2.getText().toString());
+                            if (judgePrice(mContext, salePriceEdit2.getText().toString(), balancePriceEdit2.getText().toString())) {
+                                showToast("星期二结算价过高");
+                                return;
+                            }
                         }else if (i==2){
                             jsonObject.put("price",salePriceEdit3.getText().toString());
                             jsonObject.put("jiesuan_price",balancePriceEdit3.getText().toString());
+                            if (judgePrice(mContext, salePriceEdit3.getText().toString(), balancePriceEdit3.getText().toString())) {
+                                showToast("星期三结算价过高");
+                                return;
+                            }
                         }else if (i==3){
                             jsonObject.put("price",salePriceEdit4.getText().toString());
                             jsonObject.put("jiesuan_price",balancePriceEdit4.getText().toString());
+                            if (judgePrice(mContext, salePriceEdit4.getText().toString(), balancePriceEdit4.getText().toString())) {
+                                showToast("星期四结算价过高");
+                                return;
+                            }
                         }else if (i==4){
                             jsonObject.put("price",salePriceEdit5.getText().toString());
                             jsonObject.put("jiesuan_price",balancePriceEdit5.getText().toString());
+                            if (judgePrice(mContext, salePriceEdit5.getText().toString(), balancePriceEdit5.getText().toString())) {
+                                showToast("星期五结算价过高");
+                                return;
+                            }
                         }else if (i==5){
                             jsonObject.put("price",salePriceEdit6.getText().toString());
                             jsonObject.put("jiesuan_price",balancePriceEdit6.getText().toString());
+                            if (judgePrice(mContext, salePriceEdit6.getText().toString(), balancePriceEdit6.getText().toString())) {
+                                showToast("星期六结算价过高");
+                                return;
+                            }
                         }else if (i==6){
                             jsonObject.put("price",salePriceEdit7.getText().toString());
                             jsonObject.put("jiesuan_price",balancePriceEdit7.getText().toString());
+                            if (judgePrice(mContext, salePriceEdit7.getText().toString(), balancePriceEdit7.getText().toString())) {
+                                showToast("星期天结算价过高");
+                                return;
+                            }
                         }
                         jsonArray.put(jsonObject);
                     }

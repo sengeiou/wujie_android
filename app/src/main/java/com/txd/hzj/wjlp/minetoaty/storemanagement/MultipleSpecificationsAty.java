@@ -43,6 +43,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import static com.txd.hzj.wjlp.minetoaty.storemanagement.InputAty.judgePrice;
+
 /**
  * 创建者：zhangyunfei
  * 创建时间：2019/1/8 17:01
@@ -288,6 +290,10 @@ public class MultipleSpecificationsAty extends BaseAty {
                             String jiesuan_price = maps.get(i).get("jiesuan_price");
                             if (TextUtils.isEmpty(name) ||TextUtils.isEmpty(price) ||TextUtils.isEmpty(jiesuan_price)){
                                 arrayList.add(maps.get(i));
+                            }
+                            if (judgePrice(mContext, price, jiesuan_price)) {
+                                showToast("规格"+(i+1)+"结算价过高");
+                                return;
                             }
                         }
                         if (arrayList.size()>0){
