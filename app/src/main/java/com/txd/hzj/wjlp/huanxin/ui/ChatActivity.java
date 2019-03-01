@@ -28,7 +28,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * 作者：DUKE_HwangZj
@@ -43,8 +42,6 @@ public class ChatActivity extends BaseActivity {
     public String toChatUsername;
     private EaseUI easeUI;
     private EMMessageListener messageListener;
-    private String mSta_mid;
-    private Map<String, String> map;
 
     @Override
     protected void onCreate(Bundle arg0) {
