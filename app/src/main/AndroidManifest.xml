@@ -1011,7 +1011,9 @@
         <activity android:name=".minetoaty.friendsofmerchant.ScreeningResultAty" />
         <activity android:name=".minetoaty.friendsofmerchant.GroupManagementAty" />
         <activity android:name=".minetoaty.friendsofmerchant.GroupManageDetailsAty" />
-        <activity android:name=".minetoaty.friendsofmerchant.NotAddFriendAty" />>
+        <activity android:name=".minetoaty.friendsofmerchant.NotAddFriendAty" />
+        <activity android:name=".clearinventory.ClearInventoryAty" />
+        <activity android:name=".clearinventory.ConsignmentAty" />>
     </application>
 
 </manifest>
