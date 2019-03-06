@@ -34,6 +34,7 @@ public class PlayerPeopleListActivity extends BaseAty {
 
     @Override
     protected void initialized() {
+        showStatusBar(R.id.activityList_show_inc);
         titleView_title_tv.setText("玩家列表");
         initShowData();
     }

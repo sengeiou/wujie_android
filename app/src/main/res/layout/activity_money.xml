@@ -6,7 +6,8 @@
     android:background="#F4F4F4"
     android:orientation="vertical">
 
-    <include layout="@layout/view_title" />
+    <include
+        layout="@layout/view_title" />
 
     <ScrollView
         android:layout_width="match_parent"

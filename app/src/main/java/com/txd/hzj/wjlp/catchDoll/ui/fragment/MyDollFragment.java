@@ -62,56 +62,35 @@ public class MyDollFragment extends BaseFgt {
     protected void immersionInit() {
     }
 
-    //    private void initData(List<MyDollBean> myDollBeans) {
-//        list = myDollBeans;
-    private void initData() {
-        list = new ArrayList<>();
-        MyDollBean myDollBean;
-        for (int i = 0; i < 20; i++) {
-            myDollBean = new MyDollBean();
-            myDollBean.setDollImageUrl("http://img4.duitang.com/uploads/item/201407/26/20140726141237_32faQ.png");
-            myDollBean.setMaturityTime(90000);
-            myDollBean.setName("那啥那啥啥娃娃");
-            myDollBean.setTime(System.currentTimeMillis());
-            myDollBean.setConvertible(8);
-            // 在详情页中需要使用
-            myDollBean.setUserHeader("http://img4.duitang.com/uploads/item/201407/26/20140726141237_32faQ.png");
-            myDollBean.setUserNickName("用户名称");
-            myDollBean.setDepositStatus("寄存中");
-            myDollBean.setRoomId(121);
-            myDollBean.setRoomName("房间名称");
-            myDollBean.setRoomNumber("121");
-            list.add(myDollBean);
-        }
-        MyDollItemAdapter adapter = new MyDollItemAdapter(list, type, getActivity());
-        myDollPage_list_rlView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
-        myDollPage_list_rlView.setNestedScrollingEnabled(false); // 重新设置外层Scroll滑动阻尼效果
-        myDollPage_list_rlView.setAdapter(adapter);
-
-    }
 
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
         try {
             JSONObject jsonObject = new JSONObject(jsonStr);
-//            if (requestUrl.contains("myList")) { // TODO 此处还存在一些问题，寄存的为商品，MyDoll中属性都有，但是待邮寄，已发货和已兑换是订单，没办法按照寄存的处理
-//                JSONObject jsonData = jsonObject.getJSONObject("data");
-//                JSONArray jsonArrrayDeposit = jsonData.getJSONArray("deposit");
-//                List<MyDollBean> myDollBeanList = new ArrayList<>();
-//                for (int i = 0; i < jsonArrrayDeposit.length(); i++) {
-//                    JSONObject jsonObject1 = jsonArrrayDeposit.getJSONObject(i);
-//                    MyDollBean myDollBean = GsonUtil.GsonToBean(jsonObject1.toString(), MyDollBean.class);
-//                    myDollBeanList.add(myDollBean);
-//                }
-//                initData(myDollBeanList);
-            initData();
-//
-//                if (jsonData.has("details") && !jsonData.getString("details").isEmpty()) {
-//                    myDollPage_prompt_llayout.setVisibility(View.VISIBLE); // 如果提示字段存在并且不为空则显示温馨提示
-//                    myDollPage_prompt_tv.setText(jsonData.getString("details")); // 设置显示内容
-//                }
-//            }
+            if (requestUrl.endsWith("Mylist")) { // TODO 此处还存在一些问题，寄存的为商品，MyDoll中属性都有，但是待邮寄，已发货和已兑换是订单，没办法按照寄存的处理
+                JSONObject jsonData = jsonObject.getJSONObject("data");
+                JSONArray jsonArrrayDeposit = jsonData.getJSONArray("deposit");
+                List<MyDollBean> myDollBeanList = new ArrayList<>();
+                for (int i = 0; i < jsonArrrayDeposit.length(); i++) {
+                    JSONObject jsonObject1 = jsonArrrayDeposit.getJSONObject(i);
+                    MyDollBean myDollBean = GsonUtil.GsonToBean(jsonObject1.toString(), MyDollBean.class);
+                    myDollBeanList.add(myDollBean);
+                }
+                list = myDollBeanList;
+                if (list != null && list.size()>0){
+                    MyDollItemAdapter adapter = new MyDollItemAdapter(list, type, getActivity());
+                    myDollPage_list_rlView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+                    myDollPage_list_rlView.setNestedScrollingEnabled(false); // 重新设置外层Scroll滑动阻尼效果
+                    myDollPage_list_rlView.setAdapter(adapter);
+                }
+
+
+                if (jsonData.has("details") && !jsonData.getString("details").isEmpty()) {
+                    myDollPage_prompt_llayout.setVisibility(View.VISIBLE); // 如果提示字段存在并且不为空则显示温馨提示
+                    myDollPage_prompt_tv.setText(jsonData.getString("details")); // 设置显示内容
+                }
+            }
 
         } catch (JSONException e) {
             e.printStackTrace();

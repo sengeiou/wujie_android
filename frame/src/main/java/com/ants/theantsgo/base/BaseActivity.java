@@ -492,7 +492,7 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
     }
 
     // =======提示框，并非Dialog================ToastTip===========
-    protected void showToast(String text) {
+    public void showToast(String text) {
 
         if (toast == null) {
             toast = Toast.makeText(this, text, Toast.LENGTH_SHORT);

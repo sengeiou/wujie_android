@@ -1,6 +1,5 @@
 package com.txd.hzj.wjlp.catchDoll.adapter;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -52,8 +51,9 @@ public class MyDollItemAdapter extends RecyclerView.Adapter<MyDollItemAdapter.Vi
         GlideUtils.loadUrlImg(context, myDollBean.getDollImageUrl(), holder.itemMyDoll_image_imgv);
         holder.itemMyDoll_maturity_cdv.start(myDollBean.getMaturityTime());
         holder.itemMyDoll_name_tv.setText(myDollBean.getName());
+        holder.itemMyDoll_num_tv.setText(myDollBean.getGraspingNum()+"/"+myDollBean.getCatcherNum());
         holder.itemMyDoll_time_tv.setText(Util.millis2String(myDollBean.getTime(), "yyyy.MM.dd HH:mm:ss"));
-        holder.itemMyDoll_convertible_tv.setText(new StringBuffer().append("可兑换银两").append(myDollBean.getConvertible()));
+        holder.itemMyDoll_convertible_tv.setText(new StringBuffer().append("可兑换银两").append(myDollBean.getExchange_price()));
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,6 +77,7 @@ public class MyDollItemAdapter extends RecyclerView.Adapter<MyDollItemAdapter.Vi
         ImageView itemMyDoll_image_imgv;
         CountdownView itemMyDoll_maturity_cdv;
         TextView itemMyDoll_name_tv;
+        TextView itemMyDoll_num_tv;
         TextView itemMyDoll_time_tv;
         TextView itemMyDoll_convertible_tv;
 
@@ -85,6 +86,7 @@ public class MyDollItemAdapter extends RecyclerView.Adapter<MyDollItemAdapter.Vi
             itemMyDoll_image_imgv = itemView.findViewById(R.id.itemMyDoll_image_imgv);
             itemMyDoll_maturity_cdv = itemView.findViewById(R.id.itemMyDoll_maturity_cdv);
             itemMyDoll_name_tv = itemView.findViewById(R.id.itemMyDoll_name_tv);
+            itemMyDoll_num_tv = itemView.findViewById(R.id.itemMyDoll_num_tv);
             itemMyDoll_time_tv = itemView.findViewById(R.id.itemMyDoll_time_tv);
             itemMyDoll_convertible_tv = itemView.findViewById(R.id.itemMyDoll_convertible_tv);
         }

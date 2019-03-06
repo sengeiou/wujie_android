@@ -20,19 +20,18 @@ import org.json.JSONObject;
  * 创建时间：2019/3/4 14:20
  * 功能描述：
  */
-public class StartWork {
+public class EnterRoom {
     private SockAPP sendThread;
     private String inRoomNumber; // 点击房间的房间号
     private String inRoomMac; // 点击房间的Mac地址
     private BaseAty mActivity;
     private String playerUrl1, playerUrl2;
 
-    public StartWork( String inRoomNumber, String inRoomMac, BaseAty activity, String playerUrl1, String playerUrl2) {
+
+    public EnterRoom(String inRoomNumber, String inRoomMac,BaseAty activity) {
         this.inRoomNumber = inRoomNumber;
         this.inRoomMac = inRoomMac;
         mActivity = activity;
-        this.playerUrl1 = playerUrl1;
-        this.playerUrl2 = playerUrl2;
         sendThread = new SockAPP();
         sendThread.StartWokring(handler, Constant.SERVER_IP, Constant.SERVER_PORT);
         Constant.SOCK_APP = sendThread;

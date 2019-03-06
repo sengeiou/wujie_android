@@ -6,7 +6,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ants.theantsgo.tool.glide.GlideUtils;
-import com.ants.theantsgo.util.TimeUtils;
+import com.ants.theantsgo.util.JSONUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
@@ -15,10 +15,9 @@ import com.txd.hzj.wjlp.catchDoll.bean.MyDollBean;
 import com.txd.hzj.wjlp.catchDoll.ui.dialog.MessageDialog;
 import com.txd.hzj.wjlp.catchDoll.ui.dialog.RedemptionResultDialog;
 import com.txd.hzj.wjlp.catchDoll.util.Util;
+import com.txd.hzj.wjlp.http.catchDoll.Catcher;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
+import java.util.Map;
 
 /**
  * 创建者：voodoo_jie
@@ -47,6 +46,12 @@ public class DollGoodsInfoActivity extends BaseAty {
     @ViewInject(R.id.dollGoodsInfo_roomNumber_tv)
     public TextView dollGoodsInfo_roomNumber_tv;
 
+    @ViewInject(R.id.dollGoodsInfo_redeemGoods_tv)
+    public TextView dollGoodsInfo_redeemGoods_tv;
+
+    @ViewInject(R.id.dollGoodsInfo_redeemSilver_tv)
+    public TextView dollGoodsInfo_redeemSilver_tv;
+
     private MyDollBean myDollBean; // 我的娃娃对象
 
     @Override
@@ -56,6 +61,7 @@ public class DollGoodsInfoActivity extends BaseAty {
 
     @Override
     protected void initialized() {
+        showStatusBar(R.id.titleView_bg_rlayout);
         titleView_title_tv.setText("商品详情");
 
         myDollBean = (MyDollBean) getIntent().getExtras().getSerializable("MyDollBean");
@@ -70,7 +76,20 @@ public class DollGoodsInfoActivity extends BaseAty {
         dollGoodsInfo_userName_tv.setText(myDollBean.getUserNickName()); // 玩家昵称
         dollGoodsInfo_goodsType_tv.setText(myDollBean.getDepositStatus()); // 寄存状态
         dollGoodsInfo_roomName_tv.setText(myDollBean.getRoomName()); // 房间名称
-        dollGoodsInfo_roomNumber_tv.setText(myDollBean.getRoomNumber()); // 房间号
+        dollGoodsInfo_roomNumber_tv.setText(String.valueOf(myDollBean.getRoomId())); // 房间号
+
+
+        if (myDollBean.getCoinStatus().equals("1")){
+            dollGoodsInfo_redeemSilver_tv.setVisibility(View.VISIBLE);
+        }else {
+            dollGoodsInfo_redeemSilver_tv.setVisibility(View.GONE);
+        }
+
+        if (myDollBean.getGoodsStatus().equals("1")){
+            dollGoodsInfo_redeemGoods_tv.setVisibility(View.VISIBLE);
+        }else {
+            dollGoodsInfo_redeemGoods_tv.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -105,11 +124,23 @@ public class DollGoodsInfoActivity extends BaseAty {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 // TODO 请求兑换银两接口
-                                new RedemptionResultDialog.Builder(DollGoodsInfoActivity.this).setMoneyStr(String.valueOf(myDollBean.getConvertible())).create().show();
+                                Catcher.exchangeCoin(String.valueOf(myDollBean.getRoomId()),"1",DollGoodsInfoActivity.this);
+
                             }
                         })
                         .setOnNegativeBtnClickListener("取消", null).create().show();
                 break;
+        }
+    }
+
+
+    @Override
+    public void onComplete(String requestUrl, String jsonStr) {
+        super.onComplete(requestUrl, jsonStr);
+        Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
+        if (requestUrl.endsWith("exchangeCoin")){
+            Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
+            new RedemptionResultDialog.Builder(DollGoodsInfoActivity.this).setMoneyStr(data.get("coin")).create().show();
         }
     }
 }

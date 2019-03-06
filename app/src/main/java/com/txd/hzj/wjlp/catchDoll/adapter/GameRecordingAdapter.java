@@ -43,18 +43,19 @@ public class GameRecordingAdapter extends RecyclerView.Adapter<GameRecordingAdap
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        GameRecordingBean gameRecordingBean = list.get(position);
+        final GameRecordingBean gameRecordingBean = list.get(position);
 
-//        GlideUtils.urlCirclePicNoBg(gameRecordingBean.getHeaderUrl(), 46, 46, holder.header_imgv);
-//        holder.name_tv.setText(gameRecordingBean.getNickname());
-//        holder.time_tv.setText(Util.millis2String(Long.parseLong(gameRecordingBean.getCreate_time()), "yyyy-MM-dd HH:mm"));
-//        holder.type_tv.setText((gameRecordingBean.getType() == 0) ? "抓取失败" : "抓取成功");
-//        holder.type_tv.setTextColor((gameRecordingBean.getType() == 0) ? Color.parseColor("#999999") : Color.parseColor("#F54697"));
+        GlideUtils.urlCirclePicNoBg(gameRecordingBean.getRoom_pic(), 46, 46, holder.header_imgv);
+        holder.name_tv.setText(gameRecordingBean.getName());
+        holder.time_tv.setText(Util.millis2String(Long.parseLong(gameRecordingBean.getUpdate_time())*1000, "yyyy-MM-dd HH:mm"));
+        holder.type_tv.setText((gameRecordingBean.getMode().equals("1") ) ? "抓取成功" : "抓取失败");
+        holder.type_tv.setTextColor((gameRecordingBean.getMode().equals("1")) ? Color.parseColor("#F54697") : Color.parseColor("#999999"));
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, GameRecordingInfoActivity.class);
+                intent.putExtra("GameRecordingAdapter",gameRecordingBean);
                 context.startActivity(intent);
             }
         });

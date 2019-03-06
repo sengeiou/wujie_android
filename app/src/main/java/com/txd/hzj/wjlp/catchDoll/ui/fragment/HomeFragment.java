@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.ants.theantsgo.gson.GsonUtil;
 import com.ants.theantsgo.tool.glide.GlideUtils;
+import com.ants.theantsgo.util.JSONUtils;
 import com.ants.theantsgo.util.L;
 import com.bumptech.glide.Glide;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -30,7 +31,6 @@ import com.txd.hzj.wjlp.base.BaseFgt;
 import com.txd.hzj.wjlp.catchDoll.adapter.HomeBannerViewHolder;
 import com.txd.hzj.wjlp.catchDoll.adapter.RoomListAdapter;
 import com.txd.hzj.wjlp.catchDoll.bean.HomeBannerBean;
-import com.txd.hzj.wjlp.catchDoll.bean.HomeFragmentBean;
 import com.txd.hzj.wjlp.catchDoll.bean.HomeVictoryBean;
 import com.txd.hzj.wjlp.catchDoll.bean.RoomBean;
 import com.txd.hzj.wjlp.catchDoll.bean.SignInPrizeBean;
@@ -56,6 +56,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 创建者：voodoo_jie
@@ -102,6 +103,7 @@ public class HomeFragment extends BaseFgt implements RoomListAdapter.OnRoomItemC
     private String inRoomMac; // 点击房间的Mac地址
     private LuckMonkeyDialog.Builder luckMonkeyDialogBuilder;
     private int remainingNumber; // 剩余签到次数
+    private ArrayList<Map<String, String>> mSxArray;
 
     @Override
     protected int getLayoutResId() {
@@ -229,24 +231,54 @@ public class HomeFragment extends BaseFgt implements RoomListAdapter.OnRoomItemC
                 getActivity().finish();
                 break;
             case R.id.homeFgt_newOnline_llayout: // 新品上线
-                bundle.putInt("type", 1);
-                startActivity(NewOnlineActivity.class, bundle);
+                if (mSxArray != null && mSxArray.size()>=1){
+                    bundle.putInt("type", 1);
+                    bundle.putString("clumn",mSxArray.get(0).get("clumn"));
+                    bundle.putString("status",mSxArray.get(0).get("status"));
+                    startActivity(NewOnlineActivity.class, bundle);
+                }else {
+                    showToast("暂无数据");
+                }
                 break;
             case R.id.homeFgt_boutique_llayout: // 高价精品
-                bundle.putInt("type", 2);
-                startActivity(NewOnlineActivity.class, bundle);
+                if (mSxArray != null && mSxArray.size()>=2){
+                    bundle.putInt("type", 2);
+                    bundle.putString("clumn",mSxArray.get(1).get("clumn"));
+                    bundle.putString("status",mSxArray.get(1).get("status"));
+                    startActivity(NewOnlineActivity.class, bundle);
+                }else {
+                    showToast("暂无数据");
+                }
                 break;
             case R.id.homeFgt_justLove_llayout: // 只爱娃娃
-                bundle.putInt("type", 3);
-                startActivity(NewOnlineActivity.class, bundle);
+                if (mSxArray != null && mSxArray.size()>=3){
+                    bundle.putInt("type",3);
+                    bundle.putString("clumn",mSxArray.get(2).get("clumn"));
+                    bundle.putString("status",mSxArray.get(2).get("status"));
+                    startActivity(NewOnlineActivity.class, bundle);
+                }else {
+                    showToast("暂无数据");
+                }
                 break;
             case R.id.homeFgt_girlArea_llayout: // 美女专场
-                bundle.putInt("type", 4);
-                startActivity(NewOnlineActivity.class, bundle);
+                if (mSxArray != null && mSxArray.size()>=4){
+                    bundle.putInt("type", 4);
+                    bundle.putString("clumn",mSxArray.get(3).get("clumn"));
+                    bundle.putString("status",mSxArray.get(3).get("status"));
+                    startActivity(NewOnlineActivity.class, bundle);
+                }else {
+                    showToast("暂无数据");
+                }
                 break;
             case R.id.homeFgt_practicalArea_llayout: // 实用专区
-                bundle.putInt("type", 5);
-                startActivity(NewOnlineActivity.class, bundle);
+                if (mSxArray != null && mSxArray.size()>=5){
+                    bundle.putInt("type", 5);
+                    bundle.putString("clumn",mSxArray.get(4).get("clumn"));
+                    bundle.putString("status",mSxArray.get(4).get("status"));
+                    startActivity(NewOnlineActivity.class, bundle);
+                }else {
+                    showToast("暂无数据");
+                }
                 break;
         }
     }
@@ -453,6 +485,9 @@ public class HomeFragment extends BaseFgt implements RoomListAdapter.OnRoomItemC
                 if (isNew) { // 是新人
                     showNewcomer(newPeople.getString("rewardStr"));
                 }
+
+                mSxArray = JSONUtils.parseKeyAndValueToMapList(dataJson.getString("sx"));
+
                 return;
             }
 

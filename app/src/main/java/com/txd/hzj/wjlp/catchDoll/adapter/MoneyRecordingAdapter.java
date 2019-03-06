@@ -12,7 +12,6 @@ import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.catchDoll.bean.MoneyRecordingBean;
 import com.txd.hzj.wjlp.catchDoll.util.Util;
 
-import java.text.DecimalFormat;
 import java.util.List;
 
 /**
@@ -24,12 +23,10 @@ public class MoneyRecordingAdapter extends RecyclerView.Adapter<MoneyRecordingAd
 
     private Context context;
     private List<MoneyRecordingBean> list;
-    private int type; // 1+ 2- 数据加减号
 
-    public MoneyRecordingAdapter(Context context, List<MoneyRecordingBean> list, int type) {
+    public MoneyRecordingAdapter(Context context, List<MoneyRecordingBean> list) {
         this.context = context;
         this.list = list;
-        this.type = type;
     }
 
     @NonNull
@@ -45,7 +42,7 @@ public class MoneyRecordingAdapter extends RecyclerView.Adapter<MoneyRecordingAd
 
         holder.itemMoneyRecording_content_tv.setText(moneyRecordingBean.getDesc());
         holder.itemMoneyRecording_time_tv.setText(Util.millis2String(moneyRecordingBean.getCreate_time(), "yyyy-MM-dd HH:mm:ss"));
-        holder.itemMoneyRecording_price_tv.setText(new StringBuffer().append(type == 1 ? "+" : "-").append(moneyRecordingBean.getMoney()));
+        holder.itemMoneyRecording_price_tv.setText(new StringBuffer().append(moneyRecordingBean.getSub_type().equals("1") ? "+" : "-").append(moneyRecordingBean.getMoney()));
     }
 
     @Override

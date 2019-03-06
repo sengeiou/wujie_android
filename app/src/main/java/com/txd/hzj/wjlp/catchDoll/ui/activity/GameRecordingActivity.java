@@ -1,6 +1,7 @@
 package com.txd.hzj.wjlp.catchDoll.ui.activity;
 
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -9,7 +10,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ants.theantsgo.gson.GsonUtil;
-import com.ants.theantsgo.util.L;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -53,7 +53,7 @@ public class GameRecordingActivity extends BaseAty {
     private List<GameRecordingBean> list;
 
     private int page = 1; // 当前分页
-    private int per = 0; // 每页条数
+    private int per = 10; // 每页条数
     private GameRecordingAdapter adapter;
 
     @Override
@@ -63,6 +63,7 @@ public class GameRecordingActivity extends BaseAty {
 
     @Override
     protected void initialized() {
+        showStatusBar(R.id.activityList_show_inc);
         titleView_title_tv.setText("游戏记录");
     }
 
@@ -71,6 +72,7 @@ public class GameRecordingActivity extends BaseAty {
 
         Catcher.getCatchersLogs(page, per, this);
 
+        list_smartRefresh_llayout.setBackgroundColor(ContextCompat.getColor(this,R.color.line_color));
         list_smartRefresh_llayout.setEnableAutoLoadMore(false); // 是否启用列表惯性滑动到底部时自动加载更多
         list_smartRefresh_llayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
@@ -91,7 +93,12 @@ public class GameRecordingActivity extends BaseAty {
 
     }
 
-    private void setGameRecordingList(List<GameRecordingBean> list) {
+    private void setGameRecordingList(List<GameRecordingBean> data) {
+        if (page == 1) {
+            this.list = data;
+        } else {
+            this.list.addAll(data);
+        }
         if (list.size() <= 0) {
             if (page <= 1) { // 第一页数据为空
                 showNullData(list_smartRefresh_llayout, list_nullData_llayout, list_nullDataImg_imgv, list_nullDataMsg_tv, R.mipmap.icon_money_recording_null, "暂无数据");
@@ -99,16 +106,12 @@ public class GameRecordingActivity extends BaseAty {
                 showToast("没有更多数据了！");
             }
             return;
+        }else {
+            adapter = new GameRecordingAdapter(list, this);
+            list_show_reView.setLayoutManager(new LinearLayoutManager(this));
+            list_show_reView.setAdapter(adapter);
         }
-        if (page <= 1) {
-            this.list = list;
-        } else {
-            this.list.addAll(list);
-        }
-        adapter.notifyDataSetChanged();
-        adapter = new GameRecordingAdapter(list, this);
-        list_show_reView.setLayoutManager(new LinearLayoutManager(this));
-        list_show_reView.setAdapter(adapter);
+
     }
 
     @OnClick({R.id.titleView_goback_imgv})

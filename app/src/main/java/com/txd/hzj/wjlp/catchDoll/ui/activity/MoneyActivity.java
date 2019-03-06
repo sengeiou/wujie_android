@@ -19,8 +19,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ants.theantsgo.config.Settings;
-import com.ants.theantsgo.payByThirdParty.AliPay;
-import com.ants.theantsgo.payByThirdParty.aliPay.AliPayCallBack;
 import com.ants.theantsgo.util.L;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
@@ -33,13 +31,11 @@ import com.txd.hzj.wjlp.http.catchDoll.Catcher;
 import com.txd.hzj.wjlp.http.user.User;
 import com.txd.hzj.wjlp.minetoaty.setting.EditPayPasswordAty;
 import com.txd.hzj.wjlp.tool.CommonPopupWindow;
-import com.txd.hzj.wjlp.wxapi.GetPrepayIdTask;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.BreakIterator;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -100,6 +96,7 @@ public class MoneyActivity extends BaseAty implements RecargeAdapter.OnSelectCha
 
     @Override
     protected void initialized() {
+        showStatusBar(R.id.titleView_bg_rlayout);
         titleView_bg_rlayout.setBackgroundColor(getResources().getColor(R.color.white));
         titleView_goback_imgv.setImageResource(R.mipmap.icon_be_back_b);
         titleView_title_tv.setTextColor(getResources().getColor(R.color.black));

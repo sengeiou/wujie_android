@@ -113,7 +113,7 @@ public class MoneyRecordingFragment extends BaseFgt {
             showNullData(list_nullData_llayout, list_nullData_llayout, list_nullDataImg_imgv, list_nullDataMsg_tv, R.mipmap.icon_money_recording_null, "暂无银两记录哦~");
             return;
         }
-        MoneyRecordingAdapter adapter = new MoneyRecordingAdapter(getActivity(), list, type);
+        MoneyRecordingAdapter adapter = new MoneyRecordingAdapter(getActivity(), list);
         list_show_reView.setLayoutManager(new LinearLayoutManager(getActivity()));
         list_show_reView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL)); // 添加默认分割线
         list_show_reView.setAdapter(adapter);

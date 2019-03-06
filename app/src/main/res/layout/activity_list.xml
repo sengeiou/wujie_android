@@ -3,14 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <include
         android:id="@+id/activityList_show_inc"
         layout="@layout/view_title" />
 
-    <com.scwang.smartrefresh.layout.SmartRefreshLayout xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
         android:id="@+id/list_smartRefresh_llayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

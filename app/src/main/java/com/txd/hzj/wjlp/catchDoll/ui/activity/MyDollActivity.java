@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.ants.theantsgo.gson.GsonUtil;
 import com.ants.theantsgo.tool.glide.GlideUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
@@ -53,6 +52,7 @@ public class MyDollActivity extends BaseAty {
 
     @Override
     protected void initialized() {
+        showStatusBar(R.id.titleView_bg_rlayout);
         titleView_title_tv.setText("我的娃娃");
     }
 

@@ -42,6 +42,7 @@ public class OnePeoplesDollActivity extends BaseAty {
 
     @Override
     protected void initialized() {
+        showStatusBar(R.id.titleView_bg_rlayout);
         titleView_title_tv.setText("TA的娃娃");
         GlideUtils.urlCirclePicNoBg("http://h.hiphotos.baidu.com/zhidao/pic/item/060828381f30e92487ee73f74e086e061c95f7aa.jpg", 43, 43, onePropleDoll_header_imgv);
         onePropleDoll_name_tv.setText("会飞的鱼");

@@ -23,6 +23,58 @@ public class MyDollBean implements Serializable {
     private String roomName; // 房间名称
     private String roomNumber; // 房间编号
 
+    private String coinStatus;  //兑换银两按钮  0 不显示  1 显示
+
+    private String goodsStatus; //兑换商品按钮  0 不显示  1 显示
+
+    private String catcherNum; //兑换商品需要的数量
+
+    private String GraspingNum; //用户已抓取到数量
+
+
+    private String exchange_price;
+
+
+    public String getExchange_price() {
+        return exchange_price;
+    }
+
+    public void setExchange_price(String exchange_price) {
+        this.exchange_price = exchange_price;
+    }
+
+    public String getCoinStatus() {
+        return coinStatus;
+    }
+
+    public void setCoinStatus(String coinStatus) {
+        this.coinStatus = coinStatus;
+    }
+
+    public String getGoodsStatus() {
+        return goodsStatus;
+    }
+
+    public void setGoodsStatus(String goodsStatus) {
+        this.goodsStatus = goodsStatus;
+    }
+
+    public String getCatcherNum() {
+        return catcherNum;
+    }
+
+    public void setCatcherNum(String catcherNum) {
+        this.catcherNum = catcherNum;
+    }
+
+    public String getGraspingNum() {
+        return GraspingNum;
+    }
+
+    public void setGraspingNum(String graspingNum) {
+        GraspingNum = graspingNum;
+    }
+
     public int getId() {
         return id;
     }

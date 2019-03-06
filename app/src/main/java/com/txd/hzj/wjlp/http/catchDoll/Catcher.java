@@ -124,29 +124,14 @@ public class Catcher {
     /**
      * 申诉
      *
-     * @param user_id       用户id
-     * @param cid           娃娃机id
-     * @param goods_id      娃娃机奖品id
-     * @param status        记录状态（0正常 1已使用 9删除）
-     * @param create_time   创建时间
-     * @param update_time   修改时间
-     * @param appeal        申诉理由
-     * @param appeal_reason 申诉原因
-     * @param mode          是否抓中（0抓中 1未抓中）
      * @param baseView      回调
      */
-    public static void appeal(int user_id, int cid, int goods_id, int status, int create_time, int update_time, int appeal, String appeal_reason, int mode, BaseView baseView) {
+    public static void appeal(String id, String type, String reason, BaseView baseView) {
         ApiTool2 apiTool2 = new ApiTool2();
         RequestParams params = new RequestParams();
-        params.addBodyParameter("user_id", String.valueOf(user_id));
-        params.addBodyParameter("cid", String.valueOf(cid));
-        params.addBodyParameter("goods_id", String.valueOf(goods_id));
-        params.addBodyParameter("status", String.valueOf(status));
-        params.addBodyParameter("create_time", String.valueOf(create_time));
-        params.addBodyParameter("update_time", String.valueOf(update_time));
-        params.addBodyParameter("appeal", String.valueOf(appeal));
-        params.addBodyParameter("appeal_reason", appeal_reason);
-        params.addBodyParameter("mode", String.valueOf(mode));
+        params.addBodyParameter("id", id);
+        params.addBodyParameter("type", type);
+        params.addBodyParameter("reason", reason);
         apiTool2.postApi(url + "appeal", params, baseView);
     }
 
@@ -270,7 +255,7 @@ public class Catcher {
     /**
      * 获取银两明细
      *
-     * @param type     明细类别 0获得 1消耗
+     * @param type     明细类别 0 兑换记录 1 收入   2支出
      * @param baseView 回调
      */
     public static void userCoinLogInfo(int type, int page, BaseView baseView) {
@@ -319,4 +304,34 @@ public class Catcher {
         apiTool2.postApi(url + "setOrder", params, baseView);
     }
 
+
+    /**
+     *首页列表筛选
+     * @param clumn
+     * @param status
+     * @param baseView
+     */
+    public static void catcherFilter(String clumn, String status,int p, BaseView baseView) {
+        ApiTool2 apiTool2 = new ApiTool2();
+        RequestParams params = new RequestParams();
+        params.addBodyParameter("clumn", clumn);
+        params.addBodyParameter("status", status);
+        params.addBodyParameter("p", String.valueOf(p));
+        apiTool2.postApi(url + "catcherFilter", params, baseView);
+    }
+
+
+    /**
+     * 抓娃娃成功次数兑换银两
+     * @param cid 娃娃机ID
+     * @param times 不传默认为1次
+     * @param baseView
+     */
+    public static void exchangeCoin(String cid, String times, BaseView baseView) {
+        ApiTool2 apiTool2 = new ApiTool2();
+        RequestParams params = new RequestParams();
+        params.addBodyParameter("cid", cid);
+        params.addBodyParameter("times", times);
+        apiTool2.postApi(url + "exchangeCoin", params, baseView);
+    }
 }

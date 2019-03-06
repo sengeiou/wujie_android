@@ -1,15 +1,19 @@
 package com.txd.hzj.wjlp.catchDoll.ui.activity;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.ants.theantsgo.tool.glide.GlideUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.Constant;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
+import com.txd.hzj.wjlp.catchDoll.bean.GameRecordingBean;
 import com.txd.hzj.wjlp.catchDoll.util.Util;
 
 /**
@@ -32,6 +36,8 @@ public class GameRecordingInfoActivity extends BaseAty {
     @ViewInject(R.id.gameRecordInfo_roomNumber_tv)
     public TextView gameRecordInfo_roomNumber_tv;
 
+    private GameRecordingBean mGameRecordingBean;
+
     @Override
     protected int getLayoutResId() {
         return R.layout.activity_game_recording_info;
@@ -39,10 +45,16 @@ public class GameRecordingInfoActivity extends BaseAty {
 
     @Override
     protected void initialized() {
+        showStatusBar(R.id.titleView_bg_rlayout);
         titleView_title_tv.setText("游戏详情");
-        gameRecordInfo_header_imgv.setImageResource(R.mipmap.icon_money_unchecked);
-        gameRecordInfo_name_tv.setText("不知道是谁");
-        gameRecordInfo_time_tv.setText(Util.millis2String(1547111445 * 1000L, "yyyy-MM-dd HH:mm"));
+        mGameRecordingBean = (GameRecordingBean) getIntent().getSerializableExtra("GameRecordingAdapter");
+
+        GlideUtils.urlCirclePicNoBg(mGameRecordingBean.getRoom_pic(), 46, 46, gameRecordInfo_header_imgv);
+        gameRecordInfo_name_tv.setText(mGameRecordingBean.getName());
+        gameRecordInfo_time_tv.setText(Util.millis2String(Long.parseLong(mGameRecordingBean.getUpdate_time())*1000, "yyyy-MM-dd HH:mm"));
+        gameRecordInfo_type_tv.setText((mGameRecordingBean.getMode().equals("1") ) ? "抓取成功" : "抓取失败");
+        gameRecordInfo_type_tv.setTextColor((mGameRecordingBean.getMode().equals("1")) ? Color.parseColor("#F54697") : Color.parseColor("#999999"));
+        gameRecordInfo_roomNumber_tv.setText(mGameRecordingBean.getRoomid());
     }
 
     @Override
@@ -59,7 +71,7 @@ public class GameRecordingInfoActivity extends BaseAty {
                 finish();
                 break;
             case R.id.gameRecordInfo_roomNumber_llayout:
-                showToast("房间号");
+//                showToast("房间号");
                 break;
             case R.id.gameRecordInfo_gameVideo_llayout:
                 Intent intent = new Intent(this, VideoPlayerActivity.class);
@@ -68,7 +80,9 @@ public class GameRecordingInfoActivity extends BaseAty {
                 startActivity(intent);
                 break;
             case R.id.gameRecordInfo_appeal_tv:
-                startActivity(AppealActivity.class, null);
+                Bundle bundle = new Bundle();
+                bundle.putString("GameRecordingInfoActivityId",mGameRecordingBean.getId());
+                startActivity(AppealActivity.class, bundle);
                 break;
         }
     }

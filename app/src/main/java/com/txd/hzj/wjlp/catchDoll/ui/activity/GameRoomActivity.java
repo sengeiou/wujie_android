@@ -1,7 +1,6 @@
 package com.txd.hzj.wjlp.catchDoll.ui.activity;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -20,8 +19,8 @@ import android.widget.Toast;
 import com.ants.theantsgo.gson.GsonUtil;
 import com.ants.theantsgo.tool.glide.GlideUtils;
 import com.ants.theantsgo.tools.AlertDialog;
+import com.ants.theantsgo.util.JSONUtils;
 import com.ants.theantsgo.util.L;
-import com.bumptech.glide.Glide;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.tencent.rtmp.ITXLivePlayListener;
@@ -48,11 +47,11 @@ import com.txd.hzj.wjlp.catchDoll.view.NoScrollRecyclerView;
 import com.txd.hzj.wjlp.catchDoll.view.RockerView;
 import com.txd.hzj.wjlp.catchDoll.view.VScrollScreenLayout;
 import com.txd.hzj.wjlp.http.catchDoll.Catcher;
+import com.txd.hzj.wjlp.tool.GlideImageLoader;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.Transformer;
 import com.youth.banner.listener.OnBannerListener;
-import com.youth.banner.loader.ImageLoader;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -61,6 +60,7 @@ import org.json.JSONObject;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 创建者：voodoo_jie
@@ -79,10 +79,17 @@ public class GameRoomActivity extends BaseAty implements GameRoomGoodsAdapter.On
 
     //    @ViewInject(R.id.gameRoomVideo_videoView_rlatout)
 //    public  gameRoomVideo_videoView_rlatout;
+
+    @ViewInject(R.id.gameRoomVideo_gameingHeader_imgv)
+    public ImageView gameRoomVideo_gameingHeader_imgv;
+
+    @ViewInject(R.id.gameRoomVideo_gameingName_tv)
+    public TextView gameRoomVideo_gameingName_tv;
+
     @ViewInject(R.id.gameRoomVideo_barrage_barrv)
     public BarrageView gameRoomVideo_barrage_barrv;
-    //    @ViewInject(R.id.gameRoomVideo_peopleNumber_tv)
-//    public  gameRoomVideo_peopleNumber_tv;
+    @ViewInject(R.id.gameRoomVideo_peopleNumber_tv)
+    public  TextView gameRoomVideo_peopleNumber_tv;
     @ViewInject(R.id.gameRoomVideo_peopleNumber1_imgv)
     public ImageView gameRoomVideo_peopleNumber1_imgv;
     @ViewInject(R.id.gameRoomVideo_peopleNumber2_imgv)
@@ -137,6 +144,7 @@ public class GameRoomActivity extends BaseAty implements GameRoomGoodsAdapter.On
     List<GameRoomHeaderBean> gameRoomHeaderBeans; // 最近抓住记录列表
     List<GameRoomAdsBean> list_RoomAds; // 房间内轮播图对象
     List<GameRoomGoodsBean> gameRoomGoodsBeans; // 商品对象列表
+    private Map<String, String> mToShare;
 
     @Override
     protected int getLayoutResId() {
@@ -145,7 +153,7 @@ public class GameRoomActivity extends BaseAty implements GameRoomGoodsAdapter.On
 
     @Override
     protected void initialized() {
-
+        showStatusBar(R.id.gameRoomVideo_header_llayout);
         sendThread = Constant.SOCK_APP;
 
         Bundle bundle = getIntent().getExtras();
@@ -269,12 +277,7 @@ public class GameRoomActivity extends BaseAty implements GameRoomGoodsAdapter.On
         } else {
             initPlayer();
         }
-        initBarrage();
-
-        GlideUtils.urlCirclePicNoBg("http://kanimg.9ku.com/kanqq/pic/upload/2018/0530/b78eea8df704a1e831fb6c8778a618cb.jpg", 25, 25, gameRoomVideo_peopleNumber1_imgv);
-        GlideUtils.urlCirclePicNoBg("http://img1.imgtn.bdimg.com/it/u=165501638,2373619033&fm=27&gp=0.jpg", 25, 25, gameRoomVideo_peopleNumber2_imgv);
-        GlideUtils.urlCirclePicNoBg("http://img.xspic.com/img/116/194/574068_5.jpg", 25, 25, gameRoomVideo_peopleNumber3_imgv);
-
+//        initBarrage();
     }
 
     /**
@@ -363,34 +366,29 @@ public class GameRoomActivity extends BaseAty implements GameRoomGoodsAdapter.On
     /**
      * 初始化头像列表
      */
-    private void initHeaderList(List<GameRoomHeaderBean> gameRoomHeaderBeans) {
-        this.gameRoomHeaderBeans = gameRoomHeaderBeans;
-        GameRoomHeaderBean gameRoomHeaderBean;
-        for (int i = 0; i < 10; i++) {
-            gameRoomHeaderBean = new GameRoomHeaderBean();
-            gameRoomHeaderBean.setHeaderUrl("http://img.25pp.com/uploadfile/youxi/images/2015/0324/20150324035941178.jpg");
-            gameRoomHeaderBean.setNumber(i + 5);
-            gameRoomHeaderBeans.add(gameRoomHeaderBean);
-        }
+    private void initHeaderList(List<GameRoomHeaderBean> data) {
+        this.gameRoomHeaderBeans = data;
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         gameRoomList_recentlyArrested_rlView.setLayoutManager(layoutManager);
-        GameRoomHeaderAdapter headerAdapter = new GameRoomHeaderAdapter(gameRoomHeaderBeans, this);
-        gameRoomList_recentlyArrested_rlView.setAdapter(headerAdapter);
+        if (gameRoomHeaderBeans != null && gameRoomHeaderBeans.size()>0){
+            GameRoomHeaderAdapter headerAdapter = new GameRoomHeaderAdapter(gameRoomHeaderBeans, this);
+            gameRoomList_recentlyArrested_rlView.setAdapter(headerAdapter);
+        }
     }
 
     /**
      * 设置Banner轮播图
      */
-    private void initBanner(final List<GameRoomAdsBean> list_RoomAds) {
-        this.list_RoomAds = list_RoomAds;
+    private void initBanner(final List<GameRoomAdsBean> data) {
+        this.list_RoomAds = data;
         final List<String> list_path = new ArrayList<>();
-        for (GameRoomAdsBean gameRoomAdsBean : list_RoomAds) {
+        for (GameRoomAdsBean gameRoomAdsBean : data) {
             list_path.add(gameRoomAdsBean.getPicture());
         }
         gameRoomList_bannerShow_banner.setBannerStyle(BannerConfig.CIRCLE_INDICATOR);
         // 设置图片加载器
-        gameRoomList_bannerShow_banner.setImageLoader(new MyLoader());
+        gameRoomList_bannerShow_banner.setImageLoader(new GlideImageLoader());
         // 设置图片集合
         gameRoomList_bannerShow_banner.setImages(list_path);
         // 设置banner动画效果
@@ -409,16 +407,6 @@ public class GameRoomActivity extends BaseAty implements GameRoomGoodsAdapter.On
         });
         // banner设置方法全部调用完毕时最后调用
         gameRoomList_bannerShow_banner.start();
-    }
-
-    /**
-     * 自定义图片加载
-     */
-    private class MyLoader extends ImageLoader {
-        @Override
-        public void displayImage(Context context, Object path, ImageView imageView) {
-            Glide.with(context).load((String) path).into(imageView); // 传入路径,因为list为String格式,path为Object格式,所以强制类型转换.
-        }
     }
 
     /**
@@ -494,7 +482,10 @@ public class GameRoomActivity extends BaseAty implements GameRoomGoodsAdapter.On
                 break;
             case R.id.gameRoomVideo_share_imgv: // 分享
 //                toShare(share_title, share_img, share_url, context, share_id, "1");
-                toShare("抓娃娃", "pic", "http://www.baidu.com", "content", "id", "shapetype");
+                if (mToShare != null){
+                    toShare(mToShare.get("title"), mToShare.get("pic"), mToShare.get("url"), mToShare.get("content"), mToShare.get("id"), "shapetype");
+                }
+
                 break;
             case R.id.gameRoomVideo_start_imgv: // 开局
                 // TODO 设计图上设计的银两不够的情况下弹窗
@@ -503,6 +494,7 @@ public class GameRoomActivity extends BaseAty implements GameRoomGoodsAdapter.On
 //                                @Override
 //                                public void onClick(DialogInterface dialog, int which) {
 //                                    startActivity(MoneyActivity.class, null);
+//                                      finish();
 //                                }
 //                            })
 //                            .create().show();
@@ -622,6 +614,7 @@ public class GameRoomActivity extends BaseAty implements GameRoomGoodsAdapter.On
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
+        Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
         try {
             JSONObject jsonObject = new JSONObject(jsonStr);
             JSONObject data = jsonObject.getJSONObject("data");
@@ -681,10 +674,9 @@ public class GameRoomActivity extends BaseAty implements GameRoomGoodsAdapter.On
                 // 设置抓中记录的头像列表
                 JSONArray listB = data.getJSONArray("listB");
                 List<GameRoomHeaderBean> tempGameRoomHeaderBeans = new ArrayList<>();
-                GameRoomHeaderBean gameRoomHeaderBean;
                 for (int i = 0; i < listB.length(); i++) {
                     JSONObject jsonObject1 = listB.getJSONObject(i);
-                    gameRoomHeaderBean = new GameRoomHeaderBean();
+                    GameRoomHeaderBean  gameRoomHeaderBean = new GameRoomHeaderBean();
                     gameRoomHeaderBean.setHeaderUrl(jsonObject1.getString("head_pic"));
                     gameRoomHeaderBean.setNumber(jsonObject1.getInt("num"));
                     tempGameRoomHeaderBeans.add(gameRoomHeaderBean);
@@ -714,6 +706,29 @@ public class GameRoomActivity extends BaseAty implements GameRoomGoodsAdapter.On
                     tempGameRoomGoodsBeans.add(gameRoomGoodsBean);
                 }
                 initGoods(tempGameRoomGoodsBeans);
+
+                Map<String, String> data1 = JSONUtils.parseKeyAndValueToMap(map.get("data"));
+                Map<String, String> roomPeople = JSONUtils.parseKeyAndValueToMap(data1.get("RoomPeople"));
+                ArrayList<Map<String, String>> headPic = JSONUtils.parseKeyAndValueToMapList(roomPeople.get("headPic"));
+                if (headPic != null && headPic.size()>0){
+                    if (headPic.size() == 1){
+                        GlideUtils.urlCirclePicNoBg(headPic.get(0).get("head_pic"), 25, 25, gameRoomVideo_peopleNumber1_imgv);
+                    }else if (headPic.size() == 2){
+                        GlideUtils.urlCirclePicNoBg(headPic.get(0).get("head_pic"), 25, 25, gameRoomVideo_peopleNumber1_imgv);
+                        GlideUtils.urlCirclePicNoBg(headPic.get(1).get("head_pic"), 25, 25, gameRoomVideo_peopleNumber2_imgv);
+                    }else {
+                        GlideUtils.urlCirclePicNoBg(headPic.get(0).get("head_pic"), 25, 25, gameRoomVideo_peopleNumber1_imgv);
+                        GlideUtils.urlCirclePicNoBg(headPic.get(1).get("head_pic"), 25, 25, gameRoomVideo_peopleNumber2_imgv);
+                        GlideUtils.urlCirclePicNoBg(headPic.get(2).get("head_pic"), 25, 25, gameRoomVideo_peopleNumber3_imgv);
+                    }
+                }
+                gameRoomVideo_peopleNumber_tv.setText(roomPeople.get("peopleNum")+"人");
+                Map<String, String> nowPeople = JSONUtils.parseKeyAndValueToMap(roomPeople.get("nowPeople"));
+                gameRoomVideo_gameingName_tv.setText(nowPeople.get("nickname"));
+                GlideUtils.urlCirclePicNoBg(nowPeople.get("headPath"), 25, 25, gameRoomVideo_gameingHeader_imgv);
+
+                mToShare = JSONUtils.parseKeyAndValueToMap(data1.get("toShare"));
+
 
             }
 

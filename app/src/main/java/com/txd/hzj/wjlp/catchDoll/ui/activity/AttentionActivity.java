@@ -62,6 +62,7 @@ public class AttentionActivity extends BaseAty implements RoomListAdapter.OnDele
 
     @Override
     protected void initialized() {
+        showStatusBar(R.id.activityList_show_inc);
     }
 
     @Override

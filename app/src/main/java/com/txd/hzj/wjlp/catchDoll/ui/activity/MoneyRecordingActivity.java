@@ -48,6 +48,7 @@ public class MoneyRecordingActivity extends BaseAty {
 
     @Override
     protected void initialized() {
+        showStatusBar(R.id.titleView_bg_rlayout);
         titleView_title_tv.setText("银两记录");
 
         fragments = new Fragment[2];

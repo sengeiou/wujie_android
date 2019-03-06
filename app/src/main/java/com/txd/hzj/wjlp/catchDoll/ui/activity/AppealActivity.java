@@ -4,7 +4,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 import android.widget.TextView;
 
-import com.ants.theantsgo.util.L;
+import com.ants.theantsgo.util.JSONUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
@@ -20,6 +20,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 创建者：voodoo_jie
@@ -37,6 +38,7 @@ public class AppealActivity extends BaseAty implements AppealAdapter.OnItemSelec
     private AppealAdapter adapter;
 
     private AppealBean selectAppeal = null; // 选中的原因对象
+    private String mGameRecordingInfoActivityId;
 
     @Override
     protected int getLayoutResId() {
@@ -45,7 +47,9 @@ public class AppealActivity extends BaseAty implements AppealAdapter.OnItemSelec
 
     @Override
     protected void initialized() {
+        showStatusBar(R.id.titleView_bg_rlayout);
         titleView_title_tv.setText("申诉原因");
+        mGameRecordingInfoActivityId = getIntent().getStringExtra("GameRecordingInfoActivityId");
     }
 
     @Override
@@ -65,7 +69,7 @@ public class AppealActivity extends BaseAty implements AppealAdapter.OnItemSelec
                 break;
             case R.id.appeal_submit_tv:
                 if (selectAppeal != null) {
-                    Catcher.appeal(0, 0, 0, 0, 0, 0, 0, "", 0, this);
+                    Catcher.appeal(mGameRecordingInfoActivityId, String.valueOf(selectAppeal.getId()),"", this);
                 } else {
                     showToast("请选择之后再提交");
                 }
@@ -91,7 +95,8 @@ public class AppealActivity extends BaseAty implements AppealAdapter.OnItemSelec
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
-        if (requestUrl.contains("appealApply")) { // 获取申诉原因列表
+        Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
+        if (requestUrl.endsWith("appealApply")) { // 获取申诉原因列表
             try {
                 JSONObject jsonObject = new JSONObject(jsonStr);
                 JSONArray listJsonArray = jsonObject.getJSONArray("data");
@@ -100,7 +105,7 @@ public class AppealActivity extends BaseAty implements AppealAdapter.OnItemSelec
                 for (int i = 0; i < listJsonArray.length(); i++) {
                     appealBean = new AppealBean();
                     JSONObject jsonObject1 = listJsonArray.getJSONObject(i);
-                    appealBean.setId(Integer.parseInt(jsonObject1.getString("k")));
+                    appealBean.setId(Integer.parseInt(jsonObject1.getString("key")));
                     appealBean.setCauseStr(jsonObject1.getString("value"));
                     appealBean.setChecked(false);
                     tempList.add(appealBean);
@@ -109,6 +114,11 @@ public class AppealActivity extends BaseAty implements AppealAdapter.OnItemSelec
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+        }
+
+        if (requestUrl.endsWith("appeal")){
+            showToast(map.get("message"));
+            finish();
         }
 
     }
