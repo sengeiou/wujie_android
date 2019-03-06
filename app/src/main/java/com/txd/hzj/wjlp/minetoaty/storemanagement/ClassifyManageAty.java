@@ -206,10 +206,13 @@ public class ClassifyManageAty extends BaseAty {
         if (requestUrl.endsWith("app_goods_cate")) {
             ArrayList<ClassifyDataBean> arrayList = JSONUtils.parseKeyAndValueToMapList(ClassifyDataBean.class, map.get("data"));
             if (arrayList != null && arrayList.size()>0){
+                recyclerView.setVisibility(View.VISIBLE);
+                empty_layout.setVisibility(View.GONE);
                 mClassifyAdpater.setData(arrayList);
             }else {
                 recyclerView.setVisibility(View.GONE);
                 empty_layout.setVisibility(View.VISIBLE);
+                mClassifyAdpater.setSelectPosition(-1);
             }
 
             return;
@@ -227,7 +230,6 @@ public class ClassifyManageAty extends BaseAty {
 
                     addClassifyTv.setVisibility(View.VISIBLE);
                     saveTv.setVisibility(View.GONE);
-                    recyclerView.setVisibility(View.VISIBLE);
                     editLayout.setVisibility(View.GONE);
                 }
             }
@@ -295,6 +297,7 @@ public class ClassifyManageAty extends BaseAty {
                 titleEdit.getText().clear();
                 numEdit.getText().clear();
                 briefEdit.getText().clear();
+                mId = "";
                 break;
             case R.id.saveTv:
                 mIs_del = "";

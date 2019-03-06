@@ -1075,11 +1075,13 @@ public class InputAty extends BaseAty {
             String type = split[0];
             if (type.equals("takeaway")) {
                 mTime_price = split[1];
+                mWeek_price = "";
                 //                takeawayWeekCheckBox.setChecked(false);
                 //                takeawayDateCheckBox.setChecked(true);
                 setTakeawayDateLayout();
             } else if (type.equals("dinner")) {
                 mChurch_time_price = split[1];
+                mChurch_week_price = "";
                 //                dinnerWeekCheckBox.setChecked(false);
                 //                dinnerDateCheckBox.setChecked(true);
                 setDinnerDateLayout();
@@ -1090,11 +1092,13 @@ public class InputAty extends BaseAty {
             String[] split = message.split("=");
             String type = split[0];
             if (type.equals("takeaway")) {
+                mTime_price = "";
                 mWeek_price = split[1];
                 //                takeawayWeekCheckBox.setChecked(true);
                 //                takeawayDateCheckBox.setChecked(false);
                 setTakeawayWeekLayout();
             } else if (type.equals("dinner")) {
+                mChurch_time_price = "";
                 mChurch_week_price = split[1];
                 //                dinnerWeekCheckBox.setChecked(true);
                 //                dinnerDateCheckBox.setChecked(false);
