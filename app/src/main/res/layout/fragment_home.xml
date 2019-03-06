@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.scwang.smartrefresh.layout.SmartRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/homeFgt_smartRefresh_llayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    app:srlPrimaryColor="@color/colorCatchDollPrimary">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="130dp"
+                    android:background="@drawable/shape_home_up_bg" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:orientation="horizontal"
+                        android:padding="8dp">
+
+                        <LinearLayout
+                            android:id="@+id/homeFgt_marqueeMessage_llayout"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginRight="8dp"
+                            android:layout_weight="9"
+                            android:background="@drawable/shape_main_semicircle">
+
+                            <com.txd.hzj.wjlp.catchDoll.view.MarqueeView
+                                android:id="@+id/homeFgt_marqueeMessage_mView"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_centerInParent="true"
+                                android:fillViewport="true"
+                                android:gravity="center"
+                                android:padding="5dp" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="3"
+                            android:background="@drawable/shape_main_semicircle">
+
+                            <TextView
+                                android:id="@+id/homeFgt_attention_tv"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:padding="5dp"
+                                android:text="关注"
+                                android:textColor="@color/color_white" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="match_parent"
+                                android:background="#11000000" />
+
+                            <TextView
+                                android:id="@+id/homeFgt_close_tv"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:gravity="center"
+                                android:paddingLeft="8dp"
+                                android:paddingRight="5dp"
+                                android:text="X"
+                                android:textColor="@color/color_white" />
+
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <com.zhouwei.mzbanner.MZBannerView
+                        android:id="@+id/homeFgt_bannerShow_banner"
+                        android:layout_width="match_parent"
+                        android:layout_height="150dp"
+                        android:layout_marginTop="10dp"
+                        app:canLoop="true"
+                        app:indicatorAlign="center"
+                        app:indicatorPaddingLeft="10dp"
+                        app:middle_page_cover="false"
+                        app:open_mz_mode="true" />
+                    <!--open_mz_mode  是否开启魅族模式   true 为魅族Banner效果，false 则普通Banner效果-->
+                    <!--canLoop       是否轮播           true 轮播，false 则为普通ViewPager-->
+                    <!--indicatorPaddingLeft    设置指示器距离左侧的距离   单位为 dp 的值-->
+                    <!--indicatorPaddingRight    设置指示器距离右侧的距离  单位为 dp 的值-->
+                    <!--indicatorAlign     设置指示器的位置                有三个取值：left 左边，center 剧中显示，right 右侧显示-->
+                    <!--middle_page_cover  设置中间Page是否覆盖（真正的魅族Banner效果）   true 覆盖，false 无覆盖效果-->
+                </LinearLayout>
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="90dp"
+                android:orientation="horizontal"
+                android:padding="5dp">
+
+                <LinearLayout
+                    android:id="@+id/homeFgt_newOnline_llayout"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:src="@mipmap/icon_new_online" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:text="最新上线" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/homeFgt_boutique_llayout"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:src="@mipmap/icon_boutique" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:text="高价精品" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/homeFgt_justLove_llayout"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:src="@mipmap/icon_just_love" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:text="只爱娃娃" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/homeFgt_girlArea_llayout"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:src="@mipmap/icon_girl_area" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:text="美女专场" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/homeFgt_practicalArea_llayout"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:src="@mipmap/icon_practical_area" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:text="实用专区" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="#EEEEEE" />
+
+            <com.txd.hzj.wjlp.catchDoll.view.NoScrollRecyclerView
+                android:id="@+id/homeFgt_roomShow_gView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scrollbars="none"
+                tools:listitem="@layout/item_room_show" />
+        </LinearLayout>
+    </ScrollView>
+</com.scwang.smartrefresh.layout.SmartRefreshLayout>

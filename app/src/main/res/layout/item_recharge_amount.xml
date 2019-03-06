@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="5dp"
+    android:layout_marginTop="5dp"
+    android:background="@drawable/shape_money_item"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:padding="12dp">
+
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginRight="10dp"
+        android:src="@mipmap/icon_ingots" />
+
+    <TextView
+        android:id="@+id/rechargeAmount_numberOfCoins_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="100银两" />
+
+    <TextView
+        android:id="@+id/rechargeAmount_giftNumber_tv"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:textColor="#FC499B"
+        tools:text="再送100银两" />
+
+    <TextView
+        android:id="@+id/rechargeAmount_price_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        tools:text="¥10" />
+
+</LinearLayout>
