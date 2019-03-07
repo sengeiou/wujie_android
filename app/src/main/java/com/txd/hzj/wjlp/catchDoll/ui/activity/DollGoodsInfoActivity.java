@@ -68,9 +68,9 @@ public class DollGoodsInfoActivity extends BaseAty {
 
         // 初始化界面显示信息
         // 设置商品
-        GlideUtils.loadUrlImg(this, myDollBean.getDollImageUrl(), dollGoodsInfo_image_imgv); // 商品图
+        GlideUtils.loadUrlImg(this, myDollBean.getGoods_img(), dollGoodsInfo_image_imgv); // 商品图
         dollGoodsInfo_name_tv.setText(myDollBean.getName()); // 商品名称
-        dollGoodsInfo_time_tv.setText(Util.millis2String(myDollBean.getTime(), "yyyy.MM.dd HH:mm:ss")); // 抓中记录时间
+        dollGoodsInfo_time_tv.setText(Util.millis2String(myDollBean.getMaturityTime(), "yyyy.MM.dd HH:mm:ss")); // 抓中记录时间
         // 设置下方用户和娃娃机信息
         GlideUtils.urlCirclePicNoBg(myDollBean.getUserHeader(), 40, 40, dollGoodsInfo_userHeader_imgv); // 玩家头像
         dollGoodsInfo_userName_tv.setText(myDollBean.getUserNickName()); // 玩家昵称
@@ -79,13 +79,13 @@ public class DollGoodsInfoActivity extends BaseAty {
         dollGoodsInfo_roomNumber_tv.setText(String.valueOf(myDollBean.getRoomId())); // 房间号
 
 
-        if (myDollBean.getCoinStatus().equals("1")){
+        if (myDollBean.getCoinStatus()==1){
             dollGoodsInfo_redeemSilver_tv.setVisibility(View.VISIBLE);
         }else {
             dollGoodsInfo_redeemSilver_tv.setVisibility(View.GONE);
         }
 
-        if (myDollBean.getGoodsStatus().equals("1")){
+        if (myDollBean.getGoodsStatus()==1){
             dollGoodsInfo_redeemGoods_tv.setVisibility(View.VISIBLE);
         }else {
             dollGoodsInfo_redeemGoods_tv.setVisibility(View.GONE);
@@ -111,7 +111,7 @@ public class DollGoodsInfoActivity extends BaseAty {
                         .setOnPositiveBtnClickListener("确认", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                showToast("确认兑换");
+                                Catcher.exchangeCatchersGoodsOrder(String.valueOf(myDollBean.getRoomId()), String.valueOf(myDollBean.getGoods_id()),DollGoodsInfoActivity.this);
                             }
                         })
                         .setOnNegativeBtnClickListener("取消", null).create().show();
@@ -141,6 +141,42 @@ public class DollGoodsInfoActivity extends BaseAty {
         if (requestUrl.endsWith("exchangeCoin")){
             Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
             new RedemptionResultDialog.Builder(DollGoodsInfoActivity.this).setMoneyStr(data.get("coin")).create().show();
+        }
+
+        if (requestUrl.endsWith("exchangeCatchersGoodsOrder")){
+            /**
+             * {
+             "code":"200",
+             "message":"获取成功",
+             "data":{
+             "res":{
+             "address_id":"20",
+             "receiver":"112",
+             "phone":"13103072768",
+             "address":"分工会尽快",
+             "province":"天津市",
+             "city":"天津市",
+             "area":"河西区",
+             "is_default":"1",
+             "order_type":"18",
+             "goods_id":"705",
+             "goods_img":"http://test.wujiemall.com/Uploads/Goods/2019-01-19/5c42bb05656a8.png"
+             },
+             "goods_info":{
+             "id":"705",
+             "product_id":"1864",
+             "merchant_name":"达令商城",
+             "goods_name":"娃娃",
+             "goods_img":"28492",
+             "country_tax":"0.00",
+             "attr_full_name":"组合套餐:123;",
+             "catcher_num":"1"
+             }
+             },
+             "nums":"0"
+             }
+             */
+            showToast(map.get("message"));
         }
     }
 }

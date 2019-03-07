@@ -180,18 +180,6 @@ public class Catcher {
         apiTool2.postApi(url + "getCatcherAttentionList", params, baseView);
     }
 
-    /**
-     * 兑换抓娃娃商品（下订单）
-     *
-     * @param goods_id 1（关注） 0（取消关注）
-     */
-    public static void exchangeCatchersGoodsOrder(int cid, int goods_id, BaseView baseView) {
-        ApiTool2 apiTool2 = new ApiTool2();
-        RequestParams params = new RequestParams();
-        params.addBodyParameter("cid", String.valueOf(goods_id));
-        params.addBodyParameter("goods_id", String.valueOf(goods_id));
-        apiTool2.postApi(url + "exchangeCatchersGoodsOrder", params, baseView);
-    }
 
     /**
      * 抓娃娃商品订单生成
@@ -333,5 +321,32 @@ public class Catcher {
         params.addBodyParameter("cid", cid);
         params.addBodyParameter("times", times);
         apiTool2.postApi(url + "exchangeCoin", params, baseView);
+    }
+
+    /**
+     * 兑换抓娃娃商品（下订单）
+     * @param cid
+     * @param goods_id
+     * @param baseView
+     */
+    public static void exchangeCatchersGoodsOrder(String cid, String goods_id, BaseView baseView) {
+        ApiTool2 apiTool2 = new ApiTool2();
+        RequestParams params = new RequestParams();
+        params.addBodyParameter("cid", cid);
+        params.addBodyParameter("goods_id", goods_id);
+        apiTool2.postApi(url + "exchangeCatchersGoodsOrder", params, baseView);
+    }
+
+
+    /**
+     * 改变房间状态
+     * @param cid
+     * @param baseView
+     */
+    public static void roomStatus(String cid, BaseView baseView) {
+        ApiTool2 apiTool2 = new ApiTool2();
+        RequestParams params = new RequestParams();
+        params.addBodyParameter("cid", cid);
+        apiTool2.postApi(url + "roomStatus", params, baseView);
     }
 }

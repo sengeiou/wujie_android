@@ -9,31 +9,60 @@ import java.io.Serializable;
  */
 public class MyDollBean implements Serializable {
 
-    private int id; // 商品id
-    private String dollImageUrl; // 娃娃图片Url
-    private long maturityTime; // 倒计时时间
-    private String name; // 名称
-    private long time; // 抓中时间
-    private int convertible; // 可兑换数目
 
-    private String userHeader; // 玩家头像
-    private String userNickName; // 玩家昵称
-    private String depositStatus; // 寄存状态
-    private int roomId; // 房间id
-    private String roomName; // 房间名称
-    private String roomNumber; // 房间编号
+    /**
+     * goods_name : 娃娃
+     * goods_img : http://test.wujiemall.com/Uploads/Goods/2019-01-19/5c42bb05656a8.png
+     * exchange_price : 30.00
+     * create_time : 0
+     * nickname : 刘博
+     * name : 抓手机
+     * goods_id : 705
+     * roomId : 2
+     * catcherNum : 1
+     * GraspingNum : 5
+     * maturityTime : 2592000000
+     * userNickName : 刘博
+     * roomName : 抓手机
+     * depositStatus : 寄存中
+     * coinStatus : 1
+     * goodsStatus : 1
+     * userHeader : http://test.wujiemall.com/Uploads/User/2018-12-25/5c21ee0212af7.jpg
+     */
 
-    private String coinStatus;  //兑换银两按钮  0 不显示  1 显示
-
-    private String goodsStatus; //兑换商品按钮  0 不显示  1 显示
-
-    private String catcherNum; //兑换商品需要的数量
-
-    private String GraspingNum; //用户已抓取到数量
-
-
+    private String goods_name;
+    private String goods_img;
     private String exchange_price;
+    private String create_time;
+    private String nickname;
+    private String name;
+    private int goods_id;
+    private int roomId;
+    private int catcherNum;
+    private int GraspingNum;
+    private long maturityTime;
+    private String userNickName;
+    private String roomName;
+    private String depositStatus;
+    private int coinStatus;
+    private int goodsStatus;
+    private String userHeader;
 
+    public String getGoods_name() {
+        return goods_name;
+    }
+
+    public void setGoods_name(String goods_name) {
+        this.goods_name = goods_name;
+    }
+
+    public String getGoods_img() {
+        return goods_img;
+    }
+
+    public void setGoods_img(String goods_img) {
+        this.goods_img = goods_img;
+    }
 
     public String getExchange_price() {
         return exchange_price;
@@ -43,60 +72,20 @@ public class MyDollBean implements Serializable {
         this.exchange_price = exchange_price;
     }
 
-    public String getCoinStatus() {
-        return coinStatus;
+    public String getCreate_time() {
+        return create_time;
     }
 
-    public void setCoinStatus(String coinStatus) {
-        this.coinStatus = coinStatus;
+    public void setCreate_time(String create_time) {
+        this.create_time = create_time;
     }
 
-    public String getGoodsStatus() {
-        return goodsStatus;
+    public String getNickname() {
+        return nickname;
     }
 
-    public void setGoodsStatus(String goodsStatus) {
-        this.goodsStatus = goodsStatus;
-    }
-
-    public String getCatcherNum() {
-        return catcherNum;
-    }
-
-    public void setCatcherNum(String catcherNum) {
-        this.catcherNum = catcherNum;
-    }
-
-    public String getGraspingNum() {
-        return GraspingNum;
-    }
-
-    public void setGraspingNum(String graspingNum) {
-        GraspingNum = graspingNum;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getDollImageUrl() {
-        return dollImageUrl;
-    }
-
-    public void setDollImageUrl(String dollImageUrl) {
-        this.dollImageUrl = dollImageUrl;
-    }
-
-    public long getMaturityTime() {
-        return maturityTime;
-    }
-
-    public void setMaturityTime(long maturityTime) {
-        this.maturityTime = maturityTime;
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
     }
 
     public String getName() {
@@ -107,44 +96,12 @@ public class MyDollBean implements Serializable {
         this.name = name;
     }
 
-    public long getTime() {
-        return time;
+    public int getGoods_id() {
+        return goods_id;
     }
 
-    public void setTime(long time) {
-        this.time = time;
-    }
-
-    public int getConvertible() {
-        return convertible;
-    }
-
-    public void setConvertible(int convertible) {
-        this.convertible = convertible;
-    }
-
-    public String getUserHeader() {
-        return userHeader;
-    }
-
-    public void setUserHeader(String userHeader) {
-        this.userHeader = userHeader;
-    }
-
-    public String getUserNickName() {
-        return userNickName;
-    }
-
-    public void setUserNickName(String userNickName) {
-        this.userNickName = userNickName;
-    }
-
-    public String getDepositStatus() {
-        return depositStatus;
-    }
-
-    public void setDepositStatus(String depositStatus) {
-        this.depositStatus = depositStatus;
+    public void setGoods_id(int goods_id) {
+        this.goods_id = goods_id;
     }
 
     public int getRoomId() {
@@ -155,6 +112,38 @@ public class MyDollBean implements Serializable {
         this.roomId = roomId;
     }
 
+    public int getCatcherNum() {
+        return catcherNum;
+    }
+
+    public void setCatcherNum(int catcherNum) {
+        this.catcherNum = catcherNum;
+    }
+
+    public int getGraspingNum() {
+        return GraspingNum;
+    }
+
+    public void setGraspingNum(int GraspingNum) {
+        this.GraspingNum = GraspingNum;
+    }
+
+    public long getMaturityTime() {
+        return maturityTime;
+    }
+
+    public void setMaturityTime(long maturityTime) {
+        this.maturityTime = maturityTime;
+    }
+
+    public String getUserNickName() {
+        return userNickName;
+    }
+
+    public void setUserNickName(String userNickName) {
+        this.userNickName = userNickName;
+    }
+
     public String getRoomName() {
         return roomName;
     }
@@ -163,11 +152,35 @@ public class MyDollBean implements Serializable {
         this.roomName = roomName;
     }
 
-    public String getRoomNumber() {
-        return roomNumber;
+    public String getDepositStatus() {
+        return depositStatus;
     }
 
-    public void setRoomNumber(String roomNumber) {
-        this.roomNumber = roomNumber;
+    public void setDepositStatus(String depositStatus) {
+        this.depositStatus = depositStatus;
+    }
+
+    public int getCoinStatus() {
+        return coinStatus;
+    }
+
+    public void setCoinStatus(int coinStatus) {
+        this.coinStatus = coinStatus;
+    }
+
+    public int getGoodsStatus() {
+        return goodsStatus;
+    }
+
+    public void setGoodsStatus(int goodsStatus) {
+        this.goodsStatus = goodsStatus;
+    }
+
+    public String getUserHeader() {
+        return userHeader;
+    }
+
+    public void setUserHeader(String userHeader) {
+        this.userHeader = userHeader;
     }
 }

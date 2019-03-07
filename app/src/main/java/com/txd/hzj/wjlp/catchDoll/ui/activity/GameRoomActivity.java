@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -39,6 +40,7 @@ import com.txd.hzj.wjlp.catchDoll.socketcmd.SockAPP;
 import com.txd.hzj.wjlp.catchDoll.ui.dialog.CatchFailDialog;
 import com.txd.hzj.wjlp.catchDoll.ui.dialog.CatchSuccessDialog;
 import com.txd.hzj.wjlp.catchDoll.ui.dialog.ImageDialog;
+import com.txd.hzj.wjlp.catchDoll.ui.dialog.MoneyNotEnoughDialog;
 import com.txd.hzj.wjlp.catchDoll.util.PhoneNetworkUtils;
 import com.txd.hzj.wjlp.catchDoll.util.SharedPreferencesUtils;
 import com.txd.hzj.wjlp.catchDoll.util.Util;
@@ -145,6 +147,7 @@ public class GameRoomActivity extends BaseAty implements GameRoomGoodsAdapter.On
     List<GameRoomAdsBean> list_RoomAds; // 房间内轮播图对象
     List<GameRoomGoodsBean> gameRoomGoodsBeans; // 商品对象列表
     private Map<String, String> mToShare;
+    private String mPriceStatus;
 
     @Override
     protected int getLayoutResId() {
@@ -483,23 +486,27 @@ public class GameRoomActivity extends BaseAty implements GameRoomGoodsAdapter.On
             case R.id.gameRoomVideo_share_imgv: // 分享
 //                toShare(share_title, share_img, share_url, context, share_id, "1");
                 if (mToShare != null){
-                    toShare(mToShare.get("title"), mToShare.get("pic"), mToShare.get("url"), mToShare.get("content"), mToShare.get("id"), "shapetype");
+                    toShare(mToShare.get("title"), mToShare.get("pic"), mToShare.get("url"), mToShare.get("content"), mToShare.get("id"), mToShare.get("Shapetype"));
                 }
 
                 break;
             case R.id.gameRoomVideo_start_imgv: // 开局
-                // TODO 设计图上设计的银两不够的情况下弹窗
-//                    new MoneyNotEnoughDialog.Builder(this)
-//                            .setOnBtnClickListener("购买银两", new DialogInterface.OnClickListener() {
-//                                @Override
-//                                public void onClick(DialogInterface dialog, int which) {
-//                                    startActivity(MoneyActivity.class, null);
-//                                      finish();
-//                                }
-//                            })
-//                            .create().show();
+                if (!TextUtils.isEmpty(mPriceStatus)){
+                    if (mPriceStatus.equals("1")){
+                        Catcher.startGame(inRoomNumber, this);
+                    }else {
+                        new MoneyNotEnoughDialog.Builder(this)
+                                .setOnBtnClickListener("购买银两", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        startActivity(MoneyActivity.class, null);
+                                        finish();
+                                    }
+                                })
+                                .create().show();
+                    }
 
-                Catcher.startGame(inRoomNumber, this);
+                }
 
                 break;
             case R.id.gameRoomVideo_recharge_imgv: // 充值
@@ -509,13 +516,20 @@ public class GameRoomActivity extends BaseAty implements GameRoomGoodsAdapter.On
         }
     }
 
+
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
+    protected void onStop() {
+        super.onStop();
         txLivePlayer.stopPlay(true); // true 表示清除最后一帧
         gameRoomVideo_video_txcvv.onDestroy();
 
         Catcher.outRoom(inRoomNumber, this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
 
     }
 
@@ -561,6 +575,7 @@ public class GameRoomActivity extends BaseAty implements GameRoomGoodsAdapter.On
                             int game_ret = resultJson.getInt("ret");
                             // 调用抓取结果回调的接口
                             Catcher.postCatcherData(0, Integer.parseInt(inRoomNumber), game_ret, GameRoomActivity.this);
+                            Catcher.roomStatus(inRoomNumber,GameRoomActivity.this);
                             switch (game_ret) {
                                 case 0: // 抓取失败
                                     new CatchFailDialog.Builder(GameRoomActivity.this)
@@ -667,6 +682,7 @@ public class GameRoomActivity extends BaseAty implements GameRoomGoodsAdapter.On
                 String cid = listA.getString("cid"); // 房间号
                 String price = listA.getString("price"); // 价格
                 String coin = listA.has("coin") ? listA.getString("coin") : ""; // 剩余银两
+                mPriceStatus = listA.has("priceStatus") ? listA.getString("priceStatus") : "";
                 gameRoomVideo_roomNumber_tv.setText(new StringBuffer().append("房间").append(cid));
                 gameRoomVideo_price_tv.setText(price);
                 gameRoomVideo_balance_tv.setText(coin);

@@ -48,11 +48,11 @@ public class MyDollItemAdapter extends RecyclerView.Adapter<MyDollItemAdapter.Vi
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
         final MyDollBean myDollBean = list.get(position);
-        GlideUtils.loadUrlImg(context, myDollBean.getDollImageUrl(), holder.itemMyDoll_image_imgv);
+        GlideUtils.loadUrlImg(context, myDollBean.getGoods_img(), holder.itemMyDoll_image_imgv);
         holder.itemMyDoll_maturity_cdv.start(myDollBean.getMaturityTime());
         holder.itemMyDoll_name_tv.setText(myDollBean.getName());
         holder.itemMyDoll_num_tv.setText(myDollBean.getGraspingNum()+"/"+myDollBean.getCatcherNum());
-        holder.itemMyDoll_time_tv.setText(Util.millis2String(myDollBean.getTime(), "yyyy.MM.dd HH:mm:ss"));
+        holder.itemMyDoll_time_tv.setText(Util.millis2String(myDollBean.getMaturityTime(), "yyyy.MM.dd HH:mm:ss"));
         holder.itemMyDoll_convertible_tv.setText(new StringBuffer().append("可兑换银两").append(myDollBean.getExchange_price()));
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
