@@ -329,7 +329,8 @@ public class WebViewAty extends BaseAty {
             String order_sn = data.has("order_sn") ? data.getString("order_sn") : "";
             String jump_url = data.has("jump_url") ? data.getString("jump_url") : "";
             // 20 线下店铺保证金充值
-            if (!TextUtils.isEmpty(jump_url) && "20".equals(type)) {
+
+            if (!TextUtils.isEmpty(jump_url)) {
                 url = jump_url;
             } else {
                 //          http://www.wujiemall.com/Wap/Pay/pay_back/order/153232656966415.html

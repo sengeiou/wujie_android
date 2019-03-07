@@ -233,7 +233,9 @@ public class ChangeMsgFgt extends BaseFgt {
         }
 
         public void setList(ArrayList<ExchangeBean> list) {
-            mList = list;
+            mList.clear();
+            mList.addAll(list);
+            notifyDataSetChanged();
         }
 
         public void setOnItemClickListener(onItemClickListener onItemClickListener) {
