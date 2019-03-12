@@ -31,7 +31,7 @@ import cn.gavinliu.android.lib.shapedimageview.ShapedImageView;
 /**
  * 创建者：zhangyunfei
  * 创建时间：2019/1/18 15:41
- * 功能描述：选择店主
+ * 功能描述：选择商友
  */
 public class ChooseShopKeeperAty extends BaseAty {
     private Context mContext;
@@ -54,7 +54,7 @@ public class ChooseShopKeeperAty extends BaseAty {
     protected void initialized() {
         mContext = this;
         showStatusBar(R.id.title_re_layout);
-        titlt_conter_tv.setText("选择店主");
+        titlt_conter_tv.setText("选择商友");
         mSta_mid = getIntent().getStringExtra("sta_mid");
         LinearLayoutManager layoutManager = new LinearLayoutManager(mContext);
         mRecyclerView.setLayoutManager(layoutManager);

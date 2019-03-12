@@ -35,6 +35,7 @@ public class OptionsPickerView<T> extends BasePickerView implements View.OnClick
     private static final String TAG_CANCEL = "cancel";
 
     private OnOptionsSelectListener optionsSelectListener;
+    private OnOptionsCancelListener optionsCancelListener;
 
     private String Str_Submit;//确定按钮文字
     private String Str_Cancel;//取消按钮文字
@@ -83,6 +84,7 @@ public class OptionsPickerView<T> extends BasePickerView implements View.OnClick
     public OptionsPickerView(Builder builder) {
         super(builder.context);
         this.optionsSelectListener = builder.optionsSelectListener;
+        this.optionsCancelListener = builder.optionsCancelListener;
         this.Str_Submit = builder.Str_Submit;
         this.Str_Cancel = builder.Str_Cancel;
         this.Str_Title = builder.Str_Title;
@@ -135,6 +137,7 @@ public class OptionsPickerView<T> extends BasePickerView implements View.OnClick
         private CustomListener customListener;
         private Context context;
         private OnOptionsSelectListener optionsSelectListener;
+        private OnOptionsCancelListener optionsCancelListener;
 
         private String Str_Submit;//确定按钮文字
         private String Str_Cancel;//取消按钮文字
@@ -187,6 +190,11 @@ public class OptionsPickerView<T> extends BasePickerView implements View.OnClick
         }
 
         //Option
+
+        public Builder setCancel(OnOptionsCancelListener listener){
+            this.optionsCancelListener = listener;
+            return this;
+        }
 
         public Builder setSubmitText(String Str_Cancel) {
             this.Str_Submit = Str_Cancel;
@@ -519,6 +527,10 @@ public class OptionsPickerView<T> extends BasePickerView implements View.OnClick
         String tag = (String) v.getTag();
         if (tag.equals(TAG_SUBMIT)) {
             returnData();
+        }else {
+           if (optionsCancelListener != null){
+               optionsCancelListener.onOptionsCancel(v);
+           }
         }
         dismiss();
     }
@@ -533,6 +545,10 @@ public class OptionsPickerView<T> extends BasePickerView implements View.OnClick
 
     public interface OnOptionsSelectListener {
         void onOptionsSelect(int options1, int options2, int options3, View v);
+    }
+
+    public interface OnOptionsCancelListener {
+        void onOptionsCancel(View v);
     }
 
     @Override

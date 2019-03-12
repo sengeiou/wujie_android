@@ -103,6 +103,13 @@ public class ScreeningConditionsAty extends BaseAty{
                     }
                 })
                         .setOutSideCancelable(false)
+                        .setCancel(new OptionsPickerView.OnOptionsCancelListener() {
+                            @Override
+                            public void onOptionsCancel(View v) {
+                                addressTv.setText("不限");
+                                mCity_id = null;
+                            }
+                        })
                         .build();
                 pvOptions.setPicker(options1Items, options2Items, options3Items);
                 pvOptions.show();
@@ -120,6 +127,13 @@ public class ScreeningConditionsAty extends BaseAty{
                     }
                 })
                         .setOutSideCancelable(false)
+                        .setCancel(new OptionsPickerView.OnOptionsCancelListener() {
+                            @Override
+                            public void onOptionsCancel(View v) {
+                                typeTv.setText("不限");
+                                mCate_id = null;
+                            }
+                        })
                         .build();
                 pvOptions2.setPicker(titles);
                 pvOptions2.show();
