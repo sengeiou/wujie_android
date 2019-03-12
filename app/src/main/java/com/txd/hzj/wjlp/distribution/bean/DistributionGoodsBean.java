@@ -75,6 +75,7 @@ public class DistributionGoodsBean {
          * goods_id : 57
          * product_id : 34
          * shop_id : ZAAADU
+         * merchant_id
          * integral : 13.00
          * goods_name : （女士凉鞋）欧美夏季新款女式尖头凉鞋
          * goods_brief:
@@ -86,6 +87,7 @@ public class DistributionGoodsBean {
          * market_price : 150.00
          * sell_num : 0
          * active_type
+         * is_distribution : "1"
          * shop_goods_rec  //是否推荐   1 推荐  0 未推荐
          * ticket_buy_discount : 30
          */
@@ -109,6 +111,25 @@ public class DistributionGoodsBean {
         private String shop_goods_rec;
         private int ticket_buy_discount;
         private boolean mChecked = false;
+        private String is_distribution;
+        private String merchant_id;
+
+
+        public String getMerchant_id() {
+            return merchant_id;
+        }
+
+        public void setMerchant_id(String merchant_id) {
+            this.merchant_id = merchant_id;
+        }
+
+        public String getIs_distribution() {
+            return is_distribution;
+        }
+
+        public void setIs_distribution(String is_distribution) {
+            this.is_distribution = is_distribution;
+        }
 
         public String getShop_goods_rec() {
             return shop_goods_rec;

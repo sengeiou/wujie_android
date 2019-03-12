@@ -268,7 +268,7 @@ public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.Scro
                         } else {
                             stringBuffer.append(Config.OFFICIAL_WEB);
                         }
-                        stringBuffer.append("Wap/OfflineStore/offlineShop/merchant_id/");
+                        stringBuffer.append("Wap/OfflineStore/offlineShop/os_type/1/merchant_id/");
                         stringBuffer.append(offLineDataBean.getS_id());
                         if (Config.isLogin()) {
                             stringBuffer.append("/invite_code/");

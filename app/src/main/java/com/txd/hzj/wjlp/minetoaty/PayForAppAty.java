@@ -184,6 +184,7 @@ public class PayForAppAty extends BaseAty {
     //从线下店铺传过来的金额
     private String mMoney;
     private String mIn;
+    private int checkNum;
 
 
     @Override
@@ -259,7 +260,7 @@ public class PayForAppAty extends BaseAty {
                         Pay.getJsTine(order_id, getType(), WJConfig.TYPE_EJBL, this);
                     } else if (mType.equals(WJConfig.TYPE_XXDP)) {
                         Pay.getJsTine(order_id, getType(), "9", this);
-                    }else if (mType.equals(WJConfig.TYPE_JSP)) {
+                    } else if (mType.equals(WJConfig.TYPE_JSP)) {
                         Pay.getJsTine(order_id, getType(), "16", this);
                     }
                     showProgressDialog();
@@ -290,7 +291,7 @@ public class PayForAppAty extends BaseAty {
                         Pay.getAlipayParam(order_id, getType(), WJConfig.TYPE_EJBL, this);
                     } else if (mType.equals(WJConfig.TYPE_XXDP)) {
                         Pay.getAlipayParam(order_id, getType(), "9", this);
-                    }else if (mType.equals(WJConfig.TYPE_JSP)) {
+                    } else if (mType.equals(WJConfig.TYPE_JSP)) {
                         Pay.getAlipayParam(order_id, getType(), "16", this);
                     }
                     showProgressDialog();
@@ -333,7 +334,7 @@ public class PayForAppAty extends BaseAty {
         pay_by_ali_cb.setChecked(false);
         pay_by_balance_cb.setChecked(false);
         cb_jfzf.setChecked(false);
-        if (cb_coinzf.getVisibility() == View.VISIBLE){
+        if (cb_coinzf.getVisibility() == View.VISIBLE) {
             cb_coinzf.setChecked(false);
         }
         if (0 == type) {
@@ -344,7 +345,7 @@ public class PayForAppAty extends BaseAty {
             pay_by_balance_cb.setChecked(true);
         } else if (3 == type) {
             cb_jfzf.setChecked(true);
-        }else if (4 == type){
+        } else if (4 == type) {
             cb_coinzf.setChecked(true);
         }
     }
@@ -628,9 +629,9 @@ public class PayForAppAty extends BaseAty {
                 } else {
                     cb_jfzf.setVisibility(View.GONE);
                 }
-                if (data.containsKey("is_coin_pay") && Double.parseDouble(data.get("is_coin_pay"))==1){
+                if (data.containsKey("is_coin_pay") && Double.parseDouble(data.get("is_coin_pay")) == 1) {
                     cb_coinzf.setVisibility(View.VISIBLE);
-                    cb_coinzf.setText(data.containsKey("chance_num")?"银两支付("+data.get("chance_num")+")":"银两支付");
+                    cb_coinzf.setText(data.containsKey("chance_num") ? "银两支付(" + data.get("chance_num") + ")" : "银两支付");
                 }
                 if (mType.equals("2") || mType.equals("3") || mType.equals("4")) {
                     if (TextUtils.isEmpty(group_buy_id)) {
@@ -749,8 +750,8 @@ public class PayForAppAty extends BaseAty {
 
                 }
                 //银两支付
-                if (cb_coinzf.isChecked()){
-                    CoinPay.coinPay(order_id,"2",this);
+                if (cb_coinzf.isChecked()) {
+                    CoinPay.coinPay(order_id, "2", this);
                     showProgressDialog();
                 }
             } else {
@@ -1019,6 +1020,7 @@ public class PayForAppAty extends BaseAty {
                         r = view.findViewById(R.id.cb_1);
                         y = view.findViewById(R.id.cb_2);
                         b = view.findViewById(R.id.cb_3);
+                        setCheck();
 
                         r.setText(order.containsKey("red_desc") ? order.get("red_desc") : "");
                         y.setText(order.containsKey("yellow_desc") ? order.get("yellow_desc") : "");
@@ -1044,7 +1046,8 @@ public class PayForAppAty extends BaseAty {
                         r.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                setCheck(1);
+                                checkNum = 1;
+                                setCheck();
                                 setImage(type, r.isChecked(), y.isChecked(), b.isChecked());
                                 if (order.containsKey("red_return_integral") && Double.parseDouble(order.get("red_return_integral")) > 0.0) {
                                     integral_money.setVisibility(View.VISIBLE);
@@ -1060,7 +1063,8 @@ public class PayForAppAty extends BaseAty {
                         y.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                setCheck(2);
+                                checkNum = 2;
+                                setCheck();
                                 setImage(type, r.isChecked(), y.isChecked(), b.isChecked());
                                 if (order.containsKey("yellow_return_integral") && Double.parseDouble(order.get("yellow_return_integral")) > 0.0) {
                                     integral_money.setVisibility(View.VISIBLE);
@@ -1076,7 +1080,8 @@ public class PayForAppAty extends BaseAty {
                         b.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                setCheck(3);
+                                checkNum = 3;
+                                setCheck();
                                 setImage(type, r.isChecked(), y.isChecked(), b.isChecked());
                                 if (order.containsKey("blue_return_integral") && Double.parseDouble(order.get("blue_return_integral")) > 0.0) {
                                     integral_money.setVisibility(View.VISIBLE);
@@ -1094,8 +1099,9 @@ public class PayForAppAty extends BaseAty {
                             @Override
                             public void onClick(View v) {
                                 commonPopupWindow.dismiss();
+                                checkNum = 0;
+                                setCheck();
                                 setImage(type, r.isChecked(), y.isChecked(), b.isChecked());
-                                setCheck(4);
                                 double d = 0;
                                 if (order.containsKey("ticket_price")) {
                                     d = Double.parseDouble(order.get("ticket_price"));
@@ -1131,11 +1137,11 @@ public class PayForAppAty extends BaseAty {
 
     }
 
-    private void setCheck(int s) {
+    private void setCheck() {
         r.setChecked(false);
         y.setChecked(false);
         b.setChecked(false);
-        switch (s) {
+        switch (checkNum) {
             case 1:
                 r.setChecked(true);
                 break;
@@ -1144,6 +1150,8 @@ public class PayForAppAty extends BaseAty {
                 break;
             case 3:
                 b.setChecked(true);
+                break;
+            default:
                 break;
         }
     }

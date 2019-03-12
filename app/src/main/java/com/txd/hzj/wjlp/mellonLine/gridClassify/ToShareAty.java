@@ -70,7 +70,7 @@ public class ToShareAty extends BaseAty {
             case R.id.share_to_wachar: // 微信
                 L.e("微信");
                 shareType = "1";
-                if (!CheckAppExist.getInstancei().isAppAvilible(this, "com.tencent.mm")) {
+                if (!CheckAppExist.getInstancei().isWeChatAppInstalled(this)) {
                     showErrorTip("请安装微信");
                     break;
                 }
@@ -79,7 +79,7 @@ public class ToShareAty extends BaseAty {
             case R.id.share_to_WechatMoments: // 微信朋友圈
                 L.e("微信朋友圈");
                 shareType = "4";
-                if (!CheckAppExist.getInstancei().isAppAvilible(this, "com.tencent.mm")) {
+                if (!CheckAppExist.getInstancei().isWeChatAppInstalled(this)) {
                     showErrorTip("请安装微信");
                     break;
                 }

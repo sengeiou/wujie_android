@@ -279,8 +279,8 @@ public class ShareGradeAty extends BaseAty {
                             .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                             .into(user_head_iv);
                     nick_name_tv.setText(data.get("nickname") + "\n推荐人：" + data.get("parent_name"));
-                    share_num_tv.setText(data.get("share_num"));
-                    recommend_num_tv.setText(data.get("recommend_num"));
+                    share_num_tv.setText(data.get("share_num")+"/"+data.get("share_rank"));
+                    recommend_num_tv.setText(data.get("recommend_num")+"/"+data.get("recommend_rank"));
                     if (ToolKit.isList(data, "rank_list")) {
                         rankList = JSONUtils.parseKeyAndValueToMapList(RankBean.class,data.get("rank_list"));
                         my_share_grade_lv.setAdapter(rankingListAdapter);
@@ -334,8 +334,8 @@ public class ShareGradeAty extends BaseAty {
                             .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                             .into(user_head_iv);
                     nick_name_tv.setText(data.get("nickname") + "\n推荐人：" + data.get("parent_name")); // 设置显示文字消息
-                    share_num_tv.setText(data.get("share_num")); // 设置显示推荐人数
-                    recommend_num_tv.setText(data.get("recommend_num")); // 设置显示消息
+                    share_num_tv.setText(data.get("share_num")+"/"+data.get("share_rank"));// 设置显示推荐人数
+                    recommend_num_tv.setText(data.get("recommend_num")+"/"+data.get("recommend_rank"));// 设置显示消息
                     if (ToolKit.isList(data, "rank_list")) { // 如果rank_list字段可以解析为集合
 //                        rankList = JSONUtils.parseKeyAndValueToMapList(data.get("rank_list")); // 将rank_list字段转换为集合
                         rankList = JSONUtils.parseKeyAndValueToMapList(RankBean.class,data.get("rank_list")); // 将rank_list字段转换为集合

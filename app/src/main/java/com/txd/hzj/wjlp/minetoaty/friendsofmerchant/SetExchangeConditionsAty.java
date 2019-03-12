@@ -224,6 +224,13 @@ public class SetExchangeConditionsAty extends BaseAty {
                 })
                         .setTitleText(titles[3])
                         .setOutSideCancelable(false)
+                        .setCancel(new OptionsPickerView.OnOptionsCancelListener() {
+                            @Override
+                            public void onOptionsCancel(View v) {
+                                addressTv.setText("不限");
+                                mCity_id = null;
+                            }
+                        })
                         .build();
                 pvOptions.setPicker(options1Items, options2Items, options3Items);
                 pvOptions.show();
@@ -258,6 +265,13 @@ public class SetExchangeConditionsAty extends BaseAty {
             })
                     .setTitleText(title)
                     .setOutSideCancelable(false)
+                    .setCancel(new OptionsPickerView.OnOptionsCancelListener() {
+                        @Override
+                        public void onOptionsCancel(View v) {
+                            mSexNum = 0;
+                            sexTv.setText("不限");
+                        }
+                    })
                     .build();
             pvOptions.setPicker(mOptionsItems);
             pvOptions.show();
@@ -278,6 +292,13 @@ public class SetExchangeConditionsAty extends BaseAty {
             })
                     .setTitleText(title)
                     .setOutSideCancelable(false)
+                    .setCancel(new OptionsPickerView.OnOptionsCancelListener() {
+                        @Override
+                        public void onOptionsCancel(View v) {
+                            mAgeNum = 0;
+                            ageTv.setText("不限");
+                        }
+                    })
                     .build();
             pvOptions.setPicker(mOptionsItems);
             pvOptions.show();
@@ -296,6 +317,13 @@ public class SetExchangeConditionsAty extends BaseAty {
             })
                     .setTitleText(title)
                     .setOutSideCancelable(false)
+                    .setCancel(new OptionsPickerView.OnOptionsCancelListener() {
+                        @Override
+                        public void onOptionsCancel(View v) {
+                            mGradeNum = 0;
+                            gradeTv.setText("不限");
+                        }
+                    })
                     .build();
             pvOptions.setPicker(mOptionsItems);
             pvOptions.show();

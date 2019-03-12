@@ -34,6 +34,7 @@ import com.ants.theantsgo.tool.ToolKit;
 import com.ants.theantsgo.util.JSONUtils;
 import com.ants.theantsgo.util.L;
 import com.ants.theantsgo.util.PreferencesUtils;
+import com.baidu.tts.tools.SharedPreferencesUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout;
@@ -867,6 +868,7 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
             }
             // 邀请码
             invite_code = data.get("invite_code");
+            SharedPreferencesUtils.putString(getActivity(),"invite_code",invite_code);
             // 联盟商家id
             stage_merchant_id = data.containsKey("stage_merchant_id") ? data.get("stage_merchant_id") : "";
             // 商家码的invite_code
