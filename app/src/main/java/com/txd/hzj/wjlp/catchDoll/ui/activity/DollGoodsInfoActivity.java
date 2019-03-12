@@ -1,6 +1,7 @@
 package com.txd.hzj.wjlp.catchDoll.ui.activity;
 
 import android.content.DialogInterface;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -105,16 +106,21 @@ public class DollGoodsInfoActivity extends BaseAty {
                 finish();
                 break;
             case R.id.dollGoodsInfo_redeemGoods_tv:
-                new MessageDialog.Builder(this)
-                        .setTitle("提示")
-                        .setMessage("确定要兑换此商品吗？")
-                        .setOnPositiveBtnClickListener("确认", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                Catcher.exchangeCatchersGoodsOrder(String.valueOf(myDollBean.getRoomId()), String.valueOf(myDollBean.getGoods_id()),DollGoodsInfoActivity.this);
-                            }
-                        })
-                        .setOnNegativeBtnClickListener("取消", null).create().show();
+                Bundle  bundle = new Bundle();
+                bundle.putString("cid", String.valueOf(myDollBean.getRoomId()));
+                bundle.putString("goods_id", String.valueOf(myDollBean.getGoods_id()));
+                bundle.putString("product_id", myDollBean.getProduct_id());
+                bundle.putString("catcher_num", String.valueOf(myDollBean.getCatcherNum()));
+                startActivity(CatcherAdderssAty.class, bundle);
+//                new MessageDialog.Builder(this)
+//                        .setTitle("提示")
+//                        .setMessage("确定要兑换此商品吗？")
+//                        .setOnPositiveBtnClickListener("确认", new DialogInterface.OnClickListener() {
+//                            @Override
+//                            public void onClick(DialogInterface dialog, int which) {
+//                            }
+//                        })
+//                        .setOnNegativeBtnClickListener("取消", null).create().show();
                 break;
             case R.id.dollGoodsInfo_redeemSilver_tv:
                 new MessageDialog.Builder(this)

@@ -1055,6 +1055,7 @@
         <activity android:name=".catchDoll.ui.activity.PlayerPeopleListActivity" />
         <!-- TA的娃娃 -->
         <activity android:name=".catchDoll.ui.activity.OnePeoplesDollActivity" />
+        <activity android:name=".catchDoll.ui.activity.CatcherAdderssAty" />
 
     </application>
 

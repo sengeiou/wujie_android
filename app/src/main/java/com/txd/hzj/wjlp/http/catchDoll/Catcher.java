@@ -180,30 +180,6 @@ public class Catcher {
         apiTool2.postApi(url + "getCatcherAttentionList", params, baseView);
     }
 
-
-    /**
-     * 抓娃娃商品订单生成
-     *
-     * @param goods_id      商品id
-     * @param address_id    地址id
-     * @param catcher_num   需要兑换次数
-     * @param leave_message 备注
-     * @param goods         商品对象Json字符串
-     * @param is_zhifu      是否已支付
-     * @param baseView      回调
-     */
-    public static void goodsOrder(int goods_id, int address_id, int catcher_num, String leave_message, String goods, int is_zhifu, BaseView baseView) {
-        ApiTool2 apiTool2 = new ApiTool2();
-        RequestParams params = new RequestParams();
-        params.addBodyParameter("goods_id", String.valueOf(goods_id));
-        params.addBodyParameter("address_id", String.valueOf(address_id));
-        params.addBodyParameter("catcher_num", String.valueOf(catcher_num));
-        params.addBodyParameter("goods", goods);
-        params.addBodyParameter("leave_message", leave_message);
-        params.addBodyParameter("is_zhifu", String.valueOf(is_zhifu));
-        apiTool2.postApi(url + "goodsOrder", params, baseView);
-    }
-
     /**
      * 房间信息获取
      *
@@ -324,17 +300,20 @@ public class Catcher {
     }
 
     /**
-     * 兑换抓娃娃商品（下订单）
+     * 抓娃娃商品订单生成
      * @param cid
      * @param goods_id
      * @param baseView
      */
-    public static void exchangeCatchersGoodsOrder(String cid, String goods_id, BaseView baseView) {
+    public static void goodsOrder(String cid, String goods_id,String address_id,String product_id,String catcher_num, BaseView baseView) {
         ApiTool2 apiTool2 = new ApiTool2();
         RequestParams params = new RequestParams();
         params.addBodyParameter("cid", cid);
         params.addBodyParameter("goods_id", goods_id);
-        apiTool2.postApi(url + "exchangeCatchersGoodsOrder", params, baseView);
+        params.addBodyParameter("address_id", address_id);
+        params.addBodyParameter("product_id", product_id);
+        params.addBodyParameter("catcher_num", catcher_num);
+        apiTool2.postApi(url + "goodsOrder", params, baseView);
     }
 
 

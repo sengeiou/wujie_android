@@ -11,6 +11,7 @@ public class MyDollBean implements Serializable {
 
 
     /**
+     * product_id
      * goods_name : 娃娃
      * goods_img : http://test.wujiemall.com/Uploads/Goods/2019-01-19/5c42bb05656a8.png
      * exchange_price : 30.00
@@ -47,6 +48,15 @@ public class MyDollBean implements Serializable {
     private int coinStatus;
     private int goodsStatus;
     private String userHeader;
+    private String product_id;
+
+    public String getProduct_id() {
+        return product_id;
+    }
+
+    public void setProduct_id(String product_id) {
+        this.product_id = product_id;
+    }
 
     public String getGoods_name() {
         return goods_name;
