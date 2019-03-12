@@ -38,7 +38,6 @@ public class MyDollFragment extends BaseFgt {
     public NoScrollRecyclerView myDollPage_list_rlView;
 
     private int type; // 1 寄存 2 待邮寄 3已发货  4已兑换
-    private List<MyDollBean> list;
 
     public MyDollFragment(int type) {
         this.type = type;
@@ -77,9 +76,8 @@ public class MyDollFragment extends BaseFgt {
                     MyDollBean myDollBean = GsonUtil.GsonToBean(jsonObject1.toString(), MyDollBean.class);
                     myDollBeanList.add(myDollBean);
                 }
-                list = myDollBeanList;
-                if (list != null && list.size()>0){
-                    MyDollItemAdapter adapter = new MyDollItemAdapter(list, type, getActivity());
+                if (myDollBeanList != null && myDollBeanList.size()>0){
+                    MyDollItemAdapter adapter = new MyDollItemAdapter(myDollBeanList, type, getActivity());
                     myDollPage_list_rlView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
                     myDollPage_list_rlView.setNestedScrollingEnabled(false); // 重新设置外层Scroll滑动阻尼效果
                     myDollPage_list_rlView.setAdapter(adapter);

@@ -1,5 +1,7 @@
 package com.txd.hzj.wjlp.catchDoll.ui.activity;
 
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -15,7 +17,11 @@ import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.catchDoll.adapter.MyDollViewPagerAdapter;
 import com.txd.hzj.wjlp.catchDoll.ui.fragment.MyDollFragment;
 import com.txd.hzj.wjlp.http.catchDoll.Catcher;
+import com.txd.hzj.wjlp.tool.MessageEvent;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -45,6 +51,8 @@ public class MyDollActivity extends BaseAty {
     private List<Fragment> fragmentList;
     private List<String> titleList;
 
+    private int selectPosition;
+
     @Override
     protected int getLayoutResId() {
         return R.layout.activity_my_doll;
@@ -54,6 +62,7 @@ public class MyDollActivity extends BaseAty {
     protected void initialized() {
         showStatusBar(R.id.titleView_bg_rlayout);
         titleView_title_tv.setText("我的娃娃");
+
     }
 
     private void initPageData(List<String> titleList) {
@@ -71,6 +80,8 @@ public class MyDollActivity extends BaseAty {
             }
 
             myDoll_table_tablayout.setupWithViewPager(myDoll_content_vp); // 关联viewpager
+            myDoll_content_vp.setOffscreenPageLimit(4);
+            myDoll_content_vp.setCurrentItem(selectPosition);
 
             for (int i = 0; i < titleList.size(); i++) {
                 myDoll_table_tablayout.getTabAt(i).setText(titleList.get(i));
@@ -81,6 +92,27 @@ public class MyDollActivity extends BaseAty {
     @Override
     protected void requestData() {
         Catcher.myAward(this);
+    }
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(MessageEvent messageEvent){
+        String label = messageEvent.getLabel();
+        if (label.equals("CatcherAddressAty")){
+            selectPosition  = Integer.parseInt(messageEvent.getMessage());
+            requestData();
+        }
     }
 
     @OnClick({R.id.titleView_goback_imgv})

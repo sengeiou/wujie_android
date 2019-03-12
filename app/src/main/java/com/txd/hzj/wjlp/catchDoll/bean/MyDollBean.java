@@ -37,26 +37,18 @@ public class MyDollBean implements Serializable {
     private String create_time;
     private String nickname;
     private String name;
-    private int goods_id;
-    private int roomId;
-    private int catcherNum;
-    private int GraspingNum;
-    private long maturityTime;
+    private String goods_id;
+    private String roomId;
+    private String catcherNum;
+    private String GraspingNum;
+    private String maturityTime;
     private String userNickName;
     private String roomName;
     private String depositStatus;
-    private int coinStatus;
-    private int goodsStatus;
+    private String coinStatus;
+    private String goodsStatus;
     private String userHeader;
     private String product_id;
-
-    public String getProduct_id() {
-        return product_id;
-    }
-
-    public void setProduct_id(String product_id) {
-        this.product_id = product_id;
-    }
 
     public String getGoods_name() {
         return goods_name;
@@ -106,43 +98,43 @@ public class MyDollBean implements Serializable {
         this.name = name;
     }
 
-    public int getGoods_id() {
+    public String getGoods_id() {
         return goods_id;
     }
 
-    public void setGoods_id(int goods_id) {
+    public void setGoods_id(String goods_id) {
         this.goods_id = goods_id;
     }
 
-    public int getRoomId() {
+    public String getRoomId() {
         return roomId;
     }
 
-    public void setRoomId(int roomId) {
+    public void setRoomId(String roomId) {
         this.roomId = roomId;
     }
 
-    public int getCatcherNum() {
+    public String getCatcherNum() {
         return catcherNum;
     }
 
-    public void setCatcherNum(int catcherNum) {
+    public void setCatcherNum(String catcherNum) {
         this.catcherNum = catcherNum;
     }
 
-    public int getGraspingNum() {
+    public String getGraspingNum() {
         return GraspingNum;
     }
 
-    public void setGraspingNum(int GraspingNum) {
-        this.GraspingNum = GraspingNum;
+    public void setGraspingNum(String graspingNum) {
+        GraspingNum = graspingNum;
     }
 
-    public long getMaturityTime() {
+    public String getMaturityTime() {
         return maturityTime;
     }
 
-    public void setMaturityTime(long maturityTime) {
+    public void setMaturityTime(String maturityTime) {
         this.maturityTime = maturityTime;
     }
 
@@ -170,19 +162,19 @@ public class MyDollBean implements Serializable {
         this.depositStatus = depositStatus;
     }
 
-    public int getCoinStatus() {
+    public String getCoinStatus() {
         return coinStatus;
     }
 
-    public void setCoinStatus(int coinStatus) {
+    public void setCoinStatus(String coinStatus) {
         this.coinStatus = coinStatus;
     }
 
-    public int getGoodsStatus() {
+    public String getGoodsStatus() {
         return goodsStatus;
     }
 
-    public void setGoodsStatus(int goodsStatus) {
+    public void setGoodsStatus(String goodsStatus) {
         this.goodsStatus = goodsStatus;
     }
 
@@ -192,5 +184,13 @@ public class MyDollBean implements Serializable {
 
     public void setUserHeader(String userHeader) {
         this.userHeader = userHeader;
+    }
+
+    public String getProduct_id() {
+        return product_id;
+    }
+
+    public void setProduct_id(String product_id) {
+        this.product_id = product_id;
     }
 }

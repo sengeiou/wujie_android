@@ -2,6 +2,7 @@ package com.txd.hzj.wjlp.catchDoll.ui.activity;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -71,7 +72,9 @@ public class DollGoodsInfoActivity extends BaseAty {
         // 设置商品
         GlideUtils.loadUrlImg(this, myDollBean.getGoods_img(), dollGoodsInfo_image_imgv); // 商品图
         dollGoodsInfo_name_tv.setText(myDollBean.getName()); // 商品名称
-        dollGoodsInfo_time_tv.setText(Util.millis2String(myDollBean.getMaturityTime(), "yyyy.MM.dd HH:mm:ss")); // 抓中记录时间
+        if (!TextUtils.isEmpty(myDollBean.getMaturityTime())){
+            dollGoodsInfo_time_tv.setText(Util.millis2String(Long.parseLong(myDollBean.getMaturityTime()), "yyyy.MM.dd HH:mm:ss")); // 抓中记录时间
+        }
         // 设置下方用户和娃娃机信息
         GlideUtils.urlCirclePicNoBg(myDollBean.getUserHeader(), 40, 40, dollGoodsInfo_userHeader_imgv); // 玩家头像
         dollGoodsInfo_userName_tv.setText(myDollBean.getUserNickName()); // 玩家昵称
@@ -80,13 +83,13 @@ public class DollGoodsInfoActivity extends BaseAty {
         dollGoodsInfo_roomNumber_tv.setText(String.valueOf(myDollBean.getRoomId())); // 房间号
 
 
-        if (myDollBean.getCoinStatus()==1){
+        if (myDollBean.getCoinStatus().equals("1")){
             dollGoodsInfo_redeemSilver_tv.setVisibility(View.VISIBLE);
         }else {
             dollGoodsInfo_redeemSilver_tv.setVisibility(View.GONE);
         }
 
-        if (myDollBean.getGoodsStatus()==1){
+        if (myDollBean.getGoodsStatus().equals("1")){
             dollGoodsInfo_redeemGoods_tv.setVisibility(View.VISIBLE);
         }else {
             dollGoodsInfo_redeemGoods_tv.setVisibility(View.GONE);
@@ -111,7 +114,8 @@ public class DollGoodsInfoActivity extends BaseAty {
                 bundle.putString("goods_id", String.valueOf(myDollBean.getGoods_id()));
                 bundle.putString("product_id", myDollBean.getProduct_id());
                 bundle.putString("catcher_num", String.valueOf(myDollBean.getCatcherNum()));
-                startActivity(CatcherAdderssAty.class, bundle);
+                startActivity(CatcherAddressAty.class, bundle);
+                finish();
 //                new MessageDialog.Builder(this)
 //                        .setTitle("提示")
 //                        .setMessage("确定要兑换此商品吗？")

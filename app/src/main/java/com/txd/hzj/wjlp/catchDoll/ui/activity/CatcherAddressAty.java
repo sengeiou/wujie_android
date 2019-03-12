@@ -27,6 +27,9 @@ import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.http.address.AddressPst;
 import com.txd.hzj.wjlp.http.catchDoll.Catcher;
 import com.txd.hzj.wjlp.minetoaty.address.AddNewAddressAty2;
+import com.txd.hzj.wjlp.tool.MessageEvent;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +40,7 @@ import java.util.Map;
  * 创建时间：2019/3/12 10:12
  * 功能描述：
  */
-public class CatcherAdderssAty extends BaseAty {
+public class CatcherAddressAty extends BaseAty {
 
     @ViewInject(R.id.titlt_conter_tv)
     private TextView titlt_conter_tv;
@@ -155,10 +158,14 @@ public class CatcherAdderssAty extends BaseAty {
 
 
     @Override
-    @OnClick({R.id.add_address_tv, R.id.edit_address_tv, R.id.delete_address_tv, R.id.default_address_layout})
+    @OnClick({R.id.title_be_back_iv,R.id.add_address_tv, R.id.edit_address_tv, R.id.delete_address_tv, R.id.default_address_layout})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
+            case R.id.title_be_back_iv:
+                EventBus.getDefault().post(new MessageEvent("0","CatcherAddressAty"));
+                finish();
+                break;
             case R.id.add_address_tv:// 新增地址
                 bundle = new Bundle();
                 bundle.putInt("type", 0);
@@ -171,7 +178,7 @@ public class CatcherAdderssAty extends BaseAty {
                 startActivity(AddNewAddressAty2.class, bundle);
                 break;
             case R.id.delete_address_tv://删除
-                new MikyouCommonDialog(CatcherAdderssAty.this, "确定要删除地址吗?", "提示", "删除", "取消", true).setOnDiaLogListener
+                new MikyouCommonDialog(CatcherAddressAty.this, "确定要删除地址吗?", "提示", "删除", "取消", true).setOnDiaLogListener
                         (new MikyouCommonDialog.OnDialogListener() {
 
                             @Override
@@ -222,9 +229,9 @@ public class CatcherAdderssAty extends BaseAty {
 
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
+        Map<String, String> data = JSONUtils.parseKeyAndValueToMap(jsonStr);
         if (requestUrl.contains("addressList")) {
             super.onComplete(requestUrl, jsonStr);
-            Map<String, String> data = JSONUtils.parseKeyAndValueToMap(jsonStr);
             Map<String, String> map = JSONUtils.parseKeyAndValueToMap(data.get("data"));
             if (1 == p) {
                 if (ToolKit.isList(map, "default_address")) {
@@ -277,7 +284,9 @@ public class CatcherAdderssAty extends BaseAty {
         }
 
         if (requestUrl.endsWith("goodsOrder")){
-
+            showToast(data.get("message"));
+            EventBus.getDefault().post(new MessageEvent("1","CatcherAddressAty"));
+            finish();
         }
 
     }
@@ -346,7 +355,7 @@ public class CatcherAdderssAty extends BaseAty {
             avh.root_layout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Catcher.goodsOrder(mCid,mGoods_id,addresses.get(i).get("address_id"),mProduct_id,mCatcher_num,CatcherAdderssAty.this);
+                    Catcher.goodsOrder(mCid,mGoods_id,addresses.get(i).get("address_id"),mProduct_id,mCatcher_num,CatcherAddressAty.this);
                 }
             });
 
@@ -371,7 +380,7 @@ public class CatcherAdderssAty extends BaseAty {
             avh.delete_address_tv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    new MikyouCommonDialog(CatcherAdderssAty.this, "确定要删除地址吗?", "提示", "删除", "取消", true).setOnDiaLogListener
+                    new MikyouCommonDialog(CatcherAddressAty.this, "确定要删除地址吗?", "提示", "删除", "取消", true).setOnDiaLogListener
                             (new MikyouCommonDialog.OnDialogListener() {
 
                                 @Override
