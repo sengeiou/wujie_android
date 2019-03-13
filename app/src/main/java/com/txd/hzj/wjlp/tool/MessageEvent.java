@@ -13,9 +13,14 @@ package com.txd.hzj.wjlp.tool;
 
 public class MessageEvent {
     private String message;
-
+    private String label;
     public MessageEvent(String message) {
         this.message = message;
+    }
+
+    public MessageEvent(String message, String label) {
+        this.message = message;
+        this.label = label;
     }
 
     public String getMessage() {
@@ -24,5 +29,13 @@ public class MessageEvent {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public String getLabel() {
+        return label;
+    }
+
+    public void setLabel(String label) {
+        this.label = label;
     }
 }

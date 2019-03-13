@@ -98,7 +98,7 @@
     <application
         android:name=".DemoApplication"
         android:allowBackup="false"
-        android:debuggable="false"
+        android:debuggable="true"
         android:icon="@mipmap/wjyp2"
         android:label="@string/app_name"
         android:largeHeap="true"
@@ -211,8 +211,7 @@
         <!-- 消息列表 -->
         <activity android:name=".mellonLine.OrderAndInformMessageListAty" />
         <!-- 公告详情 -->
-        <activity android:name=".mellonLine.NoticeDetailsAty"
-            android:windowSoftInputMode="stateHidden|adjustResize"/>
+        <activity android:name=".mellonLine.NoticeDetailsAty" />
         <!-- 限量购 -->
         <activity android:name=".mellonLine.gridClassify.LimitShoppingAty" />
         <!-- 限量购详情 -->
@@ -990,6 +989,29 @@
         <activity android:name=".mellonLine.gridClassify.LuckRakingListAty" />
         <activity android:name=".minetoaty.SilverCoinAty" />
         <activity android:name=".minetoaty.tricket.DetailsOfSilverAty" />
+        <activity android:name=".minetoaty.storemanagement.CommodityManagementAty" />
+
+        <activity android:name=".minetoaty.storemanagement.ClassifyManageAty" />
+        <activity android:name=".minetoaty.storemanagement.InputAty" />
+        <activity android:name=".minetoaty.storemanagement.MultipleSpecificationsAty" />
+        <activity android:name=".minetoaty.storemanagement.AttributesSecondAty" />
+        <activity android:name=".minetoaty.storemanagement.AttributesFirstAty" />
+        <activity android:name=".minetoaty.storemanagement.DateRangeAty" />
+        <activity android:name=".minetoaty.storemanagement.WeekRangeAty" />
+        <activity android:name=".minetoaty.friendsofmerchant.MyFriendsAty" />
+        <activity android:name=".minetoaty.friendsofmerchant.ChangeMembersAty" />
+        <activity android:name=".minetoaty.friendsofmerchant.ChangeMsgDetailsAty" />
+        <activity android:name=".minetoaty.friendsofmerchant.NewFriendAty" />
+        <activity android:name=".minetoaty.friendsofmerchant.SetExchangeConditionsAty" />
+        <activity android:name=".minetoaty.friendsofmerchant.ChooseShopKeeperAty" />
+        <activity android:name=".minetoaty.friendsofmerchant.AddShopOwnerAty" />
+        <activity android:name=".minetoaty.friendsofmerchant.BusinessFriendDataAty" />
+        <activity android:name=".minetoaty.friendsofmerchant.AddFriendAty" />
+        <activity android:name=".minetoaty.friendsofmerchant.ScreeningConditionsAty" />
+        <activity android:name=".minetoaty.friendsofmerchant.ScreeningResultAty" />
+        <activity android:name=".minetoaty.friendsofmerchant.GroupManagementAty" />
+        <activity android:name=".minetoaty.friendsofmerchant.GroupManageDetailsAty" />
+        <activity android:name=".minetoaty.friendsofmerchant.NotAddFriendAty" />>
     </application>
 
 </manifest>

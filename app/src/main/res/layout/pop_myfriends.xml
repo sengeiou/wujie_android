@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_gravity="center"
+        android:background="@drawable/icon_pop_myfriends"
+        android:layout_width="wrap_content"
+        android:gravity="center_horizontal"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/changeMemberTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="会员互换"
+            android:padding="5dp"
+            android:layout_marginTop="15dp"
+            android:textColor="#ffffffff"
+            android:textSize="16sp"
+            />
+        <TextView
+            android:id="@+id/newFriendsTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="新的好友"
+            android:padding="5dp"
+            android:layout_marginTop="10dp"
+            android:textColor="#ffffffff"
+            android:textSize="16sp"
+            />
+    </LinearLayout>
+</FrameLayout>

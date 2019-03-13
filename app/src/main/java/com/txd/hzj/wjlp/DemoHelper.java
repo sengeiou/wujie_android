@@ -9,11 +9,15 @@ import android.content.IntentFilter;
 import android.os.Looper;
 import android.os.Message;
 import android.support.v4.content.LocalBroadcastManager;
+import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.ants.theantsgo.AppManager;
-import com.ants.theantsgo.util.L;
+import com.ants.theantsgo.base.BaseView;
+import com.ants.theantsgo.config.Config;
+import com.ants.theantsgo.httpTools.ApiTool2;
+import com.ants.theantsgo.util.JSONUtils;
 import com.ants.theantsgo.util.PreferencesUtils;
 import com.hyphenate.EMCallBack;
 import com.hyphenate.EMConnectionListener;
@@ -47,6 +51,7 @@ import com.hyphenate.easeui.model.EaseNotifier.EaseNotificationInfoProvider;
 import com.hyphenate.easeui.utils.EaseCommonUtils;
 import com.hyphenate.exceptions.HyphenateException;
 import com.hyphenate.util.EMLog;
+import com.lidroid.xutils.http.RequestParams;
 import com.txd.hzj.wjlp.huanxin.db.DemoDBManager;
 import com.txd.hzj.wjlp.huanxin.db.InviteMessgeDao;
 import com.txd.hzj.wjlp.huanxin.db.UserDao;
@@ -73,6 +78,9 @@ import java.util.concurrent.Executors;
  * 环信helper类
  */
 public class DemoHelper {
+    private String head_pic;
+    private String nickname;
+
     /**
      * data sync listener
      */
@@ -474,11 +482,19 @@ public class DemoHelper {
             @Override
             public Intent getLaunchIntent(EMMessage message) {
                 // you can set what activity you want display when user click the notification
-                Intent intent = new Intent(appContext, ChatActivity.class);
+                final Intent intent = new Intent(appContext, ChatActivity.class);
                 ChatType chatType = message.getChatType();
                 if (chatType == ChatType.Chat) { // single chat message
                     intent.putExtra("userId", message.getFrom());
                     intent.putExtra("chatType", Constant.CHATTYPE_SINGLE);
+                    intent.putExtra("myName", DemoApplication.getInstance().getUserInfo().get("nickname"));// 我的昵称
+                    intent.putExtra("myHead", DemoApplication.getInstance().getUserInfo().get("head_pic"));// 我的头像
+                    if (!TextUtils.isEmpty(head_pic)){
+                        intent.putExtra("userHead", head_pic);// 对方头像
+                    }
+                    if (!TextUtils.isEmpty(nickname)){
+                        intent.putExtra("userName", nickname);// 对方昵称
+                    }
                 } else { // group chat message
                     // message.getTo() is the group id
                     intent.putExtra("userId", message.getTo());
@@ -1259,11 +1275,87 @@ public class DemoHelper {
              * */
             @Override
             public void onMessageReceived(List<EMMessage> messages) {
-                for (EMMessage message : messages) {
+                for (final EMMessage message : messages) {
                     EMLog.d(TAG, "onMessageReceived id : " + message.getMsgId());
                     // in background, do not refresh UI, notify it in notification bar
                     if (!easeUI.hasForegroundActivies()) {
-                        getNotifier().onNewMsg(message);
+                        RequestParams params = new RequestParams();
+                        ApiTool2 apiTool2 = new ApiTool2();
+                        params.addBodyParameter("easemob_account", message.getFrom());
+                        apiTool2.postApi(Config.BASE_URL + "User/get_userinfo_by_hxid", params, new BaseView() {
+                            @Override
+                            public void showDialog() {
+
+                            }
+
+                            @Override
+                            public void showDialog(String text) {
+
+                            }
+
+                            @Override
+                            public void showContent() {
+
+                            }
+
+                            @Override
+                            public void removeDialog() {
+
+                            }
+
+                            @Override
+                            public void removeContent() {
+
+                            }
+
+                            @Override
+                            public void onStarted() {
+
+                            }
+
+                            @Override
+                            public void onCancelled() {
+
+                            }
+
+                            @Override
+                            public void onLoading(long total, long current, boolean isUploading) {
+
+                            }
+
+                            @Override
+                            public void onException(Exception exception) {
+
+                            }
+
+                            @Override
+                            public void onComplete(String requestUrl, String jsonStr) {
+                                Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
+                                ArrayList<Map<String, String>> mapArrayList = JSONUtils.parseKeyAndValueToMapList(map.get("data"));
+                                if (mapArrayList != null && mapArrayList.size()>0){
+                                    for (int i = 0; i < mapArrayList.size(); i++) {
+                                        if (message.getFrom().equals(mapArrayList.get(i).get("easemob_account"))){
+                                            head_pic = mapArrayList.get(i).get("head_pic");
+                                            nickname = mapArrayList.get(i).get("nickname");
+                                            break;
+                                        }
+                                    }
+                                }
+
+                                getNotifier().onNewMsg(message);
+                            }
+
+                            @Override
+                            public void onError(String requestUrl, Map<String, String> error) {
+
+                            }
+
+                            @Override
+                            public void onErrorTip(String tips) {
+
+                            }
+                        });
+
                     }
                 }
             }

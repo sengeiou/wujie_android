@@ -11,27 +11,25 @@
         android:layout_gravity="center"
         android:background="@drawable/bg_bombbox"
         android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/title"
-            android:layout_width="match_parent"
-            android:layout_height="40.0dip"
-            android:gravity="center"
-            android:text="提示"
-            android:textColor="#000000"
-            android:textSize="20sp"
-            android:visibility="visible" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:background="#ffd0d0d0" />
-
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="match_parent"
+                android:layout_height="40.0dip"
+                android:gravity="center"
+                android:text="提示"
+                android:textColor="#000000"
+                android:textSize="20sp"
+                android:visibility="visible" />
+            <View
+                android:id="@+id/titleLine"
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="#ffd0d0d0" />
         <LinearLayout
             android:id="@+id/content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#ffffff"
+            android:background="@drawable/bg_bombbox"
             android:gravity="center">
 
             <TextView
@@ -41,10 +39,10 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:lineSpacingMultiplier="1.2"
-                android:paddingBottom="24dp"
+                android:paddingBottom="31dp"
                 android:paddingLeft="8dp"
                 android:paddingRight="8dp"
-                android:paddingTop="24dp"
+                android:paddingTop="35dp"
                 android:text="中间显示文字" />
         </LinearLayout>
 

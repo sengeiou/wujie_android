@@ -43,6 +43,8 @@ public class CustomDialog extends Dialog {
          * 标题
          */
         private String title;
+
+        private Boolean isShowTitle = true;
         /**
          * 提示信息
          */
@@ -125,6 +127,11 @@ public class CustomDialog extends Dialog {
             return this;
         }
 
+        public Builder setIsShowTitle(boolean isShowTitle){
+            this.isShowTitle = isShowTitle;
+            return this;
+        }
+
         /**
          * 设置点击外侧是否关闭
          *
@@ -171,6 +178,8 @@ public class CustomDialog extends Dialog {
             View layout = inflater.inflate(R.layout.dialog_normal_layout, null);
             dialog.addContentView(layout, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
             ((TextView) layout.findViewById(R.id.title)).setText(title);
+            layout.findViewById(R.id.title).setVisibility(isShowTitle?View.VISIBLE:View.GONE);
+            layout.findViewById(R.id.titleLine).setVisibility(isShowTitle?View.VISIBLE:View.GONE);
             if (positiveButtonText != null) {
                 ((Button) layout.findViewById(R.id.positiveButton)).setText(positiveButtonText);
                 if (positiveButtonClickListener != null) {

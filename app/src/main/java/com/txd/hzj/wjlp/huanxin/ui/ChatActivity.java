@@ -54,6 +54,7 @@ public class ChatActivity extends BaseActivity {
                     .permission(Manifest.permission.RECORD_AUDIO)
                     .send();
         }
+
         activityInstance = this;
         // 获取用户id或者群组id
         toChatUsername = getIntent().getExtras().getString("userId");
