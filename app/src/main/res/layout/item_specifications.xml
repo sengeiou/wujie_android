@@ -15,7 +15,7 @@
         android:id="@+id/numTv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="规格1"
+        android:text="组合商品1"
         android:textColor="#ff666666"
         android:textSize="16sp"
         />
@@ -35,7 +35,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="规格名称"
+            android:text="组合商品名称"
             android:textColor="#ff333333"
             android:textSize="17sp"
             />
@@ -45,9 +45,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@null"
-            android:hint="例如：大份、小份"
             android:inputType="text"
             android:gravity="end"
+            android:minWidth="100dp"
             android:textColor="#ff333333"
             android:textSize="17sp"/>
     </RelativeLayout>
@@ -67,7 +67,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="规格售卖价"
+            android:text="组合商品售卖价"
             android:textColor="#ff333333"
             android:textSize="17sp"
             />
@@ -106,7 +106,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="规格结算价"
+            android:text="组合商品结算价"
             android:textColor="#ff333333"
             android:textSize="17sp"
             />
@@ -144,7 +144,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone"
-        android:text="+添加规格"
+        android:text="+添加组合商品"
         android:padding="20dp"
         android:layout_gravity="center_horizontal"
         android:textColor="#fff85708"

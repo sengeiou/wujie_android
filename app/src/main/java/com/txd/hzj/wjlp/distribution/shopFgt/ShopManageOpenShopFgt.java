@@ -167,7 +167,7 @@ public class ShopManageOpenShopFgt extends BaseFgt {
                                 String shop_id_jiami = PreferencesUtils.getString(AppManager.getInstance().getTopActivity(), "shop_id_jiami");
                                 if (!TextUtils.isEmpty(goodsBean.getIs_distribution()) && goodsBean.getIs_distribution().equals("1")){
                                     //http://dev.wujiemall.com/Wap/OfflineStore/offlineShop/invite_code/OIpvX004/merchant_id/12.html
-                                    bundle.putString("url", Config.SHARE_URL+"Wap/OfflineStore/offlineShop/invite_code/"+PreferencesUtils.getString(AppManager.getInstance().getTopActivity(),"invite_code")+"/merchant_id/"+goodsBean.getMerchant_id()+".html" );
+                                    bundle.putString("url", Config.SHARE_URL+"Wap/OfflineStore/offlineShop/invite_code/"+PreferencesUtils.getString(AppManager.getInstance().getTopActivity(),"invite_code")+"/merchant_id/"+goodsBean.getMerchant_id()+"/goods_id/"+goodsBean.getGoods_id()+"/shop_id/"+shop_id_jiami+".html" );
                                 }else {
                                     bundle.putString("url", Config.SHARE_URL+"Distribution/DistributionShop/shop/g_id/"+goodsBean.getGoods_id()+"/shop_id/"+shop_id_jiami+".html" );
                                 }
