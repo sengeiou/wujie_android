@@ -126,6 +126,7 @@
                     android:background="#EEEEEE" />
 
                 <LinearLayout
+                    android:id="@+id/roomNameLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/white"
@@ -156,6 +157,7 @@
                     android:background="#EEEEEE" />
 
                 <LinearLayout
+                    android:id="@+id/roomNumberLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/white"

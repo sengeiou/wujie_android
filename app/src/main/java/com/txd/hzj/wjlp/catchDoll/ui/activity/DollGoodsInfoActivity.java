@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ants.theantsgo.tool.glide.GlideUtils;
@@ -43,8 +44,12 @@ public class DollGoodsInfoActivity extends BaseAty {
     public TextView dollGoodsInfo_userName_tv;
     @ViewInject(R.id.dollGoodsInfo_goodsType_tv)
     public TextView dollGoodsInfo_goodsType_tv;
+    @ViewInject(R.id.roomNameLayout)
+    public LinearLayout roomNameLayout;
     @ViewInject(R.id.dollGoodsInfo_roomName_tv)
     public TextView dollGoodsInfo_roomName_tv;
+    @ViewInject(R.id.roomNumberLayout)
+    public LinearLayout roomNumberLayout;
     @ViewInject(R.id.dollGoodsInfo_roomNumber_tv)
     public TextView dollGoodsInfo_roomNumber_tv;
 
@@ -71,25 +76,39 @@ public class DollGoodsInfoActivity extends BaseAty {
         // 初始化界面显示信息
         // 设置商品
         GlideUtils.loadUrlImg(this, myDollBean.getGoods_img(), dollGoodsInfo_image_imgv); // 商品图
-        dollGoodsInfo_name_tv.setText(myDollBean.getName()); // 商品名称
-        if (!TextUtils.isEmpty(myDollBean.getMaturityTime())){
-            dollGoodsInfo_time_tv.setText(Util.millis2String(Long.parseLong(myDollBean.getMaturityTime()), "yyyy.MM.dd HH:mm:ss")); // 抓中记录时间
+        if (!TextUtils.isEmpty(myDollBean.getName())){
+            dollGoodsInfo_name_tv.setText(myDollBean.getName()); // 商品名称
+        }else {
+            dollGoodsInfo_name_tv.setText(myDollBean.getGoods_name()); // 商品名称
+        }
+        if (!TextUtils.isEmpty(myDollBean.getCreate_time())){
+            dollGoodsInfo_time_tv.setText(Util.millis2String(Long.parseLong(myDollBean.getCreate_time())*1000, "yyyy.MM.dd HH:mm:ss")); // 抓中记录时间
         }
         // 设置下方用户和娃娃机信息
         GlideUtils.urlCirclePicNoBg(myDollBean.getUserHeader(), 40, 40, dollGoodsInfo_userHeader_imgv); // 玩家头像
         dollGoodsInfo_userName_tv.setText(myDollBean.getUserNickName()); // 玩家昵称
         dollGoodsInfo_goodsType_tv.setText(myDollBean.getDepositStatus()); // 寄存状态
-        dollGoodsInfo_roomName_tv.setText(myDollBean.getRoomName()); // 房间名称
-        dollGoodsInfo_roomNumber_tv.setText(String.valueOf(myDollBean.getRoomId())); // 房间号
+        if (!TextUtils.isEmpty(myDollBean.getRoomName())){
+            roomNameLayout.setVisibility(View.VISIBLE);
+            dollGoodsInfo_roomName_tv.setText(myDollBean.getRoomName()); // 房间名称
+        }else {
+            roomNameLayout.setVisibility(View.GONE);
+        }
 
+        if (!TextUtils.isEmpty(myDollBean.getRoomId())){
+            roomNameLayout.setVisibility(View.VISIBLE);
+            dollGoodsInfo_roomNumber_tv.setText(String.valueOf(myDollBean.getRoomId())); // 房间号
+        }else {
+            roomNameLayout.setVisibility(View.GONE);
+        }
 
-        if (myDollBean.getCoinStatus().equals("1")){
+        if (myDollBean.getCoinStatus() != null && myDollBean.getCoinStatus().equals("1")){
             dollGoodsInfo_redeemSilver_tv.setVisibility(View.VISIBLE);
         }else {
             dollGoodsInfo_redeemSilver_tv.setVisibility(View.GONE);
         }
 
-        if (myDollBean.getGoodsStatus().equals("1")){
+        if (myDollBean.getGoodsStatus() != null && myDollBean.getGoodsStatus().equals("1")){
             dollGoodsInfo_redeemGoods_tv.setVisibility(View.VISIBLE);
         }else {
             dollGoodsInfo_redeemGoods_tv.setVisibility(View.GONE);

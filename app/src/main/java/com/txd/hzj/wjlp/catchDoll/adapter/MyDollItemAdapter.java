@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ants.theantsgo.tool.glide.GlideUtils;
@@ -50,14 +51,31 @@ public class MyDollItemAdapter extends RecyclerView.Adapter<MyDollItemAdapter.Vi
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
         final MyDollBean myDollBean = list.get(position);
         GlideUtils.loadUrlImg(context, myDollBean.getGoods_img(), holder.itemMyDoll_image_imgv);
-        if (!TextUtils.isEmpty(myDollBean.getMaturityTime())){
-            holder.itemMyDoll_maturity_cdv.start(Long.parseLong(myDollBean.getMaturityTime()));
-            holder.itemMyDoll_time_tv.setText(Util.millis2String(Long.parseLong(myDollBean.getMaturityTime()), "yyyy.MM.dd HH:mm:ss"));
-        }
-        holder.itemMyDoll_name_tv.setText(myDollBean.getName());
-        holder.itemMyDoll_num_tv.setText(myDollBean.getGraspingNum()+"/"+myDollBean.getCatcherNum());
-        holder.itemMyDoll_convertible_tv.setText(new StringBuffer().append("可兑换银两").append(myDollBean.getExchange_price()));
+        if (1 == type){
+            if (!TextUtils.isEmpty(myDollBean.getMaturityTime())){
+                holder.maturityLayout.setVisibility(View.VISIBLE);
+                holder.itemMyDoll_maturity_cdv.start(Long.parseLong(myDollBean.getMaturityTime()));
+            }else {
+                holder.maturityLayout.setVisibility(View.GONE);
+            }
+            if (!TextUtils.isEmpty(myDollBean.getCreate_time())) {
+                holder.itemMyDoll_time_tv.setText(Util.millis2String(Long.parseLong(myDollBean.getCreate_time())*1000, "yyyy.MM.dd HH:mm:ss"));
+            }
+            holder.itemMyDoll_name_tv.setText(myDollBean.getName());
+            holder.itemMyDoll_num_tv.setVisibility(View.VISIBLE);
+            holder.itemMyDoll_num_tv.setText(myDollBean.getGraspingNum()+"/"+myDollBean.getCatcherNum());
+            holder.itemMyDoll_convertible_tv.setVisibility(View.VISIBLE);
+            holder.itemMyDoll_convertible_tv.setText(new StringBuffer().append("可兑换银两").append(myDollBean.getExchange_price()));
+        }else {
+            holder.itemMyDoll_name_tv.setText(myDollBean.getGoods_name());
+            holder.itemMyDoll_num_tv.setVisibility(View.INVISIBLE);
+            holder.itemMyDoll_convertible_tv.setVisibility(View.INVISIBLE);
+            holder.maturityLayout.setVisibility(View.GONE);
+            if (!TextUtils.isEmpty(myDollBean.getCreate_time())) {
+                holder.itemMyDoll_time_tv.setText(Util.millis2String(Long.parseLong(myDollBean.getCreate_time())*1000, "yyyy.MM.dd HH:mm:ss"));
+            }
 
+        }
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -68,6 +86,7 @@ public class MyDollItemAdapter extends RecyclerView.Adapter<MyDollItemAdapter.Vi
                 context.startActivity(intent);
             }
         });
+
     }
 
     @Override
@@ -83,6 +102,7 @@ public class MyDollItemAdapter extends RecyclerView.Adapter<MyDollItemAdapter.Vi
         TextView itemMyDoll_num_tv;
         TextView itemMyDoll_time_tv;
         TextView itemMyDoll_convertible_tv;
+        LinearLayout maturityLayout;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -92,6 +112,7 @@ public class MyDollItemAdapter extends RecyclerView.Adapter<MyDollItemAdapter.Vi
             itemMyDoll_num_tv = itemView.findViewById(R.id.itemMyDoll_num_tv);
             itemMyDoll_time_tv = itemView.findViewById(R.id.itemMyDoll_time_tv);
             itemMyDoll_convertible_tv = itemView.findViewById(R.id.itemMyDoll_convertible_tv);
+            maturityLayout = itemView.findViewById(R.id.maturityLayout);
         }
     }
 

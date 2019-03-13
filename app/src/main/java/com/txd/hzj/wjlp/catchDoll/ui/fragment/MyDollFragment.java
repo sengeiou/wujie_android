@@ -66,6 +66,7 @@ public class MyDollFragment extends BaseFgt {
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
         try {
+            int s = type;
             JSONObject jsonObject = new JSONObject(jsonStr);
             if (requestUrl.endsWith("Mylist")) { // TODO 此处还存在一些问题，寄存的为商品，MyDoll中属性都有，但是待邮寄，已发货和已兑换是订单，没办法按照寄存的处理
                 JSONObject jsonData = jsonObject.getJSONObject("data");
