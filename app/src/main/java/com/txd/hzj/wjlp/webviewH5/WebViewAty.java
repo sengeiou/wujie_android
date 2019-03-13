@@ -517,6 +517,8 @@ public class WebViewAty extends BaseAty {
                 WebViewAty.high = Integer.parseInt(split[2].split(":")[1]);
             }else {
                selectMode = Integer.parseInt(result);
+                WebViewAty.width = 0;
+                WebViewAty.high = 0;
             }
             switch (selectMode) {
                 case 0: // 单选
