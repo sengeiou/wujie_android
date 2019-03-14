@@ -117,7 +117,7 @@ public class CommodityManagementAty extends BaseAty {
     private int selectP = 0;
 
     private ArrayList<LeftBean> mBeanArrayList = new ArrayList<>();
-
+    private Context mContext;
 
     @Override
     protected int getLayoutResId() {
@@ -126,6 +126,7 @@ public class CommodityManagementAty extends BaseAty {
 
     @Override
     protected void initialized() {
+        mContext = this;
         showStatusBar(R.id.title_re_layout);
         titlt_conter_tv.setText("商品管理");
         LinearLayoutManager leftLayoutManager = new LinearLayoutManager(this);
@@ -431,6 +432,11 @@ public class CommodityManagementAty extends BaseAty {
         mPopupWindow.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         View view = LayoutInflater.from(this).inflate(R.layout.pop_melloffline_manage, null);
         TextView oneTv = view.findViewById(R.id.oneTv);
+        if (text.equals("分类")) {
+            oneTv.setCompoundDrawablesWithIntrinsicBounds(0,R.drawable.icon_mol_3,0,0);
+        }else {
+            oneTv.setCompoundDrawablesWithIntrinsicBounds(0,R.drawable.icon_mol_8,0,0);
+        }
         oneTv.setText(text);
         TextView twoTv = view.findViewById(R.id.twoTv);
         twoTv.setVisibility(isVisible ? View.VISIBLE : View.GONE);
