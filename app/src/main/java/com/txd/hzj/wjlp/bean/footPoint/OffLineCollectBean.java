@@ -64,6 +64,7 @@ public class OffLineCollectBean {
          * user_id : 1559
          * star : ["1","1","1","1","1"]
          * months_order : 1
+         * goods_num
          */
 
         private String collect_id;
@@ -75,6 +76,15 @@ public class OffLineCollectBean {
         private String user_id;
         private String months_order;
         private List<String> star;
+        private String goods_num;
+
+        public String getGoods_num() {
+            return goods_num;
+        }
+
+        public void setGoods_num(String goods_num) {
+            this.goods_num = goods_num;
+        }
 
         public String getCollect_id() {
             return collect_id;

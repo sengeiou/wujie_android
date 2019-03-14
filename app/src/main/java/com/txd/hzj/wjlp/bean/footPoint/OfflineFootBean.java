@@ -75,6 +75,24 @@ public class OfflineFootBean {
         private String user_id;
         private String months_order;
         private List<String> star;
+        private String goods_num;
+        private String s_id;
+
+        public String getGoods_num() {
+            return goods_num;
+        }
+
+        public void setGoods_num(String goods_num) {
+            this.goods_num = goods_num;
+        }
+
+        public String getS_id() {
+            return s_id;
+        }
+
+        public void setS_id(String s_id) {
+            this.s_id = s_id;
+        }
 
         public String getFooter_id() {
             return footer_id;

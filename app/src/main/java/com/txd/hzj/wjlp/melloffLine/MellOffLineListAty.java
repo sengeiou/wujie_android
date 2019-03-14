@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -16,6 +17,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
+import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.util.PreferencesUtils;
 import com.ants.theantsgo.view.pulltorefresh.PullToRefreshBase;
 import com.ants.theantsgo.view.pulltorefresh.PullToRefreshListView;
@@ -28,6 +30,7 @@ import com.txd.hzj.wjlp.bean.offline.OffLineDataBean;
 import com.txd.hzj.wjlp.bean.offline.OffLineListBean;
 import com.txd.hzj.wjlp.http.OfflineStore;
 import com.txd.hzj.wjlp.melloffLine.adapter.MellOffLineListAdapter;
+import com.txd.hzj.wjlp.webviewH5.WebViewAty;
 
 import java.util.List;
 import java.util.Map;
@@ -168,27 +171,47 @@ public class MellOffLineListAty extends BaseAty{
             mlAdapter.setOnItemClickListener(new MellOffLineListAdapter.OnItemClickListener() {
                 @Override
                 public void itemClick(int position) {
-                    Intent intent = new Intent(MellOffLineListAty.this, ShopMallDetailsAty.class);
-                    Bundle options = new Bundle();
                     OffLineListBean.DataBean dataBean = mells.get(position);
-                    OffLineDataBean offLineDataBea=new OffLineDataBean();
-                    offLineDataBea.setS_id(dataBean.getMerchant_id());
-                    offLineDataBea.setMerchant_name(dataBean.getMerchant_name());
-                    offLineDataBea.setMerchant_desc(dataBean.getMerchant_desc());
-                    offLineDataBea.setLogo(dataBean.getLogo());
-                    offLineDataBea.setScore(dataBean.getScore());
-                    offLineDataBea.setMonths_order(dataBean.getMonths_order());
-                    offLineDataBea.setDistance("");
-                    Map<String, String> locInfo = DemoApplication.getInstance().getLocInfo();
-                    offLineDataBea.setLat(locInfo.containsKey("lat")?locInfo.get("lat"):"");
-                    offLineDataBea.setLng(locInfo.containsKey("lon")?locInfo.get("lon"):"");
-                    offLineDataBea.setProportion("");
-                    offLineDataBea.setShow(false);
-                    offLineDataBea.setTicket(null);
-                    offLineDataBea.setUser_id("");
-                    options.putSerializable("mellInfo", offLineDataBea);
-                    intent.putExtras(options);
-                    startActivity(intent);
+                    Intent intent = new Intent(MellOffLineListAty.this, ShopMallDetailsAty.class);
+                    String goods_num = dataBean.getGoods_num();
+                    Bundle bundle = new Bundle();
+                    if (!TextUtils.isEmpty(goods_num) && Integer.parseInt(goods_num) > 0) {
+                        StringBuffer stringBuffer = new StringBuffer();
+                        if (Config.OFFICIAL_WEB.contains("api")) {
+                            stringBuffer.append("http://www.wujiemall.com/");
+                        } else {
+                            stringBuffer.append(Config.OFFICIAL_WEB);
+                        }
+                        stringBuffer.append("Wap/OfflineStore/offlineShop/os_type/1/merchant_id/");
+                        stringBuffer.append(dataBean.getS_id());
+                        if (Config.isLogin()) {
+                            stringBuffer.append("/invite_code/");
+                            stringBuffer.append(PreferencesUtils.getString(MellOffLineListAty.this, "invite_code"));
+                        }
+                        stringBuffer.append(".html");
+
+                        bundle.putString("url", stringBuffer.toString());
+                        startActivity(WebViewAty.class, bundle);
+                    } else {
+                        OffLineDataBean offLineDataBea = new OffLineDataBean();
+                        offLineDataBea.setS_id(dataBean.getMerchant_id());
+                        offLineDataBea.setMerchant_name(dataBean.getMerchant_name());
+                        offLineDataBea.setMerchant_desc(dataBean.getMerchant_desc());
+                        offLineDataBea.setLogo(dataBean.getLogo());
+                        offLineDataBea.setScore(dataBean.getScore());
+                        offLineDataBea.setMonths_order(dataBean.getMonths_order());
+                        offLineDataBea.setDistance("");
+                        Map<String, String> locInfo = DemoApplication.getInstance().getLocInfo();
+                        offLineDataBea.setLat(locInfo.containsKey("lat") ? locInfo.get("lat") : "");
+                        offLineDataBea.setLng(locInfo.containsKey("lon") ? locInfo.get("lon") : "");
+                        offLineDataBea.setProportion("");
+                        offLineDataBea.setShow(false);
+                        offLineDataBea.setTicket(null);
+                        offLineDataBea.setUser_id("");
+                        bundle.putSerializable("mellInfo", offLineDataBea);
+                        intent.putExtras(bundle);
+                        startActivity(intent);
+                    }
                 }
             });
             mell_lv.setAdapter(mlAdapter);
