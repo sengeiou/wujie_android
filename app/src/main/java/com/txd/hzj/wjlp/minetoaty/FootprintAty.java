@@ -132,7 +132,7 @@ public class FootprintAty extends BaseAty {
         } else if (2 == selected){ // 应该是书院
             ((CollectBooksFgt) f).setStatus(status);
             ((CollectBooksFgt) f).r();
-        }else if (3 == selected){ // 应该是书院
+        }else if (3 == selected){ // 线下店铺
             ((CollectOffLineshopFgt) f).setStatus(status);
             ((CollectOffLineshopFgt) f).r();
         }

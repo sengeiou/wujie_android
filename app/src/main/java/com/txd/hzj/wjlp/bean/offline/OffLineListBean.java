@@ -60,6 +60,8 @@ public class OffLineListBean {
          * score : 5.0
          * merchant_desc : 618爆款手机带回家，心动不如行动！！门店地址：红桥区兴县勉县鞍山西道与白堤路交口风湖里15号楼人！
          *  "months_order": "0"//月消单
+         *  goods_num
+         *  s_id
          */
 
         private String merchant_id;
@@ -68,6 +70,24 @@ public class OffLineListBean {
         private String score;
         private String merchant_desc;
         private String months_order;
+        private String goods_num;
+        private String s_id;
+
+        public String getGoods_num() {
+            return goods_num;
+        }
+
+        public void setGoods_num(String goods_num) {
+            this.goods_num = goods_num;
+        }
+
+        public String getS_id() {
+            return s_id;
+        }
+
+        public void setS_id(String s_id) {
+            this.s_id = s_id;
+        }
 
         public String getMonths_order() {
             return months_order;
