@@ -421,7 +421,6 @@ public class OrderOnLineFgt extends BaseFgt {
 
     class GoodsAdapter extends BaseAdapter {
         ViewHolder holder;
-        String mOrderType = "0";
 
         @Override
         public int getCount() {
@@ -467,7 +466,7 @@ public class OrderOnLineFgt extends BaseFgt {
 
             String freight = getItem(position).get("freight");
             int num = 0;
-            mOrderType = getItem(position).containsKey("order_type") ? getItem(position).get("order_type") : "";
+            String mOrderType = getItem(position).containsKey("order_type") ? getItem(position).get("order_type") : "";
             if (list_data.size() > 0) {
                 for (int i = 0; i < list_data.size(); i++) {
                     String goods_num = list_data.get(i).get("goods_num");
@@ -732,7 +731,7 @@ public class OrderOnLineFgt extends BaseFgt {
                 if (from.equals(WJConfig.TYPE_JFSD) || from.equals(WJConfig.TYPE_ZPZQ)) {
                     bundle.putString("type", from);
                 } else {
-                    bundle.putString("type", mOrderType);
+                    bundle.putString("type", getItem(position).get("order_type"));
                 }
                 bundle.putString("is_pay_password", is_pay_password);
                 startActivity(PayForAppAty.class, bundle);

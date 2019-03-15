@@ -12,6 +12,7 @@ import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -484,7 +485,9 @@ public class PayForAppAty extends BaseAty {
                                 }
                                 User.verificationPayPwd(et_password.getText().toString(), PayForAppAty.this);
                                 showProgressDialog();
-                                hideKeyBoard();
+                                ((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE))
+                                        .hideSoftInputFromWindow(v.getWindowToken(),
+                                                InputMethodManager.HIDE_NOT_ALWAYS);
                                 commonPopupWindow.dismiss();
                             }
                         });
