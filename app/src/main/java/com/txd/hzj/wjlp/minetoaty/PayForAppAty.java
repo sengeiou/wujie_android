@@ -484,6 +484,7 @@ public class PayForAppAty extends BaseAty {
                                 }
                                 User.verificationPayPwd(et_password.getText().toString(), PayForAppAty.this);
                                 showProgressDialog();
+                                hideKeyBoard();
                                 commonPopupWindow.dismiss();
                             }
                         });
