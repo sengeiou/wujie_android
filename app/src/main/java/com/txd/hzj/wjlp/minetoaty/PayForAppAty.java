@@ -553,10 +553,14 @@ public class PayForAppAty extends BaseAty {
                 order = data;
                 if (!"10".equals(mType)) {
                     integral_money.setVisibility(View.VISIBLE);
-                    if (order.containsKey("red_return_integral") && Integer.parseInt(order.get("red_return_integral")) > 0) {
-                        mIn = order.get("red_return_integral");
-                        integralMoneyStr = "<font color=#FFB226>（赠送积分：" + mIn + "个）<font/>";
-                        integral_money.setText(Html.fromHtml(integralMoneyStr));
+                    if (order.containsKey("red_return_integral")) {
+                        if (!TextUtils.isEmpty(order.get("red_return_integral")) && Integer.parseInt(order.get("red_return_integral")) > 0){
+                            mIn = order.get("red_return_integral");
+                            integralMoneyStr = "<font color=#FFB226>（赠送积分：" + mIn + "个）<font/>";
+                            integral_money.setText(Html.fromHtml(integralMoneyStr));
+                        }else {
+                            integral_money.setVisibility(View.GONE);
+                        }
                     } else {
                         integral_money.setVisibility(View.GONE);
                     }

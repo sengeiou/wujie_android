@@ -16,7 +16,6 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.ants.theantsgo.config.Settings;
@@ -45,6 +44,7 @@ import com.txd.hzj.wjlp.tool.MallRecyclerViewDivider;
 import com.txd.hzj.wjlp.tool.TextUtils;
 import com.txd.hzj.wjlp.tool.UnitHelper;
 import com.txd.hzj.wjlp.view.NoScrollLinearLayoutManager;
+import com.txd.hzj.wjlp.view.RatingBar;
 import com.txd.hzj.wjlp.view.flowlayout.FlowLayout;
 import com.txd.hzj.wjlp.view.flowlayout.TagAdapter;
 import com.txd.hzj.wjlp.view.flowlayout.TagFlowLayout;
@@ -329,7 +329,7 @@ public class GoodsEvaluateAty extends BaseAty implements NestedScrollView.OnScro
             BeanCommentList.DataBean data = list.getData();
             float num = Float.parseFloat(data.getComposite());
             tv_composite.setText(String.valueOf((int) num));
-            rb.setRating(Float.parseFloat(data.getComposite()));
+            rb.setStar(Float.parseFloat(data.getComposite()));
             tv_cmm.setText("外观内饰" + data.getExterior() + "分\t" + "控件舒适" + data.getSpace() + "分\t"
                     + "操控性能" + data.getControllability() + "分\t" + "油耗动力" + data.getConsumption() + "分");
             label_list = data.getLabel_list();
