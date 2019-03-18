@@ -23,7 +23,6 @@ import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseFgt;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 import cn.gavinliu.android.lib.shapedimageview.ShapedImageView;
@@ -213,7 +212,7 @@ public class MyMemberFgt extends BaseFgt {
         private String easemob_pwd;
         private String age;
         private String param;
-        private List<StageMessageBean> stage_message;
+        private StageMessageBean stage_message;
 
         public String getUser_id() {
             return user_id;
@@ -311,11 +310,11 @@ public class MyMemberFgt extends BaseFgt {
             this.param = param;
         }
 
-        public List<StageMessageBean> getStage_message() {
+        public StageMessageBean getStage_message() {
             return stage_message;
         }
 
-        public void setStage_message(List<StageMessageBean> stage_message) {
+        public void setStage_message(StageMessageBean stage_message) {
             this.stage_message = stage_message;
         }
 

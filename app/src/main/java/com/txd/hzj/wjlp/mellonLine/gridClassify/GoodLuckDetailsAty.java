@@ -1608,7 +1608,6 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                     // 是否收藏
                     is_collect = dataBean.getIs_collect();
                     if ("0".equals(is_collect)) {
-
                         commodityDetailsPranster.isCollect(is_collect, "收藏", goods_title_collect_tv, GoodLuckDetailsAty.this);
                     } else {
                         commodityDetailsPranster.isCollect(is_collect, "已收藏", goods_title_collect_tv, GoodLuckDetailsAty.this);
@@ -1655,7 +1654,12 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                         GoodsCommentAttrAdapter gcaAdapter = new GoodsCommentAttrAdapter(GoodLuckDetailsAty.this, gca);
                         goods_common_attr_lv.setAdapter(gcaAdapter);
                     }
-                    goodLuckPranster.setData(GoodLuckDetailsAty.this,"2",group_buy_id,mImageUrls,goods_name,goodsInfo.getIntegral(),goodsInfo.getTicket_buy_discount(),goodsInfo.getShop_price(),goodsInfo.getMarket_price(),"",goodsInfo.getGoods_brief(),goodsInfo.getSell_num());
+                    if (groupType != null && groupType.equals("1")){
+                        goodLuckPranster.setData(GoodLuckDetailsAty.this,"21",group_buy_id,mImageUrls,goods_name,goodsInfo.getIntegral(),goodsInfo.getTicket_buy_discount(),goodsInfo.getShop_price(),goodsInfo.getMarket_price(),"",goodsInfo.getGoods_brief(),goodsInfo.getSell_num());
+                    }else if (groupType != null && groupType.equals("2")){
+                        goodLuckPranster.setData(GoodLuckDetailsAty.this,"22",group_buy_id,mImageUrls,goods_name,goodsInfo.getIntegral(),goodsInfo.getTicket_buy_discount(),goodsInfo.getShop_price(),goodsInfo.getMarket_price(),"",goodsInfo.getGoods_brief(),goodsInfo.getSell_num());
+                    }
+
                     return;
                 }
             });

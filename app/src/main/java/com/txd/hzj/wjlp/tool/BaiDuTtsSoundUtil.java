@@ -64,6 +64,7 @@ public class BaiDuTtsSoundUtil implements SpeechSynthesizerListener {
         mSpeechSynthesizer.initTts(TtsMode.MIX);
         mSpeechSynthesizer.setSpeechSynthesizerListener(this); //listener是SpeechSynthesizerListener 的实现类，需要实现您自己的业务逻辑。SDK合成后会对这个类的方法进行回调。
         mSpeechSynthesizer.setParam(SpeechSynthesizer.PARAM_SPEAKER, speaker); // 设置发声的人声音，在线
+        mSpeechSynthesizer.setParam(SpeechSynthesizer.PARAM_MIX_MODE,SpeechSynthesizer.MIX_MODE_HIGH_SPEED_NETWORK);
         if (!TextUtils.isEmpty(content)) {
             mSpeechSynthesizer.speak(content);
         }

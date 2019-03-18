@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.ants.theantsgo.config.Settings;
@@ -19,6 +18,7 @@ import com.txd.hzj.wjlp.http.house.HouseBuy;
 import com.txd.hzj.wjlp.mellonLine.adapter.GoodsEvalusteAdapter;
 import com.txd.hzj.wjlp.new_wjyp.BeanCommentList;
 import com.txd.hzj.wjlp.view.ObservableScrollView;
+import com.txd.hzj.wjlp.view.RatingBar;
 import com.txd.hzj.wjlp.view.flowlayout.FlowLayout;
 import com.txd.hzj.wjlp.view.flowlayout.TagAdapter;
 import com.txd.hzj.wjlp.view.flowlayout.TagFlowLayout;
@@ -125,7 +125,7 @@ public class HouseCommentFgt extends BaseFgt implements ObservableScrollView.Scr
             BeanCommentList.DataBean data = list.getData();
             float num = Float.parseFloat(data.getComposite());
             tv_composite.setText(String.valueOf((int) num));
-            rb.setRating(Float.parseFloat(data.getComposite()));
+            rb.setStar(Float.parseFloat(data.getComposite()));
             tv_cmm.setText("价格评分" + data.getPrice() + "分\t" + "地段评分" + data.getLot() + "分\t"
                     + "配套评分" + data.getSupporting() + "分\t" + "交通评分" + data.getTraffic() + "分" + "环境评分" + data.getEnvironment() + "分");
             label_list = data.getLabel_list();

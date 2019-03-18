@@ -13,7 +13,6 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
@@ -30,6 +29,7 @@ import com.txd.hzj.wjlp.bean.OffLineEvaluationListBean;
 import com.txd.hzj.wjlp.http.OfflineStore;
 import com.txd.hzj.wjlp.tool.MallRecyclerViewDivider;
 import com.txd.hzj.wjlp.tool.UnitHelper;
+import com.txd.hzj.wjlp.view.RatingBar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -326,8 +326,8 @@ public class OffLineEvaluationShopListAty extends BaseAty {
             Glide.with(OffLineEvaluationShopListAty.this).load(bean.getHead_pic()).into(viewHolder.head_img);
             viewHolder.nickname_tv.setText(bean.getNickname());
             viewHolder.time_tv.setText(bean.getStart_time());
-            viewHolder.ratingBar.setIsIndicator(true);
-            viewHolder.ratingBar.setRating(Float.valueOf(bean.getStar()));
+            viewHolder.ratingBar.setClickable(false);
+            viewHolder.ratingBar.setStar(Float.valueOf(bean.getStar()));
             viewHolder.content_tv.setVisibility(TextUtils.isEmpty(bean.getContent())?View.GONE:View.VISIBLE);
             viewHolder.content_tv.setText(bean.getContent());
             // 设置布局方式
