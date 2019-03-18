@@ -229,7 +229,10 @@ public class ChangeMsgDetailsAty extends BaseAty {
                     ownRefuseTv.setVisibility(View.GONE);
                     changeSuccessTv.setVisibility(View.VISIBLE);
                     changeSuccessTv.setText("成功交换");
-                } else if (status == 3) {
+                }else if (status == 2) {
+                    ownAgreeTv.setVisibility(View.GONE);
+                    ownRefuseTv.setVisibility(View.GONE);
+                }  else if (status == 3) {
                     ownAgreeTv.setVisibility(View.GONE);
                     ownRefuseTv.setVisibility(View.GONE);
                     changeSuccessTv.setVisibility(View.VISIBLE);

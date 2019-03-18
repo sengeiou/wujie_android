@@ -9,7 +9,6 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
@@ -26,6 +25,7 @@ import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.http.OfflineStore;
 import com.txd.hzj.wjlp.minetoaty.order.adapter.GridImageAdapter;
 import com.txd.hzj.wjlp.minetoaty.order.utils.FullyGridLayoutManager;
+import com.txd.hzj.wjlp.view.RatingBar;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -136,7 +136,7 @@ public class OffLineEvaluationShopAty extends BaseAty {
                     showToast("评价字数不能少于5字");
                     return;
                 }
-                OfflineStore.commentSubmit(mOrder_id, evalusete_context_tv.getText().toString(), picList, String.valueOf(env_rb.getRating()), String.valueOf(service_rb.getRating()), OffLineEvaluationShopAty.this);
+                OfflineStore.commentSubmit(mOrder_id, evalusete_context_tv.getText().toString(), picList, String.valueOf(env_rb.getStarStep()), String.valueOf(service_rb.getStarStep()), OffLineEvaluationShopAty.this);
                 showProgressDialog();
             }
         });

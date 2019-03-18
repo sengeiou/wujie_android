@@ -263,8 +263,10 @@ public class EaseNotifier {
             }
 
             mBuilder.setContentTitle(contentTitle);
-            mBuilder.setTicker(notifyText);
-            mBuilder.setContentText(summaryBody);
+//            mBuilder.setTicker(notifyText);
+            mBuilder.setTicker("您有新的消息！");
+//            mBuilder.setContentText(summaryBody);
+            mBuilder.setContentText("您有新的消息！");
             mBuilder.setContentIntent(pendingIntent);
             // mBuilder.setNumber(notificationNum);
             Notification notification = mBuilder.build();

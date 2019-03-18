@@ -16,7 +16,9 @@ import android.widget.RelativeLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.tools.RegexUtils;
+import com.ants.theantsgo.util.PreferencesUtils;
 import com.google.gson.Gson;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
@@ -30,6 +32,7 @@ import com.txd.hzj.wjlp.melloffLine.adapter.ShopEvaluateAdapter;
 import com.txd.hzj.wjlp.tool.GlideImageLoader;
 import com.txd.hzj.wjlp.tool.MapIntentUtil;
 import com.txd.hzj.wjlp.tool.TextUtils;
+import com.txd.hzj.wjlp.webviewH5.WebViewAty;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.Transformer;
@@ -563,9 +566,24 @@ public class ShopMallDetailsAty extends BaseAty implements View.OnClickListener,
 
     @Override
     public void onItemClickListener(OffLineDataBean offLineDataBean, int position) {
-        Bundle options = new Bundle();
-        options.putSerializable("mellInfo", offLineDataBean);
-        startActivity(ShopMallDetailsAty.class, options);
+        String goods_num = offLineDataBean.getGoods_num();
+        Bundle bundle = new Bundle();
+        if (!android.text.TextUtils.isEmpty(goods_num) && Integer.parseInt(goods_num) > 0) {
+            StringBuffer stringBuffer = new StringBuffer();
+            stringBuffer.append(Config.SHARE_URL);
+            stringBuffer.append("Wap/OfflineStore/offlineShop/os_type/1/merchant_id/");
+            stringBuffer.append(offLineDataBean.getS_id());
+            if (Config.isLogin()) {
+                stringBuffer.append("/invite_code/");
+                stringBuffer.append(PreferencesUtils.getString(ShopMallDetailsAty.this, "invite_code"));
+            }
+            stringBuffer.append(".html");
+            bundle.putString("url", stringBuffer.toString());
+            startActivity(WebViewAty.class, bundle);
+        } else {
+            bundle.putSerializable("mellInfo", offLineDataBean);
+            startActivity(ShopMallDetailsAty.class, bundle);
+        }
         finish();
     }
 

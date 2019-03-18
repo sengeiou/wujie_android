@@ -63,10 +63,16 @@ public class ChangeMemberFgt extends BaseFgt {
         mRecyclerView.setLayoutManager(layoutManager);
         mChangeMemberAdapter = new ChangeMemberAdapter();
         mRecyclerView.setAdapter(mChangeMemberAdapter);
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
         app_my_member_list(((ChangeMembersAty)getActivity()).getSta_mid(),mType,this);
     }
 
-    void app_my_member_list( String sta_mid,String type, BaseView baseView) {
+    void app_my_member_list(String sta_mid, String type, BaseView baseView) {
         RequestParams params = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
         params.addBodyParameter("type", type);
@@ -102,7 +108,8 @@ public class ChangeMemberFgt extends BaseFgt {
         }
 
         public void setList(ArrayList<MyMemberFgt.MyMemberBean> list) {
-            mList = list;
+            mList.clear();
+            mList.addAll(list);
             notifyDataSetChanged();
         }
 

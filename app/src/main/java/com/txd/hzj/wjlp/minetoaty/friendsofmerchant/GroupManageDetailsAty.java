@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.InputFilter;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +19,7 @@ import com.ants.theantsgo.base.BaseView;
 import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.httpTools.ApiTool2;
 import com.ants.theantsgo.util.JSONUtils;
+import com.ants.theantsgo.util.SoftKeyboardUtil;
 import com.bumptech.glide.Glide;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.http.RequestParams;
@@ -80,6 +82,7 @@ public class GroupManageDetailsAty extends BaseAty {
         friendRecyclerView.setLayoutManager(layoutManager);
         mGroupManageDetailsAdapter = new GroupManageDetailsAdapter();
         friendRecyclerView.setAdapter(mGroupManageDetailsAdapter);
+        nameTv.setFilters(new InputFilter[]{SoftKeyboardUtil.getInputFilter(mContext)});
     }
 
     @Override

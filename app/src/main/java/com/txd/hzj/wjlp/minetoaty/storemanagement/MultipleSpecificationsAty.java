@@ -48,7 +48,7 @@ import static com.txd.hzj.wjlp.minetoaty.storemanagement.InputAty.judgePrice;
 /**
  * 创建者：zhangyunfei
  * 创建时间：2019/1/8 17:01
- * 功能描述：多规格
+ * 功能描述：多组合商品
  */
 public class MultipleSpecificationsAty extends BaseAty {
     private Context mContext;
@@ -88,7 +88,7 @@ public class MultipleSpecificationsAty extends BaseAty {
     protected void initialized() {
         mContext = this;
         showStatusBar(R.id.title_re_layout);
-        titlt_conter_tv.setText("多规格");
+        titlt_conter_tv.setText("多组合商品");
         mGoods_id = getIntent().getStringExtra("goods_id");
         mGoods_attr = getIntent().getStringExtra("goods_attr");
         mSta_mid = getIntent().getStringExtra("sta_mid");
@@ -114,7 +114,7 @@ public class MultipleSpecificationsAty extends BaseAty {
             public void onClick(final int pos) {
                 CustomDialog customDialog = new CustomDialog.Builder(mContext)
                         .setIsShowTitle(false)
-                        .setMessage("确定要删除此规格？")
+                        .setMessage("确定要删除此组合商品？")
                         .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -222,7 +222,7 @@ public class MultipleSpecificationsAty extends BaseAty {
                     public void onClick(final int pos) {
                         CustomDialog customDialog = new CustomDialog.Builder(mContext)
                                 .setIsShowTitle(false)
-                                .setMessage("确定要删除此规格？")
+                                .setMessage("确定要删除此组合商品？")
                                 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
@@ -292,7 +292,7 @@ public class MultipleSpecificationsAty extends BaseAty {
                                 arrayList.add(maps.get(i));
                             }
                             if (judgePrice(mContext, price, jiesuan_price)) {
-                                showToast("规格"+(i+1)+"结算价过高");
+                                showToast("组合商品"+(i+1)+"结算价过高");
                                 return;
                             }
                         }
@@ -336,7 +336,7 @@ public class MultipleSpecificationsAty extends BaseAty {
         @Override
         public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
             Map<String, String> map = mList.get(position);
-            holder.numTv.setText("规格" + (position + 1));
+            holder.numTv.setText("组合商品" + (position + 1));
             holder.deleteImg.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -427,7 +427,7 @@ public class MultipleSpecificationsAty extends BaseAty {
 
         @Override
         public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
-            holder.numTv.setText("规格" + (count + position + 1));
+            holder.numTv.setText("组合商品" + (count + position + 1));
             holder.deleteImg.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

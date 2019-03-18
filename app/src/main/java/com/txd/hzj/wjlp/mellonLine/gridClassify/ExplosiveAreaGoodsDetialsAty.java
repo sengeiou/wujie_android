@@ -565,7 +565,7 @@ public class ExplosiveAreaGoodsDetialsAty extends BaseAty implements ObservableS
             case R.id.title_details_layout:// 详情
                 clickType = 2;
                 //                limit_goods_details_sc.smoothScrollTo(0, secondHeight);
-                PosterAty.getInstance(ExplosiveAreaGoodsDetialsAty.this, "1", goods_id, imageUrls, mGoods_name, mIntegral, mTicket_buy_discount, mShop_price, mMarket_price, "", share_content, mSell_num,"5");
+                PosterAty.getInstance(ExplosiveAreaGoodsDetialsAty.this, "11", goods_id, imageUrls, mGoods_name, mIntegral, mTicket_buy_discount, mShop_price, mMarket_price, "", share_content, mSell_num,"5");
                 break;
             case R.id.title_evaluate_layout:// 评价
                 clickType = 3;
@@ -829,6 +829,7 @@ public class ExplosiveAreaGoodsDetialsAty extends BaseAty implements ObservableS
     protected void initialized() {
         ticket_buy_id = getIntent().getStringExtra("ticket_buy_id");
         goodsPst = new GoodsPst(this);
+        collectPst = new UserCollectPst(this);
         from = getIntent().getIntExtra("from", 0);
         image = new ArrayList<>();
         posts = new ArrayList<>();
