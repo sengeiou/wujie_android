@@ -62,6 +62,7 @@ import com.txd.hzj.wjlp.mellonLine.gridClassify.giveawayarea.GiveAwayAreaAty;
 import com.txd.hzj.wjlp.mellonLine.gridClassify.hous.HousDetailsChenAty;
 import com.txd.hzj.wjlp.mellonLine.gridClassify.snatch.SnatchGoodsDetailsAty;
 import com.txd.hzj.wjlp.minetoaty.setting.EditProfileAty;
+import com.txd.hzj.wjlp.savemoney.SaveMoneyAty;
 import com.txd.hzj.wjlp.view.ImprovePersonalInfoDialog;
 import com.txd.hzj.wjlp.view.ObservableScrollView;
 import com.txd.hzj.wjlp.view.UPMarqueeView;
@@ -435,6 +436,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
 //                            startActivity(SearchBluetoothAty.class, null); // 跳转到蓝牙连接界面
                             showToast("开发中，敬请期待");
 //                                                        startActivity(LimitShoppingAty.class, null);
+                            startActivity(SaveMoneyAty.class, null);
                             break;
                         case 1:// 票券区
                             showToast("开发中，敬请期待");
