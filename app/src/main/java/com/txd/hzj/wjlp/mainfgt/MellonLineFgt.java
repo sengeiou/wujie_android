@@ -58,7 +58,6 @@ import com.txd.hzj.wjlp.mellonLine.gridClassify.MellInfoAty;
 import com.txd.hzj.wjlp.mellonLine.gridClassify.ThemeStreetHzjAty;
 import com.txd.hzj.wjlp.mellonLine.gridClassify.TicketGoodsDetialsAty;
 import com.txd.hzj.wjlp.mellonLine.gridClassify.TicketZoonAty;
-import com.txd.hzj.wjlp.mellonLine.gridClassify.giveawayarea.GiveAwayAreaAty;
 import com.txd.hzj.wjlp.mellonLine.gridClassify.hous.HousDetailsChenAty;
 import com.txd.hzj.wjlp.mellonLine.gridClassify.snatch.SnatchGoodsDetailsAty;
 import com.txd.hzj.wjlp.minetoaty.setting.EditProfileAty;
@@ -436,7 +435,6 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
 //                            startActivity(SearchBluetoothAty.class, null); // 跳转到蓝牙连接界面
                             showToast("开发中，敬请期待");
 //                                                        startActivity(LimitShoppingAty.class, null);
-                            startActivity(SaveMoneyAty.class, null);
                             break;
                         case 1:// 票券区
                             showToast("开发中，敬请期待");
@@ -495,11 +493,12 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
                             break;
                         case 8://赠品专区  之前是房产购
                             //                            showToast("开发中，敬请期待");
-                            if (!Config.isLogin()) {
-                                startActivity(LoginAty.class, null);
-                            } else {
-                                startActivity(GiveAwayAreaAty.class, null);
-                            }
+//                            if (!Config.isLogin()) {
+//                                startActivity(LoginAty.class, null);
+//                            } else {
+//                                startActivity(GiveAwayAreaAty.class, null);
+//                            }
+                            startActivity(SaveMoneyAty.class, null);
                             //                            startActivity(HousChenAty.class, null);
                             break;
                         case 9://紫薇斗数    一元夺宝

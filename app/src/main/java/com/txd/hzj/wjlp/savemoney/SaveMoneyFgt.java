@@ -129,9 +129,14 @@ public class SaveMoneyFgt extends BaseFgt {
             if (mTitle.equals("淘宝")) {
                 mType = "1";
                 priceLayout.setVisibility(View.GONE);
+                internal_tv.setText("综合");
+                cash_coupon_tv.setText("优惠");
+
             } else if (mTitle.equals("拼多多")) {
                 mType = "3";
                 priceLayout.setVisibility(View.VISIBLE);
+                internal_tv.setText("优惠");
+                cash_coupon_tv.setText("用券");
             }
         }
         setChioceItem(0);
@@ -151,6 +156,12 @@ public class SaveMoneyFgt extends BaseFgt {
         } else if (id == R.id.price_tv) {
             setChioceItem(3);
         }
+    }
+
+
+    public void getSearchLabel(String label){
+        mQ = label;
+        getShengqiangou(this);
     }
 
     private void setChioceItem(int index) {
@@ -268,11 +279,6 @@ public class SaveMoneyFgt extends BaseFgt {
 
     private void openTaobao(String url) {
         if (isInstallByread("com.taobao.taobao")){
-            int i = url.lastIndexOf("=");
-            String taoBaoGoodsId = url.substring(i+1, url.length());
-            //淘宝的店铺  String taobaoAppStr_shop = "taobao://shop.m.taobao.com/shop/shop_index.htm?shop_id="+TaoBaoShopId+"";
-            //淘宝的商品详情页
-            String taobaoAppStr_goods = "taobao://item.taobao.com/item.htm?id="+taoBaoGoodsId+"";
             Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
             startActivity(intent);
         }else {
@@ -286,9 +292,6 @@ public class SaveMoneyFgt extends BaseFgt {
 
     private void openPinduoduo(String url) {
         if (isInstallByread("com.xunmeng.pinduoduo")){
-            int i = url.lastIndexOf("=");
-            String goodsId = url.substring(i+1, url.length());
-            String content = "pinduoduo://com.xunmeng.pinduoduo/duo_coupon_landing.html?goods_id="+goodsId+"";
             Intent intent=new Intent(Intent.ACTION_VIEW, Uri.parse(url));
             startActivity(intent);
         }else {
