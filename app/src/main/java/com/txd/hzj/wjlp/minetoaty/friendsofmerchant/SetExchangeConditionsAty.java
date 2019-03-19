@@ -243,7 +243,7 @@ public class SetExchangeConditionsAty extends BaseAty {
                     }
                     app_exchange_user(mSta_mid, mShopkeeper_id, String.valueOf(mSexNum), String.valueOf(mAgeNum), String.valueOf(mGradeNum), mCity_id, this);
                 }else {
-                    exchange_log(mSta_mid,"2",mC_id,sexTv.getText().toString(), ageTv.getText().toString(), gradeTv.getText().toString(), mCity_id,this);
+                    exchange_log(mSta_mid,"2",mC_id,String.valueOf(mSexNum), String.valueOf(mAgeNum), String.valueOf(mGradeNum), mCity_id,this);
                 }
                 break;
         }
