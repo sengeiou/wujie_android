@@ -18,6 +18,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ants.theantsgo.base.BaseView;
@@ -31,6 +32,7 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseFgt;
+import com.txd.hzj.wjlp.webviewH5.WebViewAty;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -65,6 +67,9 @@ public class SaveMoneyFgt extends BaseFgt {
     //价格
     @ViewInject(R.id.price_tv)
     private TextView price_tv;
+
+    @ViewInject(R.id.priceLayout)
+    private LinearLayout priceLayout;
 
     private Drawable selectId;
     private Drawable twoSelectId;
@@ -123,10 +128,10 @@ public class SaveMoneyFgt extends BaseFgt {
             mTitle = getArguments().getString(ARG_PARAM1);
             if (mTitle.equals("淘宝")) {
                 mType = "1";
-                price_tv.setVisibility(View.GONE);
+                priceLayout.setVisibility(View.GONE);
             } else if (mTitle.equals("拼多多")) {
                 mType = "3";
-                price_tv.setVisibility(View.VISIBLE);
+                priceLayout.setVisibility(View.VISIBLE);
             }
         }
         setChioceItem(0);
@@ -268,11 +273,14 @@ public class SaveMoneyFgt extends BaseFgt {
             //淘宝的店铺  String taobaoAppStr_shop = "taobao://shop.m.taobao.com/shop/shop_index.htm?shop_id="+TaoBaoShopId+"";
             //淘宝的商品详情页
             String taobaoAppStr_goods = "taobao://item.taobao.com/item.htm?id="+taoBaoGoodsId+"";
-            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(taobaoAppStr_goods));
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
             startActivity(intent);
         }else {
-
+            Bundle bundle = new Bundle();
+            bundle.putString("url", url);
+            bundle.putBoolean("isShowTitle",true);
+            bundle.putString("title", "省钱购");
+            startActivity(WebViewAty.class, bundle);
         }
     }
 
@@ -281,10 +289,14 @@ public class SaveMoneyFgt extends BaseFgt {
             int i = url.lastIndexOf("=");
             String goodsId = url.substring(i+1, url.length());
             String content = "pinduoduo://com.xunmeng.pinduoduo/duo_coupon_landing.html?goods_id="+goodsId+"";
-            Intent intent=new Intent(Intent.ACTION_VIEW, Uri.parse(content));
+            Intent intent=new Intent(Intent.ACTION_VIEW, Uri.parse(url));
             startActivity(intent);
         }else {
-
+            Bundle bundle = new Bundle();
+            bundle.putString("url", url);
+            bundle.putBoolean("isShowTitle",true);
+            bundle.putString("title", "省钱购");
+            startActivity(WebViewAty.class, bundle);
         }
     }
 
