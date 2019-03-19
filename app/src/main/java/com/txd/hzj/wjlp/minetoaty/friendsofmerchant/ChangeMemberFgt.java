@@ -87,9 +87,9 @@ public class ChangeMemberFgt extends BaseFgt {
         Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
         if (requestUrl.endsWith("app_my_member_list")){
             numTv.setText("会员总数\u0020" + map.get("nums"));
-            ArrayList<MyMemberFgt.MyMemberBean> data = JSONUtils.parseKeyAndValueToMapList(MyMemberFgt.MyMemberBean.class, map.get("data"));
-            if (data != null && data.size()>0){
-                mChangeMemberAdapter.setList(data);
+            ArrayList<Map<String, String>> mapArrayList = JSONUtils.parseKeyAndValueToMapList(map.get("data"));
+            if (mapArrayList != null && mapArrayList.size() > 0) {
+                mChangeMemberAdapter.setList(mapArrayList);
             }
         }
     }
@@ -102,12 +102,12 @@ public class ChangeMemberFgt extends BaseFgt {
     private static class ChangeMemberAdapter extends RecyclerView.Adapter<ChangeMemberAdapter.ViewHolder>{
 
         private Context mContext;
-        private ArrayList<MyMemberFgt.MyMemberBean> mList;
+        private ArrayList<Map<String, String>> mList;
         public ChangeMemberAdapter() {
             mList = new ArrayList<>();
         }
 
-        public void setList(ArrayList<MyMemberFgt.MyMemberBean> list) {
+        public void setList(ArrayList<Map<String, String>> list) {
             mList.clear();
             mList.addAll(list);
             notifyDataSetChanged();
@@ -125,11 +125,11 @@ public class ChangeMemberFgt extends BaseFgt {
 
         @Override
         public void onBindViewHolder(@NonNull ChangeMemberAdapter.ViewHolder holder, int position) {
-            MyMemberFgt.MyMemberBean myMemberBean = mList.get(position);
-            Glide.with(mContext).load(myMemberBean.getHead_pic()).into(holder.headImg);
-            holder.nameTv.setText(myMemberBean.getUser_name());
-            holder.gradeTv.setText(myMemberBean.getMember_coding());
-            int sex = Integer.parseInt(myMemberBean.getSex());
+            Map<String, String> map = mList.get(position);
+            Glide.with(mContext).load(map.get("head_pic")).into(holder.headImg);
+            holder.nameTv.setText(map.get("user_name"));
+            holder.gradeTv.setText(map.get("member_coding"));
+            int sex = Integer.parseInt(map.get("sex"));
             if (sex == 1) {
                 holder.sexTv.setVisibility(View.VISIBLE);
                 holder.sexTv.setText("男");
@@ -140,12 +140,12 @@ public class ChangeMemberFgt extends BaseFgt {
                 holder.sexTv.setVisibility(View.GONE);
             }
 
-            if (!TextUtils.isEmpty(myMemberBean.getAge())) {
-                holder.ageTv.setText(myMemberBean.getAge() + "岁");
+            if (!TextUtils.isEmpty(map.get("age")) && !map.get("age").equals("null")) {
+                holder.ageTv.setText(map.get("age") + "岁");
             }else {
                 holder.ageTv.setText("");
             }
-            holder.timeTv.setText(myMemberBean.getCreate_time());
+            holder.timeTv.setText(map.get("create_time"));
         }
 
         @Override
