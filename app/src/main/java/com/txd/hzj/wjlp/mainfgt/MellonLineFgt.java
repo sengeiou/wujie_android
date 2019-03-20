@@ -50,6 +50,7 @@ import com.txd.hzj.wjlp.mellonLine.WujieTopHzjAty;
 import com.txd.hzj.wjlp.mellonLine.gridClassify.AuctionGoodsDetailsAty;
 import com.txd.hzj.wjlp.mellonLine.gridClassify.CarDetailseAty;
 import com.txd.hzj.wjlp.mellonLine.gridClassify.ExplosiveAreaAty;
+import com.txd.hzj.wjlp.mellonLine.gridClassify.ExplosiveAreaGoodsDetialsAty;
 import com.txd.hzj.wjlp.mellonLine.gridClassify.GoodLuckDetailsAty;
 import com.txd.hzj.wjlp.mellonLine.gridClassify.GoodsInputHzjAty;
 import com.txd.hzj.wjlp.mellonLine.gridClassify.LimitGoodsAty;
@@ -569,15 +570,15 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
             }
         });
         // 爆款专区
-//        explosiveAreaGv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-//                bundle = new Bundle();
-//                bundle.putString("ticket_buy_id", explosiveList.get(i).getGoods_id());
-//                bundle.putInt("from", 1);
-//                startActivity(ExplosiveAreaGoodsDetialsAty.class, bundle);
-//            }
-//        });
+        explosiveAreaGv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                bundle = new Bundle();
+                bundle.putString("ticket_buy_id", explosiveList.get(i).getGoods_id());
+                bundle.putInt("from", 1);
+                startActivity(ExplosiveAreaGoodsDetialsAty.class, bundle);
+            }
+        });
         // 票券区
 
         ticket_gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -905,7 +906,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
                     under_banner_menu_vp.setVisibility(View.VISIBLE);
                     save_money_layout.setVisibility(View.VISIBLE);
 //                    limitBuy_llayout.setVisibility(View.VISIBLE);
-//                    explosiveAreaLayout.setVisibility(View.VISIBLE);
+                    explosiveAreaLayout.setVisibility(View.VISIBLE);
                     groupBuy_llayout.setVisibility(View.VISIBLE);
 //                    ticketBuy_llayout.setVisibility(View.VISIBLE);
 //                    pre_llayout.setVisibility(View.VISIBLE);
@@ -990,7 +991,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
             // 限量购
             forLimit(data);
 //             爆款专区
-//            forExplosiveArea(data);
+            forExplosiveArea(data);
             // 票券区
             forTicket(data);
             // 无界预购
@@ -1415,44 +1416,44 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
      *
      * @param data 数据
      */
-//    private void forExplosiveArea(Map<String, String> data) {
-//        Map<String, String> hot_goods = JSONUtils.parseKeyAndValueToMap(data.get("hot_goods"));
-//        final Map<String, String> limit_ads = JSONUtils.parseKeyAndValueToMap(hot_goods.get("ads"));
-//        if (ToolKit.isList(hot_goods, "goodsList")) {
-//            explosiveList = GsonUtil.getObjectList(hot_goods.get("goodsList"), AllGoodsBean.class);
-//            AllGvLvAdapter allGvLvAdapter = new AllGvLvAdapter(getActivity(), explosiveList, 9);
-//            explosiveAreaGv.setAdapter(allGvLvAdapter);
-//        }
-//        if (limit_ads != null) {
-//            Glide.with(getActivity()).load(limit_ads.get("picture"))
-//                    .override(ads_w, ads_h)
-//                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-//                    .error(R.mipmap.icon_200)
-//                    .placeholder(R.mipmap.icon_200)
-//                    .centerCrop()
-//                    .into(explosiveAreaImg);
-//            explosiveAreaImg.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    if (!TextUtils.isEmpty(limit_ads.get("merchant_id")) && !limit_ads.get("merchant_id").equals("0")) {
-//                        Bundle bundle = new Bundle();
-//                        bundle.putString("mell_id", limit_ads.get("merchant_id"));
-//                        startActivity(MellInfoAty.class, bundle);
-//                    } else if (!TextUtils.isEmpty(limit_ads.get("goods_id")) && !limit_ads.get("goods_id").equals("0")) {
-//                        Bundle bundle = new Bundle();
-//                        bundle.putString("ticket_buy_id", limit_ads.get("goods_id"));
-//                        bundle.putInt("from", 1);
-//                        startActivity(ExplosiveAreaGoodsDetialsAty.class, bundle);
-//                    } else {
-//                        forShowAds(limit_desc, limit_href);
-//                    }
-//
-//                }
-//            });
-//            limit_href = limit_ads.get("href");
-//            limit_desc = limit_ads.get("desc");
-//        }
-//    }
+    private void forExplosiveArea(Map<String, String> data) {
+        Map<String, String> hot_goods = JSONUtils.parseKeyAndValueToMap(data.get("hot_goods"));
+        final Map<String, String> limit_ads = JSONUtils.parseKeyAndValueToMap(hot_goods.get("ads"));
+        if (ToolKit.isList(hot_goods, "goodsList")) {
+            explosiveList = GsonUtil.getObjectList(hot_goods.get("goodsList"), AllGoodsBean.class);
+            AllGvLvAdapter allGvLvAdapter = new AllGvLvAdapter(getActivity(), explosiveList, 9);
+            explosiveAreaGv.setAdapter(allGvLvAdapter);
+        }
+        if (limit_ads != null) {
+            Glide.with(getActivity()).load(limit_ads.get("picture"))
+                    .override(ads_w, ads_h)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .error(R.mipmap.icon_200)
+                    .placeholder(R.mipmap.icon_200)
+                    .centerCrop()
+                    .into(explosiveAreaImg);
+            explosiveAreaImg.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (!TextUtils.isEmpty(limit_ads.get("merchant_id")) && !limit_ads.get("merchant_id").equals("0")) {
+                        Bundle bundle = new Bundle();
+                        bundle.putString("mell_id", limit_ads.get("merchant_id"));
+                        startActivity(MellInfoAty.class, bundle);
+                    } else if (!TextUtils.isEmpty(limit_ads.get("goods_id")) && !limit_ads.get("goods_id").equals("0")) {
+                        Bundle bundle = new Bundle();
+                        bundle.putString("ticket_buy_id", limit_ads.get("goods_id"));
+                        bundle.putInt("from", 1);
+                        startActivity(ExplosiveAreaGoodsDetialsAty.class, bundle);
+                    } else {
+                        forShowAds(limit_desc, limit_href);
+                    }
+
+                }
+            });
+            limit_href = limit_ads.get("href");
+            limit_desc = limit_ads.get("desc");
+        }
+    }
 
     /**
      * 消息

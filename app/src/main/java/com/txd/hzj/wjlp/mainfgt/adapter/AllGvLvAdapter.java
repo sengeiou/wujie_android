@@ -54,7 +54,7 @@ public class AllGvLvAdapter extends BaseAdapter {
      * 6.汽车购
      * 7.房产购
      * 8.拼团购
-     *  // 9 爆款专区
+     * 9 爆款专区
      */
     private int type = 0;
 
@@ -123,9 +123,9 @@ public class AllGvLvAdapter extends BaseAdapter {
                 case WJConfig.PTG:// 拼好货
                     view = inflater.inflate(R.layout.item_group_shopping_lv, viewGroup, false);
                     break;
-//                case 9:
-//                    view = inflater.inflate(R.layout.explosive_item, viewGroup, false);
-//                    break;
+                case 9:
+                    view = inflater.inflate(R.layout.explosive_item, viewGroup, false);
+                    break;
             }
             vh = new ViewHolder();
             ViewUtils.inject(vh, view);
@@ -512,21 +512,21 @@ public class AllGvLvAdapter extends BaseAdapter {
                 }
 
                 break;
-//            case 9:
-//                Glide.with(context).load(allGoodsBean.getCountry_logo())
-//                        .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-//                        .into(vh.goods_icon);
-//
-//                Glide.with(context).load(allGoodsBean.getGoods_img())
-//                        .diskCacheStrategy(DiskCacheStrategy.RESULT)
-//                        .into(vh.goods_img);
-//
-//                vh.goods_name_tv.setText(allGoodsBean.getGoods_name());
-//                vh.goods_price_info_tv.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
-//                vh.goods_price_info_tv.setText("¥"+allGoodsBean.getMarket_price());
-//                vh.num_tv.setText(" 已售"+allGoodsBean.getSell_num()+"件");
-//                vh.goods_price_tv.setText("爆款价 ¥"+allGoodsBean.getShop_price());
-//                break;
+            case 9:
+                Glide.with(context).load(allGoodsBean.getCountry_logo())
+                        .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                        .into(vh.goods_icon);
+
+                Glide.with(context).load(allGoodsBean.getGoods_img())
+                        .diskCacheStrategy(DiskCacheStrategy.RESULT)
+                        .into(vh.goods_img);
+
+                vh.goods_name_tv.setText(allGoodsBean.getGoods_name());
+                vh.goods_price_info_tv.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+                vh.goods_price_info_tv.setText("¥"+allGoodsBean.getMarket_price());
+                vh.num_tv.setText(" 已售"+allGoodsBean.getSell_num()+"件");
+                vh.goods_price_tv.setText("爆款价 ¥"+allGoodsBean.getShop_price());
+                break;
         }
         // 除掉汽车购，房产购,爆款专区
         if (6 != type && 7 != type && 9!=type) {
