@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.ants.theantsgo.base.BaseView;
@@ -349,6 +350,17 @@ public class SaveMoneyFgt extends BaseFgt {
             if (map.containsKey("pict_url") && !TextUtils.isEmpty(map.get("pict_url"))) {
                 Glide.with(mContext).load(map.get("pict_url")).into(holder.img);
             }
+            String biaoshi = map.get("biaoshi");
+            if (biaoshi.equals("taobao")){
+                Drawable drawable = mContext.getDrawable(R.drawable.tb);
+                holder.titleTv.setButtonDrawable(drawable);
+            }else if (biaoshi.equals("tianmao")){
+                Drawable drawable = mContext.getDrawable(R.drawable.tm);
+                holder.titleTv.setButtonDrawable(drawable);
+            }else if (biaoshi.equals("pinduoduo")){
+                Drawable drawable = mContext.getDrawable(R.drawable.pdd);
+                holder.titleTv.setButtonDrawable(drawable);
+            }
             holder.titleTv.setText(map.get("title"));
             holder.priceTv.setText("¥" + map.get("zk_final_price"));
             SpannableString spannableString = new SpannableString("¥" + map.get("reserve_price"));
@@ -377,7 +389,7 @@ public class SaveMoneyFgt extends BaseFgt {
             @ViewInject(R.id.img)
             ImageView img;
             @ViewInject(R.id.titleTv)
-            TextView titleTv;
+            RadioButton titleTv;
             @ViewInject(R.id.priceTv)
             TextView priceTv;
             @ViewInject(R.id.older_price_tv)

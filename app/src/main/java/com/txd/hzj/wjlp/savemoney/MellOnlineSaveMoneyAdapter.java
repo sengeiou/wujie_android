@@ -1,6 +1,7 @@
 package com.txd.hzj.wjlp.savemoney;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
@@ -10,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -67,6 +69,17 @@ public class MellOnlineSaveMoneyAdapter extends BaseAdapter {
         if (map.containsKey("pict_url") && !TextUtils.isEmpty(map.get("pict_url"))) {
             Glide.with(mContext).load(map.get("pict_url")).into(holder.img);
         }
+        String biaoshi = map.get("biaoshi");
+        if (biaoshi.equals("taobao")){
+            Drawable drawable = mContext.getDrawable(R.drawable.tb);
+            holder.titleTv.setButtonDrawable(drawable);
+        }else if (biaoshi.equals("tianmao")){
+            Drawable drawable = mContext.getDrawable(R.drawable.tm);
+            holder.titleTv.setButtonDrawable(drawable);
+        }else if (biaoshi.equals("pinduoduo")){
+            Drawable drawable = mContext.getDrawable(R.drawable.pdd);
+            holder.titleTv.setButtonDrawable(drawable);
+        }
         holder.titleTv.setText(map.get("title"));
         holder.priceTv.setText("¥" + map.get("zk_final_price"));
         SpannableString spannableString = new SpannableString("¥" + map.get("reserve_price"));
@@ -81,7 +94,7 @@ public class MellOnlineSaveMoneyAdapter extends BaseAdapter {
         @ViewInject(R.id.img)
         ImageView img;
         @ViewInject(R.id.titleTv)
-        TextView titleTv;
+        RadioButton titleTv;
         @ViewInject(R.id.priceTv)
         TextView priceTv;
         @ViewInject(R.id.older_price_tv)
