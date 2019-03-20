@@ -267,9 +267,9 @@ public class SaveMoneyFgt extends BaseFgt {
                 public void onItemClick(int position) {
                     Map<String, String> item = list.get(position);
                     if (mTitle.equals("淘宝")) {
-                        openTaobao(item.get("item_url"));
+                        openTaobao(getActivity(),item.get("item_url"));
                     } else if (mTitle.equals("拼多多")) {
-                        openPinduoduo(item.get("item_url"));
+                        openPinduoduo(getActivity(),item.get("item_url"));
                     }
                 }
             });
@@ -277,29 +277,33 @@ public class SaveMoneyFgt extends BaseFgt {
 
     }
 
-    private void openTaobao(String url) {
+    public static void openTaobao(Context context,String url) {
         if (isInstallByread("com.taobao.taobao")){
             Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-            startActivity(intent);
+            context.startActivity(intent);
         }else {
             Bundle bundle = new Bundle();
             bundle.putString("url", url);
             bundle.putBoolean("isShowTitle",true);
             bundle.putString("title", "省钱购");
-            startActivity(WebViewAty.class, bundle);
+            Intent intent = new Intent(context,WebViewAty.class);
+            intent.putExtras(bundle);
+            context.startActivity(intent);
         }
     }
 
-    private void openPinduoduo(String url) {
+    public static void openPinduoduo(Context context,String url) {
         if (isInstallByread("com.xunmeng.pinduoduo")){
             Intent intent=new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-            startActivity(intent);
+            context.startActivity(intent);
         }else {
             Bundle bundle = new Bundle();
             bundle.putString("url", url);
             bundle.putBoolean("isShowTitle",true);
             bundle.putString("title", "省钱购");
-            startActivity(WebViewAty.class, bundle);
+            Intent intent = new Intent(context,WebViewAty.class);
+            intent.putExtras(bundle);
+            context.startActivity(intent);
         }
     }
 
@@ -309,7 +313,7 @@ public class SaveMoneyFgt extends BaseFgt {
      * @param packageName 目标应用安装后的包名
      * @return 是否已安装目标应用
      */
-    private boolean isInstallByread(String packageName) {
+    public static boolean isInstallByread(String packageName) {
         return new File("/data/data/" + packageName).exists();
     }
 

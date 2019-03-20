@@ -50,7 +50,6 @@ import com.txd.hzj.wjlp.mellonLine.WujieTopHzjAty;
 import com.txd.hzj.wjlp.mellonLine.gridClassify.AuctionGoodsDetailsAty;
 import com.txd.hzj.wjlp.mellonLine.gridClassify.CarDetailseAty;
 import com.txd.hzj.wjlp.mellonLine.gridClassify.ExplosiveAreaAty;
-import com.txd.hzj.wjlp.mellonLine.gridClassify.ExplosiveAreaGoodsDetialsAty;
 import com.txd.hzj.wjlp.mellonLine.gridClassify.GoodLuckDetailsAty;
 import com.txd.hzj.wjlp.mellonLine.gridClassify.GoodsInputHzjAty;
 import com.txd.hzj.wjlp.mellonLine.gridClassify.LimitGoodsAty;
@@ -61,6 +60,7 @@ import com.txd.hzj.wjlp.mellonLine.gridClassify.TicketZoonAty;
 import com.txd.hzj.wjlp.mellonLine.gridClassify.hous.HousDetailsChenAty;
 import com.txd.hzj.wjlp.mellonLine.gridClassify.snatch.SnatchGoodsDetailsAty;
 import com.txd.hzj.wjlp.minetoaty.setting.EditProfileAty;
+import com.txd.hzj.wjlp.savemoney.MellOnlineSaveMoneyAdapter;
 import com.txd.hzj.wjlp.savemoney.SaveMoneyAty;
 import com.txd.hzj.wjlp.view.ImprovePersonalInfoDialog;
 import com.txd.hzj.wjlp.view.ObservableScrollView;
@@ -73,6 +73,9 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import static com.txd.hzj.wjlp.savemoney.SaveMoneyFgt.openPinduoduo;
+import static com.txd.hzj.wjlp.savemoney.SaveMoneyFgt.openTaobao;
 
 /**
  * <p>
@@ -151,6 +154,12 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
 
     @ViewInject(R.id.mell_on_line_sc)
     private ObservableScrollView mell_on_line_sc;
+
+    /**
+     * 省钱购
+     */
+    @ViewInject(R.id.save_money_gv)
+    private GridViewForScrollView save_money_gv;
 
     /**
      * 限量购
@@ -355,6 +364,10 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
     /**
      * 各个广告模块，初始隐藏
      */
+    @ViewInject(R.id.save_money_layout)
+    private LinearLayout save_money_layout;
+    @ViewInject(R.id.save_money_iv)
+    private ImageView save_money_iv;
     @ViewInject(R.id.limitBuy_llayout)
     private LinearLayout limitBuy_llayout;
     @ViewInject(R.id.explosiveAreaLayout)
@@ -399,6 +412,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
         ads_h = Settings.displayWidth * 300 / 1242;
         ads_w = Settings.displayWidth;
         LinearLayout.LayoutParams adsParam = new LinearLayout.LayoutParams(ads_w, ads_h);
+        save_money_iv.setLayoutParams(adsParam);
         ads_by_limit_buy_iv.setLayoutParams(adsParam);
         explosiveAreaImg.setLayoutParams(adsParam);
         ticket_buy_ads_iv.setLayoutParams(adsParam);
@@ -491,7 +505,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
                             bundle.putString("title", "积分商店");
                             startActivity(TicketZoonAty.class, bundle);
                             break;
-                        case 8://赠品专区  之前是房产购
+                        case 8://省钱购  之前是房产购、赠品专区
                             //                            showToast("开发中，敬请期待");
 //                            if (!Config.isLogin()) {
 //                                startActivity(LoginAty.class, null);
@@ -555,15 +569,15 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
             }
         });
         // 爆款专区
-        explosiveAreaGv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                bundle = new Bundle();
-                bundle.putString("ticket_buy_id", explosiveList.get(i).getGoods_id());
-                bundle.putInt("from", 1);
-                startActivity(ExplosiveAreaGoodsDetialsAty.class, bundle);
-            }
-        });
+//        explosiveAreaGv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+//                bundle = new Bundle();
+//                bundle.putString("ticket_buy_id", explosiveList.get(i).getGoods_id());
+//                bundle.putInt("from", 1);
+//                startActivity(ExplosiveAreaGoodsDetialsAty.class, bundle);
+//            }
+//        });
         // 票券区
 
         ticket_gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -801,7 +815,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
         gv_classify.add("进口馆");
         gv_classify.add("爆款专区");
         gv_classify.add("积分商店");
-        gv_classify.add("赠品专区");
+        gv_classify.add("省钱购");
         gv_classify.add("紫薇斗数");
 
         groupList = new ArrayList<>();
@@ -889,8 +903,9 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
                 Map<String, String> dataASD = JSONUtils.parseKeyAndValueToMap(map.get("data"));
                 if (localShowAsd || dataASD.get("activity_status").equals("1")) { // 如果活动页开启，则显示相应广告
                     under_banner_menu_vp.setVisibility(View.VISIBLE);
+                    save_money_layout.setVisibility(View.VISIBLE);
 //                    limitBuy_llayout.setVisibility(View.VISIBLE);
-                    explosiveAreaLayout.setVisibility(View.VISIBLE);
+//                    explosiveAreaLayout.setVisibility(View.VISIBLE);
                     groupBuy_llayout.setVisibility(View.VISIBLE);
 //                    ticketBuy_llayout.setVisibility(View.VISIBLE);
 //                    pre_llayout.setVisibility(View.VISIBLE);
@@ -901,6 +916,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
 //                    house_llayout.setVisibility(View.VISIBLE);
                 } else {
                     under_banner_menu_vp.setVisibility(View.GONE);
+                    save_money_layout.setVisibility(View.GONE);
                     limitBuy_llayout.setVisibility(View.GONE);
                     explosiveAreaLayout.setVisibility(View.GONE);
                     groupBuy_llayout.setVisibility(View.GONE);
@@ -969,10 +985,12 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
             }
             // 三个活动图片
             threeAdsInfo(data);
+            //省钱购
+            forSaveMoney(data);
             // 限量购
             forLimit(data);
-            // 爆款专区
-            forExplosiveArea(data);
+//             爆款专区
+//            forExplosiveArea(data);
             // 票券区
             forTicket(data);
             // 无界预购
@@ -1323,6 +1341,31 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
     }
 
     /**
+     * 省钱购
+     * @param data
+     */
+    private void forSaveMoney(Map<String, String> data){
+        final ArrayList<Map<String, String>> mapArrayList = JSONUtils.parseKeyAndValueToMapList(data.get("shengqiangou"));
+        if (mapArrayList != null && mapArrayList.size()>0){
+            save_money_gv.setAdapter(new MellOnlineSaveMoneyAdapter(mapArrayList,getActivity()));
+            save_money_gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    Map<String, String> map = mapArrayList.get(position);
+                    String biaoshi = map.get("biaoshi");
+                    if (biaoshi.equals("taobao")){
+                        openTaobao(getActivity(),map.get("item_url"));
+                    }else if (biaoshi.equals("pinduoduo")){
+                        openPinduoduo(getActivity(),map.get("item_url"));
+                    }
+                }
+            });
+        }
+
+    }
+
+
+    /**
      * 限量购
      *
      * @param data 数据
@@ -1372,44 +1415,44 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
      *
      * @param data 数据
      */
-    private void forExplosiveArea(Map<String, String> data) {
-        Map<String, String> hot_goods = JSONUtils.parseKeyAndValueToMap(data.get("hot_goods"));
-        final Map<String, String> limit_ads = JSONUtils.parseKeyAndValueToMap(hot_goods.get("ads"));
-        if (ToolKit.isList(hot_goods, "goodsList")) {
-            explosiveList = GsonUtil.getObjectList(hot_goods.get("goodsList"), AllGoodsBean.class);
-            AllGvLvAdapter allGvLvAdapter = new AllGvLvAdapter(getActivity(), explosiveList, 9);
-            explosiveAreaGv.setAdapter(allGvLvAdapter);
-        }
-        if (limit_ads != null) {
-            Glide.with(getActivity()).load(limit_ads.get("picture"))
-                    .override(ads_w, ads_h)
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .error(R.mipmap.icon_200)
-                    .placeholder(R.mipmap.icon_200)
-                    .centerCrop()
-                    .into(explosiveAreaImg);
-            explosiveAreaImg.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (!TextUtils.isEmpty(limit_ads.get("merchant_id")) && !limit_ads.get("merchant_id").equals("0")) {
-                        Bundle bundle = new Bundle();
-                        bundle.putString("mell_id", limit_ads.get("merchant_id"));
-                        startActivity(MellInfoAty.class, bundle);
-                    } else if (!TextUtils.isEmpty(limit_ads.get("goods_id")) && !limit_ads.get("goods_id").equals("0")) {
-                        Bundle bundle = new Bundle();
-                        bundle.putString("ticket_buy_id", limit_ads.get("goods_id"));
-                        bundle.putInt("from", 1);
-                        startActivity(ExplosiveAreaGoodsDetialsAty.class, bundle);
-                    } else {
-                        forShowAds(limit_desc, limit_href);
-                    }
-
-                }
-            });
-            limit_href = limit_ads.get("href");
-            limit_desc = limit_ads.get("desc");
-        }
-    }
+//    private void forExplosiveArea(Map<String, String> data) {
+//        Map<String, String> hot_goods = JSONUtils.parseKeyAndValueToMap(data.get("hot_goods"));
+//        final Map<String, String> limit_ads = JSONUtils.parseKeyAndValueToMap(hot_goods.get("ads"));
+//        if (ToolKit.isList(hot_goods, "goodsList")) {
+//            explosiveList = GsonUtil.getObjectList(hot_goods.get("goodsList"), AllGoodsBean.class);
+//            AllGvLvAdapter allGvLvAdapter = new AllGvLvAdapter(getActivity(), explosiveList, 9);
+//            explosiveAreaGv.setAdapter(allGvLvAdapter);
+//        }
+//        if (limit_ads != null) {
+//            Glide.with(getActivity()).load(limit_ads.get("picture"))
+//                    .override(ads_w, ads_h)
+//                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+//                    .error(R.mipmap.icon_200)
+//                    .placeholder(R.mipmap.icon_200)
+//                    .centerCrop()
+//                    .into(explosiveAreaImg);
+//            explosiveAreaImg.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    if (!TextUtils.isEmpty(limit_ads.get("merchant_id")) && !limit_ads.get("merchant_id").equals("0")) {
+//                        Bundle bundle = new Bundle();
+//                        bundle.putString("mell_id", limit_ads.get("merchant_id"));
+//                        startActivity(MellInfoAty.class, bundle);
+//                    } else if (!TextUtils.isEmpty(limit_ads.get("goods_id")) && !limit_ads.get("goods_id").equals("0")) {
+//                        Bundle bundle = new Bundle();
+//                        bundle.putString("ticket_buy_id", limit_ads.get("goods_id"));
+//                        bundle.putInt("from", 1);
+//                        startActivity(ExplosiveAreaGoodsDetialsAty.class, bundle);
+//                    } else {
+//                        forShowAds(limit_desc, limit_href);
+//                    }
+//
+//                }
+//            });
+//            limit_href = limit_ads.get("href");
+//            limit_desc = limit_ads.get("desc");
+//        }
+//    }
 
     /**
      * 消息

@@ -23,6 +23,7 @@ class IndexPage {
         ApiTool2 apiTool2 = new ApiTool2();
         params.addBodyParameter("lng", lng);
         params.addBodyParameter("lat", lat);
+        params.addBodyParameter("page_size", "20");
         apiTool2.postApi(url + "index", params, baseView);
     }
 
