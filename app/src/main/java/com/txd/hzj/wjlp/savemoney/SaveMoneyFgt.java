@@ -101,6 +101,8 @@ public class SaveMoneyFgt extends BaseFgt {
     private RecyclerView mRecyclerView;
     private SaveMoneyAdapter mAdapter;
 
+    private ArrayList<Map<String, String>> mList = new ArrayList<>();
+
     @Override
     protected int getLayoutResId() {
         return R.layout.fragment_save_money;
@@ -321,28 +323,62 @@ public class SaveMoneyFgt extends BaseFgt {
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
+        refreshVisibleState();
         Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
         Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
-        final ArrayList<Map<String, String>> list = JSONUtils.parseKeyAndValueToMapList(data.get("goods_list"));
-        if (list != null && list.size() > 0) {
-            mAdapter = new SaveMoneyAdapter(list);
-            mRecyclerView.setAdapter(mAdapter);
-            mAdapter.setOnItemClickListener(new SaveMoneyAdapter.OnItemClickListener() {
-                @Override
-                public void onItemClick(int position) {
-                    Map<String, String> item = list.get(position);
-                    if (mTitle.equals("淘宝")) {
-                        openTaobao(getActivity(),item.get("item_url"));
-                    } else if (mTitle.equals("拼多多")) {
-                        openPinduoduo(getActivity(),item.get("item_url"));
+        final ArrayList<Map<String, String>> mapArrayList = JSONUtils.parseKeyAndValueToMapList(data.get("goods_list"));
+        if (p == 1){
+            mList.clear();
+            if (mapArrayList != null && mapArrayList.size()>0){
+                mList.addAll(mapArrayList);
+            }
+        }else {
+            if (mapArrayList != null && mapArrayList.size()>0){
+                mList.addAll(mapArrayList);
+            }
+        }
+        if ( mList.size() > 0) {
+            if (mAdapter == null){
+                mAdapter = new SaveMoneyAdapter(mList);
+                mRecyclerView.setAdapter(mAdapter);
+                mAdapter.setOnItemClickListener(new SaveMoneyAdapter.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(int position) {
+                        Map<String, String> item = mList.get(position);
+                        if (mTitle.equals("淘宝")) {
+                            openTaobao(getActivity(),item.get("item_url"));
+                        } else if (mTitle.equals("拼多多")) {
+                            openPinduoduo(getActivity(),item.get("item_url"));
+                        }
                     }
-                }
-            });
+                });
+            }else {
+                mAdapter.notifyDataSetChanged();
+            }
+
         }
 
     }
 
-    public static void openTaobao(Context context,String url) {
+    private void refreshVisibleState() {
+        if (progressBar.getVisibility()== View.VISIBLE){
+            superSwipeRefreshLayout.setRefreshing(false);
+            progressBar.setVisibility(View.GONE);
+        }
+        if (footerProgressBar.getVisibility()==View.VISIBLE) {
+            superSwipeRefreshLayout.setLoadMore(false);
+            footerProgressBar.setVisibility(View.GONE);
+        }
+    }
+
+
+    @Override
+    public void onError(String requestUrl, Map<String, String> error) {
+        super.onError(requestUrl, error);
+        refreshVisibleState();
+    }
+
+    public static void openTaobao(Context context, String url) {
         if (isInstallByread("com.taobao.taobao")){
             Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
             context.startActivity(intent);
