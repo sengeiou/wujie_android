@@ -6,6 +6,7 @@
     android:background="@color/white"
     android:layout_height="wrap_content">
 
+    <!--shape_black_line_5  shape_red-->
     <TextView
         android:id="@+id/labelTv"
         android:text="女装"

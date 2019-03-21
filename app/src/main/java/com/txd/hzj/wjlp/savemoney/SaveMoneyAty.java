@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -87,6 +88,11 @@ public class SaveMoneyAty extends BaseAty {
             @Override
             public void onTabSelect(int position) {
                 selectPosition = position;
+                if (selectPosition == 0){
+                    mSaveMoneyFgt1.getSearchLabel(title_search_ev.getText().toString());
+                }else if (selectPosition == 1){
+                    mSaveMoneyFgt2.getSearchLabel(title_search_ev.getText().toString());
+                }
             }
 
             @Override
@@ -109,6 +115,11 @@ public class SaveMoneyAty extends BaseAty {
             @Override
             public void afterTextChanged(Editable s) {
                 title_search_ev.setSelection(s.length());
+                if (selectPosition == 0){
+                    mSaveMoneyFgt1.getSearchLabel(title_search_ev.getText().toString());
+                }else if (selectPosition == 1){
+                    mSaveMoneyFgt2.getSearchLabel(title_search_ev.getText().toString());
+                }
             }
         });
 
@@ -150,6 +161,7 @@ public class SaveMoneyAty extends BaseAty {
                     public void onItemClick(int position) {
                         Map<String, String> data = mapArrayList.get(position);
                         title_search_ev.setText(data.get("name"));
+                        mAdapter.setSelectPosition(position);
                     }
                 });
             }
@@ -183,12 +195,19 @@ public class SaveMoneyAty extends BaseAty {
 
         private SaveMoneyAdapter.OnItemClickListener mOnItemClickListener;
 
+        private int selectPosition = -1;
+
         public void setOnItemClickListener(SaveMoneyAdapter.OnItemClickListener onItemClickListener) {
             mOnItemClickListener = onItemClickListener;
         }
 
         public SaveMoneyAdapter(List<Map<String, String>> list) {
             mList = list;
+        }
+
+        public void setSelectPosition(int selectPosition) {
+            this.selectPosition = selectPosition;
+            notifyDataSetChanged();
         }
 
         @NonNull
@@ -205,7 +224,13 @@ public class SaveMoneyAty extends BaseAty {
         public void onBindViewHolder(@NonNull final SaveMoneyAdapter.ViewHolder holder, int position) {
             Map<String, String> map = mList.get(position);
             holder.labelTv.setText(map.get("name"));
-
+            if (selectPosition == position){
+                holder.labelTv.setBackgroundResource(R.drawable.shape_red_line_5);
+                holder.labelTv.setTextColor(ContextCompat.getColor(mContext,R.color.red_tv_back));
+            }else {
+                holder.labelTv.setBackgroundResource(R.drawable.shape_black_line_5);
+                holder.labelTv.setTextColor(ContextCompat.getColor(mContext,R.color.text_color));
+            }
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -235,7 +260,6 @@ public class SaveMoneyAty extends BaseAty {
             void onItemClick(int position);
         }
     }
-
 
 
     public static class PageAdapter extends FragmentStatePagerAdapter{
