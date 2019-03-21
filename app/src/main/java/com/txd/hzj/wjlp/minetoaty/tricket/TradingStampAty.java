@@ -21,7 +21,9 @@ import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
+import com.txd.hzj.wjlp.mellonLine.gridClassify.giveawayarea.GiveAwayAreaAty;
 import com.txd.hzj.wjlp.mellonLine.gridClassify.giveawayarea.GiveAwayModel;
+import com.txd.hzj.wjlp.view.MyShopTitleView;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -33,8 +35,9 @@ import java.util.Map;
  */
 public class TradingStampAty extends BaseAty implements View.OnClickListener{
 
-    @ViewInject(R.id.titlt_conter_tv)
-    public TextView titlt_conter_tv;
+    @ViewInject(R.id.mytitle_tv)
+    public MyShopTitleView titleView;
+
     @ViewInject(R.id.total_price_tv)
     public TextView total_price_tv;
     @ViewInject(R.id.change_tv)
@@ -69,8 +72,25 @@ public class TradingStampAty extends BaseAty implements View.OnClickListener{
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        titleView.setShopkeeper();
+    }
+
+    @Override
     protected void initialized() {
-        titlt_conter_tv.setText("我的赠品券");
+        showStatusBar(R.id.title_re_layout);
+        titleView.setVisibility(View.VISIBLE);
+        titleView.setLeftName("我的赠品券");
+        titleView.setRightName("赠品专区");
+        titleView.setleftListener(new MyShopTitleView.LeftContent() {
+            @Override
+            public void getLeft(String string) {
+                if (string.equals("1")){
+                    startActivity(GiveAwayAreaAty.class, null);
+                }
+            }
+        });
         refreshLayout.setHeaderView(createHeaderView());// add headerView
         refreshLayout.setFooterView(createFooterView());
         refreshLayout.setHeaderViewBackgroundColor(Color.WHITE);

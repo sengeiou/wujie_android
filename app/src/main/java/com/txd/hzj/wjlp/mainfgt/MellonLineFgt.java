@@ -75,9 +75,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static com.txd.hzj.wjlp.savemoney.SaveMoneyFgt.openPinduoduo;
-import static com.txd.hzj.wjlp.savemoney.SaveMoneyFgt.openTaobao;
-
 /**
  * <p>
  * 作者：DUKE_HwangZj
@@ -1349,18 +1346,6 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
         final ArrayList<Map<String, String>> mapArrayList = JSONUtils.parseKeyAndValueToMapList(data.get("shengqiangou"));
         if (mapArrayList != null && mapArrayList.size()>0){
             save_money_gv.setAdapter(new MellOnlineSaveMoneyAdapter(mapArrayList,getActivity()));
-            save_money_gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    Map<String, String> map = mapArrayList.get(position);
-                    String biaoshi = map.get("biaoshi");
-                    if (biaoshi.equals("taobao")){
-                        openTaobao(getActivity(),map.get("item_url"));
-                    }else if (biaoshi.equals("pinduoduo")){
-                        openPinduoduo(getActivity(),map.get("item_url"));
-                    }
-                }
-            });
         }
 
     }

@@ -22,6 +22,9 @@ import com.txd.hzj.wjlp.R;
 import java.util.ArrayList;
 import java.util.Map;
 
+import static com.txd.hzj.wjlp.savemoney.SaveMoneyFgt.openPinduoduo;
+import static com.txd.hzj.wjlp.savemoney.SaveMoneyFgt.openTaobao;
+
 /**
  * 创建者：zhangyunfei
  * 创建时间：2019/3/20 9:28
@@ -65,11 +68,11 @@ public class MellOnlineSaveMoneyAdapter extends BaseAdapter {
             holder = (ViewHolder) view.getTag();
         }
 
-        Map<String, String> map = mList.get(position);
+        final Map<String, String> map = mList.get(position);
         if (map.containsKey("pict_url") && !TextUtils.isEmpty(map.get("pict_url"))) {
             Glide.with(mContext).load(map.get("pict_url")).into(holder.img);
         }
-        String biaoshi = map.get("biaoshi");
+        final String biaoshi = map.get("biaoshi");
         if (biaoshi.equals("taobao")){
             Drawable drawable = mContext.getDrawable(R.drawable.tb);
             holder.titleTv.setButtonDrawable(drawable);
@@ -81,12 +84,23 @@ public class MellOnlineSaveMoneyAdapter extends BaseAdapter {
             holder.titleTv.setButtonDrawable(drawable);
         }
         holder.titleTv.setText(map.get("title"));
+        holder.titleTv.setFocusable(false);
         holder.priceTv.setText("¥" + map.get("zk_final_price"));
         SpannableString spannableString = new SpannableString("¥" + map.get("reserve_price"));
         StrikethroughSpan strikethroughSpan = new StrikethroughSpan();
         spannableString.setSpan(strikethroughSpan, 0, spannableString.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
         holder.older_price_tv.setText(spannableString);
         holder.sellNumTv.setText(map.get("volume"));
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (biaoshi.equals("taobao") || biaoshi.equals("tianmao")){
+                    openTaobao(mContext,map.get("item_url"));
+                }else if (biaoshi.equals("pinduoduo")){
+                    openPinduoduo(mContext,map.get("item_url"));
+                }
+            }
+        });
         return view;
     }
 

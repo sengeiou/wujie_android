@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
@@ -33,6 +34,7 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseFgt;
+import com.txd.hzj.wjlp.view.SuperSwipeRefreshLayout;
 import com.txd.hzj.wjlp.webviewH5.WebViewAty;
 
 import java.io.File;
@@ -81,6 +83,20 @@ public class SaveMoneyFgt extends BaseFgt {
     //    private int salesVolumeNum = 0;
     private int priceNum = 0;
 
+    @ViewInject(R.id.superSwipeRefreshLayout)
+    private SuperSwipeRefreshLayout superSwipeRefreshLayout;
+
+    private int p = 1; // 请求的分页
+    // Header View
+    private ProgressBar progressBar;
+    private TextView textView;
+    private ImageView imageView;
+
+    // Footer View
+    private ProgressBar footerProgressBar;
+    private TextView footerTextView;
+    private ImageView footerImageView;
+
     @ViewInject(R.id.recyclerView)
     private RecyclerView mRecyclerView;
     private SaveMoneyAdapter mAdapter;
@@ -110,6 +126,53 @@ public class SaveMoneyFgt extends BaseFgt {
 
     @Override
     protected void requestData() {
+        superSwipeRefreshLayout.setHeaderView(createHeaderView());// add headerView
+        superSwipeRefreshLayout.setFooterView(createFooterView());
+        superSwipeRefreshLayout.setHeaderViewBackgroundColor(Color.WHITE);
+        superSwipeRefreshLayout.setTargetScrollWithLayout(true);
+        superSwipeRefreshLayout.setOnPullRefreshListener(new SuperSwipeRefreshLayout.OnPullRefreshListener() {
+            @Override
+            public void onRefresh() {
+                textView.setText("正在刷新");
+                imageView.setVisibility(View.GONE);
+                progressBar.setVisibility(View.VISIBLE);
+                p = 1;
+                getShengqiangou(SaveMoneyFgt.this);
+            }
+
+            @Override
+            public void onPullDistance(int distance) {
+
+            }
+
+            @Override
+            public void onPullEnable(boolean enable) {
+                textView.setText(enable ? "松开刷新" : "下拉刷新");
+                imageView.setVisibility(View.VISIBLE);
+                imageView.setRotation(enable ? 180 : 0);
+            }
+        });
+        superSwipeRefreshLayout.setOnPushLoadMoreListener(new SuperSwipeRefreshLayout.OnPushLoadMoreListener() {
+            @Override
+            public void onLoadMore() {
+                footerTextView.setText("正在加载...");
+                footerImageView.setVisibility(View.GONE);
+                footerProgressBar.setVisibility(View.VISIBLE);
+                p++;
+                getShengqiangou(SaveMoneyFgt.this);
+            }
+
+            @Override
+            public void onPushDistance(int distance) {
+            }
+
+            @Override
+            public void onPushEnable(boolean enable) {
+                footerTextView.setText(enable ? "松开加载" : "上拉加载");
+                footerImageView.setVisibility(View.VISIBLE);
+                footerImageView.setRotation(enable ? 0 : 180);
+            }
+        });
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 2);
         mRecyclerView.setLayoutManager(gridLayoutManager);
         mRecyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
@@ -251,6 +314,7 @@ public class SaveMoneyFgt extends BaseFgt {
         requestParams.addBodyParameter("type", mType);
         requestParams.addBodyParameter("q", mQ);
         requestParams.addBodyParameter("sort_type", mSortType);
+        requestParams.addBodyParameter("p",String.valueOf(p));
         apiTool2.postApi(Config.SHARE_URL + "index.php/Api/Goods/getShengqiangou", requestParams, baseView);
     }
 
@@ -316,6 +380,40 @@ public class SaveMoneyFgt extends BaseFgt {
      */
     public static boolean isInstallByread(String packageName) {
         return new File("/data/data/" + packageName).exists();
+    }
+
+    /**
+     * 创建底部加载布局
+     *
+     * @return
+     */
+    private View createFooterView() {
+        View footerView = LayoutInflater.from(superSwipeRefreshLayout.getContext()).inflate(R.layout.layout_footer, null);
+        footerProgressBar = footerView.findViewById(R.id.footer_pb_view);
+        footerImageView = footerView.findViewById(R.id.footer_image_view);
+        footerTextView = footerView.findViewById(R.id.footer_text_view);
+        footerProgressBar.setVisibility(View.GONE);
+        footerImageView.setVisibility(View.VISIBLE);
+        footerImageView.setImageResource(R.drawable.down_arrow);
+        footerTextView.setText("上拉加载更多...");
+        return footerView;
+    }
+
+    /**
+     * 创建头部加载布局
+     *
+     * @return
+     */
+    private View createHeaderView() {
+        View headerView = LayoutInflater.from(superSwipeRefreshLayout.getContext()).inflate(R.layout.layout_head, null);
+        progressBar = headerView.findViewById(R.id.pb_view);
+        textView = headerView.findViewById(R.id.text_view);
+        textView.setText("下拉刷新");
+        imageView = headerView.findViewById(R.id.image_view);
+        imageView.setVisibility(View.VISIBLE);
+        imageView.setImageResource(R.drawable.down_arrow);
+        progressBar.setVisibility(View.GONE);
+        return headerView;
     }
 
     public static class SaveMoneyAdapter extends RecyclerView.Adapter<SaveMoneyAdapter.ViewHolder> {
