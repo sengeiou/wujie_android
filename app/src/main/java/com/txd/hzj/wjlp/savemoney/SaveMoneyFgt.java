@@ -52,7 +52,7 @@ public class SaveMoneyFgt extends BaseFgt {
     private String mTitle;
     private String mType;
     private String mSortType;
-    private String mQ = "女装";
+    private String mQ;
 
 
     private String redColor = "#ffe71f19";
@@ -102,6 +102,8 @@ public class SaveMoneyFgt extends BaseFgt {
     private SaveMoneyAdapter mAdapter;
 
     private ArrayList<Map<String, String>> mList = new ArrayList<>();
+
+
 
     @Override
     protected int getLayoutResId() {
@@ -314,6 +316,9 @@ public class SaveMoneyFgt extends BaseFgt {
         ApiTool2 apiTool2 = new ApiTool2();
         RequestParams requestParams = new RequestParams();
         requestParams.addBodyParameter("type", mType);
+        if (mQ == null){
+            mQ = "女装";
+        }
         requestParams.addBodyParameter("q", mQ);
         requestParams.addBodyParameter("sort_type", mSortType);
         requestParams.addBodyParameter("p",String.valueOf(p));
@@ -359,6 +364,8 @@ public class SaveMoneyFgt extends BaseFgt {
         }
 
     }
+
+
 
     private void refreshVisibleState() {
         if (progressBar.getVisibility()== View.VISIBLE){

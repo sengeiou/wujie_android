@@ -33,7 +33,6 @@
             android:imeOptions="actionSearch"
             android:inputType="text"
             android:maxLines="1"
-            android:text="女装"
             android:padding="8dp"
             android:textColor="@color/app_text_color"
             android:textColorHint="@color/app_text_color"

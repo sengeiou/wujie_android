@@ -43,10 +43,6 @@ import java.util.Map;
  * 功能描述：省钱购
  */
 public class SaveMoneyAty extends BaseAty {
-
-    @ViewInject(R.id.titlt_conter_tv)
-    private TextView titlt_conter_tv;
-
     @ViewInject(R.id.slidingTabLayout)
     private SlidingTabLayout slidingTabLayout;
 
@@ -88,11 +84,7 @@ public class SaveMoneyAty extends BaseAty {
             @Override
             public void onTabSelect(int position) {
                 selectPosition = position;
-                if (selectPosition == 0){
-                    mSaveMoneyFgt1.getSearchLabel(title_search_ev.getText().toString());
-                }else if (selectPosition == 1){
-                    mSaveMoneyFgt2.getSearchLabel(title_search_ev.getText().toString());
-                }
+                setSearch();
             }
 
             @Override
@@ -115,11 +107,7 @@ public class SaveMoneyAty extends BaseAty {
             @Override
             public void afterTextChanged(Editable s) {
                 title_search_ev.setSelection(s.length());
-                if (selectPosition == 0){
-                    mSaveMoneyFgt1.getSearchLabel(title_search_ev.getText().toString());
-                }else if (selectPosition == 1){
-                    mSaveMoneyFgt2.getSearchLabel(title_search_ev.getText().toString());
-                }
+                setSearch();
             }
         });
 
@@ -155,6 +143,19 @@ public class SaveMoneyAty extends BaseAty {
             final ArrayList<Map<String, String>> mapArrayList = JSONUtils.parseKeyAndValueToMapList(map.get("data"));
             if (mapArrayList != null && mapArrayList.size()>0){
                 mAdapter = new SaveMoneyAdapter(mapArrayList);
+                for (int i = 0; i < mapArrayList.size(); i++) {
+                    if (mapArrayList.get(i).get("is_default").equals("1")){
+                        title_search_ev.setText(mapArrayList.get(i).get("name"));
+                        mAdapter.setSelectPosition(i);
+                        setSearch();
+                        break;
+                    }
+                }
+                if (TextUtils.isEmpty(title_search_ev.getText())){
+                    title_search_ev.setText(mapArrayList.get(0).get("name"));
+                    mAdapter.setSelectPosition(0);
+                    setSearch();
+                }
                 recyclerView.setAdapter(mAdapter);
                 mAdapter.setOnItemClickListener(new SaveMoneyAdapter.OnItemClickListener() {
                     @Override
@@ -169,6 +170,14 @@ public class SaveMoneyAty extends BaseAty {
         }
     }
 
+    private void setSearch() {
+        if (selectPosition == 0){
+            mSaveMoneyFgt1.getSearchLabel(title_search_ev.getText().toString());
+        }else if (selectPosition == 1){
+            mSaveMoneyFgt2.getSearchLabel(title_search_ev.getText().toString());
+        }
+    }
+
     @OnClick({R.id.search_title_right_tv})
     public void onClick(View view){
         int id = view.getId();
@@ -177,12 +186,7 @@ public class SaveMoneyAty extends BaseAty {
                 showToast("搜索内容不能为空");
                 return;
             }
-            if (selectPosition == 0){
-                mSaveMoneyFgt1.getSearchLabel(title_search_ev.getText().toString());
-            }else if (selectPosition == 1){
-                mSaveMoneyFgt2.getSearchLabel(title_search_ev.getText().toString());
-            }
-
+            setSearch();
         }
     }
 
