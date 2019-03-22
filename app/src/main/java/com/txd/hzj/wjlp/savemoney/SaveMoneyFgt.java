@@ -1,5 +1,6 @@
 package com.txd.hzj.wjlp.savemoney;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -20,7 +21,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.ants.theantsgo.base.BaseView;
@@ -102,7 +102,7 @@ public class SaveMoneyFgt extends BaseFgt {
     private SaveMoneyAdapter mAdapter;
 
     private ArrayList<Map<String, String>> mList = new ArrayList<>();
-
+    private ProgressDialog mProgressDialog;
 
 
     @Override
@@ -126,7 +126,26 @@ public class SaveMoneyFgt extends BaseFgt {
         selectId.setBounds(0, 0, selectId.getMinimumWidth(), selectId.getMinimumHeight());
         twoSelectId.setBounds(0, 0, selectId.getMinimumWidth(), selectId.getMinimumHeight());
         unSelectId.setBounds(0, 0, unSelectId.getMinimumWidth(), unSelectId.getMinimumHeight());
+
+        mProgressDialog = new ProgressDialog(getActivity(), R.style.loading_dialog);
+        mProgressDialog.setIndeterminate(true);
+        mProgressDialog.setCancelable(false);
+        mProgressDialog.setCanceledOnTouchOutside(false);
     }
+
+
+    public void setRefresh(){
+        mProgressDialog.show();
+        mProgressDialog.setContentView(com.ants.theantsgo.R.layout.loading_dialog);
+    }
+
+    public void stopRefresh(){
+        if (mProgressDialog != null && mProgressDialog.isShowing()){
+            mProgressDialog.dismiss();
+        }
+    }
+
+
 
     @Override
     protected void requestData() {
@@ -196,18 +215,21 @@ public class SaveMoneyFgt extends BaseFgt {
             mTitle = getArguments().getString(ARG_PARAM1);
             if (mTitle.equals("淘宝")) {
                 mType = "1";
+                mSortType = "999";
                 priceLayout.setVisibility(View.GONE);
                 internal_tv.setText("综合");
                 cash_coupon_tv.setText("优惠");
 
             } else if (mTitle.equals("拼多多")) {
                 mType = "3";
+                mSortType = "14";
                 priceLayout.setVisibility(View.VISIBLE);
                 internal_tv.setText("优惠");
                 cash_coupon_tv.setText("用券");
             }
         }
-        setChioceItem(0);
+        clearChioce();
+        internal_tv.setTextColor(Color.parseColor(redColor));
     }
 
     @Override
@@ -234,6 +256,7 @@ public class SaveMoneyFgt extends BaseFgt {
 
     private void setChioceItem(int index) {
         clearChioce();
+        p = 1;
         if (index == 0) {
             internal_tv.setTextColor(Color.parseColor(redColor));
             //            internal_tv.setCompoundDrawables(null, null, internalNum % 2 == 0 ? selectId : twoSelectId, null);
@@ -272,6 +295,7 @@ public class SaveMoneyFgt extends BaseFgt {
                 mSortType = "6";
             }
         } else if (index == 3) {
+            setRefresh();
             price_tv.setTextColor(Color.parseColor(redColor));
             price_tv.setCompoundDrawables(null, null, priceNum % 2 == 0 ? selectId : twoSelectId, null);
             //            internalNum = 0;
@@ -313,21 +337,22 @@ public class SaveMoneyFgt extends BaseFgt {
      * @param baseView
      */
     private void getShengqiangou(BaseView baseView) {
+        setRefresh();
         ApiTool2 apiTool2 = new ApiTool2();
         RequestParams requestParams = new RequestParams();
         requestParams.addBodyParameter("type", mType);
-        if (mQ == null){
-            mQ = "女装";
-        }
         requestParams.addBodyParameter("q", mQ);
         requestParams.addBodyParameter("sort_type", mSortType);
         requestParams.addBodyParameter("p",String.valueOf(p));
-        apiTool2.postApi(Config.SHARE_URL + "index.php/Api/Goods/getShengqiangou", requestParams, baseView);
+        if (mQ != null){
+            apiTool2.postApi(Config.SHARE_URL + "index.php/Api/Goods/getShengqiangou", requestParams, baseView);
+        }
     }
 
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
+        stopRefresh();
         refreshVisibleState();
         Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
         Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
@@ -382,6 +407,7 @@ public class SaveMoneyFgt extends BaseFgt {
     @Override
     public void onError(String requestUrl, Map<String, String> error) {
         super.onError(requestUrl, error);
+        stopRefresh();
         refreshVisibleState();
     }
 
@@ -493,16 +519,13 @@ public class SaveMoneyFgt extends BaseFgt {
             }
             String biaoshi = map.get("biaoshi");
             if (biaoshi.equals("taobao")){
-                Drawable drawable = mContext.getDrawable(R.drawable.tb);
-                holder.titleTv.setButtonDrawable(drawable);
+                holder.biaoshi.setImageResource(R.drawable.tb);
             }else if (biaoshi.equals("tianmao")){
-                Drawable drawable = mContext.getDrawable(R.drawable.tm);
-                holder.titleTv.setButtonDrawable(drawable);
+                holder.biaoshi.setImageResource(R.drawable.tm);
             }else if (biaoshi.equals("pinduoduo")){
-                Drawable drawable = mContext.getDrawable(R.drawable.pdd);
-                holder.titleTv.setButtonDrawable(drawable);
+                holder.biaoshi.setImageResource(R.drawable.pdd);
             }
-            holder.titleTv.setText(map.get("title"));
+            holder.titleTv.setText("\u3000\u3000"+map.get("title"));
             holder.priceTv.setText("¥" + map.get("zk_final_price"));
             SpannableString spannableString = new SpannableString("¥" + map.get("reserve_price"));
             StrikethroughSpan strikethroughSpan = new StrikethroughSpan();
@@ -529,8 +552,10 @@ public class SaveMoneyFgt extends BaseFgt {
         public class ViewHolder extends RecyclerView.ViewHolder {
             @ViewInject(R.id.img)
             ImageView img;
+            @ViewInject(R.id.biaoshi)
+            ImageView biaoshi;
             @ViewInject(R.id.titleTv)
-            RadioButton titleTv;
+            TextView titleTv;
             @ViewInject(R.id.priceTv)
             TextView priceTv;
             @ViewInject(R.id.older_price_tv)

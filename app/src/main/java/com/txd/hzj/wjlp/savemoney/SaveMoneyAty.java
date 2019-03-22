@@ -58,7 +58,7 @@ public class SaveMoneyAty extends BaseAty {
 
     private List<Fragment> mFragmentList;
 
-    private String[] mTitles = new String[]{"淘宝","拼多多"};
+    private String[] mTitles = new String[]{"淘宝/天猫","拼多多"};
     private SaveMoneyFgt mSaveMoneyFgt1;
     private SaveMoneyFgt mSaveMoneyFgt2;
     private SaveMoneyAdapter mAdapter;
@@ -229,8 +229,8 @@ public class SaveMoneyAty extends BaseAty {
             Map<String, String> map = mList.get(position);
             holder.labelTv.setText(map.get("name"));
             if (selectPosition == position){
-                holder.labelTv.setBackgroundResource(R.drawable.shape_red_line_5);
-                holder.labelTv.setTextColor(ContextCompat.getColor(mContext,R.color.red_tv_back));
+                holder.labelTv.setBackgroundResource(R.drawable.shape_save_money);
+                holder.labelTv.setTextColor(ContextCompat.getColor(mContext,R.color.holo_red_light));
             }else {
                 holder.labelTv.setBackgroundResource(R.drawable.shape_black_line_5);
                 holder.labelTv.setTextColor(ContextCompat.getColor(mContext,R.color.text_color));

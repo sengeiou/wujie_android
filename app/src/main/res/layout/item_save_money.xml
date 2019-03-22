@@ -12,21 +12,28 @@
         android:layout_width="match_parent"
         android:layout_height="180dp" />
 
-    <RadioButton
+    <FrameLayout
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    <TextView
         android:id="@+id/titleTv"
         android:maxLines="2"
         android:ellipsize="end"
-        android:layout_marginTop="10dp"
-        android:paddingStart="5dp"
         android:paddingEnd="5dp"
-        android:gravity="top"
-        android:checked="false"
-        android:button="@drawable/tb"
-        android:clickable="false"
-        android:layout_marginStart="5dp"
+        android:lineSpacingExtra="2dp"
+        android:textSize="12sp"
+        android:textColor="@color/app_text_color"
         android:text="尽快尽快了解快乐健康了尽快尽快了解来看看了看就看就看绿扩军扩军扩军绿扩军扩绿绿绿绿绿绿绿绿绿绿绿绿绿绿绿绿绿绿绿绿绿绿绿绿绿绿绿绿"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+        <ImageView
+            android:id="@+id/biaoshi"
+            android:src="@drawable/tb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </FrameLayout>
 
     <LinearLayout
         android:layout_marginTop="8dp"
@@ -61,17 +68,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:text="销量"
+            android:text="30天销量:"
             android:textColor="@color/gray_text_color"
             android:textSize="12sp" />
         <TextView
             android:id="@+id/sellNumTv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/theme_color"
+            android:textColor="@color/gray_text_color"
             android:text="1534"
-            android:layout_marginStart="8dp"
-            android:textSize="14sp" />
+            android:textSize="12sp" />
 
     </LinearLayout>
 </LinearLayout>

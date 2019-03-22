@@ -1,7 +1,6 @@
 package com.txd.hzj.wjlp.savemoney;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
@@ -11,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -74,16 +72,13 @@ public class MellOnlineSaveMoneyAdapter extends BaseAdapter {
         }
         final String biaoshi = map.get("biaoshi");
         if (biaoshi.equals("taobao")){
-            Drawable drawable = mContext.getDrawable(R.drawable.tb);
-            holder.titleTv.setButtonDrawable(drawable);
+            holder.biaoshi.setImageResource(R.drawable.tb);
         }else if (biaoshi.equals("tianmao")){
-            Drawable drawable = mContext.getDrawable(R.drawable.tm);
-            holder.titleTv.setButtonDrawable(drawable);
+            holder.biaoshi.setImageResource(R.drawable.tm);
         }else if (biaoshi.equals("pinduoduo")){
-            Drawable drawable = mContext.getDrawable(R.drawable.pdd);
-            holder.titleTv.setButtonDrawable(drawable);
+            holder.biaoshi.setImageResource(R.drawable.pdd);
         }
-        holder.titleTv.setText(map.get("title"));
+        holder.titleTv.setText("\u3000\u3000"+map.get("title"));
         holder.titleTv.setFocusable(false);
         holder.priceTv.setText("¥" + map.get("zk_final_price"));
         SpannableString spannableString = new SpannableString("¥" + map.get("reserve_price"));
@@ -107,8 +102,10 @@ public class MellOnlineSaveMoneyAdapter extends BaseAdapter {
     public static class ViewHolder{
         @ViewInject(R.id.img)
         ImageView img;
+        @ViewInject(R.id.biaoshi)
+        ImageView biaoshi;
         @ViewInject(R.id.titleTv)
-        RadioButton titleTv;
+        TextView titleTv;
         @ViewInject(R.id.priceTv)
         TextView priceTv;
         @ViewInject(R.id.older_price_tv)
