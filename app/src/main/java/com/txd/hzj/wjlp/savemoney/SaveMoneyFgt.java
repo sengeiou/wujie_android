@@ -251,6 +251,7 @@ public class SaveMoneyFgt extends BaseFgt {
 
     public void getSearchLabel(String label){
         mQ = label;
+        p = 1;
         getShengqiangou(this);
     }
 
