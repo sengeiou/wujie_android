@@ -107,7 +107,6 @@ public class SaveMoneyAty extends BaseAty {
             @Override
             public void afterTextChanged(Editable s) {
                 title_search_ev.setSelection(s.length());
-                setSearch();
             }
         });
 
@@ -163,6 +162,7 @@ public class SaveMoneyAty extends BaseAty {
                         Map<String, String> data = mapArrayList.get(position);
                         title_search_ev.setText(data.get("name"));
                         mAdapter.setSelectPosition(position);
+                        setSearch();
                     }
                 });
             }
