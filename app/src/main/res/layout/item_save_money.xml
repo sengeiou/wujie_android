@@ -68,7 +68,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:text="30天销量:"
+            android:text="近30天销量:"
             android:textColor="@color/gray_text_color"
             android:textSize="12sp" />
         <TextView
