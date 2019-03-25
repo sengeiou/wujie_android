@@ -1,5 +1,6 @@
 package com.txd.hzj.wjlp.savemoney;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -17,8 +18,10 @@ import android.text.style.StrikethroughSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.ants.theantsgo.base.BaseView;
@@ -32,6 +35,7 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseFgt;
+import com.txd.hzj.wjlp.view.SuperSwipeRefreshLayout;
 import com.txd.hzj.wjlp.webviewH5.WebViewAty;
 
 import java.io.File;
@@ -49,7 +53,7 @@ public class SaveMoneyFgt extends BaseFgt {
     private String mTitle;
     private String mType;
     private String mSortType;
-    private String mQ = "女装";
+    private String mQ;
 
 
     private String redColor = "#ffe71f19";
@@ -80,9 +84,27 @@ public class SaveMoneyFgt extends BaseFgt {
     //    private int salesVolumeNum = 0;
     private int priceNum = 0;
 
+    @ViewInject(R.id.superSwipeRefreshLayout)
+    private SuperSwipeRefreshLayout superSwipeRefreshLayout;
+
+    private int p = 1; // 请求的分页
+    // Header View
+    private ProgressBar progressBar;
+    private TextView textView;
+    private ImageView imageView;
+
+    // Footer View
+    private ProgressBar footerProgressBar;
+    private TextView footerTextView;
+    private ImageView footerImageView;
+
     @ViewInject(R.id.recyclerView)
     private RecyclerView mRecyclerView;
     private SaveMoneyAdapter mAdapter;
+
+    private ArrayList<Map<String, String>> mList = new ArrayList<>();
+    private ProgressDialog mProgressDialog;
+
 
     @Override
     protected int getLayoutResId() {
@@ -105,10 +127,76 @@ public class SaveMoneyFgt extends BaseFgt {
         selectId.setBounds(0, 0, selectId.getMinimumWidth(), selectId.getMinimumHeight());
         twoSelectId.setBounds(0, 0, selectId.getMinimumWidth(), selectId.getMinimumHeight());
         unSelectId.setBounds(0, 0, unSelectId.getMinimumWidth(), unSelectId.getMinimumHeight());
+
+        mProgressDialog = new ProgressDialog(getActivity(), R.style.loading_dialog);
+        mProgressDialog.setIndeterminate(true);
+        mProgressDialog.setCancelable(false);
+        mProgressDialog.setCanceledOnTouchOutside(false);
     }
+
+
+    public void setRefresh(){
+        mProgressDialog.show();
+        mProgressDialog.setContentView(com.ants.theantsgo.R.layout.loading_dialog);
+    }
+
+    public void stopRefresh(){
+        if (mProgressDialog != null && mProgressDialog.isShowing()){
+            mProgressDialog.dismiss();
+        }
+    }
+
+
 
     @Override
     protected void requestData() {
+        superSwipeRefreshLayout.setHeaderView(createHeaderView());// add headerView
+        superSwipeRefreshLayout.setFooterView(createFooterView());
+        superSwipeRefreshLayout.setHeaderViewBackgroundColor(Color.WHITE);
+        superSwipeRefreshLayout.setTargetScrollWithLayout(true);
+        superSwipeRefreshLayout.setOnPullRefreshListener(new SuperSwipeRefreshLayout.OnPullRefreshListener() {
+            @Override
+            public void onRefresh() {
+                textView.setText("正在刷新");
+                imageView.setVisibility(View.GONE);
+                progressBar.setVisibility(View.VISIBLE);
+                p = 1;
+                getShengqiangou(SaveMoneyFgt.this);
+            }
+
+            @Override
+            public void onPullDistance(int distance) {
+
+            }
+
+            @Override
+            public void onPullEnable(boolean enable) {
+                textView.setText(enable ? "松开刷新" : "下拉刷新");
+                imageView.setVisibility(View.VISIBLE);
+                imageView.setRotation(enable ? 180 : 0);
+            }
+        });
+        superSwipeRefreshLayout.setOnPushLoadMoreListener(new SuperSwipeRefreshLayout.OnPushLoadMoreListener() {
+            @Override
+            public void onLoadMore() {
+                footerTextView.setText("正在加载...");
+                footerImageView.setVisibility(View.GONE);
+                footerProgressBar.setVisibility(View.VISIBLE);
+                p++;
+                getShengqiangou(SaveMoneyFgt.this);
+            }
+
+            @Override
+            public void onPushDistance(int distance) {
+            }
+
+            @Override
+            public void onPushEnable(boolean enable) {
+                footerTextView.setText(enable ? "松开加载" : "上拉加载");
+                footerImageView.setVisibility(View.VISIBLE);
+                footerImageView.setRotation(enable ? 0 : 180);
+            }
+        });
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 2);
         mRecyclerView.setLayoutManager(gridLayoutManager);
         mRecyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
@@ -128,13 +216,21 @@ public class SaveMoneyFgt extends BaseFgt {
             mTitle = getArguments().getString(ARG_PARAM1);
             if (mTitle.equals("淘宝")) {
                 mType = "1";
+                mSortType = "999";
                 priceLayout.setVisibility(View.GONE);
+                internal_tv.setText("综合");
+                cash_coupon_tv.setText("优惠");
+
             } else if (mTitle.equals("拼多多")) {
                 mType = "3";
+                mSortType = "14";
                 priceLayout.setVisibility(View.VISIBLE);
+                internal_tv.setText("优惠");
+                cash_coupon_tv.setText("用券");
             }
         }
-        setChioceItem(0);
+        clearChioce();
+        internal_tv.setTextColor(Color.parseColor(redColor));
     }
 
     @Override
@@ -153,8 +249,16 @@ public class SaveMoneyFgt extends BaseFgt {
         }
     }
 
+
+    public void getSearchLabel(String label){
+        mQ = label;
+        p = 1;
+        getShengqiangou(this);
+    }
+
     private void setChioceItem(int index) {
         clearChioce();
+        p = 1;
         if (index == 0) {
             internal_tv.setTextColor(Color.parseColor(redColor));
             //            internal_tv.setCompoundDrawables(null, null, internalNum % 2 == 0 ? selectId : twoSelectId, null);
@@ -193,6 +297,7 @@ public class SaveMoneyFgt extends BaseFgt {
                 mSortType = "6";
             }
         } else if (index == 3) {
+            setRefresh();
             price_tv.setTextColor(Color.parseColor(redColor));
             price_tv.setCompoundDrawables(null, null, priceNum % 2 == 0 ? selectId : twoSelectId, null);
             //            internalNum = 0;
@@ -234,69 +339,109 @@ public class SaveMoneyFgt extends BaseFgt {
      * @param baseView
      */
     private void getShengqiangou(BaseView baseView) {
+        setRefresh();
         ApiTool2 apiTool2 = new ApiTool2();
         RequestParams requestParams = new RequestParams();
         requestParams.addBodyParameter("type", mType);
         requestParams.addBodyParameter("q", mQ);
         requestParams.addBodyParameter("sort_type", mSortType);
-        apiTool2.postApi(Config.SHARE_URL + "index.php/Api/Goods/getShengqiangou", requestParams, baseView);
+        requestParams.addBodyParameter("p",String.valueOf(p));
+        if (mQ != null){
+            apiTool2.postApi(Config.SHARE_URL + "index.php/Api/Goods/getShengqiangou", requestParams, baseView);
+        }
     }
 
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
+        stopRefresh();
+        refreshVisibleState();
         Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
         Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
-        final ArrayList<Map<String, String>> list = JSONUtils.parseKeyAndValueToMapList(data.get("goods_list"));
-        if (list != null && list.size() > 0) {
-            mAdapter = new SaveMoneyAdapter(list);
-            mRecyclerView.setAdapter(mAdapter);
-            mAdapter.setOnItemClickListener(new SaveMoneyAdapter.OnItemClickListener() {
-                @Override
-                public void onItemClick(int position) {
-                    Map<String, String> item = list.get(position);
-                    if (mTitle.equals("淘宝")) {
-                        openTaobao(item.get("item_url"));
-                    } else if (mTitle.equals("拼多多")) {
-                        openPinduoduo(item.get("item_url"));
+        final ArrayList<Map<String, String>> mapArrayList = JSONUtils.parseKeyAndValueToMapList(data.get("goods_list"));
+        if (p == 1){
+            mList.clear();
+            if (mapArrayList != null && mapArrayList.size()>0){
+                mList.addAll(mapArrayList);
+            }
+        }else {
+            if (mapArrayList != null && mapArrayList.size()>0){
+                mList.addAll(mapArrayList);
+            }
+        }
+        if ( mList.size() >= 0) {
+            if (mAdapter == null){
+                mAdapter = new SaveMoneyAdapter(mList);
+                mRecyclerView.setAdapter(mAdapter);
+                mAdapter.setOnItemClickListener(new SaveMoneyAdapter.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(int position) {
+                        Map<String, String> item = mList.get(position);
+                        if (mTitle.equals("淘宝")) {
+                            openTaobao(getActivity(),item.get("item_url"));
+                        } else if (mTitle.equals("拼多多")) {
+                            openPinduoduo(getActivity(),item.get("item_url"));
+                        }
                     }
-                }
-            });
+                });
+            }else {
+                mAdapter.notifyDataSetChanged();
+            }
+
         }
 
     }
 
-    private void openTaobao(String url) {
+
+
+    private void refreshVisibleState() {
+        if (progressBar.getVisibility()== View.VISIBLE){
+            superSwipeRefreshLayout.setRefreshing(false);
+            progressBar.setVisibility(View.GONE);
+        }
+        if (footerProgressBar.getVisibility()==View.VISIBLE) {
+            superSwipeRefreshLayout.setLoadMore(false);
+            footerProgressBar.setVisibility(View.GONE);
+        }
+    }
+
+
+    @Override
+    public void onError(String requestUrl, Map<String, String> error) {
+        super.onError(requestUrl, error);
+        stopRefresh();
+        refreshVisibleState();
+    }
+
+    public static void openTaobao(Context context, String url) {
         if (isInstallByread("com.taobao.taobao")){
-            int i = url.lastIndexOf("=");
-            String taoBaoGoodsId = url.substring(i+1, url.length());
-            //淘宝的店铺  String taobaoAppStr_shop = "taobao://shop.m.taobao.com/shop/shop_index.htm?shop_id="+TaoBaoShopId+"";
-            //淘宝的商品详情页
-            String taobaoAppStr_goods = "taobao://item.taobao.com/item.htm?id="+taoBaoGoodsId+"";
-            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-            startActivity(intent);
+//            Intent intent=new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+//            context.startActivity(intent);
+            WebView webView = new WebView(context);
+            webView.loadUrl(url);
         }else {
             Bundle bundle = new Bundle();
             bundle.putString("url", url);
             bundle.putBoolean("isShowTitle",true);
             bundle.putString("title", "省钱购");
-            startActivity(WebViewAty.class, bundle);
+            Intent intent = new Intent(context,WebViewAty.class);
+            intent.putExtras(bundle);
+            context.startActivity(intent);
         }
     }
 
-    private void openPinduoduo(String url) {
+    public static void openPinduoduo(Context context,String url) {
         if (isInstallByread("com.xunmeng.pinduoduo")){
-            int i = url.lastIndexOf("=");
-            String goodsId = url.substring(i+1, url.length());
-            String content = "pinduoduo://com.xunmeng.pinduoduo/duo_coupon_landing.html?goods_id="+goodsId+"";
             Intent intent=new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-            startActivity(intent);
+            context.startActivity(intent);
         }else {
             Bundle bundle = new Bundle();
             bundle.putString("url", url);
             bundle.putBoolean("isShowTitle",true);
             bundle.putString("title", "省钱购");
-            startActivity(WebViewAty.class, bundle);
+            Intent intent = new Intent(context,WebViewAty.class);
+            intent.putExtras(bundle);
+            context.startActivity(intent);
         }
     }
 
@@ -306,8 +451,42 @@ public class SaveMoneyFgt extends BaseFgt {
      * @param packageName 目标应用安装后的包名
      * @return 是否已安装目标应用
      */
-    private boolean isInstallByread(String packageName) {
+    public static boolean isInstallByread(String packageName) {
         return new File("/data/data/" + packageName).exists();
+    }
+
+    /**
+     * 创建底部加载布局
+     *
+     * @return
+     */
+    private View createFooterView() {
+        View footerView = LayoutInflater.from(superSwipeRefreshLayout.getContext()).inflate(R.layout.layout_footer, null);
+        footerProgressBar = footerView.findViewById(R.id.footer_pb_view);
+        footerImageView = footerView.findViewById(R.id.footer_image_view);
+        footerTextView = footerView.findViewById(R.id.footer_text_view);
+        footerProgressBar.setVisibility(View.GONE);
+        footerImageView.setVisibility(View.VISIBLE);
+        footerImageView.setImageResource(R.drawable.down_arrow);
+        footerTextView.setText("上拉加载更多...");
+        return footerView;
+    }
+
+    /**
+     * 创建头部加载布局
+     *
+     * @return
+     */
+    private View createHeaderView() {
+        View headerView = LayoutInflater.from(superSwipeRefreshLayout.getContext()).inflate(R.layout.layout_head, null);
+        progressBar = headerView.findViewById(R.id.pb_view);
+        textView = headerView.findViewById(R.id.text_view);
+        textView.setText("下拉刷新");
+        imageView = headerView.findViewById(R.id.image_view);
+        imageView.setVisibility(View.VISIBLE);
+        imageView.setImageResource(R.drawable.down_arrow);
+        progressBar.setVisibility(View.GONE);
+        return headerView;
     }
 
     public static class SaveMoneyAdapter extends RecyclerView.Adapter<SaveMoneyAdapter.ViewHolder> {
@@ -342,7 +521,15 @@ public class SaveMoneyFgt extends BaseFgt {
             if (map.containsKey("pict_url") && !TextUtils.isEmpty(map.get("pict_url"))) {
                 Glide.with(mContext).load(map.get("pict_url")).into(holder.img);
             }
-            holder.titleTv.setText(map.get("title"));
+            String biaoshi = map.get("biaoshi");
+            if (biaoshi.equals("taobao")){
+                holder.biaoshi.setImageResource(R.drawable.tb);
+            }else if (biaoshi.equals("tianmao")){
+                holder.biaoshi.setImageResource(R.drawable.tm);
+            }else if (biaoshi.equals("pinduoduo")){
+                holder.biaoshi.setImageResource(R.drawable.pdd);
+            }
+            holder.titleTv.setText("\u3000\u3000"+map.get("title"));
             holder.priceTv.setText("¥" + map.get("zk_final_price"));
             SpannableString spannableString = new SpannableString("¥" + map.get("reserve_price"));
             StrikethroughSpan strikethroughSpan = new StrikethroughSpan();
@@ -369,6 +556,8 @@ public class SaveMoneyFgt extends BaseFgt {
         public class ViewHolder extends RecyclerView.ViewHolder {
             @ViewInject(R.id.img)
             ImageView img;
+            @ViewInject(R.id.biaoshi)
+            ImageView biaoshi;
             @ViewInject(R.id.titleTv)
             TextView titleTv;
             @ViewInject(R.id.priceTv)

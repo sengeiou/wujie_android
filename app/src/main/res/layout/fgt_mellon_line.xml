@@ -82,6 +82,7 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="8dp"
+                    android:visibility="gone"
                     android:background="@color/bg_color" />
 
                 <include layout="@layout/for_on_off_line_hzj" />
@@ -89,7 +90,36 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="0.5dp"
+                    android:visibility="gone"
                     android:background="@color/view_color" />
+                <LinearLayout
+                    android:id="@+id/save_money_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <ImageView
+                        android:id="@+id/save_money_iv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:scaleType="fitXY" />
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/icon_10" />
+                </LinearLayout>
+
+                <com.ants.theantsgo.view.inScroll.GridViewForScrollView
+                    android:id="@+id/save_money_gv"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:horizontalSpacing="4dp"
+                    android:numColumns="2"
+                    android:scrollbars="none"
+                    android:verticalSpacing="4dp" />
 
                 <LinearLayout
                     android:id="@+id/limitBuy_llayout"

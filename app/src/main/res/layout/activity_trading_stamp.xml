@@ -6,7 +6,7 @@
     android:background="@color/white"
     android:orientation="vertical">
 
-    <include layout="@layout/aty_title" />
+    <include layout="@layout/aty_shop_title" />
 
 
     <LinearLayout

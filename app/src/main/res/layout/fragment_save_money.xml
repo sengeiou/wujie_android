@@ -1,59 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
-        android:paddingTop="13dp"
+        android:orientation="horizontal"
         android:paddingBottom="13dp"
-        android:orientation="horizontal">
+        android:paddingTop="13dp">
 
         <LinearLayout
             android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:gravity="center"
-            android:layout_height="wrap_content">
+            android:gravity="center">
+
             <TextView
                 android:id="@+id/internal_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="积分"
-                android:gravity="center"
                 android:drawablePadding="6dp"
+                android:gravity="center"
+                android:text="积分"
                 android:textColor="#ff333333"
                 android:textSize="14sp" />
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:gravity="center"
-            android:layout_height="wrap_content">
+            android:gravity="center">
+
             <TextView
                 android:id="@+id/cash_coupon_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="代金券"
                 android:drawablePadding="6dp"
                 android:gravity="center"
+                android:text="代金券"
                 android:textColor="#ff333333"
                 android:textSize="14sp" />
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:gravity="center"
-            android:layout_height="wrap_content">
+            android:gravity="center">
+
             <TextView
                 android:id="@+id/sales_volume_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:drawablePadding="6dp"
-                android:text="销量"
                 android:gravity="center"
+                android:text="销量"
                 android:textColor="#ff333333"
                 android:textSize="14sp" />
         </LinearLayout>
@@ -61,25 +67,33 @@
         <LinearLayout
             android:id="@+id/priceLayout"
             android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:gravity="center"
-            android:layout_height="wrap_content">
+            android:gravity="center">
+
             <TextView
                 android:id="@+id/price_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="价格"
                 android:drawablePadding="6dp"
                 android:drawableRight="@drawable/shopblgjiantou"
                 android:gravity="center"
+                android:text="价格"
                 android:textColor="#ff333333"
                 android:textSize="14sp" />
         </LinearLayout>
 
     </LinearLayout>
-<android.support.v7.widget.RecyclerView
-    android:id="@+id/recyclerView"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:listitem="@layout/item_save_money"/>
+
+    <com.txd.hzj.wjlp.view.SuperSwipeRefreshLayout
+        android:id="@+id/superSwipeRefreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:listitem="@layout/item_save_money" />
+    </com.txd.hzj.wjlp.view.SuperSwipeRefreshLayout>
 </LinearLayout>
