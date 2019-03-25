@@ -8,7 +8,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -32,6 +31,7 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
+import com.txd.hzj.wjlp.view.CustomScrollViewPager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,7 +47,7 @@ public class SaveMoneyAty extends BaseAty {
     private SlidingTabLayout slidingTabLayout;
 
     @ViewInject(R.id.viewPager)
-    private ViewPager viewPager;
+    private CustomScrollViewPager viewPager;
 
     @ViewInject(R.id.title_search_ev)
     private EditText title_search_ev;

@@ -91,7 +91,7 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="#ffdddddd" />
-    <android.support.v4.view.ViewPager
+    <com.txd.hzj.wjlp.view.CustomScrollViewPager
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
