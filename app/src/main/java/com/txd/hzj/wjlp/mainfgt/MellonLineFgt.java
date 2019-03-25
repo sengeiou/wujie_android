@@ -1343,7 +1343,38 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
      * @param data
      */
     private void forSaveMoney(Map<String, String> data){
-        final ArrayList<Map<String, String>> mapArrayList = JSONUtils.parseKeyAndValueToMapList(data.get("shengqiangou"));
+        Map<String, String> map = JSONUtils.parseKeyAndValueToMap(data.get("shengqiangou"));
+        final Map<String, String> ads = JSONUtils.parseKeyAndValueToMap(map.get("ads"));
+        if (ads != null) {
+            Glide.with(getActivity()).load(ads.get("picture"))
+                    .override(ads_w, ads_h)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .error(R.mipmap.icon_200)
+                    .placeholder(R.mipmap.icon_200)
+                    .centerCrop()
+                    .into(save_money_iv);
+            save_money_iv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (!TextUtils.isEmpty(ads.get("merchant_id")) && !ads.get("merchant_id").equals("0")) {
+                        Bundle bundle = new Bundle();
+                        bundle.putString("mell_id", ads.get("merchant_id"));
+                        startActivity(MellInfoAty.class, bundle);
+                    } else if (!TextUtils.isEmpty(ads.get("goods_id")) && !ads.get("goods_id").equals("0")) {
+                        Bundle bundle = new Bundle();
+                        bundle.putString("ticket_buy_id", ads.get("goods_id"));
+                        bundle.putInt("from", 1);
+                        startActivity(TicketGoodsDetialsAty.class, bundle);
+                    } else {
+                        forShowAds(limit_desc, limit_href);
+                    }
+
+                }
+            });
+            limit_href = ads.get("href");
+            limit_desc = ads.get("desc");
+        }
+        final ArrayList<Map<String, String>> mapArrayList = JSONUtils.parseKeyAndValueToMapList(map.get("goods_list"));
         if (mapArrayList != null && mapArrayList.size()>0){
             save_money_gv.setAdapter(new MellOnlineSaveMoneyAdapter(mapArrayList,getActivity()));
         }
