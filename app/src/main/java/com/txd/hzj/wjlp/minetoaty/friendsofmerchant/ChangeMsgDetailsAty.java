@@ -175,9 +175,9 @@ public class ChangeMsgDetailsAty extends BaseAty {
                 Map<String, String> uCondition = uConditionList.get(0);
                 ownLayout.setVisibility(View.VISIBLE);
                 ownSexTv.setText(uCondition.get("sex"));
-                ownAgeTv.setText(uCondition.get("age"));
+                ownAgeTv.setText(uCondition.get("age_name"));
                 ownGradeTv.setText(uCondition.get("member_coding"));
-                ownAddressTv.setText(uCondition.get("city_id"));
+                ownAddressTv.setText(uCondition.get("city_name"));
             } else {
                 ownLayout.setVisibility(View.GONE);
             }
@@ -186,9 +186,27 @@ public class ChangeMsgDetailsAty extends BaseAty {
                 Map<String, String> bCondition = bConditionList.get(0);
                 otherLayout.setVisibility(View.VISIBLE);
                 otherSexTv.setText(bCondition.get("sex"));
-                otherAgeTv.setText(bCondition.get("age"));
+                if (bCondition.get("sex").equals("不限")){
+                    sex = "0";
+                }else if (bCondition.get("sex").equals("男")){
+                    sex = "1";
+                }else if (bCondition.get("sex").equals("女")){
+                    sex = "2";
+                }
+                age = bCondition.get("age");
+                otherAgeTv.setText(bCondition.get("age_name"));
                 otherGradeTv.setText(bCondition.get("member_coding"));
-                otherAddressTv.setText(bCondition.get("city_id"));
+                if (bCondition.get("member_coding").equals("不限")){
+                    member_coding = "0";
+                }else if (bCondition.get("member_coding").equals("无界会员")){
+                    member_coding = "1";
+                }else if (bCondition.get("member_coding").equals("无忧会员")){
+                    member_coding = "2";
+                }else if (bCondition.get("member_coding").equals("优享会员")){
+                    member_coding = "3";
+                }
+                city_id = bCondition.get("city_id");
+                otherAddressTv.setText(bCondition.get("city_name"));
             } else {
                 otherLayout.setVisibility(View.GONE);
             }

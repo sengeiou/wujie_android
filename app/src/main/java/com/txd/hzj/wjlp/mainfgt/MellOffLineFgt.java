@@ -316,7 +316,9 @@ public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.Scro
                             bundle.putInt("from", 1);
                             startActivity(TicketGoodsDetialsAty.class, bundle);
                         } else {
-                            forShowAds(list_pic.get(position).get("desc"), list_pic.get(position).get("href"));
+                            if (!TextUtils.isEmpty(list_pic.get(position).get("href"))){
+                                forShowAds(list_pic.get(position).get("desc"), list_pic.get(position).get("href"));
+                            }
                         }
                     }
                 });

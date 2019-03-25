@@ -1014,6 +1014,8 @@
         <activity android:name=".minetoaty.friendsofmerchant.NotAddFriendAty" />
         <activity android:name=".clearinventory.ClearInventoryAty" />
         <activity android:name=".clearinventory.ConsignmentAty" />>
+        <activity android:name=".minetoaty.friendsofmerchant.NotAddFriendAty" />
+        <activity android:name=".savemoney.SaveMoneyAty" />>
     </application>
 
 </manifest>
