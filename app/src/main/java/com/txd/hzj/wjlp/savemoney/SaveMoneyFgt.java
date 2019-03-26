@@ -18,6 +18,7 @@ import android.text.style.StrikethroughSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -368,7 +369,7 @@ public class SaveMoneyFgt extends BaseFgt {
                 mList.addAll(mapArrayList);
             }
         }
-        if ( mList.size() > 0) {
+        if ( mList.size() >= 0) {
             if (mAdapter == null){
                 mAdapter = new SaveMoneyAdapter(mList);
                 mRecyclerView.setAdapter(mAdapter);
@@ -414,8 +415,10 @@ public class SaveMoneyFgt extends BaseFgt {
 
     public static void openTaobao(Context context, String url) {
         if (isInstallByread("com.taobao.taobao")){
-            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-            context.startActivity(intent);
+//            Intent intent=new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+//            context.startActivity(intent);
+            WebView webView = new WebView(context);
+            webView.loadUrl(url);
         }else {
             Bundle bundle = new Bundle();
             bundle.putString("url", url);
