@@ -79,6 +79,13 @@ public class MyShopTitleView extends LinearLayout implements View.OnClickListene
                 break;
         }
     }
+
+    public void setShopkeeper(){
+        shopkeeper.setBackground(getResources().getDrawable(R.drawable.shop_title_choice_left));
+        shopkeeper.setTextColor(getResources().getColor(R.color.white));
+        ordinary.setBackground(getResources().getDrawable(R.drawable.shop_title_unchoice_right));
+        ordinary.setTextColor(getResources().getColor(R.color.red_tv_back));
+    }
     public String getLeftName() {
         return leftName;
     }

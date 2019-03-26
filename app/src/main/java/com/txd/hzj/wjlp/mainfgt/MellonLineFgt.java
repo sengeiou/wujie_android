@@ -59,10 +59,11 @@ import com.txd.hzj.wjlp.mellonLine.gridClassify.MellInfoAty;
 import com.txd.hzj.wjlp.mellonLine.gridClassify.ThemeStreetHzjAty;
 import com.txd.hzj.wjlp.mellonLine.gridClassify.TicketGoodsDetialsAty;
 import com.txd.hzj.wjlp.mellonLine.gridClassify.TicketZoonAty;
-import com.txd.hzj.wjlp.mellonLine.gridClassify.giveawayarea.GiveAwayAreaAty;
 import com.txd.hzj.wjlp.mellonLine.gridClassify.hous.HousDetailsChenAty;
 import com.txd.hzj.wjlp.mellonLine.gridClassify.snatch.SnatchGoodsDetailsAty;
 import com.txd.hzj.wjlp.minetoaty.setting.EditProfileAty;
+import com.txd.hzj.wjlp.savemoney.MellOnlineSaveMoneyAdapter;
+import com.txd.hzj.wjlp.savemoney.SaveMoneyAty;
 import com.txd.hzj.wjlp.view.ImprovePersonalInfoDialog;
 import com.txd.hzj.wjlp.view.ObservableScrollView;
 import com.txd.hzj.wjlp.view.UPMarqueeView;
@@ -152,6 +153,12 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
 
     @ViewInject(R.id.mell_on_line_sc)
     private ObservableScrollView mell_on_line_sc;
+
+    /**
+     * 省钱购
+     */
+    @ViewInject(R.id.save_money_gv)
+    private GridViewForScrollView save_money_gv;
 
     /**
      * 限量购
@@ -356,6 +363,10 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
     /**
      * 各个广告模块，初始隐藏
      */
+    @ViewInject(R.id.save_money_layout)
+    private LinearLayout save_money_layout;
+    @ViewInject(R.id.save_money_iv)
+    private ImageView save_money_iv;
     @ViewInject(R.id.limitBuy_llayout)
     private LinearLayout limitBuy_llayout;
     @ViewInject(R.id.explosiveAreaLayout)
@@ -400,6 +411,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
         ads_h = Settings.displayWidth * 300 / 1242;
         ads_w = Settings.displayWidth;
         LinearLayout.LayoutParams adsParam = new LinearLayout.LayoutParams(ads_w, ads_h);
+        save_money_iv.setLayoutParams(adsParam);
         ads_by_limit_buy_iv.setLayoutParams(adsParam);
         explosiveAreaImg.setLayoutParams(adsParam);
         ticket_buy_ads_iv.setLayoutParams(adsParam);
@@ -497,13 +509,14 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
                             bundle.putString("title", "积分商店");
                             startActivity(TicketZoonAty.class, bundle);
                             break;
-                        case 8://赠品专区  之前是房产购
+                        case 8://省钱购  之前是房产购、赠品专区
                             //                            showToast("开发中，敬请期待");
-                            if (!Config.isLogin()) {
-                                startActivity(LoginAty.class, null);
-                            } else {
-                                startActivity(GiveAwayAreaAty.class, null);
-                            }
+//                            if (!Config.isLogin()) {
+//                                startActivity(LoginAty.class, null);
+//                            } else {
+//                                startActivity(GiveAwayAreaAty.class, null);
+//                            }
+                            startActivity(SaveMoneyAty.class, null);
                             //                            startActivity(HousChenAty.class, null);
                             break;
                         case 9://紫薇斗数    一元夺宝
@@ -806,7 +819,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
         gv_classify.add("进口馆");
         gv_classify.add("爆款专区");
         gv_classify.add("积分商店");
-        gv_classify.add("赠品专区");
+        gv_classify.add("省钱购");
         gv_classify.add("紫薇斗数");
 
         groupList = new ArrayList<>();
@@ -894,6 +907,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
                 Map<String, String> dataASD = JSONUtils.parseKeyAndValueToMap(map.get("data"));
                 if (localShowAsd || dataASD.get("activity_status").equals("1")) { // 如果活动页开启，则显示相应广告
                     under_banner_menu_vp.setVisibility(View.VISIBLE);
+                    save_money_layout.setVisibility(View.VISIBLE);
 //                    limitBuy_llayout.setVisibility(View.VISIBLE);
                     explosiveAreaLayout.setVisibility(View.VISIBLE);
                     groupBuy_llayout.setVisibility(View.VISIBLE);
@@ -906,6 +920,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
 //                    house_llayout.setVisibility(View.VISIBLE);
                 } else {
                     under_banner_menu_vp.setVisibility(View.GONE);
+                    save_money_layout.setVisibility(View.GONE);
                     limitBuy_llayout.setVisibility(View.GONE);
                     explosiveAreaLayout.setVisibility(View.GONE);
                     groupBuy_llayout.setVisibility(View.GONE);
@@ -974,9 +989,11 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
             }
             // 三个活动图片
             threeAdsInfo(data);
+            //省钱购
+            forSaveMoney(data);
             // 限量购
             forLimit(data);
-            // 爆款专区
+//             爆款专区
             forExplosiveArea(data);
             // 票券区
             forTicket(data);
@@ -1326,6 +1343,50 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
             ticket_desc = ticket_ads.get("desc");
         }
     }
+
+    /**
+     * 省钱购
+     * @param data
+     */
+    private void forSaveMoney(Map<String, String> data){
+        Map<String, String> map = JSONUtils.parseKeyAndValueToMap(data.get("shengqiangou"));
+        final Map<String, String> ads = JSONUtils.parseKeyAndValueToMap(map.get("ads"));
+        if (ads != null) {
+            Glide.with(getActivity()).load(ads.get("picture"))
+                    .override(ads_w, ads_h)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .error(R.mipmap.icon_200)
+                    .placeholder(R.mipmap.icon_200)
+                    .centerCrop()
+                    .into(save_money_iv);
+            save_money_iv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (!TextUtils.isEmpty(ads.get("merchant_id")) && !ads.get("merchant_id").equals("0")) {
+                        Bundle bundle = new Bundle();
+                        bundle.putString("mell_id", ads.get("merchant_id"));
+                        startActivity(MellInfoAty.class, bundle);
+                    } else if (!TextUtils.isEmpty(ads.get("goods_id")) && !ads.get("goods_id").equals("0")) {
+                        Bundle bundle = new Bundle();
+                        bundle.putString("ticket_buy_id", ads.get("goods_id"));
+                        bundle.putInt("from", 1);
+                        startActivity(TicketGoodsDetialsAty.class, bundle);
+                    } else {
+                        forShowAds(limit_desc, limit_href);
+                    }
+
+                }
+            });
+            limit_href = ads.get("href");
+            limit_desc = ads.get("desc");
+        }
+        final ArrayList<Map<String, String>> mapArrayList = JSONUtils.parseKeyAndValueToMapList(map.get("goods_list"));
+        if (mapArrayList != null && mapArrayList.size()>0){
+            save_money_gv.setAdapter(new MellOnlineSaveMoneyAdapter(mapArrayList,getActivity()));
+        }
+
+    }
+
 
     /**
      * 限量购

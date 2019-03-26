@@ -175,9 +175,9 @@ public class ChangeMsgDetailsAty extends BaseAty {
                 Map<String, String> uCondition = uConditionList.get(0);
                 ownLayout.setVisibility(View.VISIBLE);
                 ownSexTv.setText(uCondition.get("sex"));
-                ownAgeTv.setText(uCondition.get("age"));
+                ownAgeTv.setText(uCondition.get("age_name"));
                 ownGradeTv.setText(uCondition.get("member_coding"));
-                ownAddressTv.setText(uCondition.get("city_id"));
+                ownAddressTv.setText(uCondition.get("city_name"));
             } else {
                 ownLayout.setVisibility(View.GONE);
             }

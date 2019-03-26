@@ -107,7 +107,7 @@ public class OnLineMenuGvAdapter extends BaseAdapter {
                 vh.all_classify_logo_iv.setImageResource(R.drawable.icon_order_center_03);
                 break;
             case 8:
-                vh.all_classify_logo_iv.setImageResource(R.drawable.icon_giveaway_area);
+                vh.all_classify_logo_iv.setImageResource(R.drawable.icon_save_money);
                 break;
             case 9:
                 vh.all_classify_logo_iv.setImageResource(R.drawable.icon_ziweidoushu);

@@ -101,7 +101,7 @@
     <application
         android:name=".DemoApplication"
         android:allowBackup="false"
-        android:debuggable="false"
+        android:debuggable="true"
         android:icon="@mipmap/wjyp2"
         android:label="@string/app_name"
         android:largeHeap="true"
@@ -1057,6 +1057,8 @@
         <activity android:name=".catchDoll.ui.activity.OnePeoplesDollActivity" />
         <activity android:name=".catchDoll.ui.activity.CatcherAddressAty" />
 
+        <activity android:name=".minetoaty.friendsofmerchant.NotAddFriendAty" />
+        <activity android:name=".savemoney.SaveMoneyAty" />>
     </application>
 
 </manifest>

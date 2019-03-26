@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <RelativeLayout
+        android:id="@+id/title_re_layout"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/title_be_back_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:onClick="beBack"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
+            android:src="@drawable/icon_be_back_b" />
+
+        <EditText
+            android:id="@+id/title_search_ev"
+            android:layout_width="match_parent"
+            android:layout_height="32dp"
+            android:layout_marginTop="8dp"
+            android:layout_toEndOf="@+id/title_be_back_iv"
+            android:layout_toStartOf="@+id/search_title_right_tv"
+            android:background="@drawable/shape_search_tv_bg"
+            android:gravity="center_vertical"
+            android:imeOptions="actionSearch"
+            android:inputType="text"
+            android:maxLines="1"
+            android:padding="8dp"
+            android:textColor="@color/app_text_color"
+            android:textColorHint="@color/app_text_color"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/search_title_right_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_margin="8dp"
+            android:background="@drawable/shape_sraech_title_right_tv"
+            android:padding="6dp"
+            android:text="搜索"
+            android:textColor="@color/white"
+            android:visibility="visible" />
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#ffdddddd" />
+
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:paddingTop="10dp"
+        android:background="@color/white"
+        android:paddingBottom="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:listitem = "@layout/item_label"
+        tools:itemCount = "3" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#ffdddddd" />
+    <com.flyco.tablayout.SlidingTabLayout
+        android:id="@+id/slidingTabLayout"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        app:tl_indicator_color="#ffe71f19"
+        app:tl_indicator_height="2dp"
+        android:background="@color/white"
+        app:tl_indicator_width_equal_title="false"
+        app:tl_textAllCaps="true"
+        app:tl_textBold="NONE"
+        app:tl_tab_space_equal="true"
+        app:tl_textSelectColor="#ffd21f18"
+        app:tl_textUnselectColor="#ff333333"
+        app:tl_textsize="16sp"
+        app:tl_underline_color="@color/white"
+        app:tl_underline_height="1dp" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#ffdddddd" />
+    <com.txd.hzj.wjlp.view.CustomScrollViewPager
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="10dp" />
+</LinearLayout>

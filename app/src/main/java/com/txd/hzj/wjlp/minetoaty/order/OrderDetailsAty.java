@@ -460,8 +460,10 @@ public class OrderDetailsAty extends BaseAty {
             tv_logistics.setText(data.get("logistics"));
             tv_logistics_time.setText(data.get("logistics_time"));
             leave_message.setText(data.get("leave_message"));
-            String merchant_name = data.get("shop_name").isEmpty() ? data.get("merchant_name") : data.get("shop_name");
-            tv_merchant_name.setText(merchant_name);
+            if (data.containsKey("shop_name")){
+                String merchant_name = data.get("shop_name").isEmpty() ? data.get("merchant_name") : data.get("shop_name");
+                tv_merchant_name.setText(merchant_name);
+            }
             if (data.containsKey("freight")) {
                 order_freight_tv.setText(Double.parseDouble(data.get("freight")) > 0 ? data.get("freight") + "元" : "包邮");
             }

@@ -928,7 +928,7 @@ public class PayForAppAty extends BaseAty {
         if (requestUrl.contains("BalancePay")) {
             return;
         }
-        if (requestUrl.contains("setOrder")) {
+        if (requestUrl.contains("setOrder") || requestUrl.contains("SetOrder")) {
             //            if (requestUrl.contains("GroupBuyOrder/setOrder")) {
             //                CustomDialog.Builder dialog = new CustomDialog.Builder(PayForAppAty.this);
             //                dialog.setCancelable(false);
