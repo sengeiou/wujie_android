@@ -6,6 +6,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,12 +16,21 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import com.ants.theantsgo.base.BaseView;
+import com.ants.theantsgo.config.Config;
+import com.ants.theantsgo.httpTools.ApiTool2;
 import com.ants.theantsgo.tips.MikyouCommonDialog;
+import com.ants.theantsgo.util.JSONUtils;
+import com.bumptech.glide.Glide;
 import com.lidroid.xutils.ViewUtils;
+import com.lidroid.xutils.http.RequestParams;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.publicinterface.OnItemViewClickListener;
+
+import java.util.ArrayList;
+import java.util.Map;
 
 /**
  * 创建者：zhangyunfei
@@ -35,7 +45,7 @@ public class ConsignmentAty extends BaseAty {
     private RecyclerView recyclerView;
 
     private Context mContext;
-    private ConsignmentAdpater mConsignmentAdpater;
+    private ConsignmentAdapter mConsignmentAdapter;
 
     @Override
     protected int getLayoutResId() {
@@ -50,17 +60,9 @@ public class ConsignmentAty extends BaseAty {
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(mContext);
         recyclerView.setLayoutManager(layoutManager);
-        mConsignmentAdpater = new ConsignmentAdpater();
-        recyclerView.setAdapter(mConsignmentAdpater);
-        mConsignmentAdpater.setOnItemViewClickListener(new OnItemViewClickListener() {
-            @Override
-            public void onItemViewClick(View view, int position) {
-                showPop(view);
-            }
-        });
     }
 
-    private void showPop(View view) {
+    private void showPop(View view, Map<String, String> map) {
         PopupWindow popupWindow = new PopupWindow();
         popupWindow.setBackgroundDrawable(new ColorDrawable());
         popupWindow.setOutsideTouchable(false);
@@ -91,6 +93,7 @@ public class ConsignmentAty extends BaseAty {
         refundLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+//                startActivity(RefundedAty);
                 MikyouCommonDialog mikyouCommonDialog = new MikyouCommonDialog(mContext,"您确定要申请退款吗？","提示","确认","取消",false);
                 mikyouCommonDialog.setOnDiaLogListener(new MikyouCommonDialog.OnDialogListener() {
                     @Override
@@ -139,15 +142,55 @@ public class ConsignmentAty extends BaseAty {
 
     @Override
     protected void requestData() {
-
+        clean_goods_list("1","",this);
     }
 
+    @Override
+    public void onComplete(String requestUrl, String jsonStr) {
+        super.onComplete(requestUrl, jsonStr);
+        final Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
+        if (requestUrl.endsWith("clean_goods_list")){
+            final ArrayList<Map<String, String>> mapArrayList = JSONUtils.parseKeyAndValueToMapList(map.get("data"));
+            if (mapArrayList!= null){
+                mConsignmentAdapter = new ConsignmentAdapter(mapArrayList);
+                recyclerView.setAdapter(mConsignmentAdapter);
+                mConsignmentAdapter.setOnItemViewClickListener(new OnItemViewClickListener() {
+                    @Override
+                    public void onItemViewClick(View view, int position) {
+                        showPop(view,mapArrayList.get(position));
+                    }
+                });
+            }
 
+        }
+    }
 
-    private static class ConsignmentAdpater extends RecyclerView.Adapter<ConsignmentAdpater.ViewHolder>{
+    /**
+     *
+     * @param clean_order_status 1寄售中 2已交易 3已提货 4已退款
+     * @param order_status clean_order_status = 2 1 待发货 2 待收货 3 已退款 4 已完成 clean_order_status = 3 1 待发货 2 待收货 3 已完成 clean_order_status = 4 1 退款中 2 已完成
+     */
+    public static void clean_goods_list(String clean_order_status, String order_status, BaseView baseView){
+        ApiTool2 apiTool2 = new ApiTool2();
+        RequestParams params = new RequestParams();
+        params.addBodyParameter("clean_order_status",clean_order_status);
+        if (!TextUtils.isEmpty(order_status)){
+            params.addBodyParameter("order_status",order_status);
+        }
+        apiTool2.postApi(Config.SHARE_URL+"index.php/Api/Clean/clean_goods_list",params,baseView);
+    }
+
+    private static class ConsignmentAdapter extends RecyclerView.Adapter<ConsignmentAdapter.ViewHolder>{
         private Context mContext;
 
         private OnItemViewClickListener mOnItemViewClickListener;
+
+        private ArrayList<Map<String, String>> mList;
+
+
+        public ConsignmentAdapter(ArrayList<Map<String, String>> list) {
+            mList = list;
+        }
 
         public void setOnItemViewClickListener(OnItemViewClickListener onItemViewClickListener) {
             mOnItemViewClickListener = onItemViewClickListener;
@@ -165,6 +208,12 @@ public class ConsignmentAty extends BaseAty {
 
         @Override
         public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
+            Map<String, String> map = mList.get(position);
+            Glide.with(mContext).load(map.get("goods_img")).into(holder.picImg);
+            holder.titleTv.setText(map.get("goods_name"));
+            holder.priceTv1.setText("¥"+map.get("wholesale_price"));
+            holder.priceTv2.setText("¥"+map.get("profit"));
+            holder.timeTv.setText("活动时间："+map.get("start_time")+"-"+map.get("end_time"));
 
 
             holder.moreImg.setOnClickListener(new View.OnClickListener() {
@@ -179,7 +228,7 @@ public class ConsignmentAty extends BaseAty {
 
         @Override
         public int getItemCount() {
-            return 5;
+            return mList.size();
         }
 
         public static class ViewHolder extends RecyclerView.ViewHolder{

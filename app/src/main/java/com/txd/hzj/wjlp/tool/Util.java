@@ -8,10 +8,9 @@ import android.widget.Toast;
 import com.github.promeg.pinyinhelper.Pinyin;
 import com.txd.hzj.wjlp.DemoApplication;
 
-import net.sourceforge.pinyin4j.PinyinHelper;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Map;
 
 /**
  * 创建者：voodoo_jie
@@ -110,6 +109,21 @@ public class Util {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
         Date date = new Date(System.currentTimeMillis());
         return simpleDateFormat.format(date);
+    }
+
+
+    /**
+     * 判断是否存在关键字
+     * @param map
+     * @param key
+     * @param defaultStr
+     * @return
+     */
+    public static String judgexistkey(Map map,Object key,String defaultStr){
+        if (map.containsKey(key)){
+            return String.valueOf(map.get(key));
+        }
+        return defaultStr;
     }
 
 }

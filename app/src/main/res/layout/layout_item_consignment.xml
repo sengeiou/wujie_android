@@ -31,6 +31,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:lineSpacingExtra="5dp"
+                android:layout_marginTop="10dp"
                 android:text="高档自制新款女装连衣裙 2017年潮装新款样式裙"
                 android:textColor="#ff333333"
                 android:textSize="12sp" />

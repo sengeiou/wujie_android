@@ -1,6 +1,7 @@
 package com.txd.hzj.wjlp.minetoaty.help;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,13 +36,16 @@ import java.util.Map;
 
 public class HelpFgt extends BaseFgt {
 
+    @ViewInject(R.id.titlt_conter_tv)
+    private TextView titlt_conter_tv;
+
     @ViewInject(R.id.expandableListView)
     private ExpandableListView expandableListView;
     private String type;
 
     private List<HelpCenter> helpCenters;
 
-    private String help_type = "1";
+    private String help_type;
 
     private ArticlePst articlePst;
 
@@ -57,19 +61,21 @@ public class HelpFgt extends BaseFgt {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         expandableListView.setGroupIndicator(null);
-        if ("商家篇".equals(type)) {
-            help_type = "1";
-        } else if ("用户篇".equals(type)) {
-            help_type = "2";
-        } else {
-            help_type = "3";
+        if ("寄存攻略".equals(type)) {
+            help_type = "4";
+        } else if ("常见问题".equals(type)) {
+            help_type = "5";
         }
-        articlePst.helpCenter(help_type);
+        if (!TextUtils.isEmpty(help_type)){
+            articlePst.helpCenter(help_type);
+        }
+
     }
 
     @Override
     protected void immersionInit() {
-
+        showStatusBar(R.id.title_re_layout);
+        titlt_conter_tv.setText(type);
     }
 
     @Override
