@@ -1019,7 +1019,11 @@
         <activity android:name=".clearinventory.AlreadyRefundedAty" />
         <activity android:name=".clearinventory.PickupAty" />
         <activity android:name=".clearinventory.ManageAty" />
-        <activity android:name=".clearinventory.StrategyAndProblemAty" />>
+        <activity android:name=".clearinventory.StrategyAndProblemAty" />
+        <activity android:name=".clearinventory.StrategyIncomeAty" />
+        <activity android:name=".clearinventory.ManageGoodsAty" />
+        <activity android:name=".clearinventory.ClearGoodsDetailsAty" />
+        <activity android:name=".clearinventory.RefundedAty" />>
     </application>
 
 </manifest>

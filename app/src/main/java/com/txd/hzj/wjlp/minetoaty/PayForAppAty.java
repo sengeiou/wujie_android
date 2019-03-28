@@ -458,6 +458,8 @@ public class PayForAppAty extends BaseAty {
             GiveAwayModel.postGiftGoodsOrderSetOrder(address_id, num, order_id, TextUtils.isEmpty(cart_id) ? getString("goodsList") : getString("goodsCartList"), getString("leave_message"), getString("invoiceList"), this);
         } else if (mType.equals(WJConfig.TYPE_JSP)) { // 集碎片
             Order.setOrder(address_id, WJConfig.TYPE_JSP, order_id, "", "", getString("invoiceList"), getString("leave_message"), TextUtils.isEmpty(cart_id) ? getString("goodsList") : getString("goodsCartList"), this);
+        }else if (mType.equals(WJConfig.TYPE_HQKC)){
+
         }
         showProgressDialog();
     }

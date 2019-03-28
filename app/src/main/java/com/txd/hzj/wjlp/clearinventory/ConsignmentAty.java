@@ -1,8 +1,8 @@
 package com.txd.hzj.wjlp.clearinventory;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -19,7 +19,6 @@ import android.widget.TextView;
 import com.ants.theantsgo.base.BaseView;
 import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.httpTools.ApiTool2;
-import com.ants.theantsgo.tips.MikyouCommonDialog;
 import com.ants.theantsgo.util.JSONUtils;
 import com.bumptech.glide.Glide;
 import com.lidroid.xutils.ViewUtils;
@@ -62,7 +61,7 @@ public class ConsignmentAty extends BaseAty {
         recyclerView.setLayoutManager(layoutManager);
     }
 
-    private void showPop(View view, Map<String, String> map) {
+    private void showPop(View view, final Map<String, String> map) {
         PopupWindow popupWindow = new PopupWindow();
         popupWindow.setBackgroundDrawable(new ColorDrawable());
         popupWindow.setOutsideTouchable(false);
@@ -93,18 +92,21 @@ public class ConsignmentAty extends BaseAty {
         refundLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                startActivity(RefundedAty);
-                MikyouCommonDialog mikyouCommonDialog = new MikyouCommonDialog(mContext,"您确定要申请退款吗？","提示","确认","取消",false);
-                mikyouCommonDialog.setOnDiaLogListener(new MikyouCommonDialog.OnDialogListener() {
-                    @Override
-                    public void dialogListener(int btnType, View customView, DialogInterface dialogInterface, int which) {
-                        if (btnType == MikyouCommonDialog.OK){
-
-                        }
-                        dialogInterface.dismiss();
-                    }
-                });
-                mikyouCommonDialog.showDialog();
+                Bundle bundle = new Bundle();
+                bundle.putString("clean_id",map.get("clean_id"));
+                bundle.putString("goods_num",map.get("goods_num"));
+                startActivity(RefundedAty.class,bundle);
+//                MikyouCommonDialog mikyouCommonDialog = new MikyouCommonDialog(mContext,"您确定要申请退款吗？","提示","确认","取消",false);
+//                mikyouCommonDialog.setOnDiaLogListener(new MikyouCommonDialog.OnDialogListener() {
+//                    @Override
+//                    public void dialogListener(int btnType, View customView, DialogInterface dialogInterface, int which) {
+//                        if (btnType == MikyouCommonDialog.OK){
+//
+//                        }
+//                        dialogInterface.dismiss();
+//                    }
+//                });
+//                mikyouCommonDialog.showDialog();
             }
         });
 

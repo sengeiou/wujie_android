@@ -2,7 +2,6 @@ package com.txd.hzj.wjlp.clearinventory;
 
 import android.content.Context;
 import android.graphics.Rect;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,13 +12,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.ants.theantsgo.base.BaseView;
-import com.ants.theantsgo.config.Config;
-import com.ants.theantsgo.httpTools.ApiTool2;
 import com.ants.theantsgo.util.JSONUtils;
 import com.bumptech.glide.Glide;
 import com.lidroid.xutils.ViewUtils;
-import com.lidroid.xutils.http.RequestParams;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
@@ -28,27 +23,44 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import static com.txd.hzj.wjlp.clearinventory.ManageAty.clean_order_list;
+
 /**
  * 创建者：zhangyunfei
- * 创建时间：2019/3/26 16:10
+ * 创建时间：2019/3/27 17:11
  * 功能描述：
  */
-public class ManageAty extends BaseAty {
+public class ManageGoodsAty extends BaseAty {
     @ViewInject(R.id.titlt_conter_tv)
     private TextView titlt_conter_tv;
+    @ViewInject(R.id.goodsNameTv)
+    private TextView goodsNameTv;
+    @ViewInject(R.id.orderTv)
+    private TextView orderTv;
+    @ViewInject(R.id.numTv1)
+    private TextView numTv1;
+    @ViewInject(R.id.numTv2)
+    private TextView numTv2;
+    @ViewInject(R.id.numTv3)
+    private TextView numTv3;
+    @ViewInject(R.id.numTv4)
+    private TextView numTv4;
 
     @ViewInject(R.id.recyclerView)
     private RecyclerView mRecyclerView;
 
+    private String mOrder_id;
+
     @Override
     protected int getLayoutResId() {
-        return R.layout.activity_clear_inventory_manage;
+        return R.layout.activity_manage_goods;
     }
 
     @Override
     protected void initialized() {
         showStatusBar(R.id.title_re_layout);
-        titlt_conter_tv.setText("寄售管理");
+        titlt_conter_tv.setText("寄售商品");
+        mOrder_id = getIntent().getStringExtra("order_id");
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
@@ -64,7 +76,9 @@ public class ManageAty extends BaseAty {
 
     @Override
     protected void requestData() {
-        clean_order_list("1", "", this);
+        if (!TextUtils.isEmpty(mOrder_id)) {
+            clean_order_list("2", mOrder_id, this);
+        }
     }
 
     @Override
@@ -72,16 +86,22 @@ public class ManageAty extends BaseAty {
         super.onComplete(requestUrl, jsonStr);
         final Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
         if (requestUrl.endsWith("clean_order_list")) {
-            final ArrayList<Map<String, String>> mapArrayList = JSONUtils.parseKeyAndValueToMapList(map.get("data"));
+            Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
+            Map<String, String> orderInfo = JSONUtils.parseKeyAndValueToMap(data.get("order_info"));
+            goodsNameTv.setText(orderInfo.get("goods_name"));
+            orderTv.setText(orderInfo.get("order_sn"));
+            Map<String, String> param = JSONUtils.parseKeyAndValueToMap(orderInfo.get("param"));
+            numTv1.setText(param.get("max_num"));
+            numTv2.setText(param.get("already_num"));
+            numTv3.setText(param.get("surplus_num"));
+            numTv4.setText(param.get("cai_num"));
+            ArrayList<Map<String, String>> mapArrayList = JSONUtils.parseKeyAndValueToMapList(data.get("goods_list"));
             if (mapArrayList != null) {
-                ManageAdapter manageAdapter = new ManageAdapter(mapArrayList);
-                mRecyclerView.setAdapter(manageAdapter);
-                manageAdapter.setOnItemClickListener(new ManageAdapter.OnItemClickListener() {
+                ManageGoodsAdapter manageGoodsAdapter = new ManageGoodsAdapter(mapArrayList);
+                mRecyclerView.setAdapter(manageGoodsAdapter);
+                manageGoodsAdapter.setOnItemClickListener(new ManageGoodsAdapter.OnItemClickListener() {
                     @Override
                     public void onItemClick(int position) {
-                        Bundle bundle = new Bundle();
-                        bundle.putString("order_id",mapArrayList.get(position).get("order_id"));
-                        startActivity(ManageGoodsAty.class,bundle);
                     }
                 });
             }
@@ -89,17 +109,7 @@ public class ManageAty extends BaseAty {
         }
     }
 
-    public static void clean_order_list(String type, String order_id, BaseView baseView) {
-        ApiTool2 apiTool2 = new ApiTool2();
-        RequestParams params = new RequestParams();
-        params.addBodyParameter("type", type);
-        if (!TextUtils.isEmpty(order_id)) {
-            params.addBodyParameter("order_id", order_id);
-        }
-        apiTool2.postApi(Config.SHARE_URL + "index.php/Api/Clean/clean_order_list", params, baseView);
-    }
-
-    public static class ManageAdapter extends RecyclerView.Adapter<ManageAdapter.ViewHolder> {
+    public static class ManageGoodsAdapter extends RecyclerView.Adapter<ManageGoodsAdapter.ViewHolder> {
 
         private Context mContext;
 
@@ -111,7 +121,7 @@ public class ManageAty extends BaseAty {
             mOnItemClickListener = onItemClickListener;
         }
 
-        public ManageAdapter(List<Map<String, String>> list) {
+        public ManageGoodsAdapter(List<Map<String, String>> list) {
             mList = list;
         }
 
@@ -119,7 +129,7 @@ public class ManageAty extends BaseAty {
         @Override
         public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             mContext = parent.getContext();
-            View view = LayoutInflater.from(mContext).inflate(R.layout.clear_inventory_consignment_item, parent, false);
+            View view = LayoutInflater.from(mContext).inflate(R.layout.clear_inventory_goods_item, parent, false);
             ViewHolder holder = new ViewHolder(view);
             ViewUtils.inject(holder, view);
             return holder;
@@ -132,21 +142,19 @@ public class ManageAty extends BaseAty {
                 Glide.with(mContext).load(map.get("abs_url")).into(holder.picImg);
             }
 
-            holder.shopNameTv.setText(map.get("merchant_name"));
-            holder.orderNumTv.setText("订单号："+map.get("order_sn"));
             holder.titleTv.setText(map.get("goods_name"));
-            holder.numTv.setText("x"+map.get("goods_num"));
-            holder.descTv.setText(map.get("goods_attr"));
-            holder.salePriceTv.setText("¥"+map.get("shop_price"));
-            holder.totalTv.setText("共"+map.get("goods_num")+"件商品\u3000合计：￥"+map.get("order_price"));
+            holder.descTv.setText("最多可使用"+map.get("discount")+"%红券");
+            holder.salePriceTv.setText("¥" + map.get("wholesale_price"));
+            holder.profitTv.setText("¥" + map.get("profit"));
 
             Map<String, String> param = JSONUtils.parseKeyAndValueToMap(map.get("param"));
-            holder.numTv1.setText("可寄售件数："+param.get("max_num"));
-            holder.numTv2.setText("已寄售件数："+param.get("already_num"));
-            holder.numTv3.setText("剩余件数："+param.get("surplus_num"));
-            holder.numTv4.setText("已完成件数："+param.get("cai_num"));
+            holder.numTv1.setText("可寄售数量：" + param.get("consign_sale_num"));
+            holder.numTv2.setText("已寄售数量：" + param.get("deal_num"));
+//            holder.numTv3.setText("剩余件数：" + param.get("surplus_num"));
+            holder.numTv4.setText("可在线寄售数量：" + param.get("same_sale_num"));
+            holder.numTv5.setText("已在线寄售数量：" + param.get("already_num"));
 
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
+            holder.saleTv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (mOnItemClickListener != null) {
@@ -165,20 +173,16 @@ public class ManageAty extends BaseAty {
         public class ViewHolder extends RecyclerView.ViewHolder {
             @ViewInject(R.id.picImg)
             ImageView picImg;
-            @ViewInject(R.id.shopNameTv)
-            TextView shopNameTv;
-            @ViewInject(R.id.orderNumTv)
-            TextView orderNumTv;
             @ViewInject(R.id.titleTv)
             TextView titleTv;
-            @ViewInject(R.id.numTv)
-            TextView numTv;
             @ViewInject(R.id.descTv)
             TextView descTv;
+            @ViewInject(R.id.saleTv)
+            TextView saleTv;
             @ViewInject(R.id.salePriceTv)
             TextView salePriceTv;
-            @ViewInject(R.id.totalTv)
-            TextView totalTv;
+            @ViewInject(R.id.profitTv)
+            TextView profitTv;
             @ViewInject(R.id.numTv1)
             TextView numTv1;
             @ViewInject(R.id.numTv2)

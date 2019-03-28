@@ -8,6 +8,18 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:listitem="@layout/clear_inventory_consignment_item"/>
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@color/white"
+        tools:listitem="@layout/item_refunded"/>
+    <TextView
+        android:id="@+id/commit"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:text="提交"
+        android:background="#FF2627"
+        android:gravity="center"
+        android:textColor="#ffffffff"
+        android:textSize="19sp"
+        />
 </LinearLayout>

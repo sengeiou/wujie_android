@@ -36,7 +36,16 @@
         android:background="@drawable/shape_gray_btn_li"
         android:gravity="center"
         android:text="取消订单" />
-
+    <TextView
+        android:id="@+id/tv_btn_sale"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:background="@drawable/shape_red_btn_01_li"
+        android:gravity="center"
+        android:text="去寄售"
+        android:visibility="gone"
+        android:textColor="@color/colorRed" />
     <TextView
         android:id="@+id/tv_btn_right"
         android:layout_width="80dp"

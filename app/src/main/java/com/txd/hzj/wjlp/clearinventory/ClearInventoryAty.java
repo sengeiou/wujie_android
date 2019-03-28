@@ -107,6 +107,7 @@ public class ClearInventoryAty extends BaseAty {
                 startActivity(ManageAty.class,null);
                 break;
             case R.id.incomeLayout:
+                startActivity(StrategyIncomeAty.class,null);
                 break;
             case R.id.strategyLayout:
                 bundle = new Bundle();

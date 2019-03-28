@@ -38,6 +38,7 @@ import com.txd.hzj.wjlp.MainAty;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseFgt;
 import com.txd.hzj.wjlp.bean.commodity.AllGoodsBean;
+import com.txd.hzj.wjlp.clearinventory.ClearInventoryAty;
 import com.txd.hzj.wjlp.http.index.IndexPst;
 import com.txd.hzj.wjlp.login.LoginAty;
 import com.txd.hzj.wjlp.mainfgt.adapter.AllGvLvAdapter;
@@ -447,6 +448,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
 //                            startActivity(SearchBluetoothAty.class, null); // 跳转到蓝牙连接界面
                             showToast("开发中，敬请期待");
 //                                                        startActivity(LimitShoppingAty.class, null);
+                            startActivity(ClearInventoryAty.class,null);
                             break;
                         case 1:// 票券区
                             showToast("开发中，敬请期待");

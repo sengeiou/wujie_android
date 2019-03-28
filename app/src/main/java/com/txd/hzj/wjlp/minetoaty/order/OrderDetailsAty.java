@@ -27,6 +27,7 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
+import com.txd.hzj.wjlp.clearinventory.ManageGoodsAty;
 import com.txd.hzj.wjlp.http.AuctionOrder;
 import com.txd.hzj.wjlp.http.GroupBuyOrder;
 import com.txd.hzj.wjlp.http.IntegralBuyOrder;
@@ -107,6 +108,8 @@ public class OrderDetailsAty extends BaseAty {
     private ThisGoodsAdapter thisAdapter;
     @ViewInject(R.id.tv_btn_left)
     public TextView tv_btn_left;
+    @ViewInject(R.id.tv_btn_sale)
+    public TextView tv_btn_sale;
     @ViewInject(R.id.tv_btn_right)
     public TextView tv_btn_right;
     private String group_buy_id;
@@ -150,22 +153,30 @@ public class OrderDetailsAty extends BaseAty {
     }
 
     @Override
-    @OnClick({R.id.tv_btn_left, R.id.tv_btn_right, R.id.lin_logistics})
+    @OnClick({R.id.tv_btn_left,R.id.tv_btn_sale, R.id.tv_btn_right, R.id.lin_logistics})
     public void onClick(View v) {
         super.onClick(v);
+        Bundle bundle;
         switch (v.getId()) {
             case R.id.tv_btn_left: // 最底部左侧按钮
                 // 申请售后
                 startActivity(ApplyForAfterSalesAty.class, null);
                 break;
+            case R.id.tv_btn_sale:
+                bundle = new Bundle();
+                bundle.putString("order_id",order_id);
+                startActivity(ManageGoodsAty.class,bundle);
+                break;
             case R.id.tv_btn_right: // 最底部右侧按钮
                 // 评价商品
                 break;
             case R.id.lin_logistics: // 订单物流
-                Bundle bundle = new Bundle();
+                bundle = new Bundle();
                 bundle.putString("order_id", order_id);
                 bundle.putString("type", type2WL);//普通商品 0 拼单购 1
                 startActivity(OrderLogisticsAty.class, bundle);
+                break;
+            default:
                 break;
         }
     }
@@ -445,6 +456,12 @@ public class OrderDetailsAty extends BaseAty {
                 // 如果订单状态为待付款或待发货，则隐藏订单详情查看入口
                 lin_logistics.setVisibility(View.GONE);
             }
+            if (mOrder_type.equals("7") && (order_status.equals("3") || order_status.equals("4"))){
+                tv_btn_sale.setVisibility(View.VISIBLE);
+            }else {
+                tv_btn_sale.setVisibility(View.GONE);
+            }
+
             if (type.equals("0") || type.equals(WJConfig.TYPE_JFSD) || type.equals(WJConfig.TYPE_SJJZQ) || type.equals(WJConfig.TYPE_ZPZQ) || type.equals(WJConfig.TYPE_JSP)) {
                 setOrderStatus();
             } else if (type.equals("3")) {

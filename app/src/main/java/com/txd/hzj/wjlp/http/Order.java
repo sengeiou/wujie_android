@@ -70,6 +70,25 @@ public class Order {
         apiTool2.postApi(url + "setOrder", requestParams, baseView);
     }
 
+
+    /**
+     * 寄售添加订单【/Order/cleanSetOrder】
+     * @param order_id 订单id(订单支付时传)
+     * @param oid 当order_id为空时必传，原订单id
+     * @param expire_processing [{"product_id":"1856","goods_id":"702","num":"2"}]
+     * @param goods 活动结束后寄售单的处理方式（需要寄售人进行选择） 1退款 2发货 3全部都有
+     * @param baseView
+     */
+    public static void cleanSetOrder(String order_id, String oid, String expire_processing, String goods, BaseView baseView) {
+        RequestParams requestParams = new RequestParams();
+        ApiTool2 apiTool2 = new ApiTool2();
+        requestParams.addBodyParameter("order_id", order_id);
+        requestParams.addBodyParameter("oid", oid);
+        requestParams.addBodyParameter("goods", goods);
+        requestParams.addBodyParameter("expire_processing", expire_processing);
+        apiTool2.postApi(url + "cleanSetOrder", requestParams, baseView);
+    }
+
     /**
      * 余额支付
      *
