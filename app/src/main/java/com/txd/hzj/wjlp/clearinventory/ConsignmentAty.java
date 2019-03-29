@@ -1,6 +1,7 @@
 package com.txd.hzj.wjlp.clearinventory;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -19,6 +20,7 @@ import android.widget.TextView;
 import com.ants.theantsgo.base.BaseView;
 import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.httpTools.ApiTool2;
+import com.ants.theantsgo.tips.MikyouCommonDialog;
 import com.ants.theantsgo.util.JSONUtils;
 import com.bumptech.glide.Glide;
 import com.lidroid.xutils.ViewUtils;
@@ -68,7 +70,7 @@ public class ConsignmentAty extends BaseAty {
         popupWindow.setFocusable(true);
         popupWindow.setWidth(LinearLayout.LayoutParams.WRAP_CONTENT);
         popupWindow.setHeight(LinearLayout.LayoutParams.WRAP_CONTENT);
-        View contentView = LayoutInflater.from(mContext).inflate(R.layout.pop_consignment,null);
+        View contentView = LayoutInflater.from(mContext).inflate(R.layout.pop_consignment, null);
         LinearLayout detailsLayout = contentView.findViewById(R.id.detailsLayout);
         LinearLayout goodsLayout = contentView.findViewById(R.id.goodsLayout);
         LinearLayout refundLayout = contentView.findViewById(R.id.refundLayout);
@@ -85,7 +87,17 @@ public class ConsignmentAty extends BaseAty {
         goodsLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                MikyouCommonDialog mikyouCommonDialog = new MikyouCommonDialog(mContext, "您确定要提货吗？", "提示", "确认", "取消", false);
+                mikyouCommonDialog.setOnDiaLogListener(new MikyouCommonDialog.OnDialogListener() {
+                    @Override
+                    public void dialogListener(int btnType, View customView, DialogInterface dialogInterface, int which) {
+                        if (btnType == MikyouCommonDialog.OK) {
+                            cleanPickup(map.get("clean_id"), map.get("goods_num"));
+                        }
+                        dialogInterface.dismiss();
+                    }
+                });
+                mikyouCommonDialog.showDialog();
             }
         });
 
@@ -93,20 +105,20 @@ public class ConsignmentAty extends BaseAty {
             @Override
             public void onClick(View v) {
                 Bundle bundle = new Bundle();
-                bundle.putString("clean_id",map.get("clean_id"));
-                bundle.putString("goods_num",map.get("goods_num"));
-                startActivity(RefundedAty.class,bundle);
-//                MikyouCommonDialog mikyouCommonDialog = new MikyouCommonDialog(mContext,"您确定要申请退款吗？","提示","确认","取消",false);
-//                mikyouCommonDialog.setOnDiaLogListener(new MikyouCommonDialog.OnDialogListener() {
-//                    @Override
-//                    public void dialogListener(int btnType, View customView, DialogInterface dialogInterface, int which) {
-//                        if (btnType == MikyouCommonDialog.OK){
-//
-//                        }
-//                        dialogInterface.dismiss();
-//                    }
-//                });
-//                mikyouCommonDialog.showDialog();
+                bundle.putString("clean_id", map.get("clean_id"));
+                bundle.putString("goods_num", map.get("goods_num"));
+                startActivity(RefundedAty.class, bundle);
+                //                MikyouCommonDialog mikyouCommonDialog = new MikyouCommonDialog(mContext,"您确定要申请退款吗？","提示","确认","取消",false);
+                //                mikyouCommonDialog.setOnDiaLogListener(new MikyouCommonDialog.OnDialogListener() {
+                //                    @Override
+                //                    public void dialogListener(int btnType, View customView, DialogInterface dialogInterface, int which) {
+                //                        if (btnType == MikyouCommonDialog.OK){
+                //
+                //                        }
+                //                        dialogInterface.dismiss();
+                //                    }
+                //                });
+                //                mikyouCommonDialog.showDialog();
             }
         });
 
@@ -122,67 +134,85 @@ public class ConsignmentAty extends BaseAty {
 
         int[] locations = new int[2];
         view.getLocationOnScreen(locations);
-        popupWindow.showAtLocation(view, Gravity.NO_GRAVITY,view.getWidth()*6, (int) (locations[1]-view.getHeight()*1.5));
+        popupWindow.showAtLocation(view, Gravity.NO_GRAVITY, view.getWidth() * 6, (int) (locations[1] - view.getHeight() * 1.5));
 
-//        Window window = getWindow();
-//        window.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
-//        WindowManager.LayoutParams attributes = window.getAttributes();
-//        attributes.alpha = 1.0f;
-//        window.setAttributes(attributes);
-//
-//        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
-//            @Override
-//            public void onDismiss() {
-//                Window window = getWindow();
-//                window.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
-//                WindowManager.LayoutParams attributes = window.getAttributes();
-//                attributes.alpha = 1.0f;
-//                window.setAttributes(attributes);
-//            }
-//        });
+        //        Window window = getWindow();
+        //        window.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+        //        WindowManager.LayoutParams attributes = window.getAttributes();
+        //        attributes.alpha = 1.0f;
+        //        window.setAttributes(attributes);
+        //
+        //        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+        //            @Override
+        //            public void onDismiss() {
+        //                Window window = getWindow();
+        //                window.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+        //                WindowManager.LayoutParams attributes = window.getAttributes();
+        //                attributes.alpha = 1.0f;
+        //                window.setAttributes(attributes);
+        //            }
+        //        });
     }
 
     @Override
     protected void requestData() {
-        clean_goods_list("1","",this);
+        clean_goods_list("1", "", this);
     }
 
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
         final Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
-        if (requestUrl.endsWith("clean_goods_list")){
+        if (requestUrl.endsWith("clean_goods_list")) {
             final ArrayList<Map<String, String>> mapArrayList = JSONUtils.parseKeyAndValueToMapList(map.get("data"));
-            if (mapArrayList!= null){
+            if (mapArrayList != null) {
                 mConsignmentAdapter = new ConsignmentAdapter(mapArrayList);
                 recyclerView.setAdapter(mConsignmentAdapter);
                 mConsignmentAdapter.setOnItemViewClickListener(new OnItemViewClickListener() {
                     @Override
                     public void onItemViewClick(View view, int position) {
-                        showPop(view,mapArrayList.get(position));
+                        showPop(view, mapArrayList.get(position));
                     }
                 });
             }
+            return;
+        }
 
+        if (requestUrl.endsWith("cleanPickup")) {
+            showToast(map.get("message"));
+            requestData();
         }
     }
 
     /**
-     *
      * @param clean_order_status 1寄售中 2已交易 3已提货 4已退款
-     * @param order_status clean_order_status = 2 1 待发货 2 待收货 3 已退款 4 已完成 clean_order_status = 3 1 待发货 2 待收货 3 已完成 clean_order_status = 4 1 退款中 2 已完成
+     * @param order_status       clean_order_status = 2 1 待发货 2 待收货 3 已退款 4 已完成 clean_order_status = 3 1 待发货 2 待收货 3 已完成 clean_order_status = 4 1 退款中 2 已完成
      */
-    public static void clean_goods_list(String clean_order_status, String order_status, BaseView baseView){
+    public static void clean_goods_list(String clean_order_status, String order_status, BaseView baseView) {
         ApiTool2 apiTool2 = new ApiTool2();
         RequestParams params = new RequestParams();
-        params.addBodyParameter("clean_order_status",clean_order_status);
-        if (!TextUtils.isEmpty(order_status)){
-            params.addBodyParameter("order_status",order_status);
+        params.addBodyParameter("clean_order_status", clean_order_status);
+        if (!TextUtils.isEmpty(order_status)) {
+            params.addBodyParameter("order_status", order_status);
         }
-        apiTool2.postApi(Config.SHARE_URL+"index.php/Api/Clean/clean_goods_list",params,baseView);
+        apiTool2.postApi(Config.SHARE_URL + "index.php/Api/Clean/clean_goods_list", params, baseView);
     }
 
-    private static class ConsignmentAdapter extends RecyclerView.Adapter<ConsignmentAdapter.ViewHolder>{
+    /**
+     * 提货确认【/Clean/cleanPickup】
+     *
+     * @param order_id 寄售订单id
+     * @param num      提货数量
+     */
+    public void cleanPickup(String order_id, String num) {
+        ApiTool2 apiTool2 = new ApiTool2();
+        RequestParams params = new RequestParams();
+        params.addBodyParameter("order_id", order_id);
+        params.addBodyParameter("num", num);
+        apiTool2.postApi(Config.SHARE_URL + "index.php/Api/Clean/cleanPickup", params, this);
+    }
+
+    private static class ConsignmentAdapter extends RecyclerView.Adapter<ConsignmentAdapter.ViewHolder> {
         private Context mContext;
 
         private OnItemViewClickListener mOnItemViewClickListener;
@@ -202,9 +232,9 @@ public class ConsignmentAty extends BaseAty {
         @Override
         public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             mContext = parent.getContext();
-            View view = LayoutInflater.from(mContext).inflate(R.layout.layout_item_consignment,parent,false);
+            View view = LayoutInflater.from(mContext).inflate(R.layout.layout_item_consignment, parent, false);
             ViewHolder holder = new ViewHolder(view);
-            ViewUtils.inject(holder,view);
+            ViewUtils.inject(holder, view);
             return holder;
         }
 
@@ -213,16 +243,16 @@ public class ConsignmentAty extends BaseAty {
             Map<String, String> map = mList.get(position);
             Glide.with(mContext).load(map.get("goods_img")).into(holder.picImg);
             holder.titleTv.setText(map.get("goods_name"));
-            holder.priceTv1.setText("¥"+map.get("wholesale_price"));
-            holder.priceTv2.setText("¥"+map.get("profit"));
-            holder.timeTv.setText("活动时间："+map.get("start_time")+"-"+map.get("end_time"));
+            holder.priceTv1.setText("¥" + map.get("wholesale_price"));
+            holder.priceTv2.setText("¥" + map.get("profit"));
+            holder.timeTv.setText("活动时间：" + map.get("start_time") + "-" + map.get("end_time"));
 
 
             holder.moreImg.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (mOnItemViewClickListener != null){
-                        mOnItemViewClickListener.onItemViewClick(v,holder.getLayoutPosition());
+                    if (mOnItemViewClickListener != null) {
+                        mOnItemViewClickListener.onItemViewClick(v, holder.getLayoutPosition());
                     }
                 }
             });
@@ -233,7 +263,7 @@ public class ConsignmentAty extends BaseAty {
             return mList.size();
         }
 
-        public static class ViewHolder extends RecyclerView.ViewHolder{
+        public static class ViewHolder extends RecyclerView.ViewHolder {
 
             @ViewInject(R.id.picImg)
             private ImageView picImg;
@@ -253,7 +283,6 @@ public class ConsignmentAty extends BaseAty {
 
             @ViewInject(R.id.moreImg)
             private ImageView moreImg;
-
 
 
             public ViewHolder(View itemView) {
