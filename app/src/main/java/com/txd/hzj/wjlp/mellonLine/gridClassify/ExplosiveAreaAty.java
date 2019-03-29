@@ -52,6 +52,7 @@ public class ExplosiveAreaAty extends BaseAty {
 
     @Override
     protected void initialized() {
+        showStatusBar(R.id.title_re_layout);
         titlt_conter_tv.setText("爆款专区");
         goodsPst = new GoodsPst(this);
         fragments = new ArrayList<>();

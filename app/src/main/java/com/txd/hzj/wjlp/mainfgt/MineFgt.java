@@ -798,6 +798,7 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
 //                business_code_tv.setVisibility(View.GONE);
                 String alliance_merchant = jsonData.has("alliance_merchant") ? jsonData.getString("alliance_merchant") : "";
                 String member_coding = jsonData.has("member_coding") ? jsonData.getString("member_coding") : "";
+                PreferencesUtils.putString(getActivity(), "member_coding", member_coding);
 
                 if (Integer.parseInt(alliance_merchant) > 0 && sanfangList.size() > 0) { // 联盟商家并且支持切换账户
                     bandOtherAccount_tv.setVisibility(View.VISIBLE); // 显示三方账户绑定

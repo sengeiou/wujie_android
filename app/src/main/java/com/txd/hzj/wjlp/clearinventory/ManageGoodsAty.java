@@ -2,6 +2,7 @@ package com.txd.hzj.wjlp.clearinventory;
 
 import android.content.Context;
 import android.graphics.Rect;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -90,18 +91,24 @@ public class ManageGoodsAty extends BaseAty {
             Map<String, String> orderInfo = JSONUtils.parseKeyAndValueToMap(data.get("order_info"));
             goodsNameTv.setText(orderInfo.get("goods_name"));
             orderTv.setText(orderInfo.get("order_sn"));
+            final String order_id = orderInfo.get("order_id");
             Map<String, String> param = JSONUtils.parseKeyAndValueToMap(orderInfo.get("param"));
             numTv1.setText(param.get("max_num"));
             numTv2.setText(param.get("already_num"));
             numTv3.setText(param.get("surplus_num"));
             numTv4.setText(param.get("cai_num"));
-            ArrayList<Map<String, String>> mapArrayList = JSONUtils.parseKeyAndValueToMapList(data.get("goods_list"));
+            final ArrayList<Map<String, String>> mapArrayList = JSONUtils.parseKeyAndValueToMapList(data.get("goods_list"));
             if (mapArrayList != null) {
                 ManageGoodsAdapter manageGoodsAdapter = new ManageGoodsAdapter(mapArrayList);
                 mRecyclerView.setAdapter(manageGoodsAdapter);
                 manageGoodsAdapter.setOnItemClickListener(new ManageGoodsAdapter.OnItemClickListener() {
                     @Override
                     public void onItemClick(int position) {
+                        Bundle bundle = new Bundle();
+                        bundle.putString("ticket_buy_id",mapArrayList.get(position).get("goods_id"));
+                        bundle.putString("order_id",order_id);
+                        bundle.putString("product_id",mapArrayList.get(position).get("product_id"));
+                        startActivity(ClearGoodsDetailsAty.class,bundle);
                     }
                 });
             }

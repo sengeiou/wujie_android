@@ -70,6 +70,25 @@ public class Order {
         apiTool2.postApi(url + "setOrder", requestParams, baseView);
     }
 
+    /**
+     * 寄售商品订单确认【/Order/cleanConfirm】
+     * @param num 寄售数量
+     * @param goods_id
+     * @param product_id
+     * @param order_id 根据正价购买订单的id
+     * @param goods json(商品id，属性id)格式：[{"product_id":"0","goods_id":"5"},{"product_id":"1","goods_id":"6"}]
+     * @param baseView
+     */
+    public static void cleanConfirm(String num, String goods_id, String product_id, String order_id,String goods, BaseView baseView) {
+        RequestParams requestParams = new RequestParams();
+        ApiTool2 apiTool2 = new ApiTool2();
+        requestParams.addBodyParameter("num", num);
+        requestParams.addBodyParameter("goods_id", goods_id);
+        requestParams.addBodyParameter("product_id", product_id);
+        requestParams.addBodyParameter("order_id", order_id);
+        requestParams.addBodyParameter("goods", goods);
+        apiTool2.postApi(url + "cleanConfirm", requestParams, baseView);
+    }
 
     /**
      * 寄售添加订单【/Order/cleanSetOrder】

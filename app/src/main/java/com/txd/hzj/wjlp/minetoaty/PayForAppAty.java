@@ -263,6 +263,8 @@ public class PayForAppAty extends BaseAty {
                         Pay.getJsTine(order_id, getType(), "9", this);
                     } else if (mType.equals(WJConfig.TYPE_JSP)) {
                         Pay.getJsTine(order_id, getType(), "16", this);
+                    }else if (mType.equals(WJConfig.TYPE_HQKC)) {
+                        Pay.getJsTine(order_id, getType(), "7", this);
                     }
                     showProgressDialog();
                     return;
@@ -294,6 +296,8 @@ public class PayForAppAty extends BaseAty {
                         Pay.getAlipayParam(order_id, getType(), "9", this);
                     } else if (mType.equals(WJConfig.TYPE_JSP)) {
                         Pay.getAlipayParam(order_id, getType(), "16", this);
+                    }else if (mType.equals(WJConfig.TYPE_HQKC)) {
+                        Pay.getAlipayParam(order_id, getType(), "7", this);
                     }
                     showProgressDialog();
                     return;
@@ -404,6 +408,7 @@ public class PayForAppAty extends BaseAty {
         freight_type = getString("freight_type");
         tv_shopname.setText(shop_name);
         decimalFormat = new DecimalFormat("0.00");
+        String expire_processing = getString("expire_processing");
         if (mType.equals("0") || mType.equals("1") || TextUtils.isEmpty(mType) || mType.equals(WJConfig.TYPE_SJJZQ)) {
             Order.setOrder(address_id, "0", order_id, "", "", getString("invoiceList"), getString("leave_message"), TextUtils.isEmpty(cart_id) ? getString("goodsList") : getString("goodsCartList"), this);
         } else if (mType.equals("2")) {
@@ -459,7 +464,8 @@ public class PayForAppAty extends BaseAty {
         } else if (mType.equals(WJConfig.TYPE_JSP)) { // 集碎片
             Order.setOrder(address_id, WJConfig.TYPE_JSP, order_id, "", "", getString("invoiceList"), getString("leave_message"), TextUtils.isEmpty(cart_id) ? getString("goodsList") : getString("goodsCartList"), this);
         }else if (mType.equals(WJConfig.TYPE_HQKC)){
-
+            cb_jfzf.setVisibility(View.GONE);
+            Order.cleanSetOrder("",order_id,expire_processing,getString("goodsList"),this);
         }
         showProgressDialog();
     }
@@ -619,7 +625,12 @@ public class PayForAppAty extends BaseAty {
                 layout_wx.setVisibility(View.GONE);
                 cb_jfzf.setVisibility(View.GONE);
                 tv_submit.setText("确认兑换");
-            } else {
+            }  else if (mType.equals(WJConfig.TYPE_HQKC)){
+                pay_by_balance_cb.setText("余额支付（¥" + data.get("balance") + ")");
+                order_id = data.get("order_id");
+                tv_shopname.setText(data.get("merchant_name"));
+                tv_price.setText("¥" + total_price);
+            }else {
                 if (!mType.equals("10")) {
                     double d = 0;
                     if (mType.equals(WJConfig.TYPE_SJJZQ) && data.containsKey("ticket_price")) {
@@ -726,6 +737,8 @@ public class PayForAppAty extends BaseAty {
                         BalancePay.BalancePay(order_id, "9", getType(), "", this);
                     } else if (mType.equals(WJConfig.TYPE_ZPZQ)) {
                         GiveAwayModel.postGiftGoodsPay(order_id, num, this);
+                    } else if (mType.equals(WJConfig.TYPE_HQKC)) {
+                        BalancePay.BalancePay(order_id, "7", getType(), num, this);
                     }
                     showProgressDialog();
                 }
@@ -755,6 +768,8 @@ public class PayForAppAty extends BaseAty {
                         IntegralPay.integralPay(order_id, "5", "", num, this);
                     } else if (mType.equals(WJConfig.TYPE_XXDP)) {//线下店铺积分支付
                         IntegralPay.integralPay(order_id, "9", "", num, this);
+                    }else if (mType.equals(WJConfig.TYPE_HQKC)) {
+                        IntegralPay.integralPay(order_id, "7", "", num, this);
                     }
                     showProgressDialog();
 

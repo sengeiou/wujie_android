@@ -83,6 +83,7 @@ import com.txd.hzj.wjlp.new_wjyp.Collocations_aty;
 import com.txd.hzj.wjlp.shoppingCart.BuildOrderAty;
 import com.txd.hzj.wjlp.tool.ChangeTextViewStyle;
 import com.txd.hzj.wjlp.tool.CommonPopupWindow;
+import com.txd.hzj.wjlp.tool.WJConfig;
 import com.txd.hzj.wjlp.tool.proUrbArea.ProUrbAreaUtil;
 import com.txd.hzj.wjlp.view.ObservableScrollView;
 import com.txd.hzj.wjlp.view.ToastView;
@@ -310,7 +311,7 @@ public class ClearGoodsDetailsAty extends BaseAty implements ObservableScrollVie
     /**
      * 票券区id
      */
-    private String ticket_buy_id = "";
+    private String mTicket_buy_id = "";
 
     /**
      * 购物车数量
@@ -508,6 +509,9 @@ public class ClearGoodsDetailsAty extends BaseAty implements ObservableScrollVie
     private String mSell_num;
     private Context mContext;
 
+    private String mOrder_id = "";
+    private String mProduct_id = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -537,7 +541,7 @@ public class ClearGoodsDetailsAty extends BaseAty implements ObservableScrollVie
             R.id.tv_chose_ads, R.id.all_evaluate_tv,
             R.id.tv_tab_1, R.id.tv_tab_2, R.id.tv_tab_3, R.id.layout_layout_settings,
             R.id.btn_jgsm, R.id.im_service_more, R.id.tv_lingquan,
-            R.id.layout_djq, R.id.tv_showClassify, R.id.tv_quxiao, R.id.tv_wjsd, R.id.tv_dpg})
+            R.id.layout_djq, R.id.tv_showClassify, R.id.tv_quxiao, R.id.tv_wjsd, R.id.tv_dpg,R.id.tv_ljjs})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
@@ -580,7 +584,7 @@ public class ClearGoodsDetailsAty extends BaseAty implements ObservableScrollVie
                 //todo 暂时跳转到注册页，以后需要修改
                 //                toShare(goodsName, share_img, "1", share_url, goods_id, "1");
                 share_url = Config.OFFICIAL_WEB + "Wap/Goods/goodsInfo/" + "goods_id/" + goods_id + ".html";
-                toShare(goodsName, share_img, share_url, share_content, ticket_buy_id, "1");
+                toShare(goodsName, share_img, share_url, share_content, mTicket_buy_id, "1");
                 break;
             case R.id.show_or_hide_iv://展开,隐藏(满折布局)
                 getHeight();// 重新计算高度
@@ -698,6 +702,18 @@ public class ClearGoodsDetailsAty extends BaseAty implements ObservableScrollVie
                 bundle1.putString("goods_id", goods_id);
                 startActivity(Collocations_aty.class, bundle1);
                 break;
+            case R.id.tv_ljjs:
+                try {
+                    String goods_img = goodsInfo.get("goods_img");
+                    String shop_price = goodsInfo.get("shop_price");
+                    toAttrs(v, 0, WJConfig.TYPE_HQKC, goods_id + "-" + mell_id, goods_img, shop_price, "", goods_attr_first, first_val, is_attr);
+                } catch (Exception e) {
+                    L.e("layout_layout_settings throw Exception :" + e.toString());
+                    showErrorTip("获取字段异常");
+                    closePage();
+                }
+                break;
+                default:break;
         }
     }
 
@@ -778,7 +794,7 @@ public class ClearGoodsDetailsAty extends BaseAty implements ObservableScrollVie
     @Override
     protected void initialized() {
         mContext = this;
-        ticket_buy_id = getIntent().getStringExtra("ticket_buy_id");
+        mTicket_buy_id = getIntent().getStringExtra("ticket_buy_id");
         collectPst = new UserCollectPst(this);
         image = new ArrayList<>();
         posts = new ArrayList<>();
@@ -815,7 +831,7 @@ public class ClearGoodsDetailsAty extends BaseAty implements ObservableScrollVie
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Bundle bundle = new Bundle();
-                bundle.putString("ticket_buy_id", ticket.get(position).getGoods_id());
+                bundle.putString("mTicket_buy_id", ticket.get(position).getGoods_id());
                 bundle.putInt("from", 1);
                 startActivity(ClearGoodsDetailsAty.class, bundle);
             }
@@ -853,8 +869,7 @@ public class ClearGoodsDetailsAty extends BaseAty implements ObservableScrollVie
     }
 
     private void getData() {
-//        goodsInfo(ticket_buy_id, page,"","",this);
-        goodsInfo("650", page,"218","",this);
+        goodsInfo(mTicket_buy_id, page,mOrder_id,mProduct_id,this);
     }
 
     private View createHeaderView() {
@@ -1770,6 +1785,7 @@ public class ClearGoodsDetailsAty extends BaseAty implements ObservableScrollVie
                 bundle.putString("type", data.getStringExtra("type"));
                 bundle.putString("goods_id", data.getStringExtra("goods_id"));
                 bundle.putString("group_buy_id", "");
+                bundle.putString("order_id", mOrder_id);
                 bundle.putString("num", data.getStringExtra("num"));
                 bundle.putString("product_id", data.getStringExtra("product_id"));
                 startActivity(BuildOrderAty.class, bundle);

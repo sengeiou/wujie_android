@@ -31,6 +31,7 @@
                 android:orientation="vertical">
                 <!--收货地址-->
                 <LinearLayout
+                    android:id="@+id/addressLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
@@ -159,6 +160,7 @@
 
 
                 <LinearLayout
+                    android:id="@+id/messageLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/white"
