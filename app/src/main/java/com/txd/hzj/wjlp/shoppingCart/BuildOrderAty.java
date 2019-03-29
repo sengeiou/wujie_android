@@ -185,6 +185,7 @@ public class BuildOrderAty extends BaseAty {
     private String order_id;
     private boolean isChange;
     private String mExpire_processing;
+    private String mR_id;
     //    private String groupType;
 
     @Override
@@ -294,6 +295,7 @@ public class BuildOrderAty extends BaseAty {
                 bundle.putString("freight", String.valueOf(tp));
                 bundle.putString("shippingId", recordShppingId);
                 bundle.putString("expire_processing",mExpire_processing);
+                bundle.putString("r_id",mR_id);
                 startActivity(PayForAppAty.class, bundle);
 
                 finish();
@@ -390,6 +392,8 @@ public class BuildOrderAty extends BaseAty {
             addressLayout.setVisibility(View.GONE);
             messageLayout.setVisibility(View.GONE);
             Order.cleanConfirm(num,goods_id,product_id,order_id,toJSon(),this);
+        }else if (type.equals(WJConfig.TYPE_HQKCTH)){
+            Order.cleanPickup(order_id, num,this);
         }
         showProgressDialog();
 
@@ -484,6 +488,9 @@ public class BuildOrderAty extends BaseAty {
             //            } else {
             //                layout1.setVisibility(View.GONE);
             //            }
+            if (map.containsKey("r_id")){
+                mR_id = map.get("r_id");
+            }
             if (map.containsKey("is_default") && map.get("is_default").equals("1")) {
                 tv_name.setText("收货人：" + map.get("receiver"));
                 tv_tel.setText(map.get("phone"));
@@ -946,7 +953,9 @@ public class BuildOrderAty extends BaseAty {
                     if (getItem(i).containsKey("use_voucher")) {
                         govh.shop_priceTv.setText("¥" + getItem(i).get("use_voucher"));
                     }
-                } else {
+                } else if (WJConfig.TYPE_HQKCTH.equals(type)){
+                    govh.shop_priceTv.setText("¥" + getItem(i).get("market_price"));
+                }else {
                     govh.shop_priceTv.setText("¥" + getItem(i).get("shop_price"));
                 }
             } else {
@@ -955,7 +964,7 @@ public class BuildOrderAty extends BaseAty {
                     govh.shop_priceTv.setText(getItem(i).get("shop_price") + "积分");
                 } else if (WJConfig.TYPE_ZPZQ.equals(type)) {//赠品专区
                     govh.shop_priceTv.setText("¥" + getItem(i).get("use_voucher"));
-                } else {
+                }else {
                     govh.shop_priceTv.setText("¥" + getItem(i).get("shop_price"));
                 }
             }

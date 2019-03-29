@@ -11,5 +11,5 @@ public class WJConfig {
     // "0"主界面购物车,  "1" 票券   "2" 拼单单独购买  "3" 拼单开团    "4" 参团  "5" 限量购     "6" 无界预购      "7" 一元夺宝贝
     //  "9"//拍品详情   竞拍汇     "10"积分商店   "11" 搭配购
     public static final String TYPE_H_CART = "0", TYPE_PQ = "1", TYPE_DD = "2", TYPE_KT = "3", TYPE_CT = "4", TYPE_XLG = "5",
-            TYPE_WJYG = "6", TYPE_YYDB = "7", TYPE_JPH = "9", TYPE_JFSD = "10", TYPE_DPG = "11",TYPE_SJJZQ="12",TYPE_EJBL="13",TYPE_ZPZQ="15",TYPE_JSP="16",TYPE_XXDP="100",TYPE_HQKC="互清库存";
+            TYPE_WJYG = "6", TYPE_YYDB = "7", TYPE_JPH = "9", TYPE_JFSD = "10", TYPE_DPG = "11",TYPE_SJJZQ="12",TYPE_EJBL="13",TYPE_ZPZQ="15",TYPE_JSP="16",TYPE_XXDP="100",TYPE_HQKC="互清库存",TYPE_HQKCTH="互清库存提货";
 }

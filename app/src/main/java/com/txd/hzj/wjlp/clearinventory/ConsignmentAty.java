@@ -1,7 +1,6 @@
 package com.txd.hzj.wjlp.clearinventory;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -20,7 +19,6 @@ import android.widget.TextView;
 import com.ants.theantsgo.base.BaseView;
 import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.httpTools.ApiTool2;
-import com.ants.theantsgo.tips.MikyouCommonDialog;
 import com.ants.theantsgo.util.JSONUtils;
 import com.bumptech.glide.Glide;
 import com.lidroid.xutils.ViewUtils;
@@ -29,6 +27,8 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.publicinterface.OnItemViewClickListener;
+import com.txd.hzj.wjlp.shoppingCart.BuildOrderAty;
+import com.txd.hzj.wjlp.tool.WJConfig;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -87,17 +87,22 @@ public class ConsignmentAty extends BaseAty {
         goodsLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MikyouCommonDialog mikyouCommonDialog = new MikyouCommonDialog(mContext, "您确定要提货吗？", "提示", "确认", "取消", false);
-                mikyouCommonDialog.setOnDiaLogListener(new MikyouCommonDialog.OnDialogListener() {
-                    @Override
-                    public void dialogListener(int btnType, View customView, DialogInterface dialogInterface, int which) {
-                        if (btnType == MikyouCommonDialog.OK) {
-                            cleanPickup(map.get("clean_id"), map.get("goods_num"));
-                        }
-                        dialogInterface.dismiss();
-                    }
-                });
-                mikyouCommonDialog.showDialog();
+                Bundle bundle = new Bundle();
+                bundle.putString("type", WJConfig.TYPE_HQKCTH);
+                bundle.putString("order_id",map.get("clean_id"));
+                bundle.putString("num",map.get("goods_num"));
+                startActivity(BuildOrderAty.class,bundle);
+//                MikyouCommonDialog mikyouCommonDialog = new MikyouCommonDialog(mContext, "您确定要提货吗？", "提示", "确认", "取消", false);
+//                mikyouCommonDialog.setOnDiaLogListener(new MikyouCommonDialog.OnDialogListener() {
+//                    @Override
+//                    public void dialogListener(int btnType, View customView, DialogInterface dialogInterface, int which) {
+//                        if (btnType == MikyouCommonDialog.OK) {
+//
+//                        }
+//                        dialogInterface.dismiss();
+//                    }
+//                });
+//                mikyouCommonDialog.showDialog();
             }
         });
 
@@ -126,7 +131,9 @@ public class ConsignmentAty extends BaseAty {
         shareLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                String goods_id = map.get("goods_id");
+                String share_url = Config.OFFICIAL_WEB + "Wap/Goods/goodsInfo/" + "goods_id/" + goods_id + ".html";
+                toShare(map.get("goods_name"), map.get("goods_img"), share_url, map.get("share_content"),goods_id , "1");
             }
         });
 
@@ -198,19 +205,7 @@ public class ConsignmentAty extends BaseAty {
         apiTool2.postApi(Config.SHARE_URL + "index.php/Api/Clean/clean_goods_list", params, baseView);
     }
 
-    /**
-     * 提货确认【/Clean/cleanPickup】
-     *
-     * @param order_id 寄售订单id
-     * @param num      提货数量
-     */
-    public void cleanPickup(String order_id, String num) {
-        ApiTool2 apiTool2 = new ApiTool2();
-        RequestParams params = new RequestParams();
-        params.addBodyParameter("order_id", order_id);
-        params.addBodyParameter("num", num);
-        apiTool2.postApi(Config.SHARE_URL + "index.php/Api/Clean/cleanPickup", params, this);
-    }
+
 
     private static class ConsignmentAdapter extends RecyclerView.Adapter<ConsignmentAdapter.ViewHolder> {
         private Context mContext;

@@ -55,7 +55,7 @@ public class Order {
      * @param baseView
      */
     public static void setOrder(String address_id, String order_type, String order_id,
-                                String limit_buy_id, String collocation, String invoice, String leave_message, String goods,
+                                String limit_buy_id, String collocation, String invoice, String leave_message, String goods,String r_id,
                                 BaseView baseView) {
         RequestParams requestParams = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
@@ -67,6 +67,10 @@ public class Order {
         requestParams.addBodyParameter("invoice", invoice);
         requestParams.addBodyParameter("leave_message", leave_message);
         requestParams.addBodyParameter("goods", goods);
+        if (!TextUtils.isEmpty(r_id)){
+            requestParams.addBodyParameter("r_id", r_id);
+        }
+
         apiTool2.postApi(url + "setOrder", requestParams, baseView);
     }
 
@@ -88,6 +92,20 @@ public class Order {
         requestParams.addBodyParameter("order_id", order_id);
         requestParams.addBodyParameter("goods", goods);
         apiTool2.postApi(url + "cleanConfirm", requestParams, baseView);
+    }
+
+    /**
+     * 提货确认【/Clean/cleanPickup】
+     *
+     * @param order_id 寄售订单id
+     * @param num      提货数量
+     */
+    public static void cleanPickup(String order_id, String num, BaseView baseView) {
+        ApiTool2 apiTool2 = new ApiTool2();
+        RequestParams params = new RequestParams();
+        params.addBodyParameter("order_id", order_id);
+        params.addBodyParameter("num", num);
+        apiTool2.postApi(Config.SHARE_URL + "index.php/Api/Order/cleanPickup", params, baseView);
     }
 
     /**

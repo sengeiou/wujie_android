@@ -32,6 +32,7 @@ import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.MainAty;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
+import com.txd.hzj.wjlp.clearinventory.ConsignmentAty;
 import com.txd.hzj.wjlp.http.AuctionOrder;
 import com.txd.hzj.wjlp.http.BalancePay;
 import com.txd.hzj.wjlp.http.CoinPay;
@@ -406,17 +407,18 @@ public class PayForAppAty extends BaseAty {
         group_buy_id = getString("group_buy_id");
         freight = getString("freight");
         freight_type = getString("freight_type");
+        String r_id = getString("r_id");
         tv_shopname.setText(shop_name);
         decimalFormat = new DecimalFormat("0.00");
         String expire_processing = getString("expire_processing");
         if (mType.equals("0") || mType.equals("1") || TextUtils.isEmpty(mType) || mType.equals(WJConfig.TYPE_SJJZQ)) {
-            Order.setOrder(address_id, "0", order_id, "", "", getString("invoiceList"), getString("leave_message"), TextUtils.isEmpty(cart_id) ? getString("goodsList") : getString("goodsCartList"), this);
+            Order.setOrder(address_id, "0", order_id, "", "", getString("invoiceList"), getString("leave_message"), TextUtils.isEmpty(cart_id) ? getString("goodsList") : getString("goodsCartList"),r_id, this);
         } else if (mType.equals("2")) {
             GroupBuyOrder.setOrder(address_id, num, goods_id, product_id, TextUtils.isEmpty(address_id) ? "4" : "1", order_id, group_buy_id, freight, freight_type, getString("invoiceList"), getString("leave_message"), TextUtils.isEmpty(cart_id) ? getString("goodsList") : getString("goodsCartList"), getString("shippingId"), getString("leave_message"), this);
         } else if (mType.equals("3")) {
             GroupBuyOrder.setOrder(address_id, num, goods_id, product_id, TextUtils.isEmpty(address_id) ? "4" : "2", order_id, group_buy_id, freight, freight_type, getString("invoiceList"), getString("leave_message"), TextUtils.isEmpty(cart_id) ? getString("goodsList") : getString("goodsCartList"), getString("shippingId"), getString("leave_message"), this);
         } else if (mType.equals("5")) {
-            Order.setOrder(address_id, order_type, order_id, "", "", getString("invoiceList"), getString("leave_message"), TextUtils.isEmpty(cart_id) ? getString("goodsList") : getString("goodsCartList"), this);
+            Order.setOrder(address_id, order_type, order_id, "", "", getString("invoiceList"), getString("leave_message"), TextUtils.isEmpty(cart_id) ? getString("goodsList") : getString("goodsCartList"), r_id,this);
         } else if (mType.equals("4")) {
             GroupBuyOrder.setOrder(address_id, num, goods_id, product_id, TextUtils.isEmpty(address_id) ? "4" : "3", order_id, group_buy_id, freight, freight_type, getString("invoiceList"), getString("leave_message"), TextUtils.isEmpty(cart_id) ? getString("goodsList") : getString("goodsCartList"), getString("shippingId"), getString("leave_message"), this);
         } else if (mType.equals("6")) {
@@ -450,11 +452,11 @@ public class PayForAppAty extends BaseAty {
             layout_wx.setVisibility(View.GONE);
             layout_yue.setVisibility(View.GONE);
         } else if (mType.equals("11")) {
-            Order.setOrder(address_id, order_type, order_id, "", "", getString("invoiceList"), getString("leave_message"), TextUtils.isEmpty(cart_id) ? getString("goodsList") : getString("goodsCartList"), this);
+            Order.setOrder(address_id, order_type, order_id, "", "", getString("invoiceList"), getString("leave_message"), TextUtils.isEmpty(cart_id) ? getString("goodsList") : getString("goodsCartList"), r_id,this);
         } else if (mType.equals("12")) {
             showToast("jakgflkasfhksajdfhakdj");
         } else if (mType.equals(WJConfig.TYPE_EJBL)) {
-            Order.setOrder(address_id, "13", order_id, "", "", getString("invoiceList"), getString("leave_message"), TextUtils.isEmpty(cart_id) ? getString("goodsList") : getString("goodsCartList"), this);
+            Order.setOrder(address_id, "13", order_id, "", "", getString("invoiceList"), getString("leave_message"), TextUtils.isEmpty(cart_id) ? getString("goodsList") : getString("goodsCartList"), r_id,this);
         } else if (mType.equals(WJConfig.TYPE_XXDP)) {
             //线下店铺
             OfflineStore.setOrder(mMerchant_id, mMoney, order_id, this);
@@ -462,10 +464,12 @@ public class PayForAppAty extends BaseAty {
         } else if (mType.equals(WJConfig.TYPE_ZPZQ)) {
             GiveAwayModel.postGiftGoodsOrderSetOrder(address_id, num, order_id, TextUtils.isEmpty(cart_id) ? getString("goodsList") : getString("goodsCartList"), getString("leave_message"), getString("invoiceList"), this);
         } else if (mType.equals(WJConfig.TYPE_JSP)) { // 集碎片
-            Order.setOrder(address_id, WJConfig.TYPE_JSP, order_id, "", "", getString("invoiceList"), getString("leave_message"), TextUtils.isEmpty(cart_id) ? getString("goodsList") : getString("goodsCartList"), this);
+            Order.setOrder(address_id, WJConfig.TYPE_JSP, order_id, "", "", getString("invoiceList"), getString("leave_message"), TextUtils.isEmpty(cart_id) ? getString("goodsList") : getString("goodsCartList"), r_id,this);
         }else if (mType.equals(WJConfig.TYPE_HQKC)){
             cb_jfzf.setVisibility(View.GONE);
             Order.cleanSetOrder("",order_id,expire_processing,getString("goodsList"),this);
+        }else if (mType.equals(WJConfig.TYPE_HQKCTH)){
+            Order.setOrder(address_id, "0", order_id, "", "", getString("invoiceList"), getString("leave_message"), TextUtils.isEmpty(cart_id) ? getString("goodsList") : getString("goodsCartList"), r_id,this);
         }
         showProgressDialog();
     }
@@ -682,7 +686,7 @@ public class PayForAppAty extends BaseAty {
             map = JSONUtils.parseKeyAndValueToMap(map.get("data"));
             if (map.get("status").equals("1")) {
                 if (pay_by_balance_cb.isChecked()) { // 余额支付选中
-                    if (mType.equals("0") || mType.equals("1") || mType.equals("5") || TextUtils.isEmpty(mType) || mType.equals(WJConfig.TYPE_SJJZQ) || mType.equals("16")) {//主界面购物车  票券   限量购详情
+                    if (mType.equals("0") || mType.equals("1") || mType.equals("5") || TextUtils.isEmpty(mType) || mType.equals(WJConfig.TYPE_SJJZQ) || mType.equals("16")  || mType.equals(WJConfig.TYPE_HQKCTH)) {//主界面购物车  票券   限量购详情
                         String orderTypeStr;
                         orderTypeStr = mType.equals(WJConfig.JSP) ? "16" : "1";
                         try {
@@ -1011,6 +1015,10 @@ public class PayForAppAty extends BaseAty {
             mBundle.putString("title", "集碎片");
             mBundle.putString("type", WJConfig.TYPE_JSP);
             startActivity(OnlineShopAty.class, mBundle);
+        }
+
+        if (mType.equals(WJConfig.TYPE_HQKC)){
+           startActivity(ConsignmentAty.class,null);
         }
 
     }
