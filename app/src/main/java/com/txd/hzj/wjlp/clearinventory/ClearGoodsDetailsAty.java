@@ -795,6 +795,8 @@ public class ClearGoodsDetailsAty extends BaseAty implements ObservableScrollVie
     protected void initialized() {
         mContext = this;
         mTicket_buy_id = getIntent().getStringExtra("ticket_buy_id");
+        mOrder_id = getIntent().getStringExtra("order_id");
+        mProduct_id = getIntent().getStringExtra("product_id");
         collectPst = new UserCollectPst(this);
         image = new ArrayList<>();
         posts = new ArrayList<>();
